@@ -24,24 +24,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
 using OpenMetaverse;
-using System.Drawing.Imaging;
-using System.Net;
-using System.Timers;
-using System.Diagnostics;
-using SLNetworkComm;
-using OpenMetaverse.Imaging;
+using MEGAbolt.NetworkComm;
 using PopupControl;
 using OpenMetaverse.Assets;
 using System.Threading;
 using ExceptionReporting;
 using System.Globalization;
+using OpenJpegDotNet.IO;
 
 /* Some of this code has been borrowed from the libsecondlife GUI */
 
@@ -51,7 +43,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private GridClient client; // = new GridClient();
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private UUID _MapImageID;
         private Image _MapLayer;
         private Image _LandLayer;
@@ -139,14 +131,13 @@ namespace METAbolt
 
         private void Assets_OnImageReceived(TextureRequestState image, AssetTexture texture)
         {
-            if (texture.AssetID == _MapImageID)
-            {
-                ManagedImage nullImage;
-                OpenJPEG.DecodeToImage(texture.AssetData, out nullImage, out _MapLayer);
+            if (texture.AssetID != _MapImageID) { return; }
 
-                //UpdateMiniMap(sim);
-                BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(sim); });
-            }
+            using var reader = new Reader(texture.AssetData);
+            reader.ReadHeader();
+            _MapLayer = reader.DecodeToBitmap();
+                
+            BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(sim); });
         }
 
         private void Network_OnCurrentSimChanged(object sender, SimChangedEventArgs e)

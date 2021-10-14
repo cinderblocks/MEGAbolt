@@ -1,4 +1,5 @@
 ﻿//  Copyright (c) 2008 - 2014, www.metabolt.net (METAbolt)
+//  Copyright (c) 2021, Sjofn LLC. All rights reserved.
 //  All rights reserved.
 
 //  Redistribution and use in source and binary forms, with or without modification, 
@@ -24,7 +25,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 //  POSSIBILITY OF SUCH DAMAGE.
 
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -34,23 +34,18 @@ namespace METAbolt
     /// <summary>
     /// Summary description for EmoticonMenuItem.
     /// </summary>
-    public class EmoticonMenuItem : MenuItem
+    public class EmoticonMenuItem : ToolStripMenuItem
     {
 
         private const int ICON_WIDTH = 19;
         private const int ICON_HEIGHT = 19;
         private const int ICON_MARGIN = 4;
         private Color backgroundColor, selectionColor, selectionBorderColor;
-        private Image image;
-        public Image Image
-        {
-            get { return image; }
-            set { image = value; }
-        }
+
+        public Image Image { get; set; }
 
         public EmoticonMenuItem()
         {
-            this.OwnerDraw = true;
             backgroundColor = SystemColors.ControlLightLight;
             selectionColor = Color.FromArgb(50, 0, 0, 150);
             selectionBorderColor = SystemColors.Highlight;
@@ -59,22 +54,22 @@ namespace METAbolt
         public EmoticonMenuItem(Image _image)
             : this()
         {
-            image = _image;
+            Image = _image;
         }
 
-        protected override void OnMeasureItem(MeasureItemEventArgs e)
+        protected void OnMeasureItem(MeasureItemEventArgs e)
         {
             e.ItemWidth = ICON_WIDTH + ICON_MARGIN;
             e.ItemHeight = ICON_HEIGHT + 2 * ICON_MARGIN;
         }
 
-        protected override void OnDrawItem(DrawItemEventArgs e)
+        protected void OnDrawItem(DrawItemEventArgs e)
         {
             Graphics _graphics = e.Graphics;
             Rectangle _bounds = e.Bounds;
 
             DrawBackground(_graphics, _bounds, ((e.State & DrawItemState.Selected) != 0));
-            _graphics.DrawImage(image, _bounds.X + ((_bounds.Width - ICON_WIDTH) / 2), _bounds.Y + ((_bounds.Height - ICON_HEIGHT) / 2));
+            _graphics.DrawImage(Image, _bounds.X + ((_bounds.Width - ICON_WIDTH) / 2), _bounds.Y + ((_bounds.Height - ICON_HEIGHT) / 2));
         }
 
         private void DrawBackground(Graphics _graphics, Rectangle _bounds, bool _selected)

@@ -24,12 +24,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using System.Media;
 using ExceptionReporting;
@@ -41,7 +39,7 @@ namespace METAbolt
     public partial class TabsConsole : UserControl
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         public ChatConsole chatConsole;
         public SafeDictionary<string, METAboltTab> tabs = new SafeDictionary<string, METAboltTab>();
@@ -196,7 +194,7 @@ namespace METAbolt
             netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
             netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
             netcom.ChatReceived += new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ChatSent += new EventHandler<SLNetworkComm.ChatSentEventArgs>(netcom_ChatSent);
+            netcom.ChatSent += new EventHandler<MEGAbolt.NetworkComm.ChatSentEventArgs>(netcom_ChatSent);
             netcom.AlertMessageReceived += new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
             netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
             client.Groups.CurrentGroups += new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
@@ -211,7 +209,7 @@ namespace METAbolt
             netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
             netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
             netcom.ChatReceived -= new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ChatSent -= new EventHandler<SLNetworkComm.ChatSentEventArgs>(netcom_ChatSent);
+            netcom.ChatSent -= new EventHandler<MEGAbolt.NetworkComm.ChatSentEventArgs>(netcom_ChatSent);
             netcom.AlertMessageReceived -= new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
             netcom.InstantMessageReceived -= new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
             client.Groups.CurrentGroups -= new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
@@ -1211,17 +1209,17 @@ namespace METAbolt
                             //client.Inventory.RequestFetchInventory(oID, client.Self.AgentID);
 
                             InventoryBase item = client.Inventory.Store.Items[oID].Data;
-                            UUID content = client.Inventory.FindFolderForType(AssetType.TrashFolder);
+                            UUID content = client.Inventory.FindFolderForType(FolderType.Trash);
 
                             InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[content].Data;
 
                             if (type != AssetType.Folder)
                             {
-                                client.Inventory.Move(item, folder, item.Name);
+                                client.Inventory.Move(item, folder);
                             }
                             else
                             {
-                                client.Inventory.MoveFolder(oID, content, item.Name);
+                                client.Inventory.MoveFolder(oID, content);
                             }
                         }
                         catch { ; }

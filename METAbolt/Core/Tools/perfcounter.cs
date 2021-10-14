@@ -22,17 +22,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Collections.Specialized;
 using System.Text;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Net;
 //using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 
 namespace METAbolt
 {

@@ -24,21 +24,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Threading;
-using System.Runtime.InteropServices;
 using System.Timers;
 using ExceptionReporting;
 //using System.Net;
-using System.IO;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;

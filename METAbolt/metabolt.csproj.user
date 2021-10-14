@@ -30,4 +30,117 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Core\Components\DifuseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Core\Components\Notification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Core\Components\SmileyMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GUI\Consoles\Inventory\ImageViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\AboutLand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\DebugLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\DetachedTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Disconnected.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmGive.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmGroupInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmGroupNotice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmInvOffered.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmLogSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmMapClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmMBmsg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmMutes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmNotecard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmPluginManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmSpelling.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\frmTPhistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Inventory\IDE\ScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Inventory\NotecardEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\META3D.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Objects.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Pay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Preferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Profile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\Teleport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\UploadImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Dialogs\WornAttachments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
 using System.Text;
@@ -233,22 +229,23 @@ namespace METAbolt
             return mat;
         }
 
-        public static bool GluProject(OpenTK.Vector3 objPos, OpenTK.Matrix4 modelMatrix, OpenTK.Matrix4 projMatrix, int[] viewport, out OpenTK.Vector3 screenPos)
+        public static bool GluProject(OpenTK.Mathematics.Vector3 objPos, OpenTK.Mathematics.Matrix4 modelMatrix, 
+            OpenTK.Mathematics.Matrix4 projMatrix, int[] viewport, out OpenTK.Mathematics.Vector3 screenPos)
         {
-            OpenTK.Vector4 _in;
-            OpenTK.Vector4 _out;
+            OpenTK.Mathematics.Vector4 _in;
+            OpenTK.Mathematics.Vector4 _out;
 
             _in.X = objPos.X;
             _in.Y = objPos.Y;
             _in.Z = objPos.Z;
             _in.W = 1.0f;
 
-            _out = OpenTK.Vector4.Transform(_in, modelMatrix);
-            _in = OpenTK.Vector4.Transform(_out, projMatrix);
+            _out = OpenTK.Mathematics.Vector4.TransformRow(_in, modelMatrix);
+            _in = OpenTK.Mathematics.Vector4.TransformRow(_out, projMatrix);
 
             if (_in.W <= 0.0)
             {
-                screenPos = OpenTK.Vector3.Zero;
+                screenPos = OpenTK.Mathematics.Vector3.Zero;
                 return false;
             }
 
@@ -271,13 +268,14 @@ namespace METAbolt
             return true;
         }
 
-        public static bool GluUnProject(float winx, float winy, float winz, OpenTK.Matrix4 modelMatrix, OpenTK.Matrix4 projMatrix, int[] viewport, out OpenTK.Vector3 pos)
+        public static bool GluUnProject(float winx, float winy, float winz, 
+            OpenTK.Mathematics.Matrix4 modelMatrix, OpenTK.Mathematics.Matrix4 projMatrix, int[] viewport, out OpenTK.Mathematics.Vector3 pos)
         {
-            OpenTK.Matrix4 finalMatrix;
-            OpenTK.Vector4 _in;
-            OpenTK.Vector4 _out;
+            OpenTK.Mathematics.Matrix4 finalMatrix;
+            OpenTK.Mathematics.Vector4 _in;
+            OpenTK.Mathematics.Vector4 _out;
 
-            finalMatrix = OpenTK.Matrix4.Mult(modelMatrix, projMatrix);
+            finalMatrix = OpenTK.Mathematics.Matrix4.Mult(modelMatrix, projMatrix);
 
             finalMatrix.Invert();
 
@@ -290,7 +288,7 @@ namespace METAbolt
             _in.X = (_in.X - viewport[0]) / viewport[2];
             _in.Y = (_in.Y - viewport[1]) / viewport[3];
 
-            pos = OpenTK.Vector3.Zero;
+            pos = OpenTK.Mathematics.Vector3.Zero;
 
             /* Map to range -1 to 1 */
             _in.X = _in.X * 2 - 1;
@@ -299,7 +297,7 @@ namespace METAbolt
 
             //__gluMultMatrixVecd(finalMatrix, _in, _out);
             // check if this works:
-            _out = OpenTK.Vector4.Transform(_in, finalMatrix);
+            _out = OpenTK.Mathematics.Vector4.TransformRow(_in, finalMatrix);
 
             if (_out.W == 0.0f)
                 return false;

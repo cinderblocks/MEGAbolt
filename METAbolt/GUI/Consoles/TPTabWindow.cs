@@ -23,14 +23,9 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using System.Threading;
 using System.Globalization;
 
@@ -39,7 +34,7 @@ namespace METAbolt
     public partial class TPTabWindow : UserControl
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private string targetName;
         private UUID targetUUID = UUID.Zero;

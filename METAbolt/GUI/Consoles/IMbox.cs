@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using ExceptionReporting;
 using System.Threading;
 using PopupControl;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace METAbolt
 {
@@ -20,7 +14,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private GridClient client;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private TabsConsole tabsconsole;
         private Popup toolTip;
         private CustomToolTip customToolTip;

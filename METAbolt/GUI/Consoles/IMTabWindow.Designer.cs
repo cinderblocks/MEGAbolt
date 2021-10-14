@@ -41,9 +41,9 @@ namespace METAbolt
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbTyping = new System.Windows.Forms.ToolStripButton();
             this.rtbIMText = new Khendys.Controls.ExRichTextBox();
-            this.cmenu_Emoticons = new System.Windows.Forms.ContextMenu();
-            this.tbar_SendMessage = new System.Windows.Forms.ToolBar();
-            this.tbBtn_Emoticons = new System.Windows.Forms.ToolBarButton();
+            this.cmenu_Emoticons = new System.Windows.Forms.ContextMenuStrip();
+            this.tbar_SendMessage = new System.Windows.Forms.ToolStrip();
+            this.tbBtn_Emoticons = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -233,25 +233,19 @@ namespace METAbolt
             this.tbar_SendMessage.AccessibleDescription = "List of emoticiocons to include in your message";
             this.tbar_SendMessage.AccessibleName = "Emotiocons";
             this.tbar_SendMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbar_SendMessage.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
-            this.tbBtn_Emoticons});
-            this.tbar_SendMessage.ButtonSize = new System.Drawing.Size(15, 15);
-            this.tbar_SendMessage.Divider = false;
+            this.tbar_SendMessage.Items.Add(this.tbBtn_Emoticons);
             this.tbar_SendMessage.Dock = System.Windows.Forms.DockStyle.None;
-            this.tbar_SendMessage.DropDownArrows = true;
             this.tbar_SendMessage.Location = new System.Drawing.Point(357, 304);
             this.tbar_SendMessage.Margin = new System.Windows.Forms.Padding(0);
             this.tbar_SendMessage.Name = "tbar_SendMessage";
-            this.tbar_SendMessage.ShowToolTips = true;
+            this.tbar_SendMessage.ShowItemToolTips = true;
             this.tbar_SendMessage.Size = new System.Drawing.Size(61, 64);
             this.tbar_SendMessage.TabIndex = 1;
-            this.tbar_SendMessage.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right;
             // 
             // tbBtn_Emoticons
             // 
-            this.tbBtn_Emoticons.DropDownMenu = this.cmenu_Emoticons;
+            //this.tbBtn_Emoticons.DropDownItems.Add(this.cmenu_Emoticons);
             this.tbBtn_Emoticons.Name = "tbBtn_Emoticons";
-            this.tbBtn_Emoticons.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton;
             this.tbBtn_Emoticons.Text = "{E}";
             this.tbBtn_Emoticons.ToolTipText = "Insert an emoticon";
             // 
@@ -285,9 +279,9 @@ namespace METAbolt
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tbtnProfile;
         private Khendys.Controls.ExRichTextBox rtbIMText;
-        private System.Windows.Forms.ContextMenu cmenu_Emoticons;
-        private System.Windows.Forms.ToolBar tbar_SendMessage;
-        private System.Windows.Forms.ToolBarButton tbBtn_Emoticons;
+        private System.Windows.Forms.ContextMenuStrip cmenu_Emoticons;
+        private System.Windows.Forms.ToolStrip tbar_SendMessage;
+        private System.Windows.Forms.ToolStripDropDownButton tbBtn_Emoticons;
         private System.Windows.Forms.ToolStripButton tsbSave;
         private System.Windows.Forms.ToolStripButton tsbClear;
         private System.Windows.Forms.ToolStripButton toolStripButton1;

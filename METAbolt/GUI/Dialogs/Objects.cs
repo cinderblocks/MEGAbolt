@@ -25,19 +25,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 //using OpenMetaverse.Packets;
 using PopupControl;
 using ExceptionReporting;
 using System.Threading;
-using System.Timers;
 using System.Globalization;
-using System.Runtime.InteropServices; 
 
 
 namespace METAbolt
@@ -46,12 +42,8 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private GridClient client;
-        private SLNetCom netcom;
-
-        //Quaternion BodyRotation = Quaternion.Identity;
-        //Quaternion HeadRotation = Quaternion.Identity;
-        //private Quaternion LastBodyRotation;
-        //private Quaternion LastHeadRotation;
+        private MEGAboltNetcom netcom;
+        
         public AgentFlags Flags = AgentFlags.None;
         public AgentState State = AgentState.None;
         //private int duplicateCount;

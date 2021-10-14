@@ -24,8 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Diagnostics;
@@ -33,12 +31,9 @@ using System.Text;
 using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using OpenMetaverse.Packets;
-using OpenMetaverse.Utilities;
 using Microsoft.Win32;
-using System.Net;
 using System.IO;
 using METAx;
 using METAxCommon;
@@ -50,7 +45,7 @@ namespace METAbolt
     public partial class frmMain : Form, IHost
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private TabsConsole tabsConsole;
         //private ChatConsole cconsole;
@@ -1019,7 +1014,7 @@ namespace METAbolt
             manager.SourceFileReferencedAssemblies.Add("OpenMetaverseTypes.dll");
             manager.SourceFileReferencedAssemblies.Add("OpenMetaverse.StructuredData.dll");
             manager.SourceFileReferencedAssemblies.Add("OpenMetaverse.Utilities.dll");
-            manager.SourceFileReferencedAssemblies.Add("SLNetworkComm.dll");
+            manager.SourceFileReferencedAssemblies.Add("MEGAbolt.NetworkComm.dll");
 
             try
             {

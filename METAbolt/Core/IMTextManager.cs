@@ -24,30 +24,26 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Threading;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 //using Khendys.Controls;
 //using Yedda;
 using System.Windows.Forms;
-using AIMLbot;
 using METAbrain;
-using System.Timers;
 using System.IO;
 using ExceptionReporting;
 using System.Globalization;
- 
+
 
 namespace METAbolt
 {
     public class IMTextManager
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private ITextPrinter textPrinter;
         private UUID sessionID = UUID.Zero;
         private string sessionAVname = string.Empty;
@@ -210,7 +206,7 @@ namespace METAbolt
         private void AddNetcomEvents()
         {
             netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            netcom.InstantMessageSent += new EventHandler<SLNetworkComm.InstantMessageSentEventArgs>(netcom_InstantMessageSent);
+            netcom.InstantMessageSent += new EventHandler<MEGAbolt.NetworkComm.InstantMessageSentEventArgs>(netcom_InstantMessageSent);
         }
 
         private void RemoveNetcomEvents()

@@ -24,20 +24,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using OpenMetaverse.Assets;
 using ExceptionReporting;
 using System.Threading;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using OpenJpegDotNet.IO;
 
 
 namespace METAbolt
@@ -46,7 +42,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private TabsConsole tabConsole;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private string fullName;
         private UUID agentID;
@@ -369,33 +365,30 @@ namespace METAbolt
         //comes in on a separate thread
         private void Assets_OnImageReceived(TextureRequestState image, AssetTexture texture)
         {
-            ManagedImage mImg;
-            Image sImage = null;
-
             if (texture.AssetID != SLImageID && texture.AssetID != FLImageID)
             {
                 if (texture.AssetID != PickImageID) return;
 
-                OpenJPEG.DecodeToImage(texture.AssetData, out mImg, out sImage);
-                System.Drawing.Image decodedImage1 = sImage;
+                using var reader = new Reader(texture.AssetData);
+                reader.ReadHeader();
+                Image decodedImage = reader.DecodeToBitmap();
 
-                if (decodedImage1 != null)
+                if (decodedImage != null)
                 {
                     this.BeginInvoke(new MethodInvoker(delegate()
                     {
-                        pictureBox1.Image = decodedImage1;
+                        pictureBox1.Image = decodedImage;
                         loadwait2.Visible = false;
                     }));
 
-                    instance.ImageCache.AddImage(texture.AssetID, decodedImage1);
+                    instance.ImageCache.AddImage(texture.AssetID, decodedImage);
                 }
             }
             else
             {
-                //System.Drawing.Image decodedImage = ImageHelper.Decode(image.AssetData);
-                //System.Drawing.Image decodedImage = OpenJPEGNet.OpenJPEG.DecodeToImage(image.AssetData);
-                OpenJPEG.DecodeToImage(texture.AssetData, out mImg, out sImage);
-                System.Drawing.Image decodedImage = sImage;
+                using var reader = new Reader(texture.AssetData);
+                reader.ReadHeader();
+                Image decodedImage = reader.DecodeToBitmap();
 
                 if (decodedImage == null)
                 {
@@ -729,7 +722,7 @@ namespace METAbolt
                     //InventoryFolder folder = (InventoryFolder)io;
                     InventoryFolder folder = node.Tag as InventoryFolder;
 
-                    client.Inventory.GiveFolder(folder.UUID, folder.Name, AssetType.Folder, agentID, true);
+                    client.Inventory.GiveFolder(folder.UUID, folder.Name, agentID, true);
                     instance.TabConsole.DisplayChatScreen("Offered inventory folder " + folder.Name + " to " + fullName + ".");
                 }
                 else
@@ -941,7 +934,7 @@ namespace METAbolt
                     //InventoryFolder folder = (InventoryFolder)io;
                     InventoryFolder folder = node.Tag as InventoryFolder;
 
-                    client.Inventory.GiveFolder(folder.UUID, folder.Name, AssetType.Folder, agentID, true);
+                    client.Inventory.GiveFolder(folder.UUID, folder.Name, agentID, true);
                     instance.TabConsole.DisplayChatScreen("Offered inventory folder " + folder.Name + " to " + fullName + ".");
                 }
                 else

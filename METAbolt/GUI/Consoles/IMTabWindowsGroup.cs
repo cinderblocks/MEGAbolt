@@ -26,16 +26,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using Khendys.Controls;
 using System.Threading;
-using OpenMetaverse.Packets;
 using ExceptionReporting;
 using NHunspell;
 using System.IO;
@@ -49,7 +44,7 @@ namespace METAbolt
     public partial class IMTabWindowGroup : UserControl
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private UUID session;
         private GridClient client; 
         private string toName;
@@ -366,171 +361,163 @@ namespace METAbolt
 
             _menuItem = new EmoticonMenuItem(Smileys.AngelSmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[0].Tag = (object)"angelsmile;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[0].Tag = (object)"angelsmile;";
 
             _menuItem = new EmoticonMenuItem(Smileys.AngrySmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[1].Tag = "angry;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[1].Tag = "angry;";
 
             _menuItem = new EmoticonMenuItem(Smileys.Beer);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[2].Tag = "beer;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[2].Tag = "beer;";
 
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.BrokenHeart);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[3].Tag = "brokenheart;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[3].Tag = "brokenheart;";
 
             _menuItem = new EmoticonMenuItem(Smileys.bye);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[4].Tag = "bye";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[4].Tag = "bye";
 
             _menuItem = new EmoticonMenuItem(Smileys.clap);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[5].Tag = "clap;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[5].Tag = "clap;";
 
             _menuItem = new EmoticonMenuItem(Smileys.ConfusedSmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[6].Tag = ":S";
-
-            _menuItem.BarBreak = true;
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[6].Tag = ":S";
 
             _menuItem = new EmoticonMenuItem(Smileys.cool);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[7].Tag = "cool;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[7].Tag = "cool;";
 
             _menuItem = new EmoticonMenuItem(Smileys.CrySmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[8].Tag = "cry;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[8].Tag = "cry;";
 
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.DevilSmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[9].Tag = "devil;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[9].Tag = "devil;";
 
             _menuItem = new EmoticonMenuItem(Smileys.duh);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[10].Tag = "duh;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[10].Tag = "duh;";
 
             _menuItem = new EmoticonMenuItem(Smileys.EmbarassedSmile);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[11].Tag = "embarassed;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[11].Tag = "embarassed;";
 
             _menuItem = new EmoticonMenuItem(Smileys.happy0037);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[12].Tag = ":)";
-
-            _menuItem.BarBreak = true;
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[12].Tag = ":)";
 
             _menuItem = new EmoticonMenuItem(Smileys.heart);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[13].Tag = "heart;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[13].Tag = "heart;";
 
             _menuItem = new EmoticonMenuItem(Smileys.kiss);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[14].Tag = "muah;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[14].Tag = "muah;";
 
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.help);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[15].Tag = "help";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[15].Tag = "help";
 
             _menuItem = new EmoticonMenuItem(Smileys.liar);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[16].Tag = "liar;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[16].Tag = "liar;";
 
             _menuItem = new EmoticonMenuItem(Smileys.lol);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[17].Tag = "lol";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[17].Tag = "lol";
 
             _menuItem = new EmoticonMenuItem(Smileys.oops);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[18].Tag = "oops";
-
-            _menuItem.BarBreak = true;
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[18].Tag = "oops";
 
             _menuItem = new EmoticonMenuItem(Smileys.sad);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[19].Tag = ":(";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[19].Tag = ":(";
 
             _menuItem = new EmoticonMenuItem(Smileys.shhh);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[20].Tag = "shhh";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[20].Tag = "shhh";
 
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.sigh);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[21].Tag = "sigh";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[21].Tag = "sigh";
 
             _menuItem = new EmoticonMenuItem(Smileys.silenced);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[22].Tag = ":X";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[22].Tag = ":X";
 
             _menuItem = new EmoticonMenuItem(Smileys.think);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[23].Tag = "thinking;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[23].Tag = "thinking;";
 
             _menuItem = new EmoticonMenuItem(Smileys.ThumbsUp);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[24].Tag = "thumbsup;";
-
-            _menuItem.BarBreak = true;
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[24].Tag = "thumbsup;";
 
             _menuItem = new EmoticonMenuItem(Smileys.whistle);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[25].Tag = "whistle;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[25].Tag = "whistle;";
 
             _menuItem = new EmoticonMenuItem(Smileys.wink);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[26].Tag = ";)";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[26].Tag = ";)";
 
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.wow);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[27].Tag = "wow";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[27].Tag = "wow";
 
             _menuItem = new EmoticonMenuItem(Smileys.yawn);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[28].Tag = "yawn;";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[28].Tag = "yawn;";
 
             _menuItem = new EmoticonMenuItem(Smileys.zzzzz);
             _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
-            cmenu_Emoticons.MenuItems.Add(_menuItem);
-            cmenu_Emoticons.MenuItems[29].Tag = "zzzzz";
+            cmenu_Emoticons.Items.Add(_menuItem);
+            cmenu_Emoticons.Items[29].Tag = "zzzzz";
 
             _menuItem.Dispose(); 
         }

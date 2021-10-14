@@ -23,13 +23,9 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 using System.Globalization;
@@ -39,7 +35,7 @@ namespace METAbolt
     public partial class frmNotecardEditor : Form
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private InventoryItem item;
         //private UUID uploadID;
@@ -83,7 +79,9 @@ namespace METAbolt
 
             rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
 
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, item.OwnerID, item.AssetType, true, Assets_OnAssetReceived);
+            var transferID = UUID.Random();
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero,
+                item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
         public frmNotecardEditor(METAboltInstance instance, InventoryItem item, bool nreadonly)
@@ -109,7 +107,9 @@ namespace METAbolt
 
             rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
 
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, item.OwnerID, item.AssetType, true, Assets_OnAssetReceived);
+            var transferID = UUID.Random();
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, 
+                item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
 
             if (nreadonly)
             {
@@ -139,7 +139,9 @@ namespace METAbolt
 
             rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
 
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, item.OwnerID, item.AssetType, true, Assets_OnAssetReceived);
+            var transferID = UUID.Random();
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, 
+                item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
         //Separate thread

@@ -25,15 +25,10 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AIMLbot;
 using METAbrain;
 using System.Timers;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using System.Collections;
 using System.Globalization;
 
 namespace METAbolt
@@ -41,8 +36,7 @@ namespace METAbolt
     public class METAbrain
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
-        //private GridClient client;
+        private MEGAboltNetcom netcom;
         public mBrain answer;
 
         //private ArrayList textBuffer;

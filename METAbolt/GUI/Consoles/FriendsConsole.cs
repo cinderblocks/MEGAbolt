@@ -24,14 +24,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using SLNetworkComm;
-using System.Media;
+//using MEGAbolt.NetworkComm;
 using ExceptionReporting;
 using System.Threading;
 using System.Globalization;

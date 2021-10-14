@@ -45,9 +45,9 @@ namespace METAbolt
             this.tsMovie = new System.Windows.Forms.ToolStripButton();
             this.tsMusic = new System.Windows.Forms.ToolStripButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.toolBar1 = new System.Windows.Forms.ToolBar();
-            this.tbBtn_Emoticons = new System.Windows.Forms.ToolBarButton();
-            this.cmenu_Emoticons = new System.Windows.Forms.ContextMenu();
+            this.toolBar1 = new System.Windows.Forms.ToolStrip();
+            this.tbBtn_Emoticons = new System.Windows.Forms.ToolStripButton();
+            this.cmenu_Emoticons = new System.Windows.Forms.ContextMenuStrip();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
@@ -376,26 +376,18 @@ namespace METAbolt
             // toolBar1
             // 
             this.toolBar1.AccessibleDescription = "Select an emotiocon to display in public chat";
-            this.toolBar1.AccessibleName = "Emotiocon list";
-            this.toolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
-            this.toolBar1.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
-            this.tbBtn_Emoticons});
-            this.toolBar1.ButtonSize = new System.Drawing.Size(13, 13);
-            this.toolBar1.Divider = false;
-            this.toolBar1.DropDownArrows = true;
+            this.toolBar1.AccessibleName = "Emoticon list";
+            this.toolBar1.Items.Add(this.tbBtn_Emoticons);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Margin = new System.Windows.Forms.Padding(0);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.ShowToolTips = true;
+            this.toolBar1.ShowItemToolTips = true;
             this.toolBar1.Size = new System.Drawing.Size(61, 64);
             this.toolBar1.TabIndex = 10;
-            this.toolBar1.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right;
             // 
             // tbBtn_Emoticons
             // 
-            this.tbBtn_Emoticons.DropDownMenu = this.cmenu_Emoticons;
             this.tbBtn_Emoticons.Name = "tbBtn_Emoticons";
-            this.tbBtn_Emoticons.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton;
             this.tbBtn_Emoticons.Text = "{E}";
             this.tbBtn_Emoticons.ToolTipText = "Insert an emoticon";
             // 
@@ -1786,7 +1778,7 @@ namespace METAbolt
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private Khendys.Controls.ExRichTextBox rtbChat;
-        private System.Windows.Forms.ContextMenu cmenu_Emoticons;
+        private System.Windows.Forms.ContextMenuStrip cmenu_Emoticons;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button button3;
@@ -1827,8 +1819,8 @@ namespace METAbolt
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         //private System.Windows.Forms.ToolBarButton toolBarButton1;
-        private System.Windows.Forms.ToolBar toolBar1;
-        private System.Windows.Forms.ToolBarButton tbBtn_Emoticons;
+        private System.Windows.Forms.ToolStrip toolBar1;
+        private System.Windows.Forms.ToolStripButton tbBtn_Emoticons;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ComboBox cboRender;

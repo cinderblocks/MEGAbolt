@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 using NHunspell;
 using System.Text.RegularExpressions;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 
 namespace METAbolt
 {
     public partial class frmSpelling : Form
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private Hunspell hunspell = new Hunspell();   //("en_us.aff", "en_us.dic");
         private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
         //private string words = string.Empty;

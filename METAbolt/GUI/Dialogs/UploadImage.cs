@@ -33,16 +33,12 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 using OpenMetaverse.Imaging;
 using System.Globalization;
+using OpenJpegDotNet.IO;
 
 namespace METAbolt
 {
@@ -93,14 +89,13 @@ namespace METAbolt
             {
                 if (lowfilename.EndsWith(".jp2", StringComparison.CurrentCultureIgnoreCase) || lowfilename.EndsWith(".j2c", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Image image;
-                    ManagedImage managedImage;
 
                     // Upload JPEG2000 images untouched
                     ImgUp = System.IO.File.ReadAllBytes(fileName);
 
-                    OpenJPEG.DecodeToImage(ImgUp, out managedImage, out image);
-                    bitmap = (Bitmap)image;
+                    using var reader = new Reader(ImgUp);
+                    reader.ReadHeader();
+                    reader.DecodeToBitmap();
                 }
                 else
                 {
@@ -146,12 +141,13 @@ namespace METAbolt
                         bitmap = resized;
                     }
 
-                    ImgUp = OpenJPEG.EncodeFromImage(bitmap, false);
+                    using var writer = new Writer(bitmap);
+                    ImgUp = writer.Encode();
                 }
             }
             catch (Exception ex)
             {
-                label3.Text = ex.ToString() + " SL Image Upload ";
+                label3.Text = ex + " SL Image Upload ";
                 return null;
             }
 

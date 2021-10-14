@@ -26,13 +26,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
 using OpenMetaverse;
 using System.Threading;
 using System.Globalization;
@@ -77,7 +72,7 @@ namespace METAbolt
                 lbxPrims.Items.Clear();
                 lbxPrimGroup.Items.Clear();
 
-                WorkPool.QueueUserWorkItem(delegate(object sync)
+                ThreadPool.QueueUserWorkItem(delegate(object sync)
                 {
                     Cursor.Current = Cursors.WaitCursor;
                     Thread.Sleep(5000);
@@ -692,7 +687,7 @@ namespace METAbolt
                 lbxPrims.Items.Clear();
                 lbxPrimGroup.Items.Clear();
 
-                WorkPool.QueueUserWorkItem(delegate(object sync)
+                ThreadPool.QueueUserWorkItem(delegate
                 {
                     Cursor.Current = Cursors.WaitCursor;
                     Thread.Sleep(2000);

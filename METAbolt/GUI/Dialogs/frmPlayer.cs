@@ -26,25 +26,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 //using AWS_PAAPI;
 using System.IO;
 using System.Net;
-using System.Web;
-using System.Text.RegularExpressions;
 //using System.Security.Cryptography.X509Certificates;
-using System.Diagnostics;
-using System.Threading;
 using System.Xml;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using WMPLib;
-using System.Web.UI.WebControls;
 using System.Globalization;
+using System.Linq;
 
 namespace METAbolt
 {
@@ -60,7 +54,7 @@ namespace METAbolt
         //private LyricWiki wiki = new LyricWiki();
         private string albumlink = string.Empty;
         private string lyrics = string.Empty;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private List<RadioObj> Stations = new List<RadioObj>();
 
 
@@ -840,12 +834,9 @@ namespace METAbolt
             listBox3.Items.Clear();
             textBox1.Text = string.Empty;
 
-            foreach (RadioObj rad in Stations)
+            foreach (var rad in Stations.Where(rad => rad.genre == sgenre))
             {
-                if (rad.genre == sgenre)
-                {
-                    listBox3.Items.Add(new ListItem() { Value = rad.radiourl, Text = rad.radioname });
-                }
+                listBox3.Items.Add(new KeyValuePair<string, string>(rad.radioname, rad.radiourl));
             }
         }
 
@@ -853,9 +844,9 @@ namespace METAbolt
         {
             if (listBox3.SelectedIndex == -1) return;
 
-            ListItem itm = (ListItem)listBox3.SelectedItem;
+            var item = (KeyValuePair<string, string>)listBox3.SelectedItem;
 
-            textBox1.Text = itm.Value;
+            textBox1.Text = item.Value;
         }
     }
 

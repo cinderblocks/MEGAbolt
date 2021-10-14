@@ -23,36 +23,28 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Web;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using MD5library;
-using System.Diagnostics;
 using System.Linq;
 using ExceptionReporting;
 using System.Threading;
-using System.Globalization; 
+using System.Globalization;
 
 namespace METAbolt
 {
     public partial class MainConsole : UserControl, IMETAboltTabControl
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
-        //private WebBrowser webBrowser;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private string murl;
         private string clickedurl = string.Empty;
-        //private WriteToRegistry METAreg = new WriteToRegistry();
-        //private frmMain mform;
-        //private frmPlayer fplayer;
         private Dictionary<string, string> MGrids = new Dictionary<string,string>();
         private ExceptionReporter reporter = new ExceptionReporter();
         private List<string> usernlist = new List<string>();
@@ -159,18 +151,7 @@ namespace METAbolt
             StreamWriter SW;
 
             SW = File.CreateText(METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt");
-            SW.WriteLine("3rd Rock Grid,http://grid.3rdrockgrid.com:8002");
-            SW.WriteLine("Avatar Hangout,http://login.avatarhangout.com:8002");
-            SW.WriteLine("Cyberlandia,http://hypergrid.cyberlandia.net:8002");
-            SW.WriteLine("Francogrid,http://grid.francogrid.net:8002");
-            SW.WriteLine("Legend City Online,http://login.legendcityonline.com");
-            SW.WriteLine("InWorldz,http://inworldz.com:8002/");
             SW.WriteLine("OSGrid,http://login.osgrid.org");
-            SW.WriteLine("ReactionGrid,http://reactiongrid.com:8008");
-            SW.WriteLine("The Gor Grid,http://thegorgrid.com:8002");
-            SW.WriteLine("The New World Grid,http://grid.newworldgrid.com:8002");
-            SW.WriteLine("WorldSimTerra,http://wsterra.com:8002");
-            SW.WriteLine("Your Alternative Life,http://grid.youralternativelife.com");
 
             SW.Dispose();
         }
@@ -179,8 +160,8 @@ namespace METAbolt
         {
             cbxGrid.Items.Clear();
 
-            cbxGrid.Items.Add("SL Main Grid (Agni)");
-            cbxGrid.Items.Add("SL Beta Grid (Aditi)");
+            cbxGrid.Items.Add("SecondLife Main (Agni)");
+            cbxGrid.Items.Add("SecondLife Beta (Aditi)");
 
             foreach (KeyValuePair<string, string> entry in MGrids)
             {
@@ -201,12 +182,7 @@ namespace METAbolt
             instance.Config.CurrentConfig.LastName = txtLastName.Text;
 
             // Save user list
-            string ulist = string.Empty;
-
-            foreach (string s in usernlist)
-            {
-                ulist += s + "|";
-            }
+            string ulist = usernlist.Aggregate(string.Empty, (current, s) => current + (s + "|"));
 
             if (ulist.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -217,14 +193,7 @@ namespace METAbolt
 
             instance.Config.CurrentConfig.iRemPWD = chkPWD.Checked;
 
-            if (netcom.LoginOptions.IsPasswordMD5)
-            {
-                instance.Config.CurrentConfig.PasswordMD5 = txtPassword.Text;
-            }
-            else
-            {
-                instance.Config.CurrentConfig.PasswordMD5 = Utils.MD5(txtPassword.Text);
-            }
+            instance.Config.CurrentConfig.PasswordMD5 = Utils.MD5(txtPassword.Text);
 
             instance.Config.CurrentConfig.LoginLocationType = cbxLocation.SelectedIndex;
             instance.Config.CurrentConfig.LoginLocation = cbxLocation.Text;
@@ -324,8 +293,6 @@ namespace METAbolt
 
                 txtPassword.Text = epwd;
             }
-
-            netcom.LoginOptions.IsPasswordMD5 = true;
 
             cbxLocation.SelectedIndex = instance.Config.CurrentConfig.LoginLocationType;
             cbxLocation.Text = instance.Config.CurrentConfig.LoginLocation;
@@ -646,8 +613,6 @@ namespace METAbolt
                 }
 
                 netcom.LoginOptions.Password = pwd;   // txtPassword.Text;
-                netcom.LoginOptions.UserAgent = Properties.Resources.METAboltTitle + " " + Properties.Resources.METAboltVersion;
-                netcom.LoginOptions.Author = Properties.Resources.METAboltAuthor;
 
                 switch (cbxLocation.SelectedIndex)
                 {
@@ -721,8 +686,7 @@ namespace METAbolt
                 pnlLoginPrompt.Visible = false;
 
                 btnLogin.Enabled = false;
-
-                client.Settings.HTTP_INVENTORY = !instance.Config.CurrentConfig.DisableHTTPinv;
+                
                 client.Settings.USE_LLSD_LOGIN = instance.Config.CurrentConfig.UseLLSD;
                 //instance.SetSettings();  
 
@@ -813,12 +777,6 @@ namespace METAbolt
         }
 
         #endregion
-
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-            netcom.LoginOptions.IsPasswordMD5 = false;
-        }
 
         private void pnlLoginPage_Paint(object sender, PaintEventArgs e)
         {

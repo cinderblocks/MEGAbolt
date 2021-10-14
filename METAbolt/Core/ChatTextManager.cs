@@ -25,29 +25,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.IO;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
 using OpenMetaverse;
-using OpenMetaverse.Packets;
-using OpenMetaverse.Utilities;
-using System.Security.Cryptography;
 using MD5library;
-using System.Diagnostics;
 using System.Timers;
 using ExceptionReporting;
 using System.Globalization;
+using MEGAbolt.NetworkComm;
 
 namespace METAbolt
 {
     public class ChatTextManager
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private ITextPrinter textPrinter;
         //private frmMain mainForm;
@@ -444,7 +439,7 @@ namespace METAbolt
             }
 
             //DialogResult sret = MessageBox.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + " owned by " + e.ObjectOwnerName + ":\n\n" + smsg, "Script permission...", MessageBoxButtons.OKCancel);
-            DialogResult sret = MessageBoxEx.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + "\nowned by " + e.ObjectOwnerName + ":\n\n" + smsg, "Script permission...", MessageBoxButtons.OKCancel, 15000);
+            DialogResult sret = MessageBoxEx.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + "\nowned by " + e .ObjectOwnerName + ":\n\n" + smsg, "Script permission...", MessageBoxButtons.OKCancel, 15000);
 
 
             if (sret == DialogResult.OK)

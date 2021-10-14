@@ -26,19 +26,18 @@
 
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
 using OpenMetaverse;
 using System.Threading;
 using ExceptionReporting;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Linq;
+using File = System.IO.File;
 
 // Some parts of this code has been adopted from OpenMetaverse.GUI
 //
@@ -496,7 +495,7 @@ namespace METAbolt
                         {
                             if (e.FolderID == instance.CoF.UUID)
                             {
-                                instance.CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(AssetType.CurrentOutfitFolder)].Data;
+                                instance.CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.CurrentOutfit)].Data;
                             }
                         }
 
@@ -764,7 +763,7 @@ namespace METAbolt
                 {
                     InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
-                    if (aitem.PreferredType != AssetType.Unknown)
+                    if (aitem.PreferredType != FolderType.None)
                     {
                         return;
                         //DialogResult result = MessageBox.Show("You are about to delete a SYSTEM FOLDER!\nAre you sure you want to continue?", "METAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -782,7 +781,7 @@ namespace METAbolt
 
                 InventoryFolder folder = (InventoryFolder)io;
                 //client.Inventory.RemoveFolder(folder.UUID);
-                client.Inventory.MoveFolder(folder.UUID, client.Inventory.FindFolderForType(AssetType.TrashFolder), folder.Name);
+                client.Inventory.MoveFolder(folder.UUID, client.Inventory.FindFolderForType(FolderType.Trash), folder.Name);
                 folder = null;
             }
             else if (io is InventoryItem)
@@ -791,7 +790,7 @@ namespace METAbolt
                 //client.Inventory.RemoveItem(item.UUID);
                 //item = null;
 
-                InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(AssetType.TrashFolder)].Data;
+                InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.Trash)].Data;
 
                 client.Inventory.MoveItem(item.UUID, folder.UUID, item.Name);
                 item = null;
@@ -821,7 +820,7 @@ namespace METAbolt
             {
                 InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
-                if (aitem.PreferredType != AssetType.Unknown)
+                if (aitem.PreferredType != FolderType.None)
                 {
                     return;
                 }
@@ -926,7 +925,7 @@ namespace METAbolt
             {
                 InventoryFolder folder = (InventoryFolder)io;
 
-                if (folder.PreferredType != AssetType.Unknown)
+                if (folder.PreferredType != FolderType.None)
                 {
                     return;
                 }
@@ -969,7 +968,7 @@ namespace METAbolt
 
                 InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
-                if (aitem.PreferredType == AssetType.TrashFolder)
+                if (aitem.PreferredType == FolderType.Trash)
                 {
                     for (int i = 0; i < smM1.Items.Count; i++)
                     {
@@ -979,7 +978,7 @@ namespace METAbolt
                     emptyMenu.Visible = true;
                     emptyTrashToolStripMenuItem.Visible = true;
                 }
-                else if (aitem.PreferredType == AssetType.CurrentOutfitFolder)
+                else if (aitem.PreferredType == FolderType.CurrentOutfit)
                 {
                     tbtnNew.Enabled = false;
                     tbtnOrganize.Enabled = false;
@@ -1006,7 +1005,7 @@ namespace METAbolt
 
                     if (io is InventoryFolder)
                     {
-                        if (aitem.PreferredType != AssetType.Unknown)
+                        if (aitem.PreferredType != FolderType.None)
                         {
                             cutMenu.Enabled = false;
                             copyMenu.Enabled = false;
@@ -1238,7 +1237,7 @@ namespace METAbolt
             {
                 InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
-                if (aitem.PreferredType != AssetType.Unknown)
+                if (aitem.PreferredType != FolderType.None)
                 {
                     return;
                 }
@@ -1422,13 +1421,13 @@ namespace METAbolt
             {
                 InventoryFolder aitem = (InventoryFolder)io;
 
-                if (aitem.PreferredType != AssetType.Unknown)
+                if (aitem.PreferredType != FolderType.None)
                 {
                     e.CancelEdit = true;
                     return;
                 }
 
-                client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID, e.Label);
+                client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
             }
             else if (e.Node.Tag is InventoryItem)
             {
@@ -1459,7 +1458,7 @@ namespace METAbolt
 
         public void RefreshInventory()
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { RefreshInventory(); });
+            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)RefreshInventory);
             else
             {
                 TreeNode node = treeView1.SelectedNode;
@@ -1569,7 +1568,6 @@ namespace METAbolt
                 }
 
                 List<InventoryBase> contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
-                List<InventoryItem> items = new List<InventoryItem>();
 
                 if (contents == null)
                 {
@@ -1577,11 +1575,7 @@ namespace METAbolt
                     return;
                 }
 
-                foreach (InventoryBase item in contents)
-                {
-                    if (item is InventoryItem)
-                        items.Add((InventoryItem)item);
-                }
+                List<InventoryItem> items = contents.OfType<InventoryItem>().ToList();
 
                 contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
                 List<UUID> remclothing = new List<UUID>();
@@ -1612,7 +1606,7 @@ namespace METAbolt
 
                 client.Appearance.ReplaceOutfit(items);
 
-                WorkPool.QueueUserWorkItem(sync =>
+                ThreadPool.QueueUserWorkItem(sync =>
                 {
                     Thread.Sleep(2000);
                     client.Appearance.RequestSetAppearance(true);
@@ -1848,7 +1842,6 @@ namespace METAbolt
                 }
 
                 List<InventoryBase> contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
-                List<InventoryItem> items = new List<InventoryItem>();
 
                 if (contents == null)
                 {
@@ -1856,22 +1849,10 @@ namespace METAbolt
                     return;
                 }
 
-                foreach (InventoryBase item in contents)
-                {
-                    if (item is InventoryItem)
-                        items.Add((InventoryItem)item);
-                }
+                List<InventoryItem> items = contents.OfType<InventoryItem>().ToList();
 
                 contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                List<UUID> remclothing = new List<UUID>();
-
-                foreach (InventoryBase item in contents)
-                {
-                    if (item is InventoryItem)
-                    {
-                        remclothing.Add(item.UUID);
-                    }
-                }
+                List<UUID> remclothing = contents.OfType<InventoryItem>().Select(item => item.UUID).ToList();
 
                 if (remclothing.Count > 0)
                 {
@@ -1891,7 +1872,7 @@ namespace METAbolt
 
                 client.Appearance.ReplaceOutfit(items);
 
-                WorkPool.QueueUserWorkItem(sync =>
+                ThreadPool.QueueUserWorkItem(sync =>
                 {
                     Thread.Sleep(2000);
                     client.Appearance.RequestSetAppearance(true);
@@ -2130,7 +2111,7 @@ namespace METAbolt
             managerbusy = client.Appearance.ManagerBusy;
             client.Appearance.ReplaceOutfit(clothing);
 
-            WorkPool.QueueUserWorkItem(sync =>
+            ThreadPool.QueueUserWorkItem(sync =>
             {
                 Thread.Sleep(2000);
                 client.Appearance.RequestSetAppearance(true);

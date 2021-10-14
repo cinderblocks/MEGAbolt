@@ -23,17 +23,12 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using PopupControl;
 using OpenMetaverse;
 using System.Diagnostics;
-using System.Net;
-using System.IO; 
+using System.IO;
 //using System.Web;
 //using System.Web.UI;
 //using System.IO;
@@ -174,7 +169,6 @@ namespace METAbolt
             chkRestrictRadar.Checked = config.CurrentConfig.RestrictRadar;
             chkVoice.Checked = config.CurrentConfig.DisableVoice;
             chkFavs.Checked = config.CurrentConfig.DisableFavs;
-            cbHHTPInv.Checked = config.CurrentConfig.DisableHTTPinv;
             chkRadarMiniMap.Checked = config.CurrentConfig.DisableRadarImageMiniMap;
             cbLLSD.Checked = config.CurrentConfig.UseLLSD;
 
@@ -362,7 +356,6 @@ namespace METAbolt
             instance.Config.CurrentConfig.RestrictRadar = chkRestrictRadar.Checked;
             instance.Config.CurrentConfig.DisableVoice = chkVoice.Checked;  
             instance.Config.CurrentConfig.DisableFavs = chkFavs.Checked;
-            instance.Config.CurrentConfig.DisableHTTPinv = cbHHTPInv.Checked;
             instance.Config.CurrentConfig.DisableRadarImageMiniMap = chkRadarMiniMap.Checked;
             instance.Config.CurrentConfig.UseLLSD = cbLLSD.Checked;
             instance.Config.CurrentConfig.ChatBufferLimit = Convert.ToInt32(numChatBuff.Value);

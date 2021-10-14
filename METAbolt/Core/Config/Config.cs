@@ -24,15 +24,12 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenMetaverse;
 using Nini.Config;
 using System.Windows.Forms;
 using System.Drawing;
 using MD5library;
 using System.IO;
-using System.Diagnostics;
 using System.Globalization;
 
 
@@ -280,7 +277,6 @@ namespace METAbolt
                 config.RestrictRadar = conf.Configs["General"].GetBoolean("RestrictRadar", false);
                 config.DisableVoice = conf.Configs["General"].GetBoolean("DisableVoice", false);
                 config.DisableFavs = conf.Configs["General"].GetBoolean("DisableFavs", false);
-                config.DisableHTTPinv = conf.Configs["General"].GetBoolean("DisableHTTPinv", true);
                 config.DisableRadarImageMiniMap = conf.Configs["General"].GetBoolean("DisableRadarImageMiniMap", false);
                 config.AppMenuPos = conf.Configs["General"].GetString("AppMenuPos", "Top");
                 config.LandMenuPos = conf.Configs["General"].GetString("LandMenuPos", "Top");
@@ -1296,12 +1292,6 @@ namespace METAbolt
         {
             get { return disablefavs; }
             set { disablefavs = value; }
-        }
-
-        public bool DisableHTTPinv
-        {
-            get { return disablehttpinv; }
-            set { disablehttpinv = value; }
         }
 
         public bool DisableRadarImageMiniMap

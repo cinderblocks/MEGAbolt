@@ -23,12 +23,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Text;
-using OpenMetaverse.Imaging;
+using OpenJpegDotNet.IO;
 
 namespace METAbolt
 {
@@ -36,21 +32,9 @@ namespace METAbolt
     {
         public static Image Decode(byte[] j2cdata)
         {
-            ManagedImage mImg;
-            Image image = null;
-            //Boolean bRet;
-
-            try
-            {
-                //bRet = OpenJPEG.DecodeToImage(j2cdata, out mImg,out image);
-                OpenJPEG.DecodeToImage(j2cdata, out mImg, out image);
-            }
-            catch
-            {
-
-            }
-            
-            return image;
+            using Reader reader = new Reader(j2cdata);
+            reader.ReadHeader();
+            return reader.DecodeToBitmap();
         }
     }
 }

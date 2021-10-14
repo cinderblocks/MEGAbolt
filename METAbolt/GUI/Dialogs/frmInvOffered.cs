@@ -25,12 +25,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Media;
@@ -253,7 +248,7 @@ namespace METAbolt
                         //client.Inventory.RequestFetchInventory(objectID, client.Self.AgentID);
 
                         InventoryBase item = client.Inventory.Store.Items[objectID].Data;
-                        UUID content = client.Inventory.FindFolderForType(AssetType.TrashFolder);
+                        UUID content = client.Inventory.FindFolderForType(FolderType.Trash);
 
                         InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[content].Data;
 

@@ -24,22 +24,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using OpenMetaverse.Assets;
-using OpenMetaverse.Packets; 
-using SLNetworkComm;
+using OpenMetaverse.Packets;
+using MEGAbolt.NetworkComm;
 using ExceptionReporting;
 using System.Threading;
-using System.Management;
 using System.Globalization;
-using System.Web; 
+using System.Web;
+using OpenJpegDotNet.IO;
 
 
 namespace METAbolt
@@ -57,7 +53,7 @@ namespace METAbolt
         private Dictionary<UUID, GroupMemberData> MemberData = new Dictionary<UUID, GroupMemberData>();
         private List<GroupMemberData> SortedMembers = new List<GroupMemberData>();
         private Dictionary<UUID, string> GrupMemberNames = new Dictionary<UUID, string>();
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private InstantMessage imsg;
         private UUID objID = UUID.Zero;
         private bool floading = true;
@@ -565,13 +561,11 @@ namespace METAbolt
                     Client.Assets.RequestImage(this.Group.InsigniaID, ImageType.Normal,
                         delegate(TextureRequestState state, AssetTexture assetTexture)
                         {
-                            ManagedImage imgData;
-                            Image bitmap;
-
                             if (state != TextureRequestState.Timeout || state != TextureRequestState.NotFound)
                             {
-                                OpenJPEG.DecodeToImage(assetTexture.AssetData, out imgData, out bitmap);
-                                picInsignia.Image = bitmap;
+                                using var reader = new Reader(assetTexture.AssetData);
+                                reader.ReadHeader();
+                                picInsignia.Image = reader.DecodeToBitmap();
                                 UpdateInsigniaProgressText("Progress...");
                             }
                             if (state == TextureRequestState.Finished)
@@ -729,7 +723,7 @@ namespace METAbolt
                     }
                 }
 
-                WorkPool.QueueUserWorkItem(sync =>
+                ThreadPool.QueueUserWorkItem(sync =>
                 {
                     if (isgroupmembers) UpdateMembers(memkeys);
                 });   

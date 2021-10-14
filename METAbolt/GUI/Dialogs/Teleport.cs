@@ -23,18 +23,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Threading;
-using OpenMetaverse.Packets;
-using SLNetworkComm;
-using System.Net;
-using System.Diagnostics;
+using MEGAbolt.NetworkComm;
 using ExceptionReporting;
 using System.Globalization;
 
@@ -43,7 +36,7 @@ namespace METAbolt
     public partial class frmTeleport : Form
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         //private const int GRID_Y_OFFSET = 1279;
         //Base URL for web map api sim images

@@ -26,20 +26,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using SLNetworkComm;
-using OpenMetaverse.Imaging;
 using OpenMetaverse.Assets;
-using OpenMetaverse.StructuredData;
 using System.Media;
 using System.Web;
 using System.Globalization;
+using OpenJpegDotNet.IO;
 
 namespace METAbolt
 {
@@ -208,24 +202,22 @@ namespace METAbolt
 
         void Assets_OnImageReceived(TextureRequestState image, AssetTexture texture)
         {
-            if (texture.AssetID == profile.InsigniaID)
+            if (texture.AssetID != profile.InsigniaID) { return; }
+
+            try
             {
-                ManagedImage imgData;
-                Image bitmap;
+                using var reader = new Reader(texture.AssetData);
+                reader.ReadHeader();
+                Image bitmap = reader.DecodeToBitmap();
 
-                try
+                BeginInvoke(new MethodInvoker(delegate()
                 {
-                    OpenJPEG.DecodeToImage(texture.AssetData, out imgData, out bitmap);
-
-                    BeginInvoke(new MethodInvoker(delegate()
-                    {
-                        picInsignia.Image = bitmap;
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "METAbolt");   
-                }                           
+                    picInsignia.Image = bitmap;
+                }));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "METAbolt");   
             }
         }
 

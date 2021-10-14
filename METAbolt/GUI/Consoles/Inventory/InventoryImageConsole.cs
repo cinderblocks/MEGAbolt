@@ -23,17 +23,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Data;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
-//using SLNetworkComm;
+//using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using OpenMetaverse.Assets;
 
 namespace METAbolt
@@ -79,37 +73,25 @@ namespace METAbolt
                 return;
             }
 
-            BeginInvoke(new OnSetStatusText(SetStatusText), new object[] { "Image downloaded. Decoding..." });
+            BeginInvoke(new OnSetStatusText(SetStatusText), "Image downloaded. Decoding...");
 
-            //System.Drawing.Image decodedImage = ImageHelper.Decode(image.AssetData);
-
-            //if (decodedImage == null)
-            //{
-            //    BeginInvoke(new OnSetStatusText(SetStatusText), new object[] { "D'oh! Error decoding image." });
-            //    BeginInvoke(new MethodInvoker(DoErrorState));
-            //    return;
-            //}
-
-            //instance.ImageCache.AddImage(image.ID, decodedImage);
-            //BeginInvoke(new OnSetFinalImage(SetFinalImage), new object[] { decodedImage });
-
-            ManagedImage mImg;
             Image sImage = null;
 
-            //System.Drawing.Image decodedImage = ImageHelper.Decode(image.AssetData);
-            //System.Drawing.Image decodedImage = OpenJPEGNet.OpenJPEG.DecodeToImage(image.AssetData);
-            OpenJPEG.DecodeToImage(texture.AssetData, out mImg, out sImage);
-            System.Drawing.Image decodedImage = sImage;
-
-            if (decodedImage == null)
+            using (OpenJpegDotNet.IO.Reader reader = new(texture.AssetData))
             {
-                BeginInvoke(new OnSetStatusText(SetStatusText), new object[] { "D'oh! Error decoding image." });
+                reader.ReadHeader();
+                sImage = reader.DecodeToBitmap();
+            }
+
+            if (sImage == null)
+            {
+                BeginInvoke(new OnSetStatusText(SetStatusText), "D'oh! Error decoding image.");
                 BeginInvoke(new MethodInvoker(DoErrorState));
                 return;
             }
 
-            instance.ImageCache.AddImage(texture.AssetID, decodedImage);
-            BeginInvoke(new OnSetFinalImage(SetFinalImage), new object[] { decodedImage });
+            instance.ImageCache.AddImage(texture.AssetID, sImage);
+            BeginInvoke(new OnSetFinalImage(SetFinalImage), sImage);
         }
 
         //called on GUI thread

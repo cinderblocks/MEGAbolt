@@ -26,17 +26,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 using ScintillaNet;
 using System.IO;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace METAbolt
@@ -44,7 +41,7 @@ namespace METAbolt
     public partial class frmScriptEditor : Form
     {
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
         private InventoryItem item;
         //private UUID transferID;
@@ -92,7 +89,9 @@ namespace METAbolt
             GetCallTips();
 
             assetUUID = item.AssetUUID;
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, item.OwnerID, item.AssetType, true, Assets_OnAssetReceived);
+            var transferID = UUID.Random();
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, 
+                item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
         public frmScriptEditor(METAboltInstance instance, InventoryLSL item, Primitive obj)
@@ -117,9 +116,11 @@ namespace METAbolt
 
             assetUUID = item.AssetUUID;
             objectid = obj.ID;
-            itemUUID = item.UUID; 
+            itemUUID = item.UUID;
 
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, obj.OwnerID, item.AssetType, true, Assets_OnAssetReceived);
+            var transferID = UUID.Random();
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, 
+                obj.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
         public frmScriptEditor(METAboltInstance instance)

@@ -25,15 +25,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Xml;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using PopupControl;
 using System.Globalization;
@@ -44,7 +37,7 @@ namespace METAbolt
     {
         //string XmlFile = "TP_History.xml";
         private METAboltInstance instance;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
         private GridClient client;
 
         private Popup toolTip;

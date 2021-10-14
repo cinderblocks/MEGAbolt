@@ -24,19 +24,11 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Data;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 using Khendys.Controls;
-using System.Resources;
-using System.Threading;
 //using System.Runtime.InteropServices;
 using System.Globalization;
-using System.Net;
-using System.IO;
 
 
 namespace METAbolt

@@ -1,5 +1,6 @@
 //  Copyright (c) 2008 - 2014, www.metabolt.net (METAbolt)
 //  Copyright (c) 2006-2008, Paul Clement (a.k.a. Delta)
+//  Copyright (c) 2021, Sjofn LLC.
 //  All rights reserved.
 
 //  Redistribution and use in source and binary forms, with or without modification, 
@@ -27,10 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using SLNetworkComm;
 using OpenMetaverse;
-using System.Reflection;
-using AIMLbot;
 using System.Data;
 using System.IO;
 using METAxCommon;
@@ -38,6 +36,7 @@ using System.Drawing;
 using ExceptionReporting;
 using System.Threading;
 using System.Globalization;
+using MEGAbolt.NetworkComm;
 
 
 namespace METAbolt
@@ -73,49 +72,16 @@ namespace METAbolt
             }
         }
 
-        private GridClient client;
-        private SLNetCom netcom;
-
-        private ImageCache imageCache;
-        private StateManager state;
-        private ConfigManager config;
-
-        private frmMain mainForm;
-        private TabsConsole tabsConsole;
-        private IMbox imbox;
-
-        private bool firstInstance;
-        private bool otherInstancesOpen = false;
-
-        private bool loggedin = false;
-        private bool logoffclicked = false;
-        private bool rebooted = false;
-
-        private int dialogtimeout = 900000;
-        private int dialogcount = 0;
-        private int noticecount = 0;
         public AIMLbot.Bot myBot;
-        //private DataTable mutelist = null;
-        private DataTable tp = null;
-        private bool detectlang = false;
-        private UUID lookID = UUID.Zero; 
-        private List<IExtension> elist = new List<IExtension>();
         public SafeDictionary<UUID, string> avnames = new SafeDictionary<UUID, string>();
         public SafeDictionary<UUID, string> avtags = new SafeDictionary<UUID, string>();
         public List<AvLocation> avlocations = new List<AvLocation>();
         private ExceptionReporter reporter = new ExceptionReporter();
         public string appdir = METAbolt.DataFolder.GetDataFolder();
         public bool startfrombat = false;
-        private DataTable giveritems = null;
-        private bool readims = false;
         public InventoryConsole insconsole;
-        private string afffile = string.Empty;
-        private string dicfile = string.Empty;
-        private bool allowvoice = true;
-        private UUID favsfolder = UUID.Zero;
         public InventoryFolder CoF;
         public RingBufferProtection chatbuffer = new RingBufferProtection();
-        private bool blockinchat = false;
         public string METAbolt_Version = string.Empty;
 
         internal class ThreadExceptionHandler
@@ -134,9 +100,8 @@ namespace METAbolt
 
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-            this.firstInstance = firstInstance;
-
-            //LoadXMLFile(appdir + "\\MuteList.xml");
+            this.IsFirstInstance = firstInstance;
+            
             LoadGiverItems(appdir + "\\METAgiverItems.xml");
 
             MakeTPTable();
@@ -144,29 +109,28 @@ namespace METAbolt
             CreateNotesDir();
             CreateSpellingDir();
 
-            client = new GridClient();
+            Client = new GridClient();
 
-            config = new ConfigManager();
-            config.ApplyDefault();
+            Config = new ConfigManager();
+            Config.ApplyDefault();
 
             SetSettings();
 
-            netcom = new SLNetCom(client, this);
+            Netcom = new MEGAboltNetcom(this);
             InitializeConfig();
 
-            state = new StateManager(this);
+            State = new StateManager(this);
 
-            imageCache = new ImageCache();
+            ImageCache = new ImageCache();
 
-            mainForm = new frmMain(this);
-            mainForm.InitializeControls();
-            tabsConsole = mainForm.TabConsole;
+            MainForm = new frmMain(this);
+            MainForm.InitializeControls();
+            TabConsole = MainForm.TabConsole;
 
             //CheckForShortcut();
 
-            if (config.CurrentConfig.AIon)
+            if (Config.CurrentConfig.AIon)
             {
-                //myBot = new AIMLbot.Bot();
                 InitAI();
             }
 
@@ -175,8 +139,6 @@ namespace METAbolt
             RandomPwd();
 
             METAbolt_Version = Properties.Resources.METAboltVersion.ToString(CultureInfo.CurrentCulture);
-            //mutelist = LoadXMLFile("MuteList.xml");
-            //mutelist.PrimaryKey = new DataColumn[] { mutelist.Columns["uuid"] };
         }
 
         public METAboltInstance(bool firstInstance, string[] args)
@@ -186,9 +148,8 @@ namespace METAbolt
 
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-            this.firstInstance = firstInstance;
-
-            //LoadXMLFile(appdir + "\\MuteList.xml");
+            this.IsFirstInstance = firstInstance;
+            
             LoadGiverItems(appdir + "\\METAgiverItems.xml");
 
             MakeTPTable();
@@ -196,45 +157,44 @@ namespace METAbolt
             CreateNotesDir();
             CreateSpellingDir();
 
-            client = new GridClient();
+            Client = new GridClient();
 
             //at this point we have been given: metabolt.exe [firstname] [lastname] [password]
             //so args[0] and args[1] have the necessary name parts
             if (args.Length > 1)
             {
                 string full_name = args[0] + "_" + args[1];
-                config = new ConfigManager(full_name);
+                Config = new ConfigManager(full_name);
                 
             }
             else
             {
-                config = new ConfigManager();
+                Config = new ConfigManager();
             }
 
-            config.ApplyDefault();
+            Config.ApplyDefault();
 
             SetSettings();
-            netcom = new SLNetCom(client, this);
+            Netcom = new MEGAboltNetcom(this);
 
-            this.rebooted = true;
+            this.ReBooted = true;
             startfrombat = true;
 
-            config.CurrentConfig.FirstName = args[0].ToString(CultureInfo.CurrentCulture);
-            config.CurrentConfig.LastName = args[1].ToString(CultureInfo.CurrentCulture);
-            config.CurrentConfig.PasswordMD5 = args[2].ToString(CultureInfo.CurrentCulture);
+            Config.CurrentConfig.FirstName = args[0].ToString(CultureInfo.CurrentCulture);
+            Config.CurrentConfig.LastName = args[1].ToString(CultureInfo.CurrentCulture);
+            Config.CurrentConfig.PasswordMD5 = args[2].ToString(CultureInfo.CurrentCulture);
 
             InitializeConfig();
 
-            imageCache = new ImageCache();
-            state = new StateManager(this);
+            ImageCache = new ImageCache();
+            State = new StateManager(this);
 
-            mainForm = new frmMain(this);
-            mainForm.InitializeControls();
-            tabsConsole = mainForm.TabConsole;
+            MainForm = new frmMain(this);
+            MainForm.InitializeControls();
+            TabConsole = MainForm.TabConsole;
 
-            if (config.CurrentConfig.AIon)
+            if (Config.CurrentConfig.AIon)
             {
-                //myBot = new AIMLbot.Bot();
                 InitAI();
             }
 
@@ -243,17 +203,11 @@ namespace METAbolt
             RandomPwd();
 
             METAbolt_Version = Properties.Resources.METAboltVersion.ToString(CultureInfo.CurrentCulture);
-            //mutelist = LoadXMLFile("MuteList.xml");
-            //mutelist.PrimaryKey = new DataColumn[] { mutelist.Columns["uuid"] };
         }
 
         public void ReapplyConfig(string full_name)
         {
-            //config = new ConfigManager(full_name);
-            ////config.ApplyDefault();
-            //config.ApplyCurrentConfig();
-
-            config.ChangeConfigFile(full_name);
+            Config.ChangeConfigFile(full_name);
 
             SetSettings();
         }
@@ -282,10 +236,10 @@ namespace METAbolt
 
         private void RandomPwd()
         {
-            if (string.IsNullOrEmpty(config.CurrentConfig.GroupManPro))
+            if (string.IsNullOrEmpty(Config.CurrentConfig.GroupManPro))
             {
                 // assign a random pwd
-                config.CurrentConfig.GroupManPro = GetRandomPassword(15);
+                Config.CurrentConfig.GroupManPro = GetRandomPassword(15);
             }
         }
 
@@ -311,7 +265,6 @@ namespace METAbolt
         public void InitAI()
         {
             string aimlDirectory = Application.StartupPath.ToString(CultureInfo.CurrentCulture);
-            //string confdir = aimlDirectory + "\\config\\";
             aimlDirectory += "\\aiml\\";
 
             bool direxists = DirExists(aimlDirectory);
@@ -319,17 +272,6 @@ namespace METAbolt
             if (direxists)
             {
                 myBot = null;
-                //GC.Collect();  
-                //myBot = new AIMLbot.Bot();
-                ////string a1 = myBot.PathToAIML;
-                ////string a2 = myBot.PathToConfigFiles;
-                //myBot.isAcceptingUserInput = false;
-                //myBot.loadSettings();
-                //myBot.loadAIMLFromFiles();
-                
-                //myBot.isAcceptingUserInput = true;
-
-                //AIMLbot.Utils.SettingsDictionary dic = myBot.Substitutions;
 
                 myBot = new AIMLbot.Bot();
                 myBot.loadSettings();
@@ -389,24 +331,8 @@ namespace METAbolt
 
                 if (fsize > 1000)
                 {
-                    //DialogResult res = MessageBox.Show("Your chat log folder is over 3GB in size.\n\nDo you want to delete log files older than 60 days?", "METAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                    tabsConsole.DisplayChatScreen("Your chat log folder is over 1GB in size.");
-
-                    //if (res == DialogResult.Yes)
-                    //{
-                    //    DirectoryInfo dir = new DirectoryInfo(logdir);
-
-                    //    FileInfo[] rgFiles = dir.GetFiles("*.txt");
-
-                    //    foreach (FileInfo fi in rgFiles)
-                    //    {
-                    //        if (DateTime.Now.AddDays(-60) > fi.CreationTime)
-                    //        {
-                    //            fi.Delete();
-                    //        }
-                    //    }
-                    //}
+                    TabConsole.DisplayChatScreen("Your chat log folder is over 1GB in size.");
+                    
                 }
             }
 
@@ -498,9 +424,9 @@ namespace METAbolt
 
             if (avatar == UUID.Zero) return false;
 
-            if (avatar == client.Self.AgentID || name == client.Self.Name) return false;
+            if (avatar == Client.Self.AgentID || name == Client.Self.Name) return false;
 
-            if (null != client.Self.MuteList.Find(mle => (mle.ID == avatar) || (mle.Type == MuteType.ByName && mle.Name == name)
+            if (null != Client.Self.MuteList.Find(mle => (mle.ID == avatar) || (mle.Type == MuteType.ByName && mle.Name == name)
                                                     || (mle.Type == MuteType.Object && mle.Name == name)
                                                     || (mle.Type == MuteType.Resident && mle.Name == name)))
             {
@@ -546,7 +472,7 @@ namespace METAbolt
 
             try
             {
-                DataRow dr = giveritems.Rows.Find(item.ToString(CultureInfo.CurrentCulture));
+                DataRow dr = GiverItems.Rows.Find(item.ToString(CultureInfo.CurrentCulture));
 
                 if (dr != null)
                 {
@@ -612,7 +538,7 @@ namespace METAbolt
                             break;
                     }
 
-                    client.Inventory.GiveItem(iid, name, type, avid, false);
+                    Client.Inventory.GiveItem(iid, name, type, avid, false);
 
                     return true;
                 }
@@ -699,7 +625,7 @@ namespace METAbolt
             try
             {
                 //int recs = mutelist.Rows.Count;  
-                giveritems.WriteXml(XmlFile);
+                GiverItems.WriteXml(XmlFile);
             }
             catch
             {
@@ -713,8 +639,8 @@ namespace METAbolt
             {
                 DataTable tbl = MakeGiverDataTable();
 
-                giveritems = tbl;
-                giveritems.PrimaryKey = new DataColumn[] { giveritems.Columns["Command"] };
+                GiverItems = tbl;
+                GiverItems.PrimaryKey = new DataColumn[] { GiverItems.Columns["Command"] };
                 return;
             }
 
@@ -742,8 +668,8 @@ namespace METAbolt
                     fstr.Dispose();
                     dset.Dispose();
 
-                    giveritems = dtbl;
-                    giveritems.PrimaryKey = new DataColumn[] { giveritems.Columns["Command"] };
+                    GiverItems = dtbl;
+                    GiverItems.PrimaryKey = new DataColumn[] { GiverItems.Columns["Command"] };
                 }
                 else
                 {
@@ -752,8 +678,8 @@ namespace METAbolt
 
                     DataTable tbl = MakeGiverDataTable();
 
-                    giveritems = tbl;
-                    giveritems.PrimaryKey = new DataColumn[] { giveritems.Columns["Command"] };
+                    GiverItems = tbl;
+                    GiverItems.PrimaryKey = new DataColumn[] { GiverItems.Columns["Command"] };
                 }
             }
             catch
@@ -847,7 +773,7 @@ namespace METAbolt
 
             dtbl.PrimaryKey = new DataColumn[] { dtbl.Columns["time"] };
 
-            tp = dtbl;
+            TP = dtbl;
 
             myColumn.Dispose();
             dtbl.Dispose(); 
@@ -865,15 +791,15 @@ namespace METAbolt
             /// <remarks>Setting this too low will cause web requests to repeatedly
             /// time out and retry</remarks>
             //client.Settings.CAPS_TIMEOUT = 120 * 1000;   //60 * 1000;
-            client.Settings.SIMULATOR_TIMEOUT = 180 * 1000;    //90 * 1000;
-            client.Settings.LOGIN_TIMEOUT = 120 * 1000;
+            Client.Settings.SIMULATOR_TIMEOUT = 180 * 1000;    //90 * 1000;
+            Client.Settings.LOGIN_TIMEOUT = 120 * 1000;
             /// <summary>Number of milliseconds for xml-rpc to timeout</summary>
             //client.Settings.RESEND_TIMEOUT = 8 * 1000;   //4 * 1000;
             /// <summary>Milliseconds to wait for a simulator info request through
             /// the grid interface</summary>
             //client.Settings.MAP_REQUEST_TIMEOUT = 60 * 1000;  //5 * 1000;
-            client.Settings.MAX_CONCURRENT_TEXTURE_DOWNLOADS = 20;
-            client.Settings.USE_INTERPOLATION_TIMER = false;
+            Client.Settings.MAX_CONCURRENT_TEXTURE_DOWNLOADS = 20;
+            Client.Settings.USE_INTERPOLATION_TIMER = false;
 
             // Sizes
 
@@ -916,7 +842,7 @@ namespace METAbolt
             /// packet loss</summary>
             //client.Settings.SEND_PINGS = false;
             /// <summary>Whether to decode sim stats</summary>
-            client.Settings.ENABLE_SIMSTATS = true;
+            Client.Settings.ENABLE_SIMSTATS = true;
 
             /// <summary>Whether to establish connections to HTTP capabilities
             /// servers for simulators</summary>
@@ -926,63 +852,52 @@ namespace METAbolt
             /// <summary>Should we connect to multiple sims? This will allow
             /// viewing in to neighboring simulators and sim crossings
             /// (Experimental)</summary>
-            client.Settings.MULTIPLE_SIMS = config.CurrentConfig.Connect4;   // false;
+            Client.Settings.MULTIPLE_SIMS = Config.CurrentConfig.Connect4;   // false;
             /// <summary>If true, all object update packets will be decoded in to
             /// native objects. If false, only updates for our own agent will be
             /// decoded. Registering an event handler will force objects for that
             /// type to always be decoded. If this is disabled the object tracking
             /// will have missing or partial prim and avatar information</summary>
-            client.Settings.ALWAYS_DECODE_OBJECTS = true;
+            Client.Settings.ALWAYS_DECODE_OBJECTS = true;
             /// <summary>If true, when a cached object check is received from the
             /// server the full object info will automatically be requested</summary>
-            client.Settings.ALWAYS_REQUEST_OBJECTS = true;
+            Client.Settings.ALWAYS_REQUEST_OBJECTS = true;
 
-            /// <summary>The capabilities servers are currently designed to
-            /// periodically return a 502 error which signals for the client to
-            /// re-establish a connection. Set this to true to log those 502 errors</summary>
-            //client.Settings.LOG_ALL_CAPS_ERRORS = false;
-            /// <summary>If true, any reference received for a folder or item
-            /// libsecondlife is not aware of will automatically be fetched.</summary>
-            client.Settings.FETCH_MISSING_INVENTORY = true;
             ///// <summary>If true, and <code>SEND_AGENT_UPDATES</code> is true,
             ///// AgentUpdate packets will continuously be sent out to give the bot
             ///// smoother movement and autopiloting</summary>
-            client.Settings.SEND_AGENT_UPDATES = true;
+            Client.Settings.SEND_AGENT_UPDATES = true;
             //client.Settings.SYNC_PACKETCALLBACKS = true;
             /// <summary>If true, currently visible primitives and avatars will be
             /// stored in dictionaries inside <code>Simulator.Objects</code>. If 
             /// false, a new Avatar or Primitive object will be created each time
             /// an object update packet is received</summary>
-            client.Settings.OBJECT_TRACKING = true;
+            Client.Settings.OBJECT_TRACKING = true;
             /// <summary>If true, parcel details will be stored in the 
             /// <code>Simulator.Parcels</code> dictionary as they are received</summary>
             //client.Settings.PARCEL_TRACKING = true;
-            client.Settings.STORE_LAND_PATCHES = true;
+            Client.Settings.STORE_LAND_PATCHES = true;
 
-            client.Settings.USE_ASSET_CACHE = true;
-            //client.Settings.ASSET_CACHE_DIR = Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "cache";
-            client.Settings.ASSET_CACHE_DIR = appdir + System.IO.Path.DirectorySeparatorChar + client.Self.Name + System.IO.Path.DirectorySeparatorChar + "cache";
-            //client.Settings.ASSET_CACHE_MAX_SIZE = (1024 * 1024 * 1024) / 4;  //250MB
-            client.Assets.Cache.AutoPruneEnabled = false;
+            Client.Settings.USE_ASSET_CACHE = true;
+            Client.Settings.ASSET_CACHE_DIR = appdir + System.IO.Path.DirectorySeparatorChar + Client.Self.Name + System.IO.Path.DirectorySeparatorChar + "cache";
+            Client.Assets.Cache.AutoPruneEnabled = false;
 
-            client.Self.Movement.AutoResetControls = false;
-            client.Self.Movement.UpdateInterval = 250;
-
-            //client.Settings.HTTP_INVENTORY = !config.CurrentConfig.DisableHTTPinv;   // false;
+            Client.Self.Movement.AutoResetControls = false;
+            Client.Self.Movement.UpdateInterval = 250;
 
             // This is for backward compatibility
-            if (config.CurrentConfig.BandwidthThrottle > 500.0f)
+            if (Config.CurrentConfig.BandwidthThrottle > 500.0f)
             {
-                config.CurrentConfig.BandwidthThrottle = 500.0f;
+                Config.CurrentConfig.BandwidthThrottle = 500.0f;
             }
 
-            float throttle = config.CurrentConfig.BandwidthThrottle * 10000f;
+            float throttle = Config.CurrentConfig.BandwidthThrottle * 10000f;
 
-            if (config.CurrentConfig.BandwidthThrottle == 500.0f)
+            if (Config.CurrentConfig.BandwidthThrottle == 500.0f)
             {
-                client.Settings.SEND_AGENT_THROTTLE = true;
+                Client.Settings.SEND_AGENT_THROTTLE = true;
 
-                client.Throttle.Total = throttle;
+                Client.Throttle.Total = throttle;
             }
             else
             {
@@ -992,22 +907,22 @@ namespace METAbolt
                 /// the maximum bandwidth setting in the official client. If you do not
                 /// set a throttle your connection will by default be throttled well
                 /// below the minimum values and you may experience connection problems</remarks>
-                client.Settings.SEND_AGENT_THROTTLE = false;
+                Client.Settings.SEND_AGENT_THROTTLE = false;
 
-                client.Throttle.Cloud = 0.0f;
+                Client.Throttle.Cloud = 0.0f;
                 //client.Throttle.Land = 0.0f;
-                client.Throttle.Wind = 0.0f;
+                Client.Throttle.Wind = 0.0f;
 
-                client.Throttle.Land = throttle / 10f;
-                client.Throttle.Task = throttle / 10f;   // 2f * (throttle / 10f);   // 846000.0f;   // 220000.0f;    //1000000;
-                client.Throttle.Asset = throttle / 10f;   // 2f * (throttle / 10f);    //220000.0f;
-                client.Throttle.Resend = throttle / 10f;   // 3f * (throttle / 10f);  //1000000.0f;   // 
-                client.Throttle.Texture = throttle / 10f;   // 2f * (throttle / 10f);     //1000000.0f;
+                Client.Throttle.Land = throttle / 10f;
+                Client.Throttle.Task = throttle / 10f;   // 2f * (throttle / 10f);   // 846000.0f;   // 220000.0f;    //1000000;
+                Client.Throttle.Asset = throttle / 10f;   // 2f * (throttle / 10f);    //220000.0f;
+                Client.Throttle.Resend = throttle / 10f;   // 3f * (throttle / 10f);  //1000000.0f;   // 
+                Client.Throttle.Texture = throttle / 10f;   // 2f * (throttle / 10f);     //1000000.0f;
             }
 
             //client.Throttle.Total = 5000000f;    //4460000.0f;
 
-            client.Settings.THROTTLE_OUTGOING_PACKETS = false;
+            Client.Settings.THROTTLE_OUTGOING_PACKETS = false;
 
             //if (config.CurrentConfig.BroadcastID)
             //{
@@ -1036,15 +951,14 @@ namespace METAbolt
 
         private void InitializeConfig()
         {
-            netcom.LoginOptions.FirstName = config.CurrentConfig.FirstName;
-            netcom.LoginOptions.LastName = config.CurrentConfig.LastName;
-            netcom.LoginOptions.Password = config.CurrentConfig.PasswordMD5;
-            netcom.LoginOptions.IsPasswordMD5 = true;
+            Netcom.LoginOptions.FirstName = Config.CurrentConfig.FirstName;
+            Netcom.LoginOptions.LastName = Config.CurrentConfig.LastName;
+            Netcom.LoginOptions.Password = Config.CurrentConfig.PasswordMD5;
         }
 
         private void Application_ApplicationExit(object sender, EventArgs e)
         {
-            config.SaveCurrentConfig();
+            Config.SaveCurrentConfig();
 
             //try
             //{
@@ -1058,7 +972,7 @@ namespace METAbolt
             //SaveXMLFile(appdir + "\\MuteList.xml");
             SaveGiverItems(appdir + "\\METAgiverItems.xml");
 
-            client = null;
+            Client = null;
             Environment.Exit(0); 
         }
 
@@ -1081,19 +995,19 @@ namespace METAbolt
         public Vector3 SIMsittingPos()
         {
             Vector3 ppos = new Vector3();
-            ppos = client.Self.SimPosition;
+            ppos = Client.Self.SimPosition;
 
-            if (state.IsSitting)
+            if (State.IsSitting)
             {
-                if (state.SitPrim != null)
+                if (State.SitPrim != null)
                 {
-                    ppos = State.SittingPos + client.Self.SimPosition;
+                    ppos = State.SittingPos + Client.Self.SimPosition;
                 }
             }
 
             try
             {
-                return client.Self.SimPosition;   // ppos;
+                return Client.Self.SimPosition;   // ppos;
             }
             catch {
 
@@ -1106,7 +1020,7 @@ namespace METAbolt
         {
             try
             {
-                string folder = config.CurrentConfig.LogDir;
+                string folder = Config.CurrentConfig.LogDir;
 
                 DirectoryInfo di = new DirectoryInfo(folder);
 
@@ -1128,7 +1042,7 @@ namespace METAbolt
                         {
                             if (finname.Contains("-GROUP-"))
                             {
-                                if (finname.Contains(client.Self.Name))
+                                if (finname.Contains(Client.Self.Name))
                                 {
                                     //string filedate = string.Empty;
                                     //string[] file = finname.Split('-');
@@ -1143,7 +1057,7 @@ namespace METAbolt
                         {
                             if (!finname.Contains("-GROUP-"))
                             {
-                                if (finname.Contains(client.Self.Name))
+                                if (finname.Contains(Client.Self.Name))
                                 {
                                     //string filedate = string.Empty;
                                     //string[] file = finname.Split('-');
@@ -1195,193 +1109,75 @@ namespace METAbolt
             return b.ToString();
         }
 
-        public bool IsOSwin8()
-        {
-            Version win8v = new Version(6, 2, 9200, 0);
+        public GridClient Client { get; private set; }
 
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version >= win8v) return true;
+        public MEGAboltNetcom Netcom { get; }
 
-            return false;
-        }
+        public ImageCache ImageCache { get; }
 
-        public GridClient Client
-        {
-            get { return client; }
-        }
+        public StateManager State { get; }
 
-        public SLNetCom Netcom
-        {
-            get { return netcom; }
-        }
+        public ConfigManager Config { get; }
 
-        public ImageCache ImageCache
-        {
-            get { return imageCache; }
-        }
+        public frmMain MainForm { get; }
 
-        public StateManager State
-        {
-            get { return state; }
-        }
+        public TabsConsole TabConsole { get; }
 
-        public ConfigManager Config
-        {
-            get { return config; }
-        }
+        public bool IsFirstInstance { get; }
 
-        public frmMain MainForm
-        {
-            get { return mainForm; }
-        }
+        public bool OtherInstancesOpen { get; set; } = false;
 
-        public TabsConsole TabConsole
-        {
-            get { return tabsConsole; }
-        }
+        public int DialogCount { get; set; } = 0;
 
-        public bool IsFirstInstance
-        {
-            get { return firstInstance; }
-        }
+        public int NoticeCount { get; set; } = 0;
 
-        public bool OtherInstancesOpen
-        {
-            get { return otherInstancesOpen; }
-            set { otherInstancesOpen = value; }
-        }
+        public bool LoggedIn { get; set; } = false;
 
-        public int DialogCount
-        {
-            get { return dialogcount; }
-            set { dialogcount = value; }
-        }
+        public bool LogOffClicked { get; set; } = false;
 
-        public int NoticeCount
-        {
-            get { return noticecount; }
-            set { noticecount = value; }
-        }
+        public bool ReBooted { get; set; } = false;
 
-        public bool LoggedIn
-        {
-            get { return loggedin; }
-            set { loggedin = value; }
-        }
+        public AIMLbot.Bot ABot => myBot;
 
-        public bool LogOffClicked
-        {
-            get { return logoffclicked; }
-            set { logoffclicked = value; }
-        }
+        public DataTable TP { get; set; } = null;
 
-        public bool ReBooted
-        {
-            get { return rebooted; }
-            set { rebooted = value; }
-        }
+        public bool DetectLang { get; set; } = false;
 
-        public AIMLbot.Bot ABot
-        {
-            get { return myBot; }
-        }
+        public UUID LookID { get; set; } = UUID.Zero;
 
-        //public DataTable MuteList
-        //{
-        //    get { return mutelist; }
-        //    set { mutelist = value; }
-        //}
+        public List<IExtension> EList { get; set; } = new List<IExtension>();
 
-        public DataTable TP
-        {
-            get { return tp; }
-            set { tp = value; }
-        }
+        public IMbox imBox { get; set; }
 
-        public bool DetectLang
-        {
-            get { return detectlang; }
-            set { detectlang = value; }
-        }
+        public int DialogTimeOut { get; set; } = 900000;
 
-        public UUID LookID
-        {
-            get { return lookID; }
-            set { lookID = value; }
-        }
+        public DataTable GiverItems { get; set; } = null;
 
-        public List<IExtension> EList
-        {
-            get { return elist; }
-            set { elist = value; }
-        }
+        public bool ReadIMs { get; set; } = false;
 
-        public IMbox imBox
-        {
-            get { return imbox; }
-            set { imbox = value; }
-        }
+        public string AffFile { get; set; } = string.Empty;
 
-        public int DialogTimeOut
-        {
-            get { return dialogtimeout; }
-            set { dialogtimeout = value; }
-        }
+        public string DictionaryFile { get; set; } = string.Empty;
 
-        public DataTable GiverItems
-        {
-            get { return giveritems; }
-            set { giveritems = value; }
-        }
+        public bool AllowVoice { get; set; } = true;
 
-        public bool ReadIMs
-        {
-            get { return readims; }
-            set { readims = value; }
-        }
+        public bool BlockChatIn { get; set; } = false;
 
-        public string AffFile
-        {
-            get { return afffile; }
-            set { afffile = value; }
-        }
-
-        public string DictionaryFile
-        {
-            get { return dicfile; }
-            set { dicfile = value; }
-        }
-
-        public bool AllowVoice
-        {
-            get { return allowvoice; }
-            set { allowvoice = value; }
-        }
-
-        public bool BlockChatIn
-        {
-            get { return blockinchat; }
-            set { blockinchat = value; }
-        }
-
-        public UUID FavsFolder
-        {
-            get { return favsfolder; }
-            set { favsfolder = value; }
-        }
+        public UUID FavsFolder { get; set; } = UUID.Zero;
 
         public void StartCrashRep()
         {
-            File.Create(appdir + "\\crashrep_" +  netcom.LoginOptions.FullName).Dispose();
+            File.Create(appdir + "\\crashrep_" +  Netcom.LoginOptions.FullName).Dispose();
         }
 
         public void EndCrashRep()
         {
-            File.Delete(appdir + "\\crashrep_" + netcom.LoginOptions.FullName);
+            File.Delete(appdir + "\\crashrep_" + Netcom.LoginOptions.FullName);
         }
 
         public LastExecStatus HadCrashed()
         {
-            if (File.Exists(appdir + "\\crashrep_" + netcom.LoginOptions.FullName))
+            if (File.Exists(appdir + "\\crashrep_" + Netcom.LoginOptions.FullName))
             {
                 return LastExecStatus.OtherCrash;
             }

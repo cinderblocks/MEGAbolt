@@ -28,12 +28,10 @@
 #region Using Directives
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 using ScintillaNet;
 using System.Drawing;
-using System.Diagnostics;
+using Range = ScintillaNet.Range;
 
 #endregion Using Directives
 

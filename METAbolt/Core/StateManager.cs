@@ -25,12 +25,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Timers;
-using System.Threading;
 using OpenMetaverse;
-using OpenMetaverse.Packets;
-using SLNetworkComm;
+using MEGAbolt.NetworkComm;
 
 namespace METAbolt
 {
@@ -38,7 +35,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private GridClient client;
-        private SLNetCom netcom;
+        private MEGAboltNetcom netcom;
 
         private bool typing = false;
         private bool away = false;
