@@ -138,7 +138,7 @@ namespace METAbolt
             catch
             {
                 tBar1.Value = config.CurrentConfig.RadarRange = tBar1.Maximum;
-                MessageBox.Show("Your radar setting was greater than the maximum allowed.\nIt has been changed to " + tBar1.Maximum.ToString(CultureInfo.CurrentCulture), "METAbolt"); 
+                MessageBox.Show("Your radar setting was greater than the maximum allowed.\nIt has been changed to " + tBar1.Maximum.ToString(CultureInfo.CurrentCulture), "MEGAbolt"); 
             }
 
             textBox1.Text = tBar1.Value.ToString(CultureInfo.CurrentCulture);
@@ -656,11 +656,11 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There has been an error: " + ex.Message, "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There has been an error: " + ex.Message, "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show("Cache files have been cleared successfully.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Cache files have been cleared successfully.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -944,7 +944,7 @@ namespace METAbolt
 
             //if (!chkDisableRadar.Checked && chkDisableRadar.Checked != restart)
             //{
-            //    MessageBox.Show("If you 'Apply' this change you will need to re-start METAbolt", "METAbolt");
+            //    MessageBox.Show("If you 'Apply' this change you will need to re-start METAbolt", "MEGAbolt");
             //}
         }
 

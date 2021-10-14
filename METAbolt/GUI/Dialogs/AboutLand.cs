@@ -99,7 +99,7 @@ namespace METAbolt
             else
             {
                 PopData();
-                MessageBox.Show("Could not retreive current parcel details from SL. Try again later.", "METAbolt");  
+                MessageBox.Show("Could not retreive current parcel details from SL. Try again later.", "MEGAbolt");  
             }
         }
 
@@ -107,11 +107,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -1279,7 +1279,7 @@ namespace METAbolt
                 }
                 else
                 {
-                    MessageBox.Show("Parcel could not be bought! It is either not for sale\n or it is on sale to a specific avatar.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Parcel could not be bought! It is either not for sale\n or it is on sale to a specific avatar.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

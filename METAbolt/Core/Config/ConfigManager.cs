@@ -30,41 +30,34 @@ namespace METAbolt
     public class ConfigManager
     {
         //renamed to remove the word default
-        private string configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "METAbolt.ini");
+        private string configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "MEGAbolt.ini");
         private Config currentConfig;
 
         //default constructor
         public ConfigManager()
         {
-            configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "METAbolt.ini");   // Path.Combine(Environment.CurrentDirectory, "METAbolt.ini");
+            configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "MEGAbolt.ini");
 		}
 
         //named constructor
         public ConfigManager(string name)
         {
-            string fileName = name + "_METAbolt.ini";
+            string fileName = name + "_MEGAbolt.ini";
 
             // Check if the file exists first
-            FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), name + "_METAbolt.ini"));
+            FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
 
-            if (newFileInfo.Exists)
-            {
-                configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), fileName);
-            }
-            else
-            {
-                configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "METAbolt.ini");
-            }
+            configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), newFileInfo.Exists ? fileName : "MEGAbolt.ini");
         }
 
         public void ChangeConfigFile(string name)
         {
             //SaveCurrentConfig();
 
-            string fileName = name + "_METAbolt.ini";
+            string fileName = name + "_MEGAbolt.ini";
 
             // Check if the file exists first
-            FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), name + "_METAbolt.ini"));
+            FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
 
             try
             {
@@ -82,7 +75,7 @@ namespace METAbolt
                 }
                 else
                 {
-                    configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "METAbolt.ini");
+                    configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "MEGAbolt.ini");
                 }
             }
             catch
@@ -93,7 +86,7 @@ namespace METAbolt
 
         public void SetAvConfig(string name)
         {
-            string fileName = name + "_METAbolt.ini";
+            string fileName = name + "_MEGAbolt.ini";
 
             configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), fileName);
         }

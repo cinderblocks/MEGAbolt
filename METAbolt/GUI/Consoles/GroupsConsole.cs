@@ -82,11 +82,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -313,7 +313,7 @@ namespace METAbolt
             {
                 Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
-                DialogResult res = MessageBox.Show("Are you sure you want to LEAVE " + group.Name + "?", "METAbolt", MessageBoxButtons.YesNo);
+                DialogResult res = MessageBox.Show("Are you sure you want to LEAVE " + group.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
                 if (res == System.Windows.Forms.DialogResult.No)
                 {

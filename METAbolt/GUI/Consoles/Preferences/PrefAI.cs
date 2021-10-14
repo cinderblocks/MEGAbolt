@@ -191,7 +191,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("File: \n" + dir + "\n\n could not be found", "METAbolt");  
+                MessageBox.Show("File: \n" + dir + "\n\n could not be found", "MEGAbolt");  
             }
         }
 
@@ -212,7 +212,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("AIML libraries could not be found!\nAre you sure they are installed?","METAbolt");  
+                MessageBox.Show("AIML libraries could not be found!\nAre you sure they are installed?","MEGAbolt");  
             }
         }
     }

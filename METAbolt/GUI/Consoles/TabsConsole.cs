@@ -98,11 +98,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -569,7 +569,7 @@ namespace METAbolt
                     else if (e.IM.FromAgentID == UUID.Zero)
                     {
                         // Marketplace Received item notification
-                        //MessageBox.Show(e.IM.Message, "METAbolt");
+                        //MessageBox.Show(e.IM.Message, "MEGAbolt");
                         (new frmMBmsg(instance, e.IM.Message)).ShowDialog(this);
                     }
                     else if (e.IM.IMSessionID == UUID.Zero)
@@ -580,7 +580,7 @@ namespace METAbolt
                             String msg = "Region message from " + e.IM.FromAgentName + Environment.NewLine + Environment.NewLine;
                             msg += @e.IM.Message;
 
-                            //MessageBox.Show(msg, "METAbolt");
+                            //MessageBox.Show(msg, "MEGAbolt");
 
                             (new frmMBmsg(instance, msg)).ShowDialog(this);
                         }
@@ -864,7 +864,7 @@ namespace METAbolt
 
             if (instance.State.IsBusy) return;
 
-            //string ttl = "METAbolt";
+            //string ttl = "MEGAbolt";
             string body = @e.IM.Message;
             //TrayNotifiy(ttl, body);
 
@@ -1075,7 +1075,7 @@ namespace METAbolt
             TPTabWindow tpTab = AddTPTab(e);
             tabs[tpTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "METAbolt";
+            string ttl = "MEGAbolt";
             string body = "You have received a Teleport request from " + fromAgent;
             TrayNotifiy(ttl, body);
         }
@@ -1106,7 +1106,7 @@ namespace METAbolt
             FRTabWindow frTab = AddFRTab(e);
             tabs[frTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "METAbolt";
+            string ttl = "MEGAbolt";
             string body = "You have received a Friendship offer " + fromAgent;
             TrayNotifiy(ttl, body);
         }
@@ -1236,7 +1236,7 @@ namespace METAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string ttl = "METAbolt";
+            string ttl = "MEGAbolt";
             string body = e.IM.FromAgentName + " has accepted your invetory offer";
             TrayNotifiy(ttl, body);
         }
@@ -1245,7 +1245,7 @@ namespace METAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string ttl = "METAbolt";
+            string ttl = "MEGAbolt";
             string body = e.IM.FromAgentName + " has declined your invetory offer";
             TrayNotifiy(ttl, body);
         }
@@ -1267,7 +1267,7 @@ namespace METAbolt
             GRTabWindow grTab = AddGRTab(e);
             tabs[grTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "METAbolt";
+            string ttl = "MEGAbolt";
             string body = "You have received a group invite";
             TrayNotifiy(ttl, body);
         }

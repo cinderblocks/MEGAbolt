@@ -163,11 +163,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
+            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
+            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
+            reporter.Config.WebUrl = "http://radegast.life/";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -178,7 +178,7 @@ namespace METAbolt
             reporter.Config.ShowFullDetail = true;
             reporter.Config.ShowGeneralTab = true;
             reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
+            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         private void CountActives()
@@ -484,7 +484,7 @@ namespace METAbolt
         public void PrintStartupMessage()
         {
             ChatBufferItem title = new ChatBufferItem(
-                DateTime.Now, Properties.Resources.METAboltTitle + " " + Properties.Resources.METAboltVersion + Environment.NewLine, ChatBufferTextStyle.StartupTitle);
+                DateTime.Now, $"{Properties.Resources.METAboltTitle} {Properties.Resources.METAboltVersion}" + Environment.NewLine, ChatBufferTextStyle.StartupTitle);
 
             ChatBufferItem ready = new ChatBufferItem(
                 DateTime.Now, " Ready to login...\n", ChatBufferTextStyle.StatusBlue);
@@ -738,7 +738,7 @@ namespace METAbolt
                     }
                     else
                     {
-                        gmsg = "IMPORTANT WARNING: A group invite request with an invalid password has been received. Either the passwords in METAbolt & GroupMan Pro don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \n\nRequest received from: " + item.FromName + " (" + item.FromUUID + ")\nThe password used is: " + pwd + ".\nThe requested invite is for group: " + igroup;
+                        gmsg = "IMPORTANT WARNING: A group invite request with an invalid password has been received. Either the passwords in MEGAbolt & GroupMan Pro don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \n\nRequest received from: " + item.FromName + " (" + item.FromUUID + ")\nThe password used is: " + pwd + ".\nThe requested invite is for group: " + igroup;
                     }
                     
                     textPrinter.PrintTextLine(gmsg);
@@ -819,7 +819,7 @@ namespace METAbolt
                         }
                         else
                         {
-                            gmsg = "IMPORTANT WARNING: A chair announcement with an invalid password has been received. Either the passwords in METAbolt & Chair Announcer don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \nThe password used is: " + pwd;
+                            gmsg = "IMPORTANT WARNING: A chair announcement with an invalid password has been received. Either the passwords in MEGAbolt & Chair Announcer don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \nThe password used is: " + pwd;
                         }
 
                         textPrinter.PrintTextLine(gmsg); //always print even if chairAnnChat is turned off

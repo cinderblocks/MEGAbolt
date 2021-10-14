@@ -89,7 +89,7 @@ namespace METAbolt
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "METAbolt";
+            this.Text = "MEGAbolt";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMBmsg_FormClosing);
             this.Load += new System.EventHandler(this.frmMBmsg_Load);

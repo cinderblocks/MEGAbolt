@@ -216,11 +216,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
+            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
+            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
+            reporter.Config.WebUrl = "http://radegast.life/";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -231,7 +231,7 @@ namespace METAbolt
             reporter.Config.ShowFullDetail = true;
             reporter.Config.ShowGeneralTab = true;
             reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
+            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         private void RandomPwd()

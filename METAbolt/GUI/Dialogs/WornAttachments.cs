@@ -404,7 +404,7 @@ namespace METAbolt
                     }
                     else
                     {
-                        MessageBox.Show("You must select an attachment first", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("You must select an attachment first", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else

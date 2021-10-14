@@ -98,11 +98,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -607,7 +607,7 @@ namespace METAbolt
                 if (pwd.Length > 16)
                 {
                     pwd = pwd.Substring(0, 16);
-                    MessageBox.Show("Your password cannot be longer than 16 characters", "METAbolt");
+                    MessageBox.Show("Your password cannot be longer than 16 characters", "MEGAbolt");
                     txtPassword.Focus();
                     return;
                 }
@@ -651,7 +651,7 @@ namespace METAbolt
                             if (txtCustomLoginUri.TextLength == 0 ||
                                 txtCustomLoginUri.Text.Trim().Length == 0)
                             {
-                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
 
@@ -927,7 +927,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "METAbolt");  
+                MessageBox.Show(ex.Message, "MEGAbolt");  
             }
         }
 

@@ -121,11 +121,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -766,7 +766,7 @@ namespace METAbolt
                     if (aitem.PreferredType != FolderType.None)
                     {
                         return;
-                        //DialogResult result = MessageBox.Show("You are about to delete a SYSTEM FOLDER!\nAre you sure you want to continue?", "METAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        //DialogResult result = MessageBox.Show("You are about to delete a SYSTEM FOLDER!\nAre you sure you want to continue?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                         //if (DialogResult.No == result)
                         //{
@@ -857,7 +857,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1656,7 +1656,7 @@ namespace METAbolt
         {
             if (treeView1.SelectedNode == null)
             {
-                MessageBox.Show("Select a clothes folder first", "METAbolt");
+                MessageBox.Show("Select a clothes folder first", "MEGAbolt");
                 return;
             }
 
@@ -1670,7 +1670,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Select a clothes folder first", "METAbolt");
+                MessageBox.Show("Select a clothes folder first", "MEGAbolt");
             }
         }
 
@@ -1739,7 +1739,7 @@ namespace METAbolt
             {
                 if (trackBar1.Value == 0)
                 {
-                    MessageBox.Show("Select a frequency from the slider first.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Select a frequency from the slider first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -1761,7 +1761,7 @@ namespace METAbolt
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Auto clothes changer is running and functional\nbut the details have failed to save into\na text file for the foloowing reason: " + ex.Message, "METAbolt");  
+                    MessageBox.Show("Auto clothes changer is running and functional\nbut the details have failed to save into\na text file for the foloowing reason: " + ex.Message, "MEGAbolt");  
                 }
             }
             else
@@ -1795,7 +1795,7 @@ namespace METAbolt
         {
             if (listBox1.SelectedIndex == -1)
             {
-                MessageBox.Show("Select an entry to remove first", "METAbolt");
+                MessageBox.Show("Select an entry to remove first", "MEGAbolt");
                 return;
             }
 

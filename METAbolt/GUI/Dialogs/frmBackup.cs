@@ -99,7 +99,7 @@ namespace METAbolt
         {
             if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("You must select a destination folder first", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You must select a destination folder first", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return; 
             }
 
@@ -130,7 +130,7 @@ namespace METAbolt
 
         private void CreateBatFile()
         {
-            string cuser = "METAbolt";
+            string cuser = "MEGAbolt";
             string textfile = cuser + ".bat";
             string path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
             string scfile = "METAbolt BAT.lnk";
@@ -175,7 +175,7 @@ namespace METAbolt
 
         private void CreateBatFileShortcut(string path, string scp)
         {
-            ////string cuser = "METAbolt";
+            ////string cuser = "MEGAbolt";
             //string textfile = cuser + ".bat";
             //string path = Path.Combine(Environment.CurrentDirectory, textfile);
             //string scfile = "METAbolt- " + cuser + " BAT.lnk";
@@ -193,7 +193,7 @@ namespace METAbolt
 
         private void CreateBatFileShortcut(string path, string scp, string fname)
         {
-            ////string cuser = "METAbolt";
+            ////string cuser = "MEGAbolt";
             //string textfile = cuser + ".bat";
             //string path = Path.Combine(Environment.CurrentDirectory, textfile);
             //string scfile = "METAbolt- " + cuser + " BAT.lnk";
@@ -244,7 +244,7 @@ namespace METAbolt
         {
             if (string.IsNullOrEmpty(textBox2.Text))
             {
-                MessageBox.Show("You must select a source folder first", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You must select a source folder first", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 

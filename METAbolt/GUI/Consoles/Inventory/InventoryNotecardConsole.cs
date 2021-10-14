@@ -61,7 +61,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("You do not have permissions to view this notecard", "METAbolt");  
+                MessageBox.Show("You do not have permissions to view this notecard", "MEGAbolt");  
             }
         }
     }

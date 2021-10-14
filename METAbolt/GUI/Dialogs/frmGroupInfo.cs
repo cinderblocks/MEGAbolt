@@ -186,11 +186,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -1214,7 +1214,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Select a member to eject!", "METAbolt");
+                MessageBox.Show("Select a member to eject!", "MEGAbolt");
             }
         }
 
@@ -1419,7 +1419,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Select a role to invite to from under the 'Role' tab above first.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Select a role to invite to from under the 'Role' tab above first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -1802,7 +1802,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("First you must select a role from the list above.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("First you must select a role from the list above.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -1810,7 +1810,7 @@ namespace METAbolt
         {
             if (numFee.Value > 0)
             {
-                DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group for L$" + numFee.Value.ToString(CultureInfo.CurrentCulture) + "?", "METAbolt", MessageBoxButtons.YesNo);
+                DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group for L$" + numFee.Value.ToString(CultureInfo.CurrentCulture) + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
                 if (res == System.Windows.Forms.DialogResult.No)
                 {
@@ -2017,7 +2017,7 @@ namespace METAbolt
 
             //if (assettype != AssetType.Notecard && assettype != AssetType.LSLText)
             //{
-            //    MessageBox.Show("Attachment has been saved to your inventory", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    MessageBox.Show("Attachment has been saved to your inventory", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
             //else
             //{
@@ -2051,7 +2051,7 @@ namespace METAbolt
             //    }
             //}
 
-            MessageBox.Show("Attachment has been saved to your inventory", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Attachment has been saved to your inventory", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void textBox5_LinkClicked(object sender, LinkClickedEventArgs e)

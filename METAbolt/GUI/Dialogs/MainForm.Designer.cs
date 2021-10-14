@@ -1273,7 +1273,7 @@ namespace METAbolt
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmMain";
-            this.Text = "METAbolt";
+            this.Text = "MEGAbolt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.LocationChanged += new System.EventHandler(this.frmMain_LocationChanged);

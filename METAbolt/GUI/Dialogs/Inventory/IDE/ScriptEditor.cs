@@ -171,7 +171,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }
@@ -446,7 +446,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }
@@ -514,7 +514,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }
@@ -541,7 +541,7 @@ namespace METAbolt
         {
             return MessageBox.Show(
                 "Your changes have not been saved. Save the script?",
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question);
 
@@ -587,7 +587,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }
@@ -612,7 +612,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }

@@ -158,11 +158,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -794,7 +794,7 @@ namespace METAbolt
                     if (!logoff)
                     {
                         MsgBoxCheck.MessageBox dlg = new MsgBoxCheck.MessageBox();
-                        DialogResult dr = dlg.Show(@"Software\METAbolt\CloseMBCheck", "DontShowAgain", DialogResult.Yes, "Don't ask me this again", "You are about to close METAbolt. Are you sure you want to continue?", "METAbolt",
+                        DialogResult dr = dlg.Show(@"Software\METAbolt\CloseMBCheck", "DontShowAgain", DialogResult.Yes, "Don't ask me this again", "You are about to close METAbolt. Are you sure you want to continue?", "MEGAbolt",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                         if (dr == DialogResult.No)
@@ -825,7 +825,7 @@ namespace METAbolt
             {
                 MessageBox.Show(
                 ex.Message,
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             }
@@ -1228,7 +1228,7 @@ namespace METAbolt
 
         private void setHomeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to SET HOME to here?", "METAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show("Are you sure you want to SET HOME to here?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (res == DialogResult.Yes)
             {
@@ -1479,7 +1479,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message, "METAbolt");
+                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message, "MEGAbolt");
             }
         }
 
@@ -1506,7 +1506,7 @@ namespace METAbolt
 
                             if (SecondLifeReg == null)
                             {
-                                MessageBox.Show("The Secondlife viewer is not installed", "METAbolt");
+                                MessageBox.Show("The Secondlife viewer is not installed", "MEGAbolt");
                                 return string.Empty;
                             }
                         }
@@ -1522,13 +1522,13 @@ namespace METAbolt
                 }
                 else
                 {
-                    MessageBox.Show("The Secondlife viewer is not installed", "METAbolt");
+                    MessageBox.Show("The Secondlife viewer is not installed", "MEGAbolt");
                     return string.Empty;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message,"METAbolt");
+                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message,"MEGAbolt");
                 return string.Empty;
             }
         }
@@ -1607,7 +1607,7 @@ namespace METAbolt
                     {
                         if (!success)
                         {
-                            MessageBox.Show("Landmark could not be created", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("Landmark could not be created", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                     }
                 );  
@@ -2275,7 +2275,7 @@ namespace METAbolt
                     {
                         if (!success)
                         {
-                            MessageBox.Show("Favourite could not be created", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("Favourite could not be created", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         else
                         {

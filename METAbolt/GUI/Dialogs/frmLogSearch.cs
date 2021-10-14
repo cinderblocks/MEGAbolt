@@ -72,11 +72,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -161,7 +161,7 @@ namespace METAbolt
         {
             if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("You must enter a search term first.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);  
+                MessageBox.Show("You must enter a search term first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);  
                 return;
             }
 

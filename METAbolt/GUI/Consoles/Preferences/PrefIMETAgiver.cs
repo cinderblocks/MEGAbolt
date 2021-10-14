@@ -113,7 +113,7 @@ namespace METAbolt
                 if (node.Tag is InventoryFolder)
                 {
                     // Folder are not supported
-                    MessageBox.Show("Folders are not supported. You can only enter inventory items.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Folders are not supported. You can only enter inventory items.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -128,13 +128,13 @@ namespace METAbolt
 
                     if (string.IsNullOrEmpty(textBox1.Text))
                     {
-                        MessageBox.Show("Command cannot be empty. Enter a UNIQUE command first.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Command cannot be empty. Enter a UNIQUE command first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return;
                     }
 
                     if (instance.GiverItems.Rows.Contains(textBox1.Text))
                     {
-                        MessageBox.Show(textBox1.Text + " command is already in your list of items.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show(textBox1.Text + " command is already in your list of items.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return;
                     }
 

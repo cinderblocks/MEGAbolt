@@ -145,7 +145,7 @@ namespace METAbolt
         {
             if (instance.IsObjectMuted(ed.ObjectID, ed.ObjectName))
             {
-                MessageBox.Show(ed.ObjectName + " is already in your mute list.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ed.ObjectName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -156,7 +156,7 @@ namespace METAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Object, ed.ObjectID, ed.ObjectName);
 
-            MessageBox.Show(ed.ObjectName + " is now muted.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(ed.ObjectName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

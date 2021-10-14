@@ -113,11 +113,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -2691,7 +2691,7 @@ namespace METAbolt
 
             if (instance.IsObjectMuted(item.Prim.ID, item.Prim.Properties.Name))
             {
-                MessageBox.Show(item.Prim.Properties.Name + " is already in your mute list.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(item.Prim.Properties.Name + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -2702,7 +2702,7 @@ namespace METAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Object, item.Prim.ID, item.Prim.Properties.Name);
 
-            MessageBox.Show(item.Prim.Properties.Name + " is now muted.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(item.Prim.Properties.Name + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -2843,7 +2843,7 @@ namespace METAbolt
 
                 if (iDx < 0)
                 {
-                    MessageBox.Show("You must first select an object before you can drop an item.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);     
+                    MessageBox.Show("You must first select an object before you can drop an item.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);     
                     return;
                 }
 
@@ -3079,7 +3079,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to return the selected object?", "METAbolt", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show("Are you sure you want to return the selected object?", "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == System.Windows.Forms.DialogResult.Yes)
             {

@@ -221,11 +221,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
+            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
+            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
+            reporter.Config.WebUrl = "http://radegast.life/";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -236,7 +236,7 @@ namespace METAbolt
             reporter.Config.ShowFullDetail = true;
             reporter.Config.ShowGeneralTab = true;
             reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
+            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         ////private void Appearance_OnAppearanceUpdated(Primitive.TextureEntry te)
@@ -2279,7 +2279,7 @@ namespace METAbolt
 
             if (sav == null)
             {
-                MessageBox.Show("Avatar is out of range for this function.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -2573,7 +2573,7 @@ namespace METAbolt
 
             if (sav == null)
             {
-                MessageBox.Show("Avatar is out of range for this function.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -2670,7 +2670,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Avatar is out of range for this function.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -3866,7 +3866,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Avatar is out of range for this function.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);  
             }
         }
 
@@ -4190,7 +4190,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "METAbolt");
+                MessageBox.Show(ex.Message, "MEGAbolt");
             }
         }
 
@@ -4236,7 +4236,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "METAbolt");
+                MessageBox.Show(ex.Message, "MEGAbolt");
             }
         }
 
@@ -4261,7 +4261,7 @@ namespace METAbolt
                     cboCapture.Items.Add(dev);  
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "METAbolt"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
 
             try
             {
@@ -4276,7 +4276,7 @@ namespace METAbolt
                     cboCapture.Text = cmic;
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "METAbolt"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
 
             vgate.MicMute = true;
             vgate.MicLevel = 70;
@@ -4303,7 +4303,7 @@ namespace METAbolt
                     cboRender.Items.Add(dev);   
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "METAbolt"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
 
             try
             {
@@ -4318,7 +4318,7 @@ namespace METAbolt
                     cboRender.Text = cspk;
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "METAbolt"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
 
             vgate.SpkrMute = false;
             vgate.SpkrLevel = 70;
@@ -4379,7 +4379,7 @@ namespace METAbolt
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "METAbolt");
+                    MessageBox.Show(ex.Message, "MEGAbolt");
                 }
             }
             else
@@ -4416,7 +4416,7 @@ namespace METAbolt
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "METAbolt");
+                    MessageBox.Show(ex.Message, "MEGAbolt");
                 }
             }
         }

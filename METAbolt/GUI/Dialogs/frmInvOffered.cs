@@ -118,11 +118,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -149,7 +149,7 @@ namespace METAbolt
             {
                 if (instance.IsObjectMuted(msg.FromAgentID, msg.FromAgentName))
                 {
-                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -159,14 +159,14 @@ namespace METAbolt
             {
                 if (instance.IsAvatarMuted(msg.FromAgentID, msg.FromAgentName))
                 {
-                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
                 instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, msg.FromAgentID, msg.FromAgentName);
             }
 
-            MessageBox.Show(msg.FromAgentName + " is now muted.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(msg.FromAgentName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             timer1.Stop();
             timer1.Enabled = false;
@@ -213,7 +213,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error has been encountered but the item\nshould have been saved into your inventory:\n" + ex.Message, "METAbolt");  
+                MessageBox.Show("An error has been encountered but the item\nshould have been saved into your inventory:\n" + ex.Message, "MEGAbolt");  
             }
             
             this.Close();

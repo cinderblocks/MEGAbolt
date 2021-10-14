@@ -46,7 +46,7 @@ namespace METAbolt
             {
                 if (args.Length != 3)
                 {
-                    MessageBox.Show("Command line usage: metabolt.exe [firstname] [lastname] [password]","METAbolt",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("Command line usage: metabolt.exe [firstname] [lastname] [password]","MEGAbolt",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     return;
                 }
                 else

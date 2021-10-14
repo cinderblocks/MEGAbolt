@@ -281,7 +281,7 @@ namespace METAbolt
         {
             return MessageBox.Show(
                 "Your changes have not been saved. Save the notecard?",
-                "METAbolt",
+                "MEGAbolt",
                 MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question);
         }

@@ -217,7 +217,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "METAbolt");   
+                MessageBox.Show(ex.Message, "MEGAbolt");   
             }
         }
 
@@ -236,11 +236,11 @@ namespace METAbolt
             client.Self.InstantMessage(client.Self.Name, imsg.FromAgentID, string.Empty, imsg.IMSessionID, InstantMessageDialog.GroupNoticeInventoryAccepted, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, assetfolder.GetBytes());
             button1.Enabled = false;
 
-            MessageBox.Show("Attachment has been saved to your inventory", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Attachment has been saved to your inventory", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             //if (assettype != AssetType.Notecard && assettype != AssetType.LSLText)
             //{
-            //    MessageBox.Show("Attachment has been saved to your inventory", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    MessageBox.Show("Attachment has been saved to your inventory", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
             //else
             //{

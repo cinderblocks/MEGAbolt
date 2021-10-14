@@ -135,11 +135,11 @@ namespace METAbolt
                     {
                         if (!success)
                         {
-                            MessageBox.Show("Landmark could not be created", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("Landmark could not be created", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         else
                         {
-                            MessageBox.Show("The location has been successfully saved as a \nLandmark in your 'Landmarks' folder.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("The location has been successfully saved as a \nLandmark in your 'Landmarks' folder.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                 );  

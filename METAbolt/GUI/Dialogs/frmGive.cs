@@ -199,7 +199,7 @@ namespace METAbolt
 
                 this.instance.State.AvatarFriends = friendslist;
 
-                //MessageBox.Show("You must first initialise your friends-list by selecting the 'Friends' tab once.\n\nClose this window and select the Friends tab, then re-try", "METAbolt");
+                //MessageBox.Show("You must first initialise your friends-list by selecting the 'Friends' tab once.\n\nClose this window and select the Friends tab, then re-try", "MEGAbolt");
                 //return;
             }
 
@@ -299,7 +299,7 @@ namespace METAbolt
                     {
                         if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                         {
-                            DialogResult res = MessageBox.Show("This item is NO COPY!\nIf you give it away you will lose ownership.\n\nAre you sure you want to continue?", "METAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            DialogResult res = MessageBox.Show("This item is NO COPY!\nIf you give it away you will lose ownership.\n\nAre you sure you want to continue?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                             if (res == DialogResult.Yes)
                             {
@@ -319,7 +319,7 @@ namespace METAbolt
                     }
                     else
                     {
-                        MessageBox.Show("This item is NON transferable! Operation cancelled.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("This item is NON transferable! Operation cancelled.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         pb1.Value = 0;
                         pb1.Visible = false;
                         return;

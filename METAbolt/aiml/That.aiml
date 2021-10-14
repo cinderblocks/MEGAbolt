@@ -7423,10 +7423,4 @@ Mine?
 	<template><think> <set name="it"> <set name="topic"> <person><star /></person> </set> </set></think> Are you usually awake at this hour?
 </template>
 </category>
-<category>
-	<pattern>_</pattern><that>WHAT IS THE GREATEST NATION *</that>
-	<template>
-Do-nation! A donation to METAbolt!
-</template>
-</category>
 </aiml>

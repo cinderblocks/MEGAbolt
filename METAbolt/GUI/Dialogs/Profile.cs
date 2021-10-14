@@ -148,11 +148,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
             reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
             reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
             reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -978,7 +978,7 @@ namespace METAbolt
                         }
                         else
                         {
-                            MessageBox.Show("To change your picture you must drag and drop an image or a texture", "METAbolt");
+                            MessageBox.Show("To change your picture you must drag and drop an image or a texture", "MEGAbolt");
                             return;
                         }
                     }
@@ -1084,7 +1084,7 @@ namespace METAbolt
                         }
                         else
                         {
-                            MessageBox.Show("To change your picture you must drag and drop an image or a texture", "METAbolt");
+                            MessageBox.Show("To change your picture you must drag and drop an image or a texture", "MEGAbolt");
                             return;
                         }
                     }
@@ -1096,7 +1096,7 @@ namespace METAbolt
         {
             if (instance.IsAvatarMuted(agentID, fullName))
             {
-                MessageBox.Show(fullName + " is already in your mute list.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(fullName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -1107,7 +1107,7 @@ namespace METAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, agentID, fullName);
 
-            MessageBox.Show(fullName + " is now muted.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show(fullName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1215,7 +1215,7 @@ namespace METAbolt
 
             if (lvwPicks.SelectedItems.Count == 0)
             {
-                MessageBox.Show("To DELETE a pick you need to select one from the list first", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("To DELETE a pick you need to select one from the list first", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1239,7 +1239,7 @@ namespace METAbolt
         {
             //if (displaynamechanged)
             //{
-            //    DialogResult response = MessageBox.Show("You have changed your Display Name to '" + txtDisplayName.Text + "'.\nAre you sure you want to change to this name?", "METAbolt", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            //    DialogResult response = MessageBox.Show("You have changed your Display Name to '" + txtDisplayName.Text + "'.\nAre you sure you want to change to this name?", "MEGAbolt", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             //    if (response == DialogResult.OK)
             //    {
@@ -1270,11 +1270,11 @@ namespace METAbolt
 
                 if (reason.Trim().ToLower(CultureInfo.CurrentCulture) == "bad request")
                 {
-                    MessageBox.Show("Display name could not be set.\nYou can only change your display name once per week!", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Display name could not be set.\nYou can only change your display name once per week!", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Display name could not be set.\nReason: " + reason, "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Display name could not be set.\nReason: " + reason, "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -1323,7 +1323,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("The names you entered do not match. Check your entries and re-try.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("The names you entered do not match. Check your entries and re-try.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBox2.Focus();
             }
         }
@@ -1337,7 +1337,7 @@ namespace METAbolt
             }
             else
             {
-                MessageBox.Show("Could not retrieve old name.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Could not retrieve old name.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

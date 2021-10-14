@@ -82,11 +82,11 @@ namespace METAbolt
         {
             reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
             reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "METAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "METAbolt";
+            reporter.Config.CompanyName = "MEGAbolt";
+            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
+            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
+            reporter.Config.WebUrl = "http://radegast.life/";
+            reporter.Config.AppName = "MEGAbolt";
             reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
             reporter.Config.BackgroundColor = Color.White;
             reporter.Config.ShowButtonIcons = false;
@@ -97,7 +97,7 @@ namespace METAbolt
             reporter.Config.ShowFullDetail = true;
             reporter.Config.ShowGeneralTab = true;
             reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
+            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         //private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
@@ -555,7 +555,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to terminate\nyour friendship with " + selectedFriend.Name + "?", "METAbolt", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show("Are you sure you want to terminate\nyour friendship with " + selectedFriend.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == System.Windows.Forms.DialogResult.No)
             {
@@ -700,7 +700,7 @@ namespace METAbolt
         {
             if (lbGroups.SelectedIndex == -1)
             {
-                MessageBox.Show("You must select a group from the list first.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("You must select a group from the list first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
@@ -711,7 +711,7 @@ namespace METAbolt
             if (e.Data.GetDataPresent(typeof(FriendsListItem)))
             {
                 fconfig.AddFriendToGroup(lbGroups.SelectedItem.ToString(), node.Friend.Name, node.Friend.UUID.ToString());
-                MessageBox.Show(node.Friend.Name + " has been added to your '" + lbGroups.SelectedItem.ToString() + "' group.", "METAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(node.Friend.Name + " has been added to your '" + lbGroups.SelectedItem.ToString() + "' group.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
