@@ -580,20 +580,7 @@ namespace METAbolt
                 instance.LoggedIn = true;
                 netcom.LoginOptions.FirstName = txtFirstName.Text;
                 netcom.LoginOptions.LastName = txtLastName.Text;
-
-                // Fix thx to METAforum member Tipi (28/06/2010). I don't know how this
-                // escaped us all these years.
-                string pwd = txtPassword.Text;
-
-                if (pwd.Length > 16)
-                {
-                    pwd = pwd.Substring(0, 16);
-                    MessageBox.Show("Your password cannot be longer than 16 characters", "MEGAbolt");
-                    txtPassword.Focus();
-                    return;
-                }
-
-                netcom.LoginOptions.Password = pwd;   // txtPassword.Text;
+                netcom.LoginOptions.Password = txtPassword.Text;
 
                 switch (cbxLocation.SelectedIndex)
                 {
