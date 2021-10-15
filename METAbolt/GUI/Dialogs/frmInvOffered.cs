@@ -203,8 +203,6 @@ namespace METAbolt
         {
             try
             {
-                //UUID invfolder = client.Inventory.FindFolderForType(invtype);
-
                 UUID invfolder = UUID.Zero;
 
                 if (invtype == AssetType.Folder)
@@ -224,9 +222,6 @@ namespace METAbolt
 
                     try
                     {
-                        //client.Inventory.RemoveItem(objectID);
-                        //client.Inventory.RequestFetchInventory(objectID, client.Self.AgentID);
-
                         InventoryBase item = client.Inventory.Store.Items[objectID].Data;
                         UUID content = client.Inventory.FindFolderForType(FolderType.Trash);
 
@@ -234,11 +229,11 @@ namespace METAbolt
 
                         if (invtype != AssetType.Folder)
                         {
-                            client.Inventory.Move(item, folder, item.Name);
+                            client.Inventory.Move(item, folder);
                         }
                         else
                         {
-                            client.Inventory.MoveFolder(objectID, content, item.Name);
+                            client.Inventory.MoveFolder(objectID, content);
                         }
                     }
                     catch { ; }
