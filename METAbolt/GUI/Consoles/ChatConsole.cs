@@ -41,7 +41,7 @@ using ExceptionReporting;
 using System.Threading;
 using System.Linq;
 using OpenMetaverse.Voice;
-using PopupControl;
+using MEGAbolt.Controls;
 using NHunspell;
 using System.Globalization;
 using OpenJpegDotNet.IO;

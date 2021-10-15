@@ -43,6 +43,18 @@
     <Compile Update="GUI\Consoles\Inventory\ImageViewer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="GUI\Controls\ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GUI\Controls\ExRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GUI\Controls\Popup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GUI\Controls\PopupComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="GUI\Dialogs\About.cs">
       <SubType>Form</SubType>
     </Compile>

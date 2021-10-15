@@ -93,7 +93,7 @@ namespace METAbolt
             this.label7 = new System.Windows.Forms.Label();
             this.picFLImage = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.rtbNotes = new Khendys.Controls.ExRichTextBox();
+            this.rtbNotes = new MEGAbolt.Controls.ExRichTextBox();
             this.button6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -1009,7 +1009,7 @@ namespace METAbolt
             this.rtbNotes.DetectUrls = true;
             this.rtbNotes.Font = new System.Drawing.Font("Tahoma", 8.5F);
             this.rtbNotes.HideSelection = false;
-            this.rtbNotes.HiglightColor = Khendys.Controls.RtfColor.White;
+            this.rtbNotes.HiglightColor = MEGAbolt.Controls.RtfColor.White;
             this.rtbNotes.Location = new System.Drawing.Point(3, 3);
             this.rtbNotes.Name = "rtbNotes";
             this.rtbNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
@@ -1017,7 +1017,7 @@ namespace METAbolt
             this.rtbNotes.Size = new System.Drawing.Size(450, 432);
             this.rtbNotes.TabIndex = 17;
             this.rtbNotes.Text = "";
-            this.rtbNotes.TextColor = Khendys.Controls.RtfColor.Black;
+            this.rtbNotes.TextColor = MEGAbolt.Controls.RtfColor.Black;
             // 
             // button6
             // 
@@ -1210,7 +1210,7 @@ namespace METAbolt
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button button6;
-        private Khendys.Controls.ExRichTextBox rtbNotes;
+        private MEGAbolt.Controls.ExRichTextBox rtbNotes;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.GroupBox gbDisplayName;
         private System.Windows.Forms.Label label17;

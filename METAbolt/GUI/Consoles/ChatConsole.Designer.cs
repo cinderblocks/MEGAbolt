@@ -71,7 +71,7 @@ namespace METAbolt
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.rtbChat = new Khendys.Controls.ExRichTextBox();
+            this.rtbChat = new MEGAbolt.Controls.ExRichTextBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -596,7 +596,7 @@ namespace METAbolt
             this.rtbChat.DetectUrls = true;
             this.rtbChat.Font = new System.Drawing.Font("Tahoma", 8.5F);
             this.rtbChat.HideSelection = false;
-            this.rtbChat.HiglightColor = Khendys.Controls.RtfColor.Gray;
+            this.rtbChat.HiglightColor = MEGAbolt.Controls.RtfColor.Gray;
             this.rtbChat.Location = new System.Drawing.Point(3, 3);
             this.rtbChat.Name = "rtbChat";
             this.rtbChat.ReadOnly = true;
@@ -605,7 +605,7 @@ namespace METAbolt
             this.rtbChat.Size = new System.Drawing.Size(512, 440);
             this.rtbChat.TabIndex = 6;
             this.rtbChat.Text = "";
-            this.rtbChat.TextColor = Khendys.Controls.RtfColor.Black;
+            this.rtbChat.TextColor = MEGAbolt.Controls.RtfColor.Black;
             this.rtbChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbChat_LinkClicked);
             this.rtbChat.Click += new System.EventHandler(this.rtbChat_Click);
             this.rtbChat.SizeChanged += new System.EventHandler(this.rtbChat_SizeChanged);
@@ -1777,7 +1777,7 @@ namespace METAbolt
         private System.Windows.Forms.ComboBox cbxInput;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
-        private Khendys.Controls.ExRichTextBox rtbChat;
+        private MEGAbolt.Controls.ExRichTextBox rtbChat;
         private System.Windows.Forms.ContextMenuStrip cmenu_Emoticons;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel5;

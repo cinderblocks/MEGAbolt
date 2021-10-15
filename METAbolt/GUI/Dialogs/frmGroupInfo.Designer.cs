@@ -107,7 +107,7 @@ namespace METAbolt
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox5 = new Khendys.Controls.ExRichTextBox();
+            this.textBox5 = new MEGAbolt.Controls.ExRichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cmdApply = new System.Windows.Forms.Button();
@@ -1100,7 +1100,7 @@ namespace METAbolt
             this.textBox5.DetectUrls = true;
             this.textBox5.Font = new System.Drawing.Font("Tahoma", 8.5F);
             this.textBox5.HideSelection = false;
-            this.textBox5.HiglightColor = Khendys.Controls.RtfColor.Gray;
+            this.textBox5.HiglightColor = MEGAbolt.Controls.RtfColor.Gray;
             this.textBox5.Location = new System.Drawing.Point(3, 23);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
@@ -1108,7 +1108,7 @@ namespace METAbolt
             this.textBox5.Size = new System.Drawing.Size(398, 244);
             this.textBox5.TabIndex = 27;
             this.textBox5.Text = "";
-            this.textBox5.TextColor = Khendys.Controls.RtfColor.Black;
+            this.textBox5.TextColor = MEGAbolt.Controls.RtfColor.Black;
             this.textBox5.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.textBox5_LinkClicked);
             // 
             // pictureBox1
@@ -1348,7 +1348,7 @@ namespace METAbolt
         private System.Windows.Forms.ListView lvAssignedRoles;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private Khendys.Controls.ExRichTextBox textBox5;
+        private MEGAbolt.Controls.ExRichTextBox textBox5;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ProgressBar pBar1;
 

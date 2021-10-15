@@ -28,7 +28,7 @@ using System;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
-using PopupControl;
+using MEGAbolt.Controls;
 using OpenMetaverse;
 
 namespace METAbolt

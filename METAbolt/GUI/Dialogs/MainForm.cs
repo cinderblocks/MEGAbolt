@@ -793,7 +793,7 @@ namespace METAbolt
                 {
                     if (!logoff)
                     {
-                        MsgBoxCheck.MessageBox dlg = new MsgBoxCheck.MessageBox();
+                        MEGAbolt.Controls.MsgBoxCheck.MessageBox dlg = new();
                         DialogResult dr = dlg.Show(@"Software\METAbolt\CloseMBCheck", "DontShowAgain", DialogResult.Yes, "Don't ask me this again", "You are about to close METAbolt. Are you sure you want to continue?", "MEGAbolt",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 

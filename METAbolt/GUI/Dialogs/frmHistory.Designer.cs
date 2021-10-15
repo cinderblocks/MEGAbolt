@@ -32,7 +32,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lvwList = new System.Windows.Forms.ListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.rtbIMText = new Khendys.Controls.ExRichTextBox();
+            this.rtbIMText = new MEGAbolt.Controls.ExRichTextBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -108,14 +108,14 @@
             this.rtbIMText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbIMText.ForeColor = System.Drawing.Color.Gray;
             this.rtbIMText.HideSelection = false;
-            this.rtbIMText.HiglightColor = Khendys.Controls.RtfColor.White;
+            this.rtbIMText.HiglightColor = MEGAbolt.Controls.RtfColor.White;
             this.rtbIMText.Location = new System.Drawing.Point(0, 4);
             this.rtbIMText.Name = "rtbIMText";
             this.rtbIMText.ReadOnly = true;
             this.rtbIMText.Size = new System.Drawing.Size(425, 359);
             this.rtbIMText.TabIndex = 4;
             this.rtbIMText.Text = "";
-            this.rtbIMText.TextColor = Khendys.Controls.RtfColor.Black;
+            this.rtbIMText.TextColor = MEGAbolt.Controls.RtfColor.Black;
             this.rtbIMText.TextChanged += new System.EventHandler(this.rtbIMText_TextChanged);
             // 
             // btnClose
@@ -164,7 +164,7 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListView lvwList;
-        private Khendys.Controls.ExRichTextBox rtbIMText;
+        private MEGAbolt.Controls.ExRichTextBox rtbIMText;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label1;
     }

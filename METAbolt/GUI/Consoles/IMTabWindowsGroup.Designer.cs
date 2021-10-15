@@ -32,7 +32,7 @@
             this.tbar_SendMessage = new System.Windows.Forms.ToolStrip();
             this.tbBtn_Emoticons = new System.Windows.Forms.ToolStripButton();
             this.cmenu_Emoticons = new System.Windows.Forms.ContextMenuStrip();
-            this.rtbIMText = new Khendys.Controls.ExRichTextBox();
+            this.rtbIMText = new MEGAbolt.Controls.ExRichTextBox();
             this.tbtnProfile = new System.Windows.Forms.ToolStripButton();
             this.cbxInput = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -86,7 +86,7 @@
             this.rtbIMText.DetectUrls = true;
             this.rtbIMText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbIMText.HideSelection = false;
-            this.rtbIMText.HiglightColor = Khendys.Controls.RtfColor.Gray;
+            this.rtbIMText.HiglightColor = MEGAbolt.Controls.RtfColor.Gray;
             this.rtbIMText.Location = new System.Drawing.Point(0, 4);
             this.rtbIMText.Name = "rtbIMText";
             this.rtbIMText.ReadOnly = true;
@@ -94,7 +94,7 @@
             this.rtbIMText.Size = new System.Drawing.Size(380, 264);
             this.rtbIMText.TabIndex = 4;
             this.rtbIMText.Text = "";
-            this.rtbIMText.TextColor = Khendys.Controls.RtfColor.Black;
+            this.rtbIMText.TextColor = MEGAbolt.Controls.RtfColor.Black;
             this.rtbIMText.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbIMText_LinkClicked_1);
             this.rtbIMText.TextChanged += new System.EventHandler(this.rtbIMText_TextChanged);
             // 
@@ -298,7 +298,7 @@
         private System.Windows.Forms.ToolStrip tbar_SendMessage;
         private System.Windows.Forms.ToolStripButton tbBtn_Emoticons;
         private System.Windows.Forms.ContextMenuStrip cmenu_Emoticons;
-        private Khendys.Controls.ExRichTextBox rtbIMText;
+        private MEGAbolt.Controls.ExRichTextBox rtbIMText;
         private System.Windows.Forms.ToolStripButton tbtnProfile;
         private System.Windows.Forms.ComboBox cbxInput;
         private System.Windows.Forms.Panel panel2;

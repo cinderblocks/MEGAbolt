@@ -40,7 +40,7 @@ using OpenMetaverse.Rendering;
 using OpenMetaverse.Assets;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
-using PopupControl;
+using MEGAbolt.Controls;
 using System.Media;
 using ExceptionReporting;
 using OpenTK.Windowing.Desktop;

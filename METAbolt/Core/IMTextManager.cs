@@ -29,7 +29,7 @@ using System.Text;
 using System.Threading;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-//using Khendys.Controls;
+//using MEGAbolt.Controls;
 //using Yedda;
 using System.Windows.Forms;
 using METAbrain;

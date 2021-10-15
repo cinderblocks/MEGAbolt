@@ -22,9 +22,6 @@
     <Reference Include="ExceptionReporter.WinForms">
       <HintPath>..\Libs\ExceptionReporter.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="MsgBoxCheck">
-      <HintPath>..\Libs\MsgBoxCheck.dll</HintPath>
-    </Reference>
     <Reference Include="NHunspell">
       <HintPath>..\Libs\NHunspell.dll</HintPath>
     </Reference>
@@ -45,24 +42,6 @@
     </Reference>
     <Reference Include="Interop.WMPLib">
       <HintPath>..\Libs\Interop.WMPLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Khendys.Controls.ExRichTextBox">
-      <HintPath>..\Libs\Khendys.Controls.ExRichTextBox.dll</HintPath>
-    </Reference>
-	<Reference Include="MD5library">
-      <HintPath>..\Libs\MD5library.dll</HintPath>
-    </Reference>
-    <Reference Include="METAbrain">
-      <HintPath>..\Libs\METAbrain.dll</HintPath>
-    </Reference>
-    <Reference Include="METAx">
-      <HintPath>..\Libs\METAx.dll</HintPath>
-    </Reference>
-    <Reference Include="METAxCommon">
-      <HintPath>..\Libs\METAxCommon.dll</HintPath>
-    </Reference>
-	<Reference Include="PopupControl">
-      <HintPath>..\Libs\PopupControl.dll</HintPath>
     </Reference>
     <Reference Include="ScintillaNet">
       <HintPath>..\Libs\ScintillaNet.dll</HintPath>
@@ -540,5 +519,10 @@
     <EmbeddedResource Remove="GUI\Dialogs\frmTPdialogue.resx" />
     <EmbeddedResource Remove="GUI\Dialogs\frmTranslate.resx" />
     <EmbeddedResource Remove="GUI\Dialogs\Inventory\IDE\ScriptStudio.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MD5library\MD5library.csproj" />
+    <ProjectReference Include="..\METAbrain\METAbrain.csproj" />
+    <ProjectReference Include="..\METAx\METAx.csproj" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ using OpenMetaverse;
 using MEGAbolt.NetworkComm;
 using ExceptionReporting;
 using System.Threading;
-using PopupControl;
+using MEGAbolt.Controls;
 using System.Globalization;
 
 namespace METAbolt

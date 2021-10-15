@@ -28,7 +28,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
 using MEGAbolt.NetworkComm;
-using PopupControl;
+using MEGAbolt.Controls;
 using OpenMetaverse.Assets;
 using System.Threading;
 using ExceptionReporting;

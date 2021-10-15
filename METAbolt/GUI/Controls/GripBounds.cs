@@ -1,0 +1,133 @@
+﻿/*
+ * MEGAbolt Metaverse Client
+ * Copyright(c) 2021, Sjofn, LLC
+ * All rights reserved.
+ *  
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the OpenSimulator Project nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE DEVELOPERS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+using System.Drawing;
+
+namespace MEGAbolt.Controls
+{
+  internal struct GripBounds
+  {
+    private const int GripSize = 6;
+    private const int CornerGripSize = 12;
+    private Rectangle clientRectangle;
+
+    public GripBounds(Rectangle clientRectangle) => this.clientRectangle = clientRectangle;
+
+    public Rectangle ClientRectangle => this.clientRectangle;
+
+    public Rectangle Bottom
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Y = clientRectangle.Bottom - 6 + 1;
+        clientRectangle.Height = 6;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle BottomRight
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Y = clientRectangle.Bottom - 12 + 1;
+        clientRectangle.Height = 12;
+        clientRectangle.X = clientRectangle.Width - 12 + 1;
+        clientRectangle.Width = 12;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle Top
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Height = 6;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle TopRight
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Height = 12;
+        clientRectangle.X = clientRectangle.Width - 12 + 1;
+        clientRectangle.Width = 12;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle Left
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Width = 6;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle BottomLeft
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Width = 12;
+        clientRectangle.Y = clientRectangle.Height - 12 + 1;
+        clientRectangle.Height = 12;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle Right
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.X = clientRectangle.Right - 6 + 1;
+        clientRectangle.Width = 6;
+        return clientRectangle;
+      }
+    }
+
+    public Rectangle TopLeft
+    {
+      get
+      {
+        Rectangle clientRectangle = this.ClientRectangle;
+        clientRectangle.Width = 12;
+        clientRectangle.Height = 12;
+        return clientRectangle;
+      }
+    }
+  }
+}
