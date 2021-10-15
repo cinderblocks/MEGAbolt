@@ -471,7 +471,7 @@ namespace METAbolt
 
         private void InitializeWebBrowser()
         {
-            murl = "http://www.metabolt.net/index.php?user=login&nod=true&ver=" + Properties.Resources.METAboltVersion.ToString(CultureInfo.CurrentCulture);
+            murl = "https://radegast.life";
 
             //webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
             //webBrowser1.Navigating += new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
