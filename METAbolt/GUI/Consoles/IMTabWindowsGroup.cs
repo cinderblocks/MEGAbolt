@@ -959,8 +959,7 @@ namespace METAbolt
 
         private void lvwList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ChatSessionMemberAddedEventArgs av = ((ListViewItem)lvwList.SelectedItems[0]).Tag as ChatSessionMemberAddedEventArgs;
-            if (av == null) return;
+            if (((ListViewItem)lvwList.SelectedItems[0]).Tag is not ChatSessionMemberAddedEventArgs av) return;
 
             (new frmProfile(instance, people[av.AgentID], av.AgentID)).Show();
         }

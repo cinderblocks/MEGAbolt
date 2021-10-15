@@ -977,10 +977,8 @@ namespace METAbolt
                         TextureFace = prim.Textures.GetFace((uint)faceNr)
                     };
 
-                    if (subMeshOsd is OSDMap)
+                    if (subMeshOsd is OSDMap subMeshMap)
                     {
-                        OSDMap subMeshMap = (OSDMap)subMeshOsd;
-
                         Vector3 posMax = new Vector3();
                         posMax = ((OSDMap)subMeshMap["PositionDomain"])["Max"];
                         Vector3 posMin = new Vector3();

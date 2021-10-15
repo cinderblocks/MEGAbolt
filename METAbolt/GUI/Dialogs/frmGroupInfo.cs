@@ -1574,9 +1574,7 @@ namespace METAbolt
 
         private void textBox6_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
-
-            if (node == null) return;
+            if (e.Data.GetData(typeof(TreeNode)) is not TreeNode node) return;
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {

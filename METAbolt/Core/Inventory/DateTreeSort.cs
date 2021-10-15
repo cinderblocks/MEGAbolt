@@ -36,11 +36,8 @@ namespace METAbolt
         {
             int returnVal = 0;
 
-            if (x is InventoryItem && y is InventoryItem)
+            if (x is InventoryItem itemX && y is InventoryItem itemY)
             {
-                InventoryItem itemX = (InventoryItem)x;
-                InventoryItem itemY = (InventoryItem)y;
-
                 returnVal = -itemX.CreationDate.CompareTo(itemY.CreationDate);
             }
             else if (x is InventoryFolder && y is InventoryFolder)

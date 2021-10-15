@@ -262,10 +262,10 @@ namespace METAbolt
 
         public void ProcessIM(object e)
         {
-            if (e is InstantMessageEventArgs)
-                this.ProcessIncomingIM((InstantMessageEventArgs)e);
-            else if (e is InstantMessageSentEventArgs)
-                this.ProcessOutgoingIM((InstantMessageSentEventArgs)e);
+            if (e is InstantMessageEventArgs args)
+                this.ProcessIncomingIM(args);
+            else if (e is InstantMessageSentEventArgs eventArgs)
+                this.ProcessOutgoingIM(eventArgs);
         }
 
         private void ProcessOutgoingIM(InstantMessageSentEventArgs e)

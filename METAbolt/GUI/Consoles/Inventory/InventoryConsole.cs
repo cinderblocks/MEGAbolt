@@ -346,10 +346,10 @@ namespace METAbolt
                 {
                     if (!gotCoF)
                     {
-                        if (o is InventoryFolder)
+                        if (o is InventoryFolder folder)
                         {
-                            client.Inventory.RequestFolderContents(o.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate);
-                            instance.CoF = (InventoryFolder)o;
+                            client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate);
+                            instance.CoF = folder;
                             gotCoF = true;
                         }
                     }
@@ -648,21 +648,20 @@ namespace METAbolt
 
             InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            if (io is InventoryItem)
+            if (io is InventoryItem item)
             {
                 panel2.Visible = false;
 
                 //TreeNode node = treeView1.SelectedNode;
 
                 //InventoryImageConsole.vi 
-                InventoryItemConsole console = new InventoryItemConsole(instance, (InventoryItem)io);
+                InventoryItemConsole console = new InventoryItemConsole(instance, item);
                 console.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(console);
 
                 ClearCurrentProperties();
                 //ClearAutoProperties();
                 currentProperties = console;
-                InventoryItem item = (InventoryItem)io;
 
                 //item.InventoryType 
 
@@ -738,7 +737,7 @@ namespace METAbolt
 
             InventoryBase io = (InventoryBase)node.Tag;
 
-            if (io is InventoryFolder)
+            if (io is InventoryFolder inventoryFolder)
             {
                 try
                 {
@@ -760,14 +759,12 @@ namespace METAbolt
                     return;
                 }
 
-                InventoryFolder folder = (InventoryFolder)io;
                 //client.Inventory.RemoveFolder(folder.UUID);
-                client.Inventory.MoveFolder(folder.UUID, client.Inventory.FindFolderForType(FolderType.Trash), folder.Name);
-                folder = null;
+                client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash), inventoryFolder.Name);
+                inventoryFolder = null;
             }
-            else if (io is InventoryItem)
+            else if (io is InventoryItem item)
             {
-                InventoryItem item = (InventoryItem)io;
                 //client.Inventory.RemoveItem(item.UUID);
                 //item = null;
 
@@ -863,16 +860,14 @@ namespace METAbolt
 
             //nodecol = false;
 
-            if (treeView1.SelectedNode.Tag is InventoryFolder)
+            if (treeView1.SelectedNode.Tag is InventoryFolder tag)
             {
-                InventoryFolder selfolder = (InventoryFolder)treeView1.SelectedNode.Tag;
-                client.Inventory.CreateFolder(selfolder.UUID, newFolderName);
+                client.Inventory.CreateFolder(tag.UUID, newFolderName);
 
                 //UpdateFolder(selfolder.UUID);
             }
-            else if (treeView1.SelectedNode.Tag is InventoryItem)
+            else if (treeView1.SelectedNode.Tag is InventoryItem selfolder)
             {
-                InventoryItem selfolder = (InventoryItem)treeView1.SelectedNode.Tag;
                 client.Inventory.CreateFolder(selfolder.ParentUUID, newFolderName);
 
                 //UpdateFolder(selfolder.ParentUUID);
@@ -1108,9 +1103,9 @@ namespace METAbolt
             }
             else
             {
-                if (node.Tag is InventoryFolder)
+                if (node.Tag is InventoryFolder tag)
                 {
-                    folder = (InventoryFolder)node.Tag;
+                    folder = tag;
                 }
                 else if (node.Tag is InventoryItem)
                 {
@@ -1410,9 +1405,9 @@ namespace METAbolt
 
                 client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
             }
-            else if (e.Node.Tag is InventoryItem)
+            else if (e.Node.Tag is InventoryItem inventoryItem)
             {
-                ((InventoryItem)e.Node.Tag).Name = e.Label;
+                inventoryItem.Name = e.Label;
                 InventoryItem item = (InventoryItem)io;
 
                 if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
@@ -1451,9 +1446,9 @@ namespace METAbolt
                 }
                 else
                 {
-                    if (node.Tag is InventoryFolder)
+                    if (node.Tag is InventoryFolder tag)
                     {
-                        folder = (InventoryFolder)node.Tag;
+                        folder = tag;
                     }
                     else if (node.Tag is InventoryItem)
                     {
@@ -1486,9 +1481,9 @@ namespace METAbolt
                 }
                 else
                 {
-                    if (node.Tag is InventoryFolder)
+                    if (node.Tag is InventoryFolder tag)
                     {
-                        folder = (InventoryFolder)node.Tag;
+                        folder = tag;
                     }
                     else if (node.Tag is InventoryItem)
                     {
@@ -1910,9 +1905,9 @@ namespace METAbolt
             }
             else
             {
-                if (node.Tag is InventoryFolder)
+                if (node.Tag is InventoryFolder tag)
                 {
-                    folder = (InventoryFolder)node.Tag;
+                    folder = tag;
                 }
                 else if (node.Tag is InventoryItem)
                 {
@@ -1966,9 +1961,9 @@ namespace METAbolt
 
             if (treeView1.SelectedNode.Tag.ToString() == "empty") return;
 
-            if (treeView1.SelectedNode.Tag is InventoryItem)
+            if (treeView1.SelectedNode.Tag is InventoryItem tag)
             {
-                InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+                InventoryBase io = tag;
                 InventoryItem item = (InventoryItem)io;
 
                 if (item.InventoryType != InventoryType.Landmark)
@@ -2055,9 +2050,9 @@ namespace METAbolt
             foreach (InventoryBase item in contents)
             {
                 //if (item.InventoryType == InventoryType.Wearable || item.InventoryType == InventoryType.Attachment || item.InventoryType == InventoryType.Object)
-                if (item is InventoryItem)
+                if (item is InventoryItem inventoryItem)
                 {
-                    clothing.Add((InventoryItem)item);
+                    clothing.Add(inventoryItem);
                 }
             }
 

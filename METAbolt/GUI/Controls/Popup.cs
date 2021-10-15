@@ -252,10 +252,9 @@ namespace MEGAbolt.Controls
     {
       if (control == null)
         return;
-      if (control is Popup)
+      if (control is Popup popup)
       {
-        Popup popup = control as Popup;
-        this.ownerPopup = popup;
+          this.ownerPopup = popup;
         this.ownerPopup.childPopup = this;
         this.OwnerItem = popup.Items[0];
       }

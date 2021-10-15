@@ -699,10 +699,9 @@ namespace METAbolt
             {
                 InventoryBase io = (InventoryBase)node.Tag;
 
-                if (node.Tag is InventoryFolder)
+                if (node.Tag is InventoryFolder folder)
                 {
                     //InventoryFolder folder = (InventoryFolder)io;
-                    InventoryFolder folder = node.Tag as InventoryFolder;
 
                     client.Inventory.GiveFolder(folder.UUID, folder.Name, agentID, true);
                     instance.TabConsole.DisplayChatScreen("Offered inventory folder " + folder.Name + " to " + fullName + ".");
@@ -911,10 +910,9 @@ namespace METAbolt
             {
                 InventoryBase io = (InventoryBase)node.Tag;
 
-                if (node.Tag is InventoryFolder)
+                if (node.Tag is InventoryFolder folder)
                 {
                     //InventoryFolder folder = (InventoryFolder)io;
-                    InventoryFolder folder = node.Tag as InventoryFolder;
 
                     client.Inventory.GiveFolder(folder.UUID, folder.Name, agentID, true);
                     instance.TabConsole.DisplayChatScreen("Offered inventory folder " + folder.Name + " to " + fullName + ".");
