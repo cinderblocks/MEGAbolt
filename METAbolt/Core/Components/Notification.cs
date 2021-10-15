@@ -29,8 +29,6 @@ namespace METAbolt
     public partial class Notification : DifuseForm
     {
         //private string msg = string.Empty;
-        private string message = string.Empty;
-        private string note = string.Empty;  
 
         public Notification()
             : base(true)
@@ -48,8 +46,8 @@ namespace METAbolt
             timer1.Enabled = true;
             timer1.Start();
 
-            label1.Text = message;
-            this.Text = note;
+            label1.Text = Message;
+            this.Text = Title;
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)
@@ -62,17 +60,9 @@ namespace METAbolt
         //    //this.msg = msg;
         //}
 
-        public string Message
-        {
-            get { return message; }
-            set { message = value; }
-        }
+        public string Message { get; set; } = string.Empty;
 
-        public string Title
-        {
-            get { return note; }
-            set { note = value; }
-        }
+        public string Title { get; set; } = string.Empty;
 
         //public void NotifTitle(string title)
         //{

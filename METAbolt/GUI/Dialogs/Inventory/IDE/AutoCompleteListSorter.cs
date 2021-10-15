@@ -35,12 +35,11 @@ namespace METAbolt
     #region AutoCompleteListSorter
     public class AutoCompleteStringListSorter : IComparer<string>
     {
-        private SortOrder OrderOfSort;
         private CaseInsensitiveComparer ItemComparer;
 
         public AutoCompleteStringListSorter()
         {
-            OrderOfSort = SortOrder.None;
+            SortingOrder = SortOrder.None;
             ItemComparer = new CaseInsensitiveComparer(CultureInfo.CurrentCulture);
         }
 
@@ -75,11 +74,11 @@ namespace METAbolt
                 MessageBox.Show(ex.ToString(), "AutoCompleteListSorter");
             }
 
-            if (OrderOfSort == SortOrder.Ascending)
+            if (SortingOrder == SortOrder.Ascending)
             {
                 return compareResult;
             }
-            else if (OrderOfSort == SortOrder.Descending)
+            else if (SortingOrder == SortOrder.Descending)
             {
                 return (-compareResult);
             }
@@ -90,18 +89,7 @@ namespace METAbolt
         }
         #endregion
 
-        public SortOrder SortingOrder
-        {
-            set
-            {
-                OrderOfSort = value;
-            }
-
-            get
-            {
-                return OrderOfSort;
-            }
-        }
+        public SortOrder SortingOrder { set; get; }
     }
     #endregion
 

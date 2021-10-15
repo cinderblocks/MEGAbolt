@@ -33,8 +33,6 @@ namespace METAbolt
         private METAboltTab tab;
 
         //For reattachment
-        private ToolStrip strip;
-        private Panel container;
 
         public frmDetachedTab(METAboltInstance instance, METAboltTab tab)
         {
@@ -88,27 +86,19 @@ namespace METAbolt
                 if (tab.AllowClose)
                     tab.Close();
                 else
-                    tab.AttachTo(strip, container);
+                    tab.AttachTo(ReattachStrip, ReattachContainer);
             }
         }
 
         private void tbtnReattach_Click(object sender, EventArgs e)
         {
-            tab.AttachTo(strip, container);
+            tab.AttachTo(ReattachStrip, ReattachContainer);
             this.Close();
         }
 
-        public ToolStrip ReattachStrip
-        {
-            get { return strip; }
-            set { strip = value; }
-        }
+        public ToolStrip ReattachStrip { get; set; }
 
-        public Panel ReattachContainer
-        {
-            get { return container; }
-            set { container = value; }
-        }
+        public Panel ReattachContainer { get; set; }
 
         private void frmDetachedTab_Load(object sender, EventArgs e)
         {

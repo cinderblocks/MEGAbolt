@@ -20,7 +20,6 @@ namespace METAbolt
 
         private GridClient client;
         private METAboltInstance instance;
-        private TreeView treeView;
         private bool stopProcessing = false;
 
         #endregion // Data
@@ -40,7 +39,7 @@ namespace METAbolt
         /// <param name="treeView">The TreeView to navigate.</param>
         public TreeViewWalker(TreeView treeView)
         {
-            this.treeView = treeView;
+            this.TreeView = treeView;
         }
 
         #endregion // Constructors
@@ -101,11 +100,7 @@ namespace METAbolt
         /// <summary>
         /// Gets/sets the TreeView control to navigate.
         /// </summary>
-        public TreeView TreeView
-        {
-            get { return this.treeView; }
-            set { this.treeView = value; }
-        }
+        public TreeView TreeView { get; set; }
 
         #endregion // TreeView
 

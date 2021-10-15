@@ -32,8 +32,6 @@ namespace METAbolt
     public class InventoryClipboard
     {
         private GridClient client;
-        private TreeNode clipNode;
-        private InventoryBase clipItem;
         private bool cut = false;
 
         public InventoryClipboard(GridClient client)
@@ -43,42 +41,42 @@ namespace METAbolt
 
         public void SetClipboardNode(TreeNode itemNode, bool ccut)
         {
-            clipNode = itemNode;
-            clipItem = (InventoryBase)itemNode.Tag;
+            CurrentClipNode = itemNode;
+            CurrentClipItem = (InventoryBase)itemNode.Tag;
 
             this.cut = ccut;
 
             if (ccut)
             {
-                if (clipNode.Parent != null)
+                if (CurrentClipNode.Parent != null)
                 {
-                    if (clipNode.Parent.Nodes.Count == 1)
-                        clipNode.Parent.Collapse();
+                    if (CurrentClipNode.Parent.Nodes.Count == 1)
+                        CurrentClipNode.Parent.Collapse();
                 }
 
-                clipNode.Remove();
+                CurrentClipNode.Remove();
             }
         }
 
         public void PasteTo(TreeNode pasteNode)
         {
-            if (clipNode == null) return;
+            if (CurrentClipNode == null) return;
 
             InventoryBase pasteio = (InventoryBase)pasteNode.Tag;
 
-            if (clipItem is InventoryFolder folder)
+            if (CurrentClipItem is InventoryFolder folder)
             {
                 if (cut)
                 {
                     if (pasteio is InventoryFolder)
                     {
                         client.Inventory.MoveFolder(folder.UUID, pasteio.UUID);
-                        pasteNode.Nodes.Add(clipNode);
+                        pasteNode.Nodes.Add(CurrentClipNode);
                     }
                     else if (pasteio is InventoryItem)
                     {
                         client.Inventory.MoveFolder(folder.UUID, pasteio.ParentUUID);
-                        pasteNode.Parent.Nodes.Add(clipNode);
+                        pasteNode.Parent.Nodes.Add(CurrentClipNode);
                     }
                 }
                 else
@@ -107,23 +105,23 @@ namespace METAbolt
                     }
                 }
 
-                clipNode.EnsureVisible();
-                clipNode = null;
-                clipItem = null;
+                CurrentClipNode.EnsureVisible();
+                CurrentClipNode = null;
+                CurrentClipItem = null;
             }
-            else if (clipItem is InventoryItem item)
+            else if (CurrentClipItem is InventoryItem item)
             {
                 if (cut)
                 {
                     if (pasteio is InventoryFolder)
                     {
                         client.Inventory.MoveItem(item.UUID, pasteio.UUID, item.Name);
-                        pasteNode.Nodes.Add(clipNode);
+                        pasteNode.Nodes.Add(CurrentClipNode);
                     }
                     else if (pasteio is InventoryItem)
                     {
                         client.Inventory.MoveItem(item.UUID, pasteio.ParentUUID, item.Name);
-                        pasteNode.Parent.Nodes.Add(clipNode);
+                        pasteNode.Parent.Nodes.Add(CurrentClipNode);
                     }
                 }
                 else
@@ -138,13 +136,14 @@ namespace METAbolt
                     }
                 }
 
-                clipNode.EnsureVisible();
-                clipNode = null;
-                clipItem = null;
+                CurrentClipNode.EnsureVisible();
+                CurrentClipNode = null;
+                CurrentClipItem = null;
             }
         }
 
-        public InventoryBase CurrentClipItem => clipItem;
-        public TreeNode CurrentClipNode => clipNode;
+        public InventoryBase CurrentClipItem { get; private set; }
+
+        public TreeNode CurrentClipNode { get; private set; }
     }
 }

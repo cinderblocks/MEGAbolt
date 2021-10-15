@@ -31,49 +31,31 @@ namespace METAbolt
 {
     public partial class METAboltTab
     {
-        private ToolStripButton button;
-        private Control control;
-        private Button defaultControlButton;
-        private string name;
         private string label;
-        private METAboltTab mergedTab;
-        private Form owner;
         private string originalLabel;
-
-        private bool allowMerge = true;
-        private bool allowDetach = true;
-        private bool allowClose = true;
-
-        private bool partialHighlighted = false;
-        private bool highlighted = false;
-        private bool imboxhighlighted = false;
-        private bool selected = false;
-        private bool detached = false;
-        private bool merged = false;
-        private string selectedtab = string.Empty;  
 
         public METAboltTab(ToolStripButton button, Control control, string name, string label)
         {
-            this.button = button;
-            this.control = control;
-            this.name = name;
+            this.Button = button;
+            this.Control = control;
+            this.Name = name;
             this.label = label;
         }
 
         public void Close()
         {
-            if (!allowClose) return;
+            if (!AllowClose) return;
 
-            if (button != null)
+            if (Button != null)
             {
-                button.Dispose();
-                button = null;
+                Button.Dispose();
+                Button = null;
             }
 
-            if (control != null)
+            if (Control != null)
             {
-                control.Dispose();
-                control = null;
+                Control.Dispose();
+                Control = null;
             }
 
             OnTabClosed(EventArgs.Empty);
@@ -81,172 +63,172 @@ namespace METAbolt
 
         public void Select()
         {
-            if (detached) return;
+            if (Detached) return;
 
-            control.Visible = true;
-            control.BringToFront();
+            Control.Visible = true;
+            Control.BringToFront();
 
             //if (!imboxhighlighted) Unhighlight();
 
             Unhighlight();
 
-            button.Checked = true;
-            selected = true;
-            selectedtab = this.name;
+            Button.Checked = true;
+            Selected = true;
+            SelectedTab = this.Name;
 
             OnTabSelected(EventArgs.Empty);
         }
 
         public void Deselect()
         {
-            if (detached) return;
+            if (Detached) return;
 
-            if (control != null) control.Visible = false;
-            if (button != null) button.Checked = false;
-            selected = false;
+            if (Control != null) Control.Visible = false;
+            if (Button != null) Button.Checked = false;
+            Selected = false;
 
             OnTabDeselected(EventArgs.Empty);
         }
 
         public void PartialHighlight()
         {
-            if (selected) return;
+            if (Selected) return;
 
-            if (detached)
+            if (Detached)
             {
-                if (!owner.Focused)
-                    FormFlash.Flash(owner);
+                if (!Owner.Focused)
+                    FormFlash.Flash(Owner);
             }
             else
             {
-                button.Image = null;
-                button.ForeColor = Color.Blue;
+                Button.Image = null;
+                Button.ForeColor = Color.Blue;
             }
 
-            partialHighlighted = true;
+            PartiallyHighlighted = true;
             OnTabPartiallyHighlighted(EventArgs.Empty);
         }
 
         public void Highlight()
         {
-            if (selected) return;
+            if (Selected) return;
 
-            if (detached)
+            if (Detached)
             {
-                if (!owner.Focused)
-                    FormFlash.Flash(owner);
+                if (!Owner.Focused)
+                    FormFlash.Flash(Owner);
             }
             else
             {
-                button.Image = Properties.Resources.arrow_forward_16;
-                button.ForeColor = Color.Red;
+                Button.Image = Properties.Resources.arrow_forward_16;
+                Button.ForeColor = Color.Red;
             }
 
-            highlighted = true;
+            Highlighted = true;
             OnTabHighlighted(EventArgs.Empty);
         }
 
         public void IMboxHighlight()
         {
-            if (selected) return;
+            if (Selected) return;
 
-            if (detached)
+            if (Detached)
             {
-                if (!owner.Focused)
-                    FormFlash.Flash(owner);
+                if (!Owner.Focused)
+                    FormFlash.Flash(Owner);
             }
             else
             {
                 //button.Image = Properties.Resources.arrow_forward_16;
-                button.ForeColor = Color.Red;
+                Button.ForeColor = Color.Red;
             }
 
-            imboxhighlighted = true;
+            IMboxHighlighted = true;
             OnTabHighlighted(EventArgs.Empty);
         }
 
         public void Unhighlight()
         {
-            if (detached)
+            if (Detached)
             {
-                FormFlash.Unflash(owner);
+                FormFlash.Unflash(Owner);
             }
             else
             {
-                button.Image = null;
-                button.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
+                Button.Image = null;
+                Button.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             }
 
-            highlighted = partialHighlighted = imboxhighlighted = false;
+            Highlighted = PartiallyHighlighted = IMboxHighlighted = false;
             OnTabUnhighlighted(EventArgs.Empty);
         }
 
         public void AttachTo(ToolStrip strip, Panel container)
         {
-            if (!allowDetach) return;
-            if (!detached) return;
+            if (!AllowDetach) return;
+            if (!Detached) return;
 
-            strip.Items.Add(button);
-            container.Controls.Add(control);
+            strip.Items.Add(Button);
+            container.Controls.Add(Control);
 
-            owner = null;
-            detached = false;
+            Owner = null;
+            Detached = false;
             OnTabAttached(EventArgs.Empty);
         }
 
         public void Detach(METAboltInstance instance)
         {
-            if (!allowDetach) return;
-            if (detached) return;
+            if (!AllowDetach) return;
+            if (Detached) return;
 
-            owner = new frmDetachedTab(instance, this);
-            detached = true;
+            Owner = new frmDetachedTab(instance, this);
+            Detached = true;
             OnTabDetached(EventArgs.Empty);            
         }
 
         public void MergeWith(METAboltTab tab)
         {
-            if (!allowMerge) return;
-            if (merged) return;
+            if (!AllowMerge) return;
+            if (Merged) return;
 
             SplitContainer container = new SplitContainer();
             container.Dock = DockStyle.Fill;
             container.BorderStyle = BorderStyle.Fixed3D;
             container.SplitterDistance = container.Width / 2;
-            container.Panel1.Controls.Add(control);
+            container.Panel1.Controls.Add(Control);
             container.Panel2.Controls.Add(tab.Control);
 
-            control.Visible = true;
+            Control.Visible = true;
             tab.Control.Visible = true;
 
-            control = container;
+            Control = container;
             tab.Control = container;
             
-            mergedTab = tab;
-            tab.mergedTab = this;
+            MergedTab = tab;
+            tab.MergedTab = this;
 
             originalLabel = label;
             tab.originalLabel = tab.label;
             this.Label = label + "+" + tab.Label;
             
-            merged = tab.merged = true;
+            Merged = tab.Merged = true;
 
             OnTabMerged(EventArgs.Empty);
         }
 
         public METAboltTab Split()
         {
-            if (!allowMerge) return null;
-            if (!merged) return null;
+            if (!AllowMerge) return null;
+            if (!Merged) return null;
 
-            METAboltTab returnTab = mergedTab;
-            mergedTab = null;
-            returnTab.mergedTab = null;
+            METAboltTab returnTab = MergedTab;
+            MergedTab = null;
+            returnTab.MergedTab = null;
 
-            SplitContainer container = (SplitContainer)control;
-            control = container.Panel1.Controls[0];
+            SplitContainer container = (SplitContainer)Control;
+            Control = container.Panel1.Controls[0];
             returnTab.Control = container.Panel2.Controls[0];
-            merged = returnTab.merged = false;
+            Merged = returnTab.Merged = false;
 
             this.Label = originalLabel;
             OnTabSplit(EventArgs.Empty);
@@ -254,97 +236,42 @@ namespace METAbolt
             return returnTab;
         }
 
-        public ToolStripButton Button
-        {
-            get { return button; }
-            set { button = value; }
-        }
+        public ToolStripButton Button { get; set; }
 
-        public Control Control
-        {
-            get { return control; }
-            set { control = value; }
-        }
+        public Control Control { get; set; }
 
-        public Button DefaultControlButton
-        {
-            get { return defaultControlButton; }
-            set { defaultControlButton = value; }
-        }
+        public Button DefaultControlButton { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; }
 
         public string Label
         {
             get { return label; }
-            set { label = button.Text = value; }
+            set { label = Button.Text = value; }
         }
 
-        public METAboltTab MergedTab
-        {
-            get { return mergedTab; }
-        }
+        public METAboltTab MergedTab { get; private set; }
 
-        public Form Owner
-        {
-            get { return owner; }
-        }
+        public Form Owner { get; private set; }
 
-        public bool AllowMerge
-        {
-            get { return allowMerge; }
-            set { allowMerge = value; }
-        }
+        public bool AllowMerge { get; set; } = true;
 
-        public bool AllowDetach
-        {
-            get { return allowDetach; }
-            set { allowDetach = value; }
-        }
+        public bool AllowDetach { get; set; } = true;
 
-        public bool AllowClose
-        {
-            get { return allowClose; }
-            set { allowClose = value; }
-        }
+        public bool AllowClose { get; set; } = true;
 
-        public bool PartiallyHighlighted
-        {
-            get { return partialHighlighted; }
-        }
+        public bool PartiallyHighlighted { get; private set; } = false;
 
-        public bool Highlighted
-        {
-            get { return highlighted; }
-        }
+        public bool Highlighted { get; private set; } = false;
 
-        public bool IMboxHighlighted
-        {
-            get { return imboxhighlighted; }
-        }
+        public bool IMboxHighlighted { get; private set; } = false;
 
-        public bool Selected
-        {
-            get { return selected; }
-        }
+        public bool Selected { get; private set; } = false;
 
-        public bool Detached
-        {
-            get { return detached; }
-        }
+        public bool Detached { get; private set; } = false;
 
-        public bool Merged
-        {
-            get { return merged; }
-        }
+        public bool Merged { get; private set; } = false;
 
-        public string SelectedTab
-        {
-            get { return selectedtab ; }
-            set { selectedtab = value; }
-        }
+        public string SelectedTab { get; set; } = string.Empty;
     }
 }

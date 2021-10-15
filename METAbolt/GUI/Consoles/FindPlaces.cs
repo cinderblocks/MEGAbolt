@@ -43,7 +43,6 @@ namespace METAbolt
         private float fZ;
         //private string sSIM;
 
-        private UUID queryID;
         private SafeDictionary<string, DirectoryManager.DirectoryParcel> findPlacesResults;
         //private DirectoryManager.DirectoryParcel EmptyPlace;
 
@@ -55,7 +54,7 @@ namespace METAbolt
             InitializeComponent();
 
             findPlacesResults = new SafeDictionary<string, DirectoryManager.DirectoryParcel>();
-            this.queryID = queryID;
+            this.QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -98,7 +97,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.queryID) return;
+            if (qqueryID != this.QueryID) return;
 
             lvwFindPlaces.BeginUpdate();
 
@@ -203,11 +202,7 @@ namespace METAbolt
         }
 
 
-        public UUID QueryID
-        {
-            get { return queryID; }
-            set { queryID = value; }
-        }
+        public UUID QueryID { get; set; }
 
         public int SelectedIndex
         {

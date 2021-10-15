@@ -36,7 +36,6 @@ namespace METAbolt
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-        private string targetName;
         private UUID targetUUID = UUID.Zero;
         private ManualResetEvent TPEvent = new ManualResetEvent(false);
         private UUID targetSession = UUID.Zero;  
@@ -83,12 +82,12 @@ namespace METAbolt
 
         private void ProcessEventArgs(InstantMessageEventArgs e)
         {
-            targetName = e.IM.FromAgentName;
+            TargetName = e.IM.FromAgentName;
             targetUUID = e.IM.FromAgentID;
             targetSession = e.IM.IMSessionID; 
 
             lblSubheading.Text =
-                "Received teleport offer from " + targetName + " with message:";
+                "Received teleport offer from " + TargetName + " with message:";
 
             rtbOfferMessage.AppendText(e.IM.Message);
         }
@@ -118,10 +117,7 @@ namespace METAbolt
             CloseTab();
         }
 
-        public string TargetName
-        {
-            get { return targetName; }
-        }
+        public string TargetName { get; private set; }
 
         public UUID TargetUUID
         {

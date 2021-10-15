@@ -31,7 +31,6 @@ namespace METAbolt
     {
         //renamed to remove the word default
         private string configPath = Path.Combine(METAbolt.DataFolder.GetDataFolder(), "MEGAbolt.ini");
-        private Config currentConfig;
 
         //default constructor
         public ConfigManager()
@@ -93,13 +92,13 @@ namespace METAbolt
 
         public void ApplyCurrentConfig()
         {
-            Apply(currentConfig);
+            Apply(CurrentConfig);
         }
 
         public void Apply(Config config)
         {
-            currentConfig = config;
-            OnConfigApplied(new ConfigAppliedEventArgs(currentConfig));
+            CurrentConfig = config;
+            OnConfigApplied(new ConfigAppliedEventArgs(CurrentConfig));
         }
 
         public void ApplyDefault()
@@ -146,7 +145,7 @@ namespace METAbolt
                 config.Save(configPath);
             }
 
-            currentConfig.Save(configPath);
+            CurrentConfig.Save(configPath);
         }
 
         public event EventHandler<ConfigAppliedEventArgs> ConfigApplied;
@@ -155,9 +154,6 @@ namespace METAbolt
             if (ConfigApplied != null) ConfigApplied(this, e);
         }
 
-        public Config CurrentConfig
-        {
-            get { return currentConfig; }
-        }
+        public Config CurrentConfig { get; private set; }
     }
 }

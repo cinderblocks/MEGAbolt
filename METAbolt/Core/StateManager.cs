@@ -37,19 +37,12 @@ namespace METAbolt
         private GridClient client;
         private MEGAboltNetcom netcom;
 
-        private bool typing = false;
-        private bool away = false;
-        private bool busy = false;
-        private bool flying = false;
         //private bool alwaysrun = false;
-        private bool sitting = false;
-        private bool belly = false;
         //private bool club = false;
         //private bool salsa = false;
         //private bool fall = false;
         //private bool crouch = false;
-        
-        private bool pointing = false;
+
         private UUID pointID = UUID.Zero;
         private UUID beamID = UUID.Zero;
         private UUID beamID1 = UUID.Zero;
@@ -58,36 +51,17 @@ namespace METAbolt
         //private bool looking = false;
         private UUID lookID = UUID.Zero;
 
-        private bool following = false;
-        private string followName = string.Empty;
-        private float followDistance = 5.0f;
-        private UUID followid = UUID.Zero;
         //private bool goingto = false;
         //private string goName = string.Empty;
         //private UUID goid = UUID.Zero;
 
-        private SafeDictionary<UUID, String> groupstore = new SafeDictionary<UUID, String>();
-        private Dictionary<UUID, Group> groups = new Dictionary<UUID, Group>();
         //private Dictionary<UUID, FriendInfo> avatarfriends = new Dictionary<UUID,FriendInfo>();  
-        private List<FriendInfo> avatarfriends = new List<FriendInfo>();
-        private string currenttab = "Chat";
         private int ccntr = 1;
 
-        private UUID awayAnimationID = new UUID("fd037134-85d4-f241-72c6-4f42164fedee");
-        private UUID busyAnimationID = new UUID("efcf670c2d188128973a034ebc806b67");
-        private UUID typingAnimationID = new UUID("c541c47f-e0c0-058b-ad1a-d6ae3a4584d9");
-        private UUID bellydanceAnimationID = new UUID("f2c2f006-69a2-089d-64bc-94efe4f3bb23");
-        private UUID clubdanceAnimationID = new UUID("cb956f10-cc64-71a3-a36c-61823794f7df");
-        private UUID salsaAnimationID = new UUID("6953622f-b308-3c84-4c28-a0cb9d5f9749");
-        private UUID fallAnimationID = new UUID("85db9c46-2c49-d4d0-d7eb-b5d954d8d8a3");
-        private UUID crouchAnimationID = new UUID(Animations.CROUCH.ToString());
         //private Primitive sitprim = null;
-        private UUID sitprim = UUID.Zero;
-        private Vector3 sitpos = new Vector3(0, 0, 0);
         private UUID requestedsitprim = UUID.Zero;
         //private ManualResetEvent PrimEvent = new ManualResetEvent(false);
-        private bool groundsitting = false;
-        
+
         private System.Timers.Timer pointtimer;
         private System.Timers.Timer agentUpdateTicker;
         
@@ -101,8 +75,6 @@ namespace METAbolt
         private Color4 bkcolour = new Color4(255, 255, 255, 255);
         private Color4 ccolur = new Color4(0, 0, 255, 255);
         //private UUID lookattarget = UUID.Zero; 
-        private int unreadims = 0;
-        private bool foldercvd = false;
 
         public StateManager(METAboltInstance instance)
         {
@@ -145,7 +117,7 @@ namespace METAbolt
 
         private void TidyUp()
         {
-            typing = away = busy = false;
+            IsTyping = IsAway = IsBusy = false;
             pointtimer.Dispose();
             pointtimer = null;
 
@@ -236,7 +208,7 @@ namespace METAbolt
             //if (e.Prim.LocalID == client.Self.LocalID) ResetCamera();
 
             //if (!following && !goingto) return;
-            if (!following) return;
+            if (!IsFollowing) return;
 
             Avatar av = new Avatar();
             client.Network.CurrentSim.ObjectsAvatars.TryGetValue(e.Update.LocalID, out av);
@@ -248,7 +220,7 @@ namespace METAbolt
                 return;
             }
 
-            if (av.Name != followName) return;
+            if (av.Name != FollowName) return;
 
             Vector3 pos = new Vector3(Vector3.Zero); ;
 
@@ -314,7 +286,7 @@ namespace METAbolt
             //{
             client.Self.Movement.TurnToward(av.Position);
 
-            if (dist > followDistance)
+            if (dist > FollowDistance)
             {
                 client.Self.AutoPilotCancel();
                 ulong followRegionX = e.Simulator.Handle >> 32;
@@ -360,9 +332,9 @@ namespace METAbolt
 
         public void Follow(string name, UUID fid)
         {
-            followid = fid;
-            followName = name;
-            following = !string.IsNullOrEmpty(followName);
+            FollowID = fid;
+            FollowName = name;
+            IsFollowing = !string.IsNullOrEmpty(FollowName);
 
             //if (!following) client.Self.AutoPilotCancel();
         }
@@ -379,7 +351,7 @@ namespace METAbolt
         public void SetTyping(bool ttyping)
         {
             Dictionary<UUID, bool> typingAnim = new Dictionary<UUID, bool>();
-            typingAnim.Add(typingAnimationID, ttyping);
+            typingAnim.Add(TypingAnimationID, ttyping);
 
             if (!instance.Config.CurrentConfig.DisableTyping)
             {
@@ -391,40 +363,40 @@ namespace METAbolt
             else
                 client.Self.Chat(string.Empty, 0, ChatType.StopTyping);
 
-            this.typing = ttyping;
+            this.IsTyping = ttyping;
         }
 
         public void SetAway(bool aaway)
         {
             Dictionary<UUID, bool> awayAnim = new Dictionary<UUID, bool>();
-            awayAnim.Add(awayAnimationID, aaway);
+            awayAnim.Add(AwayAnimationID, aaway);
 
             client.Self.Animate(awayAnim, true);
-            this.away = aaway;
+            this.IsAway = aaway;
         }
 
         public void SetBusy(bool bbusy)
         {
             Dictionary<UUID, bool> busyAnim = new Dictionary<UUID, bool>();
-            busyAnim.Add(busyAnimationID, bbusy);
+            busyAnim.Add(BusyAnimationID, bbusy);
 
             client.Self.Animate(busyAnim, true);
-            this.busy = bbusy;
+            this.IsBusy = bbusy;
         }
 
         public void BellyDance(bool bbelly)
         {
             Dictionary<UUID, bool> bdanceAnim = new Dictionary<UUID, bool>();
-            bdanceAnim.Add(bellydanceAnimationID, bbelly);
+            bdanceAnim.Add(BellydanceAnimationID, bbelly);
 
             client.Self.Animate(bdanceAnim, true);
-            this.belly = bbelly;
+            this.IsBelly = bbelly;
         }
 
         public void ClubDance(bool cclub)
         {
             Dictionary<UUID, bool> cdanceAnim = new Dictionary<UUID, bool>();
-            cdanceAnim.Add(clubdanceAnimationID, cclub);
+            cdanceAnim.Add(ClubdanceAnimationID, cclub);
 
             client.Self.Animate(cdanceAnim, true);
             //this.club = cclub;
@@ -433,7 +405,7 @@ namespace METAbolt
         public void SalsaDance(bool ssalsa)
         {
             Dictionary<UUID, bool> sdanceAnim = new Dictionary<UUID, bool>();
-            sdanceAnim.Add(salsaAnimationID, ssalsa);
+            sdanceAnim.Add(SalsaAnimationID, ssalsa);
 
             client.Self.Animate(sdanceAnim, true);
             //this.salsa = ssalsa;
@@ -442,7 +414,7 @@ namespace METAbolt
         public void FallOnFace(bool ffall)
         {
             Dictionary<UUID, bool> ffallAnim = new Dictionary<UUID, bool>();
-            ffallAnim.Add(fallAnimationID, ffall);
+            ffallAnim.Add(FallAnimationID, ffall);
 
             client.Self.Animate(ffallAnim, true);
             //this.fall = ffall;
@@ -451,7 +423,7 @@ namespace METAbolt
         public void Crouch(bool ccrouch)
         {
             Dictionary<UUID, bool> crouchAnim = new Dictionary<UUID, bool>();
-            crouchAnim.Add(crouchAnimationID, ccrouch);
+            crouchAnim.Add(CrouchAnimationID, ccrouch);
 
             client.Self.Animate(crouchAnim, true);
             //this.crouch = ccrouch;
@@ -463,7 +435,7 @@ namespace METAbolt
 
             client.Self.Fly(fflying);
             client.Self.Movement.Fly = fflying;
-            this.flying = fflying;
+            this.IsFlying = fflying;
         }
 
         public void SetAlwaysRun(bool aalwaysrun)
@@ -480,8 +452,8 @@ namespace METAbolt
             {
                 client.Self.AutoPilotCancel();
 
-                this.sitting = false;
-                sitprim = UUID.Zero;
+                this.IsSitting = false;
+                SitPrim = UUID.Zero;
 
                 requestedsitprim = target;
 
@@ -492,9 +464,9 @@ namespace METAbolt
             }
             else
             {
-                this.sitting = false;
+                this.IsSitting = false;
                 client.Self.Stand();
-                sitprim = UUID.Zero;
+                SitPrim = UUID.Zero;
 
                 StopAnimations();
             }
@@ -506,9 +478,9 @@ namespace METAbolt
 
             if (e.ObjectID == requestedsitprim)
             {
-                this.sitting = true;
-                sitprim = e.ObjectID;
-                sitpos = e.SitPosition;
+                this.IsSitting = true;
+                SitPrim = e.ObjectID;
+                SittingPos = e.SitPosition;
                 //instance.TabConsole.DisplayChatScreen("Auto-sitting on object " + requestedsitprim.ToString());
             }
             else
@@ -522,22 +494,22 @@ namespace METAbolt
 
         public void SetGroundSit(bool sit)
         {
-            groundsitting = sit;
+            IsSittingOnGround = sit;
         }
 
         public void SetStanding()
         {
             client.Self.Stand();
-            this.sitting = false;
-            this.groundsitting = false;
-            sitprim = UUID.Zero;
+            this.IsSitting = false;
+            this.IsSittingOnGround = false;
+            SitPrim = UUID.Zero;
 
             StopAnimations();
         }
 
         public void SetPointing(bool ppointing, UUID target)
         {
-            this.pointing = ppointing;
+            this.IsPointing = ppointing;
 
             if (ppointing)
             {
@@ -563,7 +535,7 @@ namespace METAbolt
 
         public void SetPointing(bool ppointing, UUID target, Vector3d ooffset, Vector3 primposition)
         {
-            this.pointing = ppointing;
+            this.IsPointing = ppointing;
 
             if (ppointing)
             {
@@ -642,7 +614,7 @@ namespace METAbolt
 
         public void SetPointingTouch(bool ppointing, UUID target, Vector3d ooffset, Vector3 primposition)
         {
-            this.pointing = ppointing;
+            this.IsPointing = ppointing;
 
             if (ppointing)
             {
@@ -767,105 +739,41 @@ namespace METAbolt
             });
         }
 
-        public UUID TypingAnimationID
-        {
-            get { return typingAnimationID; }
-            set { typingAnimationID = value; }
-        }
-        
-        public UUID AwayAnimationID
-        {
-            get { return awayAnimationID; }
-            set { awayAnimationID = value; }
-        }
+        public UUID TypingAnimationID { get; set; } = new UUID("c541c47f-e0c0-058b-ad1a-d6ae3a4584d9");
 
-        public UUID BusyAnimationID
-        {
-            get { return busyAnimationID; }
-            set { busyAnimationID = value; }
-        }
+        public UUID AwayAnimationID { get; set; } = new UUID("fd037134-85d4-f241-72c6-4f42164fedee");
 
-        public UUID BellydanceAnimationID
-        {
-            get { return bellydanceAnimationID; }
-            set { bellydanceAnimationID = value; }
-        }
+        public UUID BusyAnimationID { get; set; } = new UUID("efcf670c2d188128973a034ebc806b67");
 
-        public UUID ClubdanceAnimationID
-        {
-            get { return clubdanceAnimationID; }
-            set { clubdanceAnimationID = value; }
-        }
+        public UUID BellydanceAnimationID { get; set; } = new UUID("f2c2f006-69a2-089d-64bc-94efe4f3bb23");
 
-        public UUID SalsaAnimationID
-        {
-            get { return salsaAnimationID; }
-            set { salsaAnimationID = value; }
-        }
+        public UUID ClubdanceAnimationID { get; set; } = new UUID("cb956f10-cc64-71a3-a36c-61823794f7df");
 
-        public UUID FallAnimationID
-        {
-            get { return fallAnimationID; }
-            set { fallAnimationID = value; }
-        }
+        public UUID SalsaAnimationID { get; set; } = new UUID("6953622f-b308-3c84-4c28-a0cb9d5f9749");
 
-        public UUID CrouchAnimationID
-        {
-            get { return crouchAnimationID; }
-            set { crouchAnimationID = value; }
-        }
+        public UUID FallAnimationID { get; set; } = new UUID("85db9c46-2c49-d4d0-d7eb-b5d954d8d8a3");
 
-        public bool IsTyping
-        {
-            get { return typing; }
-        }
+        public UUID CrouchAnimationID { get; set; } = new UUID(Animations.CROUCH.ToString());
 
-        public bool IsAway
-        {
-            get { return away; }
-        }
+        public bool IsTyping { get; private set; } = false;
 
-        public bool IsBusy
-        {
-            get { return busy; }
-        }
+        public bool IsAway { get; private set; } = false;
 
-        public bool IsBelly
-        {
-            get { return belly; }
-        }
+        public bool IsBusy { get; private set; } = false;
 
-        public bool IsFlying
-        {
-            get { return flying; }
-        }
+        public bool IsBelly { get; private set; } = false;
 
-        public bool IsSitting
-        {
-            get { return sitting; }
-            set { sitting = value; }
-        }
+        public bool IsFlying { get; private set; } = false;
 
-        public bool IsSittingOnGround
-        {
-            get { return groundsitting; }
-        }
+        public bool IsSitting { get; set; } = false;
 
-        public bool IsPointing
-        {
-            get { return pointing; }
-        }
+        public bool IsSittingOnGround { get; private set; } = false;
 
-        public bool IsFollowing
-        {
-            get { return following; }
-        }
+        public bool IsPointing { get; private set; } = false;
 
-        public string FollowName
-        {
-            get { return followName; }
-            set { followName = value; }
-        }
+        public bool IsFollowing { get; private set; } = false;
+
+        public string FollowName { get; set; } = string.Empty;
 
         //public string GoName
         //{
@@ -873,64 +781,24 @@ namespace METAbolt
         //    set { goName = value; }
         //}
 
-        public float FollowDistance
-        {
-            get { return followDistance; }
-            set { followDistance = value; }
-        }
+        public float FollowDistance { get; set; } = 5.0f;
 
-        public UUID FollowID
-        {
-            get { return followid; }
-            set { followid = value; }
-        }
+        public UUID FollowID { get; set; } = UUID.Zero;
 
-        public SafeDictionary<UUID, String> GroupStore
-        {
-            get { return groupstore; }
-            set { groupstore = value; }
-        }
+        public SafeDictionary<UUID, String> GroupStore { get; set; } = new SafeDictionary<UUID, String>();
 
-        public Dictionary<UUID, Group> Groups
-        {
-            get { return groups; }
-            set { groups = value; }
-        }
+        public Dictionary<UUID, Group> Groups { get; set; } = new Dictionary<UUID, Group>();
 
-        public List<FriendInfo> AvatarFriends
-        {
-            get { return avatarfriends; }
-            set { avatarfriends = value; }
-        }
+        public List<FriendInfo> AvatarFriends { get; set; } = new List<FriendInfo>();
 
-        public string CurrentTab
-        {
-            get { return currenttab; }
-            set { currenttab = value; }
-        }
+        public string CurrentTab { get; set; } = "Chat";
 
-        public UUID SitPrim
-        {
-            get { return sitprim; }
-            set { sitprim = value; } 
-        }
+        public UUID SitPrim { get; set; } = UUID.Zero;
 
-        public int UnReadIMs
-        {
-            get { return unreadims; }
-            set { unreadims = value; }
-        }
+        public int UnReadIMs { get; set; } = 0;
 
-        public bool FolderRcvd
-        {
-            get { return foldercvd; }
-            set { foldercvd = value; }
-        }
+        public bool FolderRcvd { get; set; } = false;
 
-        public Vector3 SittingPos
-        {
-            get { return sitpos; }
-            set { sitpos = value; }
-        }
+        public Vector3 SittingPos { get; set; } = new Vector3(0, 0, 0);
     }
 }

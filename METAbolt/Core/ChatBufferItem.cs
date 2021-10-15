@@ -30,13 +30,6 @@ namespace METAbolt
 {
     public class ChatBufferItem
     {
-        private DateTime timestamp;
-        private string text;
-        private ChatBufferTextStyle style;
-        private string fromname;
-        private UUID fromuuid;
-        private string nlink;
-
         public ChatBufferItem()
         {
             // do nothing
@@ -44,26 +37,26 @@ namespace METAbolt
 
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style)
         {
-            this.timestamp = timestamp;
-            this.text = text;
-            this.style = style;
+            this.Timestamp = timestamp;
+            this.Text = text;
+            this.Style = style;
         }
 
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style, string fromname)
         {
-            this.timestamp = timestamp;
-            this.text = text;
-            this.style = style;
-            this.fromname = fromname; 
+            this.Timestamp = timestamp;
+            this.Text = text;
+            this.Style = style;
+            this.FromName = fromname; 
         }
 
         public ChatBufferItem(DateTime timestamp, string text, string link, ChatBufferTextStyle style, string fromname)
         {
-            this.timestamp = timestamp;
-            this.text = text;
-            this.nlink = link;
-            this.style = style;
-            this.fromname = fromname;
+            this.Timestamp = timestamp;
+            this.Text = text;
+            this.Link = link;
+            this.Style = style;
+            this.FromName = fromname;
         }
 
         /// <summary>
@@ -76,51 +69,27 @@ namespace METAbolt
         /// <param name="fromuuid">UUID of the agent sending the message</param>
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style, string name, UUID uuid)
         {
-            this.timestamp = timestamp;
-            this.text = text;
-            this.style = style;
-            this.fromname = name;
-            this.fromuuid = uuid;
+            this.Timestamp = timestamp;
+            this.Text = text;
+            this.Style = style;
+            this.FromName = name;
+            this.FromUUID = uuid;
         }
         
-        public DateTime Timestamp
-        {
-            get { return timestamp; }
-            set { timestamp = value; }
-        }
+        public DateTime Timestamp { get; set; }
 
-        public string Text
-        {
-            get { return text; }
-            set { text = value; }
-        }
+        public string Text { get; set; }
 
-        public string Link
-        {
-            get { return nlink; }
-            set { nlink = value; }
-        }
+        public string Link { get; set; }
 
-        public string FromName
-        {
-            get { return fromname; }
-            set { fromname = value; }
-        }
+        public string FromName { get; set; }
 
-        public ChatBufferTextStyle Style
-        {
-            get { return style; }
-            set { style = value; }
-        }
+        public ChatBufferTextStyle Style { get; set; }
 
         /// <summary>
         /// UUID of the object sending the message, strangely this is not the FromAgentId but the IMSessionId in a message from object
         /// </summary>
-        public UUID FromUUID
-        {
-            get { return fromuuid; }
-            set { fromuuid = value; }
-        }
+        public UUID FromUUID { get; set; }
     }
 
     public enum ChatBufferTextStyle

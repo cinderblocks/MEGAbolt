@@ -42,9 +42,6 @@ namespace METAbolt
         private float fY;
         private float fZ;
 
-        private UUID queryID;
-        private SafeDictionary<string, uint> findEventsResults;
-
         public event EventHandler SelectedIndexChanged;
         private NumericStringComparer lvwColumnSorter;
 
@@ -52,8 +49,8 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            findEventsResults = new SafeDictionary<string, uint>();
-            this.queryID = queryID;
+            LLUUIDs = new SafeDictionary<string, uint>();
+            this.QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -158,7 +155,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.queryID) return;
+            if (qqueryID != this.QueryID) return;
 
             lvwFindEvents.BeginUpdate();
 
@@ -171,19 +168,19 @@ namespace METAbolt
                     string fullName = events.Name;
                     bool fx = false;
 
-                    if (findEventsResults.ContainsKey(fullName))
+                    if (LLUUIDs.ContainsKey(fullName))
                     {
                         fx = true;
                     }
 
                     if (!fx)
                     {
-                        findEventsResults.Add(fullName, events.ID);
+                        LLUUIDs.Add(fullName, events.ID);
                     }
                     else
                     {
                         fullName += " (" + icnt.ToString(CultureInfo.CurrentCulture) + ")";
-                        findEventsResults.Add(fullName, events.ID);
+                        LLUUIDs.Add(fullName, events.ID);
                     }
 
                     ListViewItem item = lvwFindEvents.Items.Add(fullName);
@@ -204,7 +201,7 @@ namespace METAbolt
 
         public void ClearResults()
         {
-            findEventsResults.Clear();
+            LLUUIDs.Clear();
             lvwFindEvents.Items.Clear();
             button1.Enabled = false;
             button2.Enabled = false;
@@ -223,16 +220,9 @@ namespace METAbolt
             if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
         }
 
-        public SafeDictionary<string, uint> LLUUIDs
-        {
-            get { return findEventsResults; }
-        }
+        public SafeDictionary<string, uint> LLUUIDs { get; }
 
-        public UUID QueryID
-        {
-            get { return queryID; }
-            set { queryID = value; }
-        }
+        public UUID QueryID { get; set; }
 
         public int SelectedIndex
         {
@@ -277,7 +267,7 @@ namespace METAbolt
                 if (lvwFindEvents.SelectedItems.Count == 0) return 0;
 
                 string name = lvwFindEvents.SelectedItems[0].Text;
-                return findEventsResults[name];
+                return LLUUIDs[name];
             }
         }
 

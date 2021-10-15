@@ -47,7 +47,7 @@ namespace METAbolt
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-        private TabsConsole tabsConsole;
+
         //private ChatConsole cconsole;
         private frmDebugLog debugLogForm;
         private System.Timers.Timer statusTimer;
@@ -932,9 +932,9 @@ namespace METAbolt
                 return;
             }
 
-            tabsConsole = new TabsConsole(instance);
-            tabsConsole.Dock = DockStyle.Fill;
-            toolStripContainer1.ContentPanel.Controls.Add(tabsConsole);
+            TabConsole = new TabsConsole(instance);
+            TabConsole.Dock = DockStyle.Fill;
+            toolStripContainer1.ContentPanel.Controls.Add(TabConsole);
         }
 
         private void InitializeDebugLogForm()
@@ -972,7 +972,7 @@ namespace METAbolt
         {
             this.CenterToScreen();
             
-            tabsConsole.SelectTab("Main");
+            TabConsole.SelectTab("Main");
 
             // fire off the auto updater
             Thread thread = new Thread(StartSilent);
@@ -1150,10 +1150,7 @@ namespace METAbolt
         #endregion
         
 
-        public TabsConsole TabConsole
-        {
-            get { return tabsConsole; }
-        }
+        public TabsConsole TabConsole { get; private set; }
 
         private void tmnuNewWindow_Click(object sender, EventArgs e)
         {
@@ -2117,7 +2114,7 @@ namespace METAbolt
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)
         {
-            tabsConsole.chatConsole.UpdateFavourites(foundfolders);  
+            TabConsole.chatConsole.UpdateFavourites(foundfolders);  
 
             //foreach (InventoryBase oitem in foundfolders)
             //{

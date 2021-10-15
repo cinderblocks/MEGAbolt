@@ -42,12 +42,9 @@ namespace MEGAbolt.Controls
   public class Popup : ToolStripDropDown
   {
     private IContainer components;
-    private Control content;
     private PopupAnimations showingAnimation;
     private PopupAnimations hidingAnimation;
     private int animationDuration;
-    private bool focusOnOpen = true;
-    private bool acceptAlt = true;
     private Control opener;
     private Popup ownerPopup;
     private Popup childPopup;
@@ -56,8 +53,6 @@ namespace MEGAbolt.Controls
     private bool isChildPopupOpened;
     private bool resizable;
     private ToolStripControlHost host;
-    private Size minSize;
-    private Size maxSize;
     private VisualStyleRenderer sizeGripRenderer;
 
     protected override void Dispose(bool disposing)
@@ -66,10 +61,10 @@ namespace MEGAbolt.Controls
       {
         if (this.components != null)
           this.components.Dispose();
-        if (this.content != null)
+        if (this.Content != null)
         {
-          Control content = this.content;
-          this.content = (Control) null;
+          Control content = this.Content;
+          this.Content = (Control) null;
           content.Dispose();
         }
       }
@@ -78,7 +73,7 @@ namespace MEGAbolt.Controls
 
     private void InitializeComponent() => this.components = (IContainer) new Container();
 
-    public Control Content => this.content;
+    public Control Content { get; private set; }
 
     public PopupAnimations ShowingAnimation
     {
@@ -113,17 +108,9 @@ namespace MEGAbolt.Controls
       }
     }
 
-    public bool FocusOnOpen
-    {
-      get => this.focusOnOpen;
-      set => this.focusOnOpen = value;
-    }
+    public bool FocusOnOpen { get; set; } = true;
 
-    public bool AcceptAlt
-    {
-      get => this.acceptAlt;
-      set => this.acceptAlt = value;
-    }
+    public bool AcceptAlt { get; set; } = true;
 
     public bool Resizable
     {
@@ -131,17 +118,9 @@ namespace MEGAbolt.Controls
       set => this.resizable = value;
     }
 
-    public new Size MinimumSize
-    {
-      get => this.minSize;
-      set => this.minSize = value;
-    }
+    public new Size MinimumSize { get; set; }
 
-    public new Size MaximumSize
-    {
-      get => this.maxSize;
-      set => this.maxSize = value;
-    }
+    public new Size MaximumSize { get; set; }
 
     protected override CreateParams CreateParams
     {
@@ -156,7 +135,7 @@ namespace MEGAbolt.Controls
     public Popup(Control content)
     {
       Popup popup = this;
-      this.content = content != null ? content : throw new ArgumentNullException(nameof (content));
+      this.Content = content != null ? content : throw new ArgumentNullException(nameof (content));
       this.showingAnimation = PopupAnimations.SystemDefault;
       this.hidingAnimation = PopupAnimations.None;
       this.animationDuration = 100;
@@ -216,7 +195,7 @@ namespace MEGAbolt.Controls
     [UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
     protected override bool ProcessDialogKey(Keys keyData)
     {
-      if (this.acceptAlt && (keyData & Keys.Alt) == Keys.Alt)
+      if (this.AcceptAlt && (keyData & Keys.Alt) == Keys.Alt)
       {
         if ((keyData & Keys.F4) != Keys.F4)
           return false;
@@ -235,9 +214,9 @@ namespace MEGAbolt.Controls
         this.Region.Dispose();
         this.Region = (Region) null;
       }
-      if (this.content.Region == null)
+      if (this.Content.Region == null)
         return;
-      this.Region = this.content.Region.Clone();
+      this.Region = this.Content.Region.Clone();
     }
 
     public void Show(Control control)
@@ -292,16 +271,16 @@ namespace MEGAbolt.Controls
 
     protected override void OnSizeChanged(EventArgs e)
     {
-      this.content.MinimumSize = this.Size;
-      this.content.MaximumSize = this.Size;
-      this.content.Size = this.Size;
-      this.content.Location = Point.Empty;
+      this.Content.MinimumSize = this.Size;
+      this.Content.MaximumSize = this.Size;
+      this.Content.Size = this.Size;
+      this.Content.Location = Point.Empty;
       base.OnSizeChanged(e);
     }
 
     protected override void OnOpening(CancelEventArgs e)
     {
-      if (this.content.IsDisposed || this.content.Disposing)
+      if (this.Content.IsDisposed || this.Content.Disposing)
       {
         e.Cancel = true;
       }
@@ -316,8 +295,8 @@ namespace MEGAbolt.Controls
     {
       if (this.ownerPopup != null)
         this.ownerPopup.isChildPopupOpened = true;
-      if (this.focusOnOpen)
-        this.content.Focus();
+      if (this.FocusOnOpen)
+        this.Content.Focus();
       base.OnOpened(e);
     }
 
@@ -366,7 +345,7 @@ namespace MEGAbolt.Controls
     private bool OnNcHitTest(ref Message m, bool contentControl)
     {
       Point client = this.PointToClient(new Point(NativeMethods.LOWORD(m.LParam), NativeMethods.HIWORD(m.LParam)));
-      GripBounds gripBounds = new GripBounds(contentControl ? this.content.ClientRectangle : this.ClientRectangle);
+      GripBounds gripBounds = new GripBounds(contentControl ? this.Content.ClientRectangle : this.ClientRectangle);
       IntPtr num = new IntPtr(-1);
       if (this.resizableTop)
       {
@@ -419,7 +398,7 @@ namespace MEGAbolt.Controls
     {
       if (e == null || e.Graphics == null || !this.resizable)
         return;
-      Size clientSize = this.content.ClientSize;
+      Size clientSize = this.Content.ClientSize;
       using (Bitmap bitmap = new Bitmap(16, 16))
       {
         using (Graphics graphics = Graphics.FromImage((Image) bitmap))
@@ -431,7 +410,7 @@ namespace MEGAbolt.Controls
             this.sizeGripRenderer.DrawBackground((IDeviceContext) graphics, new Rectangle(0, 0, 16, 16));
           }
           else
-            ControlPaint.DrawSizeGrip(graphics, this.content.BackColor, 0, 0, 16, 16);
+            ControlPaint.DrawSizeGrip(graphics, this.Content.BackColor, 0, 0, 16, 16);
         }
         GraphicsState gstate = e.Graphics.Save();
         e.Graphics.ResetTransform();

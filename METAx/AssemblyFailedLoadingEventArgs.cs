@@ -33,39 +33,18 @@ namespace METAx
 {
   public class AssemblyFailedLoadingEventArgs : EventArgs
   {
-    private ExtensionType extensionType = ExtensionType.Unknown;
-    private CompilerErrorCollection sourceFileCompilerErrors = new CompilerErrorCollection();
-    private string errorMessage = "";
-    private string filename = "";
-
-    public AssemblyFailedLoadingEventArgs()
+      public AssemblyFailedLoadingEventArgs()
     {
     }
 
-    public AssemblyFailedLoadingEventArgs(string filename) => this.filename = filename;
+    public AssemblyFailedLoadingEventArgs(string filename) => this.Filename = filename;
 
-    public ExtensionType ExtensionType
-    {
-      get => this.extensionType;
-      set => this.extensionType = value;
-    }
+    public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
 
-    public CompilerErrorCollection SourceFileCompilerErrors
-    {
-      get => this.sourceFileCompilerErrors;
-      set => this.sourceFileCompilerErrors = value;
-    }
+    public CompilerErrorCollection SourceFileCompilerErrors { get; set; } = new CompilerErrorCollection();
 
-    public string ErrorMessage
-    {
-      get => this.errorMessage;
-      set => this.errorMessage = value;
-    }
+    public string ErrorMessage { get; set; } = "";
 
-    public string Filename
-    {
-      get => this.filename;
-      set => this.filename = value;
-    }
+    public string Filename { get; set; } = "";
   }
 }

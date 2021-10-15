@@ -31,51 +31,26 @@ namespace MEGAbolt.NetworkComm
 {
     public class LoadURLEventArgs : EventArgs
     {
-        private string objectName;
-        private UUID objectID;
-        private UUID ownerID;
-        private bool ownerIsGroup;
-        private string message;
-        private string URL;
-
         public LoadURLEventArgs(string objectName, UUID objectID, UUID ownerID, bool ownerIsGroup, string message, string URL)
         {
-            this.objectName = objectName;
-            this.objectID = objectID;
-            this.ownerID = ownerID;
-            this.ownerIsGroup = ownerIsGroup;
-            this.message = message;
-            this.URL = URL;
+            this.ObjectName = objectName;
+            this.ObjectID = objectID;
+            this.OwnerID = ownerID;
+            this.OwnerIsGroup = ownerIsGroup;
+            this.Message = message;
+            this.url = URL;
         }
 
-        public string ObjectName
-        {
-            get { return objectName; }
-        }
+        public string ObjectName { get; }
 
-        public UUID ObjectID
-        {
-            get { return objectID; }
-        }
+        public UUID ObjectID { get; }
 
-        public UUID OwnerID
-        {
-            get { return ownerID; }
-        }
+        public UUID OwnerID { get; }
 
-        public bool OwnerIsGroup
-        {
-            get { return ownerIsGroup; }
-        }
+        public bool OwnerIsGroup { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
 
-        public string url
-        {
-            get { return URL; }
-        }
+        public string url { get; }
     }
 }

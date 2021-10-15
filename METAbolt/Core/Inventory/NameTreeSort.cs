@@ -30,9 +30,6 @@ namespace METAbolt
 {
     public class NameTreeSort : ITreeSortMethod
     {
-        private string name = "By Name";
-        private string description = "Sorts items in the inventory tree according to name, from A to Z.";
-
         #region ITreeSortMethod Members
 
         public int CompareNodes(InventoryBase x, InventoryBase y, TreeNode nodeX, TreeNode nodeY)
@@ -52,15 +49,9 @@ namespace METAbolt
             return returnVal;
         }
 
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; } = "By Name";
 
-        public string Description
-        {
-            get { return description; }
-        }
+        public string Description { get; } = "Sorts items in the inventory tree according to name, from A to Z.";
 
         #endregion
     }

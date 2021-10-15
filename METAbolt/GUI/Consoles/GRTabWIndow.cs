@@ -36,9 +36,7 @@ namespace METAbolt
         private METAboltInstance instance;
         //private SLNetCom netcom;
         private GridClient client;
-        private string targetName;
         private UUID targetUUID;
-        private UUID isession;
 
         public GRTabWindow(METAboltInstance instance, InstantMessageEventArgs e)
         {
@@ -56,9 +54,9 @@ namespace METAbolt
 
             try
             {
-                targetName = e.IM.FromAgentName;
+                TargetName = e.IM.FromAgentName;
                 targetUUID = e.IM.FromAgentID;
-                isession = e.IM.IMSessionID;
+                iSession = e.IM.IMSessionID;
                 //string gmsg = @e.IM.Message.ToString();
 
                 //split = gmsg.Split(new Char[] { ':' });
@@ -90,27 +88,21 @@ namespace METAbolt
             }
         }
 
-        public string TargetName
-        {
-            get { return targetName; }
-        }
+        public string TargetName { get; private set; }
 
         public UUID TargetUUID
         {
             get { return targetUUID; }
         }
 
-        public UUID iSession
-        {
-            get { return isession; }
-        }
+        public UUID iSession { get; private set; }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
             // There is a bug here which needs to be looked at some stage
             try
             {
-                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, isession, InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Accept Group Invitation (Join Group)
+                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Accept Group Invitation (Join Group)
                 CloseTab();
             }
             catch
@@ -121,7 +113,7 @@ namespace METAbolt
 
         private void btnDecline_Click(object sender, EventArgs e)
         {
-            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, isession, InstantMessageDialog.GroupInvitationDecline, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Decline Group Invitation
+            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, InstantMessageDialog.GroupInvitationDecline, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Decline Group Invitation
             CloseTab();
         }
     }

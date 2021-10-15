@@ -30,9 +30,6 @@ namespace METAbolt
 {
     public class DateTreeSort : ITreeSortMethod
     {
-        private string name = "By Date";
-        private string description = "Sorts items in the inventory tree according to date, starting with the newest.";
-
         #region ITreeSortMethod Members
 
         public int CompareNodes(InventoryBase x, InventoryBase y, TreeNode nodeX, TreeNode nodeY)
@@ -56,15 +53,9 @@ namespace METAbolt
             return returnVal;
         }
 
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; } = "By Date";
 
-        public string Description
-        {
-            get { return description; }
-        }
+        public string Description { get; } = "Sorts items in the inventory tree according to date, starting with the newest.";
 
         #endregion
     }

@@ -42,14 +42,7 @@ namespace METAbolt.FileINI
         private object m_Lock = new object();
 
         // *** File name ***
-        private string m_FileName = null;
-        internal string FileName
-        {
-            get
-            {
-                return m_FileName;
-            }
-        }
+        internal string FileName { get; private set; } = null;
 
         // *** Lazy loading flag ***
         private bool m_Lazy = false;
@@ -78,7 +71,7 @@ namespace METAbolt.FileINI
         // *** Initialization ***
         private void Initialize(string FileName, bool Lazy)
         {
-            m_FileName = FileName;
+            this.FileName = FileName;
             m_Lazy = Lazy;
             if (!m_Lazy) Refresh();
         }
@@ -97,7 +90,7 @@ namespace METAbolt.FileINI
                     // *** Open the INI file ***
                     try
                     {
-                        sr = new StreamReader(m_FileName);
+                        sr = new StreamReader(FileName);
                     }
                     catch (FileNotFoundException)
                     {
@@ -170,7 +163,7 @@ namespace METAbolt.FileINI
                 m_CacheModified = false;
 
                 // *** Open the file ***
-                StreamWriter sw = new StreamWriter(m_FileName);
+                StreamWriter sw = new StreamWriter(FileName);
 
                 try
                 {

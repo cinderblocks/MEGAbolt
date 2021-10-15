@@ -40,18 +40,10 @@ namespace METAbolt
         private GridClient client;
 
         private GridRegion region;
-        private System.Drawing.Image mapImage;
 
         private ListBox listBox;
-        private int listIndex;
 
-        private bool imageDownloading = false;
-        private bool imageDownloaded = false;
-
-        private bool gettingAgentCount = false;
-        private bool gotAgentCount = false;
         private BackgroundWorker agentCountWorker;
-        private List<MapItem> agentlocations = new List<MapItem>();
 
         public RegionSearchResultItem(METAboltInstance instance, GridRegion region, ListBox listBox)
         {
@@ -79,14 +71,14 @@ namespace METAbolt
             if (items != null)
             {
                 e.Result = (byte)items.Count;
-                agentlocations = items; 
+                AgentLocations = items; 
             }
         }
 
         private void agentCountWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            gettingAgentCount = false;
-            gotAgentCount = true;
+            GettingAgentCount = false;
+            GotAgentCount = true;
 
             if (e.Result != null)
             {
@@ -107,13 +99,13 @@ namespace METAbolt
             if (texture.AssetID != region.MapImageID) return;
             if (texture.AssetData == null) return;
 
-            mapImage = ImageHelper.Decode(texture.AssetData);
-            if (mapImage == null) return;
+            MapImage = ImageHelper.Decode(texture.AssetData);
+            if (MapImage == null) return;
 
-            instance.ImageCache.AddImage(texture.AssetID, mapImage);
+            instance.ImageCache.AddImage(texture.AssetID, MapImage);
 
-            imageDownloading = false;
-            imageDownloaded = true;
+            IsImageDownloading = false;
+            IsImageDownloaded = true;
             listBox.BeginInvoke(new MethodInvoker(RefreshListBox));
             listBox.BeginInvoke(new OnMapImageRaise(OnMapImageDownloaded), new object[] { EventArgs.Empty });
         }
@@ -128,28 +120,28 @@ namespace METAbolt
         {
             if (region.MapImageID == UUID.Zero || region.MapImageID == null)
             {
-                imageDownloaded = true;
+                IsImageDownloaded = true;
                 OnMapImageDownloaded(EventArgs.Empty);
                 return;
             }
 
             if (instance.ImageCache.ContainsImage(region.MapImageID))
             {
-                mapImage = instance.ImageCache.GetImage(region.MapImageID);
-                imageDownloaded = true;
+                MapImage = instance.ImageCache.GetImage(region.MapImageID);
+                IsImageDownloaded = true;
                 OnMapImageDownloaded(EventArgs.Empty);
                 RefreshListBox();
             }
             else
             {
                 client.Assets.RequestImage(region.MapImageID, ImageType.Normal, Assets_OnImageReceived); //, priority, 0);
-                imageDownloading = true;
+                IsImageDownloading = true;
             }
         }
 
         public void RequestAgentLocations()
         {
-            gettingAgentCount = true;
+            GettingAgentCount = true;
             agentCountWorker.RunWorkerAsync();
         }
 
@@ -170,40 +162,18 @@ namespace METAbolt
             get { return region; }
         }
 
-        public System.Drawing.Image MapImage
-        {
-            get { return mapImage; }
-        }
+        public System.Drawing.Image MapImage { get; private set; }
 
-        public bool IsImageDownloaded
-        {
-            get { return imageDownloaded; }
-        }
+        public bool IsImageDownloaded { get; private set; } = false;
 
-        public bool IsImageDownloading
-        {
-            get { return imageDownloading; }
-        }
+        public bool IsImageDownloading { get; private set; } = false;
 
-        public bool GettingAgentCount
-        {
-            get { return gettingAgentCount; }
-        }
+        public bool GettingAgentCount { get; private set; } = false;
 
-        public bool GotAgentCount
-        {
-            get { return gotAgentCount; }
-        }
+        public bool GotAgentCount { get; private set; } = false;
 
-        public int ListIndex
-        {
-            get { return listIndex; }
-            set { listIndex = value; }
-        }
+        public int ListIndex { get; set; }
 
-        public List<MapItem> AgentLocations
-        {
-            get { return agentlocations; }
-        }
+        public List<MapItem> AgentLocations { get; private set; } = new List<MapItem>();
     }
 }

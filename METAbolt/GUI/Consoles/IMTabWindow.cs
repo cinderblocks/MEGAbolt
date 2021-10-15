@@ -41,10 +41,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
-        private UUID target;
-        private UUID session;
-        private string toName;
-        private IMTextManager textManager;
+
         private bool typing = false;
         //private bool pasted = false;
         //private const int WM_KEYUP = 0x101;
@@ -85,12 +82,12 @@ namespace METAbolt
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
-            this.target = target;
-            this.session = session;
-            this.toName = toName;
+            this.TargetId = target;
+            this.SessionId = session;
+            this.TargetName = toName;
             tab = instance.TabConsole;
 
-            textManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.session, this.toName);
+            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.SessionId, this.TargetName);
             this.Disposed += IMTabWindow_Disposed;
 
             AddNetcomEvents();
@@ -102,7 +99,7 @@ namespace METAbolt
 
             CreateSmileys();
 
-            if (this.instance.IMHistyoryExists(this.toName, false))
+            if (this.instance.IMHistyoryExists(this.TargetName, false))
             {
                 toolStripButton2.Enabled = true; 
             }
@@ -286,7 +283,7 @@ namespace METAbolt
 
         private void netcom_InstantMessageReceived(object sender, InstantMessageEventArgs e)
         {
-            if (e.IM.IMSessionID != session)
+            if (e.IM.IMSessionID != SessionId)
             {
                 return;
             }
@@ -384,9 +381,9 @@ namespace METAbolt
         {
             this.cbxInput.Text = string.Empty;  
             instance.TabConsole.RemoveTabEntry(SessionId.ToString());
-            textManager.CleanUp();
-            textManager = null;
-            target = UUID.Zero;  
+            TextManager.CleanUp();
+            TextManager = null;
+            TargetId = UUID.Zero;  
             RemoveNetcomEvents();
         }
 
@@ -409,7 +406,7 @@ namespace METAbolt
                 this.cbxInput.Enabled = false;
                 btnSend.Enabled = false;
                 //this.cbxInput.Text = string.Empty;
-                target = UUID.Zero;  
+                TargetId = UUID.Zero;  
                 return;
             }
 
@@ -419,14 +416,14 @@ namespace METAbolt
 
                 if (!typing)
                 {
-                    netcom.SendIMStartTyping(target, session);
+                    netcom.SendIMStartTyping(TargetId, SessionId);
                     typing = true;
                 }
             }
             else
             {
                 btnSend.Enabled = false;
-                netcom.SendIMStopTyping(target, session);
+                netcom.SendIMStopTyping(TargetId, SessionId);
                 typing = false;
             }
         }
@@ -502,7 +499,7 @@ namespace METAbolt
 
                 if (hasmistake)
                 {
-                    (new frmSpelling(instance, message, swords, false, target, session)).Show();
+                    (new frmSpelling(instance, message, swords, false, TargetId, SessionId)).Show();
 
                     ClearIMInput();
                     hasmistake = false;
@@ -516,17 +513,17 @@ namespace METAbolt
             if (message.Length > 1023)
             {
                 message1 = message.Substring(0, 1022);
-                netcom.SendInstantMessage(message1, target, session);
+                netcom.SendInstantMessage(message1, TargetId, SessionId);
 
                 if (message.Length > 2046)
                 {
                     message2 = message.Substring(1023, 2045);
-                    netcom.SendInstantMessage(message2, target, session);
+                    netcom.SendInstantMessage(message2, TargetId, SessionId);
                 }
             }
             else
             {
-                netcom.SendInstantMessage(message, target, session); ;
+                netcom.SendInstantMessage(message, TargetId, SessionId); ;
             }
 
             ClearIMInput();
@@ -545,7 +542,7 @@ namespace METAbolt
 
         private void tbtnProfile_Click(object sender, EventArgs e)
         {
-            (new frmProfile(instance, toName, target)).Show();
+            (new frmProfile(instance, TargetName, TargetId)).Show();
         }
 
         private void cbxInput_KeyDown(object sender, KeyEventArgs e)
@@ -592,29 +589,13 @@ namespace METAbolt
             }
         }
 
-        public UUID TargetId
-        {
-            get { return target; }
-            set { target = value; }
-        }
+        public UUID TargetId { get; set; }
 
-        public string TargetName
-        {
-            get { return toName; }
-            set { toName = value; }
-        }
+        public string TargetName { get; set; }
 
-        public UUID SessionId
-        {
-            get { return session; }
-            set { session = value; }
-        }
+        public UUID SessionId { get; set; }
 
-        public IMTextManager TextManager
-        {
-            get { return textManager; }
-            set { textManager = value; }
-        }
+        public IMTextManager TextManager { get; set; }
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -756,14 +737,14 @@ namespace METAbolt
 
         private void tsbClear_Click(object sender, EventArgs e)
         {
-            textManager.ClearAllText();
+            TextManager.ClearAllText();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (instance.IsAvatarMuted(target, toName))
+            if (instance.IsAvatarMuted(TargetId, TargetName))
             {
-                MessageBox.Show(toName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(TargetName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -772,9 +753,9 @@ namespace METAbolt
             //dr["mute_name"] = toName;
             //instance.MuteList.Rows.Add(dr);
 
-            instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, target, instance.avnames[target]);
+            instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, TargetId, instance.avnames[TargetId]);
 
-            MessageBox.Show(toName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show(TargetName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
         }
 
         private void cbxInput_SelectedIndexChanged(object sender, EventArgs e)
@@ -803,7 +784,7 @@ namespace METAbolt
                 if (e.SuppressKeyPress)
                 {
                     tab.tabs["chat"].Select();
-                    METAboltTab stab = tab.GetTab(toName);
+                    METAboltTab stab = tab.GetTab(TargetName);
                     stab.Close(); 
                 }
 
@@ -827,7 +808,7 @@ namespace METAbolt
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            frmHistory frm = new frmHistory(instance, toName, false);
+            frmHistory frm = new frmHistory(instance, TargetName, false);
             frm.Show();
         }
 

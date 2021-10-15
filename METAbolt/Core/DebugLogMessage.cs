@@ -30,30 +30,17 @@ namespace METAbolt
 {
     public class DebugLogMessage
     {
-        private string message;
-        private Helpers.LogLevel level;
-        private DateTime timestamp;
-
         public DebugLogMessage(string message, Helpers.LogLevel level, DateTime tstamp)
         {
-            this.message = message;
-            this.level = level;
-            this.timestamp = tstamp; 
+            this.Message = message;
+            this.Level = level;
+            this.TimeStamp = tstamp; 
         }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
 
-        public Helpers.LogLevel Level
-        {
-            get { return level; }
-        }
+        public Helpers.LogLevel Level { get; }
 
-        public DateTime TimeStamp
-        {
-            get { return timestamp; }
-        }
+        public DateTime TimeStamp { get; }
     }
 }

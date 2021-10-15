@@ -44,7 +44,6 @@ namespace METAbolt
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-        private ITextPrinter textPrinter;
         //private frmMain mainForm;
 
         //private List<ChatBufferItem> textBuffer;
@@ -113,7 +112,7 @@ namespace METAbolt
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.textPrinter = textPrinter;
+            this.TextPrinter = textPrinter;
             //this.textBuffer = new List<ChatBufferItem>();
 
             this.instance = instance;
@@ -576,7 +575,7 @@ namespace METAbolt
                     //    dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                     //}
 
-                    textPrinter.SetSelectionForeColor(Color.Gray);
+                    TextPrinter.SetSelectionForeColor(Color.Gray);
 
                     if (item.Style == ChatBufferTextStyle.StatusDarkBlue || item.Style == ChatBufferTextStyle.Alert)
                     {
@@ -605,7 +604,7 @@ namespace METAbolt
                     if (lastspeaker != item.FromName)
                     {
                         //textPrinter.SetFontStyle(FontStyle.Bold);
-                        textPrinter.PrintHeader(item.FromName);   // + buff);
+                        TextPrinter.PrintHeader(item.FromName);   // + buff);
 
                         lastspeaker = item.FromName;
                     }
@@ -615,8 +614,8 @@ namespace METAbolt
                     ;
                 }
 
-                textPrinter.SetFontStyle(FontStyle.Regular);
-                textPrinter.SetSelectionBackColor(Color.White);
+                TextPrinter.SetFontStyle(FontStyle.Regular);
+                TextPrinter.SetSelectionBackColor(Color.White);
                 //textPrinter.SetSelectionBackColor(instance.Config.CurrentConfig.BgColour);
 
                 if (showTimestamps)
@@ -722,7 +721,7 @@ namespace METAbolt
                         gmsg = "IMPORTANT WARNING: A group invite request with an invalid password has been received. Either the passwords in MEGAbolt & GroupMan Pro don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \n\nRequest received from: " + item.FromName + " (" + item.FromUUID + ")\nThe password used is: " + pwd + ".\nThe requested invite is for group: " + igroup;
                     }
                     
-                    textPrinter.PrintTextLine(gmsg);
+                    TextPrinter.PrintTextLine(gmsg);
                     return;
                 }
 
@@ -746,7 +745,7 @@ namespace METAbolt
 
                 try
                 {
-                    textPrinter.SetSelectionForeColor(Color.DarkCyan);
+                    TextPrinter.SetSelectionForeColor(Color.DarkCyan);
 
                     if (this.instance.State.Groups.ContainsKey(igroup))
                     {
@@ -759,7 +758,7 @@ namespace METAbolt
                 }
                 catch (Exception excp)
                 {
-                    textPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, "\n(GroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
+                    TextPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, "\n(GroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
                     OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture, "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
                     return;
                 }
@@ -770,8 +769,8 @@ namespace METAbolt
                 if (!chairAnnEnabled) return;
                 if (nextCallTime <= DateTime.Now)
                 {
-                    textPrinter.SetSelectionForeColor(Color.DarkOrange);
-                    if (chairAnnChat) textPrinter.PrintText(prefix);
+                    TextPrinter.SetSelectionForeColor(Color.DarkOrange);
+                    if (chairAnnChat) TextPrinter.PrintText(prefix);
 
                     // the MD5 stuff (as of V 0.9.3)
                     //chop out the Password if there is one
@@ -803,7 +802,7 @@ namespace METAbolt
                             gmsg = "IMPORTANT WARNING: A chair announcement with an invalid password has been received. Either the passwords in MEGAbolt & Chair Announcer don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \nThe password used is: " + pwd;
                         }
 
-                        textPrinter.PrintTextLine(gmsg); //always print even if chairAnnChat is turned off
+                        TextPrinter.PrintTextLine(gmsg); //always print even if chairAnnChat is turned off
                         return;
                     }
 
@@ -836,7 +835,7 @@ namespace METAbolt
                     if (client.Self.GroupChatSessions.ContainsKey(grp))
                     {
                         client.Self.InstantMessageGroup(grp, sb.ToString());
-                        if (chairAnnChat) textPrinter.PrintTextLine("Chair Announcer: IM to existing group " + chairAnnouncerGroupNames[indexGroup]);
+                        if (chairAnnChat) TextPrinter.PrintTextLine("Chair Announcer: IM to existing group " + chairAnnouncerGroupNames[indexGroup]);
                         nextCallTime = nextCallTime.AddMinutes(perGroupInterval - 1);
                     }
                     else
@@ -847,7 +846,7 @@ namespace METAbolt
                         if (waitGroupIMSession.WaitOne(30000, false)) //30 seconds
                         {
                             client.Self.InstantMessageGroup(grp, sb.ToString());
-                            if (chairAnnChat) textPrinter.PrintTextLine("Chair Announcer: IM to new group " + chairAnnouncerGroupNames[indexGroup]);
+                            if (chairAnnChat) TextPrinter.PrintTextLine("Chair Announcer: IM to new group " + chairAnnouncerGroupNames[indexGroup]);
                             nextCallTime = nextCallTime.AddMinutes(perGroupInterval - 1);
                         }
                         else
@@ -869,8 +868,8 @@ namespace METAbolt
 
             if (classiclayout)
             {
-                textPrinter.SetSelectionForeColor(Color.Gray);
-                textPrinter.PrintClassicTextDate(prefix);
+                TextPrinter.SetSelectionForeColor(Color.Gray);
+                TextPrinter.PrintClassicTextDate(prefix);
                 //textPrinter.PrintDate(prefix);
             }
             else
@@ -879,7 +878,7 @@ namespace METAbolt
                 //textPrinter.PrintText(dte.ToString("[HH:mm] "));
                 //textPrinter.SetOffset(6);
                 //textPrinter.SetFontSize(6.5f);
-                textPrinter.PrintDate(prefix);
+                TextPrinter.PrintDate(prefix);
                 //textPrinter.SetFontSize(8.5f);
                 //textPrinter.SetOffset(0);
             }
@@ -889,71 +888,71 @@ namespace METAbolt
             switch (item.Style)
             {
                 case ChatBufferTextStyle.Normal:
-                    textPrinter.SetSelectionForeColor(Color.Black);
+                    TextPrinter.SetSelectionForeColor(Color.Black);
                     break;
 
                 case ChatBufferTextStyle.StatusBlue:
-                    textPrinter.SetSelectionForeColor(Color.Blue);
+                    TextPrinter.SetSelectionForeColor(Color.Blue);
                     break;
 
                 case ChatBufferTextStyle.StatusBold:
-                    textPrinter.SetFontStyle(FontStyle.Bold);
+                    TextPrinter.SetFontStyle(FontStyle.Bold);
                     break;
 
                 case ChatBufferTextStyle.StatusBrown:
-                    textPrinter.SetSelectionForeColor(Color.Brown);
+                    TextPrinter.SetSelectionForeColor(Color.Brown);
                     break;
 
                 case ChatBufferTextStyle.StatusDarkBlue:
-                    textPrinter.SetSelectionForeColor(Color.Gray);
+                    TextPrinter.SetSelectionForeColor(Color.Gray);
                     //textPrinter.BackColor = Color.LightSeaGreen;
                     break;
 
                 case ChatBufferTextStyle.LindenChat:
-                    textPrinter.SetSelectionForeColor(Color.DarkGreen);
-                    textPrinter.SetSelectionBackColor(Color.LightYellow);
+                    TextPrinter.SetSelectionForeColor(Color.DarkGreen);
+                    TextPrinter.SetSelectionBackColor(Color.LightYellow);
                     break;
 
                 case ChatBufferTextStyle.ObjectChat:
-                    textPrinter.SetSelectionForeColor(Color.DarkCyan);
+                    TextPrinter.SetSelectionForeColor(Color.DarkCyan);
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.OwnerSay:
-                    textPrinter.SetSelectionForeColor(Color.FromArgb(255, 211, 75, 0));
+                    TextPrinter.SetSelectionForeColor(Color.FromArgb(255, 211, 75, 0));
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.RegionSay:
-                    textPrinter.SetSelectionForeColor(Color.Green);
+                    TextPrinter.SetSelectionForeColor(Color.Green);
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.StartupTitle:
-                    textPrinter.SetSelectionForeColor(Color.Black);
-                    textPrinter.SetFontStyle(FontStyle.Bold);
+                    TextPrinter.SetSelectionForeColor(Color.Black);
+                    TextPrinter.SetFontStyle(FontStyle.Bold);
                     break;
 
                 case ChatBufferTextStyle.Alert:
-                    textPrinter.SetSelectionForeColor(Color.White);
+                    TextPrinter.SetSelectionForeColor(Color.White);
                     //textPrinter.SetSelectionBackColor(Color.BlueViolet);
-                    textPrinter.SetSelectionBackColor(Color.SteelBlue);
+                    TextPrinter.SetSelectionBackColor(Color.SteelBlue);
                     item.Text = item.Text;   // +"\n";
                     break;
 
                 case ChatBufferTextStyle.Error:
-                    textPrinter.SetSelectionForeColor(Color.Yellow);
-                    textPrinter.SetSelectionBackColor(Color.Red);
+                    TextPrinter.SetSelectionForeColor(Color.Yellow);
+                    TextPrinter.SetSelectionBackColor(Color.Red);
                     break;
 
                 case ChatBufferTextStyle.LoginReply:
-                    textPrinter.PrintHeader(":: Grid Login Message ::");
-                    textPrinter.SetSelectionForeColor(Color.Black);
+                    TextPrinter.PrintHeader(":: Grid Login Message ::");
+                    TextPrinter.SetSelectionForeColor(Color.Black);
                     //textPrinter.SetSelectionBackColor(Color.LightSteelBlue);
-                    textPrinter.SetSelectionBackColor(instance.Config.CurrentConfig.HeaderBackColour);
-                    textPrinter.SetFontStyle(FontStyle.Bold);
+                    TextPrinter.SetSelectionBackColor(instance.Config.CurrentConfig.HeaderBackColour);
+                    TextPrinter.SetFontStyle(FontStyle.Bold);
                     //textPrinter.SetFontSize(12);
-                    textPrinter.SetOffset(8);
+                    TextPrinter.SetOffset(8);
                     islhdr = true;
 
                     if (item.Text.Contains("http://"))
@@ -968,9 +967,9 @@ namespace METAbolt
                     break;
             }
 
-            textPrinter.PrintTextLine(item.Text);
+            TextPrinter.PrintTextLine(item.Text);
 
-            if (islhdr) textPrinter.PrintHeader(" ");
+            if (islhdr) TextPrinter.PrintHeader(" ");
 
             //// Handle chat tweets
             //if (TEnabled)
@@ -1145,7 +1144,7 @@ namespace METAbolt
             {
                 //string eex = excp.ToString();
                 //PrintIM(DateTime.Now, e.IM.FromAgentName, "GroupMan Pro has encountered an error and a group invite could not be sent to: " + sGrp[2].ToString());
-                textPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, prefix + "(\nGroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
+                TextPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, prefix + "(\nGroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
                 OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture, prefix + "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
                 return;
             }
@@ -1218,7 +1217,7 @@ namespace METAbolt
                             //Give the item
                             client.Self.InstantMessage(iperson, "I am giving you a present for joining our group. Thank you.");   
                             client.Inventory.GiveItem(item.UUID, item.Name, item.AssetType, iperson, false);
-                            textPrinter.PrintTextLine(prefix + "\nGroupMan Pro: Gave '" + item.Name + "' as a joining present to " + gavname);
+                            TextPrinter.PrintTextLine(prefix + "\nGroupMan Pro: Gave '" + item.Name + "' as a joining present to " + gavname);
                         }
                     }
                 }
@@ -1241,7 +1240,7 @@ namespace METAbolt
             //    //}
             //}
 
-            textPrinter.SetSelectionForeColor(Color.Gray);
+            TextPrinter.SetSelectionForeColor(Color.Gray);
             DateTime dte = item.Timestamp;
 
             if (classiclayout)
@@ -1258,7 +1257,7 @@ namespace METAbolt
                     //    dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                     //}
 
-                    textPrinter.PrintClassicTextDate(dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
+                    TextPrinter.PrintClassicTextDate(dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
                 }
 
                 try
@@ -1267,12 +1266,12 @@ namespace METAbolt
                     {
                         if (!string.IsNullOrEmpty(item.FromName))
                         {
-                            textPrinter.PrintLink(item.FromName, item.Link + "&" + item.FromName);
+                            TextPrinter.PrintLink(item.FromName, item.Link + "&" + item.FromName);
                         }
                     }
                     else
                     {
-                        textPrinter.PrintClassicTextDate(item.FromName);
+                        TextPrinter.PrintClassicTextDate(item.FromName);
                     }
                 }
                 catch (Exception ex)
@@ -1286,18 +1285,18 @@ namespace METAbolt
                 {
                     if (lastspeaker != item.FromName)
                     {
-                        textPrinter.SetFontStyle(FontStyle.Bold);
+                        TextPrinter.SetFontStyle(FontStyle.Bold);
 
                         if (item.Style != ChatBufferTextStyle.ObjectChat && item.Style != ChatBufferTextStyle.OwnerSay && item.Style != ChatBufferTextStyle.RegionSay)
                         {
                             if (!string.IsNullOrEmpty(item.FromName))
                             {
-                                textPrinter.PrintLinkHeader(item.FromName, item.FromUUID.ToString(), item.Link + "&" + item.FromName);
+                                TextPrinter.PrintLinkHeader(item.FromName, item.FromUUID.ToString(), item.Link + "&" + item.FromName);
                             }
                         }
                         else
                         {
-                            textPrinter.PrintHeader(item.FromName);
+                            TextPrinter.PrintHeader(item.FromName);
                         }
 
                         lastspeaker = item.FromName;
@@ -1308,8 +1307,8 @@ namespace METAbolt
                     ;
                 }
 
-                textPrinter.SetFontStyle(FontStyle.Regular);
-                textPrinter.SetSelectionBackColor(Color.White);
+                TextPrinter.SetFontStyle(FontStyle.Regular);
+                TextPrinter.SetSelectionBackColor(Color.White);
                 //textPrinter.SetSelectionBackColor(instance.Config.CurrentConfig.BgColour);
 
                 if (showTimestamps)
@@ -1330,7 +1329,7 @@ namespace METAbolt
                     //textPrinter.SetSelectionForeColor(Color.Gray);
                     //textPrinter.SetOffset(6);
                     //textPrinter.SetFontSize(6.5f);
-                    textPrinter.PrintDate(dte.ToString(header, CultureInfo.CurrentCulture));
+                    TextPrinter.PrintDate(dte.ToString(header, CultureInfo.CurrentCulture));
                     //textPrinter.SetFontSize(8.5f);
                     //textPrinter.SetOffset(0);
                 }
@@ -1339,60 +1338,60 @@ namespace METAbolt
             switch (item.Style)
             {
                 case ChatBufferTextStyle.Normal:
-                    textPrinter.SetSelectionForeColor(Color.Blue);
+                    TextPrinter.SetSelectionForeColor(Color.Blue);
                     break;
 
                 case ChatBufferTextStyle.StatusBlue:
-                    textPrinter.SetSelectionForeColor(Color.BlueViolet);
+                    TextPrinter.SetSelectionForeColor(Color.BlueViolet);
                     break;
 
                 case ChatBufferTextStyle.StatusBold:
-                    textPrinter.SetFontStyle(FontStyle.Bold);
+                    TextPrinter.SetFontStyle(FontStyle.Bold);
                     break;
 
                 case ChatBufferTextStyle.StatusBrown:
-                    textPrinter.SetSelectionForeColor(Color.Brown);
+                    TextPrinter.SetSelectionForeColor(Color.Brown);
                     break;
 
                 case ChatBufferTextStyle.StatusDarkBlue:
-                    textPrinter.SetSelectionForeColor(Color.White);
-                    textPrinter.SetSelectionBackColor(Color.LightSeaGreen);
+                    TextPrinter.SetSelectionForeColor(Color.White);
+                    TextPrinter.SetSelectionBackColor(Color.LightSeaGreen);
                     break;
 
                 case ChatBufferTextStyle.LindenChat:
-                    textPrinter.SetSelectionForeColor(Color.DarkGreen);
-                    textPrinter.SetSelectionBackColor(Color.LightYellow);
+                    TextPrinter.SetSelectionForeColor(Color.DarkGreen);
+                    TextPrinter.SetSelectionBackColor(Color.LightYellow);
                     break;
 
                 case ChatBufferTextStyle.ObjectChat:
-                    textPrinter.SetSelectionForeColor(Color.DarkCyan);
+                    TextPrinter.SetSelectionForeColor(Color.DarkCyan);
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.OwnerSay:
-                    textPrinter.SetSelectionForeColor(Color.FromArgb(255, 211, 75, 0));
+                    TextPrinter.SetSelectionForeColor(Color.FromArgb(255, 211, 75, 0));
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.RegionSay:
-                    textPrinter.SetSelectionForeColor(Color.Green);
+                    TextPrinter.SetSelectionForeColor(Color.Green);
                     //item.Text = "\n" + item.Text;
                     break;
 
                 case ChatBufferTextStyle.Alert:
-                    textPrinter.SetSelectionForeColor(Color.White);
+                    TextPrinter.SetSelectionForeColor(Color.White);
                     //textPrinter.SetSelectionBackColor(Color.BlueViolet);
-                    textPrinter.SetSelectionBackColor(Color.SteelBlue);
+                    TextPrinter.SetSelectionBackColor(Color.SteelBlue);
                     item.Text = item.Text;   // +"\n";
                     break;
 
                 case ChatBufferTextStyle.Error:
-                    textPrinter.SetSelectionForeColor(Color.Yellow);
-                    textPrinter.SetSelectionBackColor(Color.Red);
+                    TextPrinter.SetSelectionForeColor(Color.Yellow);
+                    TextPrinter.SetSelectionBackColor(Color.Red);
                     break;
             }
 
-            textPrinter.PrintTextLine(item.Text);
+            TextPrinter.PrintTextLine(item.Text);
 
             if (reprinting)
             {
@@ -1719,11 +1718,7 @@ namespace METAbolt
             //textBuffer.Clear();
         }
 
-        public ITextPrinter TextPrinter
-        {
-            get { return textPrinter; }
-            set { textPrinter = value; }
-        }
+        public ITextPrinter TextPrinter { get; set; }
     }
 
     //public class AutoClosingMessageBox

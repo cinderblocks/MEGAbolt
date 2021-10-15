@@ -33,53 +33,27 @@ namespace METAx
 {
   public class Extension<ClientInterface>
   {
-    private ExtensionType extensionType = ExtensionType.Unknown;
-    private string filename = "";
-    private SourceFileLanguage language = SourceFileLanguage.Unknown;
-    private ClientInterface instance = default (ClientInterface);
-    private Assembly instanceAssembly = (Assembly) null;
-
-    public Extension()
+      public Extension()
     {
     }
 
     public Extension(string filename, ExtensionType extensionType, ClientInterface instance)
     {
-      this.extensionType = extensionType;
-      this.instance = instance;
-      this.filename = filename;
+      this.ExtensionType = extensionType;
+      this.Instance = instance;
+      this.Filename = filename;
     }
 
-    public ExtensionType ExtensionType
-    {
-      get => this.extensionType;
-      set => this.extensionType = value;
-    }
+    public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
 
-    public string Filename
-    {
-      get => this.filename;
-      set => this.filename = value;
-    }
+    public string Filename { get; set; } = "";
 
-    public SourceFileLanguage Language
-    {
-      get => this.language;
-      set => this.language = value;
-    }
+    public SourceFileLanguage Language { get; set; } = SourceFileLanguage.Unknown;
 
-    public ClientInterface Instance
-    {
-      get => this.instance;
-      set => this.instance = value;
-    }
+    public ClientInterface Instance { get; set; } = default (ClientInterface);
 
-    public Assembly InstanceAssembly
-    {
-      get => this.instanceAssembly;
-      set => this.instanceAssembly = value;
-    }
+    public Assembly InstanceAssembly { get; set; } = (Assembly) null;
 
-    public Type GetType(string name) => this.instanceAssembly.GetType(name, false, true);
+    public Type GetType(string name) => this.InstanceAssembly.GetType(name, false, true);
   }
 }

@@ -31,9 +31,7 @@ namespace METAbolt
 {
     public partial class ComboEx : ComboBox
     {
-        private ImageList ICImagList = new ImageList();
-
-		public ComboEx()
+        public ComboEx()
 		{
 			//Set DrawMode
 			this.DrawMode = DrawMode.OwnerDrawFixed;	
@@ -42,19 +40,9 @@ namespace METAbolt
 		/// <summary>
         /// ImageList Property
 		/// </summary>
-		public ImageList ICImageList 
-		{
-			get 
-			{
-				return ICImagList; //Get value
-			}
-			set 
-			{
-				ICImagList = value; //Set Value
-			}
-		}
+		public ImageList ICImageList { get; set; } = new ImageList();
 
-		/// <summary>
+        /// <summary>
 		/// Override OnDrawItem, To Be able To Draw Images, Text, And Font Formatting
 		/// </summary>
 		/// <param name="e"></param>
@@ -66,7 +54,7 @@ namespace METAbolt
 			if (e.Index < 0) //Do We Have A Valid List ¿
 
 				//Just Draw Indented Text
-				e.Graphics.DrawString(this.Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImagList.ImageSize.Width, e.Bounds.Top);
+				e.Graphics.DrawString(this.Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 
 			else //We Have A List
 			{
@@ -87,12 +75,12 @@ namespace METAbolt
                         this.ICImageList.Draw(e.Graphics, e.Bounds.Left, e.Bounds.Top, ICCurrItem.ICImageIndex);
 
                         //Then, Draw Text In Specified Bounds
-                        e.Graphics.DrawString(ICCurrItem.ICText, ICCurrFont, new SolidBrush(ICCurrForeColour), e.Bounds.Left + ICImagList.ImageSize.Width, e.Bounds.Top);
+                        e.Graphics.DrawString(ICCurrItem.ICText, ICCurrFont, new SolidBrush(ICCurrForeColour), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
                     }
                     else //No Image Needed, Index = -1
                     {
                         //Just Draw The Indented Text
-                        e.Graphics.DrawString(ICCurrItem.ICText, ICCurrFont, new SolidBrush(ICCurrForeColour), e.Bounds.Left + ICImagList.ImageSize.Width, e.Bounds.Top);
+                        e.Graphics.DrawString(ICCurrItem.ICText, ICCurrFont, new SolidBrush(ICCurrForeColour), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
                     }
 
                     ICCurrFont.Dispose();
@@ -100,7 +88,7 @@ namespace METAbolt
 				else //Not An ImageCombo Box Item
 				
 					//Just Draw The Text
-					e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImagList.ImageSize.Width, e.Bounds.Top);
+					e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 				
 			}
 
@@ -109,15 +97,6 @@ namespace METAbolt
 
        public class ICItem : object
         {
-
-            private string ICIText = null;	//ImageCombo Item Text
-
-            private int ICIImageIndex = -1; //Image Combo Item Image Index
-
-            private bool ICIHighlight = false; //Highlighted ¿
-
-            private Color ICIForeColour = Color.FromKnownColor(KnownColor.Transparent); //ImageCombo Item ForeColour
-
             public ICItem()
             {
             }
@@ -129,8 +108,8 @@ namespace METAbolt
             /// <param name="ICImageIndex"></param>
             public ICItem(string ICIItemText, int ICImageIndex) //First Overload
             {
-                ICIText = ICIItemText; //Text
-                ICIImageIndex = ICImageIndex; //Image Index
+                ICText = ICIItemText; //Text
+                this.ICImageIndex = ICImageIndex; //Image Index
             }
 
             /// <summary>
@@ -142,71 +121,31 @@ namespace METAbolt
             /// <param name="ICForeColour"></param>
             public ICItem(string ICIItemText, int ICImageIndex, bool ICHighLight, Color ICForeColour) //Second Overload
             {
-                ICIText = ICIItemText; //Text
-                ICIImageIndex = ICImageIndex; //Image Index
-                ICIHighlight = ICHighLight; //Highlighted ¿
-                ICIForeColour = ICForeColour; //ForeColour
+                ICText = ICIItemText; //Text
+                this.ICImageIndex = ICImageIndex; //Image Index
+                this.ICHighLight = ICHighLight; //Highlighted ¿
+                this.ICForeColour = ICForeColour; //ForeColour
             }
 
             /// <summary>
             /// ImageCombo Item Text
             /// </summary>
-            public string ICText
-            {
-                get
-                {
-                    return ICIText; //Get Value
-                }
-                set
-                {
-                    ICIText = value; //Set Value
-                }
-            }
+            public string ICText { get; set; } = null;
 
             /// <summary>
             /// Image Index
             /// </summary>
-            public int ICImageIndex
-            {
-                get
-                {
-                    return ICIImageIndex; //Get Value
-                }
-                set
-                {
-                    ICIImageIndex = value; //Set Value
-                }
-            }
+            public int ICImageIndex { get; set; } = -1;
 
             /// <summary>
             /// Highlighted ¿
             /// </summary>
-            public bool ICHighLight
-            {
-                get
-                {
-                    return ICIHighlight; //Get Value
-                }
-                set
-                {
-                    ICIHighlight = value; //Set Value
-                }
-            }
+            public bool ICHighLight { get; set; } = false;
 
             /// <summary>
             /// ForeColour
             /// </summary>
-            public Color ICForeColour
-            {
-                get
-                {
-                    return ICIForeColour; //Get Value
-                }
-                set
-                {
-                    ICIForeColour = value; //Set Value
-                }
-            }
+            public Color ICForeColour { get; set; } = Color.FromKnownColor(KnownColor.Transparent);
 
             /// <summary>
             /// Override ToString To Return Item Text
@@ -214,7 +153,7 @@ namespace METAbolt
             /// <returns></returns>
             public override string ToString()
             {
-                return ICIText;
+                return ICText;
             }
         }
     }

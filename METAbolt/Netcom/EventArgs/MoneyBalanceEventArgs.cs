@@ -28,16 +28,11 @@ namespace MEGAbolt.NetworkComm
 {
     public class MoneyBalanceEventArgs : EventArgs
     {
-        private int newAmount;
-
         public MoneyBalanceEventArgs(int newAmount)
         {
-            this.newAmount = newAmount;
+            this.NewAmount = newAmount;
         }
 
-        public int NewAmount
-        {
-            get { return newAmount; }
-        }
+        public int NewAmount { get; }
     }
 }

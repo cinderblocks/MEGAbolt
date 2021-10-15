@@ -28,16 +28,11 @@ namespace METAbolt
 {
     public class ConfigAppliedEventArgs : EventArgs
     {
-        private Config appliedConfig;
-
         public ConfigAppliedEventArgs(Config appliedConfig)
         {
-            this.appliedConfig = appliedConfig;
+            this.AppliedConfig = appliedConfig;
         }
 
-        public Config AppliedConfig
-        {
-            get { return appliedConfig; }
-        }
+        public Config AppliedConfig { get; }
     }
 }

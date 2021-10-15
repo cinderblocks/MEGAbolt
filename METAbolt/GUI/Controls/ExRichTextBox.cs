@@ -112,8 +112,6 @@ namespace MEGAbolt.Controls
     private const string RTF_HEADER = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033";
     private const string RTF_DOCUMENT_PRE = "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20";
     private const string RTF_DOCUMENT_POST = "\\cf0\\fs17}";
-    private RtfColor textColor;
-    private RtfColor highlightColor;
     private HybridDictionary rtfColor;
     private HybridDictionary rtfFontFamily;
     private float xDpi;
@@ -133,22 +131,14 @@ namespace MEGAbolt.Controls
       set => base.Rtf = value;
     }
 
-    public RtfColor TextColor
-    {
-      get => this.textColor;
-      set => this.textColor = value;
-    }
+    public RtfColor TextColor { get; set; }
 
-    public RtfColor HiglightColor
-    {
-      get => this.highlightColor;
-      set => this.highlightColor = value;
-    }
+    public RtfColor HiglightColor { get; set; }
 
     public ExRichTextBox()
     {
-      this.textColor = RtfColor.Black;
-      this.highlightColor = RtfColor.White;
+      this.TextColor = RtfColor.Black;
+      this.HiglightColor = RtfColor.White;
       this.DetectUrls = false;
       if (this.rtfColor == null)
         this.rtfColor = new HybridDictionary();
@@ -219,14 +209,14 @@ namespace MEGAbolt.Controls
     public ExRichTextBox(RtfColor _textColor)
       : this()
     {
-      this.textColor = _textColor;
+      this.TextColor = _textColor;
     }
 
     public ExRichTextBox(RtfColor _textColor, RtfColor _highlightColor)
       : this()
     {
-      this.textColor = _textColor;
-      this.highlightColor = _highlightColor;
+      this.TextColor = _textColor;
+      this.HiglightColor = _highlightColor;
     }
 
     public void AppendRtf(string _rtf)
@@ -239,9 +229,9 @@ namespace MEGAbolt.Controls
 
     public void AppendTextAsRtf(string _text) => this.AppendTextAsRtf(_text, this.Font);
 
-    public void AppendTextAsRtf(string _text, Font _font) => this.AppendTextAsRtf(_text, _font, this.textColor);
+    public void AppendTextAsRtf(string _text, Font _font) => this.AppendTextAsRtf(_text, _font, this.TextColor);
 
-    public void AppendTextAsRtf(string _text, Font _font, RtfColor _textColor) => this.AppendTextAsRtf(_text, _font, _textColor, this.highlightColor);
+    public void AppendTextAsRtf(string _text, Font _font, RtfColor _textColor) => this.AppendTextAsRtf(_text, _font, _textColor, this.HiglightColor);
 
     public void AppendTextAsRtf(
       string _text,
@@ -255,9 +245,9 @@ namespace MEGAbolt.Controls
 
     public void InsertTextAsRtf(string _text) => this.InsertTextAsRtf(_text, this.Font);
 
-    public void InsertTextAsRtf(string _text, Font _font) => this.InsertTextAsRtf(_text, _font, this.textColor);
+    public void InsertTextAsRtf(string _text, Font _font) => this.InsertTextAsRtf(_text, _font, this.TextColor);
 
-    public void InsertTextAsRtf(string _text, Font _font, RtfColor _textColor) => this.InsertTextAsRtf(_text, _font, _textColor, this.highlightColor);
+    public void InsertTextAsRtf(string _text, Font _font, RtfColor _textColor) => this.InsertTextAsRtf(_text, _font, _textColor, this.HiglightColor);
 
     public void InsertTextAsRtf(
       string _text,

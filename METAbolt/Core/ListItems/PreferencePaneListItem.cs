@@ -28,23 +28,14 @@ namespace METAbolt
 {
     public class PreferencePaneListItem
     {
-        private string name;
-        private Image icon;
-
         public PreferencePaneListItem(string name, Image icon)
         {
-            this.name = name;
-            this.icon = icon;
+            this.Name = name;
+            this.Icon = icon;
         }
 
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; }
 
-        public Image Icon
-        {
-            get { return icon; }
-        }
+        public Image Icon { get; }
     }
 }

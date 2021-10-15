@@ -33,7 +33,6 @@ namespace METAbolt
         FileConfig config;
 
         private string filename = string.Empty;
-        private Dictionary<string, Dictionary<string, string>> friendgroups = new Dictionary<string, Dictionary<string, string>>(); 
 
         public FileConfig(string filename)
         {
@@ -47,7 +46,7 @@ namespace METAbolt
 
             try
             {
-                friendgroups = config.ini.m_Sections;
+                FriendGroups = config.ini.m_Sections;
             }
             catch
             {
@@ -60,7 +59,7 @@ namespace METAbolt
         public void CreateGroup(string groupname)
         {
             ini.CreateSection(groupname);
-            friendgroups = ini.m_Sections;
+            FriendGroups = ini.m_Sections;
         }
 
         public void Save()
@@ -88,19 +87,15 @@ namespace METAbolt
         public void AddFriendToGroup(string groupname, string friendname, string frienduuid)
         {
             ini.SetValue(groupname, frienduuid, friendname);
-            friendgroups = ini.m_Sections;
+            FriendGroups = ini.m_Sections;
         }
 
         public void removeFriendFromGroup(string groupname, string frienduuid)
         {
             ini.RemoveValue(groupname, frienduuid);
-            friendgroups = ini.m_Sections;
+            FriendGroups = ini.m_Sections;
         }
 
-        public Dictionary<string, Dictionary<string, string>> FriendGroups
-        {
-            get { return friendgroups; }
-            set { friendgroups = value; }
-        }
+        public Dictionary<string, Dictionary<string, string>> FriendGroups { get; set; } = new Dictionary<string, Dictionary<string, string>>();
     }
 }

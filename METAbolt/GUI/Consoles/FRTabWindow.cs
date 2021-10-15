@@ -34,9 +34,7 @@ namespace METAbolt
         private METAboltInstance instance;
         //private SLNetCom netcom;
         private GridClient client;
-        private string targetName;
         private UUID targetUUID;
-        private UUID isession;
         //private FriendsConsole fconsole;
 
         public FRTabWindow(METAboltInstance instance, InstantMessageEventArgs e)
@@ -51,12 +49,12 @@ namespace METAbolt
 
         private void ProcessEventArgs(InstantMessageEventArgs e)
         {
-            targetName = e.IM.FromAgentName;
+            TargetName = e.IM.FromAgentName;
             targetUUID = e.IM.FromAgentID;
-            isession = e.IM.IMSessionID;
+            iSession = e.IM.IMSessionID;
 
             lblSubheading.Text =
-                "You have received a Friendship invite from " + targetName + "";
+                "You have received a Friendship invite from " + TargetName + "";
 
             //rtbOfferMessage.AppendText(e.IM.Message);
         }
@@ -67,24 +65,18 @@ namespace METAbolt
             instance.TabConsole.GetTab(targetUUID.ToString()).Close();
         }
 
-        public string TargetName
-        {
-            get { return targetName; }
-        }
+        public string TargetName { get; private set; }
 
         public UUID TargetUUID
         {
             get { return targetUUID; }
         }
 
-        public UUID iSession
-        {
-            get { return isession; }
-        }
+        public UUID iSession { get; private set; }
 
         private void btnAccept_Click_1(object sender, EventArgs e)
         {
-            client.Friends.AcceptFriendship(targetUUID, isession);
+            client.Friends.AcceptFriendship(targetUUID, iSession);
 
             //fconsole = new FriendsConsole(instance); 
             //fconsole.InitializeFriendsList();
@@ -95,7 +87,7 @@ namespace METAbolt
 
         private void btnDecline_Click_1(object sender, EventArgs e)
         {
-            client.Friends.DeclineFriendship(targetUUID, isession);
+            client.Friends.DeclineFriendship(targetUUID, iSession);
             CloseTab();
         }
     }

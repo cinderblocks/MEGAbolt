@@ -29,30 +29,17 @@ namespace MEGAbolt.NetworkComm
 {
     public class TeleportStatusEventArgs : EventArgs
     {
-        private string message;
-        private TeleportStatus status;
-        private TeleportFlags flags;
-
         public TeleportStatusEventArgs(string message, TeleportStatus status, TeleportFlags flags)
         {
-            this.message = message;
-            this.status = status;
-            this.flags = flags;
+            this.Message = message;
+            this.Status = status;
+            this.Flags = flags;
         }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
 
-        public TeleportStatus Status
-        {
-            get { return status; }
-        }
+        public TeleportStatus Status { get; }
 
-        public TeleportFlags Flags
-        {
-            get { return flags; }
-        }
+        public TeleportFlags Flags { get; }
     }
 }

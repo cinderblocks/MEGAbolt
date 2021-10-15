@@ -32,25 +32,14 @@ namespace METAx
 {
   public class AssemblyLoadingEventArgs : EventArgs
   {
-    private string filename = "";
-    private bool cancel = false;
-
-    public AssemblyLoadingEventArgs()
+      public AssemblyLoadingEventArgs()
     {
     }
 
-    public AssemblyLoadingEventArgs(string filename) => this.filename = filename;
+    public AssemblyLoadingEventArgs(string filename) => this.Filename = filename;
 
-    public bool Cancel
-    {
-      get => this.cancel;
-      set => this.cancel = value;
-    }
+    public bool Cancel { get; set; } = false;
 
-    public string Filename
-    {
-      get => this.filename;
-      set => this.filename = value;
-    }
+    public string Filename { get; set; } = "";
   }
 }

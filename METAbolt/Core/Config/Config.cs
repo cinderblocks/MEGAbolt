@@ -37,31 +37,7 @@ namespace METAbolt
 {
     public class Config
     {
-        private int configVersion = 1;
-
-        private int mainWindowState = 0;
-        private int interfaceStyle = 1; //0 = System, 1 = Office 2003
-
-        private string firstName = string.Empty;
-        private string lastName = string.Empty;
-        private string passwordMD5 = string.Empty;
-        private int loginLocationType = 0;
-        private string loginLocation = string.Empty;
-        private int loginGrid = 0;
-        private string loginUri = string.Empty;
-        private bool irempwd = false;
         //private bool iradar = false;
-        private string purl = string.Empty;
-        private string murl = string.Empty;
-        private int linemax = 5000;
-
-        private bool chatTimestamps = true;
-        private bool imTimestamps = true;
-        private bool chatSmileys = false;
-        private bool parcelmusic = false;
-        private bool parcelmedia = false;
-        private UUID objectsfolder = UUID.Zero;
-        private string usernamelist = string.Empty; 
 
         //private string tweetername = string.Empty;
         //private string tweeterpwd = string.Empty;
@@ -70,24 +46,7 @@ namespace METAbolt
         //private bool tweet = true;
         //private string tweetuser = string.Empty;
 
-        private bool connect4 = false;
-        private bool aion = false;
-        private bool autosit = false;
-        private int radarrange = 64;
-        private bool useslt = false;
-        private int objectrange = 20;
-        private string groupmanpro = string.Empty;
-        private bool playsound = false;
-        private bool metahide = false;
-        private string busyreply = "The Resident you messaged is in 'busy mode' which means they have requested not to be disturbed.  Your message will still be shown in their IM panel for later viewing.";
-        private string initialIMreply = string.Empty;
-        private bool declineinv = false;
-        private bool replyAI = false;
-        private string replyText = "I am sorry but I didn't understand what you said or I haven't been taught a response for it. Can you try again, making sure your sentences are short and clear.";
-
         //added by GM on 2-JUL-2009
-        private string groupManagerUid = "ned49b54-325d-486a-af3m"; //respecting the prior default value hard-wiring
-        private string ignoreUid = "ned49b54-325d-123a-x33m";
         private UUID chairAnnouncerUuid = UUID.Zero;
         private int chairAnnouncerInterval = 5;
         private UUID chairAnnouncerGroup1 = UUID.Zero;
@@ -96,87 +55,18 @@ namespace METAbolt
         private UUID chairAnnouncerGroup4 = UUID.Zero;
         private UUID chairAnnouncerGroup5 = UUID.Zero;
         private UUID chairAnnouncerGroup6 = UUID.Zero;
-        private bool chairAnnouncerEnabled = false;
-        private bool chairAnnouncerChat = true;
+
         //added by GM on 1-APR-2010
-        private string chairAnnouncerAdvert = "Brought to you by MEGAbolt"; // removed reference to Machin's Machines, no longer exist
 
         // Incoming command identifier 04 Aug 2009
-        private string commandinid = "ned34b54-3765-439j-fds5";
 
-        private bool saveims = true;
-        private bool savechat = false;
         //private string logdir = Application.StartupPath.ToString() + "\\Logs\\";
-        private string logdir = METAbolt.DataFolder.GetDataFolder() + "\\Logs\\";
 
-        private bool disablegnotices = false;
-        private bool disablegims = false;
-        private bool bufferapplied = false;
-
-        private bool disablenotifications = false;
-        private bool disableinboundgroupinvites = false;
-        private bool disablelookat = true;
-
-        private bool useproxy = false;
-        private string proxyurl = string.Empty;
-        private string proxyport = string.Empty;
-        private string proxyuser = string.Empty;
-        private string proxypwd = string.Empty;
-        private bool givepressie = false;
-        private bool autorestart = true;
-        private int logofftime = 0;
-        private float bandwidththrottle = 500;
-        private bool logofftimerchanged = true;
-        private bool useclassicchatlayout = false;
-        private string headerfont = "Tahoma";
-        private string headerfontstyle = "Regular";
-        private float headerfontsize = 8.5f;
         private int headerbackcolour = Color.Lavender.ToArgb();
         //private int bgcolour = Color.White.ToArgb();   
-        private string textfont = "Tahoma";
-        private string textfontstyle = "Regular";
-        private float textfontsize = 8.5f;
-        private string pluginstoload = string.Empty;
 
-        private bool playfriendonline = false;
-        private bool playfriendoffline = false;
-        private bool playimreceived = false;
-        private bool playgroupimreceived = false;
-        private bool playgroupnotice = false;
-        private bool playintentoryitem = false;
-        private bool playpaymentreceived = false;
-        private bool autoacceptitems = false;
-        private bool startminimised = false;
-        private string adremove = string.Empty;
-        private string masteravatar = UUID.Zero.ToString();   //    string.Empty;
-        private string masterobject = UUID.Zero.ToString();
-        private bool enforcelslsecurity = true;
-        private bool autotransfer = false;
-        private bool sortbydistance = true;
-        private bool disabletrayicon = false;
-        private bool disablefriendsnotifications = false;
-        private bool disabletyping = false;
-        private bool autoacceptfriends = false;
-        private int restarttime = 10;
-        private bool disablemipmaps = false;
-        private bool displaylslcommands = true;
-        private bool multilingualai = false;
-        private bool enablespellcheck = false;
-        private string spelllang = "en_GB";
         //private bool broadcastid = true;
-        private bool hidedisconnectprompt = false;
-        private bool disableradar = false;
-        private bool restrictradar = false;
-        private bool disablevoice = false;
-        private bool disablefavs = false;
         private bool disablehttpinv = true;
-        private bool disableradarminimap = false;
-        private string appmenupos = "Top";
-        private string landmenupos = "Top";
-        private string fnmenupos = "Top";
-        private bool usellsd = false;
-        private int chatbufferlimit = 20;
-        private int scripturlbufferlimit = 5;
 
         public Config()
         {
@@ -287,8 +177,8 @@ namespace METAbolt
                 
                 // AI    
                 config.AIon = conf.Configs["AI"].GetBoolean("AIon", false);
-                config.replyAI = conf.Configs["AI"].GetBoolean("ReplyAI", false);
-                config.replyText = conf.Configs["AI"].GetString("ReplyText", "I am sorry but I didn't understand what you said or I haven't been taught a response for it. Can you try again, making sure your sentences are short and clear.");
+                config.ReplyAI = conf.Configs["AI"].GetBoolean("ReplyAI", false);
+                config.ReplyText = conf.Configs["AI"].GetString("ReplyText", "I am sorry but I didn't understand what you said or I haven't been taught a response for it. Can you try again, making sure your sentences are short and clear.");
                 config.MultiLingualAI = conf.Configs["AI"].GetBoolean("MultiLingualAI", false);
 
                 config.ChatTimestamps = conf.Configs["Text"].GetBoolean("ChatTimestamps", true);
@@ -353,7 +243,7 @@ namespace METAbolt
                 }
 
                 //added by GM on 2-JUL-2009
-                config.groupManagerUid = conf.Configs["PlugIn"].GetString("GroupManager", "ned49b54-325d-486a-af3m");
+                config.GroupManagerUID = conf.Configs["PlugIn"].GetString("GroupManager", "ned49b54-325d-486a-af3m");
                 config.chairAnnouncerUuid = UUID.Parse(conf.Configs["PlugIn"].GetString("ChairAnnouncer", UUID.Zero.ToString()));
                 config.chairAnnouncerInterval = conf.Configs["PlugIn"].GetInt("ChairAnnouncerInterval", 5);
                 config.chairAnnouncerGroup1 = UUID.Parse(conf.Configs["PlugIn"].GetString("ChairAnnouncerGroup1", UUID.Zero.ToString()));
@@ -362,10 +252,10 @@ namespace METAbolt
                 config.chairAnnouncerGroup4 = UUID.Parse(conf.Configs["PlugIn"].GetString("ChairAnnouncerGroup4", UUID.Zero.ToString()));
                 config.chairAnnouncerGroup5 = UUID.Parse(conf.Configs["PlugIn"].GetString("ChairAnnouncerGroup5", UUID.Zero.ToString()));
                 config.chairAnnouncerGroup6 = UUID.Parse(conf.Configs["PlugIn"].GetString("ChairAnnouncerGroup6", UUID.Zero.ToString()));
-                config.chairAnnouncerEnabled = conf.Configs["PlugIn"].GetBoolean("ChairAnnouncerEnabled", false);
-                config.chairAnnouncerChat = conf.Configs["PlugIn"].GetBoolean("ChairAnnouncerChat", true);
+                config.ChairAnnouncerEnabled = conf.Configs["PlugIn"].GetBoolean("ChairAnnouncerEnabled", false);
+                config.ChairAnnouncerChat = conf.Configs["PlugIn"].GetBoolean("ChairAnnouncerChat", true);
                 //added by GM on 1-APR-2010
-                config.chairAnnouncerAdvert = conf.Configs["PlugIn"].GetString("ChairAnnouncerAdvert", "Brought to you by MEGAbolt"); // removed reference to Machin's Machines, no longer exist
+                config.ChairAnnouncerAdvert = conf.Configs["PlugIn"].GetString("ChairAnnouncerAdvert", "Brought to you by MEGAbolt"); // removed reference to Machin's Machines, no longer exist
                 //throw new Exception("Test");
 
                 try
@@ -396,97 +286,97 @@ namespace METAbolt
 
             // General
             IConfig config = source.AddConfig("General");
-            config.Set("Version", configVersion.ToString(CultureInfo.CurrentCulture));
+            config.Set("Version", Version.ToString(CultureInfo.CurrentCulture));
             //config.Set("iRadar", iradar.ToString());
-            config.Set("Connect4", connect4.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableNotifications", disablenotifications.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableInboundGroupInvites", disableinboundgroupinvites.ToString(CultureInfo.CurrentCulture));
-            config.Set("AutoSit", autosit.ToString(CultureInfo.CurrentCulture));
-            config.Set("RadarRange", radarrange.ToString(CultureInfo.CurrentCulture));
-            config.Set("ObjectRange", objectrange.ToString(CultureInfo.CurrentCulture));
-            config.Set("GroupManPro", groupmanpro);
-            config.Set("GivePresent", givepressie.ToString(CultureInfo.CurrentCulture));
-            config.Set("HideMeta", metahide.ToString(CultureInfo.CurrentCulture));
-            config.Set("DeclineInv", declineinv.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableLookAt", disablelookat);
-            config.Set("AutoRestart", autorestart.ToString(CultureInfo.CurrentCulture));
-            config.Set("LogOffTime", logofftime.ToString(CultureInfo.CurrentCulture));
-            config.Set("ReStartTime", restarttime.ToString(CultureInfo.CurrentCulture));
-            config.Set("BandwidthThrottle", bandwidththrottle.ToString(CultureInfo.CurrentCulture));
-            config.Set("ClassicChatLayout", useclassicchatlayout.ToString(CultureInfo.CurrentCulture));
-            config.Set("HideDisconnectPrompt", hidedisconnectprompt.ToString(CultureInfo.CurrentCulture));
+            config.Set("Connect4", Connect4.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableNotifications", DisableNotifications.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableInboundGroupInvites", DisableInboundGroupInvites.ToString(CultureInfo.CurrentCulture));
+            config.Set("AutoSit", AutoSit.ToString(CultureInfo.CurrentCulture));
+            config.Set("RadarRange", RadarRange.ToString(CultureInfo.CurrentCulture));
+            config.Set("ObjectRange", ObjectRange.ToString(CultureInfo.CurrentCulture));
+            config.Set("GroupManPro", GroupManPro);
+            config.Set("GivePresent", GivePresent.ToString(CultureInfo.CurrentCulture));
+            config.Set("HideMeta", HideMeta.ToString(CultureInfo.CurrentCulture));
+            config.Set("DeclineInv", DeclineInv.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableLookAt", DisableLookAt);
+            config.Set("AutoRestart", AutoRestart.ToString(CultureInfo.CurrentCulture));
+            config.Set("LogOffTime", LogOffTime.ToString(CultureInfo.CurrentCulture));
+            config.Set("ReStartTime", ReStartTime.ToString(CultureInfo.CurrentCulture));
+            config.Set("BandwidthThrottle", BandwidthThrottle.ToString(CultureInfo.CurrentCulture));
+            config.Set("ClassicChatLayout", ClassicChatLayout.ToString(CultureInfo.CurrentCulture));
+            config.Set("HideDisconnectPrompt", HideDisconnectPrompt.ToString(CultureInfo.CurrentCulture));
 
-            if (headerfont == null)
+            if (HeaderFont == null)
             {
-                headerfont = "Tahoma";
-                headerfontstyle = "Regular";
-                headerfontsize = 8.5f;
+                HeaderFont = "Tahoma";
+                HeaderFontStyle = "Regular";
+                HeaderFontSize = 8.5f;
                 headerbackcolour = Color.Lavender.ToArgb();
             }
 
-            config.Set("HeaderFont", headerfont);
-            config.Set("HeaderFontStyle", headerfontstyle);
-            config.Set("HeaderFontSize", headerfontsize.ToString(CultureInfo.CurrentCulture));
+            config.Set("HeaderFont", HeaderFont);
+            config.Set("HeaderFontStyle", HeaderFontStyle);
+            config.Set("HeaderFontSize", HeaderFontSize.ToString(CultureInfo.CurrentCulture));
             config.Set("HeaderBackColour", headerbackcolour.ToString(CultureInfo.CurrentCulture));
             //config.Set("BgColour", bgcolour.ToString());
 
-            if (textfont == null)
+            if (TextFont == null)
             {
-                textfont = "Tahoma";
-                textfontstyle = "Regular";
-                textfontsize = 8.5f;
+                TextFont = "Tahoma";
+                TextFontStyle = "Regular";
+                TextFontSize = 8.5f;
             }
 
-            config.Set("TextFont", textfont);
-            config.Set("TextFontStyle", textfontstyle);
-            config.Set("TextFontSize", textfontsize.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayFriendOnline", playfriendonline.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayFriendOffline", playfriendoffline.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayIMreceived", playimreceived.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayGroupIMreceived", playgroupimreceived.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayGroupNoticeReceived", playgroupnotice.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayInventoryItemReceived", playintentoryitem.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlayPaymentReceived", playpaymentreceived.ToString(CultureInfo.CurrentCulture));
-            config.Set("AutoAcceptItems", autoacceptitems.ToString(CultureInfo.CurrentCulture));
-            config.Set("StartMinimised", startminimised.ToString(CultureInfo.CurrentCulture));
-            config.Set("AdRemove", adremove);
-            config.Set("MasterAvatar", masteravatar);
-            config.Set("MasterObject", masterobject);
-            config.Set("EnforceLSLsecurity", enforcelslsecurity.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisplayLSLcommands", displaylslcommands.ToString(CultureInfo.CurrentCulture));  
-            config.Set("AutoTransfer", autotransfer.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableTrayIcon", disabletrayicon.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableFriendsNotifications", disablefriendsnotifications.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableTyping", disabletyping.ToString(CultureInfo.CurrentCulture));
-            config.Set("AutoAcceptFriends", autoacceptfriends.ToString(CultureInfo.CurrentCulture));
+            config.Set("TextFont", TextFont);
+            config.Set("TextFontStyle", TextFontStyle);
+            config.Set("TextFontSize", TextFontSize.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayFriendOnline", PlayFriendOnline.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayFriendOffline", PlayFriendOffline.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayIMreceived", PlayIMreceived.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayGroupIMreceived", PlayGroupIMreceived.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayGroupNoticeReceived", PlayGroupNoticeReceived.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayInventoryItemReceived", PlayInventoryItemReceived.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlayPaymentReceived", PlayPaymentReceived.ToString(CultureInfo.CurrentCulture));
+            config.Set("AutoAcceptItems", AutoAcceptItems.ToString(CultureInfo.CurrentCulture));
+            config.Set("StartMinimised", StartMinimised.ToString(CultureInfo.CurrentCulture));
+            config.Set("AdRemove", AdRemove);
+            config.Set("MasterAvatar", MasterAvatar);
+            config.Set("MasterObject", MasterObject);
+            config.Set("EnforceLSLsecurity", EnforceLSLsecurity.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisplayLSLcommands", DisplayLSLcommands.ToString(CultureInfo.CurrentCulture));  
+            config.Set("AutoTransfer", AutoTransfer.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableTrayIcon", DisableTrayIcon.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableFriendsNotifications", DisableFriendsNotifications.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableTyping", DisableTyping.ToString(CultureInfo.CurrentCulture));
+            config.Set("AutoAcceptFriends", AutoAcceptFriends.ToString(CultureInfo.CurrentCulture));
             //config.Set("BroadcastID", broadcastid.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableRadar", disableradar.ToString(CultureInfo.CurrentCulture));
-            config.Set("RestrictRadar", restrictradar.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableVoice", disablevoice.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableFavs", disablefavs.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableRadar", DisableRadar.ToString(CultureInfo.CurrentCulture));
+            config.Set("RestrictRadar", RestrictRadar.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableVoice", DisableVoice.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableFavs", DisableFavs.ToString(CultureInfo.CurrentCulture));
             config.Set("DisableHTTPinv", disablehttpinv.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableRadarImageMiniMap", disableradarminimap.ToString(CultureInfo.CurrentCulture));
-            config.Set("AppMenuPos", appmenupos.ToString(CultureInfo.CurrentCulture));
-            config.Set("LandMenuPos", landmenupos.ToString(CultureInfo.CurrentCulture));
-            config.Set("FnMenuPos", fnmenupos.ToString(CultureInfo.CurrentCulture));
-            config.Set("UseLLSD", usellsd.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableRadarImageMiniMap", DisableRadarImageMiniMap.ToString(CultureInfo.CurrentCulture));
+            config.Set("AppMenuPos", AppMenuPos.ToString(CultureInfo.CurrentCulture));
+            config.Set("LandMenuPos", LandMenuPos.ToString(CultureInfo.CurrentCulture));
+            config.Set("FnMenuPos", FnMenuPos.ToString(CultureInfo.CurrentCulture));
+            config.Set("UseLLSD", UseLLSD.ToString(CultureInfo.CurrentCulture));
 
-            config.Set("ChatBufferLimit", chatbufferlimit.ToString(CultureInfo.CurrentCulture));
-            config.Set("ScriptUrlBufferLimit", scripturlbufferlimit.ToString(CultureInfo.CurrentCulture));
+            config.Set("ChatBufferLimit", ChatBufferLimit.ToString(CultureInfo.CurrentCulture));
+            config.Set("ScriptUrlBufferLimit", ScriptUrlBufferLimit.ToString(CultureInfo.CurrentCulture));
             
             // Interface
             config = source.AddConfig("Interface");
-            config.Set("MainWindowState", mainWindowState.ToString(CultureInfo.CurrentCulture));
-            config.Set("Style", interfaceStyle.ToString(CultureInfo.CurrentCulture));
+            config.Set("MainWindowState", MainWindowState.ToString(CultureInfo.CurrentCulture));
+            config.Set("Style", InterfaceStyle.ToString(CultureInfo.CurrentCulture));
 
             // Login
             config = source.AddConfig("Login");
-            config.Set("FirstName", firstName);
-            config.Set("LastName", lastName);
+            config.Set("FirstName", FirstName);
+            config.Set("LastName", LastName);
 
-            if (irempwd)
+            if (iRemPWD)
             {
-                string epwd = passwordMD5;
+                string epwd = PasswordMD5;
 
                 if (!string.IsNullOrEmpty(epwd))
                 {
@@ -502,37 +392,37 @@ namespace METAbolt
                 config.Set("Password", string.Empty);
             }
 
-            config.Set("UserNameList", usernamelist);
-            config.Set("Grid", loginGrid.ToString(CultureInfo.CurrentCulture));
-            config.Set("Uri", loginUri);
-            config.Set("LocationType", loginLocationType.ToString(CultureInfo.CurrentCulture));
-            config.Set("Location", loginLocation);
-            config.Set("iRemPWD", irempwd.ToString(CultureInfo.CurrentCulture));
+            config.Set("UserNameList", UserNameList);
+            config.Set("Grid", LoginGrid.ToString(CultureInfo.CurrentCulture));
+            config.Set("Uri", LoginUri);
+            config.Set("LocationType", LoginLocationType.ToString(CultureInfo.CurrentCulture));
+            config.Set("Location", LoginLocation);
+            config.Set("iRemPWD", iRemPWD.ToString(CultureInfo.CurrentCulture));
 
             // AI
             config = source.AddConfig("AI");
-            config.Set("AIon", aion.ToString(CultureInfo.CurrentCulture));
-            config.Set("ReplyAI", replyAI.ToString(CultureInfo.CurrentCulture));
-            config.Set("ReplyText", replyText);
-            config.Set("MultiLingualAI", multilingualai.ToString(CultureInfo.CurrentCulture));
+            config.Set("AIon", AIon.ToString(CultureInfo.CurrentCulture));
+            config.Set("ReplyAI", ReplyAI.ToString(CultureInfo.CurrentCulture));
+            config.Set("ReplyText", ReplyText);
+            config.Set("MultiLingualAI", MultiLingualAI.ToString(CultureInfo.CurrentCulture));
 
             // Text
             config = source.AddConfig("Text");
-            config.Set("ChatTimestamps", chatTimestamps.ToString(CultureInfo.CurrentCulture));
-            config.Set("IMTimestamps", imTimestamps.ToString(CultureInfo.CurrentCulture));
-            config.Set("ChatSmileys", chatSmileys.ToString(CultureInfo.CurrentCulture));
-            config.Set("ParcelMusic", parcelmusic.ToString(CultureInfo.CurrentCulture));
-            config.Set("ParcelMedia", parcelmedia.ToString(CultureInfo.CurrentCulture));
-            config.Set("lineMax", linemax.ToString(CultureInfo.CurrentCulture));
-            config.Set("UseSLT", useslt.ToString(CultureInfo.CurrentCulture));
-            config.Set("PlaySound", playsound.ToString(CultureInfo.CurrentCulture));
-            config.Set("BusyReply", busyreply);
-            config.Set("InitialIMReply", initialIMreply);
-            config.Set("SaveIMs", saveims.ToString(CultureInfo.CurrentCulture));
-            config.Set("SaveChat", savechat.ToString(CultureInfo.CurrentCulture));
-            config.Set("LogDir", logdir);
-            config.Set("DisableGroupNotices", disablegnotices.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisableGroupIMs", disablegims.ToString(CultureInfo.CurrentCulture));
+            config.Set("ChatTimestamps", ChatTimestamps.ToString(CultureInfo.CurrentCulture));
+            config.Set("IMTimestamps", IMTimestamps.ToString(CultureInfo.CurrentCulture));
+            config.Set("ChatSmileys", ChatSmileys.ToString(CultureInfo.CurrentCulture));
+            config.Set("ParcelMusic", ParcelMusic.ToString(CultureInfo.CurrentCulture));
+            config.Set("ParcelMedia", ParcelMedia.ToString(CultureInfo.CurrentCulture));
+            config.Set("lineMax", lineMax.ToString(CultureInfo.CurrentCulture));
+            config.Set("UseSLT", UseSLT.ToString(CultureInfo.CurrentCulture));
+            config.Set("PlaySound", PlaySound.ToString(CultureInfo.CurrentCulture));
+            config.Set("BusyReply", BusyReply);
+            config.Set("InitialIMReply", InitialIMReply);
+            config.Set("SaveIMs", SaveIMs.ToString(CultureInfo.CurrentCulture));
+            config.Set("SaveChat", SaveChat.ToString(CultureInfo.CurrentCulture));
+            config.Set("LogDir", LogDir);
+            config.Set("DisableGroupNotices", DisableGroupNotices.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableGroupIMs", DisableGroupIMs.ToString(CultureInfo.CurrentCulture));
 
             //// Twitter
             //config = source.AddConfig("Twitter");
@@ -545,27 +435,27 @@ namespace METAbolt
 
             // Proxy
             config = source.AddConfig("Proxy");
-            config.Set("UseProxy", useproxy.ToString(CultureInfo.CurrentCulture));
-            config.Set("ProxyURL", proxyurl);
-            config.Set("ProxyPort", proxyport);
-            config.Set("ProxyUser", proxyuser);
-            config.Set("ProxyPWD", proxypwd);
+            config.Set("UseProxy", UseProxy.ToString(CultureInfo.CurrentCulture));
+            config.Set("ProxyURL", ProxyURL);
+            config.Set("ProxyPort", ProxyPort);
+            config.Set("ProxyUser", ProxyUser);
+            config.Set("ProxyPWD", ProxyPWD);
 
             // META3D
             config = source.AddConfig("META3D");
-            config.Set("DisableMipmaps", disablemipmaps.ToString(CultureInfo.CurrentCulture));
+            config.Set("DisableMipmaps", DisableMipmaps.ToString(CultureInfo.CurrentCulture));
 
             // Plugins Loaded
             config = source.AddConfig("LoadedPlugIns");
-            config.Set("PluginsToLoad", pluginstoload);   
+            config.Set("PluginsToLoad", PluginsToLoad);   
 
             // Plugins
             //added by GM on 2-JUL-2009
             config = source.AddConfig("PlugIn");
             //don't save if default
-            if (groupManagerUid != "ned49b54-325d-486a-af3m")
+            if (GroupManagerUID != "ned49b54-325d-486a-af3m")
             {
-                config.Set("GroupManager", groupManagerUid);
+                config.Set("GroupManager", GroupManagerUID);
             }
             config.Set("ChairAnnouncer", chairAnnouncerUuid.ToString());
             config.Set("ChairAnnouncerInterval", chairAnnouncerInterval);
@@ -575,14 +465,14 @@ namespace METAbolt
             config.Set("ChairAnnouncerGroup4", chairAnnouncerGroup4.ToString());
             config.Set("ChairAnnouncerGroup5", chairAnnouncerGroup5.ToString());
             config.Set("ChairAnnouncerGroup6", chairAnnouncerGroup6.ToString());
-            config.Set("ChairAnnouncerEnabled", chairAnnouncerEnabled);
-            config.Set("ChairAnnouncerChat", chairAnnouncerChat);
+            config.Set("ChairAnnouncerEnabled", ChairAnnouncerEnabled);
+            config.Set("ChairAnnouncerChat", ChairAnnouncerChat);
             //added by GM on 1-APR-2009
-            config.Set("ChairAnnouncerAdvert", chairAnnouncerAdvert);
+            config.Set("ChairAnnouncerAdvert", ChairAnnouncerAdvert);
 
             config = source.AddConfig("Spelling");
-            config.Set("EnableSpelling", enablespellcheck.ToString(CultureInfo.CurrentCulture));
-            config.Set("SpellLanguage", spelllang);
+            config.Set("EnableSpelling", EnableSpelling.ToString(CultureInfo.CurrentCulture));
+            config.Set("SpellLanguage", SpellLanguage);
 
             FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), filename));
 
@@ -597,41 +487,17 @@ namespace METAbolt
             source.Save(filename);
         }
 
-        public int Version
-        {
-            get { return configVersion; }
-            set { configVersion = value; }
-        }
+        public int Version { get; set; } = 1;
 
-        public int MainWindowState
-        {
-            get { return mainWindowState; }
-            set { mainWindowState = value; }
-        }
+        public int MainWindowState { get; set; } = 0;
 
-        public int InterfaceStyle
-        {
-            get { return interfaceStyle; }
-            set { interfaceStyle = value; }
-        }
+        public int InterfaceStyle { get; set; } = 1;
 
-        public string FirstName
-        {
-            get { return firstName; }
-            set { firstName = value; }
-        }
+        public string FirstName { get; set; } = string.Empty;
 
-        public string LastName
-        {
-            get { return lastName; }
-            set { lastName = value; }
-        }
+        public string LastName { get; set; } = string.Empty;
 
-        public string PasswordMD5
-        {
-            get { return passwordMD5; }
-            set { passwordMD5 = value; }
-        }
+        public string PasswordMD5 { get; set; } = string.Empty;
 
         //public bool Md5
         //{
@@ -639,65 +505,25 @@ namespace METAbolt
         //    set { md5 = value; }
         //}
 
-        public int LoginLocationType
-        {
-            get { return loginLocationType; }
-            set { loginLocationType = value; }
-        }
+        public int LoginLocationType { get; set; } = 0;
 
-        public string LoginLocation
-        {
-            get { return loginLocation; }
-            set { loginLocation = value; }
-        }
+        public string LoginLocation { get; set; } = string.Empty;
 
-        public int LoginGrid
-        {
-            get { return loginGrid; }
-            set { loginGrid = value; }
-        }
+        public int LoginGrid { get; set; } = 0;
 
-        public string LoginUri
-        {
-            get { return loginUri; }
-            set { loginUri = value; }
-        }
+        public string LoginUri { get; set; } = string.Empty;
 
-        public bool ChatTimestamps
-        {
-            get { return chatTimestamps; }
-            set { chatTimestamps = value; }
-        }
+        public bool ChatTimestamps { get; set; } = true;
 
-        public bool ChatSmileys
-        {
-            get { return chatSmileys; }
-            set { chatSmileys = value; }
-        }
+        public bool ChatSmileys { get; set; } = false;
 
-        public bool IMTimestamps
-        {
-            get { return imTimestamps; }
-            set { imTimestamps = value; }
-        }
+        public bool IMTimestamps { get; set; } = true;
 
-        public bool ParcelMusic
-        {
-            get { return parcelmusic; }
-            set { parcelmusic = value; }
-        }
+        public bool ParcelMusic { get; set; } = false;
 
-        public bool ParcelMedia
-        {
-            get { return parcelmedia; }
-            set { parcelmedia = value; }
-        }
+        public bool ParcelMedia { get; set; } = false;
 
-        public bool iRemPWD
-        {
-            get { return irempwd; }
-            set { irempwd = value; }
-        }
+        public bool iRemPWD { get; set; } = false;
 
         //public bool iRadar
         //{
@@ -705,35 +531,15 @@ namespace METAbolt
         //    set { iradar = value; }
         //}
 
-        public string pURL
-        {
-            get { return purl; }
-            set { purl = value; }
-        }
+        public string pURL { get; set; } = string.Empty;
 
-        public string mURL
-        {
-            get { return murl; }
-            set { murl = value; }
-        }
+        public string mURL { get; set; } = string.Empty;
 
-        public UUID ObjectsFolder
-        {
-            get { return objectsfolder; }
-            set { objectsfolder = value; }
-        }
+        public UUID ObjectsFolder { get; set; } = UUID.Zero;
 
-        public bool DisableNotifications
-        {
-            get { return disablenotifications; }
-            set { disablenotifications = value; }
-        }
+        public bool DisableNotifications { get; set; } = false;
 
-        public int lineMax
-        {
-            get { return linemax; }
-            set { linemax = value; }
-        }
+        public int lineMax { get; set; } = 5000;
 
         //public bool EnableTweeter
         //{
@@ -771,96 +577,36 @@ namespace METAbolt
         //    set { tweetuser = value; }
         //}
 
-        public bool Connect4
-        {
-            get { return connect4; }
-            set { connect4 = value; }
-        }
+        public bool Connect4 { get; set; } = false;
 
-        public bool AIon
-        {
-            get { return aion; }
-            set { aion = value; }
-        }
+        public bool AIon { get; set; } = false;
 
-        public bool AutoSit
-        {
-            get { return autosit; }
-            set { autosit = value; }
-        }
+        public bool AutoSit { get; set; } = false;
 
-        public int RadarRange
-        {
-            get { return radarrange; }
-            set { radarrange = value; }
-        }
+        public int RadarRange { get; set; } = 64;
 
-        public bool UseSLT
-        {
-            get { return useslt; }
-            set { useslt = value; }
-        }
+        public bool UseSLT { get; set; } = false;
 
-        public int ObjectRange
-        {
-            get { return objectrange; }
-            set { objectrange = value; }
-        }
+        public int ObjectRange { get; set; } = 20;
 
-        public string GroupManPro
-        {
-            get { return groupmanpro; }
-            set { groupmanpro = value; }
-        }
+        public string GroupManPro { get; set; } = string.Empty;
 
-        public bool PlaySound
-        {
-            get { return playsound; }
-            set { playsound = value; }
-        }
+        public bool PlaySound { get; set; } = false;
 
-        public bool HideMeta
-        {
-            get { return metahide; }
-            set { metahide = value; }
-        }
+        public bool HideMeta { get; set; } = false;
 
-        public string BusyReply
-        {
-            get { return busyreply; }
-            set { busyreply = value; }
-        }
+        public string BusyReply { get; set; } = "The Resident you messaged is in 'busy mode' which means they have requested not to be disturbed.  Your message will still be shown in their IM panel for later viewing.";
 
-        public string InitialIMReply
-        {
-            get { return initialIMreply; }
-            set { initialIMreply = value; }
-        }
+        public string InitialIMReply { get; set; } = string.Empty;
 
-        public bool DeclineInv
-        {
-            get { return declineinv; }
-            set { declineinv = value; }
-        }
+        public bool DeclineInv { get; set; } = false;
 
-        public bool ReplyAI
-        {
-            get { return replyAI; }
-            set { replyAI = value; }
-        }
+        public bool ReplyAI { get; set; } = false;
 
-        public string ReplyText
-        {
-            get { return replyText; }
-            set { replyText = value; }
-        }
+        public string ReplyText { get; set; } = "I am sorry but I didn't understand what you said or I haven't been taught a response for it. Can you try again, making sure your sentences are short and clear.";
 
         //added by GM on 2-JUL-2009
-        public string GroupManagerUID
-        {
-            get { return groupManagerUid; }
-            set { groupManagerUid = value; }
-        }
+        public string GroupManagerUID { get; set; } = "ned49b54-325d-486a-af3m";
 
         public UUID ChairAnnouncerUUID
         {
@@ -910,162 +656,58 @@ namespace METAbolt
             set { chairAnnouncerGroup6 = value; }
         }
 
-        public bool ChairAnnouncerEnabled
-        {
-            get { return chairAnnouncerEnabled; }
-            set { chairAnnouncerEnabled = value; }
-        }
+        public bool ChairAnnouncerEnabled { get; set; } = false;
 
-        public bool ChairAnnouncerChat
-        {
-            get { return chairAnnouncerChat; }
-            set { chairAnnouncerChat = value; }
-        }
+        public bool ChairAnnouncerChat { get; set; } = true;
 
-        public string ChairAnnouncerAdvert
-        {
-            get { return chairAnnouncerAdvert; }
-            set { chairAnnouncerAdvert = value; }
-        }
+        public string ChairAnnouncerAdvert { get; set; } = "Brought to you by MEGAbolt";
 
 
-        public string CommandInID
-        {
-            get { return commandinid; }
-            set { commandinid = value; }
-        }
+        public string CommandInID { get; set; } = "ned34b54-3765-439j-fds5";
 
-        public bool SaveIMs
-        {
-            get { return saveims; }
-            set { saveims = value; }
-        }
+        public bool SaveIMs { get; set; } = true;
 
-        public bool SaveChat
-        {
-            get { return savechat; }
-            set { savechat = value; }
-        }
+        public bool SaveChat { get; set; } = false;
 
-        public string LogDir
-        {
-            get { return logdir; }
-            set { logdir = value; }
-        }
+        public string LogDir { get; set; } = METAbolt.DataFolder.GetDataFolder() + "\\Logs\\";
 
-        public bool DisableGroupNotices
-        {
-            get { return disablegnotices; }
-            set { disablegnotices = value; }
-        }
+        public bool DisableGroupNotices { get; set; } = false;
 
-        public bool DisableInboundGroupInvites
-        {
-            get { return disableinboundgroupinvites; }
-            set { disableinboundgroupinvites = value; }
-        }
+        public bool DisableInboundGroupInvites { get; set; } = false;
 
-        public bool DisableGroupIMs
-        {
-            get { return disablegims; }
-            set { disablegims = value; }
-        }
+        public bool DisableGroupIMs { get; set; } = false;
 
-        public bool BufferApplied
-        {
-            get { return bufferapplied; }
-            set { bufferapplied = value; }
-        }
+        public bool BufferApplied { get; set; } = false;
 
-        public bool DisableLookAt
-        {
-            get { return disablelookat; }
-            set { disablelookat = value; }
-        }
+        public bool DisableLookAt { get; set; } = true;
 
-        public bool GivePresent
-        {
-            get { return givepressie; }
-            set { givepressie = value; }
-        }
+        public bool GivePresent { get; set; } = false;
 
-        public bool UseProxy
-        {
-            get { return useproxy; }
-            set { useproxy = value; }
-        }
+        public bool UseProxy { get; set; } = false;
 
-        public string ProxyURL
-        {
-            get { return proxyurl; }
-            set { proxyurl = value; }
-        }
+        public string ProxyURL { get; set; } = string.Empty;
 
-        public string ProxyPort
-        {
-            get { return proxyport; }
-            set { proxyport = value; }
-        }
+        public string ProxyPort { get; set; } = string.Empty;
 
-        public string ProxyUser
-        {
-            get { return proxyuser; }
-            set { proxyuser = value; }
-        }
+        public string ProxyUser { get; set; } = string.Empty;
 
-        public string ProxyPWD
-        {
-            get { return proxypwd; }
-            set { proxypwd = value; }
-        }
+        public string ProxyPWD { get; set; } = string.Empty;
 
-        public bool AutoRestart
-        {
-            get { return autorestart; }
-            set { autorestart = value; }
-        }
+        public bool AutoRestart { get; set; } = true;
 
-        public int LogOffTime
-        {
-            get { return logofftime; }
-            set { logofftime = value; }
-        }
+        public int LogOffTime { get; set; } = 0;
 
-        public float BandwidthThrottle
-        {
-            get { return bandwidththrottle; }
-            set { bandwidththrottle = value; }
-        }
+        public float BandwidthThrottle { get; set; } = 500;
 
-        public bool LogOffTimerChanged
-        {
-            get { return logofftimerchanged; }
-            set { logofftimerchanged = value; }
-        }
+        public bool LogOffTimerChanged { get; set; } = true;
 
-        public bool ClassicChatLayout
-        {
-            get { return useclassicchatlayout; }
-            set { useclassicchatlayout = value; }
-        }
+        public bool ClassicChatLayout { get; set; } = false;
 
-        public string HeaderFont
-        {
-            get { return headerfont; }
-            set { headerfont = value; }
-        }
+        public string HeaderFont { get; set; } = "Tahoma";
 
-        public string HeaderFontStyle
-        {
-            get { return headerfontstyle; }
-            set { headerfontstyle = value; }
-        }
+        public string HeaderFontStyle { get; set; } = "Regular";
 
-        public float HeaderFontSize
-        {
-            get { return headerfontsize; }
-            set { headerfontsize = value; }
-        }
+        public float HeaderFontSize { get; set; } = 8.5f;
 
         public Color HeaderBackColour
         {
@@ -1079,261 +721,90 @@ namespace METAbolt
         //    set { bgcolour = value.ToArgb(); }
         //}
 
-        public string TextFont
-        {
-            get { return textfont; }
-            set { textfont = value; }
-        }
+        public string TextFont { get; set; } = "Tahoma";
 
-        public string TextFontStyle
-        {
-            get { return textfontstyle; }
-            set { textfontstyle = value; }
-        }
+        public string TextFontStyle { get; set; } = "Regular";
 
-        public float TextFontSize
-        {
-            get { return textfontsize; }
-            set { textfontsize = value; }
-        }
+        public float TextFontSize { get; set; } = 8.5f;
 
-        public string PluginsToLoad
-        {
-            get { return pluginstoload; }
-            set { pluginstoload = value; }
-        }
+        public string PluginsToLoad { get; set; } = string.Empty;
 
-        public bool PlayFriendOnline
-        {
-            get { return playfriendonline; }
-            set { playfriendonline = value; }
-        }
+        public bool PlayFriendOnline { get; set; } = false;
 
-        public bool PlayFriendOffline
-        {
-            get { return playfriendoffline; }
-            set { playfriendoffline = value; }
-        }
+        public bool PlayFriendOffline { get; set; } = false;
 
-        public bool PlayIMreceived
-        {
-            get { return playimreceived; }
-            set { playimreceived = value; }
-        }
+        public bool PlayIMreceived { get; set; } = false;
 
-        public bool PlayGroupIMreceived
-        {
-            get { return playgroupimreceived; }
-            set { playgroupimreceived = value; }
-        }
+        public bool PlayGroupIMreceived { get; set; } = false;
 
-        public bool PlayGroupNoticeReceived
-        {
-            get { return playgroupnotice; }
-            set { playgroupnotice = value; }
-        }
+        public bool PlayGroupNoticeReceived { get; set; } = false;
 
-        public bool PlayInventoryItemReceived
-        {
-            get { return playintentoryitem; }
-            set { playintentoryitem = value; }
-        }
+        public bool PlayInventoryItemReceived { get; set; } = false;
 
-        public bool PlayPaymentReceived
-        {
-            get { return playpaymentreceived; }
-            set { playpaymentreceived = value; }
-        }
+        public bool PlayPaymentReceived { get; set; } = false;
 
-        public bool AutoAcceptItems
-        {
-            get { return autoacceptitems; }
-            set { autoacceptitems = value; }
-        }
+        public bool AutoAcceptItems { get; set; } = false;
 
-        public bool StartMinimised
-        {
-            get { return startminimised; }
-            set { startminimised = value; }
-        }
+        public bool StartMinimised { get; set; } = false;
 
-        public string AdRemove
-        {
-            get { return adremove; }
-            set { adremove = value; }
-        }
+        public string AdRemove { get; set; } = string.Empty;
 
-        public string MasterAvatar
-        {
-            get { return masteravatar; }
-            set { masteravatar = value; }
-        }
+        public string MasterAvatar { get; set; } = UUID.Zero.ToString();
 
-        public string MasterObject
-        {
-            get { return masterobject; }
-            set { masterobject = value; }
-        }
+        public string MasterObject { get; set; } = UUID.Zero.ToString();
 
-        public bool AutoTransfer
-        {
-            get { return autotransfer; }
-            set { autotransfer = value; }
-        }
+        public bool AutoTransfer { get; set; } = false;
 
-        public bool SortByDistance
-        {
-            get { return sortbydistance; }
-            set { sortbydistance = value; }
-        }
+        public bool SortByDistance { get; set; } = true;
 
-        public bool DisableTrayIcon
-        {
-            get { return disabletrayicon; }
-            set { disabletrayicon = value; }
-        }
+        public bool DisableTrayIcon { get; set; } = false;
 
-        public string IgnoreUID
-        {
-            get { return ignoreUid; }
-            set { ignoreUid = value; }
-        }
+        public string IgnoreUID { get; set; } = "ned49b54-325d-123a-x33m";
 
-        public string UserNameList
-        {
-            get { return usernamelist; }
-            set { usernamelist = value; }
-        }
+        public string UserNameList { get; set; } = string.Empty;
 
-        public bool DisableFriendsNotifications
-        {
-            get { return disablefriendsnotifications; }
-            set { disablefriendsnotifications = value; }
-        }
+        public bool DisableFriendsNotifications { get; set; } = false;
 
-        public bool DisableTyping
-        {
-            get { return disabletyping ; }
-            set { disabletyping = value; }
-        }
+        public bool DisableTyping { get; set; } = false;
 
-        public bool AutoAcceptFriends
-        {
-            get { return autoacceptfriends; }
-            set { autoacceptfriends = value; }
-        }
+        public bool AutoAcceptFriends { get; set; } = false;
 
-        public int ReStartTime
-        {
-            get { return restarttime; }
-            set { restarttime = value; }
-        }
+        public int ReStartTime { get; set; } = 10;
 
-        public bool DisableMipmaps
-        {
-            get { return disablemipmaps; }
-            set { disablemipmaps = value; }
-        }
+        public bool DisableMipmaps { get; set; } = false;
 
-        public bool EnforceLSLsecurity
-        {
-            get { return enforcelslsecurity; }
-            set { enforcelslsecurity = value; }
-        }
+        public bool EnforceLSLsecurity { get; set; } = true;
 
-        public bool DisplayLSLcommands
-        {
-            get { return displaylslcommands; }
-            set { displaylslcommands = value; }
-        }
-        public bool MultiLingualAI
-        {
-            get { return multilingualai; }
-            set { multilingualai = value; }
-        }
+        public bool DisplayLSLcommands { get; set; } = true;
 
-        public bool EnableSpelling
-        {
-            get { return enablespellcheck; }
-            set { enablespellcheck = value; }
-        }
+        public bool MultiLingualAI { get; set; } = false;
 
-        public string SpellLanguage
-        {
-            get { return spelllang; }
-            set { spelllang = value; }
-        }
+        public bool EnableSpelling { get; set; } = false;
 
-        public bool HideDisconnectPrompt
-        {
-            get { return hidedisconnectprompt; }
-            set { hidedisconnectprompt = value; }
-        }
+        public string SpellLanguage { get; set; } = "en_GB";
 
-        public bool DisableRadar
-        {
-            get { return disableradar; }
-            set { disableradar = value; }
-        }
+        public bool HideDisconnectPrompt { get; set; } = false;
 
-        public bool RestrictRadar
-        {
-            get { return restrictradar; }
-            set { restrictradar = value; }
-        }
+        public bool DisableRadar { get; set; } = false;
 
-        public bool DisableVoice
-        {
-            get { return disablevoice; }
-            set { disablevoice = value; }
-        }
+        public bool RestrictRadar { get; set; } = false;
 
-        public bool DisableFavs
-        {
-            get { return disablefavs; }
-            set { disablefavs = value; }
-        }
+        public bool DisableVoice { get; set; } = false;
 
-        public bool DisableRadarImageMiniMap
-        {
-            get { return disableradarminimap; }
-            set { disableradarminimap = value; }
-        }
+        public bool DisableFavs { get; set; } = false;
 
-        public string AppMenuPos
-        {
-            get { return appmenupos; }
-            set { appmenupos = value; }
-        }
+        public bool DisableRadarImageMiniMap { get; set; } = false;
 
-        public string LandMenuPos
-        {
-            get { return landmenupos; }
-            set { landmenupos = value; }
-        }
+        public string AppMenuPos { get; set; } = "Top";
 
-        public string FnMenuPos
-        {
-            get { return fnmenupos; }
-            set { fnmenupos = value; }
-        }
+        public string LandMenuPos { get; set; } = "Top";
 
-        public bool UseLLSD
-        {
-            get { return usellsd; }
-            set { usellsd = value; }
-        }
+        public string FnMenuPos { get; set; } = "Top";
 
-        public int ChatBufferLimit
-        {
-            get { return chatbufferlimit; }
-            set { chatbufferlimit = value; }
-        }
+        public bool UseLLSD { get; set; } = false;
 
-        public int ScriptUrlBufferLimit
-        {
-            get { return scripturlbufferlimit; }
-            set { scripturlbufferlimit = value; }
-        }
+        public int ChatBufferLimit { get; set; } = 20;
+
+        public int ScriptUrlBufferLimit { get; set; } = 5;
     }
 }

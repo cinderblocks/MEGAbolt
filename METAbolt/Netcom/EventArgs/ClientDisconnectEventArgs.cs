@@ -29,23 +29,14 @@ namespace MEGAbolt.NetworkComm
 {
     public class ClientDisconnectEventArgs : EventArgs
     {
-        private NetworkManager.DisconnectType type;
-        private string message;
-
         public ClientDisconnectEventArgs(NetworkManager.DisconnectType type, string message)
         {
-            this.type = type;
-            this.message = message;
+            this.Type = type;
+            this.Message = message;
         }
 
-        public NetworkManager.DisconnectType Type
-        {
-            get { return type; }
-        }
+        public NetworkManager.DisconnectType Type { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
     }
 }

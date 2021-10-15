@@ -14,11 +14,6 @@ namespace METAbolt
 
         private static ProcessNodeEventArgs instance;
 
-        private TreeNode node;
-        private bool processDescendants;
-        private bool processSiblings;
-        private bool stopProcessing;
-
         #endregion // Data
 
         #region Private Constructor
@@ -42,10 +37,10 @@ namespace METAbolt
             if (ProcessNodeEventArgs.instance == null)
                 ProcessNodeEventArgs.instance = new ProcessNodeEventArgs();
 
-            ProcessNodeEventArgs.instance.node = node;
-            ProcessNodeEventArgs.instance.processDescendants = true;
-            ProcessNodeEventArgs.instance.processSiblings = true;
-            ProcessNodeEventArgs.instance.stopProcessing = false;
+            ProcessNodeEventArgs.instance.Node = node;
+            ProcessNodeEventArgs.instance.ProcessDescendants = true;
+            ProcessNodeEventArgs.instance.ProcessSiblings = true;
+            ProcessNodeEventArgs.instance.StopProcessing = false;
 
             return ProcessNodeEventArgs.instance;
         }
@@ -59,10 +54,7 @@ namespace METAbolt
         /// <summary>
         /// Returns the TreeNode to process.
         /// </summary>
-        public TreeNode Node
-        {
-            get { return this.node; }
-        }
+        public TreeNode Node { get; private set; }
 
         #endregion // Node
 
@@ -73,11 +65,7 @@ namespace METAbolt
         /// nodes of the current TreeNode.  The default value is true.  If StopProcessing is set to true, this 
         /// property is ignored.
         /// </summary>
-        public bool ProcessDescendants
-        {
-            get { return this.processDescendants; }
-            set { this.processDescendants = value; }
-        }
+        public bool ProcessDescendants { get; set; }
 
         #endregion // ProcessDescendants
 
@@ -88,11 +76,7 @@ namespace METAbolt
         /// nodes of the current TreeNode.  The default value is true.  If StopProcessing is set to true, this 
         /// property is ignored.
         /// </summary>
-        public bool ProcessSiblings
-        {
-            get { return this.processSiblings; }
-            set { this.processSiblings = value; }
-        }
+        public bool ProcessSiblings { get; set; }
 
         #endregion // ProcessSiblings
 
@@ -102,11 +86,7 @@ namespace METAbolt
         /// Gets/sets whether the ProcessNode event should be raised for any of the remaining nodes in the TreeView.
         /// If this property is set to true, the ProcessDescendants and ProcessSiblings properties are ignored.
         /// </summary>
-        public bool StopProcessing
-        {
-            get { return this.stopProcessing; }
-            set { this.stopProcessing = value; }
-        }
+        public bool StopProcessing { get; set; }
 
         #endregion // StopProcessing
 

@@ -40,9 +40,6 @@ namespace METAbolt
         //private SLNetCom netcom;
         private GridClient client;
 
-        private UUID queryID;
-        private SafeDictionary<string, UUID> findGroupsResults;
-
         public event EventHandler SelectedIndexChanged;
         private NumericStringComparer lvwColumnSorter;
 
@@ -50,8 +47,8 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            findGroupsResults = new SafeDictionary<string, UUID>();
-            this.queryID = queryID;
+            LLUUIDs = new SafeDictionary<string, UUID>();
+            this.QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -87,15 +84,15 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.queryID) return;
+            if (qqueryID != this.QueryID) return;
 
             lvwFindGroups.BeginUpdate();
 
             foreach (DirectoryManager.GroupSearchData group in matchedGroups)
             {
-                if (!findGroupsResults.ContainsKey(group.GroupName))
+                if (!LLUUIDs.ContainsKey(group.GroupName))
                 {
-                    findGroupsResults.Add(group.GroupName, group.GroupID);
+                    LLUUIDs.Add(group.GroupName, group.GroupID);
                 }
 
                 ListViewItem item = lvwFindGroups.Items.Add(group.GroupName);
@@ -110,7 +107,7 @@ namespace METAbolt
 
         public void ClearResults()
         {
-            findGroupsResults.Clear();
+            LLUUIDs.Clear();
             lvwFindGroups.Items.Clear();
         }
 
@@ -124,16 +121,9 @@ namespace METAbolt
             OnSelectedIndexChanged(e);
         }
 
-        public SafeDictionary<string, UUID> LLUUIDs
-        {
-            get { return findGroupsResults; }
-        }
+        public SafeDictionary<string, UUID> LLUUIDs { get; }
 
-        public UUID QueryID
-        {
-            get { return queryID; }
-            set { queryID = value; }
-        }
+        public UUID QueryID { get; set; }
 
         public int SelectedIndex
         {

@@ -29,30 +29,17 @@ namespace MEGAbolt.NetworkComm
 {
     public class ClientLoginEventArgs : EventArgs
     {
-        private LoginStatus status;
-        private string message;
-        private string fail;
-
         public ClientLoginEventArgs(LoginStatus status, string message, string fail)
         {
-            this.status = status;
-            this.message = message;
-            this.fail = fail;
+            this.Status = status;
+            this.Message = message;
+            this.Fail = fail;
         }
 
-        public LoginStatus Status
-        {
-            get { return status; }
-        }
+        public LoginStatus Status { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
 
-        public string Fail
-        {
-            get { return fail; }
-        }
+        public string Fail { get; }
     }
 }

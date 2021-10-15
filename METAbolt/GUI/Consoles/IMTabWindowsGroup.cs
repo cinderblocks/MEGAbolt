@@ -44,16 +44,12 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
-        private UUID session;
-        private GridClient client; 
-        private string toName;
-        private IMTextManager textManager;
+        private GridClient client;
         private bool typing = false;
         private OpenMetaverse.Group imgroup;
         //private bool pasted = false;
         private SafeDictionary<UUID, string> people = new SafeDictionary<UUID, string>();
         ManualResetEvent WaitForSessionStart = new ManualResetEvent(false);
-        private UUID target = UUID.Zero;
         private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
         private TabsConsole tab;
@@ -96,16 +92,16 @@ namespace METAbolt
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
-            this.target = target;
-            this.session = session;
+            this.TargetId = target;
+            this.SessionId = session;
             //this.session = client.Self..AgentID ^ grp.ID;
-            this.toName = toName;
+            this.TargetName = toName;
             this.imgroup = grp;
             tab = instance.TabConsole;
 
             WaitForSessionStart.Reset();
 
-            textManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.session, toName, grp);
+            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.SessionId, toName, grp);
             this.Disposed += IMTabWindow_Disposed;
 
             AddNetcomEvents();
@@ -123,7 +119,7 @@ namespace METAbolt
             client.Self.RequestJoinGroupChat(session);
             CreateSmileys();
 
-            if (this.instance.IMHistyoryExists(this.toName, true))
+            if (this.instance.IMHistyoryExists(this.TargetName, true))
             {
                 toolStripButton2.Enabled = true;
             }
@@ -131,7 +127,7 @@ namespace METAbolt
 
         private void Self_OnGroupChatJoin(object sender, GroupChatJoinedEventArgs e)
         {
-            if (e.SessionID != session && e.TmpSessionID != session) return;
+            if (e.SessionID != SessionId && e.TmpSessionID != SessionId) return;
  
             if (e.Success)
             { 
@@ -162,7 +158,7 @@ namespace METAbolt
 
         private void Self_OnChatSessionMemberAdded(object sender, ChatSessionMemberAddedEventArgs e)
         {
-            if (e.SessionID != session) return;
+            if (e.SessionID != SessionId) return;
 
             try
             {
@@ -229,7 +225,7 @@ namespace METAbolt
 
         private void Self_OnChatSessionMemberLeft(object sender, ChatSessionMemberLeftEventArgs e)
         {
-            if (e.SessionID == session)
+            if (e.SessionID == SessionId)
             {
                 BeginInvoke(new MethodInvoker(delegate()
                 {
@@ -583,7 +579,7 @@ namespace METAbolt
         private void IMTabWindow_Disposed(object sender, EventArgs e)
         {
             //client.Self.RequestLeaveGroupChat(target);
-            client.Self.RequestLeaveGroupChat(session);
+            client.Self.RequestLeaveGroupChat(SessionId);
             CleanUp();
         }
 
@@ -596,8 +592,8 @@ namespace METAbolt
             client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
 
             this.instance.Config.ConfigApplied -= Config_ConfigApplied;
-            textManager.CleanUp();
-            textManager = null;
+            TextManager.CleanUp();
+            TextManager = null;
             people = null;
             RemoveNetcomEvents();
         }
@@ -650,7 +646,7 @@ namespace METAbolt
 
                 if (hasmistake)
                 {
-                    (new frmSpelling(instance, message, swords, true, target, session)).Show();
+                    (new frmSpelling(instance, message, swords, true, TargetId, SessionId)).Show();
 
                     ClearIMInput();
                     hasmistake = false;
@@ -664,17 +660,17 @@ namespace METAbolt
             if (message.Length > 1023)
             {
                 message1 = message.Substring(0, 1022);
-                netcom.SendInstantMessageGroup(message1, target, session);
+                netcom.SendInstantMessageGroup(message1, TargetId, SessionId);
 
                 if (message.Length > 2046)
                 {
                     message2 = message.Substring(1023, 2045);
-                    netcom.SendInstantMessageGroup(message2, target, session);
+                    netcom.SendInstantMessageGroup(message2, TargetId, SessionId);
                 }
             }
             else
             {
-                netcom.SendInstantMessageGroup(message, target, session); ;
+                netcom.SendInstantMessageGroup(message, TargetId, SessionId); ;
             }
 
             this.ClearIMInput();
@@ -730,29 +726,13 @@ namespace METAbolt
             cbxInput.Select();
         }
 
-        public UUID TargetId
-        {
-            get { return target; }
-            set { target = value; }
-        }
+        public UUID TargetId { get; set; } = UUID.Zero;
 
-        public string TargetName
-        {
-            get { return toName; }
-            set { toName = value; }
-        }
+        public string TargetName { get; set; }
 
-        public UUID SessionId
-        {
-            get { return session; }
-            set { session = value; }
-        }
+        public UUID SessionId { get; set; }
 
-        public IMTextManager TextManager
-        {
-            get { return textManager; }
-            set { textManager = value; }
-        }
+        public IMTextManager TextManager { get; set; }
 
         private void tbtnProfile_Click(object sender, EventArgs e)
         {
@@ -964,7 +944,7 @@ namespace METAbolt
 
         private void tsbClear_Click(object sender, EventArgs e)
         {
-            textManager.ClearAllText();
+            TextManager.ClearAllText();
         }
 
         private void rtbIMText_TextChanged(object sender, EventArgs e)
@@ -1021,7 +1001,7 @@ namespace METAbolt
                 if (e.SuppressKeyPress)
                 {
                     tab.tabs["chat"].Select();
-                    METAboltTab stab = tab.GetTab(toName);
+                    METAboltTab stab = tab.GetTab(TargetName);
                     stab.Close();
                 }
 
@@ -1061,7 +1041,7 @@ namespace METAbolt
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            frmHistory frm = new frmHistory(instance, toName, true);
+            frmHistory frm = new frmHistory(instance, TargetName, true);
             frm.Show();
         }
     }

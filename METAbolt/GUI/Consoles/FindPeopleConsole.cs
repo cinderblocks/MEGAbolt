@@ -36,9 +36,6 @@ namespace METAbolt
         //private SLNetCom netcom;
         private GridClient client;
 
-        private UUID queryID;
-        private SafeDictionary<string, UUID> findPeopleResults;
-
         public event EventHandler SelectedIndexChanged;
         private NumericStringComparer lvwColumnSorter;
 
@@ -46,8 +43,8 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            findPeopleResults = new SafeDictionary<string, UUID>();
-            this.queryID = queryID;
+            LLUUIDs = new SafeDictionary<string, UUID>();
+            this.QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -84,7 +81,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.queryID) return;
+            if (qqueryID != this.QueryID) return;
 
             lvwFindPeople.BeginUpdate();
 
@@ -92,9 +89,9 @@ namespace METAbolt
             {
                 string fullName = person.FirstName + " " + person.LastName;
 
-                if (!findPeopleResults.ContainsKey(fullName))
+                if (!LLUUIDs.ContainsKey(fullName))
                 {
-                    findPeopleResults.Add(fullName, person.AgentID);
+                    LLUUIDs.Add(fullName, person.AgentID);
                 }
 
                 ListViewItem item = lvwFindPeople.Items.Add(fullName);
@@ -108,7 +105,7 @@ namespace METAbolt
 
         public void ClearResults()
         {
-            findPeopleResults.Clear();
+            LLUUIDs.Clear();
             lvwFindPeople.Items.Clear();
         }
 
@@ -122,16 +119,9 @@ namespace METAbolt
             if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
         }
 
-        public SafeDictionary<string, UUID> LLUUIDs
-        {
-            get { return findPeopleResults; }
-        }
+        public SafeDictionary<string, UUID> LLUUIDs { get; }
 
-        public UUID QueryID
-        {
-            get { return queryID; }
-            set { queryID = value; }
-        }
+        public UUID QueryID { get; set; }
 
         public int SelectedIndex
         {
@@ -181,7 +171,7 @@ namespace METAbolt
                 if (lvwFindPeople.SelectedItems.Count == 0) return UUID.Zero;
 
                 string name = lvwFindPeople.SelectedItems[0].Text;
-                return findPeopleResults[name];
+                return LLUUIDs[name];
             }
         }
 

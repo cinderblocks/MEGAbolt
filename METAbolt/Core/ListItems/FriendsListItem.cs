@@ -29,22 +29,16 @@ namespace METAbolt
 {
     public class FriendsListItem
     {
-        private FriendInfo friend;
-
         public FriendsListItem(FriendInfo friend)
         {
-            this.friend = friend;
+            this.Friend = friend;
         }
 
         public override string ToString()
         {
-            return (friend.IsOnline ? "0 " : "1 ") + friend.Name;
+            return (Friend.IsOnline ? "0 " : "1 ") + Friend.Name;
         }
 
-        public FriendInfo Friend
-        {
-            get { return friend; }
-            set { friend = value; }
-        }
+        public FriendInfo Friend { get; set; }
     }
 }

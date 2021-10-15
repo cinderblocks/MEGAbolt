@@ -32,18 +32,12 @@ namespace METAx
 {
   public class AssemblyLoadedEventArgs : EventArgs
   {
-    private string filename = "";
-
-    public AssemblyLoadedEventArgs()
+      public AssemblyLoadedEventArgs()
     {
     }
 
-    public AssemblyLoadedEventArgs(string filename) => this.filename = filename;
+    public AssemblyLoadedEventArgs(string filename) => this.Filename = filename;
 
-    public string Filename
-    {
-      get => this.filename;
-      set => this.filename = value;
-    }
+    public string Filename { get; set; } = "";
   }
 }

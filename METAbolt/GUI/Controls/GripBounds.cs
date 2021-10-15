@@ -34,11 +34,10 @@ namespace MEGAbolt.Controls
   {
     private const int GripSize = 6;
     private const int CornerGripSize = 12;
-    private Rectangle clientRectangle;
 
-    public GripBounds(Rectangle clientRectangle) => this.clientRectangle = clientRectangle;
+    public GripBounds(Rectangle clientRectangle) => this.ClientRectangle = clientRectangle;
 
-    public Rectangle ClientRectangle => this.clientRectangle;
+    public Rectangle ClientRectangle { get; }
 
     public Rectangle Bottom
     {

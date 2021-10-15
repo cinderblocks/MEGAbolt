@@ -36,12 +36,7 @@ namespace METAx
 {
   public class ExtensionManager<ClientInterface, HostInterface>
   {
-    private Dictionary<string, SourceFileLanguage> sourceFileExtensionMappings = new Dictionary<string, SourceFileLanguage>();
-    private List<Extension<ClientInterface>> extensions = new List<Extension<ClientInterface>>();
-    private List<string> compiledFileExtensions = new List<string>();
-    private List<string> sourceFileReferencedAssemblies = new List<string>();
-
-    public event ExtensionManager<ClientInterface, HostInterface>.AssemblyLoadingEventHandler AssemblyLoading;
+      public event ExtensionManager<ClientInterface, HostInterface>.AssemblyLoadingEventHandler AssemblyLoading;
 
     private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
     {
@@ -68,29 +63,13 @@ namespace METAx
       this.AssemblyFailedLoading((object) this, e);
     }
 
-    public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings
-    {
-      get => this.sourceFileExtensionMappings;
-      set => this.sourceFileExtensionMappings = value;
-    }
+    public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();
 
-    public List<Extension<ClientInterface>> Extensions
-    {
-      get => this.extensions;
-      set => this.extensions = value;
-    }
+    public List<Extension<ClientInterface>> Extensions { get; set; } = new List<Extension<ClientInterface>>();
 
-    public List<string> CompiledFileExtensions
-    {
-      get => this.compiledFileExtensions;
-      set => this.compiledFileExtensions = value;
-    }
+    public List<string> CompiledFileExtensions { get; set; } = new List<string>();
 
-    public List<string> SourceFileReferencedAssemblies
-    {
-      get => this.sourceFileReferencedAssemblies;
-      set => this.sourceFileReferencedAssemblies = value;
-    }
+    public List<string> SourceFileReferencedAssemblies { get; set; } = new List<string>();
 
     public void UnloadExtension(Extension<ClientInterface> extension)
     {
@@ -108,11 +87,11 @@ namespace METAx
 
     public void LoadDefaultFileExtensions()
     {
-      this.sourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
-      this.sourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
-      this.sourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
-      this.compiledFileExtensions.Add(".dll");
-      this.compiledFileExtensions.Add(".exe");
+      this.SourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
+      this.SourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
+      this.SourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
+      this.CompiledFileExtensions.Add(".dll");
+      this.CompiledFileExtensions.Add(".exe");
     }
 
     public void LoadExtensions(string folderPath)
@@ -149,7 +128,7 @@ namespace METAx
     {
       bool flag = false;
       string str = "";
-      CompilerResults compilerResults = this.compileScript(filename, this.sourceFileReferencedAssemblies, this.getCodeDomLanguage(language));
+      CompilerResults compilerResults = this.compileScript(filename, this.SourceFileReferencedAssemblies, this.getCodeDomLanguage(language));
       if (compilerResults.Errors.Count <= 0)
       {
         foreach (Type type in compilerResults.CompiledAssembly.GetTypes())
@@ -159,7 +138,7 @@ namespace METAx
           {
             try
             {
-              this.extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface) compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
+              this.Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface) compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
               {
                 InstanceAssembly = compilerResults.CompiledAssembly
               });
@@ -210,7 +189,7 @@ namespace METAx
           {
             try
             {
-              this.extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface) assembly.CreateInstance(type.FullName, true))
+              this.Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface) assembly.CreateInstance(type.FullName, true))
               {
                 InstanceAssembly = assembly
               });

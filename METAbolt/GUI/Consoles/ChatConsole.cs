@@ -51,7 +51,6 @@ namespace METAbolt
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-        private ChatTextManager chatManager;
         private TabsConsole tabConsole;
         private int previousChannel = 0;
         //private double ahead = 0.0;
@@ -153,8 +152,8 @@ namespace METAbolt
 
             AddNetcomEvents();
 
-            chatManager = new ChatTextManager(instance, new RichTextBoxPrinter(instance, rtbChat));
-            chatManager.PrintStartupMessage();
+            ChatManager = new ChatTextManager(instance, new RichTextBoxPrinter(instance, rtbChat));
+            ChatManager.PrintStartupMessage();
 
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
@@ -403,7 +402,7 @@ namespace METAbolt
             client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
 
             RemoveEvents();
-            chatManager = null;
+            ChatManager = null;
         }
 
         private void Appearance_OnAppearanceSet(object sender, AppearanceSetEventArgs e)
@@ -429,7 +428,7 @@ namespace METAbolt
             {
                 BeginInvoke(new MethodInvoker(delegate()
                 {
-                    chatManager.PrintAlertMessage(rmsg);
+                    ChatManager.PrintAlertMessage(rmsg);
                 }));
             }
             catch { ; }
@@ -680,7 +679,7 @@ namespace METAbolt
                             missing = missing.Remove(missing.Length - 2);   
                         }
 
-                        chatManager.PrintAlertMessage($"Wearables missing: {missing}");
+                        ChatManager.PrintAlertMessage($"Wearables missing: {missing}");
                     }
                 }
             }
@@ -1317,7 +1316,7 @@ namespace METAbolt
                         cty = "Physical object collided (" + e.Time.ToString() + " - " + e.Magnitude.ToString(CultureInfo.CurrentCulture) + "): ";
                     }
 
-                    chatManager.PrintAlertMessage(cty + e.Aggressor.ToString());
+                    ChatManager.PrintAlertMessage(cty + e.Aggressor.ToString());
                 }));
             }
             catch
@@ -1926,8 +1925,8 @@ namespace METAbolt
 
         public void PrintAvUUID()
         {
-            chatManager = new ChatTextManager(instance, new RichTextBoxPrinter(instance, rtbChat));
-            chatManager.PrintUUID();
+            ChatManager = new ChatTextManager(instance, new RichTextBoxPrinter(instance, rtbChat));
+            ChatManager.PrintUUID();
         }
 
         private void netcom_ChatReceived(object sender, ChatEventArgs e)
@@ -2191,10 +2190,7 @@ namespace METAbolt
             }
         }
 
-        public ChatTextManager ChatManager
-        {
-            get { return chatManager; }
-        }
+        public ChatTextManager ChatManager { get; private set; }
 
         private void tbtnStartIM_Click(object sender, EventArgs e)
         {
@@ -3027,7 +3023,7 @@ namespace METAbolt
         private void clearChatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             rtbChat.Clear();
-            chatManager.ClearInternalBuffer();
+            ChatManager.ClearInternalBuffer();
         }
 
         private void tbSay_DropDownOpening(object sender, EventArgs e)

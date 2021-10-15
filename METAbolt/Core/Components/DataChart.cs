@@ -25,14 +25,7 @@ namespace SystemMonitor
 		private System.ComponentModel.Container components = null;
 		private ArrayList _arrayList;
 
-		private Color _colorLine;
-		private Color _colorGrid;
-		
-		private int  _yMaxInit;
-		private int  _gridPixel;
-		private ChartType _chartType;
-
-		#region Constructor/Dispose
+        #region Constructor/Dispose
 		public DataChart()
 		{
 			// This call is required by the Windows.Forms Form Designer.
@@ -40,12 +33,12 @@ namespace SystemMonitor
 
 			BackColor = Color.Silver;
 
-			_colorLine = Color.DarkBlue;
-			_colorGrid = Color.Yellow;
+			LineColor = Color.DarkBlue;
+			GridColor = Color.Yellow;
 
-			_yMaxInit = 1000;
-			_gridPixel = 0;
-			_chartType = ChartType.Stick;
+			InitialHeight = 1000;
+			GridPixels = 0;
+			ChartType = ChartType.Stick;
 
 			_arrayList = new ArrayList();
 		}
@@ -94,41 +87,21 @@ namespace SystemMonitor
 		#region "Properties"
 
 		[Description("Gets or sets the current Line Color in chart"), Category("DataChart")]
-		public Color LineColor
-		{
-			get { return _colorLine; }
-			set { _colorLine = value; }
-		}
+		public Color LineColor { get; set; }
 
-		[Description("Gets or sets the current Grid Color in chart"), Category("DataChart")]
-		public Color GridColor
-		{
-			get { return _colorGrid; }
-			set { _colorGrid = value; }
-		}
+        [Description("Gets or sets the current Grid Color in chart"), Category("DataChart")]
+		public Color GridColor { get; set; }
 
-		[Description("Gets or sets the initial maximum Height for sticks in chart"), Category("DataChart")]
-		public int InitialHeight
-		{
-			get { return _yMaxInit; }
-			set { _yMaxInit = value; }
-		}
+        [Description("Gets or sets the initial maximum Height for sticks in chart"), Category("DataChart")]
+		public int InitialHeight { get; set; }
 
-		[Description("Gets or sets the current chart Type for stick or Line"), Category("DataChart")]
-		public ChartType ChartType
-		{
-			get { return _chartType; }
-			set { _chartType = value; }
-		}
+        [Description("Gets or sets the current chart Type for stick or Line"), Category("DataChart")]
+		public ChartType ChartType { get; set; }
 
-		[Description("Enables grid drawing with spacing of the Pixel number"), Category("DataChart")]
-		public int GridPixels
-		{
-			get { return _gridPixel; }
-			set { _gridPixel = value; }
-		}
+        [Description("Enables grid drawing with spacing of the Pixel number"), Category("DataChart")]
+		public int GridPixels { get; set; }
 
-		#endregion
+        #endregion
 
 		#region Drawing
 		protected override void OnPaint(PaintEventArgs e)

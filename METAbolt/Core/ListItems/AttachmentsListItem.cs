@@ -32,15 +32,12 @@ namespace METAbolt
 {
     public class AttachmentsListItem
     {
-        private Primitive prim = new Primitive();
         private GridClient client;
         private ListBox listBox;
-        private bool gotProperties = false;
-        private bool gettingProperties = false;
 
         public AttachmentsListItem(Primitive prim, GridClient client, ListBox listBox)
         {
-            this.prim = prim;
+            this.Prim = prim;
             this.client = client;
             this.listBox = listBox;
 
@@ -51,16 +48,16 @@ namespace METAbolt
         {
             try
             {
-                if (prim.Properties == null)
+                if (Prim.Properties == null)
                 {
-                    gettingProperties = true;
+                    GettingProperties = true;
                     //client.Objects.SelectObject(client.Network.CurrentSim, prim.LocalID);
-                    client.Objects.SelectObject(client.Network.CurrentSim, prim.LocalID, true);
+                    client.Objects.SelectObject(client.Network.CurrentSim, Prim.LocalID, true);
                     //client.Objects.RequestObject(client.Network.CurrentSim, prim.LocalID);
                 }
                 else
                 {
-                    gotProperties = true;
+                    GotProperties = true;
                     OnPropertiesReceived(EventArgs.Empty);
                 }
             }
@@ -72,13 +69,13 @@ namespace METAbolt
 
         private void Objects_OnObjectProperties(object sender, ObjectPropertiesEventArgs e)
         {
-            if (e.Properties.ObjectID != prim.ID) return;
+            if (e.Properties.ObjectID != Prim.ID) return;
 
             try
             {
-                gettingProperties = false;
-                gotProperties = true;
-                prim.Properties = e.Properties;
+                GettingProperties = false;
+                GotProperties = true;
+                Prim.Properties = e.Properties;
 
                 listBox.BeginInvoke(
                     new OnPropReceivedRaise(OnPropertiesReceived),
@@ -94,8 +91,8 @@ namespace METAbolt
         {
             try
             {
-                if (prim.Properties == null) return "???";
-                return (string.IsNullOrEmpty(prim.Properties.Name) ? "..." : prim.Properties.Name);
+                if (Prim.Properties == null) return "???";
+                return (string.IsNullOrEmpty(Prim.Properties.Name) ? "..." : Prim.Properties.Name);
             }
             catch
             {
@@ -110,19 +107,10 @@ namespace METAbolt
             if (PropertiesReceived != null) PropertiesReceived(this, e);
         }
 
-        public Primitive Prim
-        {
-            get { return prim; }
-        }
+        public Primitive Prim { get; } = new Primitive();
 
-        public bool GotProperties
-        {
-            get { return gotProperties; }
-        }
+        public bool GotProperties { get; private set; } = false;
 
-        public bool GettingProperties
-        {
-            get { return gettingProperties; }
-        }
+        public bool GettingProperties { get; private set; } = false;
     }
 }

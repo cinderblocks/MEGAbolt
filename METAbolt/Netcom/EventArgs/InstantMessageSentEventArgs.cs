@@ -31,52 +31,31 @@ namespace MEGAbolt.NetworkComm
 {
     public class InstantMessageSentEventArgs : EventArgs
     {
-        private string message;
-        private UUID targetID;
-        private UUID sessionID;
-        private DateTime timestamp;
-        private Boolean groupIM;
-
         public InstantMessageSentEventArgs(string message, UUID targetID, UUID sessionID, DateTime timestamp)
         {
-            this.message = message;
-            this.targetID = targetID;
-            this.sessionID = sessionID;
-            this.timestamp = timestamp;
+            this.Message = message;
+            this.TargetID = targetID;
+            this.SessionID = sessionID;
+            this.Timestamp = timestamp;
         }
 
         public InstantMessageSentEventArgs(string message, UUID targetID, UUID sessionID, DateTime timestamp, Boolean isGrp)
         {
-            this.message = message;
-            this.targetID = targetID;
-            this.sessionID = sessionID;
-            this.timestamp = timestamp;
-            this.groupIM = isGrp; 
+            this.Message = message;
+            this.TargetID = targetID;
+            this.SessionID = sessionID;
+            this.Timestamp = timestamp;
+            this.GroupIM = isGrp; 
         }
 
-        public Boolean GroupIM
-        {
-            get { return groupIM; }
-        }
+        public Boolean GroupIM { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
 
-        public UUID TargetID
-        {
-            get { return targetID; }
-        }
+        public UUID TargetID { get; }
 
-        public UUID SessionID
-        {
-            get { return sessionID; }
-        }
+        public UUID SessionID { get; }
 
-        public DateTime Timestamp
-        {
-            get { return timestamp; }
-        }
+        public DateTime Timestamp { get; }
     }
 }

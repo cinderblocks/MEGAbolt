@@ -42,8 +42,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
-        private ITextPrinter textPrinter;
-        private UUID sessionID = UUID.Zero;
+
         private string sessionAVname = string.Empty;
         //private string sessionGroupName = string.Empty;  
         private GridClient client;
@@ -55,7 +54,6 @@ namespace METAbolt
         public mBrain answer;
 
         //private ArrayList textBuffer;
-        private bool showTimestamps;
         private AIMLbot.Bot myBot;
         private string lastspeaker = string.Empty;
         private bool classiclayout = false;
@@ -104,10 +102,10 @@ namespace METAbolt
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.sessionID = sessionID;
+            this.SessionID = sessionID;
             //this.sessionGroupName = groupname; 
 
-            this.textPrinter = textPrinter;
+            this.TextPrinter = textPrinter;
             //this.textBuffer = new ArrayList();
 
             this.instance = instance;
@@ -115,7 +113,7 @@ namespace METAbolt
             netcom = this.instance.Netcom;
             AddNetcomEvents();
 
-            showTimestamps = this.instance.Config.CurrentConfig.IMTimestamps;
+            ShowTimestamps = this.instance.Config.CurrentConfig.IMTimestamps;
             //tName = this.instance.Config.CurrentConfig.TweeterName;
             //tPwd = this.instance.Config.CurrentConfig.TweeterPwd;
             //TEnabled = this.instance.Config.CurrentConfig.EnableTweeter;
@@ -138,10 +136,10 @@ namespace METAbolt
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.sessionID = sessionID;
+            this.SessionID = sessionID;
             this.sessionAVname = avname;
 
-            this.textPrinter = textPrinter;
+            this.TextPrinter = textPrinter;
             //this.textBuffer = new ArrayList();
 
             this.instance = instance;
@@ -149,7 +147,7 @@ namespace METAbolt
             netcom = this.instance.Netcom;
             AddNetcomEvents();
 
-            showTimestamps = this.instance.Config.CurrentConfig.IMTimestamps;
+            ShowTimestamps = this.instance.Config.CurrentConfig.IMTimestamps;
             //tName = this.instance.Config.CurrentConfig.TweeterName;
             //tPwd = this.instance.Config.CurrentConfig.TweeterPwd;
             //TEnabled = this.instance.Config.CurrentConfig.EnableTweeter;
@@ -170,7 +168,7 @@ namespace METAbolt
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
         {
-            showTimestamps = e.AppliedConfig.IMTimestamps;
+            ShowTimestamps = e.AppliedConfig.IMTimestamps;
             //ReprintAllText();
             classiclayout = this.instance.Config.CurrentConfig.ClassicChatLayout;
 
@@ -195,7 +193,7 @@ namespace METAbolt
 
         private void netcom_InstantMessageSent(object sender, InstantMessageSentEventArgs e)
         {
-            if (e.SessionID != sessionID) return;
+            if (e.SessionID != SessionID) return;
 
             //textBuffer.Add(e);
 
@@ -213,7 +211,7 @@ namespace METAbolt
 
         private void netcom_InstantMessageReceived(object sender, InstantMessageEventArgs e)
         {
-            if (e.IM.IMSessionID != sessionID)
+            if (e.IM.IMSessionID != SessionID)
             {
                 return;
             }
@@ -440,7 +438,7 @@ namespace METAbolt
 
             if (classiclayout)
             {
-                if (showTimestamps)
+                if (ShowTimestamps)
                 {
                     timestamp = this.instance.State.GetTimeStamp(timestamp);
 
@@ -454,19 +452,19 @@ namespace METAbolt
 
                     try
                     {
-                        textPrinter.SetSelectionForeColor(Color.Gray);
+                        TextPrinter.SetSelectionForeColor(Color.Gray);
                     }
                     catch
                     {
                         ;
                     }
 
-                    textPrinter.PrintClassicTextDate(timestamp.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
+                    TextPrinter.PrintClassicTextDate(timestamp.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
                 }
 
                 try
                 {
-                    textPrinter.SetSelectionForeColor(Color.Black);
+                    TextPrinter.SetSelectionForeColor(Color.Black);
                 }
                 catch
                 {
@@ -489,14 +487,14 @@ namespace METAbolt
                     {
                         if (!string.IsNullOrEmpty(fromName))
                         {
-                            textPrinter.PrintLink(fromName, avid + "&" + fromName);
+                            TextPrinter.PrintLink(fromName, avid + "&" + fromName);
                         }
 
-                        textPrinter.PrintClassicTextDate(": ");
+                        TextPrinter.PrintClassicTextDate(": ");
                     }
                     else
                     {
-                        textPrinter.PrintClassicTextDate(fromName + ": ");
+                        TextPrinter.PrintClassicTextDate(fromName + ": ");
                     }
                 }
             }
@@ -511,7 +509,7 @@ namespace METAbolt
                     sb.Append(message);
                 }
 
-                textPrinter.SetSelectionForeColor(Color.Black);
+                TextPrinter.SetSelectionForeColor(Color.Black);
 
                 try
                 {
@@ -522,12 +520,12 @@ namespace METAbolt
                         if (fromName.ToLower(CultureInfo.CurrentCulture) != client.Self.Name.ToLower(CultureInfo.CurrentCulture))
                         {
                             //textPrinter.PrintLinkHeader(fromName, avid + "&" + fromName);
-                            textPrinter.PrintLinkHeader(fromName, uuid.ToString(), avid + "&" + fromName);
+                            TextPrinter.PrintLinkHeader(fromName, uuid.ToString(), avid + "&" + fromName);
                         }
                         else
                         {
-                            textPrinter.SetFontStyle(FontStyle.Bold);
-                            textPrinter.PrintHeader(fromName);
+                            TextPrinter.SetFontStyle(FontStyle.Bold);
+                            TextPrinter.PrintHeader(fromName);
                         }
 
                         lastspeaker = fromName;
@@ -538,10 +536,10 @@ namespace METAbolt
                     ;
                 }
 
-                textPrinter.SetFontStyle(FontStyle.Regular);
-                textPrinter.SetSelectionBackColor(Color.White);
+                TextPrinter.SetFontStyle(FontStyle.Regular);
+                TextPrinter.SetSelectionBackColor(Color.White);
 
-                if (showTimestamps)
+                if (ShowTimestamps)
                 {
                     timestamp = this.instance.State.GetTimeStamp(timestamp);
 
@@ -553,18 +551,18 @@ namespace METAbolt
                     //    timestamp = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                     //}
 
-                    textPrinter.SetSelectionForeColor(Color.Gray);
-                    textPrinter.SetOffset(6);
-                    textPrinter.SetFontSize(6.5f);
-                    textPrinter.PrintDate(timestamp.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
-                    textPrinter.SetFontSize(8.5f);
-                    textPrinter.SetOffset(0);
+                    TextPrinter.SetSelectionForeColor(Color.Gray);
+                    TextPrinter.SetOffset(6);
+                    TextPrinter.SetFontSize(6.5f);
+                    TextPrinter.PrintDate(timestamp.ToString("[HH:mm] ", CultureInfo.CurrentCulture));
+                    TextPrinter.SetFontSize(8.5f);
+                    TextPrinter.SetOffset(0);
                 }
             }
 
-            textPrinter.SetSelectionForeColor(Color.Black);
+            TextPrinter.SetSelectionForeColor(Color.Black);
 
-            textPrinter.PrintTextLine(sb.ToString());
+            TextPrinter.PrintTextLine(sb.ToString());
 
             string groupname = string.Empty;
             bool groupfound = this.instance.State.GroupStore.TryGetValue(ssessionID, out groupname);
@@ -620,7 +618,7 @@ namespace METAbolt
         /// </summary>
         public void ClearAllText()
         {
-            textPrinter.ClearText();
+            TextPrinter.ClearText();
         }
 
         public void CleanUp()
@@ -631,25 +629,13 @@ namespace METAbolt
             //textBuffer = null;
 
 
-            textPrinter = null;
+            TextPrinter = null;
         }
 
-        public ITextPrinter TextPrinter
-        {
-            get { return textPrinter; }
-            set { textPrinter = value; }
-        }
+        public ITextPrinter TextPrinter { get; set; }
 
-        public bool ShowTimestamps
-        {
-            get { return showTimestamps; }
-            set { showTimestamps = value; }
-        }
+        public bool ShowTimestamps { get; set; }
 
-        public UUID SessionID
-        {
-            get { return sessionID; }
-            set { sessionID = value; }
-        }
+        public UUID SessionID { get; set; } = UUID.Zero;
     }
 }
