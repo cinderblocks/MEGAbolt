@@ -118,7 +118,7 @@ namespace METAbolt
 
         public void RequestMapImage(float priority)
         {
-            if (region.MapImageID == UUID.Zero || region.MapImageID == null)
+            if (region.MapImageID == UUID.Zero)
             {
                 IsImageDownloaded = true;
                 OnMapImageDownloaded(EventArgs.Empty);
