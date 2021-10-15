@@ -33,8 +33,8 @@ using System.Windows.Forms;
 using OpenMetaverse;
 using MD5library;
 using System.Timers;
-using ExceptionReporting;
 using System.Globalization;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 
 namespace METAbolt
@@ -91,7 +91,6 @@ namespace METAbolt
         private bool ismember = false;
         private int invitecounter = 0;
         private bool classiclayout = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
         private bool reprinting = false;
         private RingBufferProtection scriptbuffer = new RingBufferProtection();
         private RingBufferProtection urlbuffer = new RingBufferProtection();
@@ -100,14 +99,18 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                    {
+                        User = "cinder@cinderblocks.biz",
+                        ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                    };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public ChatTextManager(METAboltInstance instance, ITextPrinter textPrinter)
         {
-            SetExceptionReporter();
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.textPrinter = textPrinter;
@@ -157,28 +160,6 @@ namespace METAbolt
             scriptbuffer.SetBuffer(instance.Config.CurrentConfig.ScriptUrlBufferLimit);
             urlbuffer.SetBuffer(instance.Config.CurrentConfig.ScriptUrlBufferLimit);
             instance.chatbuffer.SetBuffer(instance.Config.CurrentConfig.ChatBufferLimit);
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
-            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
-            reporter.Config.WebUrl = "http://radegast.life/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         private void CountActives()

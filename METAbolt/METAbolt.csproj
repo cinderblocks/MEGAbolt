@@ -19,9 +19,6 @@
     <Reference Include="CbtHook">
       <HintPath>..\Libs\CbtHook.dll</HintPath>
     </Reference>
-    <Reference Include="ExceptionReporter.WinForms">
-      <HintPath>..\Libs\ExceptionReporter.WinForms.dll</HintPath>
-    </Reference>
 	<Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -462,6 +459,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AIMLbot-Radegast" Version="2.5.1.1" />
+    <PackageReference Include="BugSplatDotNetStandard" Version="2.0.7" />
     <PackageReference Include="LibreMetaverse" Version="1.9.1.273" />
     <PackageReference Include="LibreMetaverse.PrimMesher" Version="1.9.1.273" />
     <PackageReference Include="LibreMetaverse.Rendering.Meshmerizer" Version="1.9.1.273" />

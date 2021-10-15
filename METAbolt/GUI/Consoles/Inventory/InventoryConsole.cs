@@ -33,10 +33,10 @@ using System.Data;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Threading;
-using ExceptionReporting;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Linq;
+using BugSplatDotNetStandard;
 using File = System.IO.File;
 
 // Some parts of this code has been adopted from OpenMetaverse.GUI
@@ -64,7 +64,6 @@ namespace METAbolt
         private string path; // = Path.Combine(Environment.CurrentDirectory, "Outfit.txt");
         private int x = 0;
         public bool managerbusy = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
         private bool searching = false;
         //private UUID folderproc = UUID.Zero;
         private TreeNode sellectednode = new TreeNode();
@@ -83,16 +82,20 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public InventoryConsole(METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -115,28 +118,6 @@ namespace METAbolt
             instance.insconsole = this;
 
             //TreeViewWalker treeViewWalker = new TreeViewWalker(treeView1);
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void InitializeImageList()

@@ -42,7 +42,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using MEGAbolt.Controls;
 using System.Media;
-using ExceptionReporting;
+using BugSplatDotNetStandard;
 using OpenTK.Windowing.Desktop;
 using OpenTK.WinForms;
 using NativeWindow = OpenTK.Windowing.Desktop.NativeWindow;
@@ -112,15 +112,17 @@ namespace METAbolt
         private Primitive selitem = new();
         private bool msgdisplayed = false;
 
-
-        private ExceptionReporter reporter = new();
-
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
@@ -140,7 +142,7 @@ namespace METAbolt
             catch (Exception ex)
             {
                 //string exp = ex.Message;
-                reporter.Show(ex);
+                instance.CrashReporter.Post(ex);
             }
 
             if (_cancellationTokenSource != null)
@@ -154,8 +156,7 @@ namespace METAbolt
         public META3D(METAboltInstance instance, uint rootLocalID, Primitive item)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Disposed += new EventHandler(META3D_Disposed);
@@ -197,8 +198,7 @@ namespace METAbolt
         public META3D(METAboltInstance instance, ObjectsListItem obtectitem)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Disposed += new EventHandler(META3D_Disposed);
@@ -236,28 +236,6 @@ namespace METAbolt
             client.Objects.ObjectDataBlockUpdate += new EventHandler<ObjectDataBlockUpdateEventArgs>(Objects_ObjectDataBlockUpdate);
             client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
             client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         //void META3D_Disposed(object sender, EventArgs e)
@@ -2137,7 +2115,7 @@ namespace METAbolt
             catch (Exception ex)
             {
                 //string exp = ex.Message;
-                reporter.Show(ex);
+                instance.CrashReporter.Post(ex);
             }
         }
 

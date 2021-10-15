@@ -23,14 +23,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
-using ExceptionReporting;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 namespace METAbolt
 {
@@ -43,22 +42,24 @@ namespace METAbolt
         private string LogPath = string.Empty;
         private string filetype = "ALL";
 
-        private ExceptionReporter reporter = new ExceptionReporter();
-
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public frmLogSearch(METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -66,28 +67,6 @@ namespace METAbolt
             FoundFiles = new List<string>();
 
             LogPath = instance.Config.CurrentConfig.LogDir;
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void frmLogSearch_Load(object sender, EventArgs e)

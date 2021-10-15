@@ -1,12 +1,35 @@
-﻿using System;
-using System.Drawing;
+﻿//  Copyright (c) 2008 - 2014, www.metabolt.net (METAbolt)
+//  Copyright (c) 2006-2008, Paul Clement (a.k.a. Delta)
+//  All rights reserved.
+
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the following conditions are met:
+
+//  * Redistributions of source code must retain the above copyright notice, 
+//    this list of conditions and the following disclaimer. 
+//  * Redistributions in binary form must reproduce the above copyright notice, 
+//    this list of conditions and the following disclaimer in the documentation 
+//    and/or other materials provided with the distribution. 
+
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+//  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+//  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+//  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+//  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+//  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+//  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+//  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+//  POSSIBILITY OF SUCH DAMAGE.
+
+using System;
 using System.Windows.Forms;
 using OpenMetaverse;
 using MEGAbolt.NetworkComm;
-using ExceptionReporting;
 using System.Threading;
 using MEGAbolt.Controls;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 namespace METAbolt
 {
@@ -19,22 +42,24 @@ namespace METAbolt
         private Popup toolTip;
         private CustomToolTip customToolTip;
 
-        private ExceptionReporter reporter = new ExceptionReporter();
-
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public IMbox(METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -70,28 +95,6 @@ namespace METAbolt
             {
                 label6.Text = "<empty>";
             }
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         public void IMbox_Disposed(object sender, EventArgs e)

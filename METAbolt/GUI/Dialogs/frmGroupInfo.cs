@@ -31,10 +31,10 @@ using OpenMetaverse;
 using OpenMetaverse.Assets;
 using OpenMetaverse.Packets;
 using MEGAbolt.NetworkComm;
-using ExceptionReporting;
 using System.Threading;
 using System.Globalization;
 using System.Web;
+using BugSplatDotNetStandard;
 using OpenJpegDotNet.IO;
 
 
@@ -61,7 +61,6 @@ namespace METAbolt
         private UUID grouptitles = UUID.Zero;
         private UUID groupmembers = UUID.Zero;
         private bool ejectpower = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
         private UUID grpid = UUID.Zero;
         private Dictionary<UUID, GroupRole> grouproles;
         private List<KeyValuePair<UUID, UUID>> grouprolesavs;
@@ -85,16 +84,20 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public frmGroupInfo(Group group, METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -125,8 +128,7 @@ namespace METAbolt
         public frmGroupInfo(AvatarGroup group, METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -155,8 +157,7 @@ namespace METAbolt
         public frmGroupInfo(UUID groupid, METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -180,28 +181,6 @@ namespace METAbolt
             lstNotices.ListViewItemSorter = lvwDateColumnSorter;
 
             GetDets();
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void AddGEvents()

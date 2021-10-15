@@ -32,9 +32,9 @@ using OpenMetaverse;
 using MEGAbolt.NetworkComm;
 using MD5library;
 using System.Linq;
-using ExceptionReporting;
 using System.Threading;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 namespace METAbolt
 {
@@ -45,24 +45,27 @@ namespace METAbolt
         private GridClient client;
         private string murl;
         private string clickedurl = string.Empty;
-        private Dictionary<string, string> MGrids = new Dictionary<string,string>();
-        private ExceptionReporter reporter = new ExceptionReporter();
+        private Dictionary<string, string> MGrids = new();
         private List<string> usernlist = new List<string>();
 
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public MainConsole(METAboltInstance instance)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -92,28 +95,6 @@ namespace METAbolt
             InitGridCombo();
             cbxLocation.SelectedIndex = 0;
             InitializeConfig();
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void LoadGrids()

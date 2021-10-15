@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
@@ -33,16 +32,14 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
 using System.Drawing.Drawing2D;
-//using GoogleTranslationUtils;
-//using MB_Translation_Utils;
 using OpenMetaverse.Assets;
 using System.Timers;
-using ExceptionReporting;
 using System.Threading;
 using System.Linq;
 using OpenMetaverse.Voice;
 using MEGAbolt.Controls;
 using System.Globalization;
+using BugSplatDotNetStandard;
 using OpenJpegDotNet.IO;
 using WeCantSpell.Hunspell;
 
@@ -82,8 +79,7 @@ namespace METAbolt
         private UUID avuuid = UUID.Zero;
         private string avname = string.Empty;
         //private bool removead = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
-        private SafeDictionary<uint, Avatar> sfavatar = new SafeDictionary<uint,Avatar>();
+        private SafeDictionary<uint, Avatar> sfavatar = new();
         private List<string> avtyping = new List<string>();
         private int start = 0;
         private int indexOfSearchText = 0;
@@ -118,8 +114,13 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
@@ -144,7 +145,6 @@ namespace METAbolt
             }
             catch { ; }
 
-            SetExceptionReporter();
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -215,28 +215,6 @@ namespace METAbolt
             e.DrawBackground();
             e.DrawBorder();
             e.DrawText();
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
-            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
-            reporter.Config.WebUrl = "http://radegast.life/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         ////private void Appearance_OnAppearanceUpdated(Primitive.TextureEntry te)
@@ -387,7 +365,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                reporter.Show(ex);
+                instance.CrashReporter.Post(ex);
             }
         }
 
@@ -711,7 +689,7 @@ namespace METAbolt
             catch (Exception ex)
             {
                 //Logger.Log(ex.Message, Helpers.LogLevel.Error);
-                reporter.Show(ex);
+                instance.CrashReporter.Post(ex);
             }
 
             client.Appearance.AppearanceSet -= new EventHandler<AppearanceSetEventArgs>(Appearance_OnAppearanceSet);
@@ -785,7 +763,7 @@ namespace METAbolt
                 catch (Exception ex)
                 {
                     //string exp = exc.Message;
-                    reporter.Show(ex);
+                    instance.CrashReporter.Post(ex);
                 }
             }
 

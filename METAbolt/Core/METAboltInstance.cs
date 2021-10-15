@@ -33,9 +33,9 @@ using System.Data;
 using System.IO;
 using METAxCommon;
 using System.Drawing;
-using ExceptionReporting;
 using System.Threading;
 using System.Globalization;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 
 
@@ -76,7 +76,7 @@ namespace METAbolt
         public SafeDictionary<UUID, string> avnames = new SafeDictionary<UUID, string>();
         public SafeDictionary<UUID, string> avtags = new SafeDictionary<UUID, string>();
         public List<AvLocation> avlocations = new List<AvLocation>();
-        private ExceptionReporter reporter = new ExceptionReporter();
+        public BugSplat CrashReporter;
         public string appdir = METAbolt.DataFolder.GetDataFolder();
         public bool startfrombat = false;
         public InventoryConsole insconsole;
@@ -88,14 +88,24 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public METAboltInstance(bool firstInstance)
         {
-            SetExceptionReporter();
+            CrashReporter = new BugSplat("radegast", "MEGAbolt",
+                Properties.Resources.METAboltVersion)
+            {
+                User = "cinder@cinderblocks.biz",
+                ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+            };
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
@@ -143,7 +153,12 @@ namespace METAbolt
 
         public METAboltInstance(bool firstInstance, string[] args)
         {
-            SetExceptionReporter();
+            CrashReporter = new BugSplat("radegast", "MEGAbolt",
+                Properties.Resources.METAboltVersion)
+            {
+                User = "cinder@cinderblocks.biz",
+                ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+            };
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
@@ -210,28 +225,6 @@ namespace METAbolt
             Config.ChangeConfigFile(full_name);
 
             SetSettings();
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
-            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
-            reporter.Config.WebUrl = "http://radegast.life/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         private void RandomPwd()

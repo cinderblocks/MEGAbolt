@@ -29,13 +29,11 @@ using System.Text;
 using System.Threading;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-//using MEGAbolt.Controls;
-//using Yedda;
 using System.Windows.Forms;
 using METAbrain;
 using System.IO;
-using ExceptionReporting;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 
 namespace METAbolt
@@ -62,14 +60,18 @@ namespace METAbolt
         private string lastspeaker = string.Empty;
         private bool classiclayout = false;
         private METAbrain brain;
-        private ExceptionReporter reporter = new ExceptionReporter();
 
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
@@ -100,7 +102,6 @@ namespace METAbolt
 
         public IMTextManager(METAboltInstance instance, ITextPrinter textPrinter, UUID sessionID, string groupname, Group grp)
         {
-            SetExceptionReporter();
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.sessionID = sessionID;
@@ -135,7 +136,6 @@ namespace METAbolt
 
         public IMTextManager(METAboltInstance instance, ITextPrinter textPrinter, UUID sessionID, string avname)
         {
-            SetExceptionReporter();
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.sessionID = sessionID;
@@ -166,28 +166,6 @@ namespace METAbolt
             //    myBot = this.instance.ABot;
             //    //brain = new METAbrain(instance, myBot);
             //}
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
-            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
-            reporter.Config.WebUrl = "http://radegast.life/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)

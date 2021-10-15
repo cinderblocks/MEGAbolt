@@ -25,13 +25,12 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Media;
 using System.Threading;
-using ExceptionReporting;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 namespace METAbolt
 {
@@ -44,23 +43,26 @@ namespace METAbolt
         //private bool diainv = false;
         private AssetType invtype = AssetType.Unknown;
         private bool printed = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
         private InstantMessageDialog diag;
 
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public frmInvOffered(METAboltInstance instance, InstantMessage e, UUID objectID, AssetType type)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -112,28 +114,6 @@ namespace METAbolt
             label1.Text = "This item will be auto accepted @ " + dte.ToShortTimeString();
 
             this.Text += "   " + "[ " + client.Self.Name + " ]";
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -27,10 +27,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
-using ExceptionReporting;
 using System.Threading;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 namespace METAbolt
 {
@@ -44,23 +43,26 @@ namespace METAbolt
         Dictionary<string, Dictionary<string, string>> fgrps;
 
         private bool settingFriend = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
 
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public FriendsConsole(METAboltInstance instance)
         {
             InitializeComponent();
-            Disposed += new EventHandler(FriendsConsole_Disposed);
-
-            SetExceptionReporter();
+            Disposed += FriendsConsole_Disposed;
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -76,28 +78,6 @@ namespace METAbolt
             //client.Avatars.DisplayNameUpdate += new EventHandler<DisplayNameUpdateEventArgs>(Avatar_DisplayNameUpdated);    
 
             //InitializeFriendsList();
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "cinder@cinderblocks.biz";
-            reporter.Config.EmailReportAddress = "cinder@cinderblocks.biz";
-            reporter.Config.WebUrl = "http://radegast.life/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "MEGAbolt Exception Reporter";
         }
 
         //private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)

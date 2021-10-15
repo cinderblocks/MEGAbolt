@@ -23,17 +23,16 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using ExceptionReporting;
 using WeCantSpell.Hunspell;
 using System.Threading;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Globalization;
+using BugSplatDotNetStandard;
 
 
 namespace METAbolt
@@ -48,7 +47,6 @@ namespace METAbolt
         private IMTextManager textManager;
         private bool typing = false;
         //private bool pasted = false;
-        private ExceptionReporter reporter = new ExceptionReporter();
         //private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
         private TabsConsole tab;
@@ -65,16 +63,20 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
 
         public IMTabWindow(METAboltInstance instance, UUID target, UUID session, string toName)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -106,28 +108,6 @@ namespace METAbolt
             }
 
             tbtnProfile.ToolTipText = $"{toName} 's Profile";
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void CreateSmileys()

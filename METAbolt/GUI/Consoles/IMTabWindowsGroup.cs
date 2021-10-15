@@ -26,16 +26,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using System.Threading;
-using ExceptionReporting;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Globalization;
+using BugSplatDotNetStandard;
 using WeCantSpell.Hunspell;
 
 
@@ -55,7 +54,6 @@ namespace METAbolt
         private SafeDictionary<UUID, string> people = new SafeDictionary<UUID, string>();
         ManualResetEvent WaitForSessionStart = new ManualResetEvent(false);
         private UUID target = UUID.Zero;
-        private ExceptionReporter reporter = new ExceptionReporter();
         private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
         private TabsConsole tab;
@@ -72,16 +70,20 @@ namespace METAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                ExceptionReporter reporter = new ExceptionReporter();
-                reporter.Show(e.Exception);
+                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                    Properties.Resources.METAboltVersion)
+                {
+                    User = "cinder@cinderblocks.biz",
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+                crashReporter.Post(e.Exception);
             }
         }
          
         public IMTabWindowGroup(METAboltInstance instance, UUID session, UUID target, string toName, OpenMetaverse.Group grp)
         {
             InitializeComponent();
-
-            SetExceptionReporter();
+            
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             label1.Text = "Starting session with " + grp.Name + " please wait...";
@@ -125,28 +127,6 @@ namespace METAbolt
             {
                 toolStripButton2.Enabled = true;
             }
-        }
-
-        private void SetExceptionReporter()
-        {
-            reporter.Config.ShowSysInfoTab = false;   // alternatively, set properties programmatically
-            reporter.Config.ShowFlatButtons = true;   // this particular config is code-only
-            reporter.Config.CompanyName = "MEGAbolt";
-            reporter.Config.ContactEmail = "metabolt@vistalogic.co.uk";
-            reporter.Config.EmailReportAddress = "metabolt@vistalogic.co.uk";
-            reporter.Config.WebUrl = "http://www.metabolt.net/metaforums/";
-            reporter.Config.AppName = "MEGAbolt";
-            reporter.Config.MailMethod = ExceptionReporting.Core.ExceptionReportInfo.EmailMethod.SimpleMAPI;
-            reporter.Config.BackgroundColor = Color.White;
-            reporter.Config.ShowButtonIcons = false;
-            reporter.Config.ShowLessMoreDetailButton = true;
-            reporter.Config.TakeScreenshot = true;
-            reporter.Config.ShowContactTab = true;
-            reporter.Config.ShowExceptionsTab = true;
-            reporter.Config.ShowFullDetail = true;
-            reporter.Config.ShowGeneralTab = true;
-            reporter.Config.ShowSysInfoTab = true;
-            reporter.Config.TitleText = "METAbolt Exception Reporter";
         }
 
         private void Self_OnGroupChatJoin(object sender, GroupChatJoinedEventArgs e)
