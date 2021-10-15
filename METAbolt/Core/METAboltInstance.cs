@@ -992,7 +992,7 @@ namespace METAbolt
 
             if (State.IsSitting)
             {
-                if (State.SitPrim != null)
+                if (State.SitPrim != UUID.Zero)
                 {
                     ppos = State.SittingPos + Client.Self.SimPosition;
                 }

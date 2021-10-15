@@ -2200,7 +2200,7 @@ namespace METAbolt
         {
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             string name = instance.avnames[av];
 
@@ -2220,7 +2220,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             string name = instance.avnames[av];
 
@@ -2259,7 +2259,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             string name = instance.avnames[av];
 
@@ -2329,7 +2329,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             string name = instance.avnames[av];
 
@@ -2514,7 +2514,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             //string name = instance.avnames[av];
 
@@ -2598,7 +2598,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             //string name = instance.avnames[av];
 
@@ -3801,7 +3801,7 @@ namespace METAbolt
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero || av == null) return;
+            if (av == UUID.Zero) return;
 
             //string name = instance.avnames[av];
 
