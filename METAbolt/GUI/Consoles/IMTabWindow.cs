@@ -28,8 +28,8 @@ using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using ExceptionReporting;
+using WeCantSpell.Hunspell;
 using System.Threading;
-using NHunspell;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -53,7 +53,7 @@ namespace METAbolt
         private const int WM_KEYDOWN = 0x100;
         private TabsConsole tab;
 
-        private Hunspell hunspell = new Hunspell();
+        private WordList spellChecker = null;
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
@@ -93,7 +93,7 @@ namespace METAbolt
 
             AddNetcomEvents();
 
-            tsbTyping.ToolTipText = toName + " is typing";
+            tsbTyping.ToolTipText = $"{toName} is typing";
 
             ApplyConfig(this.instance.Config.CurrentConfig);
             this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
@@ -105,7 +105,7 @@ namespace METAbolt
                 toolStripButton2.Enabled = true; 
             }
 
-            tbtnProfile.ToolTipText = toName + "'s Profile";
+            tbtnProfile.ToolTipText = $"{toName} 's Profile";
         }
 
         private void SetExceptionReporter()
@@ -360,15 +360,11 @@ namespace METAbolt
                     }
                 }
 
-                hunspell.Dispose();
-                hunspell = new Hunspell();
-
-                hunspell.Load(dir + afffile, dir + dicfile);
-                ReadWords();
+                spellChecker = WordList.CreateFromFiles(dir+dicfile, dir+afffile);
             }
             else
             {
-                hunspell.Dispose();
+                spellChecker = null;
             }
         }
 
@@ -502,14 +498,14 @@ namespace METAbolt
 
                     try
                     {
-                        correct = hunspell.Spell(cword);
+                        correct = spellChecker.Check(cword);
                     }
                     catch (Exception ex)
                     {
                         if (ex.Message == "Dictionary is not loaded")
                         {
                             instance.Config.ApplyCurrentConfig();
-                            //correct = hunspell.Spell(cword);
+                            correct = spellChecker.Check(cword);
                         }
                         else
                         {
@@ -554,24 +550,6 @@ namespace METAbolt
             }
 
             ClearIMInput();
-        }
-
-        private void ReadWords()
-        {
-            using (CsvFileReader reader = new CsvFileReader(dic + ".csv"))
-            {
-                CsvRow row = new CsvRow();
-
-                while (reader.ReadRow(row))
-                {
-                    foreach (string s in row)
-                    {
-                        hunspell.Add(s);
-                    }
-                }
-
-                reader.Dispose();
-            }
         }
 
         private void ClearIMInput()

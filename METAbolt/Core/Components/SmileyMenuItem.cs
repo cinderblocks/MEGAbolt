@@ -42,7 +42,7 @@ namespace METAbolt
         private const int ICON_MARGIN = 4;
         private Color backgroundColor, selectionColor, selectionBorderColor;
 
-        public Image Image { get; set; }
+        public override Image Image { get; set; }
 
         public EmoticonMenuItem()
         {

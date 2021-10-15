@@ -22,9 +22,6 @@
     <Reference Include="ExceptionReporter.WinForms">
       <HintPath>..\Libs\ExceptionReporter.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="NHunspell">
-      <HintPath>..\Libs\NHunspell.dll</HintPath>
-    </Reference>
 	<Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -476,6 +473,7 @@
     <PackageReference Include="RawScape.Nini" Version="1.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Management" Version="5.0.0" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Core\ActionCommandsIn.cs" />

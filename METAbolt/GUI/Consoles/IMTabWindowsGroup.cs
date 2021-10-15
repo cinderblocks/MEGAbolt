@@ -32,11 +32,11 @@ using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using System.Threading;
 using ExceptionReporting;
-using NHunspell;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Globalization;
+using WeCantSpell.Hunspell;
 
 
 namespace METAbolt
@@ -61,7 +61,7 @@ namespace METAbolt
         private TabsConsole tab;
         private bool hideparts = false;
 
-        private Hunspell hunspell = new Hunspell();
+        private WordList spellChecker = null;
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
@@ -568,15 +568,11 @@ namespace METAbolt
                     }
                 }
 
-                hunspell.Dispose();
-                hunspell = new Hunspell();
-
-                hunspell.Load(dir + afffile, dir + dicfile);
-                ReadWords();
+                spellChecker = WordList.CreateFromFiles(dir + dicfile, dir + afffile);
             }
             else
             {
-                hunspell.Dispose();
+                spellChecker = null;
             }
         }
 
@@ -650,7 +646,7 @@ namespace METAbolt
 
                     try
                     {
-                        correct = hunspell.Spell(cword);
+                        correct = spellChecker.Check(cword);
                     }
                     catch (Exception ex)
                     {
@@ -702,24 +698,6 @@ namespace METAbolt
             }
 
             this.ClearIMInput();
-        }
-
-        private void ReadWords()
-        {
-            using (CsvFileReader reader = new CsvFileReader(dic + ".csv"))
-            {
-                CsvRow row = new CsvRow();
-
-                while (reader.ReadRow(row))
-                {
-                    foreach (string s in row)
-                    {
-                        hunspell.Add(s);
-                    }
-                }
-
-                reader.Dispose();
-            }
         }
 
         private void btnSend_Click(object sender, EventArgs e)

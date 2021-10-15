@@ -42,9 +42,9 @@ using System.Threading;
 using System.Linq;
 using OpenMetaverse.Voice;
 using MEGAbolt.Controls;
-using NHunspell;
 using System.Globalization;
 using OpenJpegDotNet.IO;
+using WeCantSpell.Hunspell;
 
 namespace METAbolt
 {
@@ -97,7 +97,7 @@ namespace METAbolt
         private Popup tTip1;
         private CustomToolTip customToolTip;
 
-        private Hunspell hunspell = new Hunspell();
+        private WordList spellChecker = null;
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
@@ -1151,15 +1151,11 @@ namespace METAbolt
                     }
                 }
 
-                hunspell.Dispose();
-                hunspell = new Hunspell();
-
-                hunspell.Load(dir + afffile, dir + dicfile);
-                ReadWords();
+                spellChecker = WordList.CreateFromFiles(dir+dicfile, dir+afffile);
             }
             else
             {
-                hunspell.Dispose();
+                spellChecker = null;
             }
 
             if (instance.Config.CurrentConfig.DisableRadar)
@@ -2082,14 +2078,14 @@ namespace METAbolt
 
                         try
                         {
-                            correct = hunspell.Spell(cword);
+                            correct = spellChecker.Check(cword);
                         }
                         catch (Exception ex)
                         {
                             if (ex.Message == "Dictionary is not loaded")
                             {
                                 instance.Config.ApplyCurrentConfig();
-                                //correct = hunspell.Spell(cword);
+                                correct = spellChecker.Check(cword);
                             }
                             else
                             {
@@ -2161,24 +2157,6 @@ namespace METAbolt
             }
 
             ClearChatInput();
-        }
-
-        private void ReadWords()
-        {
-            using (CsvFileReader reader = new CsvFileReader(dic + ".csv"))
-            {
-                CsvRow row = new CsvRow();
-
-                while (reader.ReadRow(row))
-                {
-                    foreach (string s in row)
-                    {
-                        hunspell.Add(s);
-                    }
-                }
-
-                reader.Dispose(); 
-            }
         }
 
         private static string GetTranslation(string sTrStr)

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
-using NHunspell;
 using System.Text.RegularExpressions;
 using MEGAbolt.NetworkComm;
+using WeCantSpell.Hunspell;
 
 namespace METAbolt
 {
@@ -13,7 +13,6 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
-        private Hunspell hunspell = new Hunspell();   //("en_us.aff", "en_us.dic");
         private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
         //private string words = string.Empty;
         private int start = 0;
@@ -23,6 +22,8 @@ namespace METAbolt
         private string currentword = string.Empty;
         private List<string> mistakes = new List<string>();
         private ChatType ctype;
+
+        private WordList spellChecker = null;
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
@@ -51,8 +52,7 @@ namespace METAbolt
 
             try
             {
-                hunspell.Load(dir + afffile, dir + dicfile);   //("en_us.aff", "en_us.dic");
-                ReadWords();
+                spellChecker = WordList.CreateFromFiles(dir + dicfile, dir + afffile);
             }
             catch
             {
@@ -85,15 +85,7 @@ namespace METAbolt
                 System.IO.File.Create(dic + ".csv");
             }
 
-            try
-            {
-                hunspell.Load(dir + afffile, dir + dicfile);   //("en_us.aff", "en_us.dic");
-                ReadWords();
-            }
-            catch
-            {
-                //string exp = ex.Message;
-            }
+            spellChecker = WordList.CreateFromFiles(dir + dicfile, dir + afffile);
 
             //words = sentence;
             richTextBox1.Text = sentence;
@@ -126,7 +118,7 @@ namespace METAbolt
             {
                 string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
 
-                bool correct = hunspell.Spell(cword);
+                bool correct = spellChecker.Check(cword);
 
                 if (!correct)
                 {
@@ -145,9 +137,9 @@ namespace METAbolt
 
                 HighligtWord(currentword);
 
-                List<string> suggestions = hunspell.Suggest(currentword);
+                var suggestions = spellChecker.Suggest(currentword);
 
-                foreach (String entry in suggestions)
+                foreach (var entry in suggestions)
                 {
                     listBox1.Items.Add(entry);
                 }
@@ -180,9 +172,9 @@ namespace METAbolt
 
                 HighligtWord(mistakes[0]);
 
-                List<string> suggestions = hunspell.Suggest(mistakes[0]);
+                var suggestions = spellChecker.Suggest(mistakes[0]);
 
-                foreach (String entry in suggestions)
+                foreach (var entry in suggestions)
                 {
                     listBox1.Items.Add(entry);
                 }
@@ -303,7 +295,6 @@ namespace METAbolt
         {
             if (!string.IsNullOrEmpty(currentword))
             {
-                hunspell.Add(currentword);
                 AddWord(currentword);
             }
 
@@ -397,24 +388,6 @@ namespace METAbolt
             instance.Config.ApplyCurrentConfig(); 
 
             CheckSpellings();
-        }
-
-        private void ReadWords()
-        {
-            using (CsvFileReader reader = new CsvFileReader(dic + ".csv"))
-            {
-                CsvRow row = new CsvRow();
-
-                while (reader.ReadRow(row))
-                {
-                    foreach (string s in row)
-                    {
-                        hunspell.Add(s);
-                    }
-                }
-
-                reader.Dispose();  
-            }
         }
     }
 }
