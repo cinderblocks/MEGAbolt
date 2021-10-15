@@ -342,10 +342,12 @@ namespace METAbolt
 
                             rect = new Rectangle(x, y, 7, 7);
 
-                            Vector3 oavPos = new Vector3(0, 0, 0);
-                            oavPos.X = pos.Value.X;
-                            oavPos.Y = pos.Value.Y;
-                            oavPos.Z = pos.Value.Z;
+                            Vector3 oavPos = new Vector3(0, 0, 0)
+                            {
+                                X = pos.Value.X,
+                                Y = pos.Value.Y,
+                                Z = pos.Value.Z
+                            };
 
                             if (oavPos.Z < 0.1f)
                             {

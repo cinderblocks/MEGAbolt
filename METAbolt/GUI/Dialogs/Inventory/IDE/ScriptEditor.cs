@@ -195,8 +195,10 @@ namespace METAbolt
 
         private void SetupSort()
         {
-            AutoCompleteStringListSorter Sorter = new AutoCompleteStringListSorter();
-            Sorter.SortingOrder = SortOrder.Ascending;
+            AutoCompleteStringListSorter Sorter = new AutoCompleteStringListSorter
+            {
+                SortingOrder = SortOrder.Ascending
+            };
             rtbScript.AutoComplete.List.Items.Sort(Sorter);
             rtbScript.CharAdded += Document_CharAdded;
         }

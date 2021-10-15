@@ -329,9 +329,11 @@ namespace METAbolt
 
             foreach (GroupRole role in grouproles.Values)
             {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = role.Name;
-                lvi.Tag = role;
+                ListViewItem lvi = new ListViewItem
+                {
+                    Text = role.Name,
+                    Tag = role
+                };
                 //lstRoles.Items.Add(lvi);
                 lvi.SubItems.Add(role.ID.ToString());
 
@@ -358,11 +360,15 @@ namespace METAbolt
 
             foreach (GroupNoticesListEntry notice in notices)
             {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = notice.Subject;
+                ListViewItem lvi = new ListViewItem
+                {
+                    Text = notice.Subject
+                };
 
-                ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
-                lvsi.Text = notice.FromName;
+                ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+                {
+                    Text = notice.FromName
+                };
                 lvi.SubItems.Add(lvsi);
 
                 DateTime ndte = Utils.UnixTimeToDateTime(notice.Timestamp);
@@ -372,8 +378,10 @@ namespace METAbolt
                     ndte = ndte.ToLocalTime();
                 }
 
-                lvsi = new ListViewItem.ListViewSubItem();
-                lvsi.Text = ndte.ToShortDateString();
+                lvsi = new ListViewItem.ListViewSubItem
+                {
+                    Text = ndte.ToShortDateString()
+                };
                 lvi.SubItems.Add(lvsi);
 
                 if (notice.HasAttachment)
@@ -748,9 +756,11 @@ namespace METAbolt
 
             foreach (GroupMember member in Members.Values)
             {
-                GroupMemberData memberData = new GroupMemberData();
-                memberData.ID = member.ID;
-                memberData.IsOwner = member.IsOwner;
+                GroupMemberData memberData = new GroupMemberData
+                {
+                    ID = member.ID,
+                    IsOwner = member.IsOwner
+                };
 
                 string lastonlinedate = member.OnlineStatus;
 
@@ -1271,9 +1281,11 @@ namespace METAbolt
 
                 checkignore = true;
 
-                ListViewItem everyone = new ListViewItem();
-                everyone.Text = "Everyone";
-                everyone.Checked = true;
+                ListViewItem everyone = new ListViewItem
+                {
+                    Text = "Everyone",
+                    Checked = true
+                };
                 //everyone.Tag = null;
                 lvAssignedRoles.Items.Add(everyone);
 
@@ -1285,10 +1297,12 @@ namespace METAbolt
                     {
                         UUID roleid = role.ID;
 
-                        ListViewItem nme = new ListViewItem();
-                        nme.Text = role.Name;
-                        nme.Tag = role;
-                        
+                        ListViewItem nme = new ListViewItem
+                        {
+                            Text = role.Name,
+                            Tag = role
+                        };
+
                         bool ismember = false;
 
                         foreach (var el in grouprolesavs)
@@ -1347,10 +1361,12 @@ namespace METAbolt
 
                     foreach (GroupMemberData data in MemberData.Values)
                     {
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Text = data.Name;
-                        lvi.Tag = data.ID;
-                        
+                        ListViewItem lvi = new ListViewItem
+                        {
+                            Text = data.Name,
+                            Tag = data.ID
+                        };
+
                         lvRoleMembers.Items.Add(lvi);
                     }
                 }
@@ -1362,9 +1378,11 @@ namespace METAbolt
                         {
                             if (instance.avnames.ContainsKey(name.Value))
                             {
-                                ListViewItem lvi = new ListViewItem();
-                                lvi.Text = instance.avnames[name.Value];
-                                lvi.Tag = name.Value;
+                                ListViewItem lvi = new ListViewItem
+                                {
+                                    Text = instance.avnames[name.Value],
+                                    Tag = name.Value
+                                };
 
                                 lvRoleMembers.Items.Add(lvi);
                             }
@@ -1493,10 +1511,11 @@ namespace METAbolt
             }
 
             // Send the notice
-            GroupNotice sgnotice = new GroupNotice();
-
-            sgnotice.Subject = textBox1.Text;
-            sgnotice.Message = textBox4.Text;
+            GroupNotice sgnotice = new GroupNotice
+            {
+                Subject = textBox1.Text,
+                Message = textBox4.Text
+            };
 
             if (objID != UUID.Zero)
             {
@@ -1830,10 +1849,12 @@ namespace METAbolt
 
         private void button7_Click(object sender, EventArgs e)
         {
-            GroupRole role = new GroupRole();
-            role.Name = textBox7.Text;
-            role.Title = textBox8.Text;
-            role.Description = textBox9.Text;
+            GroupRole role = new GroupRole
+            {
+                Name = textBox7.Text,
+                Title = textBox8.Text,
+                Description = textBox9.Text
+            };
 
             //GroupPowers powers = new GroupPowers();
             //role.Powers
@@ -1974,18 +1995,25 @@ namespace METAbolt
 
             // The section below has been borrowed from Radegast (c) 2009-2011 Radegast Development Team
             List<GroupRoleChangesPacket.RoleChangeBlock> changes = new List<GroupRoleChangesPacket.RoleChangeBlock>();
-            GroupRoleChangesPacket.RoleChangeBlock rc = new GroupRoleChangesPacket.RoleChangeBlock();
+            GroupRoleChangesPacket.RoleChangeBlock rc = new GroupRoleChangesPacket.RoleChangeBlock
+            {
+                MemberID = avid,
+                RoleID = role.ID,
+                Change = item.Checked ? 0u : 1u
+            };
 
-            rc.MemberID = avid;
-            rc.RoleID = role.ID;
-            rc.Change = item.Checked ? 0u : 1u;
             changes.Add(rc);
 
-            GroupRoleChangesPacket packet = new GroupRoleChangesPacket();
-            packet.AgentData.AgentID = Client.Self.AgentID;
-            packet.AgentData.SessionID = Client.Self.SessionID;
-            packet.AgentData.GroupID = Profile.ID;
-            packet.RoleChange = changes.ToArray();
+            GroupRoleChangesPacket packet = new GroupRoleChangesPacket
+            {
+                AgentData =
+                {
+                    AgentID = Client.Self.AgentID,
+                    SessionID = Client.Self.SessionID,
+                    GroupID = Profile.ID
+                },
+                RoleChange = changes.ToArray()
+            };
             Client.Network.CurrentSim.SendPacket(packet);
         }
 
@@ -2143,16 +2171,22 @@ namespace METAbolt
                 return;
             }
 
-            ListViewItem lvi = new ListViewItem();
-            lvi.Text = fmem.Name;
+            ListViewItem lvi = new ListViewItem
+            {
+                Text = fmem.Name
+            };
 
-            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
+            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+            {
+                Text = fmem.Title
+            };
 
-            lvsi.Text = fmem.Title;
             lvi.SubItems.Add(lvsi);
 
-            lvsi = new ListViewItem.ListViewSubItem();
-            lvsi.Text = fmem.LastOnline;   // member.OnlineStatus;
+            lvsi = new ListViewItem.ListViewSubItem
+            {
+                Text = fmem.LastOnline // member.OnlineStatus;
+            };
             lvi.SubItems.Add(lvsi);
 
             lvi.Tag = fmem;
@@ -2188,15 +2222,21 @@ namespace METAbolt
                 return;
             }
 
-            ListViewItem lvi = new ListViewItem();
-            lvi.Text = fmem.Name;
+            ListViewItem lvi = new ListViewItem
+            {
+                Text = fmem.Name
+            };
 
-            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
-            lvsi.Text = fmem.Contribution.ToString(CultureInfo.CurrentCulture);
+            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+            {
+                Text = fmem.Contribution.ToString(CultureInfo.CurrentCulture)
+            };
             lvi.SubItems.Add(lvsi);
 
-            lvsi = new ListViewItem.ListViewSubItem();
-            lvsi.Text = fmem.LastOnline;   // member.OnlineStatus;
+            lvsi = new ListViewItem.ListViewSubItem
+            {
+                Text = fmem.LastOnline // member.OnlineStatus;
+            };
             lvi.SubItems.Add(lvsi);
 
             lvi.Tag = Members[fmem.ID];

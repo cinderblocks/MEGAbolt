@@ -174,12 +174,20 @@ namespace METAbolt
 
         public void SetAgentFOV()
         {
-            OpenMetaverse.Packets.AgentFOVPacket msg = new OpenMetaverse.Packets.AgentFOVPacket();
-            msg.AgentData.AgentID = client.Self.AgentID;
-            msg.AgentData.SessionID = client.Self.SessionID;
-            msg.AgentData.CircuitCode = client.Network.CircuitCode;
-            msg.FOVBlock.GenCounter = 0;
-            msg.FOVBlock.VerticalAngle = Utils.TWO_PI - 0.05f;
+            OpenMetaverse.Packets.AgentFOVPacket msg = new OpenMetaverse.Packets.AgentFOVPacket
+            {
+                AgentData =
+                {
+                    AgentID = client.Self.AgentID,
+                    SessionID = client.Self.SessionID,
+                    CircuitCode = client.Network.CircuitCode
+                },
+                FOVBlock =
+                {
+                    GenCounter = 0,
+                    VerticalAngle = Utils.TWO_PI - 0.05f
+                }
+            };
             client.Network.SendPacket(msg);
 
             //client.Self.Movement.SetFOVVerticalAngle(Utils.TWO_PI - 0.05f);

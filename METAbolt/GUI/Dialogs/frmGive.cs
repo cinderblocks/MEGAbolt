@@ -252,8 +252,10 @@ namespace METAbolt
                     {
                         foreach (GroupMember member in Members.Values)
                         {
-                            GroupMemberData memberData = new GroupMemberData();
-                            memberData.ID = member.ID;
+                            GroupMemberData memberData = new GroupMemberData
+                            {
+                                ID = member.ID
+                            };
                             MemberData[member.ID] = memberData;
 
                             // Add this ID to the name request batch
@@ -583,9 +585,11 @@ namespace METAbolt
 
                 foreach (GroupMemberData entry in MemberData.Values)
                 {
-                    ListViewItem lvi = new ListViewItem();
-                    lvi.Text = entry.Name;
-                    lvi.Tag = entry.ID;  
+                    ListViewItem lvi = new ListViewItem
+                    {
+                        Text = entry.Name,
+                        Tag = entry.ID
+                    };
 
                     lvwFindFriends.Items.Add(lvi);
                 }

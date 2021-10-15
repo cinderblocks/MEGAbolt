@@ -922,15 +922,20 @@ namespace METAbolt
 
         public static FacetedMesh GenerateFacetedMesh(Primitive prim, OSDMap MeshData, DetailLevel LOD)
         {
-            FacetedMesh ret = new FacetedMesh();
-
-            ret.Faces = new List<Face>();
-            ret.Prim = prim;
-            ret.Profile = new Profile();
-            ret.Profile.Faces = new List<ProfileFace>();
-            ret.Profile.Positions = new List<Vector3>();
-            ret.Path = new Path();
-            ret.Path.Points = new List<PathPoint>();
+            FacetedMesh ret = new FacetedMesh
+            {
+                Faces = new List<Face>(),
+                Prim = prim,
+                Profile = new Profile
+                {
+                    Faces = new List<ProfileFace>(),
+                    Positions = new List<Vector3>()
+                },
+                Path = new Path
+                {
+                    Points = new List<PathPoint>()
+                }
+            };
 
             try
             {
@@ -964,11 +969,13 @@ namespace METAbolt
                 for (int faceNr = 0; faceNr < decodedMeshOsdArray.Count; faceNr++)
                 {
                     OSD subMeshOsd = decodedMeshOsdArray[faceNr];
-                    Face oface = new Face();
-                    oface.ID = faceNr;
-                    oface.Vertices = new List<Vertex>();
-                    oface.Indices = new List<ushort>();
-                    oface.TextureFace = prim.Textures.GetFace((uint)faceNr);
+                    Face oface = new Face
+                    {
+                        ID = faceNr,
+                        Vertices = new List<Vertex>(),
+                        Indices = new List<ushort>(),
+                        TextureFace = prim.Textures.GetFace((uint)faceNr)
+                    };
 
                     if (subMeshOsd is OSDMap)
                     {
@@ -995,12 +1002,13 @@ namespace METAbolt
                             ushort uY = Utils.BytesToUInt16(posBytes, i + 2);
                             ushort uZ = Utils.BytesToUInt16(posBytes, i + 4);
 
-                            Vertex vx = new Vertex();
-
-                            vx.Position = new Vector3(
-                                Utils.UInt16ToFloat(uX, posMin.X, posMax.X),
-                                Utils.UInt16ToFloat(uY, posMin.Y, posMax.Y),
-                                Utils.UInt16ToFloat(uZ, posMin.Z, posMax.Z));
+                            Vertex vx = new Vertex
+                            {
+                                Position = new Vector3(
+                                    Utils.UInt16ToFloat(uX, posMin.X, posMax.X),
+                                    Utils.UInt16ToFloat(uY, posMin.Y, posMax.Y),
+                                    Utils.UInt16ToFloat(uZ, posMin.Z, posMax.Z))
+                            };
 
                             ushort nX = Utils.BytesToUInt16(norBytes, i);
                             ushort nY = Utils.BytesToUInt16(norBytes, i + 2);
@@ -1524,11 +1532,13 @@ namespace METAbolt
             for (int j = 0; j < mesh.Faces.Count; j++)
             {
                 Face face = mesh.Faces[j];
-                FaceData data = new FaceData();
+                FaceData data = new FaceData
+                {
+                    // Vertices for this face
+                    Vertices = new float[face.Vertices.Count * 3],
+                    Normals = new float[face.Vertices.Count * 3]
+                };
 
-                // Vertices for this face
-                data.Vertices = new float[face.Vertices.Count * 3];
-                data.Normals = new float[face.Vertices.Count * 3];
                 for (int k = 0; k < face.Vertices.Count; k++)
                 {
                     data.Vertices[k * 3 + 0] = face.Vertices[k].Position.X;

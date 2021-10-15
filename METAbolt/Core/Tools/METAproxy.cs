@@ -63,8 +63,10 @@ namespace METAbolt
                         purl = purl + ":" + port.Trim() + @"/";
                     }
 
-                    WebProxy proxy = new WebProxy(purl,true);
-                    proxy.Credentials = new NetworkCredential(username.Trim(), password.Trim());
+                    WebProxy proxy = new WebProxy(purl,true)
+                    {
+                        Credentials = new NetworkCredential(username.Trim(), password.Trim())
+                    };
                     WebRequest.DefaultWebProxy = proxy;
                 }
                 catch (Exception ex)

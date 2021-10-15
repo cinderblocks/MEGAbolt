@@ -27,8 +27,10 @@ namespace METAbolt
 
             GetHistory();
 
-            lvwColumnSorter = new NumericStringComparerDateGroups();
-            lvwColumnSorter.Order = SortOrder.Descending; 
+            lvwColumnSorter = new NumericStringComparerDateGroups
+            {
+                Order = SortOrder.Descending
+            };
             lvwList.ListViewItemSorter = lvwColumnSorter;
         }
 

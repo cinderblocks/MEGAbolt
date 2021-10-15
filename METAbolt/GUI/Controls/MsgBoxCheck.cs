@@ -152,9 +152,11 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             {
                 MessageBox.RECT rc = new MessageBox.RECT();
                 MessageBox.GetWindowRect(dlgItem2, rc);
-                MessageBox.POINT pt = new MessageBox.POINT();
-                pt.x = rc.left;
-                pt.y = rc.top;
+                MessageBox.POINT pt = new MessageBox.POINT
+                {
+                    x = rc.left,
+                    y = rc.top
+                };
                 MessageBox.ScreenToClient(this.m_hwnd, pt);
                 x = pt.x;
             }

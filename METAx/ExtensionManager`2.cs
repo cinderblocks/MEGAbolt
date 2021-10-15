@@ -220,10 +220,12 @@ namespace METAx
       string language)
     {
       CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
-      CompilerParameters options = new CompilerParameters();
-      options.GenerateExecutable = false;
-      options.GenerateInMemory = true;
-      options.IncludeDebugInformation = false;
+      CompilerParameters options = new CompilerParameters
+      {
+          GenerateExecutable = false,
+          GenerateInMemory = true,
+          IncludeDebugInformation = false
+      };
       if (references != null)
         options.ReferencedAssemblies.AddRange(references.ToArray());
       return provider.CompileAssemblyFromFile(options, filename);

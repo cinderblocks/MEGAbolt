@@ -346,10 +346,12 @@ namespace METAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Group newgroup = new Group();
-            newgroup.Name = textBox1.Text;
-            newgroup.Charter = textBox2.Text;
-            newgroup.FounderID = Client.Self.AgentID;
+            Group newgroup = new Group
+            {
+                Name = textBox1.Text,
+                Charter = textBox2.Text,
+                FounderID = Client.Self.AgentID
+            };
             Client.Groups.RequestCreateGroup(newgroup);
 
             EnableNew();

@@ -80,8 +80,10 @@ namespace METAbolt
             {
                 //string mutetype = string.Empty;
 
-                ListViewItem item = new ListViewItem(entry.Name);
-                item.Tag = entry;
+                ListViewItem item = new ListViewItem(entry.Name)
+                {
+                    Tag = entry
+                };
 
                 if (cnt == 1)
                 {

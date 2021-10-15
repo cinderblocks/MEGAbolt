@@ -78,10 +78,12 @@ namespace METAbolt
 
         private void PopulateStations()
         {
-            RadioObj robj = new RadioObj();
-            robj.genre = "80s";
-            robj.radioname = "SKY.FM";
-            robj.radiourl = "http://160.79.128.30:7712";
+            RadioObj robj = new RadioObj
+            {
+                genre = "80s",
+                radioname = "SKY.FM",
+                radiourl = "http://160.79.128.30:7712"
+            };
             Stations.Add(robj);
 
             //robj = new RadioObj();
@@ -97,96 +99,124 @@ namespace METAbolt
             //robj.radiourl = "http://205.188.215.230:8002";
             //Stations.Add(robj);
 
-            robj = new RadioObj();
-            robj.genre = "Hitz";
-            robj.radioname = "181.FM";
-            robj.radiourl = "http://205.188.215.228:8002";
+            robj = new RadioObj
+            {
+                genre = "Hitz",
+                radioname = "181.FM",
+                radiourl = "http://205.188.215.228:8002"
+            };
             Stations.Add(robj);
 
-            robj = new RadioObj();
-            robj.genre = "Hitz";
-            robj.radioname = "SKY.FM";
-            robj.radiourl = "http://207.200.96.230:8002";
-            Stations.Add(robj);
-
-
-            robj = new RadioObj();
-            robj.genre = "Dance";
-            robj.radioname = "Ibiza Global Radio";
-            robj.radiourl = "http://213.251.162.25:8024";
-            Stations.Add(robj);
-
-            robj = new RadioObj();
-            robj.genre = "Dance";
-            robj.radioname = "TechnoBase.FM";
-            robj.radiourl = "http://85.17.26.85:80";
-            Stations.Add(robj);
-
-            robj = new RadioObj();
-            robj.genre = "Dance";
-            robj.radioname = "181.FM";
-            robj.radiourl = "http://207.200.96.226:8004";
+            robj = new RadioObj
+            {
+                genre = "Hitz",
+                radioname = "SKY.FM",
+                radiourl = "http://207.200.96.230:8002"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "Classical";
-            robj.radioname = "SKY.FM";
-            robj.radiourl = "http://scfire-mtc-aa04.stream.aol.com:80/stream/1006";
+            robj = new RadioObj
+            {
+                genre = "Dance",
+                radioname = "Ibiza Global Radio",
+                radiourl = "http://213.251.162.25:8024"
+            };
+            Stations.Add(robj);
+
+            robj = new RadioObj
+            {
+                genre = "Dance",
+                radioname = "TechnoBase.FM",
+                radiourl = "http://85.17.26.85:80"
+            };
+            Stations.Add(robj);
+
+            robj = new RadioObj
+            {
+                genre = "Dance",
+                radioname = "181.FM",
+                radiourl = "http://207.200.96.226:8004"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "Jazz";
-            robj.radioname = "SKY.FM";
-            robj.radiourl = "http://160.79.128.30:7702";
-            Stations.Add(robj);
-
-            robj = new RadioObj();
-            robj.genre = "Jazz";
-            robj.radioname = "SMOOTHJAZZ.COM";
-            robj.radiourl = "http://207.200.96.226:8052";
+            robj = new RadioObj
+            {
+                genre = "Classical",
+                radioname = "SKY.FM",
+                radiourl = "http://scfire-mtc-aa04.stream.aol.com:80/stream/1006"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "Latin";
-            robj.radioname = "SKY.FM";
-            robj.radiourl = "http://72.26.204.18:6136";
+            robj = new RadioObj
+            {
+                genre = "Jazz",
+                radioname = "SKY.FM",
+                radiourl = "http://160.79.128.30:7702"
+            };
             Stations.Add(robj);
 
-            robj = new RadioObj();
-            robj.genre = "Latin";
-            robj.radioname = "LATINO FM EN DIRECTO";
-            robj.radiourl = "http://92.48.107.35:8000";
-            Stations.Add(robj);
-
-
-            robj = new RadioObj();
-            robj.genre = "Trance";
-            robj.radioname = "1.FM";
-            robj.radiourl = "http://72.13.83.70:8042";
+            robj = new RadioObj
+            {
+                genre = "Jazz",
+                radioname = "SMOOTHJAZZ.COM",
+                radiourl = "http://207.200.96.226:8052"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "R&B";
-            robj.radioname = "HOT 108 Jamz";
-            robj.radiourl = "http://205.188.215.229:8040";
+            robj = new RadioObj
+            {
+                genre = "Latin",
+                radioname = "SKY.FM",
+                radiourl = "http://72.26.204.18:6136"
+            };
+            Stations.Add(robj);
+
+            robj = new RadioObj
+            {
+                genre = "Latin",
+                radioname = "LATINO FM EN DIRECTO",
+                radiourl = "http://92.48.107.35:8000"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "Rock";
-            robj.radioname = "RMF FM";
-            robj.radiourl = "http://217.74.72.12:9000";
+            robj = new RadioObj
+            {
+                genre = "Trance",
+                radioname = "1.FM",
+                radiourl = "http://72.13.83.70:8042"
+            };
             Stations.Add(robj);
 
 
-            robj = new RadioObj();
-            robj.genre = "Rock (Classic)";
-            robj.radioname = "181.FM";
-            robj.radiourl = "http://108.61.73.118:8030";
+            robj = new RadioObj
+            {
+                genre = "R&B",
+                radioname = "HOT 108 Jamz",
+                radiourl = "http://205.188.215.229:8040"
+            };
+            Stations.Add(robj);
+
+
+            robj = new RadioObj
+            {
+                genre = "Rock",
+                radioname = "RMF FM",
+                radiourl = "http://217.74.72.12:9000"
+            };
+            Stations.Add(robj);
+
+
+            robj = new RadioObj
+            {
+                genre = "Rock (Classic)",
+                radioname = "181.FM",
+                radiourl = "http://108.61.73.118:8030"
+            };
             Stations.Add(robj);
         }
 
@@ -333,10 +363,11 @@ namespace METAbolt
                     }
                     catch { ; }
 
-                    System.Windows.Forms.ListViewItem list = new System.Windows.Forms.ListViewItem();
-
-                    list.Text = timestamp.ToShortTimeString() + ": " + track;
-                    list.Tag = albumlink;   // dets;
+                    System.Windows.Forms.ListViewItem list = new System.Windows.Forms.ListViewItem
+                    {
+                        Text = timestamp.ToShortTimeString() + ": " + track,
+                        Tag = albumlink // dets;
+                    };
 
                     if (!string.IsNullOrEmpty(albumlink))
                     {
@@ -502,9 +533,11 @@ namespace METAbolt
             {
                 string baseUrl = "http://ws.audioscrobbler.com/2.0/?method=" + method + "&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&album=" + track.Replace(" ", "%20");
 
-                XmlReaderSettings settings = new XmlReaderSettings();
-                settings.IgnoreWhitespace = true;
-                settings.IgnoreComments = true;
+                XmlReaderSettings settings = new XmlReaderSettings
+                {
+                    IgnoreWhitespace = true,
+                    IgnoreComments = true
+                };
 
                 int a = 0;
 
@@ -587,9 +620,11 @@ namespace METAbolt
             {
                 string baseUrl = "http://ws.audioscrobbler.com/2.0/?method=track.getbuylinks&country=united%20states&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&track=" + track.Replace(" ", "%20");
 
-                XmlReaderSettings settings = new XmlReaderSettings();
-                settings.IgnoreWhitespace = true;
-                settings.IgnoreComments = true;
+                XmlReaderSettings settings = new XmlReaderSettings
+                {
+                    IgnoreWhitespace = true,
+                    IgnoreComments = true
+                };
 
                 //int a = 0;
 

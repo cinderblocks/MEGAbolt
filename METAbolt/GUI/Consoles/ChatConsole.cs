@@ -1816,10 +1816,12 @@ namespace METAbolt
 
             Matrix4 m = Matrix4.CreateFromQuaternion(avRot);
 
-            Vector3 vDir = new Vector3(Vector3.Zero);
-            vDir.X = m.M11;
-            vDir.Y = m.M21;
-            vDir.Z = m.M31;
+            Vector3 vDir = new Vector3(Vector3.Zero)
+            {
+                X = m.M11,
+                Y = m.M21,
+                Z = m.M31
+            };
 
             int x = Convert.ToInt32(vDir.X);
             int y = Convert.ToInt32(vDir.Y);
@@ -3428,10 +3430,12 @@ namespace METAbolt
                                 client.Avatars.RequestAvatarName(pos.Key);
                             }
 
-                            Vector3 oavPos = new Vector3(0, 0, 0);
-                            oavPos.X = pos.Value.X;
-                            oavPos.Y = pos.Value.Y;
-                            oavPos.Z = pos.Value.Z;
+                            Vector3 oavPos = new Vector3(0, 0, 0)
+                            {
+                                X = pos.Value.X,
+                                Y = pos.Value.Y,
+                                Z = pos.Value.Z
+                            };
 
                             if (oavPos.Z < 0.1f)
                             {
@@ -4801,9 +4805,11 @@ namespace METAbolt
             px = world.Top;
             py = world.Left;
 
-            System.Drawing.Size sz = new Size();
-            sz.Height = newsize;
-            sz.Width = newsize;
+            System.Drawing.Size sz = new Size
+            {
+                Height = newsize,
+                Width = newsize
+            };
 
             panel6.Size = sz;
         }

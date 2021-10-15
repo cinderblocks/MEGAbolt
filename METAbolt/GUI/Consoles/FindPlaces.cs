@@ -219,10 +219,11 @@ namespace METAbolt
         {
             get
             {
-                DirectoryManager.DirectoryParcel pcl = new DirectoryManager.DirectoryParcel();
-
-                pcl.ID = UUID.Zero;
-                pcl.Name = string.Empty;
+                DirectoryManager.DirectoryParcel pcl = new DirectoryManager.DirectoryParcel
+                {
+                    ID = UUID.Zero,
+                    Name = string.Empty
+                };
 
                 if (lvwFindPlaces.SelectedItems == null) return pcl;
                 if (lvwFindPlaces.SelectedItems.Count == 0) return pcl;
@@ -277,10 +278,12 @@ namespace METAbolt
                 instance.State.SetStanding();
             }
 
-            Vector3 posn = new Vector3();
-            posn.X = fX;
-            posn.Y = fY;
-            posn.Z = fZ;
+            Vector3 posn = new Vector3
+            {
+                X = fX,
+                Y = fY,
+                Z = fZ
+            };
 
             string sLoc = txtLocation.Text;
 

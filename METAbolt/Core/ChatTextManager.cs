@@ -1545,11 +1545,13 @@ namespace METAbolt
                 sb.Append(e.Message);
             }
 
-            ChatBufferItem item = new ChatBufferItem();
-            item.Timestamp = DateTime.Now;
-            item.Text = sb.ToString();
-            item.FromName = e.FromName;
-            item.Link = "http://mbprofile:" + e.OwnerID.ToString();
+            ChatBufferItem item = new ChatBufferItem
+            {
+                Timestamp = DateTime.Now,
+                Text = sb.ToString(),
+                FromName = e.FromName,
+                Link = "http://mbprofile:" + e.OwnerID.ToString()
+            };
 
             switch (e.SourceType)
             {

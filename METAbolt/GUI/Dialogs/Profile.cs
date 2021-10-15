@@ -321,9 +321,11 @@ namespace METAbolt
 
             foreach (AvatarGroup group in e.Groups)
             {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = group.GroupName;
-                lvi.Tag = group;
+                ListViewItem lvi = new ListViewItem
+                {
+                    Text = @group.GroupName,
+                    Tag = @group
+                };
 
                 if (!lvGroups.Items.Contains(lvi))
                 {
@@ -1180,10 +1182,12 @@ namespace METAbolt
         {
             if (!string.IsNullOrEmpty(simname))
             {
-                Vector3 pos = new Vector3();
-                pos.X = (float)posX;
-                pos.Y = (float)posY;
-                pos.Z = (float)posZ;
+                Vector3 pos = new Vector3
+                {
+                    X = (float)posX,
+                    Y = (float)posY,
+                    Z = (float)posZ
+                };
 
                 client.Self.Teleport(simname, pos);
             }
