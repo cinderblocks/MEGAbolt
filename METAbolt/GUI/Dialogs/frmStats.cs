@@ -57,7 +57,7 @@ namespace METAbolt
 
             sim = client.Network.CurrentSim;
 
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(Network_SimChanged);
+            client.Network.SimChanged += Network_SimChanged;
         }
 
         void Network_SimChanged(object sender, SimChangedEventArgs e)

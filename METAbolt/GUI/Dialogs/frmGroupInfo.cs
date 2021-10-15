@@ -188,17 +188,17 @@ namespace METAbolt
             grouprolesavs = new List<KeyValuePair<UUID, UUID>>();
             grouproles = new Dictionary<UUID, GroupRole>();
 
-            Client.Groups.GroupProfile += new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
-            Client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
-            netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            Client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            Client.Groups.GroupTitlesReply += new EventHandler<GroupTitlesReplyEventArgs>(GroupTitlesHandler);
-            Client.Groups.GroupNoticesListReply += new EventHandler<GroupNoticesListReplyEventArgs>(GroupNoticesHandler);
-            Client.Groups.GroupLeaveReply += new EventHandler<GroupOperationEventArgs>(Groups_OnGroupLeft);
-            Client.Groups.GroupRoleDataReply += new EventHandler<GroupRolesDataReplyEventArgs>(Groups_OnGroupRoleDataReply);
-            Client.Groups.GroupRoleMembersReply += new EventHandler<GroupRolesMembersReplyEventArgs>(Groups_OnGroupRoleMembersReply);
-            Client.Groups.GroupMemberEjected += new EventHandler<GroupOperationEventArgs>(Groups_GroupMemberEjected);
-            Client.Groups.GroupJoinedReply += new EventHandler<GroupOperationEventArgs>(Groups_GroupMemberJoined);
+            Client.Groups.GroupProfile += GroupProfileHandler;
+            Client.Avatars.UUIDNameReply += AvatarNamesHandler;
+            netcom.InstantMessageReceived += netcom_InstantMessageReceived;
+            Client.Groups.GroupMembersReply += GroupMembersHandler;
+            Client.Groups.GroupTitlesReply += GroupTitlesHandler;
+            Client.Groups.GroupNoticesListReply += GroupNoticesHandler;
+            Client.Groups.GroupLeaveReply += Groups_OnGroupLeft;
+            Client.Groups.GroupRoleDataReply += Groups_OnGroupRoleDataReply;
+            Client.Groups.GroupRoleMembersReply += Groups_OnGroupRoleMembersReply;
+            Client.Groups.GroupMemberEjected += Groups_GroupMemberEjected;
+            Client.Groups.GroupJoinedReply += Groups_GroupMemberJoined;
         }
 
         private void GetDets()
@@ -260,17 +260,17 @@ namespace METAbolt
 
         private void form_dispose()
         {
-            Client.Groups.GroupProfile -= new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
-            Client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
-            Client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            Client.Groups.GroupTitlesReply -= new EventHandler<GroupTitlesReplyEventArgs>(GroupTitlesHandler);
-            Client.Groups.GroupNoticesListReply -= new EventHandler<GroupNoticesListReplyEventArgs>(GroupNoticesHandler);
-            Client.Groups.GroupLeaveReply -= new EventHandler<GroupOperationEventArgs>(Groups_OnGroupLeft);
-            Client.Groups.GroupRoleDataReply -= new EventHandler<GroupRolesDataReplyEventArgs>(Groups_OnGroupRoleDataReply);
-            Client.Groups.GroupRoleMembersReply -= new EventHandler<GroupRolesMembersReplyEventArgs>(Groups_OnGroupRoleMembersReply);
-            Client.Groups.GroupMemberEjected += new EventHandler<GroupOperationEventArgs>(Groups_GroupMemberEjected);
+            Client.Groups.GroupProfile -= GroupProfileHandler;
+            Client.Avatars.UUIDNameReply -= AvatarNamesHandler;
+            Client.Groups.GroupMembersReply -= GroupMembersHandler;
+            Client.Groups.GroupTitlesReply -= GroupTitlesHandler;
+            Client.Groups.GroupNoticesListReply -= GroupNoticesHandler;
+            Client.Groups.GroupLeaveReply -= Groups_OnGroupLeft;
+            Client.Groups.GroupRoleDataReply -= Groups_OnGroupRoleDataReply;
+            Client.Groups.GroupRoleMembersReply -= Groups_OnGroupRoleMembersReply;
+            Client.Groups.GroupMemberEjected += Groups_GroupMemberEjected;
 
-            netcom.InstantMessageReceived -= new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
+            netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
 
             Members.Clear();
             Titles.Clear();

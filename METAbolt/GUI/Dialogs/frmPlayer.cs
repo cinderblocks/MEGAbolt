@@ -67,9 +67,9 @@ namespace METAbolt
             netcom = this.instance.Netcom;
 
 
-            Disposed += new EventHandler(Player_Disposed);
+            Disposed += Player_Disposed;
 
-            netcom.TeleportStatusChanged += new EventHandler<TeleportEventArgs>(TP_Callback);
+            netcom.TeleportStatusChanged += TP_Callback;
 
             PopulateStations();
 
@@ -211,11 +211,11 @@ namespace METAbolt
         {
             this.CenterToParent();
             
-            axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(player_PlayStateChange);
-            axWindowsMediaPlayer1.CurrentItemChange += new AxWMPLib._WMPOCXEvents_CurrentItemChangeEventHandler(player_CurrentItemChange);
+            axWindowsMediaPlayer1.PlayStateChange += player_PlayStateChange;
+            axWindowsMediaPlayer1.CurrentItemChange += player_CurrentItemChange;
             //axWindowsMediaPlayer1.CurrentPlaylistChange += new AxWMPLib._WMPOCXEvents_CurrentPlaylistChangeEventHandler(player_CurrentPlaylistChange);
-            axWindowsMediaPlayer1.MediaChange += new AxWMPLib._WMPOCXEvents_MediaChangeEventHandler(player_MediaChange);
-            axWindowsMediaPlayer1.MediaError += new AxWMPLib._WMPOCXEvents_MediaErrorEventHandler(axWindowsMediaPlayer1_MediaError);
+            axWindowsMediaPlayer1.MediaChange += player_MediaChange;
+            axWindowsMediaPlayer1.MediaError += axWindowsMediaPlayer1_MediaError;
 
             axWindowsMediaPlayer1.URL = this.instance.Config.CurrentConfig.pURL;
             //axWindowsMediaPlayer1.Ctlcontrols.stop();
@@ -244,13 +244,13 @@ namespace METAbolt
         private void Player_Disposed(object sender, EventArgs e)
         {
             //client.Self.TeleportProgress -= new EventHandler<TeleportEventArgs>(TP_Callback);
-            netcom.TeleportStatusChanged -= new EventHandler<TeleportEventArgs>(TP_Callback);
+            netcom.TeleportStatusChanged -= TP_Callback;
 
-            axWindowsMediaPlayer1.PlayStateChange -= new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(player_PlayStateChange);
-            axWindowsMediaPlayer1.CurrentItemChange -= new AxWMPLib._WMPOCXEvents_CurrentItemChangeEventHandler(player_CurrentItemChange);
+            axWindowsMediaPlayer1.PlayStateChange -= player_PlayStateChange;
+            axWindowsMediaPlayer1.CurrentItemChange -= player_CurrentItemChange;
             //axWindowsMediaPlayer1.CurrentPlaylistChange -= new AxWMPLib._WMPOCXEvents_CurrentPlaylistChangeEventHandler(player_CurrentPlaylistChange);
-            axWindowsMediaPlayer1.MediaChange -= new AxWMPLib._WMPOCXEvents_MediaChangeEventHandler(player_MediaChange);
-            axWindowsMediaPlayer1.MediaError -= new AxWMPLib._WMPOCXEvents_MediaErrorEventHandler(axWindowsMediaPlayer1_MediaError);
+            axWindowsMediaPlayer1.MediaChange -= player_MediaChange;
+            axWindowsMediaPlayer1.MediaError -= axWindowsMediaPlayer1_MediaError;
         }
 
         private void player_MediaChange(object sender, AxWMPLib._WMPOCXEvents_MediaChangeEvent e)

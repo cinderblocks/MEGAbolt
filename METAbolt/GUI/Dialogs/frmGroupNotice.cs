@@ -54,7 +54,7 @@ namespace METAbolt
             client = this.instance.Client;
             imsg = e.IM;
 
-            Disposed += new EventHandler(GroupNotice_Disposed);
+            Disposed += GroupNotice_Disposed;
 
             this.Text += "   " + "[ " + client.Self.Name + " ]";
         }

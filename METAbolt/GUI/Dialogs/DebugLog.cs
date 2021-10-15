@@ -170,12 +170,12 @@ namespace METAbolt
 
         private void frmDebugLog_Disposed(object sender, EventArgs e)
         {
-            Logger.OnLogMessage -= new Logger.LogCallback(client_OnLogMessage);
+            Logger.OnLogMessage -= client_OnLogMessage;
         }
 
         private void AddClientEvents()
         {
-            Logger.OnLogMessage += new Logger.LogCallback(client_OnLogMessage);
+            Logger.OnLogMessage += client_OnLogMessage;
         }
 
         //comes in on separate thread
@@ -385,7 +385,7 @@ namespace METAbolt
             rtBox1.Text += "Pinging " + textBox1.Text + " [" + ip.ToString() + "] with 32 bytes of data:\n";
 
             PingHost ping = new PingHost();
-            ping.Change += new PingHost.PingResponsereceived(ping_Change);
+            ping.Change += ping_Change;
             ping.StartPing(ip);
         }
 
@@ -405,7 +405,7 @@ namespace METAbolt
             button4.Enabled = false;
 
             aTimer1 = new System.Timers.Timer();
-            aTimer1.Elapsed += new ElapsedEventHandler(OnTimedEvent1);
+            aTimer1.Elapsed += OnTimedEvent1;
             // Set the Interval to 5 seconds.
             aTimer1.Interval = 1000;
             aTimer1.Enabled = true;
@@ -466,7 +466,7 @@ namespace METAbolt
             ip = simip.Address;
 
             PingHost ping = new PingHost();
-            ping.Change += new PingHost.PingResponsereceived(ping_ChangeTimer);
+            ping.Change += ping_ChangeTimer;
 
             ping.StartPing(ip);
         }

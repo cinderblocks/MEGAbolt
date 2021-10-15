@@ -97,22 +97,22 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.Teleporting += new EventHandler<TeleportingEventArgs>(netcom_Teleporting);
-            netcom.TeleportStatusChanged += new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
+            netcom.Teleporting += netcom_Teleporting;
+            netcom.TeleportStatusChanged += netcom_TeleportStatusChanged;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
         }
 
         private void AddClientEvents()
         {
-            client.Grid.GridRegion += new EventHandler<GridRegionEventArgs>(Grid_OnGridRegion);
+            client.Grid.GridRegion += Grid_OnGridRegion;
         }
 
         private void RemoveClientEvents()
         {
-            client.Grid.GridRegion -= new EventHandler<GridRegionEventArgs>(Grid_OnGridRegion);
-            netcom.Teleporting -= new EventHandler<TeleportingEventArgs>(netcom_Teleporting);
-            netcom.TeleportStatusChanged -= new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
+            client.Grid.GridRegion -= Grid_OnGridRegion;
+            netcom.Teleporting -= netcom_Teleporting;
+            netcom.TeleportStatusChanged -= netcom_TeleportStatusChanged;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
         }
 
         //Separate thread

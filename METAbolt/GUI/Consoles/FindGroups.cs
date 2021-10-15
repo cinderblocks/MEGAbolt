@@ -64,7 +64,7 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirGroupsReply += new EventHandler<DirGroupsReplyEventArgs>(Directory_OnDirGroupsReply);   
+            client.Directory.DirGroupsReply += Directory_OnDirGroupsReply;   
         }
 
         private void Directory_OnDirGroupsReply(object sender, DirGroupsReplyEventArgs e)

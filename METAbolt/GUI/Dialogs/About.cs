@@ -75,7 +75,7 @@ namespace METAbolt
         {
             this.CenterToParent();
 
-            Thread thread = new Thread(new ThreadStart(ScrollRTB));
+            Thread thread = new Thread(ScrollRTB);
             thread.Start();
         }
 
@@ -124,7 +124,7 @@ namespace METAbolt
             scrollTimer = new System.Timers.Timer(1000);
             scrollTimer.Enabled = true;
             //scrollTimer.SynchronizingObject = this;
-            scrollTimer.Elapsed += new ElapsedEventHandler(ScrollLine);
+            scrollTimer.Elapsed += ScrollLine;
             scrollTimer.Start(); 
         }
 

@@ -67,32 +67,32 @@ namespace METAbolt
 
             console = new FindPeopleConsole(instance, UUID.Random());
             console.Dock = DockStyle.Fill;
-            console.SelectedIndexChanged += new EventHandler(console_SelectedIndexChanged);
+            console.SelectedIndexChanged += console_SelectedIndexChanged;
             pnlFindPeople.Controls.Add(console);
 
             eventsconsole = new FindEvents(instance, UUID.Random());
             eventsconsole.Dock = DockStyle.Fill;
-            eventsconsole.SelectedIndexChanged += new EventHandler(eventsconsole_SelectedIndexChanged);
+            eventsconsole.SelectedIndexChanged += eventsconsole_SelectedIndexChanged;
             pnlFindEvents.Controls.Add(eventsconsole);
 
             placesconsole = new FindPlaces(instance, UUID.Random());
             placesconsole.Dock = DockStyle.Fill;
-            placesconsole.SelectedIndexChanged += new EventHandler(placesconsole_SelectedIndexChanged);
+            placesconsole.SelectedIndexChanged += placesconsole_SelectedIndexChanged;
             pnlFindPlaces.Controls.Add(placesconsole);
 
             groupsconsole = new FindGroups(instance, UUID.Random());
             groupsconsole.Dock = DockStyle.Fill;
-            groupsconsole.SelectedIndexChanged += new EventHandler(groupsconsole_SelectedIndexChanged);
+            groupsconsole.SelectedIndexChanged += groupsconsole_SelectedIndexChanged;
             pnlFindGroups.Controls.Add(groupsconsole);
 
             landconsole = new FindLand(instance, UUID.Random());
             landconsole.Dock = DockStyle.Fill;
-            landconsole.SelectedIndexChanged += new EventHandler(landconsole_SelectedIndexChanged);
+            landconsole.SelectedIndexChanged += landconsole_SelectedIndexChanged;
             pnlFindLand.Controls.Add(landconsole);
 
             webBrowser = new WebBrowser();
-            webBrowser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            webBrowser.Navigating += new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
+            webBrowser.DocumentCompleted += webBrowser_DocumentCompleted;
+            webBrowser.Navigating += webBrowser_Navigating;
             webBrowser.Url = new Uri("http://www.metabolt.net/metasearch.php");
             webBrowser.AllowNavigation = true;
             //webBrowser.AllowWebBrowserDrop = false;
@@ -100,10 +100,10 @@ namespace METAbolt
             webBrowser.IsWebBrowserContextMenuEnabled = false;
             webBrowser.ScriptErrorsSuppressed = true;
             webBrowser.ScrollBarsEnabled = true;
-            webBrowser.NewWindow += new CancelEventHandler(webBrowser_NewWindow);
+            webBrowser.NewWindow += webBrowser_NewWindow;
             panel4.Controls.Add(webBrowser);
 
-            Disposed += new EventHandler(SearchConsole_Disposed);
+            Disposed += SearchConsole_Disposed;
 
             PopulateCbos();
         }
@@ -191,7 +191,7 @@ namespace METAbolt
 
         private void placesconsole_SelectedIndexChanged(object sender, EventArgs e)
         {
-            client.Parcels.ParcelInfoReply += new EventHandler<ParcelInfoReplyEventArgs>(Parcels_OnParcelInfoReply);
+            client.Parcels.ParcelInfoReply += Parcels_OnParcelInfoReply;
 
             if (placesconsole.SelectedName.ID != UUID.Zero)
             {
@@ -202,13 +202,13 @@ namespace METAbolt
 
         private void Parcels_OnParcelInfoReply(object sender, ParcelInfoReplyEventArgs e)
         {
-            client.Parcels.ParcelInfoReply -= new EventHandler<ParcelInfoReplyEventArgs>(Parcels_OnParcelInfoReply);
+            client.Parcels.ParcelInfoReply -= Parcels_OnParcelInfoReply;
             placesconsole.DisplayPlace(e.Parcel);
         }
 
         private void landconsole_SelectedIndexChanged(object sender, EventArgs e)
         {
-            client.Parcels.ParcelInfoReply += new EventHandler<ParcelInfoReplyEventArgs>(Land_OnParcelInfoReply);
+            client.Parcels.ParcelInfoReply += Land_OnParcelInfoReply;
 
             if (landconsole.SelectedName.ID != UUID.Zero)
             {
@@ -219,7 +219,7 @@ namespace METAbolt
 
         private void Land_OnParcelInfoReply(object sender, ParcelInfoReplyEventArgs e)
         {
-            client.Parcels.ParcelInfoReply -= new EventHandler<ParcelInfoReplyEventArgs>(Land_OnParcelInfoReply);
+            client.Parcels.ParcelInfoReply -= Land_OnParcelInfoReply;
             landconsole.DisplayPlace(e.Parcel);
         }
 
@@ -230,22 +230,22 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirPeopleReply += new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Directory.DirEventsReply += new EventHandler<DirEventsReplyEventArgs>(Directory_OnEventsReply);
-            client.Directory.DirPlacesReply += new EventHandler<DirPlacesReplyEventArgs>(Directory_OnDirPlacesReply);
-            client.Directory.DirGroupsReply += new EventHandler<DirGroupsReplyEventArgs>(Directory_OnDirGroupsReply);
-            client.Directory.DirLandReply += new EventHandler<DirLandReplyEventArgs>(Directory_OnDirLandReply);
+            client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
+            client.Directory.DirEventsReply += Directory_OnEventsReply;
+            client.Directory.DirPlacesReply += Directory_OnDirPlacesReply;
+            client.Directory.DirGroupsReply += Directory_OnDirGroupsReply;
+            client.Directory.DirLandReply += Directory_OnDirLandReply;
         }
 
         private void SearchConsole_Disposed(object sender, EventArgs e)
         {
-            client.Directory.DirPeopleReply -= new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Directory.DirEventsReply -= new EventHandler<DirEventsReplyEventArgs>(Directory_OnEventsReply);
-            client.Directory.DirPlacesReply -= new EventHandler<DirPlacesReplyEventArgs>(Directory_OnDirPlacesReply);
-            client.Directory.DirGroupsReply -= new EventHandler<DirGroupsReplyEventArgs>(Directory_OnDirGroupsReply);
-            client.Directory.DirLandReply -= new EventHandler<DirLandReplyEventArgs>(Directory_OnDirLandReply);
-            webBrowser.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            webBrowser.Navigating -= new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
+            client.Directory.DirPeopleReply -= Directory_OnDirPeopleReply;
+            client.Directory.DirEventsReply -= Directory_OnEventsReply;
+            client.Directory.DirPlacesReply -= Directory_OnDirPlacesReply;
+            client.Directory.DirGroupsReply -= Directory_OnDirGroupsReply;
+            client.Directory.DirLandReply -= Directory_OnDirLandReply;
+            webBrowser.DocumentCompleted -= webBrowser_DocumentCompleted;
+            webBrowser.Navigating -= webBrowser_Navigating;
         }
 
         //Separate thread
@@ -772,13 +772,13 @@ namespace METAbolt
                 return;
             }
 
-            client.Groups.GroupJoinedReply += new EventHandler<GroupOperationEventArgs>(Groups_OnGroupJoined);
+            client.Groups.GroupJoinedReply += Groups_OnGroupJoined;
             client.Groups.RequestJoinGroup(groupsconsole.SelectedGroupUUID);
         }
 
         void Groups_OnGroupJoined(object sender, GroupOperationEventArgs e)
         {
-            client.Groups.GroupJoinedReply -= new EventHandler<GroupOperationEventArgs>(Groups_OnGroupJoined);
+            client.Groups.GroupJoinedReply -= Groups_OnGroupJoined;
         }
 
         private void pnlFindPeople_Paint(object sender, PaintEventArgs e)
@@ -792,7 +792,7 @@ namespace METAbolt
 
             BeginInvoke(new MethodInvoker(delegate()
             {
-                client.Groups.GroupProfile -= new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
+                client.Groups.GroupProfile -= GroupProfileHandler;
 
                 frmGroupInfo frm = new frmGroupInfo(e.Group, instance);
                 frm.Show();
@@ -803,7 +803,7 @@ namespace METAbolt
         {
             if (groupsconsole.SelectedName == null) return;
 
-            client.Groups.GroupProfile += new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
+            client.Groups.GroupProfile += GroupProfileHandler;
 
             requestedgroupid = groupsconsole.SelectedGroupUUID;
 

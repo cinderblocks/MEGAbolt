@@ -107,12 +107,12 @@ namespace METAbolt
             netcom = this.instance.Netcom;
             netcom.NetcomSync = this;
 
-            Disposed += new EventHandler(RemoveNetcomEvents);
+            Disposed += RemoveNetcomEvents;
 
-            client.Parcels.ParcelProperties += new EventHandler<ParcelPropertiesEventArgs>(Parcels_OnParcelProperties);
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
-            client.Objects.TerseObjectUpdate += new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
-            netcom.MoneyBalanceUpdated +=new EventHandler<BalanceEventArgs>(netcom_MoneyBalanceUpdated);
+            client.Parcels.ParcelProperties += Parcels_OnParcelProperties;
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
+            client.Objects.TerseObjectUpdate += Objects_OnObjectUpdated;
+            netcom.MoneyBalanceUpdated +=netcom_MoneyBalanceUpdated;
             //client.Self.MoneyBalanceReply += new EventHandler<MoneyBalanceReplyEventArgs>(Self_MoneyBalanceReply);
 
             AddNetcomEvents();
@@ -120,7 +120,7 @@ namespace METAbolt
             RefreshWindowTitle();
 
             logOffTimer = new System.Timers.Timer();
-            logOffTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            logOffTimer.Elapsed += OnTimedEvent;
             logOffTimer.Interval = 60000;   // 300000;   // 3600000;
             logOffTimer.Enabled = false;
             logOffTimer.Stop();
@@ -233,7 +233,7 @@ namespace METAbolt
                 avIDs.Add(parcel.OwnerID);
                 avIDs.Add(parcel.GroupID);
 
-                client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+                client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
                 client.Avatars.RequestAvatarNames(avIDs);
 
                 tb1.Visible = false;
@@ -425,7 +425,7 @@ namespace METAbolt
                     AboutlandGroupidname = kvp.Value;
             }
 
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
@@ -639,10 +639,10 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoginStatus += new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
+            netcom.ClientLoginStatus += netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
+            netcom.InstantMessageReceived += netcom_InstantMessageReceived;
             //netcom.Teleporting += new EventHandler<TeleportingEventArgs>(netcom_Teleporting);  
         }
 
@@ -687,19 +687,19 @@ namespace METAbolt
 
         private void RemoveNetcomEvents(object sender, EventArgs e)
         {
-            netcom.ClientLoginStatus -= new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.InstantMessageReceived -= new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
+            netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
+            netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
 
-            client.Parcels.ParcelProperties -= new EventHandler<ParcelPropertiesEventArgs>(Parcels_OnParcelProperties);
-            this.instance.Config.ConfigApplied -= new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
-            client.Objects.TerseObjectUpdate -= new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
-            netcom.MoneyBalanceUpdated -= new EventHandler<BalanceEventArgs>(netcom_MoneyBalanceUpdated);
+            client.Parcels.ParcelProperties -= Parcels_OnParcelProperties;
+            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            client.Objects.TerseObjectUpdate -= Objects_OnObjectUpdated;
+            netcom.MoneyBalanceUpdated -= netcom_MoneyBalanceUpdated;
 
-            manager.AssemblyFailedLoading -= new ExtensionManager<IExtension, IHost>.AssemblyFailedLoadingEventHandler(manager_AssemblyFailedLoading);
-            manager.AssemblyLoaded -= new ExtensionManager<IExtension, IHost>.AssemblyLoadedEventHandler(manager_AssemblyLoaded);
-            manager.AssemblyLoading -= new ExtensionManager<IExtension, IHost>.AssemblyLoadingEventHandler(manager_AssemblyLoading);
+            manager.AssemblyFailedLoading -= manager_AssemblyFailedLoading;
+            manager.AssemblyLoaded -= manager_AssemblyLoaded;
+            manager.AssemblyLoading -= manager_AssemblyLoading;
 
             //statusTimer.Elapsed -= new ElapsedEventHandler(statusTimer_Elapsed);
 
@@ -917,7 +917,7 @@ namespace METAbolt
             statusTimer = new System.Timers.Timer(1000);
             statusTimer.Enabled = false;
             statusTimer.SynchronizingObject = this;
-            statusTimer.Elapsed += new ElapsedEventHandler(statusTimer_Elapsed);
+            statusTimer.Elapsed += statusTimer_Elapsed;
         }
 
         private void InitializeTabsConsole()
@@ -975,15 +975,15 @@ namespace METAbolt
             tabsConsole.SelectTab("Main");
 
             // fire off the auto updater
-            Thread thread = new Thread(new ThreadStart(StartSilent));
+            Thread thread = new Thread(StartSilent);
             thread.Start();
 
             // The extension stuff followeth :)
 
             //Listen to the events
-            manager.AssemblyFailedLoading += new ExtensionManager<IExtension, IHost>.AssemblyFailedLoadingEventHandler(manager_AssemblyFailedLoading);
-            manager.AssemblyLoaded += new ExtensionManager<IExtension, IHost>.AssemblyLoadedEventHandler(manager_AssemblyLoaded);
-            manager.AssemblyLoading += new ExtensionManager<IExtension, IHost>.AssemblyLoadingEventHandler(manager_AssemblyLoading);
+            manager.AssemblyFailedLoading += manager_AssemblyFailedLoading;
+            manager.AssemblyLoaded += manager_AssemblyLoaded;
+            manager.AssemblyLoading += manager_AssemblyLoading;
 
             //Loads .cs, .vb, .js, and .dll extensions
             manager.LoadDefaultFileExtensions();
@@ -1025,7 +1025,7 @@ namespace METAbolt
                     item.Tag = extOn.Instance;
                     item.Text = extOn.Instance.Title;
                     item.Width = extOn.Instance.Title.Length * 6;   // 200;
-                    item.Click += new System.EventHandler(AnyMenuItem_Click);
+                    item.Click += AnyMenuItem_Click;
                     mitem.DropDownItems.Add(item);
 
                     //elist.Add(extOn.Instance);
@@ -1049,7 +1049,7 @@ namespace METAbolt
                 //itm.Tag = extOn.Instance;
                 itm.Text = "Plugin Manager";
                 itm.Width = 14 * 6;
-                itm.Click += new System.EventHandler(AnyMenuItem_Click);
+                itm.Click += AnyMenuItem_Click;
                 mmgr.DropDownItems.Add(itm);
 
                 //this.instance.EList = elist;
@@ -1882,7 +1882,7 @@ namespace METAbolt
             this.disconnectHasExecuted = true;
 
             // Functional shutdown
-            statusTimer.Elapsed -= new ElapsedEventHandler(statusTimer_Elapsed);
+            statusTimer.Elapsed -= statusTimer_Elapsed;
             statusTimer.Stop();
 
             if (!string.IsNullOrEmpty(netcom.LoginOptions.FirstName) && !string.IsNullOrEmpty(netcom.LoginOptions.LastName))
@@ -1988,7 +1988,7 @@ namespace METAbolt
             this.disconnectHasExecuted = true;
 
             // Functional shutdown
-            statusTimer.Elapsed -= new ElapsedEventHandler(statusTimer_Elapsed);
+            statusTimer.Elapsed -= statusTimer_Elapsed;
             statusTimer.Stop();
 
             if (!string.IsNullOrEmpty(netcom.LoginOptions.FirstName) && !string.IsNullOrEmpty(netcom.LoginOptions.LastName))

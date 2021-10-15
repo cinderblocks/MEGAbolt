@@ -55,7 +55,7 @@ namespace METAbolt
         public ToolStripCheckBox()
             : base(new CheckBox())
         {
-            ToolStripCheckBoxControl.MouseHover += new EventHandler(chk_MouseHover);
+            ToolStripCheckBoxControl.MouseHover += chk_MouseHover;
         }
 
         public CheckBox ToolStripCheckBoxControl
@@ -94,7 +94,7 @@ namespace METAbolt
 
             CheckBox ToolStripCheckBoxControl = (CheckBox)c;
             // Add the event.
-            ToolStripCheckBoxControl.CheckedChanged += new EventHandler(OnCheckChanged);
+            ToolStripCheckBoxControl.CheckedChanged += OnCheckChanged;
         }
 
         protected override void OnUnsubscribeControlEvents(Control c)
@@ -105,7 +105,7 @@ namespace METAbolt
 
             CheckBox ToolStripCheckBoxControl = (CheckBox)c;
             // Remove the event.
-            ToolStripCheckBoxControl.CheckedChanged -= new EventHandler(OnCheckChanged);
+            ToolStripCheckBoxControl.CheckedChanged -= OnCheckChanged;
         }
 
         public event EventHandler CheckedChanged;

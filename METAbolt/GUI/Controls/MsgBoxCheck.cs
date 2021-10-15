@@ -55,9 +55,9 @@ namespace MEGAbolt.Controls.MsgBoxCheck
         public MessageBox()
         {
             this.m_cbt = new LocalCbtHook();
-            this.m_cbt.WindowCreated += new LocalCbtHook.CbtEventHandler(this.WndCreated);
-            this.m_cbt.WindowDestroyed += new LocalCbtHook.CbtEventHandler(this.WndDestroyed);
-            this.m_cbt.WindowActivated += new LocalCbtHook.CbtEventHandler(this.WndActivated);
+            this.m_cbt.WindowCreated += this.WndCreated;
+            this.m_cbt.WindowDestroyed += this.WndDestroyed;
+            this.m_cbt.WindowActivated += this.WndActivated;
         }
 
         public DialogResult Show(

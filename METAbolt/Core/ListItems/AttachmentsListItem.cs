@@ -44,7 +44,7 @@ namespace METAbolt
             this.client = client;
             this.listBox = listBox;
 
-            client.Objects.ObjectProperties += new EventHandler<ObjectPropertiesEventArgs>(Objects_OnObjectProperties);
+            client.Objects.ObjectProperties += Objects_OnObjectProperties;
         }
 
         public void RequestProperties()

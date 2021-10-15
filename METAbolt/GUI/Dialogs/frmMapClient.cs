@@ -90,12 +90,12 @@ namespace METAbolt
             client = this.instance.Client;
             sim = client.Network.CurrentSim;
 
-            client.Grid.CoarseLocationUpdate += new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(Network_OnCurrentSimChanged);
+            client.Grid.CoarseLocationUpdate += Grid_OnCoarseLocationUpdate;
+            client.Network.SimChanged += Network_OnCurrentSimChanged;
 
-            client.Grid.GridRegion += new EventHandler<GridRegionEventArgs>(Grid_OnGridRegion);
-            netcom.Teleporting += new EventHandler<TeleportingEventArgs>(netcom_Teleporting);
-            netcom.TeleportStatusChanged += new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            client.Grid.GridRegion += Grid_OnGridRegion;
+            netcom.Teleporting += netcom_Teleporting;
+            netcom.TeleportStatusChanged += netcom_TeleportStatusChanged;
 
             string msg1 = "Yellow dot with red border = your avatar \nGreen dots = avs at your altitude\nRed squares = avs 20m+ below you\nBlue squares = avs 20m+ above you\n\n Click on map area to get TP position.";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
@@ -533,12 +533,12 @@ namespace METAbolt
 
         private void frmMapClient_FormClosing(object sender, FormClosingEventArgs e)
         {
-            client.Grid.CoarseLocationUpdate -= new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
-            client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(Network_OnCurrentSimChanged);
+            client.Grid.CoarseLocationUpdate -= Grid_OnCoarseLocationUpdate;
+            client.Network.SimChanged -= Network_OnCurrentSimChanged;
 
-            client.Grid.GridRegion -= new EventHandler<GridRegionEventArgs>(Grid_OnGridRegion);
-            netcom.Teleporting -= new EventHandler<TeleportingEventArgs>(netcom_Teleporting);
-            netcom.TeleportStatusChanged -= new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            client.Grid.GridRegion -= Grid_OnGridRegion;
+            netcom.Teleporting -= netcom_Teleporting;
+            netcom.TeleportStatusChanged -= netcom_TeleportStatusChanged;
 
             _LandLayer = _MapLayer;
             _MapLayer = null;

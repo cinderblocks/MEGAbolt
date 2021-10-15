@@ -66,8 +66,8 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirEventsReply += new EventHandler<DirEventsReplyEventArgs>(Directory_OnEventsReply);
-            client.Directory.EventInfoReply += new EventHandler<EventInfoReplyEventArgs>(eventsconsole_OnEventInfo);
+            client.Directory.DirEventsReply += Directory_OnEventsReply;
+            client.Directory.EventInfoReply += eventsconsole_OnEventInfo;
             
         }
 

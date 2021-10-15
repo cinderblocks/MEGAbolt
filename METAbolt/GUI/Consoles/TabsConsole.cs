@@ -80,7 +80,7 @@ namespace METAbolt
             InitializeChatTab();
 
             ApplyConfig(this.instance.Config.CurrentConfig);
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
         }
 
         //private ToolStripItem GetSelectedItem()
@@ -170,32 +170,32 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoginStatus += new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.ChatReceived += new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ChatSent += new EventHandler<MEGAbolt.NetworkComm.ChatSentEventArgs>(netcom_ChatSent);
-            netcom.AlertMessageReceived += new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
-            netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            client.Groups.CurrentGroups += new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
-            client.Self.MoneyBalanceReply +=new EventHandler<MoneyBalanceReplyEventArgs>(Self_MoneyBalanceReply);
-            client.Friends.FriendOffline += new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOffline);
-            client.Friends.FriendOnline += new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOnline);
+            netcom.ClientLoginStatus += netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
+            netcom.ChatReceived += netcom_ChatReceived;
+            netcom.ChatSent += netcom_ChatSent;
+            netcom.AlertMessageReceived += netcom_AlertMessageReceived;
+            netcom.InstantMessageReceived += netcom_InstantMessageReceived;
+            client.Groups.CurrentGroups += Groups_OnCurrentGroups;
+            client.Self.MoneyBalanceReply +=Self_MoneyBalanceReply;
+            client.Friends.FriendOffline += Friends_OnFriendOffline;
+            client.Friends.FriendOnline += Friends_OnFriendOnline;
         }
 
         private void RemoveNetcomEvents()
         {
-            netcom.ClientLoginStatus -= new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.ChatReceived -= new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ChatSent -= new EventHandler<MEGAbolt.NetworkComm.ChatSentEventArgs>(netcom_ChatSent);
-            netcom.AlertMessageReceived -= new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
-            netcom.InstantMessageReceived -= new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            client.Groups.CurrentGroups -= new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
-            this.instance.Config.ConfigApplied -= new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
-            client.Friends.FriendOffline -= new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOffline);
-            client.Friends.FriendOnline -= new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOnline);
+            netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
+            netcom.ChatReceived -= netcom_ChatReceived;
+            netcom.ChatSent -= netcom_ChatSent;
+            netcom.AlertMessageReceived -= netcom_AlertMessageReceived;
+            netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
+            client.Groups.CurrentGroups -= Groups_OnCurrentGroups;
+            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            client.Friends.FriendOffline -= Friends_OnFriendOffline;
+            client.Friends.FriendOnline -= Friends_OnFriendOnline;
         }
 
         private void Groups_OnCurrentGroups(object sender, CurrentGroupsEventArgs e)
@@ -1506,7 +1506,7 @@ namespace METAbolt
             button.Image = null;
             button.AutoToolTip = false;
             button.Tag = tab.Name;
-            button.Click += new EventHandler(TabButtonClick);
+            button.Click += TabButtonClick;
 
             tab.Button = button;
 
@@ -1523,13 +1523,13 @@ namespace METAbolt
             button.Image = null;
             button.AutoToolTip = false;
             button.Tag = name.ToLower(CultureInfo.CurrentCulture);
-            button.Click += new EventHandler(TabButtonClick);
+            button.Click += TabButtonClick;
 
             METAboltTab tab = new METAboltTab(button, control, name.ToLower(CultureInfo.CurrentCulture), label);
-            tab.TabAttached += new EventHandler(tab_TabAttached);
-            tab.TabDetached += new EventHandler(tab_TabDetached);
-            tab.TabSelected += new EventHandler(tab_TabSelected);
-            tab.TabClosed += new EventHandler(tab_TabClosed);
+            tab.TabAttached += tab_TabAttached;
+            tab.TabDetached += tab_TabDetached;
+            tab.TabSelected += tab_TabSelected;
+            tab.TabClosed += tab_TabClosed;
 
             if (!tabs.ContainsKey(tab.Name))
             {
@@ -1830,13 +1830,13 @@ namespace METAbolt
                 {
                     ToolStripItem item = tmnuMergeWith.DropDown.Items.Add(tab.Label);
                     item.Tag = tab.Name;
-                    item.Click += new EventHandler(MergeItemClick);
+                    item.Click += MergeItemClick;
                 }
             }
             else
             {
                 tmnuMergeWith.Text = "Split";
-                tmnuMergeWith.Click += new EventHandler(SplitClick);
+                tmnuMergeWith.Click += SplitClick;
             }
         }
 

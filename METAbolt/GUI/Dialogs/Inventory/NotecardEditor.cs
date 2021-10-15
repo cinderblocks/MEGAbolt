@@ -66,7 +66,7 @@ namespace METAbolt
             client = this.instance.Client;
             this.item = item;
 
-            Disposed += new EventHandler(Notecard_Disposed);
+            Disposed += Notecard_Disposed;
 
             AddNetcomEvents();
 
@@ -77,7 +77,7 @@ namespace METAbolt
 
             assetUUID = item.AssetUUID;
 
-            rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
+            rtbNotecard.TextChanged += rtbNotecard_TextChanged;
 
             var transferID = UUID.Random();
             client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero,
@@ -94,7 +94,7 @@ namespace METAbolt
             this.item = item;
             this.nreadonly = nreadonly;
 
-            Disposed += new EventHandler(Notecard_Disposed);
+            Disposed += Notecard_Disposed;
 
             AddNetcomEvents();
 
@@ -105,7 +105,7 @@ namespace METAbolt
 
             assetUUID = item.AssetUUID;
 
-            rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
+            rtbNotecard.TextChanged += rtbNotecard_TextChanged;
 
             var transferID = UUID.Random();
             client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, 
@@ -137,7 +137,7 @@ namespace METAbolt
 
             assetUUID = item.AssetUUID;
 
-            rtbNotecard.TextChanged += new EventHandler(rtbNotecard_TextChanged);
+            rtbNotecard.TextChanged += rtbNotecard_TextChanged;
 
             var transferID = UUID.Random();
             client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, 
@@ -257,13 +257,13 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
         }
 
         private void Notecard_Disposed(object sender, EventArgs e)
         {
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            rtbNotecard.TextChanged -= new EventHandler(rtbNotecard_TextChanged);
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            rtbNotecard.TextChanged -= rtbNotecard_TextChanged;
         }
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
@@ -305,11 +305,11 @@ namespace METAbolt
 
                 if (istaskobj)
                 {
-                    client.Inventory.RequestUpdateNotecardTask(receivedAsset.AssetData, item.UUID, objectid, new InventoryManager.InventoryUploadedAssetCallback(OnNoteUpdate));
+                    client.Inventory.RequestUpdateNotecardTask(receivedAsset.AssetData, item.UUID, objectid, OnNoteUpdate);
                 }
                 else
                 {
-                    client.Inventory.RequestUploadNotecardAsset(receivedAsset.AssetData, item.UUID, new InventoryManager.InventoryUploadedAssetCallback(OnNoteUpdate));
+                    client.Inventory.RequestUploadNotecardAsset(receivedAsset.AssetData, item.UUID, OnNoteUpdate);
                 }
             }
             catch { ; }

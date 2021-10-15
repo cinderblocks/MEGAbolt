@@ -102,7 +102,7 @@ namespace METAbolt
             client = this.instance.Client;
             clip = new InventoryClipboard(client);
 
-            Disposed += new EventHandler(InventoryConsole_Disposed);
+            Disposed += InventoryConsole_Disposed;
 
             textfile = "\\" + client.Self.FirstName + "_" + client.Self.LastName + "_" + "Outfit.mtb";
             this.path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
@@ -209,9 +209,9 @@ namespace METAbolt
                     }
                 }
 
-                client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+                client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
                 UpdateFolder(fldr);
-                client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+                client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
             }
             catch { ; }
         }
@@ -240,9 +240,9 @@ namespace METAbolt
 
             //WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), fldr);
 
-            client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
             UpdateFolder(fldr);
-            client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
 
         }
 
@@ -467,9 +467,9 @@ namespace METAbolt
                     //{
                         ////WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), e.FolderID);
 
-                        client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+                        client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
                         UpdateFolder(e.FolderID);
-                        client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+                        client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
                         //folderproc = UUID.Zero;
 
                         if (instance.CoF != null)
@@ -560,13 +560,13 @@ namespace METAbolt
         {
             try
             {
-                client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
-                client.Inventory.ItemReceived += new EventHandler<ItemReceivedEventArgs>(Inventory_OnItemReceived);
+                client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
+                client.Inventory.ItemReceived += Inventory_OnItemReceived;
                 //client.Inventory.InventoryObjectOffered += new EventHandler<InventoryObjectOfferedEventArgs>(Inventory_InventoryObjectOffered);
-                client.Appearance.AppearanceSet += new EventHandler<AppearanceSetEventArgs>(Inventory_OnAppearanceSet);
-                client.Inventory.Store.InventoryObjectRemoved += new EventHandler<InventoryObjectRemovedEventArgs>(Store_OnInventoryObjectRemoved);
+                client.Appearance.AppearanceSet += Inventory_OnAppearanceSet;
+                client.Inventory.Store.InventoryObjectRemoved += Store_OnInventoryObjectRemoved;
                 //client.Inventory.Store.InventoryObjectUpdated += new EventHandler<InventoryObjectUpdatedEventArgs>(Store_OnInventoryObjectUpdated);
-                client.Network.EventQueueRunning += new EventHandler<EventQueueRunningEventArgs>(Network_OnEventQueueRunning);
+                client.Network.EventQueueRunning += Network_OnEventQueueRunning;
                 //client.Appearance.AgentWearablesReply += Appearance_AgentWearablesReply;
 
                 //client.Appearance.RequestAgentWearables();   
@@ -586,7 +586,7 @@ namespace METAbolt
                         item.ShortcutKeys = Keys.Control | Keys.N;
                     }
 
-                    item.Click += new EventHandler(SortMethodClick);
+                    item.Click += SortMethodClick;
                 }
 
                 treeSorter.CurrentSortName = SortBy;
@@ -607,21 +607,21 @@ namespace METAbolt
 
         private void InventoryConsole_Disposed(object sender, EventArgs e)
         {
-            client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
-            client.Inventory.ItemReceived -= new EventHandler<ItemReceivedEventArgs>(Inventory_OnItemReceived);
+            client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
+            client.Inventory.ItemReceived -= Inventory_OnItemReceived;
             //client.Inventory.InventoryObjectOffered -= new EventHandler<InventoryObjectOfferedEventArgs>(Inventory_InventoryObjectOffered);
-            client.Appearance.AppearanceSet -= new EventHandler<AppearanceSetEventArgs>(Inventory_OnAppearanceSet);
-            client.Inventory.Store.InventoryObjectRemoved -= new EventHandler<InventoryObjectRemovedEventArgs>(Store_OnInventoryObjectRemoved);
+            client.Appearance.AppearanceSet -= Inventory_OnAppearanceSet;
+            client.Inventory.Store.InventoryObjectRemoved -= Store_OnInventoryObjectRemoved;
             //client.Inventory.Store.InventoryObjectAdded -= new EventHandler<InventoryObjectAddedEventArgs>(Store_OnInventoryObjectAdded);
             //netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
             //netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
             //client.Inventory.Store.InventoryObjectUpdated -= new EventHandler<InventoryObjectUpdatedEventArgs>(Store_OnInventoryObjectUpdated);
-            client.Network.EventQueueRunning -= new EventHandler<EventQueueRunningEventArgs>(Network_OnEventQueueRunning);
+            client.Network.EventQueueRunning -= Network_OnEventQueueRunning;
         }
 
         private void SortMethodClick(object sender, EventArgs e)
         {
-            client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
 
             TreeNode node = treeView1.SelectedNode;
 
@@ -639,7 +639,7 @@ namespace METAbolt
 
             treeView1.SelectedNode = node;
 
-            client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
         }
 
         private void RefreshPropertiesPane()
@@ -1125,7 +1125,7 @@ namespace METAbolt
                     {
                         if (success) // upload the asset
                         {
-                            client.Inventory.RequestUploadNotecardAsset(CreateNotecardAsset(""), nitem.UUID, new InventoryManager.InventoryUploadedAssetCallback(OnNoteUpdate));
+                            client.Inventory.RequestUploadNotecardAsset(CreateNotecardAsset(""), nitem.UUID, OnNoteUpdate);
                         }
                     }
                 );
@@ -1233,7 +1233,7 @@ namespace METAbolt
             //TreeNodeCollection nodes = sellectednode.Nodes;
             //TreeNodeCollection nodes = treeView1.Nodes;
 
-            client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
 
             sellectednode.Expand();
             //found = FindRecursive(sellectednode);
@@ -1261,7 +1261,7 @@ namespace METAbolt
             //}
 
             searching = false;
-            client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -1928,7 +1928,7 @@ namespace METAbolt
                         if (success) // upload the asset
                         {
                             string scriptbody = "default\n{\n    state_entry()\n    {\n        llSay(0,'Hello METAbolt user');\n    }\n}";
-                            client.Inventory.RequestUploadNotecardAsset(CreateScriptAsset(scriptbody), nitem.UUID, new InventoryManager.InventoryUploadedAssetCallback(OnNoteUpdate));
+                            client.Inventory.RequestUploadNotecardAsset(CreateScriptAsset(scriptbody), nitem.UUID, OnNoteUpdate);
                             //client.Inventory.RequestUploadNotecardAsset(Utils.StringToBytes("Script code..."), nitem.UUID,delegate (bool success2,string status,UUID item_uuid, UUID asset_uuid)
                         }
                     }
@@ -2337,7 +2337,7 @@ namespace METAbolt
 
                 TreeViewWalker treeViewWalker = new TreeViewWalker(treeView1);
 
-                treeViewWalker.ProcessNode += new ProcessNodeEventHandler(treeViewWalker_ProcessNode_HighlightMatchingNodes);
+                treeViewWalker.ProcessNode += treeViewWalker_ProcessNode_HighlightMatchingNodes;
 
                 treeViewWalker.ProcessTree();
             }
@@ -2361,12 +2361,12 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
             searching = true;
             textBox1.Text = string.Empty;
             ClearBackColor();
             searching = false;
-            client.Inventory.FolderUpdated += new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
+            client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
         }
 
         private void tstInventory_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

@@ -92,7 +92,7 @@ namespace METAbolt
             //{
             metaTimer = new System.Timers.Timer(timer_int);
 
-            metaTimer.Elapsed += new ElapsedEventHandler(metaTimer_Elapsed);
+            metaTimer.Elapsed += metaTimer_Elapsed;
 
             metaTimer.Interval = timer_int;
             metaTimer.Enabled = true;

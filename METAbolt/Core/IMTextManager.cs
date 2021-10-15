@@ -123,7 +123,7 @@ namespace METAbolt
             //tweetname = this.instance.Config.CurrentConfig.TweeterUser;
             classiclayout = this.instance.Config.CurrentConfig.ClassicChatLayout;
 
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             myBot = this.instance.ABot;
 
@@ -157,7 +157,7 @@ namespace METAbolt
             //tweetname = this.instance.Config.CurrentConfig.TweeterUser;
             classiclayout = this.instance.Config.CurrentConfig.ClassicChatLayout;
 
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             myBot = this.instance.ABot;
 
@@ -183,8 +183,8 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            netcom.InstantMessageSent += new EventHandler<MEGAbolt.NetworkComm.InstantMessageSentEventArgs>(netcom_InstantMessageSent);
+            netcom.InstantMessageReceived += netcom_InstantMessageReceived;
+            netcom.InstantMessageSent += netcom_InstantMessageSent;
         }
 
         private void RemoveNetcomEvents()

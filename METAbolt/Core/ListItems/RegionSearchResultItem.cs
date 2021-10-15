@@ -62,8 +62,8 @@ namespace METAbolt
             this.listBox = listBox;
 
             agentCountWorker = new BackgroundWorker();
-            agentCountWorker.DoWork += new DoWorkEventHandler(agentCountWorker_DoWork);
-            agentCountWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(agentCountWorker_RunWorkerCompleted);
+            agentCountWorker.DoWork += agentCountWorker_DoWork;
+            agentCountWorker.RunWorkerCompleted += agentCountWorker_RunWorkerCompleted;
 
             AddClientEvents();
         }

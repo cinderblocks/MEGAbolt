@@ -52,7 +52,7 @@ namespace METAbolt
                 SetFinalImage(instance.ImageCache.GetImage(item.AssetUUID));
             else
             {
-                this.Disposed += new EventHandler(InventoryImageConsole_Disposed);
+                this.Disposed += InventoryImageConsole_Disposed;
                 //client.Assets.OnImageRecieveProgress += new AssetManager.ImageReceiveProgressCallback(Assets_OnImageReceived);
             }
         }

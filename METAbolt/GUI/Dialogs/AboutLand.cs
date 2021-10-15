@@ -81,13 +81,13 @@ namespace METAbolt
                 IntPtr temp = Handle;
             }
 
-            Disposed += new EventHandler(AboutLand_Disposed);
+            Disposed += AboutLand_Disposed;
 
-            client.Parcels.ParcelDwellReply += new EventHandler<ParcelDwellReplyEventArgs>(Parcels_OnParcelDwell);
+            client.Parcels.ParcelDwellReply += Parcels_OnParcelDwell;
             //client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            client.Parcels.ParcelObjectOwnersReply += new EventHandler<ParcelObjectOwnersReplyEventArgs>(Parcel_ObjectOwners);
-            client.Parcels.ParcelAccessListReply += new EventHandler<ParcelAccessListReplyEventArgs>(Parcels_ParcelAccessListReply);
+            client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
+            client.Parcels.ParcelObjectOwnersReply += Parcel_ObjectOwners;
+            client.Parcels.ParcelAccessListReply += Parcels_ParcelAccessListReply;
 
             if (this.instance.MainForm.parcel != null)
             {
@@ -116,7 +116,7 @@ namespace METAbolt
         {
             if (e.GroupID != parcel.GroupID) return;
 
-            client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+            client.Groups.GroupMembersReply -= GroupMembersHandler;
  
             // do the stuff here
             if (e.Members.ContainsKey(client.Self.AgentID))
@@ -146,7 +146,7 @@ namespace METAbolt
             {
                 if (ea.LocalID != parcel.LocalID) return;
 
-                client.Parcels.ParcelDwellReply -= new EventHandler<ParcelDwellReplyEventArgs>(Parcels_OnParcelDwell);
+                client.Parcels.ParcelDwellReply -= Parcels_OnParcelDwell;
 
                 BeginInvoke(new MethodInvoker(delegate()
                 {
@@ -307,10 +307,10 @@ namespace METAbolt
                     txtGroupOwner.Text = this.instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
                     pictureBox2.Enabled = false;
 
-                    client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+                    client.Groups.GroupMembersReply += GroupMembersHandler;
                     client.Groups.RequestGroupMembers(parcel.GroupID);
 
-                    client.Groups.GroupNamesReply += new EventHandler<GroupNamesEventArgs>(Groups_GroupNamesReply);
+                    client.Groups.GroupNamesReply += Groups_GroupNamesReply;
                     client.Groups.RequestGroupName(parcel.GroupID);
                 }
                 else
@@ -319,10 +319,10 @@ namespace METAbolt
                     {
                         txtGroupOwner.Text = this.instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
 
-                        client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+                        client.Groups.GroupMembersReply += GroupMembersHandler;
                         client.Groups.RequestGroupMembers(parcel.GroupID);
 
-                        client.Groups.GroupNamesReply += new EventHandler<GroupNamesEventArgs>(Groups_GroupNamesReply);
+                        client.Groups.GroupNamesReply += Groups_GroupNamesReply;
                         client.Groups.RequestGroupName(parcel.GroupID);
                     }
 
@@ -426,7 +426,7 @@ namespace METAbolt
         {
             if (!e.GroupNames.ContainsKey(parcel.GroupID)) return;
 
-            client.Groups.GroupNamesReply -= new EventHandler<GroupNamesEventArgs>(Groups_GroupNamesReply);
+            client.Groups.GroupNamesReply -= Groups_GroupNamesReply;
 
             BeginInvoke(new MethodInvoker(delegate()
             {
@@ -750,11 +750,11 @@ namespace METAbolt
         {
             try
             {
-                client.Parcels.ParcelDwellReply -= new EventHandler<ParcelDwellReplyEventArgs>(Parcels_OnParcelDwell);
-                client.Parcels.ParcelAccessListReply -= new EventHandler<ParcelAccessListReplyEventArgs>(Parcels_ParcelAccessListReply);
-                client.Parcels.ParcelObjectOwnersReply -= new EventHandler<ParcelObjectOwnersReplyEventArgs>(Parcel_ObjectOwners);
-                client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-                client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+                client.Parcels.ParcelDwellReply -= Parcels_OnParcelDwell;
+                client.Parcels.ParcelAccessListReply -= Parcels_ParcelAccessListReply;
+                client.Parcels.ParcelObjectOwnersReply -= Parcel_ObjectOwners;
+                client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
+                client.Groups.GroupMembersReply -= GroupMembersHandler;
             }
             catch { ; }
         }

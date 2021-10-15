@@ -47,13 +47,13 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            Disposed += new EventHandler(WornAttachments_Disposed);
+            Disposed += WornAttachments_Disposed;
 
             this.instance = instance;
             client = this.instance.Client;
             this.av = av;
 
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
+            client.Network.SimChanged += SIM_OnSimChanged;
             //client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
         }
 
@@ -122,14 +122,14 @@ namespace METAbolt
                 if (sav != null)
                 {
                     List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                            new Predicate<Primitive>(delegate(Primitive prim)
+                            delegate(Primitive prim)
                             {
                                 try
                                 {
                                     return (prim.ParentID == sav.LocalID);
                                 }
                                 catch { return false; }
-                            }));
+                            });
 
                     this.BeginInvoke(new MethodInvoker(delegate()
                     {
@@ -146,7 +146,7 @@ namespace METAbolt
                                 {
                                     listItems.Add(prim.LocalID, item);
 
-                                    item.PropertiesReceived += new EventHandler(item_PropertiesReceived);
+                                    item.PropertiesReceived += item_PropertiesReceived;
                                     item.RequestProperties();
                                 }
                             }
@@ -177,8 +177,8 @@ namespace METAbolt
 
             GetAttachments();
 
-            client.Objects.ObjectUpdate += new EventHandler<PrimEventArgs>(Objects_OnNewPrim);
-            client.Objects.KillObject += new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
+            client.Objects.ObjectUpdate += Objects_OnNewPrim;
+            client.Objects.KillObject += Objects_OnObjectKilled;
         }
 
         private void Objects_OnNewPrim(object sender, PrimEventArgs e)
@@ -247,14 +247,14 @@ namespace METAbolt
             }
 
             List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                new Predicate<Primitive>(delegate(Primitive prim)
+                delegate(Primitive prim)
                 {
                     try
                     {
                         return (prim.ParentID == av.LocalID);
                     }
                     catch { return false; }
-                }));
+                });
 
             lbxPrims.BeginUpdate();
             lbxPrims.Items.Clear();
@@ -269,7 +269,7 @@ namespace METAbolt
                     {
                         listItems.Add(prim.LocalID, item);
 
-                        item.PropertiesReceived += new EventHandler(item_PropertiesReceived);
+                        item.PropertiesReceived += item_PropertiesReceived;
                         item.RequestProperties();
                     }
                 }
@@ -546,7 +546,7 @@ namespace METAbolt
                 {
                     AttachmentsListItem gitem = new AttachmentsListItem(gprim, client, lbxPrimGroup);
 
-                    gitem.PropertiesReceived += new EventHandler(gitem_PropertiesReceived);
+                    gitem.PropertiesReceived += gitem_PropertiesReceived;
                     gitem.RequestProperties();
                 }
                 catch
@@ -632,7 +632,7 @@ namespace METAbolt
 
         void WornAttachments_Disposed(object sender, EventArgs e)
         {
-            client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
+            client.Network.SimChanged -= SIM_OnSimChanged;
             //client.Self.TeleportProgress -= new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
 
             //lock (listItems)
@@ -714,8 +714,8 @@ namespace METAbolt
 
         private void WornAttachments_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            client.Objects.ObjectUpdate -= new EventHandler<PrimEventArgs>(Objects_OnNewPrim);
-            client.Objects.KillObject -= new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
+            client.Objects.ObjectUpdate -= Objects_OnNewPrim;
+            client.Objects.KillObject -= Objects_OnObjectKilled;
         }
     }
 }

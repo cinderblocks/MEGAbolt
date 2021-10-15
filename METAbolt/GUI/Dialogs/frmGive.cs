@@ -64,9 +64,9 @@ namespace METAbolt
             textBox1.MouseUp += textBox1_MouseUp; 
             textBox1.Leave += textBox1_Leave;
 
-            client.Directory.DirPeopleReply += new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
+            client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
+            client.Groups.GroupMembersReply += GroupMembersHandler;
+            client.Avatars.UUIDNameReply += AvatarNamesHandler;
 
             groupmode = false;
 
@@ -101,8 +101,8 @@ namespace METAbolt
             textBox1.MouseUp += textBox1_MouseUp;
             textBox1.Leave += textBox1_Leave;
 
-            client.Directory.DirPeopleReply += new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
+            client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
+            client.Avatars.UUIDNameReply += AvatarNamesHandler;
 
             groupmode = true;
         }
@@ -130,8 +130,8 @@ namespace METAbolt
             textBox1.MouseUp += textBox1_MouseUp;
             textBox1.Leave += textBox1_Leave;
 
-            client.Directory.DirPeopleReply += new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
+            client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
+            client.Avatars.UUIDNameReply += AvatarNamesHandler;
 
             groupmode = true;
         }
@@ -484,9 +484,9 @@ namespace METAbolt
             textBox1.MouseUp -= textBox1_MouseUp;
             textBox1.Leave -= textBox1_Leave;
 
-            client.Directory.DirPeopleReply -= new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
-            client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(AvatarNamesHandler);
+            client.Directory.DirPeopleReply -= Directory_OnDirPeopleReply;
+            client.Groups.GroupMembersReply -= GroupMembersHandler;
+            client.Avatars.UUIDNameReply -= AvatarNamesHandler;
         }
 
         private void tabPage3_Click(object sender, EventArgs e)

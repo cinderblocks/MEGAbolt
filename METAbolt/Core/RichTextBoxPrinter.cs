@@ -69,7 +69,7 @@ namespace METAbolt
             config = this.instance.Config;
 
             hideSmileys = config.CurrentConfig.ChatSmileys;
-            config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            config.ConfigApplied += Config_ConfigApplied;
 
             //rtb.BackColor = bgcolour = config.CurrentConfig.BgColour; 
 

@@ -68,22 +68,22 @@ namespace METAbolt
             this.instance = instance;
             Client = this.instance.Client;
 
-            Client.Groups.CurrentGroups += new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
+            Client.Groups.CurrentGroups += Groups_OnCurrentGroups;
             Client.Groups.RequestCurrentGroups();
 
-            Client.Groups.GroupJoinedReply += new EventHandler<GroupOperationEventArgs>(Groups_OnGroupStateChanged);
-            Client.Groups.GroupLeaveReply += new EventHandler<GroupOperationEventArgs>(Groups_OnGroupStateChanged);
-            Client.Groups.GroupMemberEjected += new EventHandler<GroupOperationEventArgs>(Groups_GroupMemberEjected);
+            Client.Groups.GroupJoinedReply += Groups_OnGroupStateChanged;
+            Client.Groups.GroupLeaveReply += Groups_OnGroupStateChanged;
+            Client.Groups.GroupMemberEjected += Groups_GroupMemberEjected;
 
-            Disposed += new EventHandler(GroupsConsole_Disposed);
+            Disposed += GroupsConsole_Disposed;
         }
 
         public void GroupsConsole_Disposed(object sender, EventArgs e)
         {
-            Client.Groups.CurrentGroups -= new EventHandler<CurrentGroupsEventArgs>(Groups_OnCurrentGroups);
-            Client.Groups.GroupJoinedReply -= new EventHandler<GroupOperationEventArgs>(Groups_OnGroupStateChanged);
-            Client.Groups.GroupLeaveReply -= new EventHandler<GroupOperationEventArgs>(Groups_OnGroupStateChanged);
-            Client.Groups.GroupMemberEjected -= new EventHandler<GroupOperationEventArgs>(Groups_GroupMemberEjected);
+            Client.Groups.CurrentGroups -= Groups_OnCurrentGroups;
+            Client.Groups.GroupJoinedReply -= Groups_OnGroupStateChanged;
+            Client.Groups.GroupLeaveReply -= Groups_OnGroupStateChanged;
+            Client.Groups.GroupMemberEjected -= Groups_GroupMemberEjected;
         }
 
         private void Groups_GroupMemberEjected(object sender, GroupOperationEventArgs e)
@@ -158,7 +158,7 @@ namespace METAbolt
                 if ((string)lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
                 {
                     picBusy.Visible = true;
-                    Client.Groups.GroupProfile += new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
+                    Client.Groups.GroupProfile += GroupProfileHandler;
                     Group selgrp = (Group)lstGroups.Items[lstGroups.SelectedIndex];
                     Client.Groups.RequestGroupProfile(selgrp.ID);
 
@@ -183,7 +183,7 @@ namespace METAbolt
 
         private void GroupProfileHandler(object sender, GroupProfileEventArgs e)
         {
-            Client.Groups.GroupProfile -= new EventHandler<GroupProfileEventArgs>(GroupProfileHandler);
+            Client.Groups.GroupProfile -= GroupProfileHandler;
 
             Group selgrp = e.Group;
 

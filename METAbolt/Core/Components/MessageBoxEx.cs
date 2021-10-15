@@ -133,8 +133,8 @@ namespace System.Windows.Forms
 
         static MessageBoxEx()
         {
-            hookProc = new HookProc(MessageBoxHookProc);
-            hookTimer = new TimerProc(MessageBoxTimerProc);
+            hookProc = MessageBoxHookProc;
+            hookTimer = MessageBoxTimerProc;
             hookTimeout = 0;
             hookCaption = null;
             hHook = IntPtr.Zero;

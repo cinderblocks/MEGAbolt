@@ -55,10 +55,10 @@ namespace METAbolt
             this.m_clock.Interval = 1000;
             this.SuspendLayout();
 
-            this.m_clock.Tick += new EventHandler(Animate);
+            this.m_clock.Tick += Animate;
 
-            this.Load += new EventHandler(DifuseForm_Load);
-            this.Closing += new CancelEventHandler(DifuseForm_Closing);
+            this.Load += DifuseForm_Load;
+            this.Closing += DifuseForm_Closing;
             this.ResumeLayout(false);
             this.PerformLayout();
         }

@@ -159,15 +159,15 @@ namespace METAbolt
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
-            this.instance.MainForm.Load += new EventHandler(MainForm_Load);
+            this.instance.MainForm.Load += MainForm_Load;
 
             ApplyConfig(this.instance.Config.CurrentConfig);
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             CreateSmileys();
             //AddLanguages();
 
-            Disposed += new EventHandler(ChatConsole_Disposed);
+            Disposed += ChatConsole_Disposed;
 
             lvwRadar.ListViewItemSorter = new RadarSorter();
 
@@ -197,7 +197,7 @@ namespace METAbolt
             toolTip.OwnerDraw = true;
             toolTip.BackColor = Color.RoyalBlue;
             toolTip.ForeColor = Color.White;
-            toolTip.Draw += new DrawToolTipEventHandler(toolTip_Draw);
+            toolTip.Draw += toolTip_Draw;
 
             tp1 = tabPage1;
             tp2 = tabPage2;
@@ -333,7 +333,7 @@ namespace METAbolt
 
                             sitTimer = new System.Timers.Timer();
                             sitTimer.Interval = 61000;
-                            sitTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                            sitTimer.Elapsed += OnTimedEvent;
                             sitTimer.Enabled = true;
                             sitTimer.Start();
                         }
@@ -396,11 +396,11 @@ namespace METAbolt
 
         void ChatConsole_Disposed(object sender, EventArgs e)
         {
-            this.instance.Config.ConfigApplied -= new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
-            client.Objects.ObjectProperties -= new EventHandler<ObjectPropertiesEventArgs>(Objects_OnObjectProperties);
-            client.Appearance.AppearanceSet -= new EventHandler<AppearanceSetEventArgs>(Appearance_OnAppearanceSet);
-            client.Parcels.ParcelDwellReply -= new EventHandler<ParcelDwellReplyEventArgs>(Parcels_OnParcelDwell);
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            client.Objects.ObjectProperties -= Objects_OnObjectProperties;
+            client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
+            client.Parcels.ParcelDwellReply -= Parcels_OnParcelDwell;
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
 
             RemoveEvents();
             chatManager = null;
@@ -442,7 +442,7 @@ namespace METAbolt
 
                     sitTimer = new System.Timers.Timer();
                     sitTimer.Interval = 61000;
-                    sitTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                    sitTimer.Elapsed += OnTimedEvent;
                     sitTimer.Enabled = true;
                     sitTimer.Start();
                 }
@@ -469,7 +469,7 @@ namespace METAbolt
                 label18.Text = "Voice is disabled on this parcel";
             }
 
-            client.Appearance.AppearanceSet -= new EventHandler<AppearanceSetEventArgs>(Appearance_OnAppearanceSet);
+            client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
         }
 
         private void CheckLocation()
@@ -712,7 +712,7 @@ namespace METAbolt
             sitTimer.Stop();
             sitTimer.Enabled = false;
             sitTimer.Dispose();
-            sitTimer.Elapsed -= new ElapsedEventHandler(OnTimedEvent);
+            sitTimer.Elapsed -= OnTimedEvent;
 
             Logger.Log("AUTOSIT: Searching for sit object", Helpers.LogLevel.Info);
 
@@ -740,7 +740,7 @@ namespace METAbolt
 
             //if (listnerdisposed)
             //{
-                client.Objects.ObjectProperties += new EventHandler<ObjectPropertiesEventArgs>(Objects_OnObjectProperties);
+                client.Objects.ObjectProperties += Objects_OnObjectProperties;
                 //listnerdisposed = false;
             //}
 
@@ -772,7 +772,7 @@ namespace METAbolt
         {
             if (e.Properties.Description.Trim() == client.Self.AgentID.ToString().Trim())
             {
-                client.Objects.ObjectProperties -= new EventHandler<ObjectPropertiesEventArgs>(Objects_OnObjectProperties);
+                client.Objects.ObjectProperties -= Objects_OnObjectProperties;
                 //client.Self.AvatarSitResponse += new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
                 //listnerdisposed = true;
 
@@ -884,56 +884,56 @@ namespace METAbolt
             // some stage
 
             var _menuItem = new EmoticonMenuItem(Smileys.AngelSmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[0].Tag = (object)"angelsmile;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.AngrySmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[1].Tag = "angry;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.Beer);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[2].Tag = "beer;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.BrokenHeart);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[3].Tag = "brokenheart;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.bye);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[4].Tag = "bye";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.clap);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[5].Tag = "clap;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.ConfusedSmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[6].Tag = ":S";
 
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.cool);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[7].Tag = "cool;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.CrySmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[8].Tag = "cry;";
             //_menuItem.Dispose();
@@ -941,36 +941,36 @@ namespace METAbolt
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.DevilSmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[9].Tag = "devil;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.duh);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[10].Tag = "duh;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.EmbarassedSmile);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[11].Tag = "embarassed;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.happy0037);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[12].Tag = ":)";
 
             _menuItem = new EmoticonMenuItem(Smileys.heart);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[13].Tag = "heart;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.kiss);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[14].Tag = "muah;";
             //_menuItem.Dispose();
@@ -978,36 +978,36 @@ namespace METAbolt
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.help);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[15].Tag = "help ";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.liar);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[16].Tag = "liar;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.lol);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[17].Tag = "lol";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.oops);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[18].Tag = "oops";
 
             _menuItem = new EmoticonMenuItem(Smileys.sad);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[19].Tag = ":(";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.shhh);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[20].Tag = "shhh";
             //_menuItem.Dispose();
@@ -1015,36 +1015,36 @@ namespace METAbolt
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.sigh);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[21].Tag = "sigh ";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.silenced);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[22].Tag = ":X";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.think);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[23].Tag = "thinking;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.ThumbsUp);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[24].Tag = "thumbsup;";
 
             _menuItem = new EmoticonMenuItem(Smileys.whistle);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[25].Tag = "whistle;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.wink);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[26].Tag = ";)";
             //_menuItem.Dispose();
@@ -1052,19 +1052,19 @@ namespace METAbolt
             //_menuItem.BarBreak = true;
 
             _menuItem = new EmoticonMenuItem(Smileys.wow);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[27].Tag = "wow ";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.yawn);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[28].Tag = "yawn;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.zzzzz);
-            _menuItem.Click += new EventHandler(cmenu_Emoticons_Click);
+            _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[29].Tag = "zzz";
 
@@ -1147,7 +1147,7 @@ namespace METAbolt
                 label20.Visible = false;
                 //tBar1.Visible = false;
 
-                client.Grid.CoarseLocationUpdate -= new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
+                client.Grid.CoarseLocationUpdate -= Grid_OnCoarseLocationUpdate;
             }
             else
             {
@@ -1171,7 +1171,7 @@ namespace METAbolt
                     label19.Visible = true;
                     label20.Visible = true;
 
-                    client.Grid.CoarseLocationUpdate += new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
+                    client.Grid.CoarseLocationUpdate += Grid_OnCoarseLocationUpdate;
                 }
             }
 
@@ -1232,19 +1232,19 @@ namespace METAbolt
 
         public void RemoveEvents()
         {
-            netcom.ClientLoginStatus -= new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ChatReceived -= new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.TeleportStatusChanged -= new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ChatReceived -= netcom_ChatReceived;
+            netcom.TeleportStatusChanged -= netcom_TeleportStatusChanged;
 
             //client.Objects.AvatarUpdate -= new EventHandler<AvatarUpdateEventArgs>(Objects_OnNewAvatar);
             //client.Objects.KillObject -= new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
 
-            client.Grid.CoarseLocationUpdate -= new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
-            client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(Network_OnCurrentSimChanged);
-            client.Self.MeanCollision -= new EventHandler<MeanCollisionEventArgs>(Self_Collision);
-            client.Objects.TerseObjectUpdate -= new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            client.Grid.CoarseLocationUpdate -= Grid_OnCoarseLocationUpdate;
+            client.Network.SimChanged -= Network_OnCurrentSimChanged;
+            client.Self.MeanCollision -= Self_Collision;
+            client.Objects.TerseObjectUpdate -= Objects_OnObjectUpdated;
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
 
             //if (instance.Config.CurrentConfig.iRadar)
             //{
@@ -1255,35 +1255,35 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoginStatus += new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
+            netcom.ClientLoginStatus += netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
         }
 
         private void AddClientEvents()
         {
-            netcom.ChatReceived += new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.TeleportStatusChanged += new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            netcom.ChatReceived += netcom_ChatReceived;
+            netcom.TeleportStatusChanged += netcom_TeleportStatusChanged;
 
             //client.Objects.AvatarUpdate += new EventHandler<AvatarUpdateEventArgs>(Objects_OnNewAvatar);
             //client.Objects.KillObject += new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
 
             if (!instance.Config.CurrentConfig.DisableRadar)
             {
-                client.Grid.CoarseLocationUpdate += new EventHandler<CoarseLocationUpdateEventArgs>(Grid_OnCoarseLocationUpdate);
+                client.Grid.CoarseLocationUpdate += Grid_OnCoarseLocationUpdate;
             }
 
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(Network_OnCurrentSimChanged);
+            client.Network.SimChanged += Network_OnCurrentSimChanged;
 
-            client.Self.MeanCollision += new EventHandler<MeanCollisionEventArgs>(Self_Collision);
-            client.Objects.TerseObjectUpdate += new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
+            client.Self.MeanCollision += Self_Collision;
+            client.Objects.TerseObjectUpdate += Objects_OnObjectUpdated;
 
             //client.Appearance.OnAppearanceUpdated += new AppearanceManager.AppearanceUpdatedCallback(Appearance_OnAppearanceUpdated);
-            client.Appearance.AppearanceSet += new EventHandler<AppearanceSetEventArgs>(Appearance_OnAppearanceSet);
-            client.Parcels.ParcelDwellReply += new EventHandler<ParcelDwellReplyEventArgs>(Parcels_OnParcelDwell);
+            client.Appearance.AppearanceSet += Appearance_OnAppearanceSet;
+            client.Parcels.ParcelDwellReply += Parcels_OnParcelDwell;
             
             //client.Self.AvatarSitResponse += new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
 
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
             //client.Objects.ObjectProperties += new EventHandler<ObjectPropertiesEventArgs>(Objects_OnObjectProperties);
 
             //if (instance.Config.CurrentConfig.iRadar)
@@ -3121,7 +3121,7 @@ namespace METAbolt
 
             frmPlayer prForm = new frmPlayer(instance);
 
-            prForm.FormClosed += new FormClosedEventHandler(PrForm_FormClosed);
+            prForm.FormClosed += PrForm_FormClosed;
             tsMusic.Enabled = false;
             prForm.Show();
         }
@@ -4324,10 +4324,10 @@ namespace METAbolt
                 try
                 {
                     vgate = new VoiceGateway(client);
-                    vgate.OnVoiceConnectionChange += new VoiceGateway.VoiceConnectionChangeCallback(vgate_OnVoiceConnectionChange);
-                    vgate.OnAuxGetCaptureDevicesResponse += new EventHandler<VoiceGateway.VoiceDevicesEventArgs>(vgate_OnAuxGetCaptureDevicesResponse);
-                    vgate.OnAuxGetRenderDevicesResponse += new EventHandler<VoiceGateway.VoiceDevicesEventArgs>(vgate_OnAuxGetRenderDevicesResponse);
-                    vgate.OnSessionCreate += new EventHandler(vgate_OnSessionCreate);
+                    vgate.OnVoiceConnectionChange += vgate_OnVoiceConnectionChange;
+                    vgate.OnAuxGetCaptureDevicesResponse += vgate_OnAuxGetCaptureDevicesResponse;
+                    vgate.OnAuxGetRenderDevicesResponse += vgate_OnAuxGetRenderDevicesResponse;
+                    vgate.OnSessionCreate += vgate_OnSessionCreate;
 
                     vgate.Start();
                 }
@@ -4355,10 +4355,10 @@ namespace METAbolt
                     cboRender.Items.Clear();
                     cboCapture.Items.Clear();   
 
-                    vgate.OnVoiceConnectionChange -= new VoiceGateway.VoiceConnectionChangeCallback(vgate_OnVoiceConnectionChange);
-                    vgate.OnAuxGetCaptureDevicesResponse -= new EventHandler<VoiceGateway.VoiceDevicesEventArgs>(vgate_OnAuxGetCaptureDevicesResponse);
-                    vgate.OnAuxGetRenderDevicesResponse -= new EventHandler<VoiceGateway.VoiceDevicesEventArgs>(vgate_OnAuxGetRenderDevicesResponse);
-                    vgate.OnSessionCreate -= new EventHandler(vgate_OnSessionCreate);
+                    vgate.OnVoiceConnectionChange -= vgate_OnVoiceConnectionChange;
+                    vgate.OnAuxGetCaptureDevicesResponse -= vgate_OnAuxGetCaptureDevicesResponse;
+                    vgate.OnAuxGetRenderDevicesResponse -= vgate_OnAuxGetRenderDevicesResponse;
+                    vgate.OnSessionCreate -= vgate_OnSessionCreate;
 
                     if (!checkBox3.Checked)
                     {

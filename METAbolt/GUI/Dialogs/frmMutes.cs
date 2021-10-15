@@ -52,7 +52,7 @@ namespace METAbolt
             //toolTip.FocusOnOpen = false;
             //toolTip.ShowingAnimation = toolTip.HidingAnimation = PopupAnimations.Blend;
 
-            instance.Client.Self.MuteListUpdated += new EventHandler<EventArgs>(MuteListUpdated);
+            instance.Client.Self.MuteListUpdated += MuteListUpdated;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -127,7 +127,7 @@ namespace METAbolt
 
         private void frmMutes_FormClosing(object sender, FormClosingEventArgs e)
         {
-            instance.Client.Self.MuteListUpdated -= new EventHandler<EventArgs>(MuteListUpdated);
+            instance.Client.Self.MuteListUpdated -= MuteListUpdated;
         }
 
         private void MuteListUpdated(object sender, EventArgs e)

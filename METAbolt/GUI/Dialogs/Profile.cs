@@ -148,14 +148,14 @@ namespace METAbolt
         }
         private void CleanUp()
         {
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            client.Avatars.AvatarPropertiesReply -= new EventHandler<AvatarPropertiesReplyEventArgs>(Avatars_OnAvatarProperties);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            client.Avatars.AvatarGroupsReply -= new EventHandler<AvatarGroupsReplyEventArgs>(Avatars_OnGroupsReply);
-            client.Avatars.PickInfoReply -= new EventHandler<PickInfoReplyEventArgs>(Avatars_OnPicksInfoReply);
-            client.Avatars.AvatarPicksReply -= new EventHandler<AvatarPicksReplyEventArgs>(Avatars_OnPicksReply);
-            client.Parcels.ParcelInfoReply -= new EventHandler<ParcelInfoReplyEventArgs>(Parcels_OnParcelInfoReply);
-            client.Avatars.DisplayNameUpdate -= new EventHandler<DisplayNameUpdateEventArgs>(Avatar_DisplayNameUpdated);    
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
+            client.Avatars.AvatarPropertiesReply -= Avatars_OnAvatarProperties;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            client.Avatars.AvatarGroupsReply -= Avatars_OnGroupsReply;
+            client.Avatars.PickInfoReply -= Avatars_OnPicksInfoReply;
+            client.Avatars.AvatarPicksReply -= Avatars_OnPicksReply;
+            client.Parcels.ParcelInfoReply -= Parcels_OnParcelInfoReply;
+            client.Avatars.DisplayNameUpdate -= Avatar_DisplayNameUpdated;    
         }
 
         private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
@@ -180,18 +180,18 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            client.Avatars.AvatarPropertiesReply += new EventHandler<AvatarPropertiesReplyEventArgs>(Avatars_OnAvatarProperties);
-            client.Avatars.AvatarGroupsReply += new EventHandler<AvatarGroupsReplyEventArgs>(Avatars_OnGroupsReply);
-            client.Avatars.PickInfoReply += new EventHandler<PickInfoReplyEventArgs>(Avatars_OnPicksInfoReply);
-            client.Avatars.AvatarPicksReply += new EventHandler<AvatarPicksReplyEventArgs>(Avatars_OnPicksReply);
-            client.Parcels.ParcelInfoReply += new EventHandler<ParcelInfoReplyEventArgs>(Parcels_OnParcelInfoReply);
-            client.Avatars.DisplayNameUpdate += new EventHandler<DisplayNameUpdateEventArgs>(Avatar_DisplayNameUpdated);
+            client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
+            client.Avatars.AvatarPropertiesReply += Avatars_OnAvatarProperties;
+            client.Avatars.AvatarGroupsReply += Avatars_OnGroupsReply;
+            client.Avatars.PickInfoReply += Avatars_OnPicksInfoReply;
+            client.Avatars.AvatarPicksReply += Avatars_OnPicksReply;
+            client.Parcels.ParcelInfoReply += Parcels_OnParcelInfoReply;
+            client.Avatars.DisplayNameUpdate += Avatar_DisplayNameUpdated;
         }
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
         }
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
@@ -337,7 +337,7 @@ namespace METAbolt
         {
             if (partner == kvp.Key)
             {
-                client.Avatars.AvatarPropertiesReply -= new EventHandler<AvatarPropertiesReplyEventArgs>(Avatars_OnAvatarProperties);
+                client.Avatars.AvatarPropertiesReply -= Avatars_OnAvatarProperties;
                 txtPartner.Text = kvp.Value;
             }
         }
@@ -1263,7 +1263,7 @@ namespace METAbolt
                 pBar3.Visible = false;
             }));
 
-            client.Self.SetDisplayNameReply -= new EventHandler<SetDisplayNameReplyEventArgs>(Self_SetDisplayNameReply);
+            client.Self.SetDisplayNameReply -= Self_SetDisplayNameReply;
         }
 
         private void txtDisplayName_TextChanged(object sender, EventArgs e)
@@ -1312,7 +1312,7 @@ namespace METAbolt
         {
             if (status)
             {
-                client.Self.SetDisplayNameReply += new EventHandler<SetDisplayNameReplyEventArgs>(Self_SetDisplayNameReply);
+                client.Self.SetDisplayNameReply += Self_SetDisplayNameReply;
                 client.Self.SetDisplayName(nme[0].DisplayName, newname);
             }
             else

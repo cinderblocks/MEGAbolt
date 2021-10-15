@@ -159,7 +159,7 @@ namespace METAbolt
             
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            Disposed += new EventHandler(META3D_Disposed);
+            Disposed += META3D_Disposed;
 
             RootPrimLocalID = rootLocalID;
 
@@ -188,11 +188,11 @@ namespace METAbolt
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
 
-            client.Objects.TerseObjectUpdate += new EventHandler<TerseObjectUpdateEventArgs>(Objects_TerseObjectUpdate);
-            client.Objects.ObjectUpdate += new EventHandler<PrimEventArgs>(Objects_ObjectUpdate);
-            client.Objects.ObjectDataBlockUpdate += new EventHandler<ObjectDataBlockUpdateEventArgs>(Objects_ObjectDataBlockUpdate);
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
-            client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
+            client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
+            client.Objects.ObjectUpdate += Objects_ObjectUpdate;
+            client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
+            client.Network.SimChanged += SIM_OnSimChanged;
+            client.Self.TeleportProgress += Self_TeleportProgress;
         }
 
         public META3D(METAboltInstance instance, ObjectsListItem obtectitem)
@@ -201,7 +201,7 @@ namespace METAbolt
             
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            Disposed += new EventHandler(META3D_Disposed);
+            Disposed += META3D_Disposed;
 
             RootPrimLocalID = obtectitem.Prim.LocalID;
 
@@ -231,11 +231,11 @@ namespace METAbolt
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
 
-            client.Objects.TerseObjectUpdate += new EventHandler<TerseObjectUpdateEventArgs>(Objects_TerseObjectUpdate);
-            client.Objects.ObjectUpdate += new EventHandler<PrimEventArgs>(Objects_ObjectUpdate);
-            client.Objects.ObjectDataBlockUpdate += new EventHandler<ObjectDataBlockUpdateEventArgs>(Objects_ObjectDataBlockUpdate);
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
-            client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
+            client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
+            client.Objects.ObjectUpdate += Objects_ObjectUpdate;
+            client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
+            client.Network.SimChanged += SIM_OnSimChanged;
+            client.Self.TeleportProgress += Self_TeleportProgress;
         }
 
         //void META3D_Disposed(object sender, EventArgs e)
@@ -328,7 +328,7 @@ namespace METAbolt
             {
                 // Search for the new local id of the object
                 List<Primitive> results = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    new Predicate<Primitive>(delegate(Primitive prim)
+                    delegate(Primitive prim)
                     {
                         try
                         {
@@ -338,7 +338,7 @@ namespace METAbolt
                         {
                             return false;
                         }
-                    }));
+                    });
 
                 if (results != null)
                 {
@@ -431,9 +431,9 @@ namespace METAbolt
             glControl.MouseUp += glControl_MouseUp;
             glControl.MouseMove += glControl_MouseMove;
             glControl.MouseWheel += glControl_MouseWheel;
-            glControl.Load += new EventHandler(glControl_Load);
-            glControl.Disposed += new EventHandler(glControl_Disposed);
-            glControl.Click += new EventHandler(glControl_Click);
+            glControl.Load += glControl_Load;
+            glControl.Disposed += glControl_Disposed;
+            glControl.Click += glControl_Click;
             glControl.BackColor = clearcolour;
 
             glControl.Dock = DockStyle.Fill;
@@ -2096,11 +2096,11 @@ namespace METAbolt
         {
             try
             {
-                client.Objects.TerseObjectUpdate -= new EventHandler<TerseObjectUpdateEventArgs>(Objects_TerseObjectUpdate);
-                client.Objects.ObjectUpdate -= new EventHandler<PrimEventArgs>(Objects_ObjectUpdate);
-                client.Objects.ObjectDataBlockUpdate -= new EventHandler<ObjectDataBlockUpdateEventArgs>(Objects_ObjectDataBlockUpdate);
-                client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
-                client.Self.TeleportProgress -= new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
+                client.Objects.TerseObjectUpdate -= Objects_TerseObjectUpdate;
+                client.Objects.ObjectUpdate -= Objects_ObjectUpdate;
+                client.Objects.ObjectDataBlockUpdate -= Objects_ObjectDataBlockUpdate;
+                client.Network.SimChanged -= SIM_OnSimChanged;
+                client.Self.TeleportProgress -= Self_TeleportProgress;
 
                 lock (Prims)
                 {

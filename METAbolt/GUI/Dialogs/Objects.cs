@@ -102,12 +102,12 @@ namespace METAbolt
             toolTip1.FocusOnOpen = false;
             toolTip1.ShowingAnimation = toolTip1.HidingAnimation = PopupAnimations.Blend;
 
-            client.Network.Disconnected += new EventHandler<DisconnectedEventArgs>(Network_OnDisconnected);
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            client.Self.AvatarSitResponse += new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
+            client.Network.Disconnected += Network_OnDisconnected;
+            client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
+            client.Self.AvatarSitResponse += Self_AvatarSitResponse;
+            client.Network.SimChanged += SIM_OnSimChanged;
             //client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
         }
 
@@ -157,27 +157,27 @@ namespace METAbolt
 
         private void AddObjectEvents()
         {
-            client.Objects.ObjectUpdate += new EventHandler<PrimEventArgs>(Objects_OnNewPrim);
-            client.Objects.KillObject += new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
+            client.Objects.ObjectUpdate += Objects_OnNewPrim;
+            client.Objects.KillObject += Objects_OnObjectKilled;
             eventsremoved = false;
         }
 
         private void RemoveNetcomEvents()
         {
-            client.Objects.ObjectUpdate -= new EventHandler<PrimEventArgs>(Objects_OnNewPrim);
-            client.Objects.KillObject -= new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            client.Network.Disconnected -= new EventHandler<DisconnectedEventArgs>(Network_OnDisconnected);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(SIM_OnSimChanged);
+            client.Objects.ObjectUpdate -= Objects_OnNewPrim;
+            client.Objects.KillObject -= Objects_OnObjectKilled;
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
+            client.Network.Disconnected -= Network_OnDisconnected;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
+            client.Network.SimChanged -= SIM_OnSimChanged;
             //client.Self.TeleportProgress -= new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
         }
 
         private void RemoveObjectEvents()
         {
-            client.Objects.ObjectUpdate -= new EventHandler<PrimEventArgs>(Objects_OnNewPrim);
-            client.Objects.KillObject -= new EventHandler<KillObjectEventArgs>(Objects_OnObjectKilled);
+            client.Objects.ObjectUpdate -= Objects_OnNewPrim;
+            client.Objects.KillObject -= Objects_OnObjectKilled;
             eventsremoved = true;
         }
 
@@ -406,7 +406,7 @@ namespace METAbolt
                                             {
                                                 listItems.Add(e.Prim.LocalID, item);
 
-                                                item.PropertiesReceived += new EventHandler(iitem_PropertiesReceived);
+                                                item.PropertiesReceived += iitem_PropertiesReceived;
                                                 item.RequestProperties();
                                             }
                                             //else
@@ -621,7 +621,7 @@ namespace METAbolt
                 //lbxPrims.SortList();
             }));
 
-            item.PropertiesReceived -= new EventHandler(item_PropertiesReceived);
+            item.PropertiesReceived -= item_PropertiesReceived;
         }
 
         private void iitem_PropertiesReceived(object sender, EventArgs e)
@@ -695,7 +695,7 @@ namespace METAbolt
             }));
 
             //lbxPrims.SortList();
-            item.PropertiesReceived -= new EventHandler(iitem_PropertiesReceived);
+            item.PropertiesReceived -= iitem_PropertiesReceived;
         }
 
         private void AddAllObjects()
@@ -733,7 +733,6 @@ namespace METAbolt
                     location = instance.SIMsittingPos();
 
                 client.Network.CurrentSim.ObjectsPrimitives.ForEach(
-                new Action<Primitive>(
                 delegate(Primitive prim)
                 {
                     Vector3 pos = new Vector3(Vector3.Zero); 
@@ -769,7 +768,7 @@ namespace METAbolt
                                 {
                                     listItems.Add(prim.LocalID, item);
 
-                                    item.PropertiesReceived += new EventHandler(iitem_PropertiesReceived);
+                                    item.PropertiesReceived += iitem_PropertiesReceived;
                                     item.RequestProperties();
                                     //inmem = true;
                                 }
@@ -814,7 +813,7 @@ namespace METAbolt
                             }
                         }
                     }
-                }));
+                });
                 }
 
 
@@ -923,24 +922,24 @@ namespace METAbolt
 
             List<Primitive> results =
                 client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                new Predicate<Primitive>(delegate(Primitive prim)
+                delegate(Primitive prim)
                 {
                     try
                     {
                         //evil comparison of death!
                         return (prim.ParentID == 0 && prim.Properties != null) &&
-                            (prim.Properties.Name.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
-                            prim.Properties.Description.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
-                            prim.Properties.OwnerID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query) ||
-                            prim.Text.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
-                            prim.ID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query) ||
-                            prim.Properties.CreatorID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query));
+                               (prim.Properties.Name.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
+                                prim.Properties.Description.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
+                                prim.Properties.OwnerID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query) ||
+                                prim.Text.ToLower(CultureInfo.CurrentCulture).Contains(query) ||
+                                prim.ID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query) ||
+                                prim.Properties.CreatorID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(query));
                     }
                     catch
                     {
                         return false;
                     }
-                }));
+                });
 
             pB1.Maximum = results.Count;
 
@@ -956,7 +955,7 @@ namespace METAbolt
                         {
                             listItems.Add(prim.LocalID, item);
 
-                            item.PropertiesReceived += new EventHandler(item_PropertiesReceived);
+                            item.PropertiesReceived += item_PropertiesReceived;
                             item.RequestProperties();
                             //inmem = true;
                         }
@@ -2001,8 +2000,8 @@ namespace METAbolt
             //RemoveObjectEvents();
             RemoveNetcomEvents();
             
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
-            client.Self.AvatarSitResponse -= new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
+            client.Self.AvatarSitResponse -= Self_AvatarSitResponse;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

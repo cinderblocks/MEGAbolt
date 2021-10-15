@@ -71,7 +71,7 @@ namespace METAbolt
         public frmScriptEditor(METAboltInstance instance, InventoryItem item)
         {
             InitializeComponent();
-            Disposed += new EventHandler(Script_Disposed);
+            Disposed += Script_Disposed;
 
             this.instance = instance;
             netcom = this.instance.Netcom;
@@ -97,7 +97,7 @@ namespace METAbolt
         public frmScriptEditor(METAboltInstance instance, InventoryLSL item, Primitive obj)
         {
             InitializeComponent();
-            Disposed += new EventHandler(Script_Disposed);
+            Disposed += Script_Disposed;
 
             this.instance = instance;
             netcom = this.instance.Netcom;
@@ -126,7 +126,7 @@ namespace METAbolt
         public frmScriptEditor(METAboltInstance instance)
         {
             InitializeComponent();
-            Disposed += new EventHandler(Script_Disposed);
+            Disposed += Script_Disposed;
 
             this.instance = instance;
             netcom = this.instance.Netcom;
@@ -198,7 +198,7 @@ namespace METAbolt
             AutoCompleteStringListSorter Sorter = new AutoCompleteStringListSorter();
             Sorter.SortingOrder = SortOrder.Ascending;
             rtbScript.AutoComplete.List.Items.Sort(Sorter);
-            rtbScript.CharAdded += new EventHandler<CharAddedEventArgs>(Document_CharAdded);
+            rtbScript.CharAdded += Document_CharAdded;
         }
 
         private void Document_CharAdded(object sender, CharAddedEventArgs e)
@@ -438,7 +438,7 @@ namespace METAbolt
 
                 if (istaskobj)
                 {
-                    client.Inventory.ScriptRunningReply += new EventHandler<ScriptRunningReplyEventArgs>(Inventory_ScriptRunningReply);
+                    client.Inventory.ScriptRunningReply += Inventory_ScriptRunningReply;
                     client.Inventory.RequestGetScriptRunning(objectid, itemUUID);   //assetUUID);
                 }
             }
@@ -460,7 +460,7 @@ namespace METAbolt
                 checkBox2.Checked = e.IsRunning;
             }));
              
-            client.Inventory.ScriptRunningReply -= new EventHandler<ScriptRunningReplyEventArgs>(Inventory_ScriptRunningReply);  
+            client.Inventory.ScriptRunningReply -= Inventory_ScriptRunningReply;  
         }
 
         //UI thread
@@ -522,13 +522,13 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
         }
 
         private void Script_Disposed(object sender, EventArgs e)
         {
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            rtbScript.CharAdded -= new EventHandler<CharAddedEventArgs>(Document_CharAdded);
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            rtbScript.CharAdded -= Document_CharAdded;
         }
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
@@ -574,11 +574,11 @@ namespace METAbolt
 
                 if (istaskobj)
                 {
-                    client.Inventory.RequestUpdateScriptTask(CreateScriptAsset(rtbScript.Text), this.item.UUID, objectid, checkBox1.Checked, checkBox2.Checked, new InventoryManager.ScriptUpdatedCallback(OnScriptUpdate));
+                    client.Inventory.RequestUpdateScriptTask(CreateScriptAsset(rtbScript.Text), this.item.UUID, objectid, checkBox1.Checked, checkBox2.Checked, OnScriptUpdate);
                 }
                 else
                 {
-                    client.Inventory.RequestUpdateScriptAgentInventory(CreateScriptAsset(rtbScript.Text), this.item.UUID, true, new InventoryManager.ScriptUpdatedCallback(OnScriptUpdate));
+                    client.Inventory.RequestUpdateScriptAgentInventory(CreateScriptAsset(rtbScript.Text), this.item.UUID, true, OnScriptUpdate);
                 }
 
                 //changed = false;

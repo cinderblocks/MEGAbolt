@@ -61,18 +61,18 @@ namespace MEGAbolt.NetworkComm
 
         private void AddClientEvents()
         {
-            client.Self.ChatFromSimulator += new EventHandler<OpenMetaverse.ChatEventArgs>(Self_OnChat);
-            client.Self.IM += new EventHandler<OpenMetaverse.InstantMessageEventArgs>(Self_OnInstantMessage);
-            client.Self.ScriptDialog += new EventHandler<OpenMetaverse.ScriptDialogEventArgs>(Self_OnDialog);
-            client.Self.MoneyBalance += new EventHandler<OpenMetaverse.BalanceEventArgs>(Avatar_OnBalanceUpdated);
-            client.Self.TeleportProgress += new EventHandler<OpenMetaverse.TeleportEventArgs>(Self_OnTeleport);
+            client.Self.ChatFromSimulator += Self_OnChat;
+            client.Self.IM += Self_OnInstantMessage;
+            client.Self.ScriptDialog += Self_OnDialog;
+            client.Self.MoneyBalance += Avatar_OnBalanceUpdated;
+            client.Self.TeleportProgress += Self_OnTeleport;
             //client.Network.Connected += new NetworkManager.ConnectedCallback(Network_OnConnected);
-            client.Network.Disconnected += new EventHandler<OpenMetaverse.DisconnectedEventArgs>(Network_OnDisconnected);
-            client.Network.LoginProgress += new EventHandler<OpenMetaverse.LoginProgressEventArgs>(Network_OnLogin);
-            client.Network.LoggedOut += new EventHandler<OpenMetaverse.LoggedOutEventArgs>(Network_OnLogoutReply);
-            client.Self.ScriptQuestion += new EventHandler<OpenMetaverse.ScriptQuestionEventArgs>(Self_OnDialogQuestion);
-            client.Self.LoadURL += new EventHandler<OpenMetaverse.LoadUrlEventArgs>(Self_OnURLLoad);
-            client.Self.AlertMessage += new EventHandler<OpenMetaverse.AlertMessageEventArgs>(Self_AlertMessage);
+            client.Network.Disconnected += Network_OnDisconnected;
+            client.Network.LoginProgress += Network_OnLogin;
+            client.Network.LoggedOut += Network_OnLogoutReply;
+            client.Self.ScriptQuestion += Self_OnDialogQuestion;
+            client.Self.LoadURL += Self_OnURLLoad;
+            client.Self.AlertMessage += Self_AlertMessage;
         }
 
         private void Self_OnInstantMessage(object sender, OpenMetaverse.InstantMessageEventArgs ea)

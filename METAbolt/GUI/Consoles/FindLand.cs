@@ -71,7 +71,7 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirLandReply += new EventHandler<DirLandReplyEventArgs>(Directory_OnLandReply);
+            client.Directory.DirLandReply += Directory_OnLandReply;
         }
 
         //Separate thread

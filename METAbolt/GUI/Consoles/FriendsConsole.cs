@@ -69,12 +69,12 @@ namespace METAbolt
             client = this.instance.Client;
             //netcom = this.instance.Netcom;
 
-            client.Friends.FriendshipTerminated += new EventHandler<FriendshipTerminatedEventArgs>(Friends_OnFriendTerminated);
-            client.Friends.FriendshipResponse += new EventHandler<FriendshipResponseEventArgs>(Friends_OnFriendResponse);
-            client.Friends.FriendNames += new EventHandler<FriendNamesEventArgs>(Friends_OnFriendNamesReceived);
-            client.Friends.FriendOffline += new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOffline);
-            client.Friends.FriendOnline += new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOnline);
-            client.Friends.FriendRightsUpdate += new EventHandler<FriendInfoEventArgs>(Friends_OnFriendRights);
+            client.Friends.FriendshipTerminated += Friends_OnFriendTerminated;
+            client.Friends.FriendshipResponse += Friends_OnFriendResponse;
+            client.Friends.FriendNames += Friends_OnFriendNamesReceived;
+            client.Friends.FriendOffline += Friends_OnFriendOffline;
+            client.Friends.FriendOnline += Friends_OnFriendOnline;
+            client.Friends.FriendRightsUpdate += Friends_OnFriendRights;
             //client.Avatars.DisplayNameUpdate += new EventHandler<DisplayNameUpdateEventArgs>(Avatar_DisplayNameUpdated);    
 
             //InitializeFriendsList();
@@ -175,12 +175,12 @@ namespace METAbolt
 
         public void FriendsConsole_Disposed(object sender, EventArgs e)
         {
-            client.Friends.FriendshipTerminated -= new EventHandler<FriendshipTerminatedEventArgs>(Friends_OnFriendTerminated);
-            client.Friends.FriendshipResponse -= new EventHandler<FriendshipResponseEventArgs>(Friends_OnFriendResponse);
-            client.Friends.FriendNames -= new EventHandler<FriendNamesEventArgs>(Friends_OnFriendNamesReceived);
-            client.Friends.FriendOffline -= new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOffline);
-            client.Friends.FriendOnline -= new EventHandler<FriendInfoEventArgs>(Friends_OnFriendOnline);
-            client.Friends.FriendRightsUpdate -= new EventHandler<FriendInfoEventArgs>(Friends_OnFriendRights);
+            client.Friends.FriendshipTerminated -= Friends_OnFriendTerminated;
+            client.Friends.FriendshipResponse -= Friends_OnFriendResponse;
+            client.Friends.FriendNames -= Friends_OnFriendNamesReceived;
+            client.Friends.FriendOffline -= Friends_OnFriendOffline;
+            client.Friends.FriendOnline -= Friends_OnFriendOnline;
+            client.Friends.FriendRightsUpdate -= Friends_OnFriendRights;
             //client.Avatars.DisplayNameUpdate -= new EventHandler<DisplayNameUpdateEventArgs>(Avatar_DisplayNameUpdated);
 
             try

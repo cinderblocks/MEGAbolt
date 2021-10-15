@@ -90,7 +90,7 @@ namespace METAbolt
                     tsButtons.Items.Add(sep);
 
                     ToolStripButton btn = new ToolStripButton();
-                    btn.Click += new System.EventHandler(AnyMenuItem_Click);
+                    btn.Click += AnyMenuItem_Click;
                     btn.Text = btns[i];
 
                     tsButtons.Items.Add(btn);

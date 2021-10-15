@@ -60,7 +60,7 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirPeopleReply += new EventHandler<DirPeopleReplyEventArgs>(Directory_OnDirPeopleReply);
+            client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
         }
 
         //Separate thread

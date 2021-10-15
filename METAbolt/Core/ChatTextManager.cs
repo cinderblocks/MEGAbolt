@@ -151,11 +151,11 @@ namespace METAbolt
             //added by GM on 1-APR-2010
             chairAnnAdvert = this.instance.Config.CurrentConfig.ChairAnnouncerAdvert;
 
-            client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+            client.Groups.GroupMembersReply += GroupMembersHandler;
 
 
             showTimestamps = this.instance.Config.CurrentConfig.ChatTimestamps;
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             scriptbuffer.SetBuffer(instance.Config.CurrentConfig.ScriptUrlBufferLimit);
             urlbuffer.SetBuffer(instance.Config.CurrentConfig.ScriptUrlBufferLimit);
@@ -211,31 +211,31 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoginStatus += new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.ChatReceived += new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ScriptDialogReceived += new EventHandler<ScriptDialogEventArgs>(netcom_ScriptDialogReceived);
-            netcom.LoadURLReceived += new EventHandler<LoadUrlEventArgs>(netcom_LoadURLReceived);
-            netcom.ScriptQuestionReceived += new EventHandler<ScriptQuestionEventArgs>(netcom_ScriptQuestionReceived);
-            netcom.ChatSent += new EventHandler<ChatSentEventArgs>(netcom_ChatSent);
-            netcom.AlertMessageReceived += new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
+            netcom.ClientLoginStatus += netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
+            netcom.ChatReceived += netcom_ChatReceived;
+            netcom.ScriptDialogReceived += netcom_ScriptDialogReceived;
+            netcom.LoadURLReceived += netcom_LoadURLReceived;
+            netcom.ScriptQuestionReceived += netcom_ScriptQuestionReceived;
+            netcom.ChatSent += netcom_ChatSent;
+            netcom.AlertMessageReceived += netcom_AlertMessageReceived;
         }
 
         private void RemoveNetcomEvents()
         {
-            netcom.ClientLoginStatus -= new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            netcom.ChatReceived -= new EventHandler<ChatEventArgs>(netcom_ChatReceived);
-            netcom.ScriptDialogReceived -= new EventHandler<ScriptDialogEventArgs>(netcom_ScriptDialogReceived);
-            netcom.LoadURLReceived -= new EventHandler<LoadUrlEventArgs>(netcom_LoadURLReceived);
-            netcom.ScriptQuestionReceived -= new EventHandler<ScriptQuestionEventArgs>(netcom_ScriptQuestionReceived);
-            netcom.ChatSent -= new EventHandler<ChatSentEventArgs>(netcom_ChatSent);
-            netcom.AlertMessageReceived -= new EventHandler<AlertMessageEventArgs>(netcom_AlertMessageReceived);
+            netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
+            netcom.ChatReceived -= netcom_ChatReceived;
+            netcom.ScriptDialogReceived -= netcom_ScriptDialogReceived;
+            netcom.LoadURLReceived -= netcom_LoadURLReceived;
+            netcom.ScriptQuestionReceived -= netcom_ScriptQuestionReceived;
+            netcom.ChatSent -= netcom_ChatSent;
+            netcom.AlertMessageReceived -= netcom_AlertMessageReceived;
 
-            client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
-            this.instance.Config.ConfigApplied -= new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            client.Groups.GroupMembersReply -= GroupMembersHandler;
+            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
         }
 
         private void netcom_ChatSent(object sender, ChatSentEventArgs e)
@@ -751,7 +751,7 @@ namespace METAbolt
                     if (this.instance.State.Groups.ContainsKey(igroup))
                     {
                         // check if already member of the group
-                        client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+                        client.Groups.GroupMembersReply += GroupMembersHandler;
                         GroupRequestID = client.Groups.RequestGroupMembers(igroup);
                     }
 
@@ -826,7 +826,7 @@ namespace METAbolt
                     if (indexGroup == 6 || chairAnnouncerGroups[indexGroup] == UUID.Zero) indexGroup = 0;
                     nextCallTime = DateTime.Now.AddMinutes(1);
                     //callbacks
-                    client.Self.GroupChatJoined += new EventHandler<GroupChatJoinedEventArgs>(Self_OnGroupChatJoin);
+                    client.Self.GroupChatJoined += Self_OnGroupChatJoin;
 
                     //calculate the interval
                     int perGroupInterval = (int)Math.Round(((decimal)(chairAnnouncerInterval / chairAnnouncerActives)));
@@ -856,7 +856,7 @@ namespace METAbolt
                         }
                     }
 
-                    client.Self.GroupChatJoined -= new EventHandler<GroupChatJoinedEventArgs>(Self_OnGroupChatJoin);
+                    client.Self.GroupChatJoined -= Self_OnGroupChatJoin;
                 }
                 else
                 {
@@ -1042,7 +1042,7 @@ namespace METAbolt
         {
             if (e.RequestID == GroupRequestID)
             {
-                client.Groups.GroupMembersReply -= new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+                client.Groups.GroupMembersReply -= GroupMembersHandler;
 
                 if (igroup != e.GroupID)
                 {
@@ -1135,7 +1135,7 @@ namespace METAbolt
 
                 // start timer to check if invite has been accepted
                 aTimer = new System.Timers.Timer();
-                aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                aTimer.Elapsed += OnTimedEvent;
                 // Set the Interval to 10 seconds.
                 aTimer.Interval = 10000;
                 aTimer.Enabled = true;
@@ -1170,7 +1170,7 @@ namespace METAbolt
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            client.Groups.GroupMembersReply += new EventHandler<GroupMembersReplyEventArgs>(GroupMembersHandler);
+            client.Groups.GroupMembersReply += GroupMembersHandler;
             GroupRequestID = client.Groups.RequestGroupMembers(igroup);
             ismember = true;
 

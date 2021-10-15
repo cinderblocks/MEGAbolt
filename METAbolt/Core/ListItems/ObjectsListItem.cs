@@ -53,7 +53,7 @@ namespace METAbolt
                         if (prim.Properties == null)   // || string.IsNullOrEmpty(prim.Properties.Name)) //GM changed it to BOTH!
                         {
                             gettingProperties = true;
-                            client.Objects.ObjectPropertiesFamily += new EventHandler<ObjectPropertiesFamilyEventArgs>(Objects_OnObjectPropertiesFamily);
+                            client.Objects.ObjectPropertiesFamily += Objects_OnObjectPropertiesFamily;
                             client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, prim.ID);
                         }
                         else
@@ -81,7 +81,7 @@ namespace METAbolt
                 if (prim.Properties == null)   // || string.IsNullOrEmpty(prim.Properties.Name)) //GM changed it to BOTH!
                 {
                     gettingProperties = true;
-                    client.Objects.ObjectProperties += new EventHandler<ObjectPropertiesEventArgs>(Objects_ObjectProperties);
+                    client.Objects.ObjectProperties += Objects_ObjectProperties;
                     client.Objects.SelectObject(client.Network.CurrentSim, prim.LocalID, true);
                     //client.Objects.RequestObject(client.Network.CurrentSim, prim.LocalID);
                 }

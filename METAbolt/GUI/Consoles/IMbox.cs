@@ -75,10 +75,10 @@ namespace METAbolt
             tabsconsole = instance.TabConsole;
             this.instance.imBox = this;
 
-            Disposed += new EventHandler(IMbox_Disposed);
+            Disposed += IMbox_Disposed;
 
-            netcom.InstantMessageReceived += new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            netcom.InstantMessageReceived += netcom_InstantMessageReceived;
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             label5.Text = this.instance.Config.CurrentConfig.BusyReply;
 
@@ -99,8 +99,8 @@ namespace METAbolt
 
         public void IMbox_Disposed(object sender, EventArgs e)
         {
-            netcom.InstantMessageReceived -= new EventHandler<InstantMessageEventArgs>(netcom_InstantMessageReceived);
-            this.instance.Config.ConfigApplied -= new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
+            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)

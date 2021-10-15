@@ -52,7 +52,7 @@ namespace METAbolt
             client = this.instance.Client;
             this.item = item;
             
-            this.Disposed += new EventHandler(InventoryItemConsole_Disposed);
+            this.Disposed += InventoryItemConsole_Disposed;
 
             //iconsole = new InventoryConsole(instance); 
 
@@ -67,13 +67,13 @@ namespace METAbolt
 
         public void CleanUp()
         {
-            client.Avatars.UUIDNameReply -= new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
             //client.Self.OnTeleport -= new AgentManager.TeleportCallback(TP_Callback); 
         }
 
         private void AddClientEvents()
         {
-            client.Avatars.UUIDNameReply += new EventHandler<UUIDNameReplyEventArgs>(Avatars_OnAvatarNames);
+            client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
             //client.Self.OnTeleport += new AgentManager.TeleportCallback(TP_Callback); 
         }
 

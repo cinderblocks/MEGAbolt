@@ -89,7 +89,7 @@ namespace METAbolt
             //btnInfo.Text = "Hide Grid Status";
             label7.Text = "V " + Properties.Resources.METAboltVersion; 
 
-            Disposed += new EventHandler(MainConsole_Disposed);
+            Disposed += MainConsole_Disposed;
 
             LoadGrids();
             InitGridCombo();
@@ -187,20 +187,18 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoggingIn += new EventHandler<OverrideEventArgs>(netcom_ClientLoggingIn);
-            netcom.ClientLoginStatus += new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggingOut += new EventHandler<OverrideEventArgs>(netcom_ClientLoggingOut);
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
+            netcom.ClientLoggingIn += netcom_ClientLoggingIn;
+            netcom.ClientLoginStatus += netcom_ClientLoginStatus;
+            netcom.ClientLoggingOut += netcom_ClientLoggingOut;
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
         }
 
         void MainConsole_Disposed(object sender, EventArgs e)
         {
-            netcom.ClientLoggingIn -= new EventHandler<OverrideEventArgs>(netcom_ClientLoggingIn);
-            netcom.ClientLoginStatus -= new EventHandler<LoginProgressEventArgs>(netcom_ClientLoginStatus);
-            netcom.ClientLoggingOut -= new EventHandler<OverrideEventArgs>(netcom_ClientLoggingOut);
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            //webBrowser1.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            //webBrowser1.Navigating -= new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
+            netcom.ClientLoggingIn -= netcom_ClientLoggingIn;
+            netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
+            netcom.ClientLoggingOut -= netcom_ClientLoggingOut;
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
         }
 
         private class Item
@@ -325,22 +323,11 @@ namespace METAbolt
                         string uname = client.Self.Name + "\\";
 
                         Wildcard wildcard = new Wildcard(client.Self.Name + "*", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        List<string> torem = new List<string>(); 
+                        List<string> torem = usernlist.Where(s => wildcard.IsMatch(s)).ToList();
 
-                        foreach (string s in usernlist)
+                        foreach (var s in torem.Where(s => wildcard.IsMatch(s)))
                         {
-                            if(wildcard.IsMatch(s))
-                            {
-                                torem.Add(s);
-                            }
-                        }
-
-                        foreach (string s in torem)
-                        {
-                            if (wildcard.IsMatch(s))
-                            {
-                                usernlist.Remove(s);
-                            }
+                            usernlist.Remove(s);
                         }
 
                         //string epwd1 = txtPassword.Text;
@@ -420,24 +407,6 @@ namespace METAbolt
             }
         }
 
-        //private void SetLang()
-        //{
-        //    CultureInfo cult = CultureInfo.CurrentCulture;
-        //    string land = cult.TwoLetterISOLanguageName;
-
-        //    AgentManager avm = new AgentManager(client);
-
-        //    try
-        //    {
-        //        avm.UpdateAgentLanguage(land, true);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Log("Agent Language: (relog can help) " + ex.Message, Helpers.LogLevel.Warning);
-        //        //reporter.Show(ex);
-        //    }
-        //}
-
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
             pnlLoginPrompt.Visible = true;
@@ -473,100 +442,13 @@ namespace METAbolt
         {
             murl = "https://radegast.life";
 
-            //webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            //webBrowser1.Navigating += new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
             webBrowser1.Url = new Uri(murl);
             webBrowser1.AllowNavigation = true;
-            //webBrowser.AllowWebBrowserDrop = false;
             webBrowser1.Dock = DockStyle.Fill;
             webBrowser1.IsWebBrowserContextMenuEnabled = false;
             webBrowser1.ScriptErrorsSuppressed = true;
-            //webBrowser.ScrollBarsEnabled = true;
-           // webBrowser1.NewWindow += new CancelEventHandler(webBrowser_NewWindow);
+
         }
-
-        //private void STABrowser()
-        //{
-        //    using (webBrowser = new WebBrowser())
-        //    {
-        //        webBrowser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-        //        webBrowser.Navigating += new WebBrowserNavigatingEventHandler(webBrowser_Navigating);
-        //        webBrowser.Url = new Uri(murl);
-        //        webBrowser.AllowNavigation = true;
-        //        //webBrowser.AllowWebBrowserDrop = false;
-        //        webBrowser.Dock = DockStyle.Fill;
-        //        webBrowser.IsWebBrowserContextMenuEnabled = false;
-        //        webBrowser.ScriptErrorsSuppressed = true;
-        //        //webBrowser.ScrollBarsEnabled = true;
-        //        webBrowser.NewWindow += new CancelEventHandler(webBrowser_NewWindow);
-                
-        //        //BeginInvoke(new MethodInvoker(delegate()
-        //        //{
-        //        //    pnlLoginPage.Controls.Add(webBrowser);
-        //        //}));
-
-        //        pnlLoginPage.Controls.Add(webBrowser);
-        //    }
-        //}
-
-
-
-        //private void webBrowser_NewWindow(object sender, CancelEventArgs e)
-        //{
-        //    if (string.IsNullOrEmpty(clickedurl))
-        //    {
-        //        HtmlElement link = webBrowser1.Document.ActiveElement;
-        //        clickedurl = link.GetAttribute("href");
-        //    }
-
-        //    e.Cancel = true;
-
-        //    if (clickedurl.StartsWith("http://slurl.", StringComparison.CurrentCultureIgnoreCase))
-        //    {
-        //        // Open up the TP form here
-        //        string[] split = clickedurl.Split(new Char[] { '/' });
-        //        string sim = split[4].ToString(CultureInfo.CurrentCulture);
-        //        double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture));
-        //        double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture));
-        //        double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture));
-
-        //        (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
-        //        clickedurl = string.Empty;
-        //        return;
-        //    }
-        //    else if (clickedurl.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
-        //    {
-        //        // Open up the TP form here
-        //        string[] split = clickedurl.Split(new Char[] { '/' });
-        //        string sim = split[4].ToString(CultureInfo.CurrentCulture);
-        //        double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture));
-        //        double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture));
-        //        double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture));
-
-        //        (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
-        //        clickedurl = string.Empty;
-        //        return;
-        //    }
-
-        //    System.Diagnostics.Process.Start(clickedurl);
-        //    clickedurl = string.Empty;  
-        //}
-
-        //private void webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        //{
-        //    if (clickedurl != string.Empty)
-        //    {
-        //        e.Cancel = true;
-        //        System.Diagnostics.Process.Start(e.Url.ToString());
-        //    }
-        //}
-
-        //private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        //{
-        //    webBrowser1.ScrollBarsEnabled = false;
-
-        //    webBrowser1.Document.Body.Style = "overflow:hidden";
-        //}
 
         private void BeginLogin()
         {
@@ -756,33 +638,6 @@ namespace METAbolt
             
         }
 
-        //private void DoBrowser()
-        //{
-        //    //string lkey = instance.Config.CurrentConfig.AdRemove;
-
-        //    //if (lkey != string.Empty)
-        //    //{
-        //    //    METAMD5 md5 = new METAMD5();
-
-        //    //    if (md5.VerifyAdLicence(netcom.LoginOptions.FullName, client.Self.AgentID.ToString(), lkey))
-        //    //    {
-        //    //        murl = "http://www.metabolt.net/index.asp?user=login&nod=true&ver=" + Properties.Resources.METAboltVersion.ToString();
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        murl = "http://www.metabolt.net/index.asp?user=login&nod=false&ver=" + Properties.Resources.METAboltVersion.ToString();
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    murl = "http://www.metabolt.net/index.asp?user=login&nod=false&ver=" + Properties.Resources.METAboltVersion.ToString();
-        //    //}
-
-        //    ////murl = "http://www.metabolt.net/index.asp?user=none&ver=" + Properties.Resources.METAboltVersion.ToString();
-
-        //    //webBrowser1.Refresh();
-        //}
-
         private void chkPWD_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -830,9 +685,6 @@ namespace METAbolt
 
         private void txtLastName_Enter(object sender, EventArgs e)
         {
-            //txtLastName.SelectionStart = 0;
-            //txtLastName.SelectionLength = txtLastName.Text.Length;
-            //txtLastName.SelectedText = txtLastName.SelectedText;
             txtLastName.SelectAll();
         }
 

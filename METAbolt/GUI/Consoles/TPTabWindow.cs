@@ -49,16 +49,16 @@ namespace METAbolt
             netcom = this.instance.Netcom;
             client = this.instance.Client;
 
-            Disposed += new EventHandler(TPTabWindow_Disposed);
+            Disposed += TPTabWindow_Disposed;
 
             ProcessEventArgs(e);
 
-            netcom.TeleportStatusChanged += new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            netcom.TeleportStatusChanged += netcom_TeleportStatusChanged;
         }
 
         private void TPTabWindow_Disposed(object sender, EventArgs e)
         {
-            netcom.TeleportStatusChanged -= new EventHandler<TeleportEventArgs>(netcom_TeleportStatusChanged);
+            netcom.TeleportStatusChanged -= netcom_TeleportStatusChanged;
         }
 
         private void netcom_TeleportStatusChanged(object sender, TeleportEventArgs e)

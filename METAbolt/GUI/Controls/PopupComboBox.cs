@@ -81,11 +81,11 @@ namespace MEGAbolt.Controls
         this.dropDownControl = value;
         if (this.dropDown != null)
         {
-          this.dropDown.Closed -= new ToolStripDropDownClosedEventHandler(this.dropDown_Closed);
+          this.dropDown.Closed -= this.dropDown_Closed;
           this.dropDown.Dispose();
         }
         this.dropDown = new Popup(value);
-        this.dropDown.Closed += new ToolStripDropDownClosedEventHandler(this.dropDown_Closed);
+        this.dropDown.Closed += this.dropDown_Closed;
       }
     }
 

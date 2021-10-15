@@ -115,7 +115,7 @@ namespace METAbolt
             //InitializeAgentUpdateTimer();
 
             pointtimer = new System.Timers.Timer();
-            pointtimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            pointtimer.Elapsed += OnTimedEvent;
             // Set the Interval to 10 seconds.
             pointtimer.Interval = 1000;
             pointtimer.Enabled = false;
@@ -123,14 +123,14 @@ namespace METAbolt
 
         private void AddNetcomEvents()
         {
-            netcom.ClientLoggedOut += new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected += new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
+            netcom.ClientLoggedOut += netcom_ClientLoggedOut;
+            netcom.ClientDisconnected += netcom_ClientDisconnected;
         }
 
         private void RemoveNetcomEvents()
         {
-            netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
+            netcom.ClientLoggedOut -= netcom_ClientLoggedOut;
+            netcom.ClientDisconnected -= netcom_ClientDisconnected;
         }
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
@@ -155,20 +155,20 @@ namespace METAbolt
 
         private void AddClientEvents()
         {
-            client.Objects.TerseObjectUpdate += new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
-            client.Network.EventQueueRunning += new EventHandler<EventQueueRunningEventArgs>(Network_OnEventQueueRunning);
-            client.Self.TeleportProgress += new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
-            client.Objects.AvatarUpdate += new EventHandler<AvatarUpdateEventArgs>(Objects_OnAvatarUpdate);
-            client.Network.SimChanged += new EventHandler<SimChangedEventArgs>(Network_OnSimChanged);
+            client.Objects.TerseObjectUpdate += Objects_OnObjectUpdated;
+            client.Network.EventQueueRunning += Network_OnEventQueueRunning;
+            client.Self.TeleportProgress += Self_TeleportProgress;
+            client.Objects.AvatarUpdate += Objects_OnAvatarUpdate;
+            client.Network.SimChanged += Network_OnSimChanged;
         }
 
         private void RemoveClientEvents()
         {
-            client.Objects.TerseObjectUpdate -= new EventHandler<TerseObjectUpdateEventArgs>(Objects_OnObjectUpdated);
-            client.Network.EventQueueRunning -= new EventHandler<EventQueueRunningEventArgs>(Network_OnEventQueueRunning);
-            client.Self.TeleportProgress -= new EventHandler<TeleportEventArgs>(Self_TeleportProgress);
-            client.Objects.AvatarUpdate -= new EventHandler<AvatarUpdateEventArgs>(Objects_OnAvatarUpdate);
-            client.Network.SimChanged -= new EventHandler<SimChangedEventArgs>(Network_OnSimChanged);
+            client.Objects.TerseObjectUpdate -= Objects_OnObjectUpdated;
+            client.Network.EventQueueRunning -= Network_OnEventQueueRunning;
+            client.Self.TeleportProgress -= Self_TeleportProgress;
+            client.Objects.AvatarUpdate -= Objects_OnAvatarUpdate;
+            client.Network.SimChanged -= Network_OnSimChanged;
         }
 
         private void Objects_OnAvatarUpdate(object sender, AvatarUpdateEventArgs e)
@@ -485,7 +485,7 @@ namespace METAbolt
 
                 requestedsitprim = target;
 
-                client.Self.AvatarSitResponse += new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
+                client.Self.AvatarSitResponse += Self_AvatarSitResponse;
 
                 client.Self.RequestSit(target, Vector3.Zero);
                 client.Self.Sit();  
@@ -502,7 +502,7 @@ namespace METAbolt
 
         void Self_AvatarSitResponse(object sender, AvatarSitResponseEventArgs e)
         {
-            client.Self.AvatarSitResponse -= new EventHandler<AvatarSitResponseEventArgs>(Self_AvatarSitResponse);
+            client.Self.AvatarSitResponse -= Self_AvatarSitResponse;
 
             if (e.ObjectID == requestedsitprim)
             {

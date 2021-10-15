@@ -49,7 +49,7 @@ namespace METAbolt
             this.Text = tab.Label + " (tab) - METAbolt";
 
             ApplyConfig(this.instance.Config.CurrentConfig);
-            this.instance.Config.ConfigApplied += new EventHandler<ConfigAppliedEventArgs>(Config_ConfigApplied);
+            this.instance.Config.ConfigApplied += Config_ConfigApplied;
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
@@ -67,8 +67,8 @@ namespace METAbolt
 
         private void AddTabEvents()
         {
-            tab.TabPartiallyHighlighted += new EventHandler(tab_TabPartiallyHighlighted);
-            tab.TabUnhighlighted += new EventHandler(tab_TabUnhighlighted);
+            tab.TabPartiallyHighlighted += tab_TabPartiallyHighlighted;
+            tab.TabUnhighlighted += tab_TabUnhighlighted;
         }
 
         private void tab_TabUnhighlighted(object sender, EventArgs e)

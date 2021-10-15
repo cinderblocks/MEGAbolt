@@ -108,7 +108,7 @@ namespace METAbolt
             };
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
+            Application.ApplicationExit += Application_ApplicationExit;
 
             this.IsFirstInstance = firstInstance;
             
@@ -161,7 +161,7 @@ namespace METAbolt
             };
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
+            Application.ApplicationExit += Application_ApplicationExit;
 
             this.IsFirstInstance = firstInstance;
             

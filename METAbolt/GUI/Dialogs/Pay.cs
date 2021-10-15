@@ -120,7 +120,7 @@ namespace METAbolt
 
         private void LoadCallBacks()
         {
-            client.Objects.PayPriceReply += new EventHandler<PayPriceReplyEventArgs>(PayPrice);
+            client.Objects.PayPriceReply += PayPrice;
 
             client.Objects.RequestPayPrice(client.Network.CurrentSim, target);    
         }
@@ -204,7 +204,7 @@ namespace METAbolt
 
         private void frmPay_FormClosing(object sender, FormClosingEventArgs e)
         {
-            client.Objects.PayPriceReply -= new EventHandler<PayPriceReplyEventArgs>(PayPrice);
+            client.Objects.PayPriceReply -= PayPrice;
         }
 
         private void PayPrice(object sender, PayPriceReplyEventArgs e)
