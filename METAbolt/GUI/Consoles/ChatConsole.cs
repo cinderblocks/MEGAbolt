@@ -595,10 +595,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    CheckWearables();
-                }));
+                BeginInvoke(new MethodInvoker(CheckWearables));
                 
                 //BeginInvoke(new MethodInvoker(() => CheckWearables()));
                 return;
@@ -608,59 +605,60 @@ namespace METAbolt
 
             try
             {
-                UUID shape = client.Appearance.GetWearableAsset(WearableType.Shape);
-                UUID skin = client.Appearance.GetWearableAsset(WearableType.Skin);
-                UUID hair = client.Appearance.GetWearableAsset(WearableType.Hair);
+                client.Appearance.GetWearablesByType();
+                var shapes = client.Appearance.GetWearableAssets(WearableType.Shape).ToArray();
+                var skins = client.Appearance.GetWearableAssets(WearableType.Skin).ToArray();
+                var hairs = client.Appearance.GetWearableAssets(WearableType.Hair).ToArray();
 
-                UUID pants = client.Appearance.GetWearableAsset(WearableType.Pants);
-                UUID skirt = client.Appearance.GetWearableAsset(WearableType.Skirt);
+                var pants = client.Appearance.GetWearableAssets(WearableType.Pants).ToArray();
+                var skirts = client.Appearance.GetWearableAssets(WearableType.Skirt).ToArray();
 
-                // shoes always seem to be missing!!! So I am taking it out
-                //UUID shoes = client.Appearance.GetWearableAsset(WearableType.Shoes);
+                var shoes = client.Appearance.GetWearableAssets(WearableType.Shoes).ToArray();
 
-                UUID shirt = client.Appearance.GetWearableAsset(WearableType.Shirt);
-                UUID jacket = client.Appearance.GetWearableAsset(WearableType.Jacket);
-                UUID eyes = client.Appearance.GetWearableAsset(WearableType.Eyes);
-                UUID underpants = client.Appearance.GetWearableAsset(WearableType.Underpants);
-                UUID undershirt = client.Appearance.GetWearableAsset(WearableType.Undershirt);
+                var shirts = client.Appearance.GetWearableAssets(WearableType.Shirt).ToArray();
+                var jackets = client.Appearance.GetWearableAssets(WearableType.Jacket).ToArray();
+                var eyes = client.Appearance.GetWearableAssets(WearableType.Eyes).ToArray();
+                var underpants = client.Appearance.GetWearableAssets(WearableType.Underpants).ToArray();
+                var undershirts = client.Appearance.GetWearableAssets(WearableType.Undershirt).ToArray();
+                var universals = client.Appearance.GetWearableAssets(WearableType.Universal).ToArray();
 
-                if (shape == UUID.Zero || skin == UUID.Zero || hair == UUID.Zero || shirt == UUID.Zero
-                                        || pants == UUID.Zero || skirt == UUID.Zero || jacket == UUID.Zero 
-                                        || eyes == UUID.Zero )
+                if ( !shapes.Any() || !skins.Any() || !hairs.Any() || !shirts.Any()
+                     || !pants.Any() || !skirts.Any() || !jackets.Any() 
+                     || !eyes.Any() )
                 {
                     string missing = string.Empty;
 
-                    if (shape == UUID.Zero)
+                    if (!shapes.Any())
                     {
                         missing = "shape, ";
                     }
 
-                    if (skin == UUID.Zero)
+                    if (!skins.Any())
                     {
                         missing += "skin, ";
                     }
 
-                    if (hair == UUID.Zero)
+                    if (!hairs.Any())
                     {
                         missing += "hair, ";
                     }
 
-                    if (eyes == UUID.Zero)
+                    if (!eyes.Any())
                     {
                         missing += "eyes, ";
                     }
 
-                    if (shirt == UUID.Zero && jacket == UUID.Zero)
+                    if (!shirts.Any() && !jackets.Any())
                     {
-                        if (undershirt == UUID.Zero)
+                        if (!undershirts.Any())
                         {
                             missing += "shirt/jacket & undershirt, ";
                         }
                     }
 
-                    if (skirt == UUID.Zero && pants == UUID.Zero)
+                    if (!universals.Any() && !skirts.Any() && !pants.Any())
                     {
-                        if (underpants == UUID.Zero)
+                        if (!underpants.Any())
                         {
                             // The avatar is likely to be naked so let's try
                             // to get it dressed but we must avoid ending up in a loop
@@ -682,7 +680,7 @@ namespace METAbolt
                             missing = missing.Remove(missing.Length - 2);   
                         }
 
-                        chatManager.PrintAlertMessage("Wearables missing: " + missing);
+                        chatManager.PrintAlertMessage($"Wearables missing: {missing}");
                     }
                 }
             }
@@ -692,7 +690,7 @@ namespace METAbolt
                 instance.CrashReporter.Post(ex);
             }
 
-            client.Appearance.AppearanceSet -= new EventHandler<AppearanceSetEventArgs>(Appearance_OnAppearanceSet);
+            client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
         }
 
         private void CheckAutoSit()
