@@ -110,65 +110,9 @@ namespace METAbolt
 
         private void chkAI_CheckedChanged(object sender, EventArgs e)
         {
-            if (isloading)
-                return;
+            if (isloading) { return; }
 
-            panel1.Enabled = groupBox1.Enabled = checkBox2.Enabled = chkAI.Checked;   
-
-            if (chkAI.Checked)
-            {
-                // Check to see if AI libraries have been installed
-                string aimlDirectory = Application.StartupPath.ToString();
-                aimlDirectory += "\\aiml\\";
-
-                bool direxists = DirExists(aimlDirectory);
-
-                if (!direxists)
-                {
-                    DialogResult resp = MessageBox.Show("You must first install the AI libraries. Do you want to download them now?", "METAbrain", MessageBoxButtons.YesNo);
-
-                    if (resp == DialogResult.Yes)
-                    {
-                        try
-                        {
-                            // Open Windows Explorer
-                            Process.Start("explorer.exe", Application.StartupPath.ToString());
-
-                            // download the libraries
-                            WebClient webClient = new WebClient();
-                            webClient.DownloadFile("http://www.metabolt.net/dwl/METAbrain.zip", Application.StartupPath.ToString() + "\\METAbrain.zip");
-
-                            FormFlash.Flash(instance.MainForm);
-
-                            MessageBox.Show("Download complete. \n\nLook for 'METAbrain.zip' \n\nand unzip the contents into the folder \nthat's now visible in Windows Explorer.", "METAbrain");
-
-                            webClient.Dispose(); 
-                        }
-                        catch (Exception ex)
-                        {
-                            string exp = ex.Message;
-                            MessageBox.Show("There has been an error downloading the library file: \n\n" + exp + "\n\nDownload manually from here:\nhttp://www.metabolt.net/dwl/METAbrain.zip", "METAbrain");
-                        }
-                    }
-                    else
-                    {
-                        chkAI.Checked = false;
-                        return;
-                    }
-                }
-            }
-        }
-
-        private static bool DirExists(string sDirName)
-        {
-            try
-            {
-                return (System.IO.Directory.Exists(sDirName));    //Check for file
-            }
-            catch (Exception)
-            {
-                return (false);                                 //Exception occured, return False
-            }
+            panel1.Enabled = groupBox1.Enabled = checkBox2.Enabled = chkAI.Checked;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
