@@ -79,9 +79,6 @@ namespace METAbolt
         private string strInfolast = string.Empty;
         private string disconnectreason = "unknown";
 
-        //auto update
-        public string updaterModulePath = Application.StartupPath + "\\METAbolt Auto Updater.exe";
-
         internal class ThreadExceptionHandler
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
@@ -1060,24 +1057,6 @@ namespace METAbolt
             }
         }
 
-        private void StartSilent()
-        {
-            Thread.Sleep(3000);
-
-            try
-            {
-                if (System.IO.File.Exists(updaterModulePath))
-                {
-                    Process process = Process.Start(updaterModulePath, "/silent");
-                    process.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("Exception while trying to execute auto updater: " + ex.Message, Helpers.LogLevel.Warning);
-            }
-        }
-
         private void AnyMenuItem_Click(object sender, System.EventArgs e)
         {
             ToolStripItem mitem = (ToolStripItem)sender;
@@ -1727,18 +1706,7 @@ namespace METAbolt
 
         private void updateConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (System.IO.File.Exists(updaterModulePath))
-                {
-                    Process process = Process.Start(updaterModulePath, "/configure");
-                    process.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);       
-            }
+
         }
 
         private void setPreviousAppearanceToolStripMenuItem_Click(object sender, EventArgs e)

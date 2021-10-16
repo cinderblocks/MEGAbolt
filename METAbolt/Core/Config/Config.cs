@@ -238,8 +238,11 @@ namespace METAbolt
                 catch
                 {
                     epwd = config.PasswordMD5 = string.Empty;
-                    MessageBox.Show("An error occured while decrypting your stored password.\nThis could mean you have the old format INI file. \nYou will have to re-enter your password so it can be ecrypted with the new method.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\METAbolt\\");
+                    MessageBox.Show("An error occured while decrypting your stored password.\n" +
+                                    "This could mean you have the old format INI file. \n" +
+                                    "You will have to re-enter your password so it can be encrypted with the new method.",
+                        "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt\\");
                 }
 
                 //added by GM on 2-JUL-2009

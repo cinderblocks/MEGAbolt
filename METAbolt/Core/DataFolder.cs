@@ -33,7 +33,7 @@ namespace METAbolt
             }
             else
             {
-                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\METAbolt";
+                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt";
             }
         }
         public static string GetDataFolder()
