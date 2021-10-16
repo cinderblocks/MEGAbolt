@@ -58,7 +58,6 @@ namespace METAbolt
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tbtnHelp = new System.Windows.Forms.ToolStripDropDownButton();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -518,7 +517,6 @@ namespace METAbolt
             this.tbtnHelp.AutoToolTip = false;
             this.tbtnHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkForUpdatesToolStripMenuItem,
-            this.updateConfigurationToolStripMenuItem,
             this.toolStripSeparator28,
             this.helpToolStripMenuItem,
             this.mEToolStripMenuItem,
@@ -546,20 +544,12 @@ namespace METAbolt
             // 
             // checkForUpdatesToolStripMenuItem
             // 
-            this.checkForUpdatesToolStripMenuItem.AccessibleName = "Check for updates menu option";
+            this.checkForUpdatesToolStripMenuItem.AccessibleName = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Image = global::METAbolt.Properties.Resources.arrow_back;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
             this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
-            // 
-            // updateConfigurationToolStripMenuItem
-            // 
-            this.updateConfigurationToolStripMenuItem.AccessibleName = "Update configuration menu option";
-            this.updateConfigurationToolStripMenuItem.Name = "updateConfigurationToolStripMenuItem";
-            this.updateConfigurationToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.updateConfigurationToolStripMenuItem.Text = "Update configuration";
-            this.updateConfigurationToolStripMenuItem.Click += new System.EventHandler(this.updateConfigurationToolStripMenuItem_Click);
             // 
             // toolStripSeparator28
             // 

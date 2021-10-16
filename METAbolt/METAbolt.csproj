@@ -453,6 +453,7 @@
     <PackageReference Include="LibreMetaverse.StructuredData" Version="1.9.1.273" />
     <PackageReference Include="LibreMetaverse.Types" Version="1.9.1.273" />
     <PackageReference Include="LibreMetaverse.Utilities" Version="1.9.1.273" />
+    <PackageReference Include="NetSparkleUpdater.UI.WinForms.NetCore" Version="2.0.8" />
     <PackageReference Include="OpenTK.Core" Version="4.6.7" />
     <PackageReference Include="OpenTK.WinForms.Radegast" Version="0.1.0" />
     <PackageReference Include="RawScape.Nini" Version="1.0.0" />

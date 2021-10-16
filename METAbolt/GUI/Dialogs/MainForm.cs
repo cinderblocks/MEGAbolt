@@ -39,6 +39,8 @@ using METAx;
 using METAxCommon;
 using System.Globalization;
 using BugSplatDotNetStandard;
+using NetSparkleUpdater;
+using NetSparkleUpdater.SignatureVerifiers;
 
 namespace METAbolt
 {
@@ -47,24 +49,22 @@ namespace METAbolt
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-
-        //private ChatConsole cconsole;
+        
         private frmDebugLog debugLogForm;
         private System.Timers.Timer statusTimer;
         public Parcel parcel;
-        //private Parcel currentparcel;
-        //private int currentparcelid = 0;
         public string dwell;
         private const int WM_KEYUP = 0x101;
-        //public Dictionary<UUID, AvatarAppearancePacket> Appearances = new Dictionary<UUID, AvatarAppearancePacket>();
         private System.Timers.Timer logOffTimer;
         private DateTime offtime;
         private bool logoff = false;
         private bool disconnectHasExecuted = false;
 
+        private SparkleUpdater sparkleUpdater;
+
         // start Alexs
         // About Land Definitions (need to do that here)
-        // since ParcelPropertiesCallBack is first called here and cant recal in about Land dialog
+        // since ParcelPropertiesCallBack is first called here and can't recall in about Land dialog
         //public Parcel Aboutlandparcelinfo;
         public string AboutlandOwneridname, AboutlandGroupidname;
         public bool Aboutlandforsale, AboutlandAllowFly, AboutlandCreateObj, AboutMature,  AboutShow, AllowOtherScripts, AboutlandRestrictPush, AboutlandAllowDamage = false;
@@ -124,12 +124,9 @@ namespace METAbolt
 
             ApplyConfig(this.instance.Config.CurrentConfig, true);
 
+            StartUpdater();
+
             WindowState = FormWindowState.Normal;
-
-            //elist = new List<IExtension>();
-
-            //UpdateLand();
-            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Chat_KeyDown);
         }
 
         //void Self_MoneyBalanceReply(object sender, MoneyBalanceReplyEventArgs e)
@@ -1688,12 +1685,7 @@ namespace METAbolt
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void updateConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
+            sparkleUpdater.CheckForUpdatesAtUserRequest();
         }
 
         private void setPreviousAppearanceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2229,27 +2221,20 @@ namespace METAbolt
                 );
         }
 
-        //private void FavsToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    string cbtn = sender.ToString();
-
-        //    ToolStripButton btn = (ToolStripButton)sender;
-        //    UUID landmark = new UUID();
-
-        //    if (!UUID.TryParse(btn.Name, out landmark))
-        //    {
-        //        MessageBox.Show("Invalid Landmark", "Teleport");
-        //        return;
-        //    }
-
-        //    if (client.Self.Teleport(landmark))
-        //    {
-        //        MessageBox.Show("Teleport Succesful", "Teleport");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Teleport Failed", "Teleport");
-        //    }
-        //}
+        private void StartUpdater()
+        {
+            var appcastUrl = "https://megabolt.radegast.life/appcast.xml";
+            var manifestModuleName = System.Reflection.Assembly.GetEntryAssembly()?.ManifestModule.FullyQualifiedName;
+            var icon = Icon.ExtractAssociatedIcon(manifestModuleName);
+            sparkleUpdater = new SparkleUpdater(appcastUrl,
+                new Ed25519Checker(NetSparkleUpdater.Enums.SecurityMode.Strict, "YR4STztpPyLnlPwhOVwaL2F7ToCmyXZ53cTt/encBu8="))
+            {
+                UIFactory = new NetSparkleUpdater.UI.WinForms.UIFactory(icon),
+                RelaunchAfterUpdate = true,
+                UseNotificationToast = true,
+                SecurityProtocolType = System.Net.SecurityProtocolType.Tls12
+            };
+            sparkleUpdater.StartLoop(true);
+        }
     }
 }
