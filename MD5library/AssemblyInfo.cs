@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MD5library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("radegast.life")]
+[assembly: AssemblyCompany("Sjofn LLC")]
 [assembly: AssemblyProduct("MD5library")]
 [assembly: AssemblyCopyright("Copyright © Sjofn LLC, 2021")]
 [assembly: AssemblyTrademark("")]

@@ -5,7 +5,7 @@ using System.Security.Permissions;
 [assembly: AssemblyCopyright("Copyright © 2021, Sjofn LLC. All rights reserved.")]
 [assembly: AssemblyDescription("AI brain for MEGAbolt")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("radegast.life")]
+[assembly: AssemblyCompany("Sjofn LLC")]
 [assembly: AssemblyProduct("MEGAbrain")]
 [assembly: AssemblyTitle("MEGAbrain")]
 [assembly: AssemblyTrademark("")]

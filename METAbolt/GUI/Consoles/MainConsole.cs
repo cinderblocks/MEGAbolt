@@ -440,7 +440,7 @@ namespace METAbolt
 
         private void InitializeWebBrowser()
         {
-            murl = "https://radegast.life";
+            murl = "https://megabolt.radegast.life/splash.html";
 
             webBrowser1.Url = new Uri(murl);
             webBrowser1.AllowNavigation = true;
