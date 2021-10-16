@@ -29,9 +29,8 @@
 
 using System;
 
-using ScintillaNet;
+using ScintillaNET;
 using System.Drawing;
-using Range = ScintillaNet.Range;
 
 #endregion Using Directives
 
@@ -75,12 +74,8 @@ namespace METAbolt
 
         public static void Init(Scintilla scintilla)
         {
-            // Reset any current language and enable the StyleNeeded
-            // event by setting the lexer to container.
-            scintilla.Indentation.SmartIndentType = SmartIndent.None;
-            scintilla.ConfigurationManager.Language = String.Empty;
-            scintilla.Lexing.LexerName = "container";
-            scintilla.Lexing.Lexer = Lexer.Container;
+            scintilla.Lexer = Lexer.Container;
+            scintilla.LexerLanguage = string.Empty;
 
             // Add our custom styles to the collection
             scintilla.Styles[QUOTED_STYLE].ForeColor = Color.FromArgb(153, 51, 51);
@@ -106,18 +101,14 @@ namespace METAbolt
         {
             if (length > 0)
             {
-                // TODO Still using old API
-                // This will style the length of chars and advance the style pointer.
-                ((INativeScintilla)scintilla).SetStyling(length, style);
+                scintilla.SetStyling(length, style);
             }
         }
 
 
         public void Style()
         {
-            // TODO Still using the old API
-            // Signals that we're going to begin styling from this point.
-            ((INativeScintilla)scintilla).StartStyling(startPos, 0x1F);
+            scintilla.StartStyling(startPos);
 
             // Run our humble lexer...
             StyleWhitespace();
@@ -181,22 +172,12 @@ namespace METAbolt
             }
         }
 
-
         private void StyleCh(int style)
         {
             // Style just one char and advance
             SetStyle(style, 1);
             index++;
         }
-
-
-        public static void StyleNeeded(Scintilla scintilla, Range range)
-        {
-            // Create an instance of our lexer and bada-bing the line!
-            IniLexer lexer = new IniLexer(scintilla, range.Start, range.StartingLine.Length);
-            lexer.Style();
-        }
-
 
         private void StyleUntilMatch(int style, char[] chars)
         {
@@ -208,7 +189,6 @@ namespace METAbolt
             if (startIndex != index)
                 SetStyle(style, index - startIndex);
         }
-
 
         private void StyleWhitespace()
         {
@@ -231,7 +211,7 @@ namespace METAbolt
             this.startPos = startPos;
 
             // One line of text
-            this.text = scintilla.GetRange(startPos, startPos + length).Text;
+            this.text = scintilla.GetTextRange(startPos, length);
         }
 
         #endregion Constructors

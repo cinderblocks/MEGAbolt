@@ -109,7 +109,7 @@ namespace METAbolt
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.tsReplaceText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.rtbScript = new ScintillaNet.Scintilla();
+            this.rtbScript = new ScintillaNET.Scintilla();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton4 = new System.Windows.Forms.ToolStripDropDownButton();
             this.lSLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -138,7 +138,6 @@ namespace METAbolt
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rtbScript)).BeginInit();
             this.toolStrip3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -849,31 +848,16 @@ namespace METAbolt
             this.rtbScript.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbScript.AutoComplete.IsCaseSensitive = false;
-            this.rtbScript.AutoComplete.ListString = "";
-            this.rtbScript.AutoComplete.MaxHeight = 10;
-            this.rtbScript.AutoComplete.TriggerChars = ((System.Collections.Generic.List<string>)(resources.GetObject("rtbScript.AutoComplete.TriggerChars")));
             this.rtbScript.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Indentation.BackspaceUnindents = true;
-            this.rtbScript.LineWrap.VisualFlags = ScintillaNet.WrapVisualFlag.End;
+            this.rtbScript.BackspaceUnindents = true;
+            this.rtbScript.WrapVisualFlags = ScintillaNET.WrapVisualFlags.End;
             this.rtbScript.Location = new System.Drawing.Point(8, 53);
-            this.rtbScript.Margins.Margin1.AutoToggleMarkerNumber = 0;
-            this.rtbScript.Margins.Margin1.IsClickable = true;
-            this.rtbScript.Margins.Margin2.Width = 16;
+            this.rtbScript.Margins[2].Width = 16;
             this.rtbScript.Name = "rtbScript";
             this.rtbScript.Size = new System.Drawing.Size(723, 532);
-            this.rtbScript.Styles.BraceBad.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Styles.BraceLight.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Styles.ControlChar.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Styles.Default.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Styles.LastPredefined.BackColor = System.Drawing.Color.White;
-            this.rtbScript.Styles.LineNumber.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.rtbScript.Styles.LineNumber.IsSelectionEolFilled = true;
-            this.rtbScript.Styles.LineNumber.Underline = true;
-            this.rtbScript.Styles.Max.BackColor = System.Drawing.Color.White;
             this.rtbScript.TabIndex = 49;
-            this.rtbScript.TextChanged += new System.EventHandler<System.EventArgs>(this.rtbScript_TextChanged);
-            this.rtbScript.SelectionChanged += new System.EventHandler(this.rtbScript_SelectionChanged);
+            this.rtbScript.TextChanged += new System.EventHandler(this.rtbScript_TextChanged);
+            //this.rtbScript.SelectionChanged += new System.EventHandler(this.rtbScript_SelectionChanged);
             this.rtbScript.KeyUp += new System.Windows.Forms.KeyEventHandler(this.rtbScript_KeyUp);
             this.rtbScript.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rtbScript_MouseMove);
             // 
@@ -1141,7 +1125,6 @@ namespace METAbolt
             this.statusStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rtbScript)).EndInit();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -1205,7 +1188,7 @@ namespace METAbolt
         private System.Windows.Forms.ToolStripMenuItem uncommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertSnippetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contectHelpToolStripMenuItem;
-        private ScintillaNet.Scintilla rtbScript;
+        private ScintillaNET.Scintilla rtbScript;
         private System.Windows.Forms.ToolStripComboBox tscboLanguage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;

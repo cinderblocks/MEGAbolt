@@ -37,9 +37,6 @@
     <Reference Include="Interop.WMPLib">
       <HintPath>..\Libs\Interop.WMPLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScintillaNet">
-      <HintPath>..\Libs\ScintillaNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Core\Components\DataChart.cs">
@@ -469,6 +466,7 @@
     <PackageReference Include="OpenTK.Core" Version="4.6.7" />
     <PackageReference Include="OpenTK.WinForms.Radegast" Version="0.1.0" />
     <PackageReference Include="RawScape.Nini" Version="1.0.0" />
+    <PackageReference Include="ScintillaNET.Core" Version="3.6.51" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Management" Version="5.0.0" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />

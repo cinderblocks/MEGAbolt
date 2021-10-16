@@ -1,4 +1,5 @@
 //  Copyright (c) 2008 - 2014, www.metabolt.net (METAbolt)
+//  Copyright (c) 2021, Sjofn LLC.
 //  All rights reserved.
 
 //  Redistribution and use in source and binary forms, with or without modification, 
@@ -32,7 +33,7 @@ using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
-using ScintillaNet;
+using ScintillaNET;
 using System.IO;
 using System.Globalization;
 
@@ -44,28 +45,19 @@ namespace METAbolt
         private MEGAboltNetcom netcom;
         private GridClient client;
         private InventoryItem item;
-        //private UUID transferID;
-        //private AssetScriptText receivedAsset;
-
-        //private UUID uploadID;
+        
         private bool closePending = false;
         private bool saving = false;
-        //private bool changed = false;
-        //private List<string> acomplete;
         private bool ointernal = false;
         private bool istaskobj = false;
         private UUID objectid = UUID.Zero;  
-
-        //int start = 0;
-        //int indexOfSearchText = 0;
-        //string prevsearchtxt = string.Empty;
+        
         private const int LINE_NUMBERS_MARGIN_WIDTH = 35;
         private UUID assetUUID = UUID.Zero;
         private UUID itemUUID = UUID.Zero;
-        private List<string> calltip = new List<string>();
-        private List<string> calltipheader = new List<string>();
+        private List<string> calltip = new();
+        private List<string> calltipheader = new();
         private bool showingcalltip = false;
-        //private Line cline;
 
 
         public frmScriptEditor(METAboltInstance instance, InventoryItem item)
@@ -83,7 +75,7 @@ namespace METAbolt
 
             AddNetcomEvents();
             
-            this.Text = item.Name + " (script) - METAbolt";
+            this.Text = item.Name + " (script) - MEGAbolt";
 
             SetScintilla();
             GetCallTips();
@@ -109,7 +101,7 @@ namespace METAbolt
 
             AddNetcomEvents();
 
-            this.Text = item.Name + " (script) - METAbolt";
+            this.Text = item.Name + " (script) - MEGAbolt";
 
             SetScintilla();
             GetCallTips();
@@ -132,7 +124,6 @@ namespace METAbolt
             netcom = this.instance.Netcom;
             client = this.instance.Client;
             panel1.Visible = false;
-            //checkBox2.Visible = false;
 
             AddNetcomEvents();
 
@@ -150,22 +141,10 @@ namespace METAbolt
                 SetLanguage("lsl");
                 tscboLanguage.SelectedIndex = 0;
 
-                rtbScript.Margins.Margin0.Width = LINE_NUMBERS_MARGIN_WIDTH;
-                //rtbScript.AutoComplete.FillUpCharacters = "([";
-                //rtbScript.AutoComplete.AutomaticLengthEntered = true;
-                //rtbScript.AutoComplete.AutoHide = true;
-                //rtbScript.AutoComplete.IsCaseSensitive = false;
-                ////rtbScript.AutoComplete.RegisterImages(imageList1);
-                ////rtbScript.Styles[rtbScript.Lexing.StyleNameMap["functions"]].ForeColor = Color.Fuchsia;
-
-                //rtbScript.AutoComplete.CancelAtShowPoint = false;
-                rtbScript.Caret.Color = Color.Red;
-
-                //rtbScript.AutoComplete.SingleLineAccept = false;
-                //rtbScript.AutoComplete.DropRestOfWord = true;
-                rtbScript.AutoComplete.StopCharacters = ") ] // ; ' - _ */ /*";
-                rtbScript.Caret.HighlightCurrentLine = true;
-                rtbScript.Caret.CurrentLineBackgroundColor = Color.Linen; 
+                rtbScript.Margins[0].Width = LINE_NUMBERS_MARGIN_WIDTH;
+                rtbScript.CaretForeColor = Color.Red;
+                
+                rtbScript.CaretLineBackColor = Color.Linen;
             }
             catch (Exception ex)
             {
@@ -195,64 +174,35 @@ namespace METAbolt
 
         private void SetupSort()
         {
-            AutoCompleteStringListSorter Sorter = new AutoCompleteStringListSorter
-            {
-                SortingOrder = SortOrder.Ascending
-            };
-            rtbScript.AutoComplete.List.Items.Sort(Sorter);
             rtbScript.CharAdded += Document_CharAdded;
         }
 
         private void Document_CharAdded(object sender, CharAddedEventArgs e)
         {
-            //cline = rtbScript.Lines.Current;
-
-            //if (showingcalltip)
-            //{
-            //    if (e.Ch == ')')
-            //    {
-            //        showingcalltip = false;
-            //        rtbScript.CallTip.Hide();
-            //    }
-            //    else
-            //    {
-            //        showingcalltip = true;
-            //        ShowCallTip();
-            //        //cline = rtbScript.Lines.Current;
-            //        return;
-            //    }
-            //}
-
-            if (e.Ch == '(')
+            if (e.Char == '(')
             {
                 showingcalltip = true;
-                //ShowCallTip();
 
                 return;
             }
-            else if (e.Ch == ')')
+            else if (e.Char == ')')
             {
                 showingcalltip = false;
-                //rtbScript.CallTip.Hide();
             }
-
-            //ShowCallTip();
 
             if (showingcalltip)
             {
-                //ShowCallTip();
-
                 return;
             }
 
-            Line ln = rtbScript.Lines.Current;
+            Line ln = rtbScript.Lines[rtbScript.CurrentLine];
 
             if (ln.Text.Contains("//"))
             {
                 //int lng = ln.Length;
                 int idx = ln.Text.IndexOf("//", StringComparison.CurrentCultureIgnoreCase);
 
-                int cpos = rtbScript.GetColumn(rtbScript.CurrentPos);
+                int cpos = rtbScript.GetColumn(rtbScript.CurrentPosition);
 
                 if (cpos > idx)
                 {
@@ -260,150 +210,13 @@ namespace METAbolt
                 }
             }
 
-            if (e.Ch == ' ')
+            if (e.Char == ' ')
                 return;
 
-            int pos = rtbScript.NativeInterface.GetCurrentPos();
+            int pos = rtbScript.CurrentPosition;
             string word = rtbScript.GetWordFromPosition(pos);
 
-            if (String.IsNullOrEmpty(word))
-                return;
-
-            if (rtbScript.AutoComplete.List.Items.Count > 0)
-                rtbScript.AutoComplete.Show();
-            else
-                rtbScript.AutoComplete.Cancel();
-        }
-
-        private void ShowCallTip()
-        {
-            //string func = rtbScript.AutoComplete.SelectedText;
-
-            showingcalltip = true; 
-
-            Line lnt = rtbScript.Lines.Current;
-            int aind = lnt.Text.IndexOf("(", 0, StringComparison.CurrentCultureIgnoreCase);
-
-            if (aind == -1)
-            {
-                showingcalltip = false;
-                rtbScript.CallTip.Hide();
-                return;
-            }
-
-            string hword = rtbScript.GetWordFromPosition(lnt.StartPosition + aind - 1);
-            //rtbScript.CallTip.Show(hword);
-
-            int idx = calltipheader.IndexOf(hword);
-
-            if (idx == -1) return;
-
-            string tip = calltip[idx];
-
-            string[] split = tip.Split('|');
-            string function = @split[1];
-            string cti = @split[2];
-
-            if (function.Length > 50)
-            {
-                string lo = function.Substring(0, 50);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                function = function.Insert(ind + 1, "\n");
-            }
-
-            if (function.Length > 100)
-            {
-                string lo = function.Substring(0, 100);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                function = function.Insert(ind + 1, "\n");
-            }
-
-            if (function.Length > 150)
-            {
-                string lo = function.Substring(0, 150);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                function = function.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 50)
-            {
-                string lo = cti.Substring(0, 50);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 100)
-            {
-                string lo = cti.Substring(0, 100);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 150)
-            {
-                string lo = cti.Substring(0, 150);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 200)
-            {
-                string lo = cti.Substring(0, 200);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 250)
-            {
-                string lo = cti.Substring(0, 250);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            if (cti.Length > 300)
-            {
-                string lo = cti.Substring(0, 300);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
-                cti = cti.Insert(ind + 1, "\n");
-            }
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(function);
-            sb.AppendLine(string.Empty);
-            sb.AppendLine(cti);
-
-            rtbScript.CallTip.Show(sb.ToString());
-            //rtbScript.CallTip.Show(function);
-        }
-
-        public static void Append<T>(ref T[] array, params T[] items)
-        {
-            int oldLength = array.Length;
-            //make room for new items
-            Array.Resize<T>(ref array, oldLength + items.Length);
-
-            for (int i = 0; i < items.Length; i++)
-                array[oldLength + i] = items[i];
-        }
-
-        private void PrepareList()
-        {
-            //// TODO: When this form becomes a proper IDE all this
-            //// needs to be moved to the IDE level so that it is
-            //// not loaded each time a script is opened. LL
-
-            //char[] deli = " ".ToCharArray();
-            //string[] strKeys0 = rtbScript.Lexing.Keywords[0].Split(deli);
-            //string[] strKeys1 = rtbScript.Lexing.Keywords[1].Split(deli);
-            //string[] strKeys3 = rtbScript.Lexing.Keywords[3].Split(deli);
-            ////string[] strKeys4 = {" "};
-
-            //ArrayX.Append<string>(ref strKeys0, strKeys1);
-            //ArrayX.Append<string>(ref strKeys0, strKeys3);
-            ////ArrayX.Append<string>(ref strKeys0, strKeys4);
-
-            //acomplete = new List<string>(strKeys0);
-            //rtbScript.AutoComplete.List = acomplete;
+            if (string.IsNullOrEmpty(word)) { return; }
         }
 
         //Separate thread
@@ -432,16 +245,14 @@ namespace METAbolt
                     SetScriptText(scriptContent, false);
                     return;
                 }
-
-                //receivedAsset = (AssetScriptText)asset;
+                
                 scriptContent = Utils.BytesToString(transfer.AssetData);
                 SetScriptText(scriptContent, false);
-                //string adta = string.Empty; 
 
                 if (istaskobj)
                 {
                     client.Inventory.ScriptRunningReply += Inventory_ScriptRunningReply;
-                    client.Inventory.RequestGetScriptRunning(objectid, itemUUID);   //assetUUID);
+                    client.Inventory.RequestGetScriptRunning(objectid, itemUUID);
                 }
             }
             catch (Exception ex)
@@ -481,26 +292,25 @@ namespace METAbolt
 
             try
             {
-                rtbScript.UndoRedo.EmptyUndoBuffer();
-                rtbScript.Modified = false;
+                rtbScript.EmptyUndoBuffer();
+                rtbScript.SetSavePoint();
                 rtbScript.Text = text;
 
                 if (readOnly)
                 {
-                    rtbScript.IsReadOnly = true;
+                    rtbScript.ReadOnly = true;
                     rtbScript.BackColor = Color.FromKnownColor(KnownColor.Control);
                 }
                 else
                 {
-                    rtbScript.IsReadOnly = false;
+                    rtbScript.ReadOnly = false;
                     rtbScript.BackColor = Color.White;
                 }
-
-                //rtbScript.ProcessAllLines();
+                
                 PB1.Visible = false;
                 tsStatus.Text = "Ready.";
 
-                if (!rtbScript.IsReadOnly)
+                if (!rtbScript.ReadOnly)
                 {
                     if (!ointernal)
                     {
@@ -562,7 +372,7 @@ namespace METAbolt
                 PB1.Visible = true;
                 saving = true;
 
-                rtbScript.IsReadOnly = true;
+                rtbScript.ReadOnly = true;
                 rtbScript.BackColor = Color.FromKnownColor(KnownColor.Control);
 
                 tsStatus.Text = "Saving script...";
@@ -570,9 +380,6 @@ namespace METAbolt
                 tsSave.Enabled = false;
                 tsbSave.Enabled = false;
                 tsSaveDisk.Enabled = false;
-
-                //string file = this.item.Name;
-                //string desc = this.item.Description;
 
                 if (istaskobj)
                 {
@@ -624,70 +431,62 @@ namespace METAbolt
 
         void OnScriptUpdate(bool success, string status, bool compile, List<string> messages, UUID itemID, UUID assetID)
         {
-            if (success)
+            if (!success) { return; }
+
+            BeginInvoke((MethodInvoker)delegate
+            {
+                label1.Text = string.Empty;
+            });
+
+            if (!compile)
             {
                 BeginInvoke((MethodInvoker)delegate
                 {
-                    label1.Text = string.Empty;
+                    string line = messages[0];
+                    string[] errs = line.Split(':');
+                    string pos = errs[0].Trim().Replace("(", "");
+                    pos = pos.Trim().Replace(")", "");
+                    string[] posxy = pos.Split(',');
+
+                    int posx = Convert.ToInt32(posxy[0].Trim(), CultureInfo.CurrentCulture);
+
+                    rtbScript.GotoPosition(rtbScript.Lines[posx-1].Position);
+
+                    label1.Text = $"Compile {errs[1].Trim()}: {errs[2].Trim().Replace("\n", "")} @ line: {posxy[0].Trim()}";
                 });
+            }
 
-                if (!compile)
-                {
-                    BeginInvoke((MethodInvoker)delegate
-                    {
-                        string line = messages[0];
-                        string[] errs = line.Split(':');
-                        //Point pos = (Point)errs[0].Trim();
-                        string pos = errs[0].Trim().Replace("(", "");
-                        pos = pos.Trim().Replace(")", "");
-                        string[] posxy = pos.Split(',');
+            saving = false;
+            BeginInvoke(new MethodInvoker(SaveComplete));
 
-                        int posx = Convert.ToInt32(posxy[0].Trim(), CultureInfo.CurrentCulture);
-                        //int posy = Convert.ToInt32(posxy[1].Trim());
-
-                        //int aposx = rtbScript.PointXFromPosition(posx);
-                        //int aposy = rtbScript.PointXFromPosition(posy);
-
-                        //int apos = rtbScript.PositionFromPoint(aposx, aposy);
-
-                        //rtbScript.NativeInterface.GotoPos(apos);
-                        rtbScript.NativeInterface.GotoLine(posx - 1);
-
-                        label1.Text = "Compile " + errs[1].Trim() + ": " + errs[2].Trim().Replace("\n", "") + " @ line: " + posxy[0].Trim();
-                    });
-                }
-
-                saving = false;
-                BeginInvoke(new MethodInvoker(SaveComplete));
-
-                if (closePending)
-                {
-                    closePending = false;
-                    this.Close();
-                    return;
-                }
-            }    
+            if (closePending)
+            {
+                closePending = false;
+                this.Close();
+                return;
+            }
         }
 
         //UI thread
         private void SaveComplete()
         {
-            rtbScript.IsReadOnly = false;
+            rtbScript.ReadOnly = false;
             rtbScript.BackColor = Color.White;
             tsSave.Enabled = false;
             tsbSave.Enabled = false;
             tsSaveDisk.Enabled = true;
-            rtbScript.Modified = false;
+            rtbScript.SetSavePoint();
             PB1.Visible = false;
 
             tsStatus.Text = "Save completed.";
-            //lblSaveStatus.Visible = true;
         }
 
         private void frmScriptEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (closePending || saving)
+            {
                 e.Cancel = true;
+            }
             else if (rtbScript.Modified)
             {
                 if (!ointernal)
@@ -700,14 +499,7 @@ namespace METAbolt
                             closePending = true;
                             SaveScript();
 
-                            if (saving)
-                            {
-                                e.Cancel = true;
-                            }
-                            else
-                            {
-                                e.Cancel = false;
-                            }
+                            e.Cancel = saving;
                             break;
 
                         case DialogResult.No:
@@ -724,28 +516,22 @@ namespace METAbolt
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Clipboard.Cut();
+            rtbScript.Cut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Clipboard.Clear();
-            rtbScript.Clipboard.Copy();
+            rtbScript.Copy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (Clipboard.ContainsText(TextDataFormat.Rtf)) 
-            //{
-                
-            //}
-
-            rtbScript.Clipboard.Paste();
+            rtbScript.Paste();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Selection.SelectAll(); 
+            rtbScript.SelectAll(); 
         }       
 
         private void SaveToDisk()
@@ -768,26 +554,10 @@ namespace METAbolt
             {
                 using (FileStream fs = File.Create(saveFile1.FileName))
                 using (BinaryWriter bw = new BinaryWriter(fs))
-                    bw.Write(rtbScript.RawText, 0, rtbScript.RawText.Length - 1); // Omit trailing NULL
+                    bw.Write(rtbScript.Text.ToCharArray(), 0, rtbScript.Text.Length - 1); // Omit trailing NULL
 
-            rtbScript.Modified = false;
-
-            tsSaveDisk.Enabled = false;
-
-                //if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
-                //{
-                //    // Save the contents of the RichTextBox into the file.
-                //    //rtbScript.SaveFile(saveFile1.FileName, RichTextBoxStreamType.RichText);
-                //    using (FileStream fs = File.Create(saveFile1.InitialDirectory + "\\" + saveFile1.FileName))
-                //    using (BinaryWriter bw = new BinaryWriter(fs))
-                //        bw.Write(rtbScript.RawText, 0, rtbScript.RawText.Length - 1); // Omit trailing NULL
-
-                //    rtbScript.Modified = false;
-                //}
-                //else
-                //{
-                //    rtbScript.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
-                //}
+                rtbScript.SetSavePoint();
+                tsSaveDisk.Enabled = false;
             }
 
             saveFile1.Dispose(); 
@@ -795,30 +565,23 @@ namespace METAbolt
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.UndoRedo.Undo();
+            rtbScript.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.UndoRedo.Redo(); 
+            rtbScript.Redo(); 
         }
 
         private void GetCurrentLine()
         {
-            //int linenumber = rtbScript.GetLineFromCharIndex(rtbScript.SelectionStart) + 1;
-            //tsLn.Text = "Ln " + linenumber.ToString();
-            Line ln = rtbScript.Lines.Current;
-            int lnm = ln.Number + 1;
+            int lnm = rtbScript.CurrentLine + 1;
             tsLn.Text = "Ln " + lnm.ToString(CultureInfo.CurrentCulture);
         }
 
         private void GetCurrentCol()
         {
-            //int colnumber = rtbScript.SelectionStart - rtbScript.GetFirstCharIndexOfCurrentLine() + 1;
-            //tsCol.Text = "Ln " + colnumber.ToString();
-
-            //int colnumber = rtbScript.CurrentPos;
-            tsCol.Text = "Col " + rtbScript.GetColumn(rtbScript.CurrentPos).ToString(CultureInfo.CurrentCulture);
+            tsCol.Text = "Col " + rtbScript.GetColumn(rtbScript.CurrentPosition).ToString(CultureInfo.CurrentCulture);
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -841,12 +604,6 @@ namespace METAbolt
             SaveScript();
         }
 
-        //public bool IniLexer
-        //{
-        //    get { return _iniLexer; }
-        //    set { _iniLexer = value; }
-        //}
-
         private void SetLanguage(string language)
         {
             if ("ini".Equals(language, StringComparison.OrdinalIgnoreCase))
@@ -859,28 +616,8 @@ namespace METAbolt
             {
                 // Use a built-in lexer and configuration
                 //ActiveDocument.IniLexer = false;
-                
 
-                // Smart indenting...
-                if ("cs".Equals(language, StringComparison.OrdinalIgnoreCase))
-                {
-                    rtbScript.Indentation.SmartIndentType = SmartIndent.CPP;
-                }
-                else if ("lsl".Equals(language, StringComparison.OrdinalIgnoreCase))
-                {
-                    rtbScript.ConfigurationManager.CustomLocation = Application.StartupPath.ToString() + "\\MBLSL.xml";
-                    rtbScript.Indentation.SmartIndentType = SmartIndent.CPP;
-                }
-                else if ("js".Equals(language, StringComparison.OrdinalIgnoreCase))
-                {
-                    rtbScript.Indentation.SmartIndentType = SmartIndent.CPP;
-                }
-                else
-                {
-                    rtbScript.Indentation.SmartIndentType = SmartIndent.Simple;
-                }
-
-                rtbScript.ConfigurationManager.Language = language;
+                rtbScript.LexerLanguage = language;
             }
 
             SetupSort();
@@ -893,17 +630,17 @@ namespace METAbolt
 
         private void goToToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.GoTo.ShowGoToDialog();
+            //rtbScript.GoTo.ShowGoToDialog();
         }
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.FindReplace.ShowFind(); 
+            //rtbScript.FindReplace.ShowFind(); 
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.FindReplace.ShowReplace(); 
+            //rtbScript.FindReplace.ShowReplace(); 
         }
 
         private void advancedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -913,79 +650,80 @@ namespace METAbolt
 
         private void previousBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Line l = rtbScript.Lines.Current.FindPreviousMarker(1);
-
-            if (l != null)
-                l.Goto();
+            int markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerPrevious(1);
+            if (markerPos != -1)
+            {
+                rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
+            }
         }
 
         private void toggleBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Line currentLine = rtbScript.Lines.Current;
-
-            if (rtbScript.Markers.GetMarkerMask(currentLine) == 0)
-			{
-				currentLine.AddMarker(0);
-			}
+            Line currentLine = rtbScript.Lines[rtbScript.CurrentLine];
+            if (currentLine.MarkerGet() == 0)
+            {
+                currentLine.MarkerAdd(0);
+            }
 			else
 			{
-				currentLine.DeleteMarker(0);
+				currentLine.MarkerDelete(0);
 			}
         }
 
         private void nextBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Line l = rtbScript.Lines.Current.FindNextMarker(1);
-
-            if (l != null)
-                l.Goto();
+            int markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerNext(1);
+            if (markerPos != -1)
+            {
+                rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
+            }
         }
 
         private void clearBookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Markers.DeleteAll(0);
+            rtbScript.MarkerDeleteAll(0);
         }
 
         private void dropToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.DropMarkers.Drop();
+            //rtbScript.DropMarkers.Drop();
         }
 
         private void collectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.DropMarkers.Collect();
+            //rtbScript.DropMarkers.Collect();
         }
 
         private void insertSnippetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Snippets.ShowSnippetList();
+            //rtbScript.Snippets.ShowSnippetList();
         }
 
         private void makeUpperCaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.UpperCase);
+            rtbScript.ExecuteCmd(Command.Uppercase);
         }
 
         private void makeLowerCaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.LowerCase);
+            rtbScript.ExecuteCmd(Command.Lowercase);
         }
 
         private void commentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.LineComment);
+            //rtbScript.ExecuteCmd(BindableCommand.LineComment);
         }
 
         private void uncommentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.LineUncomment);
+            //rtbScript.ExecuteCmd(BindableCommand.LineUncomment);
         }
 
         private void contectHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tscboLanguage.SelectedItem.ToString().ToLower(CultureInfo.CurrentCulture) == "lsl")
+            if (tscboLanguage.SelectedItem.ToString()?.ToLower(CultureInfo.CurrentCulture) == "lsl")
             {
-                string hword = rtbScript.GetWordFromPosition(rtbScript.CurrentPos);
+                string hword = rtbScript.GetWordFromPosition(rtbScript.CurrentPosition);
                 string surl = "http://wiki.secondlife.com/wiki/" + hword;
                 System.Diagnostics.Process.Start(@surl);
             }
@@ -995,9 +733,7 @@ namespace METAbolt
         {
             string lang = string.Empty;
 
-            rtbScript.AutoComplete.List = null;
-
-            switch (tscboLanguage.SelectedItem.ToString().ToLower(CultureInfo.CurrentCulture))
+            switch (tscboLanguage.SelectedItem.ToString()?.ToLower(CultureInfo.CurrentCulture))
             {
                 case "c#":
                     lang = "cs";
@@ -1049,11 +785,6 @@ namespace METAbolt
             }
 
             SetLanguage(lang);
-
-            //if (lang == "lsl")
-            //{
-            //    PrepareList();
-            //}
         }
 
         private void tscboLanguage_Click(object sender, EventArgs e)
@@ -1063,144 +794,105 @@ namespace METAbolt
 
         private void toolStripButton2_Click_1(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.LineComment);
+            //rtbScript.ExecuteCmd(BindableCommand.LineComment);
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.LineUncomment);
+            //rtbScript.ExecuteCmd(BindableCommand.LineUncomment);
         }
 
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
-            Line l = rtbScript.Lines.Current.FindPreviousMarker(1);
-            if (l != null)
-                l.Goto();
+            var markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerPrevious(1);
+            if (markerPos != -1)
+            {
+                rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
+            }
         }
 
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
-            Line l = rtbScript.Lines.Current.FindNextMarker(1);
-            if (l != null)
-                l.Goto();
+            var markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerNext(1);
+            if (markerPos != -1)
+            {
+                rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
+            }
         }
 
         private void toolStripButton10_Click(object sender, EventArgs e)
         {
-            rtbScript.Snippets.ShowSnippetList();
+            //rtbScript.Snippets.ShowSnippetList();
         }
 
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.BackTab);
+            rtbScript.ExecuteCmd(Command.BackTab);
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
-            rtbScript.Commands.Execute(BindableCommand.Tab);
+            rtbScript.ExecuteCmd(Command.Tab);
         }
 
         private void whitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (whitespaceToolStripMenuItem.Checked)
-            {
-                rtbScript.Whitespace.Mode = WhitespaceMode.VisibleAlways;
-            }
-            else
-            {
-                rtbScript.Whitespace.Mode = WhitespaceMode.Invisible;
-            }
+            rtbScript.ViewWhitespace = whitespaceToolStripMenuItem.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
         }
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (wordWrapToolStripMenuItem.Checked)
-            {
-                rtbScript.LineWrap.Mode = WrapMode.Word;
-            }
-            else
-            {
-                rtbScript.LineWrap.Mode = WrapMode.None;
-            }
+            rtbScript.WrapMode = wordWrapToolStripMenuItem.Checked ? WrapMode.Word : WrapMode.None;
         }
 
         private void endOfLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (endOfLineToolStripMenuItem.Checked)
-            {
-
-                rtbScript.EndOfLine.IsVisible = true;
-            }
-            else
-            {
-                rtbScript.EndOfLine.IsVisible = false;
-            }
+            rtbScript.EndAtLastLine = endOfLineToolStripMenuItem.Checked;
         }
 
         private void lineNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //lineNumbersToolStripMenuItem.Checked = !lineNumbersToolStripMenuItem.Checked;
-
-            if (lineNumbersToolStripMenuItem.Checked)
-            {
-                rtbScript.Margins.Margin0.Width = LINE_NUMBERS_MARGIN_WIDTH;
-            }
-            else
-            {
-                rtbScript.Margins.Margin0.Width = 0;
-            }
+            rtbScript.Margins[0].Width = lineNumbersToolStripMenuItem.Checked ? LINE_NUMBERS_MARGIN_WIDTH : 0;
         }
 
         private void foldLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Lines.Current.FoldExpanded = true;
-            rtbScript.Refresh();
+            rtbScript.Lines[rtbScript.CurrentLine].FoldLine(FoldAction.Contract);
         }
 
         private void unfoldLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Lines.Current.FoldExpanded = false;
-            rtbScript.Refresh();
+            rtbScript.Lines[rtbScript.CurrentLine].FoldLine(FoldAction.Expand);
         }
 
         private void foldAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Line l in rtbScript.Lines)
-            {
-                l.FoldExpanded = true;
-            }
-
-            rtbScript.Refresh();  
+            rtbScript.FoldAll(FoldAction.Contract);
         }
 
         private void unfoldAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Line l in rtbScript.Lines)
-            {
-                l.FoldExpanded = false;
-            }
-
-            rtbScript.Refresh();
+            rtbScript.FoldAll(FoldAction.Expand);
         }
 
         private void navigateForwardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.DocumentNavigation.NavigateForward();
+            //rtbScript.DocumentNavigation.NavigateForward();
         }
 
         private void navigateBackwardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.DocumentNavigation.NavigateBackward();
+            //rtbScript.DocumentNavigation.NavigateBackward();
         }
 
         private void tsLn_DoubleClick(object sender, EventArgs e)
         {
-            rtbScript.GoTo.ShowGoToDialog();
+            //rtbScript.GoTo.ShowGoToDialog();
         }
 
         private void tsCol_DoubleClick(object sender, EventArgs e)
         {
-            rtbScript.GoTo.ShowGoToDialog();
+            //rtbScript.GoTo.ShowGoToDialog();
         }
 
         private void toolStripButton12_Click(object sender, EventArgs e)
@@ -1210,33 +902,31 @@ namespace METAbolt
 
         private void toolStripButton13_Click(object sender, EventArgs e)
         {
-            rtbScript.Clipboard.Cut();
+            rtbScript.Cut();
         }
 
         private void toolStripButton14_Click(object sender, EventArgs e)
         {
-            rtbScript.Clipboard.Copy();
+            rtbScript.Copy();
         }
 
         private void toolStripButton15_Click(object sender, EventArgs e)
         {
-            rtbScript.Clipboard.Paste();
+            rtbScript.Paste();
         }
 
         private void toolStripButton16_Click(object sender, EventArgs e)
         {
-            rtbScript.UndoRedo.Undo();
+            rtbScript.Undo();
         }
 
         private void toolStripButton17_Click(object sender, EventArgs e)
         {
-            rtbScript.UndoRedo.Redo();
+            rtbScript.Redo();
         }
 
         private void lSLFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //tsSaveDisk.Enabled = true;
-            //tsSave.Enabled = false;
             ointernal = true;
 
             string lslb = @"
@@ -1244,7 +934,7 @@ default
 {
     state_entry()
     {
-        llSay(0,'Hello METAbolt user');
+        llSay(0,'Hello MEGAbolt user');
      }
 }";
 
@@ -1325,7 +1015,7 @@ namespace METAbolt
 
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "LSL Files (*.lsl)|*.lsl|C# Class (*.cs)|*.cs|XML Files (*.xml)|*.xml|HTML Files (*.html)|*.html|Java Script (*.js)|*.js|VB Script (*.vb)|*.vb|PHP Files (*.php)|*.php|INI Files (*.ini)|*.ini|AIML Files (*.aiml)|*.aiml|TXT Files (*.txt)|*.txt|RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";  //"RTF Files|*.rtf"; 
+            openFileDialog.Filter = @"LSL Files (*.lsl)|*.lsl|C# Class (*.cs)|*.cs|XML Files (*.xml)|*.xml|HTML Files (*.html)|*.html|Java Script (*.js)|*.js|VB Script (*.vb)|*.vb|PHP Files (*.php)|*.php|INI Files (*.ini)|*.ini|AIML Files (*.aiml)|*.aiml|TXT Files (*.txt)|*.txt|RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";  //"RTF Files|*.rtf"; 
             OpenFile();
         }
 
@@ -1344,8 +1034,8 @@ namespace METAbolt
         private void OpenFile(string filePath, int ind)
         {
             rtbScript.Text = File.ReadAllText(filePath);
-            rtbScript.UndoRedo.EmptyUndoBuffer();
-            rtbScript.Modified = false;
+            rtbScript.EmptyUndoBuffer();
+            rtbScript.SetSavePoint();
             this.Text = filePath;   //Path.GetFileName(filePath);
 
             string ext = Path.GetExtension(filePath).ToLower(CultureInfo.CurrentCulture);
@@ -1416,7 +1106,7 @@ namespace METAbolt
 
         private void rtbScript_TextChanged(object sender, EventArgs e)
         {
-            if (!rtbScript.IsReadOnly)
+            if (!rtbScript.ReadOnly)
             {
                 if (!ointernal)
                 {
@@ -1459,16 +1149,12 @@ namespace METAbolt
 
         private void rtbScript_MouseMove(object sender, MouseEventArgs e)
         {
-            ////string link = GetWord(rtbScript.Text, rtbScript.GetWordFromPosition(e.Location));
-            //int pos = rtbScript.NativeInterface.GetCurrentPos();
-            //string word = rtbScript.GetWordFromPosition(pos);
-
-            int pos = rtbScript.PositionFromPoint(e.X, e.Y);
+            int pos = rtbScript.CharPositionFromPoint(e.X, e.Y);
             string word = rtbScript.GetWordFromPosition(pos);
 
-            if (String.IsNullOrEmpty(word))
+            if (string.IsNullOrEmpty(word))
             {
-                rtbScript.CallTip.Hide();
+                rtbScript.CallTipCancel();
                 return;
             }
 
@@ -1476,7 +1162,7 @@ namespace METAbolt
 
             if (idx == -1)
             {
-                rtbScript.CallTip.Hide();
+                rtbScript.CallTipCancel();
                 return;
             }
 
@@ -1556,20 +1242,20 @@ namespace METAbolt
             sb.AppendLine(string.Empty);
             sb.AppendLine("[Click on function/event & press F1 for info/sample code]");
 
-            rtbScript.CallTip.Show(sb.ToString(), pos);
+            rtbScript.CallTipShow(pos, sb.ToString());
         }
 
         private void rtbScript_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
+            if (e.KeyCode is Keys.Back or Keys.Delete)
             {
-                Line lnt = rtbScript.Lines.Current;
+                Line lnt = rtbScript.Lines[rtbScript.CurrentLine];
                 int aind = lnt.Text.IndexOf("(", 0, StringComparison.CurrentCultureIgnoreCase);
 
                 if (aind == -1)
                 {
                     showingcalltip = false;
-                    rtbScript.CallTip.Hide();
+                    rtbScript.CallTipCancel();
                     return;
                 }
             }
