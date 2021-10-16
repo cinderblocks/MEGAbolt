@@ -379,13 +379,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Grids.txt" />
-    <Content Include="Licences\AIMLbot License.txt" />
-    <Content Include="Licences\libsl-license.txt" />
-    <Content Include="Licences\license.txt" />
-    <Content Include="Licences\nini-license.txt" />
-    <Content Include="Licences\openjpeg.txt" />
-    <Content Include="Licences\ScintillaNet License.txt" />
-    <Content Include="Licences\SLeek-license.txt" />
     <Content Include="license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
