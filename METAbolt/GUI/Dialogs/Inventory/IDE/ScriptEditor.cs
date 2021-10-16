@@ -820,11 +820,6 @@ namespace METAbolt
             }
         }
 
-        private void toolStripButton10_Click(object sender, EventArgs e)
-        {
-            //rtbScript.Snippets.ShowSnippetList();
-        }
-
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
             rtbScript.ExecuteCmd(Command.BackTab);

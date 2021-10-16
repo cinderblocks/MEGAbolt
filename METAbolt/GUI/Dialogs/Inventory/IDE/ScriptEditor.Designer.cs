@@ -60,7 +60,6 @@ namespace METAbolt
             this.commentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.snippetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertSnippetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contectHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -83,9 +82,6 @@ namespace METAbolt
             this.unfoldLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.foldAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unfoldAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.navigateForwardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.navigateBackwardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.tscboLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -96,8 +92,6 @@ namespace METAbolt
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsLn = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -162,7 +156,6 @@ namespace METAbolt
             this.toolStripSeparator6,
             this.advancedToolStripMenuItem,
             this.toolStripSeparator7,
-            this.snippetsToolStripMenuItem,
             this.contectHelpToolStripMenuItem});
             this.Menu1.Name = "Menu1";
             this.Menu1.OwnerItem = this.toolStripDropDownButton2;
@@ -383,15 +376,6 @@ namespace METAbolt
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(161, 6);
             // 
-            // snippetsToolStripMenuItem
-            // 
-            this.snippetsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.insertSnippetToolStripMenuItem});
-            this.snippetsToolStripMenuItem.Image = global::METAbolt.Properties.Resources.source_i;
-            this.snippetsToolStripMenuItem.Name = "snippetsToolStripMenuItem";
-            this.snippetsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.snippetsToolStripMenuItem.Text = "Snippets";
-            // 
             // insertSnippetToolStripMenuItem
             // 
             this.insertSnippetToolStripMenuItem.Name = "insertSnippetToolStripMenuItem";
@@ -448,9 +432,7 @@ namespace METAbolt
             this.toolStripButton2,
             this.toolStripButton3,
             this.toolStripButton9,
-            this.toolStripButton8,
-            this.toolStripSeparator11,
-            this.toolStripButton10});
+            this.toolStripButton8});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(735, 25);
@@ -521,10 +503,7 @@ namespace METAbolt
             this.foldLevelToolStripMenuItem,
             this.unfoldLevelToolStripMenuItem,
             this.foldAllToolStripMenuItem,
-            this.unfoldAllToolStripMenuItem,
-            this.toolStripSeparator14,
-            this.navigateForwardToolStripMenuItem,
-            this.navigateBackwardToolStripMenuItem});
+            this.unfoldAllToolStripMenuItem});
             this.toolStripDropDownButton3.Image = global::METAbolt.Properties.Resources.movie_track;
             this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
@@ -602,25 +581,6 @@ namespace METAbolt
             this.unfoldAllToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.unfoldAllToolStripMenuItem.Text = "Unfold All";
             this.unfoldAllToolStripMenuItem.Click += new System.EventHandler(this.unfoldAllToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(172, 6);
-            // 
-            // navigateForwardToolStripMenuItem
-            // 
-            this.navigateForwardToolStripMenuItem.Name = "navigateForwardToolStripMenuItem";
-            this.navigateForwardToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.navigateForwardToolStripMenuItem.Text = "Navigate Forward";
-            this.navigateForwardToolStripMenuItem.Click += new System.EventHandler(this.navigateForwardToolStripMenuItem_Click);
-            // 
-            // navigateBackwardToolStripMenuItem
-            // 
-            this.navigateBackwardToolStripMenuItem.Name = "navigateBackwardToolStripMenuItem";
-            this.navigateBackwardToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.navigateBackwardToolStripMenuItem.Text = "Navigate backward";
-            this.navigateBackwardToolStripMenuItem.Click += new System.EventHandler(this.navigateBackwardToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
@@ -718,21 +678,6 @@ namespace METAbolt
             this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton8.Text = "Next bookmark";
             this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton10
-            // 
-            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton10.Image = global::METAbolt.Properties.Resources.snippet_i;
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton10.Text = "Insert snippet";
-            this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
             // statusStrip1
             // 
