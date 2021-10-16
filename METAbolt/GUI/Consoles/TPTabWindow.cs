@@ -119,10 +119,7 @@ namespace METAbolt
 
         public string TargetName { get; private set; }
 
-        public UUID TargetUUID
-        {
-            get { return targetUUID; }
-        }
+        public UUID TargetUUID => targetUUID;
 
         private void TPTabWindow_Load(object sender, EventArgs e)
         {

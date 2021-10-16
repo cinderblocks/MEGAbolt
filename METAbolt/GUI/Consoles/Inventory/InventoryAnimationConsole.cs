@@ -49,7 +49,7 @@ namespace METAbolt
             client = this.instance.Client;
             this.item = item;
 
-            this.Disposed += InventoryAnimation_Disposed;
+            Disposed += InventoryAnimation_Disposed;
         }
 
         private void InventoryAnimation_Disposed(object sender, EventArgs e)

@@ -705,7 +705,7 @@ namespace METAbolt
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "METAbolt Map";
+            this.Text = "MEGAbolt Map";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMapClient_FormClosing);
             this.Load += new System.EventHandler(this.frmMapClient_Load);
             this.SizeChanged += new System.EventHandler(this.frmMapClient_SizeChanged);

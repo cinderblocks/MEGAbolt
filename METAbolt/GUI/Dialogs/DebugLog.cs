@@ -85,7 +85,7 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            this.Disposed += frmDebugLog_Disposed;
+            Disposed += frmDebugLog_Disposed;
             
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
@@ -94,17 +94,17 @@ namespace METAbolt
             client = this.instance.Client;
             AddClientEvents();
 
-            this.dataChart3.BackColor = System.Drawing.Color.Black;
-            this.dataChart3.ChartType = SystemMonitor.ChartType.Line;
-            this.dataChart1.ChartType = SystemMonitor.ChartType.Line;
+            dataChart3.BackColor = System.Drawing.Color.Black;
+            dataChart3.ChartType = SystemMonitor.ChartType.Line;
+            dataChart1.ChartType = SystemMonitor.ChartType.Line;
             //this.dataChart2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.dataChart3.GridColor = System.Drawing.Color.Green;
+            dataChart3.GridColor = System.Drawing.Color.Green;
             //this.dataChart2.GridPixels = 8;
-            this.dataChart3.InitialHeight = 250;
-            this.dataChart1.InitialHeight = iniheight;
+            dataChart3.InitialHeight = 250;
+            dataChart1.InitialHeight = iniheight;
             //this.dataChart1.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             //this.dataChart1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.dataChart3.LineColor = System.Drawing.Color.White;
+            dataChart3.LineColor = System.Drawing.Color.White;
 
             bytesSentPerformanceCounter.CategoryName = ".NET CLR Networking";
             bytesSentPerformanceCounter.CounterName = "Bytes Sent";
@@ -183,7 +183,7 @@ namespace METAbolt
         {
             try
             {
-                if (this.IsHandleCreated)
+                if (IsHandleCreated)
                     BeginInvoke(new Logger.LogCallback(ReceivedLogMessage), new object[] { message, level });
                 else
                     initQueue.Add(new DebugLogMessage((string)message, level, DateTime.Now));
@@ -295,7 +295,7 @@ namespace METAbolt
 
         private void frmDebugLog_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -537,7 +537,7 @@ namespace METAbolt
                     }
                     else
                     {
-                        dataChart1.UpdateChart(System.Convert.ToDouble(busedr));
+                        dataChart1.UpdateChart(Convert.ToDouble(busedr));
 
                         TimeSpan ts = TimeSpan.FromSeconds(Convert.ToInt32(tcntr));
 

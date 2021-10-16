@@ -170,10 +170,7 @@ namespace METAbolt
             }
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {

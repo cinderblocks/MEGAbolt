@@ -32,9 +32,9 @@ namespace METAbolt
     {
         public DebugLogMessage(string message, Helpers.LogLevel level, DateTime tstamp)
         {
-            this.Message = message;
-            this.Level = level;
-            this.TimeStamp = tstamp; 
+            Message = message;
+            Level = level;
+            TimeStamp = tstamp; 
         }
 
         public string Message { get; }

@@ -71,7 +71,7 @@ namespace METAbolt
 
         private void frmLogSearch_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             GetLogFiles(filetype);
             textBox1.Focus();
         }
@@ -178,7 +178,7 @@ namespace METAbolt
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            Close(); 
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -189,7 +189,7 @@ namespace METAbolt
 
                 if (checkBox1.Checked)
                 {
-                    System.Diagnostics.Process.Start(fullfile);
+                    Process.Start(fullfile);
                 }
                 else
                 {
@@ -206,7 +206,7 @@ namespace METAbolt
 
                 if (checkBox1.Checked)
                 {
-                    System.Diagnostics.Process.Start(fullfile);
+                    Process.Start(fullfile);
                 }
                 else
                 {
@@ -223,7 +223,7 @@ namespace METAbolt
 
                 if (checkBox1.Checked)
                 {
-                    System.Diagnostics.Process.Start(fullfile);
+                    Process.Start(fullfile);
                 }
                 else
                 {
@@ -240,7 +240,7 @@ namespace METAbolt
 
                 if (checkBox1.Checked)
                 {
-                    System.Diagnostics.Process.Start(fullfile);
+                    Process.Start(fullfile);
                 }
                 else
                 {

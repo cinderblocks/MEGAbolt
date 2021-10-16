@@ -191,7 +191,7 @@ namespace METAbolt
                 config.PlaySound = conf.Configs["Text"].GetBoolean("PlaySound", false);
                 config.SaveIMs = conf.Configs["Text"].GetBoolean("SaveIMs", true);
                 config.SaveChat = conf.Configs["Text"].GetBoolean("SaveChat", false);
-                config.LogDir = conf.Configs["Text"].GetString("LogDir", METAbolt.DataFolder.GetDataFolder() + "\\Logs\\");
+                config.LogDir = conf.Configs["Text"].GetString("LogDir", DataFolder.GetDataFolder() + "\\Logs\\");
                 config.DisableGroupNotices = conf.Configs["Text"].GetBoolean("DisableGroupNotices", true);
                 config.DisableGroupIMs = conf.Configs["Text"].GetBoolean("DisableGroupIMs", false);
                 config.BusyReply = conf.Configs["Text"].GetString("BusyReply", "The Resident you messaged is in 'busy mode' which means they have requested not to be disturbed.  Your message will still be shown in their IM panel for later viewing.");
@@ -204,10 +204,10 @@ namespace METAbolt
                 config.ProxyUser = conf.Configs["Proxy"].GetString("ProxyUser", string.Empty);
                 config.ProxyPWD = conf.Configs["Proxy"].GetString("ProxyPWD", string.Empty);
 
-                // META3D    
+                // MEGA3D    
                 try
                 {
-                    config.DisableMipmaps = conf.Configs["META3D"].GetBoolean("DisableMipmaps", false);
+                    config.DisableMipmaps = conf.Configs["MEGA3D"].GetBoolean("DisableMipmaps", false);
                 }
                 catch { ; }
                                    
@@ -444,8 +444,8 @@ namespace METAbolt
             config.Set("ProxyUser", ProxyUser);
             config.Set("ProxyPWD", ProxyPWD);
 
-            // META3D
-            config = source.AddConfig("META3D");
+            // MEGA3D
+            config = source.AddConfig("MEGA3D");
             config.Set("DisableMipmaps", DisableMipmaps.ToString(CultureInfo.CurrentCulture));
 
             // Plugins Loaded
@@ -477,7 +477,7 @@ namespace METAbolt
             config.Set("EnableSpelling", EnableSpelling.ToString(CultureInfo.CurrentCulture));
             config.Set("SpellLanguage", SpellLanguage);
 
-            FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), filename));
+            FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), filename));
 
             if (newFileInfo.Exists)
             {
@@ -613,50 +613,50 @@ namespace METAbolt
 
         public UUID ChairAnnouncerUUID
         {
-            get { return chairAnnouncerUuid; }
-            set { chairAnnouncerUuid = value; }
+            get => chairAnnouncerUuid;
+            set => chairAnnouncerUuid = value;
         }
 
         public int ChairAnnouncerInterval
         {
-            get { return chairAnnouncerInterval < 5 ? 5 : chairAnnouncerInterval; } //spam protection
-            set { chairAnnouncerInterval = value; }
+            get => chairAnnouncerInterval < 5 ? 5 : chairAnnouncerInterval; //spam protection
+            set => chairAnnouncerInterval = value;
         }
 
         public UUID ChairAnnouncerGroup1
         {
-            get { return chairAnnouncerGroup1; }
-            set { chairAnnouncerGroup1 = value; }
+            get => chairAnnouncerGroup1;
+            set => chairAnnouncerGroup1 = value;
         }
 
         public UUID ChairAnnouncerGroup2
         {
-            get { return chairAnnouncerGroup2; }
-            set { chairAnnouncerGroup2 = value; }
+            get => chairAnnouncerGroup2;
+            set => chairAnnouncerGroup2 = value;
         }
 
         public UUID ChairAnnouncerGroup3
         {
-            get { return chairAnnouncerGroup3; }
-            set { chairAnnouncerGroup3 = value; }
+            get => chairAnnouncerGroup3;
+            set => chairAnnouncerGroup3 = value;
         }
 
         public UUID ChairAnnouncerGroup4
         {
-            get { return chairAnnouncerGroup4; }
-            set { chairAnnouncerGroup4 = value; }
+            get => chairAnnouncerGroup4;
+            set => chairAnnouncerGroup4 = value;
         }
 
         public UUID ChairAnnouncerGroup5
         {
-            get { return chairAnnouncerGroup5; }
-            set { chairAnnouncerGroup5 = value; }
+            get => chairAnnouncerGroup5;
+            set => chairAnnouncerGroup5 = value;
         }
 
         public UUID ChairAnnouncerGroup6
         {
-            get { return chairAnnouncerGroup6; }
-            set { chairAnnouncerGroup6 = value; }
+            get => chairAnnouncerGroup6;
+            set => chairAnnouncerGroup6 = value;
         }
 
         public bool ChairAnnouncerEnabled { get; set; } = false;
@@ -672,7 +672,7 @@ namespace METAbolt
 
         public bool SaveChat { get; set; } = false;
 
-        public string LogDir { get; set; } = METAbolt.DataFolder.GetDataFolder() + "\\Logs\\";
+        public string LogDir { get; set; } = DataFolder.GetDataFolder() + "\\Logs\\";
 
         public bool DisableGroupNotices { get; set; } = false;
 
@@ -714,8 +714,8 @@ namespace METAbolt
 
         public Color HeaderBackColour
         {
-            get { return Color.FromArgb(headerbackcolour) ; }
-            set { headerbackcolour = value.ToArgb(); }
+            get => Color.FromArgb(headerbackcolour);
+            set => headerbackcolour = value.ToArgb();
         }
 
         //public Color BgColour

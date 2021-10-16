@@ -69,7 +69,7 @@ namespace METAbolt
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(92, 23);
             this.btnExit.TabIndex = 2;
-            this.btnExit.Text = "Exit METAbolt";
+            this.btnExit.Text = "Exit MEGAbolt";
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 

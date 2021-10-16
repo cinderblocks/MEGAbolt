@@ -75,15 +75,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "Text"; }
-        }
+        string IPreferencePane.Name => "Text";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.documents_32; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.documents_32;
 
         void IPreferencePane.SetPreferences()
         {
@@ -155,13 +149,13 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.folderBrowser.SelectedPath = txtDir.Text;
+            folderBrowser.SelectedPath = txtDir.Text;
    
-            DialogResult result = this.folderBrowser.ShowDialog();
+            DialogResult result = folderBrowser.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                txtDir.Text = this.folderBrowser.SelectedPath;
+                txtDir.Text = folderBrowser.SelectedPath;
             }
         }
 

@@ -30,7 +30,7 @@ namespace MEGAbolt.NetworkComm
     {
         public MoneyBalanceEventArgs(int newAmount)
         {
-            this.NewAmount = newAmount;
+            NewAmount = newAmount;
         }
 
         public int NewAmount { get; }

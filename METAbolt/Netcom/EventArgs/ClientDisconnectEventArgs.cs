@@ -31,8 +31,8 @@ namespace MEGAbolt.NetworkComm
     {
         public ClientDisconnectEventArgs(NetworkManager.DisconnectType type, string message)
         {
-            this.Type = type;
-            this.Message = message;
+            Type = type;
+            Message = message;
         }
 
         public NetworkManager.DisconnectType Type { get; }

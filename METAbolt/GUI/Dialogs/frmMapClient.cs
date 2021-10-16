@@ -124,7 +124,7 @@ namespace METAbolt
         {
             //GetMap();
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 if (chkForSale.Checked)
                 {
@@ -143,7 +143,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     GetMap();
                 }));
@@ -187,7 +187,7 @@ namespace METAbolt
         private delegate void OnUpdateMiniMap(Simulator ssim);
         private void UpdateMiniMap(Simulator ssim)
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(ssim); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(ssim); });
             else
             {
                 sim = ssim;
@@ -204,7 +204,7 @@ namespace METAbolt
 
                 if (_MapLayer == null)
                 {
-                    g.Clear(this.BackColor);
+                    g.Clear(BackColor);
                     g.FillRectangle(Brushes.White, 0f, 0f, 256f, 256f);
                     label6.Visible = true;
                 }
@@ -408,12 +408,12 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmMapClient_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             GetMap();
 
@@ -671,14 +671,14 @@ namespace METAbolt
         {
             if (TabCont.SelectedIndex == 0)
             {
-                this.Width = 300;
+                Width = 300;
                 button2.Visible = false;
                 return;
             }
 
             if (TabCont.SelectedIndex == 1)
             {
-                this.Width = 592;
+                Width = 592;
                 txtSearchFor.Focus(); 
                 return;
             }
@@ -770,7 +770,7 @@ namespace METAbolt
                         RefreshControls();
                         pnlTeleporting.Visible = false;
                         //lblTeleportStatus.Visible = false;
-                        this.Close();
+                        Close();
                         break;
                 }
             }
@@ -929,7 +929,7 @@ namespace METAbolt
                     peeps = " people";
                 }
 
-                string s = System.Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
+                string s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
 
                 e.Graphics.DrawString(s + peeps, e.Font, textBrush, new PointF(leftTextMargin + stringSize.Width + 6.0f, topTextMargin));
             }

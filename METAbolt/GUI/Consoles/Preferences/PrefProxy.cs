@@ -51,15 +51,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return " Proxy"; }
-        }
+        string IPreferencePane.Name => " Proxy";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.proxy; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.proxy;
 
         void IPreferencePane.SetPreferences()
         {

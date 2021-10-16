@@ -59,7 +59,7 @@ namespace METAbolt
 
         public void StartProcess(InstantMessageEventArgs e)
         {
-            this.emt = e;
+            emt = e;
             InitializeMetaTimer(emt.IM.Message.Length);
         }
 
@@ -90,7 +90,7 @@ namespace METAbolt
             // this is to buffer IM flood attacks
             //if (cnt < 16)
             //{
-            metaTimer = new System.Timers.Timer(timer_int);
+            metaTimer = new Timer(timer_int);
 
             metaTimer.Elapsed += metaTimer_Elapsed;
 

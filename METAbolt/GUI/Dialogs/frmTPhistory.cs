@@ -91,7 +91,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -147,7 +147,7 @@ namespace METAbolt
 
         private void frmTPhistory_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void picHelp_MouseHover(object sender, EventArgs e)

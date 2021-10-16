@@ -59,52 +59,52 @@ namespace MEGAbolt.Controls
     {
       if (disposing)
       {
-        if (this.components != null)
-          this.components.Dispose();
-        if (this.Content != null)
+        if (components != null)
+          components.Dispose();
+        if (Content != null)
         {
-          Control content = this.Content;
-          this.Content = (Control) null;
+          Control content = Content;
+          Content = (Control) null;
           content.Dispose();
         }
       }
       base.Dispose(disposing);
     }
 
-    private void InitializeComponent() => this.components = (IContainer) new Container();
+    private void InitializeComponent() => components = (IContainer) new Container();
 
     public Control Content { get; private set; }
 
     public PopupAnimations ShowingAnimation
     {
-      get => this.showingAnimation;
+      get => showingAnimation;
       set
       {
-        if (this.showingAnimation == value)
+        if (showingAnimation == value)
           return;
-        this.showingAnimation = value;
+        showingAnimation = value;
       }
     }
 
     public PopupAnimations HidingAnimation
     {
-      get => this.hidingAnimation;
+      get => hidingAnimation;
       set
       {
-        if (this.hidingAnimation == value)
+        if (hidingAnimation == value)
           return;
-        this.hidingAnimation = value;
+        hidingAnimation = value;
       }
     }
 
     public int AnimationDuration
     {
-      get => this.animationDuration;
+      get => animationDuration;
       set
       {
-        if (this.animationDuration == value)
+        if (animationDuration == value)
           return;
-        this.animationDuration = value;
+        animationDuration = value;
       }
     }
 
@@ -114,8 +114,8 @@ namespace MEGAbolt.Controls
 
     public bool Resizable
     {
-      get => this.resizable && !this.isChildPopupOpened;
-      set => this.resizable = value;
+      get => resizable && !isChildPopupOpened;
+      set => resizable = value;
     }
 
     public new Size MinimumSize { get; set; }
@@ -135,117 +135,117 @@ namespace MEGAbolt.Controls
     public Popup(Control content)
     {
       Popup popup = this;
-      this.Content = content != null ? content : throw new ArgumentNullException(nameof (content));
-      this.showingAnimation = PopupAnimations.SystemDefault;
-      this.hidingAnimation = PopupAnimations.None;
-      this.animationDuration = 100;
-      this.isChildPopupOpened = false;
-      this.InitializeComponent();
-      this.AutoSize = false;
-      this.DoubleBuffered = true;
-      this.ResizeRedraw = true;
-      this.host = new ToolStripControlHost(content);
-      this.Padding = this.Margin = this.host.Padding = this.host.Margin = Padding.Empty;
-      this.MinimumSize = content.MinimumSize;
+      Content = content != null ? content : throw new ArgumentNullException(nameof (content));
+      showingAnimation = PopupAnimations.SystemDefault;
+      hidingAnimation = PopupAnimations.None;
+      animationDuration = 100;
+      isChildPopupOpened = false;
+      InitializeComponent();
+      AutoSize = false;
+      DoubleBuffered = true;
+      ResizeRedraw = true;
+      host = new ToolStripControlHost(content);
+      Padding = Margin = host.Padding = host.Margin = Padding.Empty;
+      MinimumSize = content.MinimumSize;
       content.MinimumSize = content.Size;
-      this.MaximumSize = content.MaximumSize;
+      MaximumSize = content.MaximumSize;
       content.MaximumSize = content.Size;
-      this.Size = content.Size;
-      this.TabStop = content.TabStop = true;
+      Size = content.Size;
+      TabStop = content.TabStop = true;
       content.Location = Point.Empty;
-      this.Items.Add((ToolStripItem) this.host);
+      Items.Add((ToolStripItem) host);
       content.Disposed += (EventHandler) ((sender, e) =>
       {
         content = (Control) null;
         popup.Dispose(true);
       });
-      content.RegionChanged += (EventHandler) ((sender, e) => this.UpdateRegion());
-      content.Paint += (PaintEventHandler) ((sender, e) => this.PaintSizeGrip(e));
-      this.UpdateRegion();
+      content.RegionChanged += (EventHandler) ((sender, e) => UpdateRegion());
+      content.Paint += (PaintEventHandler) ((sender, e) => PaintSizeGrip(e));
+      UpdateRegion();
     }
 
     protected override void OnVisibleChanged(EventArgs e)
     {
       base.OnVisibleChanged(e);
-      if (this.Visible && this.ShowingAnimation == PopupAnimations.None || !this.Visible && this.HidingAnimation == PopupAnimations.None)
+      if (Visible && ShowingAnimation == PopupAnimations.None || !Visible && HidingAnimation == PopupAnimations.None)
         return;
-      NativeMethods.AnimationFlags animationFlags = this.Visible ? NativeMethods.AnimationFlags.Roll : NativeMethods.AnimationFlags.Hide;
-      PopupAnimations popupAnimations = this.Visible ? this.ShowingAnimation : this.HidingAnimation;
+      NativeMethods.AnimationFlags animationFlags = Visible ? NativeMethods.AnimationFlags.Roll : NativeMethods.AnimationFlags.Hide;
+      PopupAnimations popupAnimations = Visible ? ShowingAnimation : HidingAnimation;
       if (popupAnimations == PopupAnimations.SystemDefault)
-        popupAnimations = !SystemInformation.IsMenuAnimationEnabled ? PopupAnimations.None : (!SystemInformation.IsMenuFadeEnabled ? (PopupAnimations) (262144 | (this.Visible ? 4 : 8)) : PopupAnimations.Blend);
+        popupAnimations = !SystemInformation.IsMenuAnimationEnabled ? PopupAnimations.None : (!SystemInformation.IsMenuFadeEnabled ? (PopupAnimations) (262144 | (Visible ? 4 : 8)) : PopupAnimations.Blend);
       if ((popupAnimations & (PopupAnimations.Center | PopupAnimations.Slide | PopupAnimations.Blend | PopupAnimations.Roll)) == PopupAnimations.None)
         return;
-      if (this.resizableTop)
+      if (resizableTop)
       {
         if ((popupAnimations & PopupAnimations.BottomToTop) != PopupAnimations.None)
           popupAnimations = popupAnimations & ~PopupAnimations.BottomToTop | PopupAnimations.TopToBottom;
         else if ((popupAnimations & PopupAnimations.TopToBottom) != PopupAnimations.None)
           popupAnimations = popupAnimations & ~PopupAnimations.TopToBottom | PopupAnimations.BottomToTop;
       }
-      if (this.resizableLeft)
+      if (resizableLeft)
       {
         if ((popupAnimations & PopupAnimations.RightToLeft) != PopupAnimations.None)
           popupAnimations = popupAnimations & ~PopupAnimations.RightToLeft | PopupAnimations.LeftToRight;
         else if ((popupAnimations & PopupAnimations.LeftToRight) != PopupAnimations.None)
           popupAnimations = popupAnimations & ~PopupAnimations.LeftToRight | PopupAnimations.RightToLeft;
       }
-      NativeMethods.AnimateWindow((Control) this, this.AnimationDuration, animationFlags | (NativeMethods.AnimationFlags) ((PopupAnimations) 1048575 & popupAnimations));
+      NativeMethods.AnimateWindow((Control) this, AnimationDuration, animationFlags | (NativeMethods.AnimationFlags) ((PopupAnimations) 1048575 & popupAnimations));
     }
 
     [UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
     protected override bool ProcessDialogKey(Keys keyData)
     {
-      if (this.AcceptAlt && (keyData & Keys.Alt) == Keys.Alt)
+      if (AcceptAlt && (keyData & Keys.Alt) == Keys.Alt)
       {
         if ((keyData & Keys.F4) != Keys.F4)
           return false;
-        this.Close();
+        Close();
       }
       bool flag = base.ProcessDialogKey(keyData);
       if (!flag && (keyData == Keys.Tab || keyData == (Keys.Tab | Keys.Shift)))
-        this.Content.SelectNextControl((Control) null, (keyData & Keys.Shift) != Keys.Shift, true, true, true);
+        Content.SelectNextControl((Control) null, (keyData & Keys.Shift) != Keys.Shift, true, true, true);
       return flag;
     }
 
     protected void UpdateRegion()
     {
-      if (this.Region != null)
+      if (Region != null)
       {
-        this.Region.Dispose();
-        this.Region = (Region) null;
+        Region.Dispose();
+        Region = (Region) null;
       }
-      if (this.Content.Region == null)
+      if (Content.Region == null)
         return;
-      this.Region = this.Content.Region.Clone();
+      Region = Content.Region.Clone();
     }
 
     public void Show(Control control)
     {
       if (control == null)
         throw new ArgumentNullException(nameof (control));
-      this.Show(control, control.ClientRectangle);
+      Show(control, control.ClientRectangle);
     }
 
     public void Show(Control control, Rectangle area)
     {
       if (control == null)
         throw new ArgumentNullException(nameof (control));
-      this.SetOwnerItem(control);
-      this.resizableTop = this.resizableLeft = false;
+      SetOwnerItem(control);
+      resizableTop = resizableLeft = false;
       Point point = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
       Rectangle workingArea = Screen.FromControl(control).WorkingArea;
-      if (point.X + this.Size.Width > workingArea.Left + workingArea.Width)
+      if (point.X + Size.Width > workingArea.Left + workingArea.Width)
       {
-        this.resizableLeft = true;
-        point.X = workingArea.Left + workingArea.Width - this.Size.Width;
+        resizableLeft = true;
+        point.X = workingArea.Left + workingArea.Width - Size.Width;
       }
-      if (point.Y + this.Size.Height > workingArea.Top + workingArea.Height)
+      if (point.Y + Size.Height > workingArea.Top + workingArea.Height)
       {
-        this.resizableTop = true;
-        point.Y -= this.Size.Height + area.Height;
+        resizableTop = true;
+        point.Y -= Size.Height + area.Height;
       }
       point = control.PointToClient(point);
-      this.Show(control, point, ToolStripDropDownDirection.BelowRight);
+      Show(control, point, ToolStripDropDownDirection.BelowRight);
     }
 
     private void SetOwnerItem(Control control)
@@ -254,106 +254,106 @@ namespace MEGAbolt.Controls
         return;
       if (control is Popup popup)
       {
-          this.ownerPopup = popup;
-        this.ownerPopup.childPopup = this;
-        this.OwnerItem = popup.Items[0];
+          ownerPopup = popup;
+        ownerPopup.childPopup = this;
+        OwnerItem = popup.Items[0];
       }
       else
       {
-        if (this.opener == null)
-          this.opener = control;
+        if (opener == null)
+          opener = control;
         if (control.Parent == null)
           return;
-        this.SetOwnerItem(control.Parent);
+        SetOwnerItem(control.Parent);
       }
     }
 
     protected override void OnSizeChanged(EventArgs e)
     {
-      this.Content.MinimumSize = this.Size;
-      this.Content.MaximumSize = this.Size;
-      this.Content.Size = this.Size;
-      this.Content.Location = Point.Empty;
+      Content.MinimumSize = Size;
+      Content.MaximumSize = Size;
+      Content.Size = Size;
+      Content.Location = Point.Empty;
       base.OnSizeChanged(e);
     }
 
     protected override void OnOpening(CancelEventArgs e)
     {
-      if (this.Content.IsDisposed || this.Content.Disposing)
+      if (Content.IsDisposed || Content.Disposing)
       {
         e.Cancel = true;
       }
       else
       {
-        this.UpdateRegion();
+        UpdateRegion();
         base.OnOpening(e);
       }
     }
 
     protected override void OnOpened(EventArgs e)
     {
-      if (this.ownerPopup != null)
-        this.ownerPopup.isChildPopupOpened = true;
-      if (this.FocusOnOpen)
-        this.Content.Focus();
+      if (ownerPopup != null)
+        ownerPopup.isChildPopupOpened = true;
+      if (FocusOnOpen)
+        Content.Focus();
       base.OnOpened(e);
     }
 
     protected override void OnClosed(ToolStripDropDownClosedEventArgs e)
     {
-      this.opener = (Control) null;
-      if (this.ownerPopup != null)
-        this.ownerPopup.isChildPopupOpened = false;
+      opener = (Control) null;
+      if (ownerPopup != null)
+        ownerPopup.isChildPopupOpened = false;
       base.OnClosed(e);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     protected override void WndProc(ref Message m)
     {
-      if (this.InternalProcessResizing(ref m, false))
+      if (InternalProcessResizing(ref m, false))
         return;
       base.WndProc(ref m);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-    public bool ProcessResizing(ref Message m) => this.InternalProcessResizing(ref m, true);
+    public bool ProcessResizing(ref Message m) => InternalProcessResizing(ref m, true);
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     private bool InternalProcessResizing(ref Message m, bool contentControl)
     {
-      if (m.Msg == 134 && m.WParam != IntPtr.Zero && this.childPopup != null && this.childPopup.Visible)
-        this.childPopup.Hide();
-      if (!this.Resizable)
+      if (m.Msg == 134 && m.WParam != IntPtr.Zero && childPopup != null && childPopup.Visible)
+        childPopup.Hide();
+      if (!Resizable)
         return false;
       if (m.Msg == 132)
-        return this.OnNcHitTest(ref m, contentControl);
-      return m.Msg == 36 && this.OnGetMinMaxInfo(ref m);
+        return OnNcHitTest(ref m, contentControl);
+      return m.Msg == 36 && OnGetMinMaxInfo(ref m);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     private bool OnGetMinMaxInfo(ref Message m)
     {
       NativeMethods.MINMAXINFO structure = (NativeMethods.MINMAXINFO) Marshal.PtrToStructure(m.LParam, typeof (NativeMethods.MINMAXINFO));
-      if (!this.MaximumSize.IsEmpty)
-        structure.maxTrackSize = this.MaximumSize;
-      structure.minTrackSize = this.MinimumSize;
+      if (!MaximumSize.IsEmpty)
+        structure.maxTrackSize = MaximumSize;
+      structure.minTrackSize = MinimumSize;
       Marshal.StructureToPtr((object) structure, m.LParam, false);
       return true;
     }
 
     private bool OnNcHitTest(ref Message m, bool contentControl)
     {
-      Point client = this.PointToClient(new Point(NativeMethods.LOWORD(m.LParam), NativeMethods.HIWORD(m.LParam)));
-      GripBounds gripBounds = new GripBounds(contentControl ? this.Content.ClientRectangle : this.ClientRectangle);
+      Point client = PointToClient(new Point(NativeMethods.LOWORD(m.LParam), NativeMethods.HIWORD(m.LParam)));
+      GripBounds gripBounds = new GripBounds(contentControl ? Content.ClientRectangle : ClientRectangle);
       IntPtr num = new IntPtr(-1);
-      if (this.resizableTop)
+      if (resizableTop)
       {
-        if (this.resizableLeft && gripBounds.TopLeft.Contains(client))
+        if (resizableLeft && gripBounds.TopLeft.Contains(client))
         {
           m.Result = contentControl ? num : (IntPtr) 13;
           return true;
         }
-        if (!this.resizableLeft && gripBounds.TopRight.Contains(client))
+        if (!resizableLeft && gripBounds.TopRight.Contains(client))
         {
           m.Result = contentControl ? num : (IntPtr) 14;
           return true;
@@ -366,12 +366,12 @@ namespace MEGAbolt.Controls
       }
       else
       {
-        if (this.resizableLeft && gripBounds.BottomLeft.Contains(client))
+        if (resizableLeft && gripBounds.BottomLeft.Contains(client))
         {
           m.Result = contentControl ? num : (IntPtr) 16;
           return true;
         }
-        if (!this.resizableLeft && gripBounds.BottomRight.Contains(client))
+        if (!resizableLeft && gripBounds.BottomRight.Contains(client))
         {
           m.Result = contentControl ? num : (IntPtr) 17;
           return true;
@@ -382,12 +382,12 @@ namespace MEGAbolt.Controls
           return true;
         }
       }
-      if (this.resizableLeft && gripBounds.Left.Contains(client))
+      if (resizableLeft && gripBounds.Left.Contains(client))
       {
         m.Result = contentControl ? num : (IntPtr) 10;
         return true;
       }
-      if (this.resizableLeft || !gripBounds.Right.Contains(client))
+      if (resizableLeft || !gripBounds.Right.Contains(client))
         return false;
       m.Result = contentControl ? num : (IntPtr) 11;
       return true;
@@ -395,27 +395,27 @@ namespace MEGAbolt.Controls
 
     public void PaintSizeGrip(PaintEventArgs e)
     {
-      if (e == null || e.Graphics == null || !this.resizable)
+      if (e == null || e.Graphics == null || !resizable)
         return;
-      Size clientSize = this.Content.ClientSize;
+      Size clientSize = Content.ClientSize;
       using (Bitmap bitmap = new Bitmap(16, 16))
       {
         using (Graphics graphics = Graphics.FromImage((Image) bitmap))
         {
           if (Application.RenderWithVisualStyles)
           {
-            if (this.sizeGripRenderer == null)
-              this.sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
-            this.sizeGripRenderer.DrawBackground((IDeviceContext) graphics, new Rectangle(0, 0, 16, 16));
+            if (sizeGripRenderer == null)
+              sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
+            sizeGripRenderer.DrawBackground((IDeviceContext) graphics, new Rectangle(0, 0, 16, 16));
           }
           else
-            ControlPaint.DrawSizeGrip(graphics, this.Content.BackColor, 0, 0, 16, 16);
+            ControlPaint.DrawSizeGrip(graphics, Content.BackColor, 0, 0, 16, 16);
         }
         GraphicsState gstate = e.Graphics.Save();
         e.Graphics.ResetTransform();
-        if (this.resizableTop)
+        if (resizableTop)
         {
-          if (this.resizableLeft)
+          if (resizableLeft)
           {
             e.Graphics.RotateTransform(180f);
             e.Graphics.TranslateTransform((float) -clientSize.Width, (float) -clientSize.Height);
@@ -426,7 +426,7 @@ namespace MEGAbolt.Controls
             e.Graphics.TranslateTransform(0.0f, (float) -clientSize.Height);
           }
         }
-        else if (this.resizableLeft)
+        else if (resizableLeft)
         {
           e.Graphics.ScaleTransform(-1f, 1f);
           e.Graphics.TranslateTransform((float) -clientSize.Width, 0.0f);

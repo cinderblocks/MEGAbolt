@@ -33,7 +33,7 @@ using System.Net;
 
 namespace METAbolt
 {
-    public partial class PrefAI : System.Windows.Forms.UserControl, IPreferencePane
+    public partial class PrefAI : UserControl, IPreferencePane
     {
         private METAboltInstance instance;
         private ConfigManager config;
@@ -78,15 +78,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return " AI"; }
-        }
+        string IPreferencePane.Name => " AI";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.AI; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.AI;
 
         void IPreferencePane.SetPreferences()
         {

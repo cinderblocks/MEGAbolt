@@ -93,9 +93,9 @@ namespace METAbolt
 
         private void UpdateGroups()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     UpdateGroups();
                 }));
@@ -106,9 +106,9 @@ namespace METAbolt
             try
             {
                 lstGroups.Items.Clear();
-                lock (this.instance.State.Groups)
+                lock (instance.State.Groups)
                 {
-                    foreach (Group group in this.instance.State.Groups.Values)
+                    foreach (Group group in instance.State.Groups.Values)
                     {
                         lstGroups.Items.Add(group);
 
@@ -187,7 +187,7 @@ namespace METAbolt
 
             Group selgrp = e.Group;
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
                 {
                     picBusy.Visible = false;
                     gbQuickInfo.Visible = true;
@@ -205,9 +205,9 @@ namespace METAbolt
 
         private void Groups_OnCurrentGroups(object sender, CurrentGroupsEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     Groups_OnCurrentGroups(sender, e);
                 }));
@@ -228,16 +228,16 @@ namespace METAbolt
 
             lock (instance.State.GroupStore)
             {
-                foreach (Group group in this.instance.State.Groups.Values)
+                foreach (Group group in instance.State.Groups.Values)
                 {
                     if (!instance.State.GroupStore.ContainsKey(group.ID))
                     {
-                        this.instance.State.GroupStore.Add(group.ID, group.Name);
+                        instance.State.GroupStore.Add(group.ID, group.Name);
                     }
                 }
             }
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 UpdateGroups();
             }));            
@@ -293,7 +293,7 @@ namespace METAbolt
 
                 DialogResult res = MessageBox.Show("Are you sure you want to LEAVE " + group.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-                if (res == System.Windows.Forms.DialogResult.No)
+                if (res == DialogResult.No)
                 {
                     return;
                 }

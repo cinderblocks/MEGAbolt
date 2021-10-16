@@ -146,7 +146,7 @@ namespace METAbolt
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "METAbolt Preferences";
+            this.Text = "MEGAbolt Preferences";
             this.Load += new System.EventHandler(this.frmPreferences_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picAutoSit)).EndInit();
             this.ResumeLayout(false);

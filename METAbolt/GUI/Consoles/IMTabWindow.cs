@@ -52,7 +52,7 @@ namespace METAbolt
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
-        private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
+        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
         private string avloc = string.Empty;
 
 
@@ -82,13 +82,13 @@ namespace METAbolt
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
-            this.TargetId = target;
-            this.SessionId = session;
-            this.TargetName = toName;
+            TargetId = target;
+            SessionId = session;
+            TargetName = toName;
             tab = instance.TabConsole;
 
-            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.SessionId, this.TargetName);
-            this.Disposed += IMTabWindow_Disposed;
+            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), SessionId, TargetName);
+            Disposed += IMTabWindow_Disposed;
 
             AddNetcomEvents();
 
@@ -99,7 +99,7 @@ namespace METAbolt
 
             CreateSmileys();
 
-            if (this.instance.IMHistyoryExists(this.TargetName, false))
+            if (this.instance.IMHistyoryExists(TargetName, false))
             {
                 toolStripButton2.Enabled = true; 
             }
@@ -320,14 +320,14 @@ namespace METAbolt
             {
                 dicfile = instance.Config.CurrentConfig.SpellLanguage;   // "en_GB.dic";
 
-                this.instance.AffFile = afffile = dicfile + ".aff";
-                this.instance.DictionaryFile = dicfile + ".dic";
+                instance.AffFile = afffile = dicfile + ".aff";
+                instance.DictionaryFile = dicfile + ".dic";
 
                 dic = dir + dicfile;
 
                 dicfile += ".dic";
 
-                if (!System.IO.File.Exists(dic + ".csv"))
+                if (!File.Exists(dic + ".csv"))
                 {
                     //System.IO.File.Create(dic + ".csv");
 
@@ -356,7 +356,7 @@ namespace METAbolt
         {
             netcom.ClientLoginStatus -= netcom_ClientLoginStatus;
             netcom.ClientDisconnected -= netcom_ClientDisconnected;
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
             netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
         }
 
@@ -379,7 +379,7 @@ namespace METAbolt
 
         public void CleanUp()
         {
-            this.cbxInput.Text = string.Empty;  
+            cbxInput.Text = string.Empty;  
             instance.TabConsole.RemoveTabEntry(SessionId.ToString());
             TextManager.CleanUp();
             TextManager = null;
@@ -403,14 +403,14 @@ namespace METAbolt
         {
             if (!netcom.IsLoggedIn)
             {
-                this.cbxInput.Enabled = false;
+                cbxInput.Enabled = false;
                 btnSend.Enabled = false;
                 //this.cbxInput.Text = string.Empty;
                 TargetId = UUID.Zero;  
                 return;
             }
 
-            if (this.cbxInput.Text.Length > 0)
+            if (cbxInput.Text.Length > 0)
             {
                 btnSend.Enabled = true;
 
@@ -531,8 +531,8 @@ namespace METAbolt
 
         private void ClearIMInput()
         {
-            this.cbxInput.Items.Add(cbxInput.Text);
-            this.cbxInput.Text = string.Empty;
+            cbxInput.Items.Add(cbxInput.Text);
+            cbxInput.Text = string.Empty;
         }
 
         public void SelectIMInput()
@@ -707,7 +707,7 @@ namespace METAbolt
             // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
 
-            string logdir = METAbolt.DataFolder.GetDataFolder();
+            string logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
             saveFile1.InitialDirectory = logdir; 
@@ -718,7 +718,7 @@ namespace METAbolt
             saveFile1.Title = "Save chat contents to hard disk...";
 
             // Determine if the user selected a file name from the saveFileDialog.
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+            if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
                 if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
@@ -763,7 +763,7 @@ namespace METAbolt
 
         }
 
-        protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
+        protected override bool ProcessKeyPreview(ref Message m)
         {
             const int WM_CHAR = 0x102;
             const int WM_SYSCHAR = 0x106;

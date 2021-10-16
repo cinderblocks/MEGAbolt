@@ -32,11 +32,11 @@ namespace METAbolt
     {
         public void FindAndReplace(string FindText, string ReplaceText)
         {
-            this.Find(FindText);
+            Find(FindText);
 
-            if (!(this.SelectionLength == 0))
+            if (!(SelectionLength == 0))
             {
-                this.SelectedText = ReplaceText;
+                SelectedText = ReplaceText;
             }
             else
             {
@@ -54,28 +54,28 @@ namespace METAbolt
                     {
                         if (WholeWord == true)
                         {
-                            this.Find(FindText, RichTextBoxFinds.MatchCase | RichTextBoxFinds.WholeWord);
+                            Find(FindText, RichTextBoxFinds.MatchCase | RichTextBoxFinds.WholeWord);
                         }
                         else
                         {
-                            this.Find(FindText, RichTextBoxFinds.MatchCase);
+                            Find(FindText, RichTextBoxFinds.MatchCase);
                         }
                     }
                     else
                     {
                         if (WholeWord == true)
                         {
-                            this.Find(FindText, RichTextBoxFinds.WholeWord);
+                            Find(FindText, RichTextBoxFinds.WholeWord);
                         }
                         else
                         {
-                            this.Find(FindText);
+                            Find(FindText);
                         }
                     }
 
-                    if (!(this.SelectionLength == 0))
+                    if (!(SelectionLength == 0))
                     {
-                        this.SelectedText = ReplaceText;
+                        SelectedText = ReplaceText;
                     }
                     else
                     {
@@ -87,34 +87,34 @@ namespace METAbolt
                 case true:
                     int i = 0;
 
-                    for (i = 0; i <= this.TextLength; i++)
+                    for (i = 0; i <= TextLength; i++)
                     {
                         if (MatchCase == true)
                         {
                             if (WholeWord == true)
                             {
-                                this.Find(FindText, RichTextBoxFinds.MatchCase | RichTextBoxFinds.WholeWord);
+                                Find(FindText, RichTextBoxFinds.MatchCase | RichTextBoxFinds.WholeWord);
                             }
                             else
                             {
-                                this.Find(FindText, RichTextBoxFinds.MatchCase);
+                                Find(FindText, RichTextBoxFinds.MatchCase);
                             }
                         }
                         else
                         {
                             if (WholeWord == true)
                             {
-                                this.Find(FindText, RichTextBoxFinds.WholeWord);
+                                Find(FindText, RichTextBoxFinds.WholeWord);
                             }
                             else
                             {
-                                this.Find(FindText);
+                                Find(FindText);
                             }
                         }
 
-                        if (!(this.SelectionLength == 0))
+                        if (!(SelectionLength == 0))
                         {
-                            this.SelectedText = ReplaceText;
+                            SelectedText = ReplaceText;
                         }
                         else
                         {

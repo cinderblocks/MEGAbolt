@@ -34,15 +34,15 @@ namespace METAbolt
         /// <param name="node">The node to be exposed by the event argument.</param>
         internal static ProcessNodeEventArgs CreateInstance(TreeNode node)
         {
-            if (ProcessNodeEventArgs.instance == null)
-                ProcessNodeEventArgs.instance = new ProcessNodeEventArgs();
+            if (instance == null)
+                instance = new ProcessNodeEventArgs();
 
-            ProcessNodeEventArgs.instance.Node = node;
-            ProcessNodeEventArgs.instance.ProcessDescendants = true;
-            ProcessNodeEventArgs.instance.ProcessSiblings = true;
-            ProcessNodeEventArgs.instance.StopProcessing = false;
+            instance.Node = node;
+            instance.ProcessDescendants = true;
+            instance.ProcessSiblings = true;
+            instance.StopProcessing = false;
 
-            return ProcessNodeEventArgs.instance;
+            return instance;
         }
 
         #endregion // CreateInstance

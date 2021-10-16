@@ -72,15 +72,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return " Chair Announcer"; }
-        }
+        string IPreferencePane.Name => " Chair Announcer";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.ChairAnn; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.ChairAnn;
 
         void IPreferencePane.SetPreferences()
         {

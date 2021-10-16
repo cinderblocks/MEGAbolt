@@ -12,15 +12,9 @@ namespace METAbolt
         {
             try
             {
-                if (format == null)
-                {
-                    _GetText = Clipboard.GetText();
-                }
-                else
-                {
-                    _GetText = Clipboard.GetText((TextDataFormat)format);
-
-                }
+                _GetText = format == null 
+                    ? Clipboard.GetText() 
+                    : Clipboard.GetText((TextDataFormat)format);
             }
             catch { _GetText = string.Empty; }
         }

@@ -100,7 +100,7 @@ namespace METAbolt
         public void IMbox_Disposed(object sender, EventArgs e)
         {
             netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
@@ -165,16 +165,16 @@ namespace METAbolt
 
             string TabAgentName = string.Empty;
 
-            lock (this.instance.State.GroupStore)
+            lock (instance.State.GroupStore)
             {
-                if (this.instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
+                if (instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
                 {
                     //if (null != client.Self.MuteList.Find(me => me.Type == MuteType.Group && (me.ID == e.IM.IMSessionID || me.ID == e.IM.FromAgentID))) return;
 
                     // Check to see if group IMs are disabled
                     if (instance.Config.CurrentConfig.DisableGroupIMs) return;
 
-                    TabAgentName = this.instance.State.GroupStore[e.IM.IMSessionID];
+                    TabAgentName = instance.State.GroupStore[e.IM.IMSessionID];
                 }
                 else
                 {

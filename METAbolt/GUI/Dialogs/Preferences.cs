@@ -140,12 +140,12 @@ namespace METAbolt
         private void btnOK_Click(object sender, EventArgs e)
         {
             Apply();
-            this.Close();
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -162,11 +162,11 @@ namespace METAbolt
 
             if (item.Name.ToLower(CultureInfo.CurrentCulture) == "text")
             {
-                this.Height = 460;
+                Height = 460;
             }
             else
             {
-                this.Height = 390;
+                Height = 390;
             }
 
             SelectPreferencePane(item.Name);
@@ -174,7 +174,7 @@ namespace METAbolt
 
         private void frmPreferences_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void pnlPanes_Paint(object sender, PaintEventArgs e)

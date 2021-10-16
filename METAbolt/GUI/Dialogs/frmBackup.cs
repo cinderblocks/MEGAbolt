@@ -45,10 +45,10 @@ namespace METAbolt
 
         private void frmBackup_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
-            label2.Text = METAbolt.DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
-            label8.Text = METAbolt.DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
+            label2.Text = DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
+            label8.Text = DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
 
             currentDirectory = @label2.Text;
             currentDirectory += "\\";
@@ -81,10 +81,10 @@ namespace METAbolt
         {
             label5.Text = string.Empty;
 
-            DialogResult result = this.folderBrowser.ShowDialog();
+            DialogResult result = folderBrowser.ShowDialog();
             if (result == DialogResult.OK)
             {
-                textBox1.Text = this.folderBrowser.SelectedPath;
+                textBox1.Text = folderBrowser.SelectedPath;
                 textBox1.Text += @"\"; 
                 button2.Enabled = true;
                 button4.Enabled = true;   
@@ -132,8 +132,8 @@ namespace METAbolt
         {
             string cuser = "MEGAbolt";
             string textfile = cuser + ".bat";
-            string path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
-            string scfile = "METAbolt BAT.lnk";
+            string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
+            string scfile = "MEGAbolt BAT.lnk";
             string sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
             if (System.IO.File.Exists(path))
@@ -147,7 +147,7 @@ namespace METAbolt
                 sr.Write(line);
                 sr.WriteLine("");
                 sr.WriteLine("");
-                sr.WriteLine("METAbolt.exe");
+                sr.WriteLine("MEGAbolt.exe");
 
                 //for (int a = 0; a < files.Length; a++)
                 //{
@@ -185,8 +185,8 @@ namespace METAbolt
             WshShell shell = new WshShell();
             IWshShortcut link = (IWshShortcut)shell.CreateShortcut(sc);
             link.TargetPath = path;
-            link.WorkingDirectory = METAbolt.DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
-            link.Description = "METAbolt BAT shortcut";
+            link.WorkingDirectory = DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
+            link.Description = "MEGAbolt BAT shortcut";
             //link.IconLocation = Environment.CurrentDirectory + ""; 
             link.Save();
         }
@@ -203,15 +203,15 @@ namespace METAbolt
             WshShell shell = new WshShell();
             IWshShortcut link = (IWshShortcut)shell.CreateShortcut(sc);
             link.TargetPath = path;
-            link.WorkingDirectory = METAbolt.DataFolder.GetDataFolder();    //Application.StartupPath.ToString(); 
-            link.Description = "METAbolt_" + fname + " BAT shortcut";
+            link.WorkingDirectory = DataFolder.GetDataFolder();    //Application.StartupPath.ToString(); 
+            link.Description = "MEGAbolt_" + fname + " BAT shortcut";
             //link.IconLocation = Environment.CurrentDirectory + ""; 
             link.Save();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();  
+            Close();  
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -223,10 +223,10 @@ namespace METAbolt
         {
             label5.Text = string.Empty;
   
-            DialogResult result = this.folderBrowser.ShowDialog();
+            DialogResult result = folderBrowser.ShowDialog();
             if (result == DialogResult.OK)
             {
-                textBox2.Text = this.folderBrowser.SelectedPath;
+                textBox2.Text = folderBrowser.SelectedPath;
                 textBox2.Text += "\\";
                 button6.Enabled = true;
                 button5.Enabled = true;  
@@ -274,8 +274,8 @@ namespace METAbolt
 
                             string cuser = names[0];
                             string textfile = cuser + ".bat";
-                            string path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
-                            string scfile = "METAbolt_" + cuser + " BAT.lnk";
+                            string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
+                            string scfile = "MEGAbolt_" + cuser + " BAT.lnk";
                             string sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
                             CreateBatFileShortcut(path, sc, cuser);

@@ -110,7 +110,7 @@ namespace METAbolt
 
             List<FriendInfo> friendslist = client.Friends.FriendList.FindAll(delegate(FriendInfo friend) { return true; });
 
-            this.instance.State.AvatarFriends = friendslist;
+            instance.State.AvatarFriends = friendslist;
 
             if (friendslist.Count > 0)
             {
@@ -513,7 +513,7 @@ namespace METAbolt
             cbofgroups.Items.Add("...All friends");
             cbofgroups.SelectedIndex = 0;
 
-            string fconffile = METAbolt.DataFolder.GetDataFolder() + "\\" + client.Self.AgentID.ToString() + "_fr_groups.ini";
+            string fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID.ToString() + "_fr_groups.ini";
 // maybe use "Path.Combine(METAbolt.DataFolder.GetDataFolder(),client.Self.AgentID.ToString() + "_fr_groups.ini");" ?
 
             if (!System.IO.File.Exists(fconffile))
@@ -537,7 +537,7 @@ namespace METAbolt
         {
             DialogResult res = MessageBox.Show("Are you sure you want to terminate\nyour friendship with " + selectedFriend.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-            if (res == System.Windows.Forms.DialogResult.No)
+            if (res == DialogResult.No)
             {
                 return;
             }
@@ -637,7 +637,7 @@ namespace METAbolt
 
             foreach (KeyValuePair<string, string> s in grps)
             {
-                List<FriendInfo> flist = this.instance.State.AvatarFriends;
+                List<FriendInfo> flist = instance.State.AvatarFriends;
 
                 if (flist.Count > 0)
                 {

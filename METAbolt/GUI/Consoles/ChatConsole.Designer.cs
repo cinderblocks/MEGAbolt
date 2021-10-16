@@ -1686,7 +1686,7 @@ namespace METAbolt
             // 
             // tsFavs
             // 
-            this.tsFavs.AccessibleName = "Main METAbolt menu";
+            this.tsFavs.AccessibleName = "Main MEGAbolt menu";
             this.tsFavs.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
             this.tsFavs.BackColor = System.Drawing.Color.Transparent;
             this.tsFavs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;

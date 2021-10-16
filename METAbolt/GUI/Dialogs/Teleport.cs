@@ -194,7 +194,7 @@ namespace METAbolt
                         RefreshControls();
                         pnlTeleporting.Visible = false;
                         //lblTeleportStatus.Visible = false;
-                        this.Close();
+                        Close();
                         break;
                 }
             }
@@ -203,7 +203,7 @@ namespace METAbolt
 
         private void netcom_ClientDisconnected(object sender, DisconnectedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void netcom_Teleporting(object sender, TeleportingEventArgs e)
@@ -258,7 +258,7 @@ namespace METAbolt
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void txtRegion_TextChanged(object sender, EventArgs e)
@@ -390,7 +390,7 @@ namespace METAbolt
                     peeps = " people";
                 }
 
-                string s = System.Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
+                string s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
 
                 e.Graphics.DrawString(s + peeps, e.Font, textBrush, new PointF(leftTextMargin + stringSize.Width + 6.0f, topTextMargin));
             }
@@ -450,7 +450,7 @@ namespace METAbolt
 
         private void frmTeleport_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void button1_Click(object sender, EventArgs e)

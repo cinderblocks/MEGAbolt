@@ -858,8 +858,8 @@ namespace METAbolt
 
                                     if (!msgdisplayed)
                                     {
-                                        //Logger.Log("META3D TextureThread: Your video card does not support Mipmap. Try disabling Mipmaps from META3D tab under the Application/Preferences menu", Helpers.LogLevel.Warning);
-                                        MessageBox.Show("Your video card does not support Mipmaps.\nDisable Mipmaps from the META3D tab under\nthe Application/Preferences menu");
+                                        MessageBox.Show("Your video card does not support Mipmaps.\n" +
+                                                        "Disable Mipmaps from the MEGA3D tab under\nthe Application/Preferences menu");
                                         msgdisplayed = true;
                                     }
                                 }
@@ -870,7 +870,8 @@ namespace METAbolt
 
                                 if (!msgdisplayed)
                                 {
-                                    MessageBox.Show("Your video card does not support Mipmaps.\nDisable Mipmaps from the META3D tab under\nthe Application/Preferences menu");
+                                    MessageBox.Show("Your video card does not support Mipmaps.\n" +
+                                                    "Disable Mipmaps from the MEGA3D tab under\nthe Application/Preferences menu");
                                     msgdisplayed = true;
                                 }
                             }
@@ -889,7 +890,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("META3D TextureThread: " + ex.Message, Helpers.LogLevel.Warning);
+                Logger.Log("MEGA3D TextureThread: " + ex.Message, Helpers.LogLevel.Warning);
             }
         }
         #endregion Texture thread

@@ -77,7 +77,7 @@ namespace METAbolt
 
         public string CurrentSortName
         {
-            get { return currentMethodName; }
+            get => currentMethodName;
             set
             {
                 if (!sortMethods.ContainsKey(value))

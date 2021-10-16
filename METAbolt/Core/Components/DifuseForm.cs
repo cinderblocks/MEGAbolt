@@ -50,24 +50,24 @@ namespace METAbolt
 
         private void InitializeComponents()
         {
-            components = new System.ComponentModel.Container();
-            this.m_clock = new Timer(components);
-            this.m_clock.Interval = 1000;
-            this.SuspendLayout();
+            components = new Container();
+            m_clock = new Timer(components);
+            m_clock.Interval = 1000;
+            SuspendLayout();
 
-            this.m_clock.Tick += Animate;
+            m_clock.Tick += Animate;
 
-            this.Load += DifuseForm_Load;
-            this.Closing += DifuseForm_Closing;
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            Load += DifuseForm_Load;
+            Closing += DifuseForm_Closing;
+            ResumeLayout(false);
+            PerformLayout();
         }
         #endregion
 
         #region Event handlers
         private void DifuseForm_Load(object sender, EventArgs e)
         {
-            this.Opacity = 0.0;
+            Opacity = 0.0;
             m_bShowing = true;
 
             m_clock.Start();
@@ -77,14 +77,14 @@ namespace METAbolt
         {
             if (!m_bForceClose)
             {
-                m_origDialogResult = this.DialogResult;
+                m_origDialogResult = DialogResult;
                 e.Cancel = true;
                 m_bShowing = false;
                 m_clock.Start();
             }
             else
             {
-                this.DialogResult = m_origDialogResult;
+                DialogResult = m_origDialogResult;
             }
         }
 
@@ -95,9 +95,9 @@ namespace METAbolt
         {
             if (m_bShowing)
             {
-                if (this.Opacity < 1)
+                if (Opacity < 1)
                 {
-                    this.Opacity += 0.1;
+                    Opacity += 0.1;
                 }
                 else
                 {
@@ -106,17 +106,17 @@ namespace METAbolt
             }
             else
             {
-                if (this.Opacity > 0)
+                if (Opacity > 0)
                 {
-                    this.Opacity -= 0.1;
+                    Opacity -= 0.1;
                 }
                 else
                 {
                     m_clock.Stop();
                     m_bForceClose = true;
-                    this.Close();
+                    Close();
                     if (m_bDisposeAtEnd)
-                        this.Dispose();
+                        Dispose();
                 }
             }
         }

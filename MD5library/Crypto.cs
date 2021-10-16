@@ -44,32 +44,32 @@ namespace MD5library
     private int keySize = 256;
     private SymmetricAlgorithm mobjCryptoService;
 
-    public Crypto(Crypto.SymmProvEnum NetSelected)
+    public Crypto(SymmProvEnum NetSelected)
     {
       switch (NetSelected)
       {
-        case Crypto.SymmProvEnum.DES:
-          this.mobjCryptoService = (SymmetricAlgorithm) new DESCryptoServiceProvider();
+        case SymmProvEnum.DES:
+          mobjCryptoService = (SymmetricAlgorithm) new DESCryptoServiceProvider();
           break;
-        case Crypto.SymmProvEnum.RC2:
-          this.mobjCryptoService = (SymmetricAlgorithm) new RC2CryptoServiceProvider();
+        case SymmProvEnum.RC2:
+          mobjCryptoService = (SymmetricAlgorithm) new RC2CryptoServiceProvider();
           break;
-        case Crypto.SymmProvEnum.Rijndael:
-          this.mobjCryptoService = (SymmetricAlgorithm) new RijndaelManaged();
+        case SymmProvEnum.Rijndael:
+          mobjCryptoService = (SymmetricAlgorithm) new RijndaelManaged();
           break;
       }
     }
 
-    public Crypto(SymmetricAlgorithm ServiceProvider) => this.mobjCryptoService = ServiceProvider;
+    public Crypto(SymmetricAlgorithm ServiceProvider) => mobjCryptoService = ServiceProvider;
 
     private byte[] GetLegalKey(string Key)
     {
       string s;
-      if (this.mobjCryptoService.LegalKeySizes.Length > 0)
+      if (mobjCryptoService.LegalKeySizes.Length > 0)
       {
         int num = 0;
         int minSize;
-        for (minSize = this.mobjCryptoService.LegalKeySizes[0].MinSize; Key.Length * 8 > minSize; minSize += this.mobjCryptoService.LegalKeySizes[0].SkipSize)
+        for (minSize = mobjCryptoService.LegalKeySizes[0].MinSize; Key.Length * 8 > minSize; minSize += mobjCryptoService.LegalKeySizes[0].SkipSize)
           num = minSize;
         s = Key.PadRight(minSize / 8, ' ');
       }
@@ -83,10 +83,10 @@ namespace MD5library
       string pkey = this.pkey;
       byte[] bytes = Encoding.ASCII.GetBytes(Source);
       MemoryStream memoryStream = new MemoryStream();
-      byte[] legalKey = this.GetLegalKey(pkey);
-      this.mobjCryptoService.Key = legalKey;
-      this.mobjCryptoService.IV = legalKey;
-      ICryptoTransform encryptor = this.mobjCryptoService.CreateEncryptor();
+      byte[] legalKey = GetLegalKey(pkey);
+      mobjCryptoService.Key = legalKey;
+      mobjCryptoService.IV = legalKey;
+      ICryptoTransform encryptor = mobjCryptoService.CreateEncryptor();
       CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, encryptor, CryptoStreamMode.Write);
       cryptoStream.Write(bytes, 0, bytes.Length);
       cryptoStream.FlushFinalBlock();
@@ -102,19 +102,19 @@ namespace MD5library
       string pkey = this.pkey;
       byte[] buffer = Convert.FromBase64String(Source);
       MemoryStream memoryStream = new MemoryStream(buffer, 0, buffer.Length);
-      byte[] legalKey = this.GetLegalKey(pkey);
-      this.mobjCryptoService.Key = legalKey;
-      this.mobjCryptoService.IV = legalKey;
-      ICryptoTransform decryptor = this.mobjCryptoService.CreateDecryptor();
+      byte[] legalKey = GetLegalKey(pkey);
+      mobjCryptoService.Key = legalKey;
+      mobjCryptoService.IV = legalKey;
+      ICryptoTransform decryptor = mobjCryptoService.CreateDecryptor();
       return new StreamReader((Stream) new CryptoStream((Stream) memoryStream, decryptor, CryptoStreamMode.Read)).ReadToEnd();
     }
 
     public string Encrypt(string plainText)
     {
-      byte[] bytes1 = Encoding.ASCII.GetBytes(this.initVector);
-      byte[] bytes2 = Encoding.ASCII.GetBytes(this.saltValue);
+      byte[] bytes1 = Encoding.ASCII.GetBytes(initVector);
+      byte[] bytes2 = Encoding.ASCII.GetBytes(saltValue);
       byte[] bytes3 = Encoding.UTF8.GetBytes(plainText);
-      byte[] bytes4 = new PasswordDeriveBytes(this.passPhrase, bytes2, this.hashAlgorithm, this.passwordIterations).GetBytes(this.keySize / 8);
+      byte[] bytes4 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
       RijndaelManaged rijndaelManaged = new RijndaelManaged();
       rijndaelManaged.Mode = CipherMode.CBC;
       ICryptoTransform encryptor = rijndaelManaged.CreateEncryptor(bytes4, bytes1);
@@ -130,10 +130,10 @@ namespace MD5library
 
     public string Decrypt(string cipherText)
     {
-      byte[] bytes1 = Encoding.ASCII.GetBytes(this.initVector);
-      byte[] bytes2 = Encoding.ASCII.GetBytes(this.saltValue);
+      byte[] bytes1 = Encoding.ASCII.GetBytes(initVector);
+      byte[] bytes2 = Encoding.ASCII.GetBytes(saltValue);
       byte[] buffer = Convert.FromBase64String(cipherText);
-      byte[] bytes3 = new PasswordDeriveBytes(this.passPhrase, bytes2, this.hashAlgorithm, this.passwordIterations).GetBytes(this.keySize / 8);
+      byte[] bytes3 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
       RijndaelManaged rijndaelManaged = new RijndaelManaged();
       rijndaelManaged.Mode = CipherMode.CBC;
       ICryptoTransform decryptor = rijndaelManaged.CreateDecryptor(bytes3, bytes1);

@@ -124,13 +124,13 @@ namespace METAbolt
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             SetPrefs();
-            this.Close();
+            Close();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,9 +142,9 @@ namespace METAbolt
 
             string itm = listBox1.SelectedItem.ToString();
 
-            if (this.instance.EList != null)
+            if (instance.EList != null)
             {
-                foreach (IExtension extOn in this.instance.EList)
+                foreach (IExtension extOn in instance.EList)
                 {
                     if (extOn.Title == itm)
                     {
@@ -157,7 +157,7 @@ namespace METAbolt
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", METAbolt.DataFolder.GetDataFolder() + "\\Extensions\\");
+            Process.Start("explorer.exe", DataFolder.GetDataFolder() + "\\Extensions\\");
         }
 
         private void button6_Click(object sender, EventArgs e)

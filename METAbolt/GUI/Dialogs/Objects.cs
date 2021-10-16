@@ -186,7 +186,7 @@ namespace METAbolt
             try
             {
                 RemoveNetcomEvents();
-                this.Dispose();
+                Dispose();
             }
             catch
             {
@@ -199,7 +199,7 @@ namespace METAbolt
             try
             {
                 RemoveNetcomEvents();
-                this.Dispose();
+                Dispose();
             }
             catch
             {
@@ -217,7 +217,7 @@ namespace METAbolt
                 }));
             }
 
-            if (!this.IsHandleCreated) return;
+            if (!IsHandleCreated) return;
 
             BeginInvoke(new MethodInvoker(delegate()
             {
@@ -1445,9 +1445,9 @@ namespace METAbolt
 
         private void frmObjects_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             
-            this.Text = "Object Manager [" + client.Self.FirstName.ToString() + " " + client.Self.LastName.ToString() + "]";
+            Text = "Object Manager [" + client.Self.FirstName.ToString() + " " + client.Self.LastName.ToString() + "]";
 
             //numericUpDown1.Maximum = instance.Config.CurrentConfig.RadarRange;
 
@@ -1985,7 +1985,7 @@ namespace METAbolt
                 instance.State.LookAtObject(true, item.Prim.ID);
 
                 client.Self.Touch(item.Prim.LocalID);
-                System.Threading.Thread.Sleep(800);
+                Thread.Sleep(800);
 
                 instance.State.SetPointingTouch(false, item.Prim.ID, objpos, pos);
                 instance.State.LookAtObject(false, item.Prim.ID);
@@ -2006,7 +2006,7 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnLocation_Click(object sender, EventArgs e)
@@ -2125,7 +2125,7 @@ namespace METAbolt
                     client.Self.AnimationStart(Animations.TURNLEFT, false);
                     client.Self.Movement.TurnToward(item.Prim.Position);
                     client.Self.Movement.FinishAnim = true;
-                    System.Threading.Thread.Sleep(200);
+                    Thread.Sleep(200);
                     client.Self.AnimationStop(Animations.TURNLEFT, false);
 
                     instance.State.SetPointing(true, item.Prim.ID, objpos, pos);
@@ -3007,7 +3007,7 @@ namespace METAbolt
         {
             if (e.Button == MouseButtons.Right)
             {
-                mnuTask.Show(this.lbxTask, new Point(e.X, e.Y));     
+                mnuTask.Show(lbxTask, new Point(e.X, e.Y));     
             }
         }
 
@@ -3063,7 +3063,7 @@ namespace METAbolt
         {
             DialogResult res = MessageBox.Show("Are you sure you want to return the selected object?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-            if (res == System.Windows.Forms.DialogResult.Yes)
+            if (res == DialogResult.Yes)
             {
                 int iDx = lbxPrims.SelectedIndex;
                 ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];

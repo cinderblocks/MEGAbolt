@@ -37,7 +37,7 @@ using System.Globalization;
 
 namespace METAbolt
 {
-    public partial class PrefGeneralConsole : System.Windows.Forms.UserControl, IPreferencePane
+    public partial class PrefGeneralConsole : UserControl, IPreferencePane
     {
         private METAboltInstance instance;
         private ConfigManager config;
@@ -110,7 +110,7 @@ namespace METAbolt
             toolTip8.FocusOnOpen = false;
             toolTip8.ShowingAnimation = toolTip8.HidingAnimation = PopupAnimations.Blend;
 
-            string msg10 = "If unchecked and a master avatar and/or object UUID is not specified, LSL commands from all avatars and objects (with MD5'ed METAbolt passwords in the command) will be accepted and processed.";
+            string msg10 = "If unchecked and a master avatar and/or object UUID is not specified, LSL commands from all avatars and objects (with MD5'ed MEGAbolt passwords in the command) will be accepted and processed.";
             toolTip9 = new Popup(customToolTip = new CustomToolTip(instance, msg10));
             toolTip9.AutoClose = false;
             toolTip9.FocusOnOpen = false;
@@ -170,7 +170,6 @@ namespace METAbolt
             chkVoice.Checked = config.CurrentConfig.DisableVoice;
             chkFavs.Checked = config.CurrentConfig.DisableFavs;
             chkRadarMiniMap.Checked = config.CurrentConfig.DisableRadarImageMiniMap;
-            cbLLSD.Checked = config.CurrentConfig.UseLLSD;
 
             numChatBuff.Value = config.CurrentConfig.ChatBufferLimit;
             numScriptBuff.Value = config.CurrentConfig.ScriptUrlBufferLimit;
@@ -318,15 +317,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "General"; }
-        }
+        string IPreferencePane.Name => "General";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.applications_32; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.applications_32;
 
         void IPreferencePane.SetPreferences()
         {
@@ -357,7 +350,6 @@ namespace METAbolt
             instance.Config.CurrentConfig.DisableVoice = chkVoice.Checked;  
             instance.Config.CurrentConfig.DisableFavs = chkFavs.Checked;
             instance.Config.CurrentConfig.DisableRadarImageMiniMap = chkRadarMiniMap.Checked;
-            instance.Config.CurrentConfig.UseLLSD = cbLLSD.Checked;
             instance.Config.CurrentConfig.ChatBufferLimit = Convert.ToInt32(numChatBuff.Value);
             instance.Config.CurrentConfig.ScriptUrlBufferLimit = Convert.ToInt32(numScriptBuff.Value);
 
@@ -944,7 +936,7 @@ namespace METAbolt
 
             //if (!chkDisableRadar.Checked && chkDisableRadar.Checked != restart)
             //{
-            //    MessageBox.Show("If you 'Apply' this change you will need to re-start METAbolt", "MEGAbolt");
+            //    MessageBox.Show("If you 'Apply' this change you will need to re-start MEGAbolt", "MEGAbolt");
             //}
         }
 

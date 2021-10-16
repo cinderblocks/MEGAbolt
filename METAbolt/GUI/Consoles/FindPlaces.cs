@@ -54,7 +54,7 @@ namespace METAbolt
             InitializeComponent();
 
             findPlacesResults = new SafeDictionary<string, DirectoryManager.DirectoryParcel>();
-            this.QueryID = queryID;
+            QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -97,7 +97,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.QueryID) return;
+            if (qqueryID != QueryID) return;
 
             lvwFindPlaces.BeginUpdate();
 

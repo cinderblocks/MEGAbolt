@@ -66,7 +66,7 @@ namespace MD5library
       return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
     }
 
-    public string GetAvatarKey(string avname, string avUUID) => this.MachineMD5(avUUID);
+    public string GetAvatarKey(string avname, string avUUID) => MachineMD5(avUUID);
 
     public string GetMachinePassKey()
     {
@@ -78,7 +78,7 @@ namespace MD5library
       {
         var physicalAddress = networkInterface.GetPhysicalAddress();
         string password = globalProperties.HostName + physicalAddress.ToString();
-        return this.MachineMD5(password);
+        return MachineMD5(password);
       }
       return string.Empty;
     }
@@ -96,7 +96,7 @@ namespace MD5library
         password = globalProperties.HostName + physicalAddress;
         break;
       }
-      return this.MachineMD5(this.MachineMD5(password) + " - Remove MB ads") == passcode;
+      return MachineMD5(MachineMD5(password) + " - Remove MB ads") == passcode;
     }
   }
 }

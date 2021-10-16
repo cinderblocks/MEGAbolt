@@ -33,7 +33,7 @@ namespace METAbolt
 
         public PingEventArgs(string m)
         { 
-            this.message = m; 
+            message = m; 
         } 
 
         public string Message() 

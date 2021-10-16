@@ -30,8 +30,8 @@ namespace METAbolt
     {
         public PreferencePaneListItem(string name, Image icon)
         {
-            this.Name = name;
-            this.Icon = icon;
+            Name = name;
+            Icon = icon;
         }
 
         public string Name { get; }

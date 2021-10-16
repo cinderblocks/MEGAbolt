@@ -105,7 +105,7 @@ namespace METAbolt
             Disposed += InventoryConsole_Disposed;
 
             textfile = "\\" + client.Self.FirstName + "_" + client.Self.LastName + "_" + "Outfit.mtb";
-            this.path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
+            path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
             ReadTextFile();
 
@@ -515,7 +515,7 @@ namespace METAbolt
 
         public void UpdateFolder(UUID folderID)
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { UpdateFolder(folderID); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { UpdateFolder(folderID); });
             else
             {
                 if (searching) return;
@@ -722,7 +722,7 @@ namespace METAbolt
 
         private void tmnuDelete_Click(object sender, EventArgs e)
         {
-            if (this.instance.State.CurrentTab != "&Inventory") return;
+            if (instance.State.CurrentTab != "&Inventory") return;
 
             if (treeView1.SelectedNode == null) return;
 
@@ -784,7 +784,7 @@ namespace METAbolt
 
         private void tmnuCut_Click(object sender, EventArgs e)
         {
-            if (this.instance.State.CurrentTab != "&Inventory") return;
+            if (instance.State.CurrentTab != "&Inventory") return;
 
             if (treeView1.SelectedNode == null) return;
 
@@ -816,7 +816,7 @@ namespace METAbolt
         {
             try
             {
-                if (this.instance.State.CurrentTab != "&Inventory") return;
+                if (instance.State.CurrentTab != "&Inventory") return;
 
                 if (treeView1.SelectedNode == null) return;
 
@@ -1066,7 +1066,7 @@ namespace METAbolt
         private void tmnuNewNotecard_Click(object sender, EventArgs e)
         {
             string newNotecardName = "New Notecard";
-            string newNotecardDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with METAbolt {1}", newNotecardName, DateTime.Now); ;
+            string newNotecardDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with MEGAbolt {1}", newNotecardName, DateTime.Now); ;
             string newNotecardContent = string.Empty;
 
             //nodecol = false;
@@ -1189,7 +1189,7 @@ namespace METAbolt
 
         private void tmnuCopy_Click(object sender, EventArgs e)
         {
-            if (this.instance.State.CurrentTab != "&Inventory") return;
+            if (instance.State.CurrentTab != "&Inventory") return;
 
             if (treeView1.SelectedNode == null) return;
 
@@ -1434,7 +1434,7 @@ namespace METAbolt
 
         public void RefreshInventory()
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)RefreshInventory);
+            if (InvokeRequired) BeginInvoke((MethodInvoker)RefreshInventory);
             else
             {
                 TreeNode node = treeView1.SelectedNode;
@@ -1468,7 +1468,7 @@ namespace METAbolt
 
         public void RefreshInventoryNode(TreeNode node)
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { RefreshInventoryNode(node); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { RefreshInventoryNode(node); });
             else
             {
                 InventoryFolder folder = null;
@@ -1497,7 +1497,7 @@ namespace METAbolt
 
         private void ReloadInventory()
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { ReloadInventory(); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { ReloadInventory(); });
             else
             {
                 treeView1.Nodes.Clear();
@@ -1513,7 +1513,7 @@ namespace METAbolt
 
         public void SortInventory()
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { SortInventory(); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { SortInventory(); });
             else
             {
                 TreeNode node = treeView1.SelectedNode;
@@ -1661,12 +1661,12 @@ namespace METAbolt
         private void AddToFile()
         {
             // Delete the file if it exists.
-            if (File.Exists(this.path))
+            if (File.Exists(path))
             {
-                File.Delete(this.path);
+                File.Delete(path);
             }
 
-            using (StreamWriter sr = File.CreateText(this.path))
+            using (StreamWriter sr = File.CreateText(path))
             {
                 foreach (object o in listBox1.Items)
                 {
@@ -1683,14 +1683,14 @@ namespace METAbolt
         {
             try
             {
-                if (!File.Exists(this.path))
+                if (!File.Exists(path))
                 {
                     return;
                 }
 
                 listBox1.Items.Clear();
 
-                using (StreamReader sr = File.OpenText(this.path))
+                using (StreamReader sr = File.OpenText(path))
                 {
                     string s = "";
 
@@ -1871,7 +1871,7 @@ namespace METAbolt
         private void tmnuNewScript_Click(object sender, EventArgs e)
         {
             string newScriptName = "New Script";
-            string newScriptDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with METAbolt {1}", newScriptName, DateTime.Now); ;
+            string newScriptDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with MEGAbolt {1}", newScriptName, DateTime.Now); ;
             string newScriptContent = string.Empty;
 
 
@@ -1922,9 +1922,8 @@ namespace METAbolt
                     {
                         if (success) // upload the asset
                         {
-                            string scriptbody = "default\n{\n    state_entry()\n    {\n        llSay(0,'Hello METAbolt user');\n    }\n}";
+                            string scriptbody = "default\n{\n    state_entry()\n    {\n        llSay(0,'Hello MEGAbolt user');\n    }\n}";
                             client.Inventory.RequestUploadNotecardAsset(CreateScriptAsset(scriptbody), nitem.UUID, OnNoteUpdate);
-                            //client.Inventory.RequestUploadNotecardAsset(Utils.StringToBytes("Script code..."), nitem.UUID,delegate (bool success2,string status,UUID item_uuid, UUID asset_uuid)
                         }
                     }
                 );
@@ -3002,13 +3001,13 @@ namespace METAbolt
 
         private void InventoryConsole_Load(object sender, EventArgs e)
         {
-            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
 
-            int style = NativeWinAPI.GetWindowLong(this.Handle, NativeWinAPI.GWL_EXSTYLE);
+            int style = NativeWinAPI.GetWindowLong(Handle, NativeWinAPI.GWL_EXSTYLE);
 
             style |= NativeWinAPI.WS_EX_COMPOSITE;
 
-            NativeWinAPI.SetWindowLong(this.Handle, NativeWinAPI.GWL_EXSTYLE, Convert.ToInt64(style));
+            NativeWinAPI.SetWindowLong(Handle, NativeWinAPI.GWL_EXSTYLE, Convert.ToInt64(style));
         }
     }
 

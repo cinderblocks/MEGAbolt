@@ -33,7 +33,7 @@ using OpenMetaverse;
 
 namespace METAbolt
 {
-    public partial class PrefMETAgiver : System.Windows.Forms.UserControl, IPreferencePane
+    public partial class PrefMETAgiver : UserControl, IPreferencePane
     {
         private METAboltInstance instance;
         //private ConfigManager config;
@@ -73,15 +73,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "  METAcourier"; }
-        }
+        string IPreferencePane.Name => "  MEGAcourier";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.top_hat; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.top_hat;
 
         void IPreferencePane.SetPreferences()
         {

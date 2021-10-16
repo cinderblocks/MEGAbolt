@@ -48,7 +48,7 @@ namespace METAbolt
             InitializeComponent();
 
             LLUUIDs = new SafeDictionary<string, UUID>();
-            this.QueryID = queryID;
+            QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -84,7 +84,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.QueryID) return;
+            if (qqueryID != QueryID) return;
 
             lvwFindGroups.BeginUpdate();
 

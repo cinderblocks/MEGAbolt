@@ -36,7 +36,7 @@ namespace METAx
     {
     }
 
-    public AssemblyLoadingEventArgs(string filename) => this.Filename = filename;
+    public AssemblyLoadingEventArgs(string filename) => Filename = filename;
 
     public bool Cancel { get; set; } = false;
 

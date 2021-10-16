@@ -47,15 +47,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "Music"; }
-        }
+        string IPreferencePane.Name => "Music";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.wmp; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.wmp;
 
         void IPreferencePane.SetPreferences()
         {

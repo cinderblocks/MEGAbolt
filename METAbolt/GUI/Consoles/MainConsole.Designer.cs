@@ -103,9 +103,8 @@ namespace METAbolt
             // 
             // pnlLoginPage
             // 
-            this.pnlLoginPage.AccessibleDescription = "Displays the METAbolt start web page which contains useful links and summary of c" +
-    "urrent forum topics etc";
-            this.pnlLoginPage.AccessibleName = "METAbolt start page";
+            this.pnlLoginPage.AccessibleDescription = "Displays the MEGAbolt start web page";
+            this.pnlLoginPage.AccessibleName = "MEGAbolt start page";
             this.pnlLoginPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -211,7 +210,7 @@ namespace METAbolt
             // chkCmd
             // 
             this.chkCmd.AccessibleDescription = "Option to create a BAT file for the avatar you are logging in with next time you " +
-    "start METAbolt";
+    "start MEGAbolt";
             this.chkCmd.AccessibleName = "Create BAT file";
             this.chkCmd.AutoSize = true;
             this.chkCmd.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
@@ -227,7 +226,7 @@ namespace METAbolt
             // 
             // chkPWD
             // 
-            this.chkPWD.AccessibleDescription = "Option to remember your password next time you start METAbolt";
+            this.chkPWD.AccessibleDescription = "Option to remember your password next time you start MEGAbolt";
             this.chkPWD.AccessibleName = "Remember password";
             this.chkPWD.AutoSize = true;
             this.chkPWD.FlatAppearance.BorderColor = System.Drawing.Color.Silver;

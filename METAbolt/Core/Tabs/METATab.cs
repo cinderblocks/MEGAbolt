@@ -36,9 +36,9 @@ namespace METAbolt
 
         public METAboltTab(ToolStripButton button, Control control, string name, string label)
         {
-            this.Button = button;
-            this.Control = control;
-            this.Name = name;
+            Button = button;
+            Control = control;
+            Name = name;
             this.label = label;
         }
 
@@ -74,7 +74,7 @@ namespace METAbolt
 
             Button.Checked = true;
             Selected = true;
-            SelectedTab = this.Name;
+            SelectedTab = Name;
 
             OnTabSelected(EventArgs.Empty);
         }
@@ -209,7 +209,7 @@ namespace METAbolt
 
             originalLabel = label;
             tab.originalLabel = tab.label;
-            this.Label = label + "+" + tab.Label;
+            Label = label + "+" + tab.Label;
             
             Merged = tab.Merged = true;
 
@@ -230,7 +230,7 @@ namespace METAbolt
             returnTab.Control = container.Panel2.Controls[0];
             Merged = returnTab.Merged = false;
 
-            this.Label = originalLabel;
+            Label = originalLabel;
             OnTabSplit(EventArgs.Empty);
 
             return returnTab;
@@ -246,8 +246,8 @@ namespace METAbolt
 
         public string Label
         {
-            get { return label; }
-            set { label = Button.Text = value; }
+            get => label;
+            set => label = Button.Text = value;
         }
 
         public METAboltTab MergedTab { get; private set; }

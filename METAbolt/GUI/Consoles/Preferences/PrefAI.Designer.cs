@@ -56,7 +56,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(135, 13);
             this.label4.TabIndex = 18;
-            this.label4.Text = "(requires METAbolt re-start)";
+            this.label4.Text = "(requires MEGAbolt re-start)";
             // 
             // picAI
             // 
@@ -72,7 +72,7 @@
             // 
             // chkAI
             // 
-            this.chkAI.AccessibleName = "Enable METAbrain option";
+            this.chkAI.AccessibleName = "Enable MEGAbrain option";
             this.chkAI.AutoSize = true;
             this.chkAI.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.chkAI.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
@@ -82,7 +82,7 @@
             this.chkAI.Name = "chkAI";
             this.chkAI.Size = new System.Drawing.Size(131, 17);
             this.chkAI.TabIndex = 0;
-            this.chkAI.Text = "Enable METAbrain (AI)";
+            this.chkAI.Text = "Enable MEGAbrain (AI)";
             this.chkAI.UseVisualStyleBackColor = true;
             this.chkAI.CheckedChanged += new System.EventHandler(this.chkAI_CheckedChanged);
             // 
@@ -129,12 +129,12 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(181, 17);
             this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "Enable METAbrain in public chat";
+            this.checkBox1.Text = "Enable MEGAbrain in public chat";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            this.panel1.AccessibleName = "METAbrain panel";
+            this.panel1.AccessibleName = "MEGAbrain panel";
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);

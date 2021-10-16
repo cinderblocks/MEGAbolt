@@ -112,7 +112,7 @@ namespace METAbolt
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.TextPrinter = textPrinter;
+            TextPrinter = textPrinter;
             //this.textBuffer = new List<ChatBufferItem>();
 
             this.instance = instance;
@@ -174,7 +174,7 @@ namespace METAbolt
         {
             showTimestamps = e.AppliedConfig.ChatTimestamps;
 
-            classiclayout = this.instance.Config.CurrentConfig.ClassicChatLayout;
+            classiclayout = instance.Config.CurrentConfig.ClassicChatLayout;
 
             //TEnabled = e.AppliedConfig.EnableTweeter;
             //tName = e.AppliedConfig.TweeterName;
@@ -234,7 +234,7 @@ namespace METAbolt
             netcom.AlertMessageReceived -= netcom_AlertMessageReceived;
 
             client.Groups.GroupMembersReply -= GroupMembersHandler;
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
         }
 
         private void netcom_ChatSent(object sender, ChatSentEventArgs e)
@@ -334,16 +334,16 @@ namespace METAbolt
             // Count the ones already on display
             // to avoid flood attacks
 
-            if (this.instance.DialogCount < 9)
+            if (instance.DialogCount < 9)
             {
-                this.instance.DialogCount += 1;
+                instance.DialogCount += 1;
             }
 
-            if (this.instance.DialogCount < 9)
+            if (instance.DialogCount < 9)
             {
                 (new frmDialogLoadURL(instance, e)).ShowDialog(instance.MainForm);
 
-                if (this.instance.DialogCount == 8)
+                if (instance.DialogCount == 8)
                 {
                     UUID objID = e.ObjectID;
                     string objname = e.ObjectName;
@@ -566,7 +566,7 @@ namespace METAbolt
             {
                 if (showTimestamps)
                 {
-                    dte = this.instance.State.GetTimeStamp(dte);   
+                    dte = instance.State.GetTimeStamp(dte);   
                     //if (instance.Config.CurrentConfig.UseSLT)
                     //{
                     //    string _timeZoneId = "Pacific Standard Time";
@@ -622,7 +622,7 @@ namespace METAbolt
                 {
                     if (item.Style != ChatBufferTextStyle.StartupTitle)
                     {
-                        dte = this.instance.State.GetTimeStamp(dte);
+                        dte = instance.State.GetTimeStamp(dte);
 
                         //if (instance.Config.CurrentConfig.UseSLT)
                         //{
@@ -704,7 +704,7 @@ namespace METAbolt
                 }
 
                 // the MD5 stuff (as of V 0.9.3)
-                string str = this.instance.Config.CurrentConfig.GroupManPro;
+                string str = instance.Config.CurrentConfig.GroupManPro;
                 METAMD5 md5 = new METAMD5();
                 string metapwd = md5.MD5(str);
 
@@ -747,7 +747,7 @@ namespace METAbolt
                 {
                     TextPrinter.SetSelectionForeColor(Color.DarkCyan);
 
-                    if (this.instance.State.Groups.ContainsKey(igroup))
+                    if (instance.State.Groups.ContainsKey(igroup))
                     {
                         // check if already member of the group
                         client.Groups.GroupMembersReply += GroupMembersHandler;
@@ -759,7 +759,7 @@ namespace METAbolt
                 catch (Exception excp)
                 {
                     TextPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, "\n(GroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
-                    OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture, "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
+                    Logger.Log(String.Format(CultureInfo.CurrentCulture, "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
                     return;
                 }
             }
@@ -785,7 +785,7 @@ namespace METAbolt
                         pwd = "invalid";
                     }
 
-                    string str = this.instance.Config.CurrentConfig.GroupManPro; //GM: actually it is the METAbolt password
+                    string str = instance.Config.CurrentConfig.GroupManPro; //GM: actually it is the METAbolt password
                     METAMD5 md5 = new METAMD5();
                     string metapwd = md5.MD5(str);
 
@@ -808,7 +808,7 @@ namespace METAbolt
 
                     //fixup the text
                     //chop off before the ChairPrefix
-                    string cp = METAbolt.Properties.Resources.ChairPrefix;
+                    string cp = Properties.Resources.ChairPrefix;
                     int pos = smsg.IndexOf(cp, 2, StringComparison.CurrentCultureIgnoreCase);
                     pos = pos < 0 ? 0 : pos;
                     StringBuilder sb = new StringBuilder(smsg.Substring(pos));
@@ -862,7 +862,7 @@ namespace METAbolt
                     Logger.Log("Chair Announcer: skipped", Helpers.LogLevel.Info);
                 }
 
-                OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture, "AddIn: {0} called {1}", cau.ToString(), smsg), Helpers.LogLevel.Debug);
+                Logger.Log(String.Format(CultureInfo.CurrentCulture, "AddIn: {0} called {1}", cau.ToString(), smsg), Helpers.LogLevel.Debug);
                 return;
             }
 
@@ -1145,7 +1145,7 @@ namespace METAbolt
                 //string eex = excp.ToString();
                 //PrintIM(DateTime.Now, e.IM.FromAgentName, "GroupMan Pro has encountered an error and a group invite could not be sent to: " + sGrp[2].ToString());
                 TextPrinter.PrintTextLine(String.Format(CultureInfo.CurrentCulture, prefix + "(\nGroupMan Pro @ " + gmanlocation + ")\nGroupMan Pro has encountered an error and a group invite could not be sent to: " + gavname));
-                OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture, prefix + "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
+                Logger.Log(String.Format(CultureInfo.CurrentCulture, prefix + "GroupMan Pro Error: {0}", excp), Helpers.LogLevel.Error);
                 return;
             }
 
@@ -1247,7 +1247,7 @@ namespace METAbolt
             {
                 if (showTimestamps)
                 {
-                    dte = this.instance.State.GetTimeStamp(dte);
+                    dte = instance.State.GetTimeStamp(dte);
 
                     //if (instance.Config.CurrentConfig.UseSLT)
                     //{
@@ -1313,7 +1313,7 @@ namespace METAbolt
 
                 if (showTimestamps)
                 {
-                    dte = this.instance.State.GetTimeStamp(dte);
+                    dte = instance.State.GetTimeStamp(dte);
 
                     //if (instance.Config.CurrentConfig.UseSLT)
                     //{

@@ -75,7 +75,7 @@ namespace METAbolt
 
             AddNetcomEvents();
             
-            this.Text = item.Name + " (script) - MEGAbolt";
+            Text = item.Name + " (script) - MEGAbolt";
 
             SetScintilla();
             GetCallTips();
@@ -101,7 +101,7 @@ namespace METAbolt
 
             AddNetcomEvents();
 
-            this.Text = item.Name + " (script) - MEGAbolt";
+            Text = item.Name + " (script) - MEGAbolt";
 
             SetScintilla();
             GetCallTips();
@@ -346,7 +346,7 @@ namespace METAbolt
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
             closePending = false;
-            this.Close();
+            Close();
         }
 
         private static DialogResult AskForSave()
@@ -383,11 +383,11 @@ namespace METAbolt
 
                 if (istaskobj)
                 {
-                    client.Inventory.RequestUpdateScriptTask(CreateScriptAsset(rtbScript.Text), this.item.UUID, objectid, checkBox1.Checked, checkBox2.Checked, OnScriptUpdate);
+                    client.Inventory.RequestUpdateScriptTask(CreateScriptAsset(rtbScript.Text), item.UUID, objectid, checkBox1.Checked, checkBox2.Checked, OnScriptUpdate);
                 }
                 else
                 {
-                    client.Inventory.RequestUpdateScriptAgentInventory(CreateScriptAsset(rtbScript.Text), this.item.UUID, true, OnScriptUpdate);
+                    client.Inventory.RequestUpdateScriptAgentInventory(CreateScriptAsset(rtbScript.Text), item.UUID, true, OnScriptUpdate);
                 }
 
                 //changed = false;
@@ -412,7 +412,7 @@ namespace METAbolt
                 string lindenText = body;
 
                 // Assume this is a string, add 1 for the null terminator
-                byte[] stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
+                byte[] stringBytes = Encoding.UTF8.GetBytes(lindenText);
                 byte[] assetData = new byte[stringBytes.Length]; //+ 1];
                 Array.Copy(stringBytes, 0, assetData, 0, stringBytes.Length);
                 return assetData;
@@ -462,7 +462,7 @@ namespace METAbolt
             if (closePending)
             {
                 closePending = false;
-                this.Close();
+                Close();
                 return;
             }
         }
@@ -539,7 +539,7 @@ namespace METAbolt
             // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
 
-            string logdir = METAbolt.DataFolder.GetDataFolder();
+            string logdir = DataFolder.GetDataFolder();
 
             saveFile1.InitialDirectory = logdir;
 
@@ -549,7 +549,7 @@ namespace METAbolt
             saveFile1.Title = "Save to hard disk...";
 
             // Determine if the user selected a file name from the saveFileDialog.
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+            if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
                 using (FileStream fs = File.Create(saveFile1.FileName))
@@ -586,7 +586,7 @@ namespace METAbolt
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            Close(); 
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -625,7 +625,7 @@ namespace METAbolt
 
         private void frmScriptEditor_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void goToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -949,7 +949,7 @@ using System.Linq;
 using System.Text;
 using METAbolt;  // don't forget to add METAbolt as a reference
 
-namespace METAbolt
+namespace MEGAbolt
 {
     class Class1
     {
@@ -1021,7 +1021,7 @@ namespace METAbolt
 
             int ind = openFileDialog.FilterIndex;
             openFileDialog.FilterIndex = 1;
-            openFileDialog.InitialDirectory = METAbolt.DataFolder.GetDataFolder();
+            openFileDialog.InitialDirectory = DataFolder.GetDataFolder();
 
             OpenFile(openFileDialog.FileName, ind);
         }
@@ -1031,7 +1031,7 @@ namespace METAbolt
             rtbScript.Text = File.ReadAllText(filePath);
             rtbScript.EmptyUndoBuffer();
             rtbScript.SetSavePoint();
-            this.Text = filePath;   //Path.GetFileName(filePath);
+            Text = filePath;   //Path.GetFileName(filePath);
 
             string ext = Path.GetExtension(filePath).ToLower(CultureInfo.CurrentCulture);
 

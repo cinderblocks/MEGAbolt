@@ -91,7 +91,7 @@ namespace METAbolt
 
             if (this.instance.MainForm.parcel != null)
             {
-                this.parcel = this.instance.MainForm.parcel;
+                parcel = this.instance.MainForm.parcel;
 
                 client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
 
@@ -121,7 +121,7 @@ namespace METAbolt
             // do the stuff here
             if (e.Members.ContainsKey(client.Self.AgentID))
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     grpID = e.GroupID;
                     RequestParcelDets();
@@ -241,7 +241,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     PopData();
                 }));
@@ -251,7 +251,7 @@ namespace METAbolt
 
             if (!instance.LoggedIn)
             {
-                this.Close();
+                Close();
                 return;
             }
 
@@ -304,7 +304,7 @@ namespace METAbolt
                 if (parcel.IsGroupOwned)
                 {
                     txtOwnerid.Text = "(Group Owned)";
-                    txtGroupOwner.Text = this.instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
+                    txtGroupOwner.Text = instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
                     pictureBox2.Enabled = false;
 
                     client.Groups.GroupMembersReply += GroupMembersHandler;
@@ -317,7 +317,7 @@ namespace METAbolt
                 {
                     if (parcel.GroupID != UUID.Zero)
                     {
-                        txtGroupOwner.Text = this.instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
+                        txtGroupOwner.Text = instance.MainForm.AboutlandGroupidname; //For some reason on this new code it shows (???)(???) :-/ TODO: fix me
 
                         client.Groups.GroupMembersReply += GroupMembersHandler;
                         client.Groups.RequestGroupMembers(parcel.GroupID);
@@ -326,7 +326,7 @@ namespace METAbolt
                         client.Groups.RequestGroupName(parcel.GroupID);
                     }
 
-                    txtOwnerid.Text = this.instance.MainForm.AboutlandOwneridname;
+                    txtOwnerid.Text = instance.MainForm.AboutlandOwneridname;
                     txtGroupOwner.Text = "";   //this.instance.MainForm.AboutlandOwneridname;
                     pictureBox2.Enabled = true;
                 }
@@ -342,7 +342,7 @@ namespace METAbolt
                 txtClaimDate.Text = parcel.ClaimDate.ToString(CultureInfo.CurrentCulture);
                 txtArea.Text = parcel.Area.ToString(CultureInfo.CurrentCulture) + "sq. m.";
 
-                if (this.instance.MainForm.Aboutlandforsale)
+                if (instance.MainForm.Aboutlandforsale)
                 {
                     txtForsale.Text = "L$ " + parcel.SalePrice.ToString(CultureInfo.CurrentCulture);
                     btnBuy.Visible = true;
@@ -372,46 +372,46 @@ namespace METAbolt
                 if (parcel.ParcelPrimBonus != 1) txtPrimBonus.Text = "Region Object Bonus Factor: " + parcel.ParcelPrimBonus.ToString(CultureInfo.CurrentCulture);
                 else txtPrimBonus.Text = "";
                 // Options tab
-                if (this.instance.MainForm.AboutlandCreateObj) cbcreater.Checked = false;
+                if (instance.MainForm.AboutlandCreateObj) cbcreater.Checked = false;
                 else cbcreater.Checked = true;
 
-                if (this.instance.MainForm.AboutlandGroupCreateObj) cbcreateg.Checked = false;
+                if (instance.MainForm.AboutlandGroupCreateObj) cbcreateg.Checked = false;
                 else cbcreateg.Checked = true;
 
-                if (this.instance.MainForm.AboutShow) cbplace.Checked = true;
+                if (instance.MainForm.AboutShow) cbplace.Checked = true;
                 else cbplace.Checked = true;
 
-                if (this.instance.MainForm.AboutMature) cbmature.Checked = false;
+                if (instance.MainForm.AboutMature) cbmature.Checked = false;
                 else cbmature.Checked = true;
 
-                if (this.instance.MainForm.AllowOtherScripts) cbscriptsr.Checked = false;
+                if (instance.MainForm.AllowOtherScripts) cbscriptsr.Checked = false;
                 else cbscriptsr.Checked = true;
 
-                if (!this.instance.MainForm.AboutlandAllowDamage) cbsafe.Checked = false;
+                if (!instance.MainForm.AboutlandAllowDamage) cbsafe.Checked = false;
                 else cbsafe.Checked = true;
 
-                if (this.instance.MainForm.AllowGroupScripts) cbscriptsg.Checked = false;
+                if (instance.MainForm.AllowGroupScripts) cbscriptsg.Checked = false;
                 else cbscriptsg.Checked = true;
 
-                if (this.instance.MainForm.AboutAllowGroupObjectEntry) cbentryg.Checked = true;
+                if (instance.MainForm.AboutAllowGroupObjectEntry) cbentryg.Checked = true;
                 else cbentryg.Checked = false;
 
-                if (this.instance.MainForm.AboutAllowAllObjectEntry) cbentryr.Checked = true;
+                if (instance.MainForm.AboutAllowAllObjectEntry) cbentryr.Checked = true;
                 else cbentryr.Checked = false;
 
-                if (this.instance.MainForm.AboutlandAllowFly) cbfly.Checked = false;
+                if (instance.MainForm.AboutlandAllowFly) cbfly.Checked = false;
                 else cbfly.Checked = true;
 
-                if (this.instance.MainForm.Allowcreatelm) cblandmark.Checked = true;
+                if (instance.MainForm.Allowcreatelm) cblandmark.Checked = true;
                 else cblandmark.Checked = false;
 
-                if (this.instance.MainForm.AllowTerraform) cbTerrain.Checked = true;
+                if (instance.MainForm.AllowTerraform) cbTerrain.Checked = true;
                 else cbTerrain.Checked = false;
 
-                if (this.instance.MainForm.AboutlandRestrictPush) cbpush.Checked = true;
+                if (instance.MainForm.AboutlandRestrictPush) cbpush.Checked = true;
                 else cbpush.Checked = false;
 
-                if (this.instance.AllowVoice) cbVoice.Checked = true;
+                if (instance.AllowVoice) cbVoice.Checked = true;
                 else cbVoice.Checked = false;
 
                 formloading = false;
@@ -632,16 +632,16 @@ namespace METAbolt
         {
             if (formloading) return;
 
-            this.parcel.Name = txtParcelname.Text;
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Name = txtParcelname.Text;
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void UpdateDesc()
         {
             if (formloading) return;
 
-            this.parcel.Desc = txtParceldesc.Text.Replace("\r\n", "\n");
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Desc = txtParceldesc.Text.Replace("\r\n", "\n");
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void txtParceldesc_Leave(object sender, EventArgs e)
@@ -708,7 +708,9 @@ namespace METAbolt
 
             if (client.Self.AgentID == oitem)
             {
-                DialogResult res = MessageBox.Show("You are about to return ALL your prims.\nAre you sure you want to continue?", "METAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult res = MessageBox.Show("You are about to return ALL your prims.\n" +
+                                                   "Are you sure you want to continue?", 
+                    "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
                 {
@@ -717,7 +719,9 @@ namespace METAbolt
             }
             else
             {
-                DialogResult res = MessageBox.Show("You are about to return ALL prims owned by " + lvwPrimOwners.SelectedItems[0].Text + ".\nAre you sure you want to continue?", "METAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult res = MessageBox.Show($"You are about to return ALL prims owned by {lvwPrimOwners.SelectedItems[0].Text}.\n" +
+                                                   $"Are you sure you want to continue?", 
+                    "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
                 {
@@ -743,7 +747,7 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmAboutLand_FormClosing(object sender, FormClosingEventArgs e)
@@ -780,14 +784,14 @@ namespace METAbolt
 
             if (cbTerrain.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowTerraform;
+                parcel.Flags |= ParcelFlags.AllowTerraform;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowTerraform;
+                parcel.Flags &= ~ParcelFlags.AllowTerraform;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cblandmark_CheckedChanged(object sender, EventArgs e)
@@ -806,14 +810,14 @@ namespace METAbolt
 
             if (cblandmark.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowLandmark;
+                parcel.Flags |= ParcelFlags.AllowLandmark;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowLandmark;
+                parcel.Flags &= ~ParcelFlags.AllowLandmark;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void txtMusic_Leave(object sender, EventArgs e)
@@ -842,14 +846,14 @@ namespace METAbolt
 
             if (cbfly.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowFly;
+                parcel.Flags |= ParcelFlags.AllowFly;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowFly;
+                parcel.Flags &= ~ParcelFlags.AllowFly;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbcreater_CheckedChanged(object sender, EventArgs e)
@@ -868,14 +872,14 @@ namespace METAbolt
 
             if (cbcreater.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.CreateObjects;
+                parcel.Flags |= ParcelFlags.CreateObjects;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.CreateObjects;
+                parcel.Flags &= ~ParcelFlags.CreateObjects;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbcreateg_CheckedChanged(object sender, EventArgs e)
@@ -894,14 +898,14 @@ namespace METAbolt
 
             if (cbcreateg.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.CreateGroupObjects;
+                parcel.Flags |= ParcelFlags.CreateGroupObjects;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.CreateGroupObjects;
+                parcel.Flags &= ~ParcelFlags.CreateGroupObjects;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbentryr_CheckedChanged(object sender, EventArgs e)
@@ -920,14 +924,14 @@ namespace METAbolt
 
             if (cbentryr.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowAPrimitiveEntry;
+                parcel.Flags |= ParcelFlags.AllowAPrimitiveEntry;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowAPrimitiveEntry;
+                parcel.Flags &= ~ParcelFlags.AllowAPrimitiveEntry;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbentryg_CheckedChanged(object sender, EventArgs e)
@@ -947,14 +951,14 @@ namespace METAbolt
 
             if (cbentryg.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowGroupObjectEntry;
+                parcel.Flags |= ParcelFlags.AllowGroupObjectEntry;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowGroupObjectEntry;
+                parcel.Flags &= ~ParcelFlags.AllowGroupObjectEntry;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbscriptsr_CheckedChanged(object sender, EventArgs e)
@@ -973,14 +977,14 @@ namespace METAbolt
 
             if (cbscriptsr.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowOtherScripts;
+                parcel.Flags |= ParcelFlags.AllowOtherScripts;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowOtherScripts;
+                parcel.Flags &= ~ParcelFlags.AllowOtherScripts;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbscriptsg_CheckedChanged(object sender, EventArgs e)
@@ -999,14 +1003,14 @@ namespace METAbolt
 
             if (cbscriptsg.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowGroupScripts;
+                parcel.Flags |= ParcelFlags.AllowGroupScripts;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowGroupScripts;
+                parcel.Flags &= ~ParcelFlags.AllowGroupScripts;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbsafe_CheckedChanged(object sender, EventArgs e)
@@ -1025,14 +1029,14 @@ namespace METAbolt
 
             if (!cbsafe.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowDamage;
+                parcel.Flags |= ParcelFlags.AllowDamage;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowDamage;
+                parcel.Flags &= ~ParcelFlags.AllowDamage;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbpush_CheckedChanged(object sender, EventArgs e)
@@ -1051,14 +1055,14 @@ namespace METAbolt
 
             if (cbpush.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.RestrictPushObject;
+                parcel.Flags |= ParcelFlags.RestrictPushObject;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.RestrictPushObject;
+                parcel.Flags &= ~ParcelFlags.RestrictPushObject;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbplace_CheckedChanged(object sender, EventArgs e)
@@ -1077,14 +1081,14 @@ namespace METAbolt
 
             if (cbplace.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.ShowDirectory;
+                parcel.Flags |= ParcelFlags.ShowDirectory;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.ShowDirectory;
+                parcel.Flags &= ~ParcelFlags.ShowDirectory;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void cbmature_CheckedChanged(object sender, EventArgs e)
@@ -1103,14 +1107,14 @@ namespace METAbolt
 
             if (cbmature.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.MaturePublish;
+                parcel.Flags |= ParcelFlags.MaturePublish;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.MaturePublish;
+                parcel.Flags &= ~ParcelFlags.MaturePublish;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1127,8 +1131,8 @@ namespace METAbolt
 
             if (formloading) return;
 
-            this.parcel.MusicURL = txtMusic.Text;
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.MusicURL = txtMusic.Text;
+            parcel.Update(client.Network.CurrentSim, false);
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -1159,7 +1163,7 @@ namespace METAbolt
                     blacklist.Remove(person);
                     parcel.AccessBlackList = blacklist;
                     parcel.AccessBlackList.Remove(person);
-                    this.parcel.Update(client.Network.CurrentSim, false);
+                    parcel.Update(client.Network.CurrentSim, false);
 
                     client.Parcels.RequestParcelAccessList(client.Network.CurrentSim, parcel.LocalID, AccessList.Ban, 1);
 
@@ -1185,7 +1189,7 @@ namespace METAbolt
 
         private void frmAboutLand_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void lvwBlackList_DoubleClick(object sender, EventArgs e)
@@ -1281,7 +1285,7 @@ namespace METAbolt
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            (new frmProfile(instance, this.instance.MainForm.AboutlandOwneridname, parcel.OwnerID)).Show();
+            (new frmProfile(instance, instance.MainForm.AboutlandOwneridname, parcel.OwnerID)).Show();
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
@@ -1303,14 +1307,14 @@ namespace METAbolt
 
             if (cbVoice.Checked)
             {
-                this.parcel.Flags |= ParcelFlags.AllowVoiceChat;
+                parcel.Flags |= ParcelFlags.AllowVoiceChat;
             }
             else
             {
-                this.parcel.Flags &= ~ParcelFlags.AllowVoiceChat;
+                parcel.Flags &= ~ParcelFlags.AllowVoiceChat;
             }
 
-            this.parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client.Network.CurrentSim, false);
         }
     }
 }

@@ -124,7 +124,7 @@ namespace METAbolt
 
             ApplyConfig(this.instance.Config.CurrentConfig, true);
 
-            this.WindowState = FormWindowState.Normal;
+            WindowState = FormWindowState.Normal;
 
             //elist = new List<IExtension>();
 
@@ -217,11 +217,11 @@ namespace METAbolt
                 //}
 
                 //currentparcelid = parceln.LocalID;
-                this.parcel = parceln;
+                parcel = parceln;
 
                 //List<Simulator> connectedsims = client.Network.Simulators; 
 
-                this.instance.Config.CurrentConfig.pURL = @parcel.MusicURL;
+                instance.Config.CurrentConfig.pURL = @parcel.MusicURL;
                 tlblParcel.Text = parcel.Name.ToString();
 
                // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
@@ -335,7 +335,7 @@ namespace METAbolt
                 // Log tp/lm location into history
                 DateTime timestamp = DateTime.Now;
 
-                timestamp = this.instance.State.GetTimeStamp(timestamp);
+                timestamp = instance.State.GetTimeStamp(timestamp);
 
                 string strInfo = string.Format(CultureInfo.CurrentCulture, "{0}/{1}/{2}/{3}", client.Network.CurrentSim.Name,
                                                                             Math.Round(instance.SIMsittingPos().X, 0),
@@ -351,7 +351,7 @@ namespace METAbolt
                 {
                     DataRow dr = instance.TP.NewRow();
                     dr["time"] = timestamp.ToString();
-                    dr["name"] = this.parcel.Name;
+                    dr["name"] = parcel.Name;
                     dr["slurl"] = strInfo;
                     instance.TP.Rows.Add(dr);
                 }
@@ -384,7 +384,7 @@ namespace METAbolt
 
                 if (mamount > 0 && mavatar != UUID.Zero)
                 {
-                    client.Self.GiveAvatarMoney(mavatar, mamount, "METAbolt auto money transfer to master avatar");
+                    client.Self.GiveAvatarMoney(mavatar, mamount, "MEGAbolt auto money transfer to master avatar");
                 }
             }
 
@@ -433,7 +433,7 @@ namespace METAbolt
         private void ApplyConfig(Config config, bool doingInit)
         {
             if (doingInit)
-                this.WindowState = (FormWindowState)config.MainWindowState;
+                WindowState = (FormWindowState)config.MainWindowState;
 
             if (config.InterfaceStyle == 0) //System
                 toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -579,11 +579,11 @@ namespace METAbolt
 
                 if (!netcom.IsLoggedIn)
                 {
-                    this.Disconnect(true);
+                    Disconnect(true);
                 }
                 else
                 {
-                    if (this.instance.EList == null) return;
+                    if (instance.EList == null) return;
 
                     if (!pluginsloaded)
                     {
@@ -592,15 +592,15 @@ namespace METAbolt
                         if (plugintimer >= 60000 && !pluginsloaded)
                         {
                             // Load plugins if any
-                            if (this.instance.EList.Count > 0)
+                            if (instance.EList.Count > 0)
                             {
-                                string plugins = this.instance.Config.CurrentConfig.PluginsToLoad;
+                                string plugins = instance.Config.CurrentConfig.PluginsToLoad;
 
-                                foreach (IExtension extOn in this.instance.EList)
+                                foreach (IExtension extOn in instance.EList)
                                 {
                                     if (plugins.Contains(extOn.Title))
                                     {
-                                        extOn.Process(this.instance);
+                                        extOn.Process(instance);
                                     }
                                 }
 
@@ -643,7 +643,7 @@ namespace METAbolt
             //netcom.Teleporting += new EventHandler<TeleportingEventArgs>(netcom_Teleporting);  
         }
 
-        private void netcom_InstantMessageReceived(object sender, OpenMetaverse.InstantMessageEventArgs e)
+        private void netcom_InstantMessageReceived(object sender, InstantMessageEventArgs e)
         {
             if (e.IM.Dialog == InstantMessageDialog.StartTyping ||
                 e.IM.Dialog == InstantMessageDialog.StopTyping)
@@ -653,23 +653,23 @@ namespace METAbolt
             if (instance.Config.CurrentConfig.DisableGroupIMs || instance.Config.CurrentConfig.DisableGroupNotices)
                 return;
 
-            if (!this.Focused) FormFlash.Flash(this);
+            if (!Focused) FormFlash.Flash(this);
         }
 
         private void netcom_ClientLoginStatus(object sender, LoginProgressEventArgs e)
         {
             if (e.Status != LoginStatus.Success) return;
 
-            client.Settings.ASSET_CACHE_DIR = METAbolt.DataFolder.GetDataFolder() + System.IO.Path.DirectorySeparatorChar + client.Self.Name + System.IO.Path.DirectorySeparatorChar + "cache";
+            client.Settings.ASSET_CACHE_DIR = DataFolder.GetDataFolder() + Path.DirectorySeparatorChar + client.Self.Name + Path.DirectorySeparatorChar + "cache";
 
             tlTools.Enabled = tlLogs.Enabled = tsUtilities.Enabled = btnMap.Enabled = btnAvatar.Enabled = tbtnTeleport.Enabled = tbtnObjects.Enabled = true;
             statusTimer.Enabled = true;
             statusTimer.Start();
             RefreshWindowTitle();
 
-            if (this.instance.Config.CurrentConfig.StartMinimised)
+            if (instance.Config.CurrentConfig.StartMinimised)
             {
-                this.WindowState = FormWindowState.Minimized;
+                WindowState = FormWindowState.Minimized;
             }
 
             client.Self.RequestMuteList();
@@ -679,7 +679,7 @@ namespace METAbolt
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
             disconnectreason = "Client logged out from SL";
-            this.Disconnect(true);
+            Disconnect(true);
         }
 
         private void RemoveNetcomEvents(object sender, EventArgs e)
@@ -690,7 +690,7 @@ namespace METAbolt
             netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
 
             client.Parcels.ParcelProperties -= Parcels_OnParcelProperties;
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
             client.Objects.TerseObjectUpdate -= Objects_OnObjectUpdated;
             netcom.MoneyBalanceUpdated -= netcom_MoneyBalanceUpdated;
 
@@ -700,7 +700,7 @@ namespace METAbolt
 
             //statusTimer.Elapsed -= new ElapsedEventHandler(statusTimer_Elapsed);
 
-            this.instance.EndCrashRep();
+            instance.EndCrashRep();
         }
 
         private void netcom_ClientDisconnected(object sender, DisconnectedEventArgs e)
@@ -713,7 +713,7 @@ namespace METAbolt
             //}
 
             disconnectreason = e.Reason.ToString(); 
-            this.Disconnect(true);
+            Disconnect(true);
         }
 
         //private string HttpPost(string uri, string parameters)
@@ -772,7 +772,10 @@ namespace METAbolt
                     if (!logoff)
                     {
                         MEGAbolt.Controls.MsgBoxCheck.MessageBox dlg = new();
-                        DialogResult dr = dlg.Show(@"Software\METAbolt\CloseMBCheck", "DontShowAgain", DialogResult.Yes, "Don't ask me this again", "You are about to close METAbolt. Are you sure you want to continue?", "MEGAbolt",
+                        DialogResult dr = dlg.Show(@"Software\MEGAbolt\CloseMBCheck", 
+                            "DontShowAgain", DialogResult.Yes, 
+                            "Don't ask me this again", 
+                            "You are about to close MEGAbolt. Are you sure you want to continue?", "MEGAbolt",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                         if (dr == DialogResult.No)
@@ -787,8 +790,8 @@ namespace METAbolt
                 instance.State.SetStanding();
 
                 // Save the window state. As the main application is exiting it will save the state to the config file.
-                this.Visible = false;
-                instance.Config.CurrentConfig.MainWindowState = (int)this.WindowState;
+                Visible = false;
+                instance.Config.CurrentConfig.MainWindowState = (int)WindowState;
 
                 // I don't like setting this here, but this event is the only place to know if the user possibly clicked the X to close the window.
                 // I had a check for e.CloseReason here, but if anything calls this.Close(), it uses the same reason as if the user clicked the X.
@@ -797,7 +800,7 @@ namespace METAbolt
                 // -Apotheus
                 instance.LogOffClicked = true;
 
-                this.Disconnect(false);
+                Disconnect(false);
             }
             catch (Exception ex)
             {
@@ -862,7 +865,7 @@ namespace METAbolt
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("METAbolt - ");
+            sb.Append("MEGAbolt - ");
 
             if (netcom.IsLoggedIn)
             {
@@ -905,7 +908,7 @@ namespace METAbolt
                 statusTimer.Stop();
             }
 
-            this.Text = sb.ToString();
+            Text = sb.ToString();
             sb = null;
         }
 
@@ -957,7 +960,7 @@ namespace METAbolt
         private void tmnuExit_Click(object sender, EventArgs e)
         {
             instance.LogOffClicked = true;
-            this.Close();
+            Close();
         }
 
         private void tbtnTeleport_Click(object sender, EventArgs e)
@@ -967,13 +970,9 @@ namespace METAbolt
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            this.CenterToScreen();
+            CenterToScreen();
             
             TabConsole.SelectTab("Main");
-
-            // fire off the auto updater
-            Thread thread = new Thread(StartSilent);
-            thread.Start();
 
             // The extension stuff followeth :)
 
@@ -988,17 +987,16 @@ namespace METAbolt
             //We need to add our library with the interfaces to the list
             manager.SourceFileReferencedAssemblies.Add("METAxCommon.dll");
             manager.SourceFileReferencedAssemblies.Add("METAbolt.exe");
-            manager.SourceFileReferencedAssemblies.Add("OpenMetaverse.dll");
-            manager.SourceFileReferencedAssemblies.Add("OpenMetaverseTypes.dll");
-            manager.SourceFileReferencedAssemblies.Add("OpenMetaverse.StructuredData.dll");
-            manager.SourceFileReferencedAssemblies.Add("OpenMetaverse.Utilities.dll");
-            manager.SourceFileReferencedAssemblies.Add("MEGAbolt.NetworkComm.dll");
+            manager.SourceFileReferencedAssemblies.Add("LibreMetaverse.dll");
+            manager.SourceFileReferencedAssemblies.Add("LibreMetaverse.Types.dll");
+            manager.SourceFileReferencedAssemblies.Add("LibreMetaverse.StructuredData.dll");
+            manager.SourceFileReferencedAssemblies.Add("LibreMetaverse.Utilities.dll");
 
             try
             {
                 //Lookin in the AppPath\Extensions\ folder
                 //manager.LoadExtensions(Application.StartupPath.TrimEnd("\\".ToCharArray()) + "\\Extensions\\");
-                manager.LoadExtensions(METAbolt.DataFolder.GetDataFolder() + "\\Extensions\\");
+                manager.LoadExtensions(DataFolder.GetDataFolder() + "\\Extensions\\");
             }
             catch (Exception ex)
             {
@@ -1026,7 +1024,7 @@ namespace METAbolt
                     mitem.DropDownItems.Add(item);
 
                     //elist.Add(extOn.Instance);
-                    this.instance.EList.Add(extOn.Instance);
+                    instance.EList.Add(extOn.Instance);
 
                     //tounload.Add(extOn);
                 }
@@ -1057,7 +1055,7 @@ namespace METAbolt
             }
         }
 
-        private void AnyMenuItem_Click(object sender, System.EventArgs e)
+        private void AnyMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripItem mitem = (ToolStripItem)sender;
 
@@ -1080,7 +1078,7 @@ namespace METAbolt
                 //    manager.LoadExtension(extobj.Filename);
                 //}
 
-                extInstance.Process(this.instance);
+                extInstance.Process(instance);
             }
         }
 
@@ -1103,7 +1101,7 @@ namespace METAbolt
 
         void manager_AssemblyLoaded(object sender, AssemblyLoadedEventArgs e)
         {
-            string file = (new System.IO.FileInfo(e.Filename)).Name.Trim();
+            string file = (new FileInfo(e.Filename)).Name.Trim();
             string ev = "Loaded plugin: " + file;
 
             Logger.Log(ev, Helpers.LogLevel.Info);
@@ -1156,7 +1154,7 @@ namespace METAbolt
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics22_Help.aspx");
+            Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics22_Help.aspx");
         }
 
         //private void visitLTekToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1232,7 +1230,7 @@ namespace METAbolt
 
         private void mnuDollar_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/donate.htm");
+            Process.Start(@"http://www.metabolt.net/donate.htm");
         }
 
         private void tb1_Click(object sender, EventArgs e)
@@ -1290,7 +1288,7 @@ namespace METAbolt
 
         private void tlblMoneyBalance_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
+            Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void tlblMoneyBalance_MouseEnter(object sender, EventArgs e)
@@ -1344,7 +1342,7 @@ namespace METAbolt
 
         private void linDexToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"https://secure-web13.secondlife.com/currency/?lang=en");
+            Process.Start(@"https://secure-web13.secondlife.com/currency/?lang=en");
         }
 
        
@@ -1359,32 +1357,32 @@ namespace METAbolt
 
         private void accountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
+            Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void sLHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://secondlife.com/support/");
+            Process.Start(@"http://secondlife.com/support/");
         }
 
         private void sLKnowledgebaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://community.secondlife.com/t5/tkb/communitypage");
+            Process.Start(@"http://community.secondlife.com/t5/tkb/communitypage");
         }
 
         private void mEToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/");
+            Process.Start(@"http://www.metabolt.net/metawiki/");
         }
 
         private void scriptingPortalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://wiki.secondlife.com/wiki/LSL_Portal");
+            Process.Start(@"http://wiki.secondlife.com/wiki/LSL_Portal");
         }
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics26_Bugs-and-Fixes.aspx");
+            Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics26_Bugs-and-Fixes.aspx");
         }
 
         private void aboutLandToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1591,11 +1589,11 @@ namespace METAbolt
 
         private void frmMain_Resize(object sender, EventArgs e)
         {
-            if (this.instance.Config.CurrentConfig.HideMeta)
+            if (instance.Config.CurrentConfig.HideMeta)
             {
-                if (this.WindowState == FormWindowState.Minimized)
+                if (WindowState == FormWindowState.Minimized)
                 {
-                    this.Hide();
+                    Hide();
                 }
             }
         }
@@ -1643,7 +1641,7 @@ namespace METAbolt
 
         private void mETAboltQuickStartGToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/Quick.ashx?NoRedirect=1");
+            Process.Start(@"http://www.metabolt.net/metawiki/Quick.ashx?NoRedirect=1");
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -1690,18 +1688,7 @@ namespace METAbolt
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (System.IO.File.Exists(updaterModulePath))
-                {
-                    Process process = Process.Start(updaterModulePath, "/checknow");
-                    process.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
         }
 
         private void updateConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1752,7 +1739,7 @@ namespace METAbolt
 
         private void reloadAIMLLibrariesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.instance.InitAI(); 
+            instance.InitAI(); 
         }
 
         //protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
@@ -1839,12 +1826,12 @@ namespace METAbolt
         private void Disconnect(bool closeWindow)
         {
             // Only run this once
-            if (this.disconnectHasExecuted)
+            if (disconnectHasExecuted)
             {
                 return;
             }
 
-            this.disconnectHasExecuted = true;
+            disconnectHasExecuted = true;
 
             // Functional shutdown
             statusTimer.Elapsed -= statusTimer_Elapsed;
@@ -1875,14 +1862,14 @@ namespace METAbolt
                         int restartinterval = instance.Config.CurrentConfig.ReStartTime * 60; // convert to seconds
 
                         Process p = new Process();
-                        p.StartInfo.FileName = "METArestart.exe";
+                        p.StartInfo.FileName = "MEGArestart.exe";
                         p.StartInfo.WorkingDirectory = Application.StartupPath;
                         p.StartInfo.Arguments = netcom.LoginOptions.FirstName + " " + netcom.LoginOptions.LastName + " " + netcom.LoginOptions.Password + " " + disconnectreason.Replace(" ", "|") + " " + restartinterval.ToString(CultureInfo.CurrentCulture);
                         p.Start();
                     }
                     catch (Exception ex)
                     {
-                        Logger.Log("Exception while trying to execute METArestart.exe: " + ex.Message, Helpers.LogLevel.Error);
+                        Logger.Log("Exception while trying to execute MEGArestart.exe: " + ex.Message, Helpers.LogLevel.Error);
                         return;
                     }
                 }
@@ -1929,13 +1916,13 @@ namespace METAbolt
 
             if (closeWindow)
             {
-                this.Close();
+                Close();
             }
         }
 
         /// <summary>
         /// Disconnects from the server on request.
-        /// Always forks METArestart.exe overriding disconnectreason and restartinterval
+        /// Always forks MEGArestart.exe overriding disconnectreason and restartinterval
         /// Optionally closes the window.
         /// 
         /// This method ensures its logic executes only once to eliminate errors and unintentional conflicts.
@@ -1945,12 +1932,12 @@ namespace METAbolt
         public bool DisconnectClient(bool CloseWindow, string Reason, int ReconnectWaitMinutes)
         {
             // Only run this once
-            if (this.disconnectHasExecuted)
+            if (disconnectHasExecuted)
             {
                 return false;
             }
 
-            this.disconnectHasExecuted = true;
+            disconnectHasExecuted = true;
 
             // Functional shutdown
             statusTimer.Elapsed -= statusTimer_Elapsed;
@@ -1985,14 +1972,14 @@ namespace METAbolt
                     disconnectreason = Reason;
 
                     Process p = new Process();
-                    p.StartInfo.FileName = "METArestart.exe";
+                    p.StartInfo.FileName = "MEGArestart.exe";
                     p.StartInfo.WorkingDirectory = Application.StartupPath;
                     p.StartInfo.Arguments = netcom.LoginOptions.FirstName + " " + netcom.LoginOptions.LastName + " " + netcom.LoginOptions.Password + " " + disconnectreason.Replace(" ", "|") + " " + restartinterval.ToString(CultureInfo.CurrentCulture);
                     p.Start();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log("Exception while trying to execute METArestart.exe: " + ex.Message, Helpers.LogLevel.Error);
+                    Logger.Log("Exception while trying to execute MEGArestart.exe: " + ex.Message, Helpers.LogLevel.Error);
                     return false;
                 }
             }
@@ -2019,7 +2006,7 @@ namespace METAbolt
 
             if (CloseWindow)
             {
-                this.Close();
+                Close();
             }
 
             return true;
@@ -2067,17 +2054,17 @@ namespace METAbolt
 
         private void sLGridStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://status.secondlifegrid.net/");
+            Process.Start(@"http://status.secondlifegrid.net/");
         }
 
         private void getMETAboltPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/METAbolt_Addins.ashx");
+            Process.Start(@"http://www.metabolt.net/metawiki/METAbolt_Addins.ashx");
         }
 
         private void getMETAboltLSLPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/lslcommands.ashx");
+            Process.Start(@"http://www.metabolt.net/metawiki/lslcommands.ashx");
         }
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)

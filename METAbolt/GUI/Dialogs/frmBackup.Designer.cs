@@ -192,7 +192,7 @@
             // 
             // label2
             // 
-            this.label2.AccessibleName = "The installation folder of METAbolt";
+            this.label2.AccessibleName = "The installation folder of MEGAbolt";
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Blue;
             this.label2.Location = new System.Drawing.Point(9, 38);
@@ -208,7 +208,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(137, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Current METAbolt directory:";
+            this.label1.Text = "Current MEGAbolt directory:";
             // 
             // tabPage2
             // 
@@ -365,7 +365,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(152, 13);
             this.label9.TabIndex = 14;
-            this.label9.Text = "Restore to METAbolt directory:";
+            this.label9.Text = "Restore to MEGAbolt directory:";
             // 
             // button3
             // 
@@ -394,7 +394,7 @@
             // 
             // frmBackup
             // 
-            this.AccessibleDescription = "To backup METAbolt INI, CMD and BAT files";
+            this.AccessibleDescription = "To backup MEGAbolt INI, CMD and BAT files";
             this.AccessibleName = "File backup window";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -410,7 +410,7 @@
             this.Name = "frmBackup";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "METAbolt File Backup/Restore";
+            this.Text = "MEGAbolt File Backup/Restore";
             this.Load += new System.EventHandler(this.frmBackup_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

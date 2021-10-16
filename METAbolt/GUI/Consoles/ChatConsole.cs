@@ -96,7 +96,7 @@ namespace METAbolt
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
-        private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
+        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
 
         private ToolTip toolTip = new ToolTip();
         private string tooltiptext = string.Empty;
@@ -395,7 +395,7 @@ namespace METAbolt
 
         void ChatConsole_Disposed(object sender, EventArgs e)
         {
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
             client.Objects.ObjectProperties -= Objects_OnObjectProperties;
             client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
             client.Parcels.ParcelDwellReply -= Parcels_OnParcelDwell;
@@ -522,9 +522,9 @@ namespace METAbolt
 
         private void Parcels_OnParcelDwell(object sender, ParcelDwellReplyEventArgs e)
         {
-            if (this.instance.MainForm.parcel != null)
+            if (instance.MainForm.parcel != null)
             {
-                if (this.instance.MainForm.parcel.LocalID != e.LocalID) return;
+                if (instance.MainForm.parcel.LocalID != e.LocalID) return;
             }
 
             BeginInvoke(new MethodInvoker(delegate()
@@ -564,14 +564,14 @@ namespace METAbolt
                     return;
 
                 ParcelMedia med = parcel.Media;
-                this.instance.Config.CurrentConfig.mURL = @med.MediaURL;
+                instance.Config.CurrentConfig.mURL = @med.MediaURL;
             }
             catch (Exception ex)
             {
                 Logger.Log("Chat Console Error updating Land Media: " + ex.Message, Helpers.LogLevel.Error);   
             }
 
-            if (string.IsNullOrEmpty(this.instance.Config.CurrentConfig.mURL))
+            if (string.IsNullOrEmpty(instance.Config.CurrentConfig.mURL))
             {
                 tsMovie.Enabled = false;
             }
@@ -580,7 +580,7 @@ namespace METAbolt
                 tsMovie.Enabled = true;
             }
 
-            if (string.IsNullOrEmpty(this.instance.Config.CurrentConfig.pURL))
+            if (string.IsNullOrEmpty(instance.Config.CurrentConfig.pURL))
             {
                 tsMusic.Enabled = false;
             }
@@ -1109,14 +1109,14 @@ namespace METAbolt
             {
                 dicfile = instance.Config.CurrentConfig.SpellLanguage;   // "en_GB.dic";
 
-                this.instance.AffFile = afffile = dicfile + ".aff";
-                this.instance.DictionaryFile = dicfile + ".dic";
+                instance.AffFile = afffile = dicfile + ".aff";
+                instance.DictionaryFile = dicfile + ".dic";
 
                 dic = dir + dicfile;
 
                 dicfile += ".dic";
 
-                if (!System.IO.File.Exists(dic + ".csv"))
+                if (!File.Exists(dic + ".csv"))
                 {
                     //System.IO.File.Create(dic + ".csv");
 
@@ -1592,7 +1592,7 @@ namespace METAbolt
         private Vector3d ConverToGLobal(Vector3 pos)
         {
             uint regionX, regionY;
-            OpenMetaverse.Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
+            Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
             Vector3d objpos;
 
             objpos.X = (double)pos.X + (double)regionX;
@@ -2111,17 +2111,8 @@ namespace METAbolt
 
                 if (channel < 0) channel = 0;
 
-                // VidaOrenstein on METAforum fix
-                //string message = string.Join(" ", inputArgs, 1, inputArgs.GetUpperBound(0) - 1);
-
-                if (input.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    message = input;
-                }
-                else
-                {
-                    message = string.Join(" ", inputArgs, 1, inputArgs.GetUpperBound(0));
-                }
+                message = input.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase)
+                    ? input : string.Join(" ", inputArgs, 1, inputArgs.GetUpperBound(0));
 
                 netcom.ChatOut(message, type, channel);
 
@@ -2494,8 +2485,7 @@ namespace METAbolt
 
         public string _textBox
         {
-            set { cbxInput.Text = value; }
-
+            set => cbxInput.Text = value;
         }
 
         //public bool _Search
@@ -2617,7 +2607,7 @@ namespace METAbolt
                 client.Self.Movement.TurnToward(pos);
 
                 client.Self.Movement.FinishAnim = true;
-                System.Threading.Thread.Sleep(200);
+                Thread.Sleep(200);
                 client.Self.AnimationStop(Animations.TURNLEFT, false);
             }
             else
@@ -2771,7 +2761,7 @@ namespace METAbolt
             }
         }
 
-        protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
+        protected override bool ProcessKeyPreview(ref Message m)
         {
             int key = m.WParam.ToInt32();
             const int WM_SYSKEYDOWN = 0x104;
@@ -2963,7 +2953,7 @@ namespace METAbolt
             client.Self.Movement.TurnLeft = true;
             client.Self.Movement.BodyRotation = client.Self.Movement.BodyRotation * Quaternion.CreateFromAxisAngle(Vector3.UnitZ, 45f);
             client.Self.Movement.SendUpdate(true);
-            System.Threading.Thread.Sleep(500);
+            Thread.Sleep(500);
             client.Self.Movement.TurnLeft = false;
             client.Self.Movement.SendUpdate(true);
         }
@@ -2993,7 +2983,7 @@ namespace METAbolt
             client.Self.Movement.TurnRight = true;
             client.Self.Movement.BodyRotation = client.Self.Movement.BodyRotation * Quaternion.CreateFromAxisAngle(Vector3.UnitZ, -45f);
             client.Self.Movement.SendUpdate(true);
-            System.Threading.Thread.Sleep(500);
+            Thread.Sleep(500);
             client.Self.Movement.TurnRight = false;
             client.Self.Movement.SendUpdate(true);
         }
@@ -3048,7 +3038,7 @@ namespace METAbolt
             // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
 
-            string logdir = METAbolt.DataFolder.GetDataFolder();
+            string logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
             saveFile1.InitialDirectory = logdir;
@@ -3059,7 +3049,7 @@ namespace METAbolt
             saveFile1.Title = "Save chat contents to hard disk...";
 
             // Determine if the user selected a file name from the saveFileDialog.
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+            if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
                 if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
@@ -3110,7 +3100,7 @@ namespace METAbolt
             //{
             //    if (frm.Name == "frmPlayer")
             //    {
-            //        MessageBox.Show("METAplayer is already open");
+            //        MessageBox.Show("MEGAplayer is already open");
             //        return;
             //    }
             //}
@@ -3291,7 +3281,7 @@ namespace METAbolt
         private delegate void OnUpdateMiniMap(Simulator ssim);
         private void UpdateMiniMap(Simulator ssim)
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(ssim); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(ssim); });
             else
             {
                 try
@@ -3309,7 +3299,7 @@ namespace METAbolt
 
                     if (_MapLayer == null)
                     {
-                        g.Clear(this.BackColor);
+                        g.Clear(BackColor);
                         g.FillRectangle(Brushes.White, 0f, 0f, 256f, 256f);
                         label11.Visible = true;
                     }
@@ -3718,7 +3708,7 @@ namespace METAbolt
 
             try
             {
-                CurrentLoc = instance.avlocations.Find(delegate(METAboltInstance.AvLocation g) { return g.Rectangle.Contains(mouse) == true; });
+                CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
             catch { ; }
 
@@ -4295,9 +4285,11 @@ namespace METAbolt
 
         private bool CheckVoiceSetupFile(string filename)
         {
-            if (!System.IO.File.Exists(Application.StartupPath.ToString() + "\\" + filename))
+            if (!File.Exists(Application.StartupPath.ToString() + "\\" + filename))
             {
-                MessageBox.Show("The required '" + filename + "' file was not found.\nPlease read the wiki page below for instructions:\n\nhttp://www.metabolt.net/METAwiki/How-to-enable-VOICE.ashx?NoRedirect=1");
+                MessageBox.Show($"The required '{filename}' file was not found.\n" +
+                                $"Please read the wiki page below for instructions:\n\n" +
+                                $"http://www.metabolt.net/METAwiki/How-to-enable-VOICE.ashx?NoRedirect=1");
                 return(false);
             }
             return (true);
@@ -4305,12 +4297,12 @@ namespace METAbolt
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            if (!this.CheckVoiceSetupFile("SLVoice.exe")) return;
-            if (!this.CheckVoiceSetupFile("alut.dll")) return;
+            if (!CheckVoiceSetupFile("SLVoice.exe")) return;
+            if (!CheckVoiceSetupFile("alut.dll")) return;
             //if (!this.CheckVoiceSetupFile("openal32.dll")) return;
-            if (!this.CheckVoiceSetupFile("ortp.dll")) return;
-            if (!this.CheckVoiceSetupFile("vivoxsdk.dll")) return;
-            if (!this.CheckVoiceSetupFile("wrap_oal.dll")) return;
+            if (!CheckVoiceSetupFile("ortp.dll")) return;
+            if (!CheckVoiceSetupFile("vivoxsdk.dll")) return;
+            if (!CheckVoiceSetupFile("wrap_oal.dll")) return;
 
             if (checkBox5.Checked)
             {
@@ -4805,7 +4797,7 @@ namespace METAbolt
             px = world.Top;
             py = world.Left;
 
-            System.Drawing.Size sz = new Size
+            Size sz = new Size
             {
                 Height = newsize,
                 Width = newsize
@@ -4855,43 +4847,43 @@ namespace METAbolt
 
         private void button3_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button3, "Turn right");
         }
 
         private void button2_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button2, "Trun left");
         }
 
         private void button7_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button7, "Hover");
         }
 
         private void button5_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button5, "Walk forward");
         }
 
         private void button8_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button8, "Walk left");
         }
 
         private void button4_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button4, "Walk back");
         }
 
         private void button6_MouseHover(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button6, "Walk right");
         }
 

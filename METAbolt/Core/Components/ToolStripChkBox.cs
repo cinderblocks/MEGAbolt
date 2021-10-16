@@ -58,33 +58,30 @@ namespace METAbolt
             ToolStripCheckBoxControl.MouseHover += chk_MouseHover;
         }
 
-        public CheckBox ToolStripCheckBoxControl
-        {
-            get { return Control as CheckBox; }
-        }
+        public CheckBox ToolStripCheckBoxControl => Control as CheckBox;
 
         void chk_MouseHover(object sender, EventArgs e)
         {
-            this.OnMouseHover(e);
+            OnMouseHover(e);
         }
 
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
-            ToolStripCheckBoxControl.Text = this.Text;
+            ToolStripCheckBoxControl.Text = Text;
         }
 
         //expose checkbox.enabled as property
         public bool ToolStripCheckBoxEnabled
         {
-            get { return ToolStripCheckBoxControl.Enabled; }
-            set { ToolStripCheckBoxControl.Enabled = value; }
+            get => ToolStripCheckBoxControl.Enabled;
+            set => ToolStripCheckBoxControl.Enabled = value;
         }
 
         public bool Checked
         {
-            get { return ToolStripCheckBoxControl.Checked; }
-            set { ToolStripCheckBoxControl.Checked = value; }
+            get => ToolStripCheckBoxControl.Checked;
+            set => ToolStripCheckBoxControl.Checked = value;
         }
 
         protected override void OnSubscribeControlEvents(Control c)

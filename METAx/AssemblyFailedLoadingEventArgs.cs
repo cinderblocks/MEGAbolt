@@ -37,7 +37,7 @@ namespace METAx
     {
     }
 
-    public AssemblyFailedLoadingEventArgs(string filename) => this.Filename = filename;
+    public AssemblyFailedLoadingEventArgs(string filename) => Filename = filename;
 
     public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
 

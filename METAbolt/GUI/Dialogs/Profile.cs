@@ -114,8 +114,8 @@ namespace METAbolt
                 IntPtr temp = Handle;
             }
 
-            this.txtOnline.Text = "";
-            this.Text = fullName + " (profile) - METAbolt";
+            txtOnline.Text = "";
+            Text = $"{fullName} (profile) - MEGAbolt";
 
             AddClientEvents();
             AddNetcomEvents();
@@ -143,7 +143,7 @@ namespace METAbolt
 
         ~frmProfile()
         {
-            this.Dispose();
+            Dispose();
             //GC.Collect(); 
         }
         private void CleanUp()
@@ -160,7 +160,7 @@ namespace METAbolt
 
         private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
         {
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 //string old = e.OldDisplayName;
                 string newname = e.DisplayName.DisplayName;
@@ -203,7 +203,7 @@ namespace METAbolt
         {
             if (e.AvatarID != agentID) return;
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 PopulatePicksList(e.Picks);
                 loadwait1.Visible = false;
@@ -244,7 +244,7 @@ namespace METAbolt
                 return;
             }
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 txtTitle.Text = e.Pick.Name;
                 txtDescription.Text = e.Pick.Desc;
@@ -278,7 +278,7 @@ namespace METAbolt
 
             if (pickUUID != e.Parcel.ID) return;
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 parcelname = e.Parcel.Name;
                 simname = e.Parcel.SimName;
@@ -357,7 +357,7 @@ namespace METAbolt
 
                 if (decodedImage != null)
                 {
-                    this.BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(delegate()
                     {
                         pictureBox1.Image = decodedImage;
                         loadwait2.Visible = false;
@@ -393,8 +393,8 @@ namespace METAbolt
             }
         }
 
-        private delegate void OnSetPickImage(UUID id, System.Drawing.Image image);
-        private void SetPickImage(UUID id, System.Drawing.Image image)
+        private delegate void OnSetPickImage(UUID id, Image image);
+        private void SetPickImage(UUID id, Image image)
         {
             if (id == PickImageID)
             {
@@ -404,8 +404,8 @@ namespace METAbolt
         }
 
         //called on GUI thread
-        private delegate void OnSetProfileImage(UUID id, System.Drawing.Image image);
-        private void SetProfileImage(UUID id, System.Drawing.Image image)
+        private delegate void OnSetProfileImage(UUID id, Image image);
+        private void SetProfileImage(UUID id, Image image)
         {
             if (id == SLImageID)
             {
@@ -489,7 +489,7 @@ namespace METAbolt
                 BeginInvoke(new MethodInvoker(SetBlankFLImage));
             }
 
-            this.BeginInvoke(
+            BeginInvoke(
                 new OnSetProfileProperties(SetProfileProperties),
                 new object[] { props });
         }
@@ -535,11 +535,11 @@ namespace METAbolt
 
                 rtbAboutFL.AppendText(properties.FirstLifeText);
 
-                txtUUID.Text = this.agentID.ToString();
+                txtUUID.Text = agentID.ToString();
             }
             catch (Exception exp)
             {
-                OpenMetaverse.Logger.Log(String.Format(CultureInfo.CurrentCulture,"frmProfile.SetProfileProperties: {0}", exp.ToString()), Helpers.LogLevel.Error);
+                Logger.Log(String.Format(CultureInfo.CurrentCulture,"frmProfile.SetProfileProperties: {0}", exp.ToString()), Helpers.LogLevel.Error);
             }
         }
 
@@ -569,7 +569,7 @@ namespace METAbolt
         {
             if (success)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     if (!names[0].DisplayName.ToLower(CultureInfo.CurrentCulture).Contains("resident") && !names[0].DisplayName.ToLower(CultureInfo.CurrentCulture).Contains(" "))
                     {
@@ -654,7 +654,7 @@ namespace METAbolt
             logdir += "\\Notes\\";
             LoadNotes(logdir);
 
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void LoadNotes(string LogPath)
@@ -789,7 +789,7 @@ namespace METAbolt
         {
             if (!aboutchanged) return;
 
-            if (this.agentID != client.Self.AgentID) return;
+            if (agentID != client.Self.AgentID) return;
         
             props.AboutText = rtbAbout.Text;
 
@@ -800,7 +800,7 @@ namespace METAbolt
         {
            if (!urlchanged) return;
 
-           if (this.agentID != client.Self.AgentID) return;
+           if (agentID != client.Self.AgentID) return;
 
             props.ProfileURL = txtWebURL.Text;
 
@@ -811,7 +811,7 @@ namespace METAbolt
         {
             if (!lifeaboutchanged) return;
 
-            if (this.agentID != client.Self.AgentID) return;
+            if (agentID != client.Self.AgentID) return;
       
             props.FirstLifeText = rtbAboutFL.Text;
 
@@ -1240,7 +1240,7 @@ namespace METAbolt
         {
             if (e.Status == 200)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     txtDisplayName.Text = e.DisplayName.DisplayName;
                     button9.Enabled = false; 
@@ -1260,7 +1260,7 @@ namespace METAbolt
                 }
             }
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 pBar3.Visible = false;
             }));
@@ -1344,7 +1344,7 @@ namespace METAbolt
             UUID pick = UUID.Random();
             UUID pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
 
-            client.Self.PickInfoUpdate(pick, false, pid, this.instance.MainForm.parcel.Name, client.Self.GlobalPosition, this.instance.MainForm.parcel.SnapshotID, this.instance.MainForm.parcel.Desc);
+            client.Self.PickInfoUpdate(pick, false, pid, instance.MainForm.parcel.Name, client.Self.GlobalPosition, instance.MainForm.parcel.SnapshotID, instance.MainForm.parcel.Desc);
             client.Avatars.RequestAvatarPicks(agentID);
 
             button11.Enabled = true;
@@ -1355,7 +1355,7 @@ namespace METAbolt
             UUID pick = (UUID)lvwPicks.SelectedItems[0].Tag;
             UUID pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
 
-            client.Self.PickInfoUpdate(pick, false, pid, txtTitle.Text.Trim(), client.Self.GlobalPosition, this.instance.MainForm.parcel.SnapshotID, txtDescription.Text.Trim());
+            client.Self.PickInfoUpdate(pick, false, pid, txtTitle.Text.Trim(), client.Self.GlobalPosition, instance.MainForm.parcel.SnapshotID, txtDescription.Text.Trim());
             client.Avatars.RequestAvatarPicks(agentID);
 
             button11.Enabled = false;

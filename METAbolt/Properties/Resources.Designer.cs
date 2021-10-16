@@ -1055,7 +1055,7 @@ namespace METAbolt.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CasperTech Ltd.
+        ///   Looks up a localized string similar to nerf nerf nerf.
         /// </summary>
         internal static string METAboltAuthor {
             get {
@@ -1064,7 +1064,7 @@ namespace METAbolt.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to METAbolt.
+        ///   Looks up a localized string similar to MEGAbolt.
         /// </summary>
         internal static string METAboltTitle {
             get {
@@ -1073,7 +1073,7 @@ namespace METAbolt.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.9.71 (BETA).
+        ///   Looks up a localized string similar to 0.9.71.
         /// </summary>
         internal static string METAboltVersion {
             get {

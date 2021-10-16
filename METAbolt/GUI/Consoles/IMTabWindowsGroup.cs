@@ -59,7 +59,7 @@ namespace METAbolt
         private string afffile = string.Empty;
         private string dicfile = string.Empty;
         private string dic = string.Empty;
-        private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
+        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
 
 
         internal class ThreadExceptionHandler
@@ -92,17 +92,17 @@ namespace METAbolt
             afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
             dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
-            this.TargetId = target;
-            this.SessionId = session;
+            TargetId = target;
+            SessionId = session;
             //this.session = client.Self..AgentID ^ grp.ID;
-            this.TargetName = toName;
-            this.imgroup = grp;
+            TargetName = toName;
+            imgroup = grp;
             tab = instance.TabConsole;
 
             WaitForSessionStart.Reset();
 
-            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), this.SessionId, toName, grp);
-            this.Disposed += IMTabWindow_Disposed;
+            TextManager = new IMTextManager(this.instance, new RichTextBoxPrinter(instance, rtbIMText), SessionId, toName, grp);
+            Disposed += IMTabWindow_Disposed;
 
             AddNetcomEvents();
 
@@ -119,7 +119,7 @@ namespace METAbolt
             client.Self.RequestJoinGroupChat(session);
             CreateSmileys();
 
-            if (this.instance.IMHistyoryExists(this.TargetName, true))
+            if (this.instance.IMHistyoryExists(TargetName, true))
             {
                 toolStripButton2.Enabled = true;
             }
@@ -527,14 +527,14 @@ namespace METAbolt
             {
                 dicfile = instance.Config.CurrentConfig.SpellLanguage;   // "en_GB.dic";
 
-                this.instance.AffFile = afffile = dicfile + ".aff";
-                this.instance.DictionaryFile = dicfile + ".dic";
+                instance.AffFile = afffile = dicfile + ".aff";
+                instance.DictionaryFile = dicfile + ".dic";
 
                 dic = dir + dicfile;
 
                 dicfile += ".dic";
 
-                if (!System.IO.File.Exists(dic + ".csv"))
+                if (!File.Exists(dic + ".csv"))
                 {
                     //System.IO.File.Create(dic + ".csv");
 
@@ -591,7 +591,7 @@ namespace METAbolt
             client.Self.ChatSessionMemberLeft -= Self_OnChatSessionMemberLeft;
             client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
 
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
             TextManager.CleanUp();
             TextManager = null;
             people = null;
@@ -673,7 +673,7 @@ namespace METAbolt
                 netcom.SendInstantMessageGroup(message, TargetId, SessionId); ;
             }
 
-            this.ClearIMInput();
+            ClearIMInput();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -921,7 +921,7 @@ namespace METAbolt
             // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
 
-            string logdir = METAbolt.DataFolder.GetDataFolder();
+            string logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
             saveFile1.InitialDirectory = logdir; 
@@ -932,7 +932,7 @@ namespace METAbolt
             saveFile1.Title = "Save chat contents to hard disk...";
 
             // Determine if the user selected a file name from the saveFileDialog.
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+            if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
                 // Save the contents of the RichTextBox into the file.
@@ -979,7 +979,7 @@ namespace METAbolt
             lvwList.Cursor = Cursors.Default;
         }
 
-        protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
+        protected override bool ProcessKeyPreview(ref Message m)
         {
             const int WM_CHAR = 0x102;
             const int WM_SYSCHAR = 0x106;

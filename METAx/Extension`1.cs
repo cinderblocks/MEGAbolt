@@ -39,9 +39,9 @@ namespace METAx
 
     public Extension(string filename, ExtensionType extensionType, ClientInterface instance)
     {
-      this.ExtensionType = extensionType;
-      this.Instance = instance;
-      this.Filename = filename;
+      ExtensionType = extensionType;
+      Instance = instance;
+      Filename = filename;
     }
 
     public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
@@ -54,6 +54,6 @@ namespace METAx
 
     public Assembly InstanceAssembly { get; set; } = (Assembly) null;
 
-    public Type GetType(string name) => this.InstanceAssembly.GetType(name, false, true);
+    public Type GetType(string name) => InstanceAssembly.GetType(name, false, true);
   }
 }

@@ -49,57 +49,57 @@ namespace MEGAbolt.Controls
     {
       if (disposing)
       {
-        if (this.components != null)
-          this.components.Dispose();
-        if (this.dropDown != null)
-          this.dropDown.Dispose();
+        if (components != null)
+          components.Dispose();
+        if (dropDown != null)
+          dropDown.Dispose();
       }
       base.Dispose(disposing);
     }
 
     private void InitializeComponent()
     {
-      this.SuspendLayout();
-      this.ResumeLayout(false);
+      SuspendLayout();
+      ResumeLayout(false);
     }
 
     public PopupComboBox()
     {
-      this.dropDownHideTime = DateTime.UtcNow;
-      this.InitializeComponent();
+      dropDownHideTime = DateTime.UtcNow;
+      InitializeComponent();
       base.DropDownHeight = base.DropDownWidth = 1;
       base.IntegralHeight = false;
     }
 
     public Control DropDownControl
     {
-      get => this.dropDownControl;
+      get => dropDownControl;
       set
       {
-        if (this.dropDownControl == value)
+        if (dropDownControl == value)
           return;
-        this.dropDownControl = value;
-        if (this.dropDown != null)
+        dropDownControl = value;
+        if (dropDown != null)
         {
-          this.dropDown.Closed -= this.dropDown_Closed;
-          this.dropDown.Dispose();
+          dropDown.Closed -= dropDown_Closed;
+          dropDown.Dispose();
         }
-        this.dropDown = new Popup(value);
-        this.dropDown.Closed += this.dropDown_Closed;
+        dropDown = new Popup(value);
+        dropDown.Closed += dropDown_Closed;
       }
     }
 
-    private void dropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e) => this.dropDownHideTime = DateTime.UtcNow;
+    private void dropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e) => dropDownHideTime = DateTime.UtcNow;
 
     public new bool DroppedDown
     {
-      get => this.dropDown.Visible;
+      get => dropDown.Visible;
       set
       {
-        if (this.DroppedDown)
-          this.HideDropDown();
+        if (DroppedDown)
+          HideDropDown();
         else
-          this.ShowDropDown();
+          ShowDropDown();
       }
     }
 
@@ -107,18 +107,18 @@ namespace MEGAbolt.Controls
 
     public void ShowDropDown()
     {
-      if (this.dropDown == null)
+      if (dropDown == null)
         return;
-      if ((DateTime.UtcNow - this.dropDownHideTime).TotalSeconds > 0.5)
+      if ((DateTime.UtcNow - dropDownHideTime).TotalSeconds > 0.5)
       {
-        if (this.DropDown != null)
-          this.DropDown((object) this, EventArgs.Empty);
-        this.dropDown.Show((Control) this);
+        if (DropDown != null)
+          DropDown((object) this, EventArgs.Empty);
+        dropDown.Show((Control) this);
       }
       else
       {
-        this.dropDownHideTime = DateTime.UtcNow.Subtract(new TimeSpan(0, 0, 1));
-        this.Focus();
+        dropDownHideTime = DateTime.UtcNow.Subtract(new TimeSpan(0, 0, 1));
+        Focus();
       }
     }
 
@@ -126,19 +126,19 @@ namespace MEGAbolt.Controls
 
     public void HideDropDown()
     {
-      if (this.dropDown == null)
+      if (dropDown == null)
         return;
-      this.dropDown.Hide();
-      if (this.DropDownClosed == null)
+      dropDown.Hide();
+      if (DropDownClosed == null)
         return;
-      this.DropDownClosed((object) this, EventArgs.Empty);
+      DropDownClosed((object) this, EventArgs.Empty);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     protected override void WndProc(ref Message m)
     {
       if (m.Msg == 8465 && NativeMethods.HIWORD(m.WParam) == 7)
-        this.ShowDropDown();
+        ShowDropDown();
       else
         base.WndProc(ref m);
     }
@@ -173,7 +173,7 @@ namespace MEGAbolt.Controls
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Browsable(false)]
-    public new System.Windows.Forms.ComboBox.ObjectCollection Items => base.Items;
+    public new ObjectCollection Items => base.Items;
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]

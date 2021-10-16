@@ -37,26 +37,26 @@ namespace METAbolt
 
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style)
         {
-            this.Timestamp = timestamp;
-            this.Text = text;
-            this.Style = style;
+            Timestamp = timestamp;
+            Text = text;
+            Style = style;
         }
 
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style, string fromname)
         {
-            this.Timestamp = timestamp;
-            this.Text = text;
-            this.Style = style;
-            this.FromName = fromname; 
+            Timestamp = timestamp;
+            Text = text;
+            Style = style;
+            FromName = fromname; 
         }
 
         public ChatBufferItem(DateTime timestamp, string text, string link, ChatBufferTextStyle style, string fromname)
         {
-            this.Timestamp = timestamp;
-            this.Text = text;
-            this.Link = link;
-            this.Style = style;
-            this.FromName = fromname;
+            Timestamp = timestamp;
+            Text = text;
+            Link = link;
+            Style = style;
+            FromName = fromname;
         }
 
         /// <summary>
@@ -69,11 +69,11 @@ namespace METAbolt
         /// <param name="fromuuid">UUID of the agent sending the message</param>
         public ChatBufferItem(DateTime timestamp, string text, ChatBufferTextStyle style, string name, UUID uuid)
         {
-            this.Timestamp = timestamp;
-            this.Text = text;
-            this.Style = style;
-            this.FromName = name;
-            this.FromUUID = uuid;
+            Timestamp = timestamp;
+            Text = text;
+            Style = style;
+            FromName = name;
+            FromUUID = uuid;
         }
         
         public DateTime Timestamp { get; set; }

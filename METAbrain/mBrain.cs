@@ -40,9 +40,9 @@ namespace METAbrain
       input = input.Replace("what s", "what is");
       input = input.Replace("whats", "what is");
       input = " " + input;
-      string str = this.CheckMaths(input);
+      string str = CheckMaths(input);
       if (str == string.Empty)
-        str = this.CheckDate(input);
+        str = CheckDate(input);
       return str;
     }
 
@@ -199,7 +199,7 @@ namespace METAbrain
           string strNumber2 = strArray2[0];
           if (strNumber2 == string.Empty)
             strNumber2 = strArray2[1];
-          if (this.IsNumber(strNumber1) && this.IsNumber(strNumber2))
+          if (IsNumber(strNumber1) && IsNumber(strNumber2))
             str1 = Convert.ToString((float) Convert.ToInt32(strNumber1) * (float) Convert.ToInt32(strNumber2));
         }
       }
@@ -220,7 +220,7 @@ namespace METAbrain
           string strNumber4 = strArray4[0];
           if (strNumber4 == string.Empty)
             strNumber4 = strArray4[1];
-          if (this.IsNumber(strNumber3) && this.IsNumber(strNumber4))
+          if (IsNumber(strNumber3) && IsNumber(strNumber4))
             str1 = Convert.ToString((float) Convert.ToInt32(strNumber3) * (float) Convert.ToInt32(strNumber4));
         }
       }
@@ -241,7 +241,7 @@ namespace METAbrain
           string strNumber6 = strArray6[0];
           if (strNumber6 == string.Empty)
             strNumber6 = strArray6[1];
-          if (this.IsNumber(strNumber5) && this.IsNumber(strNumber6))
+          if (IsNumber(strNumber5) && IsNumber(strNumber6))
             str1 = Convert.ToString((float) Convert.ToInt32(strNumber5) / (float) Convert.ToInt32(strNumber6));
         }
       }
@@ -263,7 +263,7 @@ namespace METAbrain
           string strNumber8 = strArray8[0];
           if (strNumber8 == string.Empty)
             strNumber8 = strArray8[1];
-          if (this.IsNumber(strNumber7) && this.IsNumber(strNumber8))
+          if (IsNumber(strNumber7) && IsNumber(strNumber8))
             str1 = Convert.ToString((float) Convert.ToInt32(strNumber7) + (float) Convert.ToInt32(strNumber8));
         }
       }
@@ -284,7 +284,7 @@ namespace METAbrain
           string strNumber10 = strArray10[0];
           if (strNumber10 == string.Empty)
             strNumber10 = strArray10[1];
-          if (this.IsNumber(strNumber9) && this.IsNumber(strNumber10))
+          if (IsNumber(strNumber9) && IsNumber(strNumber10))
           {
             float int32_1 = (float) Convert.ToInt32(strNumber9);
             float int32_2 = (float) Convert.ToInt32(strNumber10);

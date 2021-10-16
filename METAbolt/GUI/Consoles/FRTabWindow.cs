@@ -67,10 +67,7 @@ namespace METAbolt
 
         public string TargetName { get; private set; }
 
-        public UUID TargetUUID
-        {
-            get { return targetUUID; }
-        }
+        public UUID TargetUUID => targetUUID;
 
         public UUID iSession { get; private set; }
 

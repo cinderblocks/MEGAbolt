@@ -608,7 +608,7 @@
 </value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>METAbolt is distributed and supported by CasperTech Ltd.
+    <value>MEGAbolt is maintained by Sjofn LLC.
     
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
@@ -616,11 +616,11 @@ This software contains open source software developed and given to the public by
 
 This software contains components that are not distributed under the New BSD License and some components are not open source.
 
-Project lead: Tom Mettam
+Project lead: Cinder Roxley
 Author: Legolas Luke (Retired)
 Main Code: Legolas Luke
 Concepts: Legolas Luke
-Additional Concepts: METAbolt user community
+Additional Concepts: MEGAbolt user community
 
 
 Based on SLeek
@@ -629,36 +629,29 @@ Portions are based on SL Chat
 
 Copyrights:
 
-~ libopenmetaverse (openmetaverse) © 2006 - 2011 Second Life Reverse Engineering Team
+~ libremetaverse © 2006 - 2021 Second Life Reverse Engineering Team
 ~ Openjpeg © 2002 - 2007 Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
 ~ Log4Net © 2009 The Apache Software Foundation
 ~ SLeek © 2006 - 2008 Paul Clement
 ~ SL Chat © 2006 - 2008 Oz Spade
 ~ Nini © 2006 Brent R. Matzelle
-~ METAbrain: © 2002 - 2009 Mustafa Ozkececigil
+~ MEGAbrain: © 2002 - 2009 Mustafa Ozkececigil
 ~ AIMLBot © 2006 Nicholas H.Tollervey
 ~ ScintallaNET ©  2002-2006 Garrett Serack
-~ Exception Reporter © 2008-2010 PandaWood
 ~ PrimWorkshop © 2006 Second Life Reverse Engineering Team &amp; © 2011 Radegast Development Team
 ~ PrimMesher © 2010 Dahlia Trimble
-~ NHunspell © Thomas MAierhofer, Lazlo Nemeth and all contributing authors (http://nhunspell.sourceforge.net)
 ~ TreeViewWalker © Josh Smith http://www.codeproject.com/Articles/12952/TreeViewWalker-Simplifying-Recursion
 
 
 Developers:
 
-Tom Mettam
+Cinder Roxley
 Legolas Luke
 Apotheus Silverman
 Goss Machin
 Alexandrea Fride
 Shadow Siamendes
 
-
-Support/Testing:
-
-Chris White
-Gary Lutke
 
 </value>
   </data>

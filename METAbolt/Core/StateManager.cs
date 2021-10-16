@@ -62,8 +62,8 @@ namespace METAbolt
         private UUID requestedsitprim = UUID.Zero;
         //private ManualResetEvent PrimEvent = new ManualResetEvent(false);
 
-        private System.Timers.Timer pointtimer;
-        private System.Timers.Timer agentUpdateTicker;
+        private Timer pointtimer;
+        private Timer agentUpdateTicker;
         
         private Vector3d offset = new Vector3d(Vector3d.Zero); 
         private Vector3d beamoffset1 = new Vector3d(0, 0, 0.1);
@@ -86,7 +86,7 @@ namespace METAbolt
             AddClientEvents();
             //InitializeAgentUpdateTimer();
 
-            pointtimer = new System.Timers.Timer();
+            pointtimer = new Timer();
             pointtimer.Elapsed += OnTimedEvent;
             // Set the Interval to 10 seconds.
             pointtimer.Interval = 1000;
@@ -371,7 +371,7 @@ namespace METAbolt
             else
                 client.Self.Chat(string.Empty, 0, ChatType.StopTyping);
 
-            this.IsTyping = ttyping;
+            IsTyping = ttyping;
         }
 
         public void SetAway(bool aaway)
@@ -380,7 +380,7 @@ namespace METAbolt
             awayAnim.Add(AwayAnimationID, aaway);
 
             client.Self.Animate(awayAnim, true);
-            this.IsAway = aaway;
+            IsAway = aaway;
         }
 
         public void SetBusy(bool bbusy)
@@ -389,7 +389,7 @@ namespace METAbolt
             busyAnim.Add(BusyAnimationID, bbusy);
 
             client.Self.Animate(busyAnim, true);
-            this.IsBusy = bbusy;
+            IsBusy = bbusy;
         }
 
         public void BellyDance(bool bbelly)
@@ -398,7 +398,7 @@ namespace METAbolt
             bdanceAnim.Add(BellydanceAnimationID, bbelly);
 
             client.Self.Animate(bdanceAnim, true);
-            this.IsBelly = bbelly;
+            IsBelly = bbelly;
         }
 
         public void ClubDance(bool cclub)
@@ -443,7 +443,7 @@ namespace METAbolt
 
             client.Self.Fly(fflying);
             client.Self.Movement.Fly = fflying;
-            this.IsFlying = fflying;
+            IsFlying = fflying;
         }
 
         public void SetAlwaysRun(bool aalwaysrun)
@@ -460,7 +460,7 @@ namespace METAbolt
             {
                 client.Self.AutoPilotCancel();
 
-                this.IsSitting = false;
+                IsSitting = false;
                 SitPrim = UUID.Zero;
 
                 requestedsitprim = target;
@@ -472,7 +472,7 @@ namespace METAbolt
             }
             else
             {
-                this.IsSitting = false;
+                IsSitting = false;
                 client.Self.Stand();
                 SitPrim = UUID.Zero;
 
@@ -486,7 +486,7 @@ namespace METAbolt
 
             if (e.ObjectID == requestedsitprim)
             {
-                this.IsSitting = true;
+                IsSitting = true;
                 SitPrim = e.ObjectID;
                 SittingPos = e.SitPosition;
                 //instance.TabConsole.DisplayChatScreen("Auto-sitting on object " + requestedsitprim.ToString());
@@ -508,8 +508,8 @@ namespace METAbolt
         public void SetStanding()
         {
             client.Self.Stand();
-            this.IsSitting = false;
-            this.IsSittingOnGround = false;
+            IsSitting = false;
+            IsSittingOnGround = false;
             SitPrim = UUID.Zero;
 
             StopAnimations();
@@ -517,7 +517,7 @@ namespace METAbolt
 
         public void SetPointing(bool ppointing, UUID target)
         {
-            this.IsPointing = ppointing;
+            IsPointing = ppointing;
 
             if (ppointing)
             {
@@ -543,11 +543,11 @@ namespace METAbolt
 
         public void SetPointing(bool ppointing, UUID target, Vector3d ooffset, Vector3 primposition)
         {
-            this.IsPointing = ppointing;
+            IsPointing = ppointing;
 
             if (ppointing)
             {
-                this.offset = ooffset;
+                offset = ooffset;
  
                 pointID = UUID.Random();
                 beamID = UUID.Random();
@@ -622,11 +622,11 @@ namespace METAbolt
 
         public void SetPointingTouch(bool ppointing, UUID target, Vector3d ooffset, Vector3 primposition)
         {
-            this.IsPointing = ppointing;
+            IsPointing = ppointing;
 
             if (ppointing)
             {
-                this.offset = ooffset;
+                offset = ooffset;
 
                 pointID = UUID.Random();
                 beamID = UUID.Random();

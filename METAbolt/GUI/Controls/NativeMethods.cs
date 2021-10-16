@@ -61,17 +61,17 @@ namespace MEGAbolt.Controls
     private static extern int AnimateWindow(
       HandleRef windowHandle,
       int time,
-      NativeMethods.AnimationFlags flags);
+      AnimationFlags flags);
 
     internal static void AnimateWindow(
       Control control,
       int time,
-      NativeMethods.AnimationFlags flags)
+      AnimationFlags flags)
     {
       try
       {
         new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Demand();
-        NativeMethods.AnimateWindow(new HandleRef((object) control, control.Handle), time, flags);
+        AnimateWindow(new HandleRef((object) control, control.Handle), time, flags);
       }
       catch (SecurityException ex)
       {
@@ -80,11 +80,11 @@ namespace MEGAbolt.Controls
 
     internal static int HIWORD(int n) => n >> 16 & (int) ushort.MaxValue;
 
-    internal static int HIWORD(IntPtr n) => NativeMethods.HIWORD((int) (long) n);
+    internal static int HIWORD(IntPtr n) => HIWORD((int) (long) n);
 
     internal static int LOWORD(int n) => n & (int) ushort.MaxValue;
 
-    internal static int LOWORD(IntPtr n) => NativeMethods.LOWORD((int) (long) n);
+    internal static int LOWORD(IntPtr n) => LOWORD((int) (long) n);
 
     [Flags]
     internal enum AnimationFlags

@@ -67,7 +67,7 @@ namespace METAbolt
 
         private void frmStats_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             
             GetStats();
         }
@@ -258,7 +258,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            Close(); 
         }
 
         private void timer1_Tick(object sender, EventArgs e)

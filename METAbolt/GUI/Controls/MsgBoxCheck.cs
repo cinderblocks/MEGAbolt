@@ -54,10 +54,10 @@ namespace MEGAbolt.Controls.MsgBoxCheck
 
         public MessageBox()
         {
-            this.m_cbt = new LocalCbtHook();
-            this.m_cbt.WindowCreated += this.WndCreated;
-            this.m_cbt.WindowDestroyed += this.WndDestroyed;
-            this.m_cbt.WindowActivated += this.WndActivated;
+            m_cbt = new LocalCbtHook();
+            m_cbt.WindowCreated += WndCreated;
+            m_cbt.WindowDestroyed += WndDestroyed;
+            m_cbt.WindowActivated += WndActivated;
         }
 
         public DialogResult Show(
@@ -79,11 +79,11 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             catch
             {
             }
-            this.m_strCheck = strCheck;
-            this.m_cbt.Install();
+            m_strCheck = strCheck;
+            m_cbt.Install();
             dr = System.Windows.Forms.MessageBox.Show(strText, strTitle, buttons, icon);
-            this.m_cbt.Uninstall();
-            subKey.SetValue(strValue, (object)this.m_bCheck);
+            m_cbt.Uninstall();
+            subKey.SetValue(strValue, (object)m_bCheck);
             return dr;
         }
 
@@ -96,7 +96,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
           string strTitle,
           MessageBoxButtons buttons)
         {
-            return this.Show(strKey, strValue, dr, strCheck, strText, strTitle, buttons, MessageBoxIcon.None);
+            return Show(strKey, strValue, dr, strCheck, strText, strTitle, buttons, MessageBoxIcon.None);
         }
 
         public DialogResult Show(
@@ -107,7 +107,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
           string strText,
           string strTitle)
         {
-            return this.Show(strKey, strValue, dr, strCheck, strText, strTitle, MessageBoxButtons.OK, MessageBoxIcon.None);
+            return Show(strKey, strValue, dr, strCheck, strText, strTitle, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
         public DialogResult Show(
@@ -117,58 +117,58 @@ namespace MEGAbolt.Controls.MsgBoxCheck
           string strCheck,
           string strText)
         {
-            return this.Show(strKey, strValue, dr, strCheck, strText, "", MessageBoxButtons.OK, MessageBoxIcon.None);
+            return Show(strKey, strValue, dr, strCheck, strText, "", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
         private void WndCreated(object sender, CbtEventArgs e)
         {
             if (!e.IsDialogWindow)
                 return;
-            this.m_bInit = false;
-            this.m_hwnd = e.Handle;
+            m_bInit = false;
+            m_hwnd = e.Handle;
         }
 
         private void WndDestroyed(object sender, CbtEventArgs e)
         {
-            if (!(e.Handle == this.m_hwnd))
+            if (!(e.Handle == m_hwnd))
                 return;
-            this.m_bInit = false;
-            this.m_hwnd = IntPtr.Zero;
-            if (1 == (int)MessageBox.SendMessage(this.m_hwndBtn, 240, IntPtr.Zero, IntPtr.Zero))
-                this.m_bCheck = true;
+            m_bInit = false;
+            m_hwnd = IntPtr.Zero;
+            if (1 == (int)SendMessage(m_hwndBtn, 240, IntPtr.Zero, IntPtr.Zero))
+                m_bCheck = true;
         }
 
         private void WndActivated(object sender, CbtEventArgs e)
         {
-            if (this.m_hwnd != e.Handle || this.m_bInit)
+            if (m_hwnd != e.Handle || m_bInit)
                 return;
-            this.m_bInit = true;
-            IntPtr dlgItem1 = MessageBox.GetDlgItem(this.m_hwnd, (int)ushort.MaxValue);
-            IntPtr num = !(dlgItem1 != IntPtr.Zero) ? MessageBox.SendMessage(this.m_hwnd, 49, IntPtr.Zero, IntPtr.Zero) : MessageBox.SendMessage(dlgItem1, 49, IntPtr.Zero, IntPtr.Zero);
+            m_bInit = true;
+            IntPtr dlgItem1 = GetDlgItem(m_hwnd, (int)ushort.MaxValue);
+            IntPtr num = !(dlgItem1 != IntPtr.Zero) ? SendMessage(m_hwnd, 49, IntPtr.Zero, IntPtr.Zero) : SendMessage(dlgItem1, 49, IntPtr.Zero, IntPtr.Zero);
             Font font = Font.FromHfont(num);
-            IntPtr dlgItem2 = MessageBox.GetDlgItem(this.m_hwnd, 20);
+            IntPtr dlgItem2 = GetDlgItem(m_hwnd, 20);
             int x;
             if (dlgItem2 != IntPtr.Zero)
             {
-                MessageBox.RECT rc = new MessageBox.RECT();
-                MessageBox.GetWindowRect(dlgItem2, rc);
-                MessageBox.POINT pt = new MessageBox.POINT
+                RECT rc = new RECT();
+                GetWindowRect(dlgItem2, rc);
+                POINT pt = new POINT
                 {
                     x = rc.left,
                     y = rc.top
                 };
-                MessageBox.ScreenToClient(this.m_hwnd, pt);
+                ScreenToClient(m_hwnd, pt);
                 x = pt.x;
             }
             else
                 x = (int)font.GetHeight();
-            MessageBox.RECT rc1 = new MessageBox.RECT();
-            MessageBox.GetClientRect(this.m_hwnd, rc1);
+            RECT rc1 = new RECT();
+            GetClientRect(m_hwnd, rc1);
             int y = rc1.bottom - rc1.top;
-            MessageBox.GetWindowRect(this.m_hwnd, rc1);
-            MessageBox.MoveWindow(this.m_hwnd, rc1.left, rc1.top, rc1.right - rc1.left, rc1.bottom - rc1.top + (int)font.GetHeight() * 2, true);
-            this.m_hwndBtn = MessageBox.CreateWindowEx(0, "button", this.m_strCheck, 1342242819, x, y, rc1.right - rc1.left - x, (int)font.GetHeight(), this.m_hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
-            MessageBox.SendMessage(this.m_hwndBtn, 48, num, new IntPtr(1));
+            GetWindowRect(m_hwnd, rc1);
+            MoveWindow(m_hwnd, rc1.left, rc1.top, rc1.right - rc1.left, rc1.bottom - rc1.top + (int)font.GetHeight() * 2, true);
+            m_hwndBtn = CreateWindowEx(0, "button", m_strCheck, 1342242819, x, y, rc1.right - rc1.left - x, (int)font.GetHeight(), m_hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            SendMessage(m_hwndBtn, 48, num, new IntPtr(1));
         }
 
         [DllImport("user32.dll")]
@@ -178,10 +178,10 @@ namespace MEGAbolt.Controls.MsgBoxCheck
         protected static extern IntPtr GetDlgItem(IntPtr hwnd, int id);
 
         [DllImport("user32.dll")]
-        protected static extern int GetWindowRect(IntPtr hwnd, MessageBox.RECT rc);
+        protected static extern int GetWindowRect(IntPtr hwnd, RECT rc);
 
         [DllImport("user32.dll")]
-        protected static extern int GetClientRect(IntPtr hwnd, MessageBox.RECT rc);
+        protected static extern int GetClientRect(IntPtr hwnd, RECT rc);
 
         [DllImport("user32.dll")]
         protected static extern void MoveWindow(
@@ -193,7 +193,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
           bool bRepaint);
 
         [DllImport("user32.dll")]
-        protected static extern int ScreenToClient(IntPtr hwnd, MessageBox.POINT pt);
+        protected static extern int ScreenToClient(IntPtr hwnd, POINT pt);
 
         [DllImport("user32.dll", EntryPoint = "MessageBox")]
         protected static extern int _MessageBox(IntPtr hwnd, string text, string caption, int options);

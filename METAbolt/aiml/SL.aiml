@@ -59,7 +59,7 @@ SL stands for Second Life, owned by Linden Labs. It is a 3D (virtual world) soci
 <category>
 <pattern>WHAT IS A GRID</pattern>
 <template>
-A Grid is a network of SIMs i.e. independant SIMs that are joined together to form a large community
+A Grid is a network of SIMs i.e. independent SIMs that are joined together to form a large community
 </template>
 </category>
 
@@ -73,7 +73,7 @@ A Grid is a network of SIMs i.e. independant SIMs that are joined together to fo
 
 
 <category>
-<pattern>I AM HAVING PROBLEMS INSTALLING METABOLT</pattern>
+<pattern>I AM HAVING PROBLEMS INSTALLING MEGABOLT</pattern>
 <template>
 Have a look here:               http://www.metabolt.net/metaforums/yaf_postst13_Trouble-installating-METAbolt.aspx
 </template>
@@ -81,7 +81,7 @@ Have a look here:               http://www.metabolt.net/metaforums/yaf_postst13_
 
 
 <category>
-<pattern>I HAVE PROBLEMS INSTALLING METABOLT</pattern>
+<pattern>I HAVE PROBLEMS INSTALLING MEGABOLT</pattern>
 <template>
 Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-installating-METAbolt.aspx
 </template>
@@ -89,7 +89,7 @@ Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-instal
 
 
 <category>
-<pattern>I AM HAVING TROUBLE INSTALLING METABOLT</pattern>
+<pattern>I AM HAVING TROUBLE INSTALLING MEGABOLT</pattern>
 <template>
 Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-installating-METAbolt.aspx
 </template>
@@ -97,7 +97,7 @@ Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-instal
 
 
 <category>
-<pattern>I AM HAVING A PROBLEM INSTALLING METABOLT</pattern>
+<pattern>I AM HAVING A PROBLEM INSTALLING MEGABOLT</pattern>
 <template>
 Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-installating-METAbolt.aspx
 </template>
@@ -131,7 +131,7 @@ Have a look here: http://www.metabolt.net/metaforums/yaf_postst13_Trouble-instal
 <category>
 <pattern>WHAT IS AN ALT</pattern>
 <template>
-One person may have upto 5 avatar accounts. An alt is one of the "alternative" accounts other than the main account that's being used.
+One person may have up to 5 avatar accounts on Second Life. An alt is one of the "alternative" accounts other than the main account that's being used.
 </template>
 </category>
 
@@ -147,7 +147,7 @@ One person may have upto 5 avatar accounts. An alt is one of the "alternative" a
 <category>
 <pattern>WHAT IS A LAG</pattern>
 <template>
-Technically it means the delay between (inthe connection) a client and server application i.e. a slow response either on the server or the client software. In SL it refers to when your experience is not performing as expected e.g. clothes or objects not rezzing, chat or IMs not responding when you type or your avatar being jerky when walking or flying etc.
+Technically it means the delay between (in the connection) a client and server application i.e. a slow response either on the server or the client software. In SL it refers to when your experience is not performing as expected e.g. clothes or objects not rezzing, chat or IMs not responding when you type or your avatar being jerky when walking or flying etc.
 </template>
 </category>
 

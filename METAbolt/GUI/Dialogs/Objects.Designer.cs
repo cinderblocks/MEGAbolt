@@ -1371,7 +1371,7 @@ namespace METAbolt
             this.MaximizeBox = false;
             this.Name = "frmObjects";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "Object Manager - METAbolt";
+            this.Text = "Object Manager - MEGAbolt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmObjects_FormClosing);
             this.Load += new System.EventHandler(this.frmObjects_Load);
             this.gbxInworld.ResumeLayout(false);

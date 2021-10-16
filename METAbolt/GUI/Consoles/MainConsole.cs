@@ -83,7 +83,7 @@ namespace METAbolt
             //if (webBrowser == null)
             //    this.InitializeWebBrowser();
 
-            this.InitializeWebBrowser();
+            InitializeWebBrowser();
 
             webBrowser1.Visible = true;
             //btnInfo.Text = "Hide Grid Status";
@@ -103,11 +103,11 @@ namespace METAbolt
             {
                 MGrids.Clear();
  
-                bool fext = System.IO.File.Exists(METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt");
+                bool fext = File.Exists(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                 if (fext)
                 {
-                    string[] file = File.ReadAllLines(METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt");
+                    string[] file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                     MGrids = (from p in file
                               let x = p.Split(',')
@@ -117,7 +117,7 @@ namespace METAbolt
                 {
                     CreateGridFile();
 
-                    string[] file = File.ReadAllLines(METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt");
+                    string[] file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                     MGrids = (from p in file
                               let x = p.Split(',')
@@ -131,7 +131,7 @@ namespace METAbolt
         {
             StreamWriter SW;
 
-            SW = File.CreateText(METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt");
+            SW = File.CreateText(DataFolder.GetDataFolder() + "\\Grids.txt");
             SW.WriteLine("OSGrid,http://login.osgrid.org");
 
             SW.Dispose();
@@ -361,17 +361,17 @@ namespace METAbolt
                                 // create the CMD file
                                 CreateCmdFile();
 
-                                FileInfo newFileInfo = new FileInfo(Path.Combine(METAbolt.DataFolder.GetDataFolder(), fname + "_METAbolt.ini"));
+                                FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), fname + "_MEGAbolt.ini"));
 
                                 if (!newFileInfo.Exists)
                                 {
-                                    string pth = Path.Combine(METAbolt.DataFolder.GetDataFolder(), fname + "_METAbolt.ini");
+                                    string pth = Path.Combine(DataFolder.GetDataFolder(), fname + "_MEGAbolt.ini");
                                     instance.Config.CurrentConfig.Save(pth);
                                 }
                             }
 
                             //instance.Config.ChangeConfigFile(fname);
-                            this.instance.ReapplyConfig(fname);
+                            instance.ReapplyConfig(fname);
 
                             if (instance.Config.CurrentConfig.AIon)
                             {
@@ -380,7 +380,7 @@ namespace METAbolt
                         }
                         catch (Exception ex)
                         {
-                            Logger.Log("Error trying to save user settings to METAbolt.ini ", Helpers.LogLevel.Warning, ex);
+                            Logger.Log("Error trying to save user settings to MEGAbolt.ini ", Helpers.LogLevel.Warning, ex);
                         }
 
                         //LoadWebPage();
@@ -590,7 +590,7 @@ namespace METAbolt
             {
                 string cuser = txtFirstName.Text + "_" + txtLastName.Text;
                 string textfile = cuser + ".bat";
-                string path = Path.Combine(METAbolt.DataFolder.GetDataFolder(), textfile);
+                string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
                 if (File.Exists(path))
                 {
@@ -739,7 +739,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string fullfile = METAbolt.DataFolder.GetDataFolder() + "\\Grids.txt"; ;
+            string fullfile = DataFolder.GetDataFolder() + "\\Grids.txt"; ;
 
             try
             {

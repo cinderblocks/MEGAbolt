@@ -103,7 +103,7 @@ namespace METAbolt
             this.instance = instance;
             netcom = instance.Netcom;
             Client = instance.Client;
-            this.Group = group;
+            Group = group;
             grpid = group.ID;
 
             //while (!IsHandleCreated)
@@ -279,7 +279,7 @@ namespace METAbolt
             grouproles.Clear();
             grouprolesavs.Clear();
 
-            this.Dispose();
+            Dispose();
             //GC.Collect();
         }
 
@@ -288,7 +288,7 @@ namespace METAbolt
             if (e.GroupID != grpid)
                 return;
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 UpdateNotices(e.Notices);
             }));
@@ -317,7 +317,7 @@ namespace METAbolt
 
             groupmembersrequest = Client.Groups.RequestGroupRolesMembers(grpid);
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 PopulateRoles();
             }));
@@ -346,9 +346,9 @@ namespace METAbolt
 
         private void UpdateNotices(List<GroupNoticesListEntry> notices)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     UpdateNotices(notices);
                 }));
@@ -426,11 +426,11 @@ namespace METAbolt
             return at;
         }
 
-        private void netcom_InstantMessageReceived(object sender, OpenMetaverse.InstantMessageEventArgs e)
+        private void netcom_InstantMessageReceived(object sender, InstantMessageEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     netcom_InstantMessageReceived(sender, e);
                 }));
@@ -457,7 +457,7 @@ namespace METAbolt
 
                         char[] deli = "|".ToCharArray();
                         string[] Msg = imsg.Message.Split(deli);
-                        textBox5.Text = instance.CleanReplace("\n", System.Environment.NewLine, Msg[1]);
+                        textBox5.Text = instance.CleanReplace("\n", Environment.NewLine, Msg[1]);
 
                         label7.Text = string.Empty;
                         label7.TextAlign = ContentAlignment.MiddleLeft;
@@ -525,9 +525,9 @@ namespace METAbolt
 
         private void GroupProfileHandler(object sender, GroupProfileEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     GroupProfileHandler(sender, e);
                 }));
@@ -537,15 +537,15 @@ namespace METAbolt
 
             if (grpid != e.Group.ID) return;  
 
-            this.Group = e.Group; 
+            Group = e.Group; 
             Profile = e.Group;
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 label16.Text = Profile.GroupMembershipCount.ToString() + " members";
 
-                if (this.Group.InsigniaID != null && this.Group.InsigniaID != UUID.Zero)
-                    Client.Assets.RequestImage(this.Group.InsigniaID, ImageType.Normal,
+                if (Group.InsigniaID != null && Group.InsigniaID != UUID.Zero)
+                    Client.Assets.RequestImage(Group.InsigniaID, ImageType.Normal,
                         delegate(TextureRequestState state, AssetTexture assetTexture)
                         {
                             if (state != TextureRequestState.Timeout || state != TextureRequestState.NotFound)
@@ -580,9 +580,9 @@ namespace METAbolt
 
         private void UpdateInsigniaProgressText(string resultText)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     UpdateInsigniaProgressText(resultText);
                 }));
@@ -610,9 +610,9 @@ namespace METAbolt
 
         private void UpdateProfile()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     UpdateProfile();
                 }));
@@ -659,9 +659,9 @@ namespace METAbolt
 
         private void AvatarNamesHandler(object sender, UUIDNameReplyEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     AvatarNamesHandler(sender, e);
                 }));
@@ -669,7 +669,7 @@ namespace METAbolt
                 return;
             }
                
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 List<UUID> memkeys = new List<UUID>();
 
@@ -723,9 +723,9 @@ namespace METAbolt
 
             if (grpid != e.GroupID) return;
 
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     GroupMembersHandler(sender, e);
                 }));
@@ -733,7 +733,7 @@ namespace METAbolt
                 return;
             }
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
             {
                 lstMembers.VirtualListSize = 0;
                 lstMembers2.VirtualListSize = 0;
@@ -790,7 +790,7 @@ namespace METAbolt
                 }                
             }
 
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
                 {
                     lstMembers.VirtualListSize = SortedMembers.Count;
                     lstMembers2.VirtualListSize = SortedMembers.Count;
@@ -809,7 +809,7 @@ namespace METAbolt
             }
             else
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                     {
                         label10.Visible = false;
                     }));
@@ -818,7 +818,7 @@ namespace METAbolt
 
         private void SendNameRequsts(List<UUID> namelist)
         {
-            this.BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(delegate()
                     {
                         List<List<UUID>> chunks = splitList(namelist);
 
@@ -885,9 +885,9 @@ namespace METAbolt
 
         private void UpdateMembers(List<UUID> lst)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     UpdateMembers(lst);
                 }));
@@ -1118,9 +1118,9 @@ namespace METAbolt
                 return;
             }
 
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     GroupTitlesHandler(sender, e);
                 }));
@@ -1244,13 +1244,13 @@ namespace METAbolt
 
         private void cmdCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
             //GetDets();
-            this.Close();
+            Close();
         }
 
         private void lstMembers2_SelectedIndexChanged(object sender, EventArgs e)
@@ -1335,7 +1335,7 @@ namespace METAbolt
 
         private void frmGroupInfo_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void lstRoles_SelectedIndexChanged(object sender, EventArgs e)
@@ -1469,7 +1469,7 @@ namespace METAbolt
                         {
                             StreamWriter SW = new StreamWriter(tstream);
 
-                            SW.WriteLine("Group: " + this.Group.Name + ",UUID: " + grpid.ToString() + ",Ttl members: " + lstMembers2.Items.Count.ToString(CultureInfo.CurrentCulture) + ",");
+                            SW.WriteLine("Group: " + Group.Name + ",UUID: " + grpid.ToString() + ",Ttl members: " + lstMembers2.Items.Count.ToString(CultureInfo.CurrentCulture) + ",");
                             SW.WriteLine(",,,");
                             SW.WriteLine("Name,UUID,Title,Last online");
 
@@ -1808,7 +1808,7 @@ namespace METAbolt
             {
                 DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group for L$" + numFee.Value.ToString(CultureInfo.CurrentCulture) + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-                if (res == System.Windows.Forms.DialogResult.No)
+                if (res == DialogResult.No)
                 {
                     return;
                 }

@@ -37,16 +37,16 @@ namespace METAbolt
     /// <summary>
     /// Summary description for UserControl1.
     /// </summary>
-    public partial class FlickerFreeListView : System.Windows.Forms.ListView
+    public partial class FlickerFreeListView : ListView
     {
         public FlickerFreeListView()
         {
             //Activate double buffering
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
             //Enable the OnNotifyMessage event so we get a chance to filter out 
             // Windows messages before they get to the form's WndProc
-            this.SetStyle(ControlStyles.EnableNotifyMessage, true);
+            SetStyle(ControlStyles.EnableNotifyMessage, true);
         }
 
         protected override void OnNotifyMessage(Message m)

@@ -56,7 +56,7 @@ namespace METAbolt
 
             Disposed += GroupNotice_Disposed;
 
-            this.Text += "   " + "[ " + client.Self.Name + " ]";
+            Text += "   " + "[ " + client.Self.Name + " ]";
         }
 
         private void GroupNotice_Disposed(object sender, EventArgs e)
@@ -66,7 +66,7 @@ namespace METAbolt
 
         private void frmGroupNotice_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             if (instance.Config.CurrentConfig.PlayGroupNoticeReceived)
             {
@@ -113,7 +113,7 @@ namespace METAbolt
 
             DateTime dte = DateTime.Now;
 
-            dte = this.instance.State.GetTimeStamp(dte);
+            dte = instance.State.GetTimeStamp(dte);
 
             if (instance.Config.CurrentConfig.UseSLT)
             {
@@ -223,12 +223,12 @@ namespace METAbolt
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmGroupNotice_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.instance.NoticeCount -= 1;
+            instance.NoticeCount -= 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -286,17 +286,17 @@ namespace METAbolt
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmGroupNotice_MouseEnter(object sender, EventArgs e)
         {
-            this.Opacity = 100;
+            Opacity = 100;
         }
 
         private void frmGroupNotice_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = 75;
+            Opacity = 75;
         }
 
         private void rtbBody_LinkClicked(object sender, LinkClickedEventArgs e)

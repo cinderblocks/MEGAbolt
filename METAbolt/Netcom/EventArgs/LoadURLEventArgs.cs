@@ -33,12 +33,12 @@ namespace MEGAbolt.NetworkComm
     {
         public LoadURLEventArgs(string objectName, UUID objectID, UUID ownerID, bool ownerIsGroup, string message, string URL)
         {
-            this.ObjectName = objectName;
-            this.ObjectID = objectID;
-            this.OwnerID = ownerID;
-            this.OwnerIsGroup = ownerIsGroup;
-            this.Message = message;
-            this.url = URL;
+            ObjectName = objectName;
+            ObjectID = objectID;
+            OwnerID = ownerID;
+            OwnerIsGroup = ownerIsGroup;
+            Message = message;
+            url = URL;
         }
 
         public string ObjectName { get; }

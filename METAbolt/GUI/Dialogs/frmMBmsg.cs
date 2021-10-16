@@ -40,7 +40,7 @@ namespace METAbolt
 
             txtMsg.Text = @msg;
 
-            this.Text += "   " + "[ " + instance.Client.Self.Name + " ]";
+            Text += "   " + "[ " + instance.Client.Self.Name + " ]";
 
             timer1.Enabled = true;
             timer1.Start();  
@@ -48,7 +48,7 @@ namespace METAbolt
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmMBmsg_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,17 +65,17 @@ namespace METAbolt
         {
             timer1.Enabled = false;
             timer1.Stop();
-            this.Close(); 
+            Close(); 
         }
 
         private void frmMBmsg_MouseEnter(object sender, EventArgs e)
         {
-            this.Opacity = 100;
+            Opacity = 100;
         }
 
         private void frmMBmsg_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = 75;
+            Opacity = 75;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace METAbolt
             // 
             // lblVersion
             // 
-            this.lblVersion.AccessibleDescription = "METAbolt version";
+            this.lblVersion.AccessibleDescription = "MEGAbolt version";
             this.lblVersion.AccessibleName = "Version";
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
@@ -79,12 +79,12 @@ namespace METAbolt
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(246, 18);
             this.lblVersion.TabIndex = 0;
-            this.lblVersion.Text = "METAbolt version";
+            this.lblVersion.Text = "MEGAbolt version";
             this.lblVersion.Click += new System.EventHandler(this.lblVersion_Click);
             // 
             // groupBox2
             // 
-            this.groupBox2.AccessibleDescription = "METAbolt related URLs from which you can get more information";
+            this.groupBox2.AccessibleDescription = "MEGAbolt related URLs from which you can get more information";
             this.groupBox2.AccessibleName = "More info";
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.linkLabel1);
@@ -165,7 +165,7 @@ namespace METAbolt
             // 
             // txtDir
             // 
-            this.txtDir.AccessibleDescription = "The folder in which METAbolt is installed";
+            this.txtDir.AccessibleDescription = "The folder in which MEGAbolt is installed";
             this.txtDir.AccessibleName = "Application folder";
             this.txtDir.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtDir.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -188,7 +188,7 @@ namespace METAbolt
             // 
             // button1
             // 
-            this.button1.AccessibleDescription = "Open the METAbolt folder in Microsoft Explorer";
+            this.button1.AccessibleDescription = "Open the MEGAbolt folder in Microsoft Explorer";
             this.button1.AccessibleName = "Open application folder";
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackColor = System.Drawing.Color.DimGray;
@@ -218,7 +218,7 @@ namespace METAbolt
             // 
             // richTextBox1
             // 
-            this.richTextBox1.AccessibleDescription = "Information on METAbolt and copyrights";
+            this.richTextBox1.AccessibleDescription = "Information on MEGAbolt and copyrights";
             this.richTextBox1.AccessibleName = "Information";
             this.richTextBox1.BackColor = System.Drawing.Color.DimGray;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -235,7 +235,7 @@ namespace METAbolt
             // 
             // button2
             // 
-            this.button2.AccessibleDescription = "Open the METAbolt user data folder in Microsoft Explorer";
+            this.button2.AccessibleDescription = "Open the MEGAbolt user data folder in Microsoft Explorer";
             this.button2.AccessibleName = "Open data folder";
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.BackColor = System.Drawing.Color.DimGray;
@@ -254,7 +254,7 @@ namespace METAbolt
             // 
             // textBox1
             // 
-            this.textBox1.AccessibleDescription = "The folder in which METAbolt user data is kept";
+            this.textBox1.AccessibleDescription = "The folder in which MEGAbolt user data is kept";
             this.textBox1.AccessibleName = "Data folder";
             this.textBox1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -276,7 +276,7 @@ namespace METAbolt
             // 
             // frmAbout
             // 
-            this.AccessibleDescription = "Displays information about METAbolt";
+            this.AccessibleDescription = "Displays information about MEGAbolt";
             this.AccessibleName = "About window";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,7 +307,7 @@ namespace METAbolt
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About METAbolt";
+            this.Text = "About MEGAbolt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAbout_FormClosing);
             this.Load += new System.EventHandler(this.frmAbout_Load);
             this.groupBox2.ResumeLayout(false);

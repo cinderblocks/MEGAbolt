@@ -211,7 +211,7 @@ namespace METAbolt
             this.startPos = startPos;
 
             // One line of text
-            this.text = scintilla.GetTextRange(startPos, length);
+            text = scintilla.GetTextRange(startPos, length);
         }
 
         #endregion Constructors

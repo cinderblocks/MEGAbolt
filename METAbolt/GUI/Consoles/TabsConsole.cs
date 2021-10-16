@@ -31,6 +31,7 @@ using OpenMetaverse;
 using System.Media;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 using BugSplatDotNetStandard;
 
 namespace METAbolt
@@ -193,7 +194,7 @@ namespace METAbolt
             netcom.AlertMessageReceived -= netcom_AlertMessageReceived;
             netcom.InstantMessageReceived -= netcom_InstantMessageReceived;
             client.Groups.CurrentGroups -= Groups_OnCurrentGroups;
-            this.instance.Config.ConfigApplied -= Config_ConfigApplied;
+            instance.Config.ConfigApplied -= Config_ConfigApplied;
             client.Friends.FriendOffline -= Friends_OnFriendOffline;
             client.Friends.FriendOnline -= Friends_OnFriendOnline;
         }
@@ -249,7 +250,7 @@ namespace METAbolt
 
             int bal = e.Balance - tmoneybalance;
 
-            string ttl = "METAbolt Alert";
+            string ttl = "MEGAbolt Alert";
             string body = string.Empty;
 
             if (bal > 0)
@@ -342,8 +343,8 @@ namespace METAbolt
                         simpleSound.Dispose();
                     }
 
-                    string ttl = "METAbolt Alert";
-                    string body = e.Friend.Name + " is offline";
+                    string ttl = "MEGAbolt Alert";
+                    string body = $"{e.Friend.Name} is offline";
                     TrayNotifiy(ttl, body, false);
                 }
             }
@@ -369,8 +370,8 @@ namespace METAbolt
                         simpleSound.Dispose();
                     }
 
-                    string ttl = "METAbolt Alert";
-                    string body = e.Friend.Name + " is online";
+                    string ttl = "MEGAbolt Alert";
+                    string body = $"{e.Friend.Name} is online";
                     TrayNotifiy(ttl, body, false);
                 }
             }
@@ -380,13 +381,13 @@ namespace METAbolt
         {
             //this.instance.State.GroupStore.Clear();
             
-            foreach (Group group in this.instance.State.Groups.Values)
+            foreach (Group group in instance.State.Groups.Values)
             {
                 lock (instance.State.GroupStore)
                 {
                     if (!instance.State.GroupStore.ContainsKey(group.ID))
                     {
-                        this.instance.State.GroupStore.Add(group.ID, group.Name);
+                        instance.State.GroupStore.Add(group.ID, group.Name);
                     }
                 }
             }
@@ -408,7 +409,7 @@ namespace METAbolt
                     InitializeIMboxTab();
 
                     avname = netcom.LoginOptions.FullName;
-                    notifyIcon1.Text = "METAbolt [" + avname + "]";
+                    notifyIcon1.Text = $"MEGAbolt [{avname}]";
 
                     if (selectedTab.Name == "main")
                         tabs["chat"].Select();
@@ -427,7 +428,7 @@ namespace METAbolt
         {
             TidyUp();
 
-            TrayNotifiy("METAbolt - " + avname, "Logged out");
+            TrayNotifiy($"MEGAbolt - {avname}", "Logged out");
         }
 
         private void netcom_ClientDisconnected(object sender, DisconnectedEventArgs e)
@@ -436,8 +437,8 @@ namespace METAbolt
 
             TidyUp();
 
-            notifyIcon1.Text = "METAbolt - " + avname + " [Disconnected]";
-            TrayNotifiy("METAbolt - " + avname, "Disconnected");
+            notifyIcon1.Text = $"MEGAbolt - {avname} [Disconnected]";
+            TrayNotifiy($"MEGAbolt - {avname}", "Disconnected");
         }
 
         private void TidyUp()
@@ -457,7 +458,7 @@ namespace METAbolt
         {
             tabs["chat"].Highlight();
 
-            string ttl = "METAbolt Alert";
+            string ttl = "MEGAbolt Alert";
             string body = e.Message.ToString();
             TrayNotifiy(ttl, body);
         }
@@ -482,9 +483,9 @@ namespace METAbolt
 
         public void DisplayOnChat(InstantMessageEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     DisplayOnChat(e);
                 }));
@@ -493,8 +494,8 @@ namespace METAbolt
             }
 
             if (instance.IsAvatarMuted(e.IM.FromAgentID, e.IM.FromAgentName)) return;
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.CommandInID)) return;
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.IgnoreUID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.CommandInID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.IgnoreUID)) return;
 
             BeginInvoke(new MethodInvoker(delegate()
             {
@@ -510,9 +511,9 @@ namespace METAbolt
 
         public void DisplayChatScreen(string msg)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     DisplayChatScreen(msg);
                 }));
@@ -694,7 +695,7 @@ namespace METAbolt
                 notifyIcon1.BalloonTipTitle = title + " [" + avname + "]";
                 notifyIcon1.ShowBalloonTip(2000);
 
-                if (this.instance.Config.CurrentConfig.PlaySound)
+                if (instance.Config.CurrentConfig.PlaySound)
                 {
                     //System.Media.SystemSounds..Play();
                     SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.notify);
@@ -726,7 +727,7 @@ namespace METAbolt
                 notifyIcon1.BalloonTipTitle = title + " [" + avname + "]";
                 notifyIcon1.ShowBalloonTip(2000);
 
-                if (this.instance.Config.CurrentConfig.PlaySound && makesound)
+                if (instance.Config.CurrentConfig.PlaySound && makesound)
                 {
                     //System.Media.SystemSounds..Play();
                     SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.notify);
@@ -738,10 +739,10 @@ namespace METAbolt
 
         private string getTimeStamp()
         {
-            if (this.instance.Config.CurrentConfig.ChatTimestamps)
+            if (instance.Config.CurrentConfig.ChatTimestamps)
             {
                 DateTime dte = DateTime.Now;
-                dte = this.instance.State.GetTimeStamp(dte);
+                dte = instance.State.GetTimeStamp(dte);
 
                 return dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
             }
@@ -752,7 +753,7 @@ namespace METAbolt
         private string UpdateIconTitle()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("METAbolt - ");
+            sb.Append("MEGAbolt - ");
 
             if (netcom.IsLoggedIn)
             {
@@ -805,12 +806,12 @@ namespace METAbolt
             // Count the ones already on display
             // to avoid flooding
 
-            if (this.instance.NoticeCount < 9)
+            if (instance.NoticeCount < 9)
             {
-                this.instance.NoticeCount += 1;
+                instance.NoticeCount += 1;
             }
 
-            if (this.instance.NoticeCount < 9)
+            if (instance.NoticeCount < 9)
             {
                 (new frmGroupNotice(instance, e)).Show(this);
             }
@@ -854,8 +855,8 @@ namespace METAbolt
         private void HandleIM(InstantMessageEventArgs e)
         {
             if (instance.IsAvatarMuted(e.IM.FromAgentID, e.IM.FromAgentName)) return;
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.CommandInID)) return;
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.IgnoreUID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.CommandInID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.IgnoreUID)) return;
 
             if (instance.IsGiveItem(e.IM.Message.ToLower(CultureInfo.CurrentCulture), e.IM.FromAgentID))
             {
@@ -864,9 +865,9 @@ namespace METAbolt
 
             if (e.IM.Dialog == InstantMessageDialog.SessionSend)
             {
-                lock (this.instance.State.GroupStore)
+                lock (instance.State.GroupStore)
                 {
-                    if (this.instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
+                    if (instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
                     {
                         //if (null != client.Self.MuteList.Find(me => me.Type == MuteType.Group && (me.ID == e.IM.IMSessionID || me.ID == e.IM.FromAgentID))) return;
 
@@ -876,9 +877,9 @@ namespace METAbolt
 
                         if (instance.State.IsBusy) return;
 
-                        if (TabExists(this.instance.State.GroupStore[e.IM.IMSessionID]))
+                        if (TabExists(instance.State.GroupStore[e.IM.IMSessionID]))
                         {
-                            METAboltTab tab = tabs[this.instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
+                            METAboltTab tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
                             if (!tab.Selected)
                             {
                                 tab.Highlight();
@@ -914,7 +915,7 @@ namespace METAbolt
                 tabs["imbox"].IMboxHighlight();
             }
 
-            if (this.instance.MainForm.WindowState == FormWindowState.Minimized)
+            if (instance.MainForm.WindowState == FormWindowState.Minimized)
             {
                 if (!stopnotify)
                 {
@@ -922,7 +923,7 @@ namespace METAbolt
 
                     avname = netcom.LoginOptions.FullName;
 
-                    if (this.instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
+                    if (instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
                     {
                         ttl = "Group IM notification [" + avname + "]";
                     }
@@ -946,30 +947,30 @@ namespace METAbolt
                     notifForm.Show();
                 }
             }
-            lock (this.instance.State.GroupStore)
+            lock (instance.State.GroupStore)
             {
-                if (this.instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
+                if (instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
                 {
                     //if (null != client.Self.MuteList.Find(me => me.Type == MuteType.Group && (me.ID == e.IM.IMSessionID || me.ID == e.IM.FromAgentID))) return;
 
                     // Check to see if group IMs are disabled
                     if (instance.Config.CurrentConfig.DisableGroupIMs)
                     {
-                        Group grp = this.instance.State.Groups[e.IM.IMSessionID];
+                        Group grp = instance.State.Groups[e.IM.IMSessionID];
                         client.Self.RequestLeaveGroupChat(grp.ID);
                         return;
                     }
 
                     if (instance.State.IsBusy)
                     {
-                        Group grp = this.instance.State.Groups[e.IM.IMSessionID];
+                        Group grp = instance.State.Groups[e.IM.IMSessionID];
                         client.Self.RequestLeaveGroupChat(grp.ID);
                         return;
                     }
 
-                    if (TabExists(this.instance.State.GroupStore[e.IM.IMSessionID]))
+                    if (TabExists(instance.State.GroupStore[e.IM.IMSessionID]))
                     {
-                        METAboltTab tab = tabs[this.instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
+                        METAboltTab tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
                         if (!tab.Selected) tab.PartialHighlight();
                         //Logger.Log("Stored|ExistingGroupTab:: " + e.IM.Message, Helpers.LogLevel.Debug);
                         return;
@@ -1041,7 +1042,7 @@ namespace METAbolt
 
             if (instance.State.IsBusy)
             {
-                string responsemsg = this.instance.Config.CurrentConfig.BusyReply;
+                string responsemsg = instance.Config.CurrentConfig.BusyReply;
                 client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); 
                 return;
             }
@@ -1066,7 +1067,7 @@ namespace METAbolt
 
             if (instance.State.IsBusy)
             {
-                string responsemsg = this.instance.Config.CurrentConfig.BusyReply;
+                string responsemsg = instance.Config.CurrentConfig.BusyReply;
                 client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]);
                 return;
             }
@@ -1157,8 +1158,8 @@ namespace METAbolt
 
                             client.Inventory.RequestFetchInventory(oID, client.Self.AgentID);
 
-                            string ttl = "METAbolt Alert";
-                            string body = e.IM.FromAgentName + " has given you a " + type + " named " + e.IM.Message;
+                            string ttl = "MEGAbolt Alert";
+                            string body = $"{e.IM.FromAgentName} has given you a {type} named {e.IM.Message}";
 
                             TrayNotifiy(ttl, body, false);
 
@@ -1256,7 +1257,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeMainTab();
                     //client.Self.RetrieveInstantMessages();
@@ -1287,7 +1288,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeChatTab();
                 }));
@@ -1314,7 +1315,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeFriendsTab();
                 }));
@@ -1341,7 +1342,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeIMboxTab();
                 }));
@@ -1371,7 +1372,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeGroupsTab();
                 }));
@@ -1406,7 +1407,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeSearchTab();
                 }));
@@ -1433,7 +1434,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     InitializeInventoryTab();
                 }));
@@ -1608,7 +1609,7 @@ namespace METAbolt
 
                 if (!instance.ReadIMs)
                 {
-                    IMbox imtab = this.instance.imBox;
+                    IMbox imtab = instance.imBox;
                     imtab.IMRead(tabname);
                 }
             }
@@ -1650,9 +1651,9 @@ namespace METAbolt
 
         public void DisplayOnIM(IMTabWindow imTab, InstantMessageEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     DisplayOnIM(imTab, e);
                 }));
@@ -1665,9 +1666,9 @@ namespace METAbolt
 
         public void DisplayOnIMGroup(IMTabWindowGroup imTab, InstantMessageEventArgs e)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     DisplayOnIMGroup(imTab, e);
                 }));
@@ -1680,21 +1681,12 @@ namespace METAbolt
 
         public List<METAboltTab> GetOtherTabs()
         {
-            List<METAboltTab> otherTabs = new List<METAboltTab>();
-
-            foreach (ToolStripItem item in tstTabs.Items)
-            {
-                if (item.Tag == null) continue;
-                if ((ToolStripButton)item == selectedTab.Button) continue;
-
-                METAboltTab tab = tabs[item.Tag.ToString()];
-                if (!tab.AllowMerge) continue;
-                if (tab.Merged) continue;
-                
-                otherTabs.Add(tab); 
-            }
-
-            return otherTabs;
+            return (from ToolStripItem item in tstTabs.Items 
+                where item.Tag != null 
+                where (ToolStripButton)item != selectedTab.Button 
+                select tabs[item.Tag.ToString()] into tab 
+                where tab.AllowMerge where !tab.Merged 
+                select tab).ToList();
         }
 
         public IMTabWindow AddIMTab(InstantMessageEventArgs e)
@@ -1719,8 +1711,7 @@ namespace METAbolt
             {
                 tname = tname.Substring(0, 7) + "..."; 
             }
-
-            //METAboltTab tab = 
+            
             AddTab(targetName, "IM: " + tname, imTab);
             imTab.SelectIMInput();
 
@@ -1729,8 +1720,8 @@ namespace METAbolt
 
         public IMTabWindowGroup AddIMTabGroup(InstantMessageEventArgs e)
         {
-            TabAgentName = this.instance.State.GroupStore[e.IM.IMSessionID];
-            Group grp = this.instance.State.Groups[e.IM.IMSessionID];
+            TabAgentName = instance.State.GroupStore[e.IM.IMSessionID];
+            Group grp = instance.State.Groups[e.IM.IMSessionID];
 
             //UUID gsession = new UUID(e.IM.BinaryBucket, 2);
 
@@ -1754,9 +1745,8 @@ namespace METAbolt
             {
                 tname = tname.Substring(0, 7) + "...";
             }
-
-            //METAboltTab tab = 
-            AddTab(targetName, "GIM: " + targetName, imTab);
+            
+            AddTab(targetName, $"GIM: {targetName}", imTab);
             imTab.SelectIMInput();
 
             return imTab;
@@ -1768,8 +1758,7 @@ namespace METAbolt
             tpTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(tpTab);
-            //METAboltTab tab = 
-            AddTab(tpTab.TargetUUID.ToString(), "TP: " + tpTab.TargetName, tpTab);
+            AddTab(tpTab.TargetUUID.ToString(), $"TP: {tpTab.TargetName}", tpTab);
 
             return tpTab;
         }
@@ -1780,8 +1769,7 @@ namespace METAbolt
             frTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(frTab);
-            //METAboltTab tab = AddTab(frTab.TargetUUID.ToString(), "FR: " + frTab.TargetName, frTab);
-            AddTab(frTab.TargetUUID.ToString(), "FR: " + frTab.TargetName, frTab);
+            AddTab(frTab.TargetUUID.ToString(), $"FR: {frTab.TargetName}", frTab);
 
             return frTab;
         }
@@ -1803,8 +1791,7 @@ namespace METAbolt
             grTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(grTab);
-            //METAboltTab tab = 
-            AddTab(grTab.TargetUUID.ToString(), "GR: " + grTab.TargetName, grTab);
+            AddTab(grTab.TargetUUID.ToString(), $"GR: {grTab.TargetName}", grTab);
 
             return grTab;
         }
@@ -1903,12 +1890,12 @@ namespace METAbolt
 
         private void TabsConsole_Load(object sender, EventArgs e)
         {
-            owner = this.FindForm();
+            owner = FindForm();
         }
 
         private void tstTabs_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            this.instance.State.CurrentTab = e.ClickedItem.Text;
+            instance.State.CurrentTab = e.ClickedItem.Text;
         }
 
         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)

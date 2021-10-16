@@ -52,7 +52,7 @@ namespace METAbolt
 
             //LoadCallBacks();
 
-            this.Text += "   " + "[ " + client.Self.Name + " ]";
+            Text += "   " + "[ " + client.Self.Name + " ]";
         }
 
         public frmPay(METAboltInstance instance, UUID target, string name, string itemname)
@@ -77,7 +77,7 @@ namespace METAbolt
             client = this.instance.Client;
 
             this.target = target;
-            this.nudAmount.Value = (decimal)sprice;
+            nudAmount.Value = (decimal)sprice;
 
             LoadCallBacks();
         }
@@ -91,7 +91,7 @@ namespace METAbolt
             //this.name = txtPerson.Text = name;
             textBox1.Text = itemname;
 
-            this.Prim = prim;
+            Prim = prim;
 
             this.target = target;
 
@@ -110,10 +110,10 @@ namespace METAbolt
             textBox1.Text = prim.Properties.Name;
             btnPay.Text = "&Buy"; 
 
-            this.nudAmount.Value = (decimal)sprice;
+            nudAmount.Value = (decimal)sprice;
             oprice = sprice;
 
-            this.Prim = prim;
+            Prim = prim;
 
             LoadCallBacks();
         }
@@ -127,7 +127,7 @@ namespace METAbolt
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnPay_Click(object sender, EventArgs e)
@@ -194,12 +194,12 @@ namespace METAbolt
                 }
             }
 
-            this.Close();
+            Close();
         }
 
         private void frmPay_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void frmPay_FormClosing(object sender, FormClosingEventArgs e)
@@ -223,14 +223,14 @@ namespace METAbolt
 
             if (e.DefaultPrice > 0)
             {
-                this.nudAmount.Value = (decimal)e.DefaultPrice;
+                nudAmount.Value = (decimal)e.DefaultPrice;
                 //SetNud(e.DefaultPrice);
                 buyprice = e.DefaultPrice;
                 btnPay.Text = "&Pay"; 
             }
             else if (e.DefaultPrice == -1)
             {
-                this.nudAmount.Value = (decimal)e.ButtonPrices[0];
+                nudAmount.Value = (decimal)e.ButtonPrices[0];
                 //SetNud(e.ButtonPrices[0]);
                 buyprice = e.ButtonPrices[0];
                 btnPay.Text = "&Pay";
@@ -238,7 +238,7 @@ namespace METAbolt
 
             if (oprice != buyprice && buyprice != -1 & oprice != -1)
             {
-                if (this.Prim.ClickAction == ClickAction.Buy || this.Prim.ClickAction == ClickAction.Pay)
+                if (Prim.ClickAction == ClickAction.Buy || Prim.ClickAction == ClickAction.Pay)
                 {
                     label5.Text = "Buy Price: L$" + oprice;
                     label5.Visible = true;

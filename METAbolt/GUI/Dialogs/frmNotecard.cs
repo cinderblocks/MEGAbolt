@@ -47,7 +47,7 @@ namespace METAbolt
             InitializeComponent();
 
             //this.instance = instance;            
-            this.Text = file + " - METAbolt";
+            Text = $"{file} - MEGAbolt";
 
             rtbNotecard.LoadFile(file, RichTextBoxStreamType.PlainText);
             this.searchfor = searchfor; 
@@ -60,7 +60,7 @@ namespace METAbolt
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void toolStripDropDownButton2_Click(object sender, EventArgs e)
@@ -258,7 +258,7 @@ namespace METAbolt
        
         private void frmNotecardEditor_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             
             //rtbNotecard.ReadOnly = true;
             rtbNotecard.Focus(); 
@@ -291,7 +291,7 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            Close(); 
         }
     }
 }

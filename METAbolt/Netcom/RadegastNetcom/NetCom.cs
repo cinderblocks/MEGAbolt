@@ -52,7 +52,7 @@ namespace MEGAbolt.NetworkComm
 
         public MEGAboltNetcom(METAboltInstance instance)
         {
-            this.client = instance.Client;
+            client = instance.Client;
             this.instance = instance;
             LoginOptions = new LoginOptions();
 
@@ -75,7 +75,7 @@ namespace MEGAbolt.NetworkComm
             client.Self.AlertMessage += Self_AlertMessage;
         }
 
-        private void Self_OnInstantMessage(object sender, OpenMetaverse.InstantMessageEventArgs ea)
+        private void Self_OnInstantMessage(object sender, InstantMessageEventArgs ea)
         {
             try
             {
@@ -87,11 +87,11 @@ namespace MEGAbolt.NetworkComm
             }
             catch (Exception exp)
             {
-                OpenMetaverse.Logger.Log(exp.Message.ToString(), Helpers.LogLevel.Error);
+                Logger.Log(exp.Message.ToString(), Helpers.LogLevel.Error);
             }
         }
 
-        private void Network_OnLogin(object sender, OpenMetaverse.LoginProgressEventArgs ea)
+        private void Network_OnLogin(object sender, LoginProgressEventArgs ea)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace MEGAbolt.NetworkComm
             }
         }
 
-        private void Self_OnChat(object sender, OpenMetaverse.ChatEventArgs ea)
+        private void Self_OnChat(object sender, ChatEventArgs ea)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace MEGAbolt.NetworkComm
             }
         }
 
-        private void Self_OnDialog(object sender, OpenMetaverse.ScriptDialogEventArgs ea)
+        private void Self_OnDialog(object sender, ScriptDialogEventArgs ea)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace MEGAbolt.NetworkComm
             }
         }
 
-        private void Self_OnDialogQuestion(object sender, OpenMetaverse.ScriptQuestionEventArgs ea)
+        private void Self_OnDialogQuestion(object sender, ScriptQuestionEventArgs ea)
         {
             try
             {
@@ -245,7 +245,7 @@ namespace MEGAbolt.NetworkComm
             }
         }
 
-        void Self_AlertMessage(object sender, OpenMetaverse.AlertMessageEventArgs ea)
+        void Self_AlertMessage(object sender, AlertMessageEventArgs ea)
         {
             if (NetcomSync != null)
                 NetcomSync.BeginInvoke(new OnAlertMessageRaise(OnAlertMessageReceived), new object[] { ea });
@@ -317,7 +317,7 @@ namespace MEGAbolt.NetworkComm
 
                 loginParams.UserAgent = $"{LoginOptions.Channel} {LoginOptions.Version}";
                 loginParams.MAC = GetMACAddress();
-                loginParams.Platform = System.Environment.OSVersion.VersionString;   // "Windows";
+                loginParams.Platform = Environment.OSVersion.VersionString;   // "Windows";
 
                 switch (LoginOptions.Grid)
                 {

@@ -229,7 +229,7 @@ namespace METAbolt
                 BeginInvoke((MethodInvoker)delegate 
                 {
                     //axWindowsMediaPlayer1.Ctlcontrols.stop();
-                    axWindowsMediaPlayer1.URL = this.instance.Config.CurrentConfig.pURL;
+                    axWindowsMediaPlayer1.URL = instance.Config.CurrentConfig.pURL;
                     //axWindowsMediaPlayer1.Ctlcontrols.play();
 
                     //this.Close();
@@ -239,7 +239,7 @@ namespace METAbolt
 
         private void frmPlayer_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             
             axWindowsMediaPlayer1.PlayStateChange += player_PlayStateChange;
             axWindowsMediaPlayer1.CurrentItemChange += player_CurrentItemChange;
@@ -247,7 +247,7 @@ namespace METAbolt
             axWindowsMediaPlayer1.MediaChange += player_MediaChange;
             axWindowsMediaPlayer1.MediaError += axWindowsMediaPlayer1_MediaError;
 
-            axWindowsMediaPlayer1.URL = this.instance.Config.CurrentConfig.pURL;
+            axWindowsMediaPlayer1.URL = instance.Config.CurrentConfig.pURL;
             //axWindowsMediaPlayer1.Ctlcontrols.stop();
             label2.Text = string.Empty;
             label3.Text = string.Empty;
@@ -339,7 +339,7 @@ namespace METAbolt
 
                 DateTime timestamp = DateTime.Now;
 
-                timestamp = this.instance.State.GetTimeStamp(timestamp);
+                timestamp = instance.State.GetTimeStamp(timestamp);
 
                 //if (instance.Config.CurrentConfig.UseSLT)
                 //{
@@ -351,7 +351,7 @@ namespace METAbolt
 
                 string eval = timestamp.ToShortTimeString() + ": " + track;
 
-                System.Windows.Forms.ListViewItem finditem = listView1.FindItemWithText(eval);
+                ListViewItem finditem = listView1.FindItemWithText(eval);
 
 
                 if (finditem == null)
@@ -363,7 +363,7 @@ namespace METAbolt
                     }
                     catch { ; }
 
-                    System.Windows.Forms.ListViewItem list = new System.Windows.Forms.ListViewItem
+                    ListViewItem list = new ListViewItem
                     {
                         Text = timestamp.ToShortTimeString() + ": " + track,
                         Tag = albumlink // dets;
@@ -395,17 +395,17 @@ namespace METAbolt
                     }
                     break;
 
-                case (int)WMPLib.WMPPlayState.wmppsStopped:
+                case (int)WMPPlayState.wmppsStopped:
                     label1.Text = "";
                     pictureBox4.Visible = false;
                     pictureBox5.Visible = false;
                     break;
 
-                case (int)WMPLib.WMPPlayState.wmppsPaused:
+                case (int)WMPPlayState.wmppsPaused:
                     label1.Text = "";
                     break;
 
-                case (int)WMPLib.WMPPlayState.wmppsBuffering:
+                case (int)WMPPlayState.wmppsBuffering:
                     label1.Text = "Buffering...";
                     break;
 
@@ -519,7 +519,7 @@ namespace METAbolt
             
             dets = string.Empty;
 
-            pictureBox1.Image = METAbolt.Properties.Resources.not_found;
+            pictureBox1.Image = Properties.Resources.not_found;
             pictureBox1.Refresh();
             pictureBox2.Visible = false;
 
@@ -575,7 +575,7 @@ namespace METAbolt
                 else
                 {
                     //album art not found
-                    pictureBox1.Image = METAbolt.Properties.Resources.not_found;
+                    pictureBox1.Image = Properties.Resources.not_found;
                     pictureBox1.Refresh();
                 }
 
@@ -777,7 +777,7 @@ namespace METAbolt
 
         private void listView1_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.ListViewItem idx = listView1.SelectedItems[0];
+            ListViewItem idx = listView1.SelectedItems[0];
             string track = idx.Tag.ToString();
 
             if (!string.IsNullOrEmpty(track))
@@ -842,7 +842,7 @@ namespace METAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Parcel parcel = this.instance.MainForm.parcel;
+            Parcel parcel = instance.MainForm.parcel;
 
             parcel.MusicURL = textBox1.Text.Trim();
             parcel.Update(client.Network.CurrentSim, false);

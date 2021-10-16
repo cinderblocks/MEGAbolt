@@ -8,7 +8,7 @@ using System.Security.Permissions;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MEGAbolt")]
 [assembly: AssemblyProduct("METAx")]
-[assembly: AssemblyCopyright("Copyright © Sjofn LLC. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2020 Sjofn LLC. All rights reserved.")]
 [assembly: AssemblyTitle("METAx")]
 [assembly: ComVisible(false)]
 [assembly: Guid("e88760c9-a90f-4018-85c3-3dedf1380bf7")]

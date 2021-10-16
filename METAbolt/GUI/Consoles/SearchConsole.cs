@@ -753,7 +753,7 @@ namespace METAbolt
 
             DialogResult res = MessageBox.Show("Are you sure you want to ban this avatar?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-            if (res == System.Windows.Forms.DialogResult.No)
+            if (res == DialogResult.No)
             {
                 return;
             }
@@ -767,7 +767,7 @@ namespace METAbolt
 
             DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group\nwithout knowing if it's free?", "MEGAbolt", MessageBoxButtons.YesNo);
 
-            if (res == System.Windows.Forms.DialogResult.No)
+            if (res == DialogResult.No)
             {
                 return;
             }

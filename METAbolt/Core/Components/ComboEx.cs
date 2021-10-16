@@ -34,7 +34,7 @@ namespace METAbolt
         public ComboEx()
 		{
 			//Set DrawMode
-			this.DrawMode = DrawMode.OwnerDrawFixed;	
+			DrawMode = DrawMode.OwnerDrawFixed;	
 		}
 
 		/// <summary>
@@ -54,14 +54,14 @@ namespace METAbolt
 			if (e.Index < 0) //Do We Have A Valid List ¿
 
 				//Just Draw Indented Text
-				e.Graphics.DrawString(this.Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
+				e.Graphics.DrawString(Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 
 			else //We Have A List
 			{
 				
-				if (this.Items[e.Index].GetType() == typeof(ICItem))  //Is It A ImageCombo Item ¿
+				if (Items[e.Index].GetType() == typeof(ICItem))  //Is It A ImageCombo Item ¿
 				{															
-					ICItem ICCurrItem = (ICItem)this.Items[e.Index]; //Get Current Item
+					ICItem ICCurrItem = (ICItem)Items[e.Index]; //Get Current Item
 
 					//Obtain Current Item's ForeColour
                     Color ICCurrForeColour = (ICCurrItem.ICForeColour != Color.FromKnownColor(KnownColor.Transparent)) ? ICCurrItem.ICForeColour : e.ForeColor;
@@ -72,7 +72,7 @@ namespace METAbolt
                     if (ICCurrItem.ICImageIndex != -1) //If In Actual List ( Which Needs Images )
                     {
                         //Draw Image
-                        this.ICImageList.Draw(e.Graphics, e.Bounds.Left, e.Bounds.Top, ICCurrItem.ICImageIndex);
+                        ICImageList.Draw(e.Graphics, e.Bounds.Left, e.Bounds.Top, ICCurrItem.ICImageIndex);
 
                         //Then, Draw Text In Specified Bounds
                         e.Graphics.DrawString(ICCurrItem.ICText, ICCurrFont, new SolidBrush(ICCurrForeColour), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
@@ -88,7 +88,7 @@ namespace METAbolt
 				else //Not An ImageCombo Box Item
 				
 					//Just Draw The Text
-					e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
+					e.Graphics.DrawString(Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 				
 			}
 

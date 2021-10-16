@@ -182,7 +182,7 @@ namespace METAbolt
 
         public void PrintHeader(string text)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintHeader(text); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintHeader(text); });
             else
             {
                 if (text == null) return;
@@ -214,7 +214,7 @@ namespace METAbolt
 
         public void PrintLinkHeader(string text, string uuid, string link)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintLinkHeader(text, uuid, link); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintLinkHeader(text, uuid, link); });
             else
             {
                 if (text == null) return;
@@ -260,7 +260,7 @@ namespace METAbolt
 
         public void PrintLinkHeader(string text, string link)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintLinkHeader(text, link); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintLinkHeader(text, link); });
             else
             {
                 if (text == null) return;
@@ -295,7 +295,7 @@ namespace METAbolt
 
         public void PrintDate(string text)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintDate(text); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintDate(text); });
             else
             {
                 if (text == null) return;
@@ -319,7 +319,7 @@ namespace METAbolt
 
         public void PrintLink(string text, string link)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintLink(text, link); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintLink(text, link); });
             else
             {
                 if (text == null) return;
@@ -334,7 +334,7 @@ namespace METAbolt
 
         public void PrintText(string text)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintText(text); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintText(text); });
             else
             {
                 // bkcolour = config.CurrentConfig.HeaderBackColour;
@@ -378,7 +378,7 @@ namespace METAbolt
 
         public void PrintClassicTextDate(string text)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintClassicTextDate(text); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintClassicTextDate(text); });
             else
             {
                 // bkcolour = config.CurrentConfig.HeaderBackColour;
@@ -438,7 +438,7 @@ namespace METAbolt
 
         public void PrintTextLine(string text)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PrintTextLine(text); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PrintTextLine(text); });
             else
             {
                 // bkcolour = config.CurrentConfig.HeaderBackColour;
@@ -514,7 +514,7 @@ namespace METAbolt
         private void CheckBufferSize()
         {
             int lines = rtb.Lines.Length;   
-            int maxlines = this.instance.Config.CurrentConfig.lineMax;
+            int maxlines = instance.Config.CurrentConfig.lineMax;
 
             if (maxlines == 0)
                 return;
@@ -546,7 +546,7 @@ namespace METAbolt
 
         private void PutSmiley(int _findex)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { PutSmiley(_findex); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { PutSmiley(_findex); });
             else
             {
                 if (hideSmileys)
@@ -743,7 +743,7 @@ namespace METAbolt
 
         public void ClearText()
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { ClearText(); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { ClearText(); });
             else
             {
                 rtb.Clear();
@@ -755,36 +755,36 @@ namespace METAbolt
             return rtb.Size.Width;
         }
 
-        public void SetSelectionForeColor(System.Drawing.Color color)
+        public void SetSelectionForeColor(Color color)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetSelectionForeColor(color); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetSelectionForeColor(color); });
             else
             {
                 rtb.SelectionColor = color;
             }
         }
 
-        public void SetSelectionBackColor(System.Drawing.Color color)
+        public void SetSelectionBackColor(Color color)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetSelectionBackColor(color); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetSelectionBackColor(color); });
             else
             {
                 rtb.SelectionBackColor = color;
             }
         }
 
-        public void SetFont(System.Drawing.Font font)
+        public void SetFont(Font font)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetFont(font); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetFont(font); });
             else
             {
                 rtb.SelectionFont = font;
             }
         }
 
-        public void SetFontStyle(System.Drawing.FontStyle fontstyle)
+        public void SetFontStyle(FontStyle fontstyle)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetFontStyle(fontstyle); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetFontStyle(fontstyle); });
             else
             {
                 rtb.SelectionFont = new Font(rtb.SelectionFont, fontstyle);
@@ -793,7 +793,7 @@ namespace METAbolt
 
         public void SetFontSize(float size)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetFontSize(size); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetFontSize(size); });
             else
             {
                 rtb.SelectionFont = new Font(rtb.SelectionFont.Name, size, rtb.SelectionFont.Style);
@@ -802,7 +802,7 @@ namespace METAbolt
 
         public void SetOffset(int offset)
         {
-            if (this.rtb.InvokeRequired) this.rtb.BeginInvoke((MethodInvoker)delegate { SetOffset(offset); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { SetOffset(offset); });
             else
             {
                 rtb.SelectionCharOffset = offset;

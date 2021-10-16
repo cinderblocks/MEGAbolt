@@ -63,11 +63,11 @@ namespace METAbolt
 
             public TextItem(string text, Font font, Color color, Rectangle box, TextFormatFlags flags)
             {
-                this.Text = text;
-                this.Font = font;
-                this.Color = color;
-                this.Box = box;
-                this.Flags = flags | TextFormatFlags.NoPrefix;
+                Text = text;
+                Font = font;
+                Color = color;
+                Box = box;
+                Flags = flags | TextFormatFlags.NoPrefix;
             }
         }
 
@@ -82,7 +82,7 @@ namespace METAbolt
 
         public TextRendering(METAboltInstance instance)
         {
-            this.Instance = instance;
+            Instance = instance;
             textItems = new List<TextItem>();
         }
 
@@ -93,7 +93,7 @@ namespace METAbolt
 
         public static Size Measure(string text, Font font, TextFormatFlags flags)
         {
-            return TextRenderer.MeasureText(text, font, TextRendering.MaxSize, flags);
+            return TextRenderer.MeasureText(text, font, MaxSize, flags);
         }
 
         public void Begin()
@@ -245,7 +245,7 @@ namespace METAbolt
                 s = TextRenderer.MeasureText(
                    item.Text,
                    item.Font,
-                   TextRendering.MaxSize,
+                   MaxSize,
                    item.Flags);
             }
             catch

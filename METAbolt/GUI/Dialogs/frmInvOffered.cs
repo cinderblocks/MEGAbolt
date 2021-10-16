@@ -69,7 +69,7 @@ namespace METAbolt
             client = this.instance.Client;
             msg = e;
             this.objectID = objectID;
-            this.Text += " [" + client.Self.Name + "]";
+            Text += " [" + client.Self.Name + "]";
 
             invtype = type;
 
@@ -113,7 +113,7 @@ namespace METAbolt
 
             label1.Text = "This item will be auto accepted @ " + dte.ToShortTimeString();
 
-            this.Text += "   " + "[ " + client.Self.Name + " ]";
+            Text += "   " + "[ " + client.Self.Name + " ]";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -151,7 +151,7 @@ namespace METAbolt
             timer1.Stop();
             timer1.Enabled = false;
 
-            this.Close();
+            Close();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -196,7 +196,7 @@ namespace METAbolt
                 MessageBox.Show("An error has been encountered but the item\nshould have been saved into your inventory:\n" + ex.Message, "MEGAbolt");  
             }
             
-            this.Close();
+            Close();
         }
 
         private void btnDecline_Click(object sender, EventArgs e)
@@ -251,12 +251,12 @@ namespace METAbolt
                 ;                
             }
 
-            this.Close();
+            Close();
         }
 
         private void frmInvOffered_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -279,17 +279,17 @@ namespace METAbolt
 
             //timer1.Dispose();
 
-            this.Close();
+            Close();
         }
 
         private void frmInvOffered_MouseEnter(object sender, EventArgs e)
         {
-            this.Opacity = 100;
+            Opacity = 100;
         }
 
         private void frmInvOffered_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = 75;
+            Opacity = 75;
         }
     }
 }

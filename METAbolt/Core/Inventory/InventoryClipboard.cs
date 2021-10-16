@@ -44,7 +44,7 @@ namespace METAbolt
             CurrentClipNode = itemNode;
             CurrentClipItem = (InventoryBase)itemNode.Tag;
 
-            this.cut = ccut;
+            cut = ccut;
 
             if (ccut)
             {

@@ -36,7 +36,7 @@ namespace METAbolt
 
         public ObjectsListItem(Primitive prim, GridClient client, ListBox listBox)
         {
-            this.Prim = prim;
+            Prim = prim;
             this.client = client;
             this.listBox = listBox;
         }

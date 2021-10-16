@@ -39,7 +39,7 @@ namespace METAbolt
         /// <param name="treeView">The TreeView to navigate.</param>
         public TreeViewWalker(TreeView treeView)
         {
-            this.TreeView = treeView;
+            TreeView = treeView;
         }
 
         #endregion // Constructors
@@ -68,9 +68,9 @@ namespace METAbolt
                 throw new ArgumentNullException("rootNode");
 
             // Reset the abort flag in case it was previously set.
-            this.stopProcessing = false;
+            stopProcessing = false;
 
-            this.WalkNodes(rootNode);
+            WalkNodes(rootNode);
         }
 
         #endregion // ProcessBranch
@@ -82,13 +82,13 @@ namespace METAbolt
         /// </summary>
         public void ProcessTree()
         {
-            if (this.TreeView == null)
+            if (TreeView == null)
                 throw new InvalidOperationException("The TreeViewWalker must reference a TreeView when ProcessTree is called.");
 
-            foreach (TreeNode node in this.TreeView.Nodes)
+            foreach (TreeNode node in TreeView.Nodes)
             {
-                this.ProcessBranch(node);
-                if (this.stopProcessing)
+                ProcessBranch(node);
+                if (stopProcessing)
                     break;
             }
         }
@@ -116,7 +116,7 @@ namespace METAbolt
         /// <param name="e">The event argument.</param>
         protected virtual void OnProcessNode(ProcessNodeEventArgs e)
         {
-            ProcessNodeEventHandler handler = this.ProcessNode;
+            ProcessNodeEventHandler handler = ProcessNode;
             if (handler != null)
                 handler(this, e);
         }
@@ -133,19 +133,19 @@ namespace METAbolt
         {
             // Fire the ProcessNode event.
             ProcessNodeEventArgs args = ProcessNodeEventArgs.CreateInstance(node);
-            this.OnProcessNode(args);
+            OnProcessNode(args);
 
             // Cache the value of ProcessSiblings since ProcessNodeEventArgs is a singleton.
             bool processSiblings = args.ProcessSiblings;
 
             if (args.StopProcessing)
             {
-                this.stopProcessing = true;
+                stopProcessing = true;
             }
             else if (args.ProcessDescendants)
             {
                 for (int i = 0; i < node.Nodes.Count; ++i)
-                    if (!this.WalkNodes(node.Nodes[i]) || this.stopProcessing)
+                    if (!WalkNodes(node.Nodes[i]) || stopProcessing)
                         break;
             }
 
@@ -159,14 +159,14 @@ namespace METAbolt
         public void LoadInventory(METAboltInstance instance, UUID folderID)
         {
             this.instance = instance;
-            this.client = this.instance.Client;
-            InventoryFolder rootFolder = this.client.Inventory.Store.RootFolder;
-            List<InventoryBase> contents = this.client.Inventory.Store.GetContents(folderID);
-            if (folderID != this.client.Inventory.Store.RootFolder.UUID)
+            client = this.instance.Client;
+            InventoryFolder rootFolder = client.Inventory.Store.RootFolder;
+            List<InventoryBase> contents = client.Inventory.Store.GetContents(folderID);
+            if (folderID != client.Inventory.Store.RootFolder.UUID)
             {
-                if (this.TreeView.Nodes != null)
+                if (TreeView.Nodes != null)
                 {
-                    TreeNode[] array = this.TreeView.Nodes.Find(folderID.ToString(), true);
+                    TreeNode[] array = TreeView.Nodes.Find(folderID.ToString(), true);
                     if (array.Length > 0)
                     {
                         TreeNodeCollection nodes = array[0].Nodes;
@@ -179,7 +179,7 @@ namespace METAbolt
                         }
                         else
                         {
-                            List<Primitive> list = this.client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
+                            List<Primitive> list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
                             {
                                 bool result;
                                 try
@@ -202,7 +202,7 @@ namespace METAbolt
                                     if (!flag)
                                     {
                                         InventoryItem inventoryItem = (InventoryItem)current;
-                                        WearableType wearableType = this.client.Appearance.IsItemWorn(inventoryItem);
+                                        WearableType wearableType = client.Appearance.IsItemWorn(inventoryItem);
                                         if (wearableType != WearableType.Invalid)
                                         {
                                             text = " (WORN)";
@@ -293,8 +293,8 @@ namespace METAbolt
             }
             else
             {
-                this.TreeView.Nodes.Clear();
-                TreeNode treeNode = this.TreeView.Nodes.Add(rootFolder.UUID.ToString(), "My Inventory");
+                TreeView.Nodes.Clear();
+                TreeNode treeNode = TreeView.Nodes.Add(rootFolder.UUID.ToString(), "My Inventory");
                 treeNode.Tag = rootFolder;
                 treeNode.ImageKey = "OpenFolder";
                 if (contents.Count == 0)
@@ -305,7 +305,7 @@ namespace METAbolt
                 }
                 else
                 {
-                    List<Primitive> list = this.client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
+                    List<Primitive> list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
                     {
                         bool result;
                         try
@@ -328,7 +328,7 @@ namespace METAbolt
                             if (!flag)
                             {
                                 InventoryItem inventoryItem = (InventoryItem)current;
-                                WearableType wearableType = this.client.Appearance.IsItemWorn(inventoryItem);
+                                WearableType wearableType = client.Appearance.IsItemWorn(inventoryItem);
                                 if (wearableType != WearableType.Invalid)
                                 {
                                     text = " (WORN)";

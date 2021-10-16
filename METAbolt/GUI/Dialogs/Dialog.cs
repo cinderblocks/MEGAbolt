@@ -47,18 +47,18 @@ namespace METAbolt
 
             this.instance = instance;
             client = this.instance.Client;
-            this.ed = e;
+            ed = e;
 
             timer1.Interval = instance.DialogTimeOut;
             timer1.Enabled = true;
             timer1.Start();
 
-            this.Text += "   " + "[ " + client.Self.Name + " ]";
+            Text += "   " + "[ " + client.Self.Name + " ]";
         }
 
         private void Dialog_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             lblTitle.Text = ed.FirstName + "'s " + ed.ObjectName;
             string smsg = ed.Message;
@@ -99,19 +99,19 @@ namespace METAbolt
                 }
             }
 
-            if (this.instance.DialogCount == 7)
+            if (instance.DialogCount == 7)
             {
                 button3.Visible = true;
-                this.BackColor = Color.Red;  
+                BackColor = Color.Red;  
             }
             else
             {
                 button3.Visible = false;
-                this.BackColor = ColorTranslator.FromHtml(ColorTranslator.ToHtml(Color.FromArgb(64,64,64)));   //  Color.White;
+                BackColor = ColorTranslator.FromHtml(ColorTranslator.ToHtml(Color.FromArgb(64,64,64)));   //  Color.White;
             }
         }
 
-        private void AnyMenuItem_Click(object sender, System.EventArgs e)
+        private void AnyMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripItem mitem = (ToolStripItem)sender;
 
@@ -132,13 +132,13 @@ namespace METAbolt
 
         private void CleanUp()
         {
-            this.instance.DialogCount -= 1;
-            this.Close();
+            instance.DialogCount -= 1;
+            Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.instance.DialogCount = 0;
+            instance.DialogCount = 0;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -177,12 +177,12 @@ namespace METAbolt
 
         private void frmDialog_MouseEnter(object sender, EventArgs e)
         {
-            this.Opacity = 100;
+            Opacity = 100;
         }
 
         private void frmDialog_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = 75;
+            Opacity = 75;
         }
     }
 }

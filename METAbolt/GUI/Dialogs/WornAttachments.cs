@@ -59,7 +59,7 @@ namespace METAbolt
 
         private void SIM_OnSimChanged(object sender, SimChangedEventArgs e)
         {
-            if (!this.IsHandleCreated) return;
+            if (!IsHandleCreated) return;
 
             lock (listItems)
             {
@@ -131,7 +131,7 @@ namespace METAbolt
                                 catch { return false; }
                             });
 
-                    this.BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(delegate()
                     {
                         lbxPrims.BeginUpdate();
                         lbxPrims.Items.Clear();  
@@ -165,7 +165,7 @@ namespace METAbolt
                 else
                 {
                     //this.Close();
-                    this.Dispose();
+                    Dispose();
                 }
             }
             catch { ; }
@@ -173,7 +173,7 @@ namespace METAbolt
 
         private void WornAssets_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             GetAttachments();
 
@@ -236,9 +236,9 @@ namespace METAbolt
 
         private void GetAttachments()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(delegate()
                 {
                     GetAttachments();
                 }));
@@ -379,7 +379,7 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
             //this.Dispose();
         }
 

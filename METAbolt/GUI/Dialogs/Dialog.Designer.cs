@@ -157,7 +157,7 @@
             // 
             // tsButtons
             // 
-            this.tsButtons.AccessibleName = "Main METAbolt menu";
+            this.tsButtons.AccessibleName = "Main MEGAbolt menu";
             this.tsButtons.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
             this.tsButtons.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tsButtons.Dock = System.Windows.Forms.DockStyle.None;

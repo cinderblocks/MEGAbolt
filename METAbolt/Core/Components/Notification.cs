@@ -40,19 +40,19 @@ namespace METAbolt
         {
             int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
             int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
-            this.Left = screenWidth - this.Width - 5;
-            this.Top = screenHeight - this.Height - 5;
+            Left = screenWidth - Width - 5;
+            Top = screenHeight - Height - 5;
 
             timer1.Enabled = true;
             timer1.Start();
 
             label1.Text = Message;
-            this.Text = Title;
+            Text = Title;
         }
 
-        private void timer1_Tick(object sender, System.EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         //public void ShowMessage(string msg)

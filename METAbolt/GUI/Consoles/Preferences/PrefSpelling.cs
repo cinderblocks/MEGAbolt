@@ -9,7 +9,7 @@ namespace METAbolt
     public partial class PrefSpelling : System.Windows.Forms.UserControl, IPreferencePane
     {
         private METAboltInstance instance;
-        private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
+        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
         private string lang = string.Empty;
         private Popup toolTip3;
         private CustomToolTip customToolTip;
@@ -48,8 +48,8 @@ namespace METAbolt
             //string[] sfile = lang.Split('.');
             //string file = lang = sfile[0];
 
-            this.instance.DictionaryFile = lang + ".dic";
-            this.instance.AffFile = lang + ".aff";
+            instance.DictionaryFile = lang + ".dic";
+            instance.AffFile = lang + ".aff";
 
             label2.Text = "Selected language: " + lang;
             SetFlag();
@@ -57,15 +57,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "  Spelling"; }
-        }
+        string IPreferencePane.Name => "  Spelling";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.spell_checker; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.spell_checker;
 
         void IPreferencePane.SetPreferences()
         {

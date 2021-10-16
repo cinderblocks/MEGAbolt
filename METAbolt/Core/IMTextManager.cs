@@ -102,10 +102,10 @@ namespace METAbolt
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.SessionID = sessionID;
+            SessionID = sessionID;
             //this.sessionGroupName = groupname; 
 
-            this.TextPrinter = textPrinter;
+            TextPrinter = textPrinter;
             //this.textBuffer = new ArrayList();
 
             this.instance = instance;
@@ -124,22 +124,16 @@ namespace METAbolt
             this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             myBot = this.instance.ABot;
-
-            //if (this.instance.Config.CurrentConfig.AIon)
-            //{
-            //    myBot = this.instance.ABot;
-            //    //brain = new METAbrain(instance, myBot);
-            //}
         }
 
         public IMTextManager(METAboltInstance instance, ITextPrinter textPrinter, UUID sessionID, string avname)
         {
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            this.SessionID = sessionID;
-            this.sessionAVname = avname;
+            SessionID = sessionID;
+            sessionAVname = avname;
 
-            this.TextPrinter = textPrinter;
+            TextPrinter = textPrinter;
             //this.textBuffer = new ArrayList();
 
             this.instance = instance;
@@ -158,19 +152,13 @@ namespace METAbolt
             this.instance.Config.ConfigApplied += Config_ConfigApplied;
 
             myBot = this.instance.ABot;
-
-            //if (this.instance.Config.CurrentConfig.AIon)
-            //{
-            //    myBot = this.instance.ABot;
-            //    //brain = new METAbrain(instance, myBot);
-            //}
         }
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
         {
             ShowTimestamps = e.AppliedConfig.IMTimestamps;
             //ReprintAllText();
-            classiclayout = this.instance.Config.CurrentConfig.ClassicChatLayout;
+            classiclayout = instance.Config.CurrentConfig.ClassicChatLayout;
 
             //tName = e.AppliedConfig.TweeterName;
             //tPwd = e.AppliedConfig.TweeterPwd;
@@ -224,7 +212,7 @@ namespace METAbolt
                 e.IM.Dialog == InstantMessageDialog.MessageFromObject)
                 return;
 
-            string cp = METAbolt.Properties.Resources.ChairPrefix;
+            string cp = Properties.Resources.ChairPrefix;
 
             if (e.IM.FromAgentID != client.Self.AgentID)
             {
@@ -263,9 +251,9 @@ namespace METAbolt
         public void ProcessIM(object e)
         {
             if (e is InstantMessageEventArgs args)
-                this.ProcessIncomingIM(args);
+                ProcessIncomingIM(args);
             else if (e is InstantMessageSentEventArgs eventArgs)
-                this.ProcessOutgoingIM(eventArgs);
+                ProcessOutgoingIM(eventArgs);
         }
 
         private void ProcessOutgoingIM(InstantMessageSentEventArgs e)
@@ -282,10 +270,10 @@ namespace METAbolt
             //string iuid = this.instance.Config.CurrentConfig.IgnoreUID;
 
             //if (e.IM.Message.Contains(iuid)) return; // Ignore Im for plugins use etc.
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.CommandInID)) return;
-            if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.IgnoreUID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.CommandInID)) return;
+            if (e.IM.Message.Contains(instance.Config.CurrentConfig.IgnoreUID)) return;
 
-            bool isgroup = this.instance.State.GroupStore.ContainsKey(e.IM.IMSessionID);
+            bool isgroup = instance.State.GroupStore.ContainsKey(e.IM.IMSessionID);
 
             if (isgroup)
             {
@@ -298,53 +286,24 @@ namespace METAbolt
             
             PrintIM(DateTime.Now, e.IM.FromAgentID.ToString(), e.IM.FromAgentName, e.IM.Message, e.IM.IMSessionID);
 
-            //string msg = ">>> " + e.IM.FromAgentName + ": " + e.IM.Message;
-
-            //// Handles twitter
-            //if (TEnabled)
-            //{
-            //    if (!isgroup)
-            //    {
-            //        Yedda.Twitter twit = new Yedda.Twitter();
-            //        string resp = string.Empty;
-
-            //        if (tweet)
-            //        {
-            //            // if enabled print to Twitter
-            //            resp = twit.UpdateAsJSON(tName, tPwd, msg);
-            //        }
-            //        else
-            //        {
-            //            // it's a direct message
-            //            resp = twit.Send(tName, tPwd, tweetname, msg);
-            //        }
-
-            //        if (resp != "OK")
-            //        {
-            //            Logger.Log("Twitter error: " + resp, Helpers.LogLevel.Warning);
-            //        }
-            //    }
-            //}
-
             if (!isgroup)
             {
                 if (instance.State.IsBusy)
                 {
-                    string responsemsg = this.instance.Config.CurrentConfig.BusyReply;
+                    string responsemsg = instance.Config.CurrentConfig.BusyReply;
                     client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); 
                 }
                 else
                 {
                     // Handles METAbrain
-                    if (this.instance.Config.CurrentConfig.AIon)
+                    if (instance.Config.CurrentConfig.AIon)
                     {
                         if (e.IM.FromAgentID == client.Self.AgentID) return;
                         if (client.Self.GroupChatSessions.ContainsKey(e.IM.IMSessionID)) return;
                         if (e.IM.FromAgentName == "Second Life") return;
                         if (e.IM.FromAgentName.Contains("Linden")) return;
                         if (e.IM.Dialog == InstantMessageDialog.SessionSend) return;
-
-                        ////METAbrain brain = new METAbrain(instance, myBot, e);
+                        
                         brain = new METAbrain(instance, myBot);
                         brain.StartProcess(e);
                     }
@@ -440,7 +399,7 @@ namespace METAbolt
             {
                 if (ShowTimestamps)
                 {
-                    timestamp = this.instance.State.GetTimeStamp(timestamp);
+                    timestamp = instance.State.GetTimeStamp(timestamp);
 
                     //if (instance.Config.CurrentConfig.UseSLT)
                     //{
@@ -541,7 +500,7 @@ namespace METAbolt
 
                 if (ShowTimestamps)
                 {
-                    timestamp = this.instance.State.GetTimeStamp(timestamp);
+                    timestamp = instance.State.GetTimeStamp(timestamp);
 
                     //if (instance.Config.CurrentConfig.UseSLT)
                     //{
@@ -565,7 +524,7 @@ namespace METAbolt
             TextPrinter.PrintTextLine(sb.ToString());
 
             string groupname = string.Empty;
-            bool groupfound = this.instance.State.GroupStore.TryGetValue(ssessionID, out groupname);
+            bool groupfound = instance.State.GroupStore.TryGetValue(ssessionID, out groupname);
 
             LogMessage(timestamp, uuid, fromName, sb.ToString(), groupfound, groupname);
 

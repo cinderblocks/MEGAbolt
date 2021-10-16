@@ -31,7 +31,7 @@ namespace METAbolt
     {
         public FriendsListItem(FriendInfo friend)
         {
-            this.Friend = friend;
+            Friend = friend;
         }
 
         public override string ToString()

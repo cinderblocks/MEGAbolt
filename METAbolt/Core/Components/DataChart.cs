@@ -17,12 +17,12 @@ namespace SystemMonitor
 	/// <summary>
 	/// Summary description for DataChart.
 	/// </summary>
-	public class DataChart : System.Windows.Forms.UserControl
+	public class DataChart : UserControl
 	{
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 		private ArrayList _arrayList;
 
         #region Constructor/Dispose
@@ -61,7 +61,7 @@ namespace SystemMonitor
 
 		public void UpdateChart(double d)
 		{
-			Rectangle rt = this.ClientRectangle;
+			Rectangle rt = ClientRectangle;
 			int dataCount = rt.Width/2;
 
 			if (_arrayList.Count >= dataCount) 
@@ -116,7 +116,7 @@ namespace SystemMonitor
 				if (y>yMax) yMax = y;
 			}
 
-			Rectangle rt = this.ClientRectangle;
+			Rectangle rt = ClientRectangle;
 			y = yMax==0? 1: rt.Height/yMax;		// y ratio
 
 			int xStart = rt.Width;

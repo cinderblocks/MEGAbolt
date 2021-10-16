@@ -77,7 +77,7 @@ namespace METAbolt
         public SafeDictionary<UUID, string> avtags = new SafeDictionary<UUID, string>();
         public List<AvLocation> avlocations = new List<AvLocation>();
         public BugSplat CrashReporter;
-        public string appdir = METAbolt.DataFolder.GetDataFolder();
+        public string appdir = DataFolder.GetDataFolder();
         public bool startfrombat = false;
         public InventoryConsole insconsole;
         public InventoryFolder CoF;
@@ -110,9 +110,9 @@ namespace METAbolt
 
             Application.ApplicationExit += Application_ApplicationExit;
 
-            this.IsFirstInstance = firstInstance;
+            IsFirstInstance = firstInstance;
             
-            LoadGiverItems(appdir + "\\METAgiverItems.xml");
+            LoadGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             MakeTPTable();
             CreateLogDir();
@@ -163,9 +163,9 @@ namespace METAbolt
 
             Application.ApplicationExit += Application_ApplicationExit;
 
-            this.IsFirstInstance = firstInstance;
+            IsFirstInstance = firstInstance;
             
-            LoadGiverItems(appdir + "\\METAgiverItems.xml");
+            LoadGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             MakeTPTable();
             CreateLogDir();
@@ -192,7 +192,7 @@ namespace METAbolt
             SetSettings();
             Netcom = new MEGAboltNetcom(this);
 
-            this.ReBooted = true;
+            ReBooted = true;
             startfrombat = true;
 
             Config.CurrentConfig.FirstName = args[0].ToString(CultureInfo.CurrentCulture);
@@ -346,7 +346,7 @@ namespace METAbolt
         {
             try
             {
-                return (System.IO.Directory.Exists(sDirName));    //Check for file
+                return (Directory.Exists(sDirName));    //Check for file
             }
             catch (Exception)
             {
@@ -542,7 +542,7 @@ namespace METAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("METAcourier: " + ex.Message, Helpers.LogLevel.Error);
+                Logger.Log("MEGAcourier: " + ex.Message, Helpers.LogLevel.Error);
                 return false;
             }
         }
@@ -628,7 +628,7 @@ namespace METAbolt
 
         private void LoadGiverItems(string XmlFile)
         {
-            if (!System.IO.File.Exists(XmlFile))
+            if (!File.Exists(XmlFile))
             {
                 DataTable tbl = MakeGiverDataTable();
 
@@ -649,7 +649,7 @@ namespace METAbolt
             }
             catch (Exception exp)
             {
-                Logger.Log("Load METAcourier items: " + exp.Message, Helpers.LogLevel.Warning);
+                Logger.Log("Load MEGAcourier items: " + exp.Message, Helpers.LogLevel.Warning);
             }
 
             try
@@ -709,25 +709,25 @@ namespace METAbolt
             dtbl.Locale = CultureInfo.CurrentCulture;
             DataColumn myColumn = new DataColumn();
 
-            myColumn.DataType = System.Type.GetType("System.String");
+            myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "Command";
             dtbl.Columns.Add(myColumn);
 
             //client.Inventory.GiveItem(iitem.UUID, iitem.Name, iitem.AssetType, avid, false);
 
             DataColumn myColumn1 = new DataColumn();
-            myColumn1.DataType = System.Type.GetType("System.String");
+            myColumn1.DataType = Type.GetType("System.String");
             myColumn1.ColumnName = "UUID";
             dtbl.Columns.Add(myColumn1);
 
             DataColumn myColumn2 = new DataColumn();
             myColumn2 = new DataColumn();
-            myColumn2.DataType = System.Type.GetType("System.String");
+            myColumn2.DataType = Type.GetType("System.String");
             myColumn2.ColumnName = "Name";
             dtbl.Columns.Add(myColumn2);
 
             DataColumn myColumn3 = new DataColumn();
-            myColumn3.DataType = System.Type.GetType("System.String");
+            myColumn3.DataType = Type.GetType("System.String");
             myColumn3.ColumnName = "AssetType";
             dtbl.Columns.Add(myColumn3);
 
@@ -750,17 +750,17 @@ namespace METAbolt
             DataTable dtbl = new DataTable("history");
             dtbl.Locale = CultureInfo.CurrentCulture; 
 
-            myColumn.DataType = System.Type.GetType("System.String");
+            myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "time";
             dtbl.Columns.Add(myColumn);
 
             myColumn = new DataColumn();
-            myColumn.DataType = System.Type.GetType("System.String");
+            myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "name";
             dtbl.Columns.Add(myColumn);
 
             myColumn = new DataColumn();
-            myColumn.DataType = System.Type.GetType("System.String");
+            myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "slurl";
             dtbl.Columns.Add(myColumn);
 
@@ -872,7 +872,7 @@ namespace METAbolt
             Client.Settings.STORE_LAND_PATCHES = true;
 
             Client.Settings.USE_ASSET_CACHE = true;
-            Client.Settings.ASSET_CACHE_DIR = appdir + System.IO.Path.DirectorySeparatorChar + Client.Self.Name + System.IO.Path.DirectorySeparatorChar + "cache";
+            Client.Settings.ASSET_CACHE_DIR = appdir + Path.DirectorySeparatorChar + Client.Self.Name + Path.DirectorySeparatorChar + "cache";
             Client.Assets.Cache.AutoPruneEnabled = false;
 
             Client.Self.Movement.AutoResetControls = false;
@@ -963,7 +963,7 @@ namespace METAbolt
             //}
 
             //SaveXMLFile(appdir + "\\MuteList.xml");
-            SaveGiverItems(appdir + "\\METAgiverItems.xml");
+            SaveGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             Client = null;
             Environment.Exit(0); 

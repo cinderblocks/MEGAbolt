@@ -52,7 +52,7 @@ namespace METAbolt
                 SetFinalImage(instance.ImageCache.GetImage(item.AssetUUID));
             else
             {
-                this.Disposed += InventoryImageConsole_Disposed;
+                Disposed += InventoryImageConsole_Disposed;
                 //client.Assets.OnImageRecieveProgress += new AssetManager.ImageReceiveProgressCallback(Assets_OnImageReceived);
             }
         }
@@ -95,8 +95,8 @@ namespace METAbolt
         }
 
         //called on GUI thread
-        private delegate void OnSetFinalImage(System.Drawing.Image finalImage);
-        private void SetFinalImage(System.Drawing.Image finalImage)
+        private delegate void OnSetFinalImage(Image finalImage);
+        private void SetFinalImage(Image finalImage)
         {
             pbxImage.Image = finalImage;
 

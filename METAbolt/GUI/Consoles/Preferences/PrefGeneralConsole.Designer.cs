@@ -82,8 +82,6 @@ namespace METAbolt
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.cbLLSD = new System.Windows.Forms.CheckBox();
-            this.cbHHTPInv = new System.Windows.Forms.CheckBox();
             this.chkConnect4 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
@@ -466,7 +464,7 @@ namespace METAbolt
             // 
             // chkMinimised
             // 
-            this.chkMinimised.AccessibleName = "Start minimised option";
+            this.chkMinimised.AccessibleName = "Start minimized option";
             this.chkMinimised.AutoSize = true;
             this.chkMinimised.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.chkMinimised.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
@@ -476,7 +474,7 @@ namespace METAbolt
             this.chkMinimised.Name = "chkMinimised";
             this.chkMinimised.Size = new System.Drawing.Size(143, 17);
             this.chkMinimised.TabIndex = 5;
-            this.chkMinimised.Text = "Start METAbolt minimised";
+            this.chkMinimised.Text = "Start MEGAbolt minimized";
             this.chkMinimised.UseVisualStyleBackColor = true;
             // 
             // label9
@@ -561,7 +559,7 @@ namespace METAbolt
             // 
             // chkHide
             // 
-            this.chkHide.AccessibleName = "Hide when minimised option";
+            this.chkHide.AccessibleName = "Hide when minimized option";
             this.chkHide.AutoSize = true;
             this.chkHide.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.chkHide.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
@@ -571,7 +569,7 @@ namespace METAbolt
             this.chkHide.Name = "chkHide";
             this.chkHide.Size = new System.Drawing.Size(169, 17);
             this.chkHide.TabIndex = 4;
-            this.chkHide.Text = "Hide METAbolt when minimised";
+            this.chkHide.Text = "Hide MEGAbolt when minimized";
             this.chkHide.UseVisualStyleBackColor = true;
             this.chkHide.CheckedChanged += new System.EventHandler(this.chkHide_CheckedChanged);
             // 
@@ -881,8 +879,6 @@ namespace METAbolt
             this.tabPage7.Controls.Add(this.label24);
             this.tabPage7.Controls.Add(this.label23);
             this.tabPage7.Controls.Add(this.label16);
-            this.tabPage7.Controls.Add(this.cbLLSD);
-            this.tabPage7.Controls.Add(this.cbHHTPInv);
             this.tabPage7.Controls.Add(this.chkConnect4);
             this.tabPage7.Controls.Add(this.label2);
             this.tabPage7.Controls.Add(this.checkBox13);
@@ -921,7 +917,7 @@ namespace METAbolt
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(142, 13);
             this.label23.TabIndex = 69;
-            this.label23.Text = "(requires METAbolt re-start)";
+            this.label23.Text = "(requires MEGAbolt re-start)";
             // 
             // label16
             // 
@@ -931,37 +927,7 @@ namespace METAbolt
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(142, 13);
             this.label16.TabIndex = 68;
-            this.label16.Text = "(requires METAbolt re-start)";
-            // 
-            // cbLLSD
-            // 
-            this.cbLLSD.AccessibleName = "Disable icon option";
-            this.cbLLSD.AutoSize = true;
-            this.cbLLSD.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.cbLLSD.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.cbLLSD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.cbLLSD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLLSD.Location = new System.Drawing.Point(11, 141);
-            this.cbLLSD.Name = "cbLLSD";
-            this.cbLLSD.Size = new System.Drawing.Size(95, 17);
-            this.cbLLSD.TabIndex = 67;
-            this.cbLLSD.Text = "Use LLSD Login";
-            this.cbLLSD.UseVisualStyleBackColor = true;
-            // 
-            // cbHHTPInv
-            // 
-            this.cbHHTPInv.AccessibleName = "Disable icon option";
-            this.cbHHTPInv.AutoSize = true;
-            this.cbHHTPInv.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.cbHHTPInv.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.cbHHTPInv.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.cbHHTPInv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbHHTPInv.Location = new System.Drawing.Point(11, 192);
-            this.cbHHTPInv.Name = "cbHHTPInv";
-            this.cbHHTPInv.Size = new System.Drawing.Size(136, 17);
-            this.cbHHTPInv.TabIndex = 64;
-            this.cbHHTPInv.Text = "Disable HTTP Inventory";
-            this.cbHHTPInv.UseVisualStyleBackColor = true;
+            this.label16.Text = "(requires MEGAbolt re-start)";
             // 
             // chkConnect4
             // 
@@ -987,7 +953,7 @@ namespace METAbolt
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(142, 13);
             this.label2.TabIndex = 34;
-            this.label2.Text = "(requires METAbolt re-start)";
+            this.label2.Text = "(requires MEGAbolt re-start)";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // checkBox13
@@ -1145,7 +1111,7 @@ namespace METAbolt
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(192, 14);
             this.label4.TabIndex = 52;
-            this.label4.Text = "METAbolt password:";
+            this.label4.Text = "MEGAbolt password:";
             this.label4.Click += new System.EventHandler(this.label4_Click_1);
             // 
             // pictureBox7
@@ -1162,7 +1128,7 @@ namespace METAbolt
             // 
             // textBox3
             // 
-            this.textBox3.AccessibleName = "METAbolt password textbox";
+            this.textBox3.AccessibleName = "MEGAbolt password textbox";
             this.textBox3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox3.Location = new System.Drawing.Point(24, 38);
             this.textBox3.Name = "textBox3";
@@ -1939,7 +1905,6 @@ namespace METAbolt
         private System.Windows.Forms.CheckBox chkRestrictRadar;
         private System.Windows.Forms.CheckBox chkFavs;
         private System.Windows.Forms.CheckBox chkVoice;
-        private System.Windows.Forms.CheckBox cbHHTPInv;
         private System.Windows.Forms.CheckBox chkRadarMiniMap;
         private System.Windows.Forms.ComboBox cbFn;
         private System.Windows.Forms.ComboBox cbLand;
@@ -1948,7 +1913,6 @@ namespace METAbolt
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TabPage tabPage7;
-        private System.Windows.Forms.CheckBox cbLLSD;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;

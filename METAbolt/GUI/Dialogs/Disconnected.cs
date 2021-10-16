@@ -41,7 +41,7 @@ namespace METAbolt
 
             rea = reason;
 
-            this.Text += "   " + "[ " + instance.Client.Self.Name + " ]";
+            Text += "   " + "[ " + instance.Client.Self.Name + " ]";
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -72,17 +72,17 @@ namespace METAbolt
         private void button1_Click(object sender, EventArgs e)
         {
             instance.ReadIMs = true; 
-            this.Close(); 
+            Close(); 
         }
 
         private void frmDisconnected_MouseEnter(object sender, EventArgs e)
         {
-            this.Opacity = 100;
+            Opacity = 100;
         }
 
         private void frmDisconnected_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = 75;
+            Opacity = 75;
         }
     }
 }

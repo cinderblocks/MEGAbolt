@@ -31,9 +31,9 @@ namespace MEGAbolt.NetworkComm
     {
         public TeleportStatusEventArgs(string message, TeleportStatus status, TeleportFlags flags)
         {
-            this.Message = message;
-            this.Status = status;
-            this.Flags = flags;
+            Message = message;
+            Status = status;
+            Flags = flags;
         }
 
         public string Message { get; }

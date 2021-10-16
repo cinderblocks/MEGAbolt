@@ -418,7 +418,7 @@ namespace METAbolt
             // 
             // toolStrip1
             // 
-            this.toolStrip1.AccessibleName = "Main METAbolt menu";
+            this.toolStrip1.AccessibleName = "Main MEGAbolt menu";
             this.toolStrip1.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
             this.toolStrip1.BackColor = System.Drawing.Color.Gainsboro;
             this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -568,27 +568,27 @@ namespace METAbolt
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.AccessibleName = "METAbolt support menu option";
+            this.helpToolStripMenuItem.AccessibleName = "MEGAbolt support menu option";
             this.helpToolStripMenuItem.Image = global::METAbolt.Properties.Resources.Help_and_Support_16;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.helpToolStripMenuItem.Text = "METAbolt Support";
+            this.helpToolStripMenuItem.Text = "MEGAbolt Support";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // mEToolStripMenuItem
             // 
-            this.mEToolStripMenuItem.AccessibleName = "METAwiki menu option";
+            this.mEToolStripMenuItem.AccessibleName = "MEGAwiki menu option";
             this.mEToolStripMenuItem.Image = global::METAbolt.Properties.Resources.Help_and_Support_16;
             this.mEToolStripMenuItem.Name = "mEToolStripMenuItem";
             this.mEToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.mEToolStripMenuItem.Text = "METAbolt Wiki (METAwiki)";
+            this.mEToolStripMenuItem.Text = "MEGAbolt Wiki (MEGAwiki)";
             this.mEToolStripMenuItem.Click += new System.EventHandler(this.mEToolStripMenuItem_Click);
             // 
             // mETAboltQuickStartGToolStripMenuItem
             // 
-            this.mETAboltQuickStartGToolStripMenuItem.AccessibleName = "Qucik start guide menu option";
-            this.mETAboltQuickStartGToolStripMenuItem.Name = "mETAboltQuickStartGToolStripMenuItem";
+            this.mETAboltQuickStartGToolStripMenuItem.AccessibleName = "Quick start guide menu option";
+            this.mETAboltQuickStartGToolStripMenuItem.Name = "METAboltQuickStartGToolStripMenuItem";
             this.mETAboltQuickStartGToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.mETAboltQuickStartGToolStripMenuItem.Text = "Quick Start Guide";
             this.mETAboltQuickStartGToolStripMenuItem.Click += new System.EventHandler(this.mETAboltQuickStartGToolStripMenuItem_Click);
@@ -608,16 +608,16 @@ namespace METAbolt
             // 
             // getMETAboltPluginsToolStripMenuItem
             // 
-            this.getMETAboltPluginsToolStripMenuItem.Name = "getMETAboltPluginsToolStripMenuItem";
+            this.getMETAboltPluginsToolStripMenuItem.Name = "getMEGAboltPluginsToolStripMenuItem";
             this.getMETAboltPluginsToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.getMETAboltPluginsToolStripMenuItem.Text = "Get METAbolt Plugins";
+            this.getMETAboltPluginsToolStripMenuItem.Text = "Get MEGAbolt Plugins";
             this.getMETAboltPluginsToolStripMenuItem.Click += new System.EventHandler(this.getMETAboltPluginsToolStripMenuItem_Click);
             // 
             // getMETAboltLSLPluginsToolStripMenuItem
             // 
-            this.getMETAboltLSLPluginsToolStripMenuItem.Name = "getMETAboltLSLPluginsToolStripMenuItem";
+            this.getMETAboltLSLPluginsToolStripMenuItem.Name = "getMEGAboltLSLPluginsToolStripMenuItem";
             this.getMETAboltLSLPluginsToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.getMETAboltLSLPluginsToolStripMenuItem.Text = "METAbolt LSL Commands";
+            this.getMETAboltLSLPluginsToolStripMenuItem.Text = "MEGAbolt LSL Commands";
             this.getMETAboltLSLPluginsToolStripMenuItem.Click += new System.EventHandler(this.getMETAboltLSLPluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator29
@@ -668,10 +668,10 @@ namespace METAbolt
             // 
             // tmnuAbout
             // 
-            this.tmnuAbout.AccessibleName = "About METAbolt menu option";
+            this.tmnuAbout.AccessibleName = "About MEGAbolt menu option";
             this.tmnuAbout.Name = "tmnuAbout";
             this.tmnuAbout.Size = new System.Drawing.Size(198, 22);
-            this.tmnuAbout.Text = "About METAbolt";
+            this.tmnuAbout.Text = "About MEGAbolt";
             this.tmnuAbout.Click += new System.EventHandler(this.tmnuAbout_Click);
             // 
             // btnAvatar
@@ -1036,13 +1036,13 @@ namespace METAbolt
             // 
             // mETAplayerToolStripMenuItem
             // 
-            this.mETAplayerToolStripMenuItem.AccessibleName = "METAplayer menu option";
+            this.mETAplayerToolStripMenuItem.AccessibleName = "MEGAplayer menu option";
             this.mETAplayerToolStripMenuItem.Image = global::METAbolt.Properties.Resources.metaplayer;
-            this.mETAplayerToolStripMenuItem.Name = "mETAplayerToolStripMenuItem";
+            this.mETAplayerToolStripMenuItem.Name = "MEGAplayerToolStripMenuItem";
             this.mETAplayerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.Y)));
             this.mETAplayerToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.mETAplayerToolStripMenuItem.Text = "METAplayer";
+            this.mETAplayerToolStripMenuItem.Text = "MEGAplayer";
             this.mETAplayerToolStripMenuItem.Click += new System.EventHandler(this.mETAplayerToolStripMenuItem_Click);
             // 
             // toolStripSeparator19
@@ -1261,7 +1261,7 @@ namespace METAbolt
             // 
             // frmMain
             // 
-            this.AccessibleName = "Main METAbolt window";
+            this.AccessibleName = "Main MEGAbolt window";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

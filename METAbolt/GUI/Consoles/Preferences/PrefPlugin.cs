@@ -71,15 +71,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return " Plugins"; }
-        }
+        string IPreferencePane.Name => " Plugins";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources.plugin_icon; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources.plugin_icon;
 
         private void PrefPlugin_Load(object sender, EventArgs e)
         {

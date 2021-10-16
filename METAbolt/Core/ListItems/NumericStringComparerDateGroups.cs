@@ -156,14 +156,8 @@ namespace METAbolt
         /// </summary>
         public int SortColumn
         {
-            set
-            {
-                ColumnToSort = value;
-            }
-            get
-            {
-                return ColumnToSort;
-            }
+            set => ColumnToSort = value;
+            get => ColumnToSort;
         }
 
         /// <summary>
@@ -171,14 +165,8 @@ namespace METAbolt
         /// </summary>
         public SortOrder Order
         {
-            set
-            {
-                OrderOfSort = value;
-            }
-            get
-            {
-                return OrderOfSort;
-            }
+            set => OrderOfSort = value;
+            get => OrderOfSort;
         }
     }
 }

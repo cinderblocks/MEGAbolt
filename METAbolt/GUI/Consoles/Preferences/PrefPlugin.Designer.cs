@@ -85,7 +85,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(310, 13);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Select one or more plugins to autorun each time METAbolt starts";
+            this.label3.Text = "Select one or more plugins to autorun each time MEGAbolt starts";
             // 
             // button1
             // 
@@ -125,7 +125,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(220, 13);
             this.label4.TabIndex = 1;
-            this.label4.Text = "Note: Any changes requires METAbolt restart";
+            this.label4.Text = "Note: Any changes requires MEGAbolt restart";
             // 
             // PrefPlugin
             // 

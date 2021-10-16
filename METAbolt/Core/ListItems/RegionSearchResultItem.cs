@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
 using OpenMetaverse.Assets;
 
 namespace METAbolt
@@ -62,7 +61,7 @@ namespace METAbolt
 
         private void agentCountWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<OpenMetaverse.MapItem> items =
+            List<MapItem> items =
                 client.Grid.MapItems(
                     region.RegionHandle,
                     OpenMetaverse.GridItemType.AgentLocations,
@@ -157,10 +156,7 @@ namespace METAbolt
             if (MapImageDownloaded != null) MapImageDownloaded(this, e);
         }
 
-        public GridRegion Region
-        {
-            get { return region; }
-        }
+        public GridRegion Region => region;
 
         public System.Drawing.Image MapImage { get; private set; }
 

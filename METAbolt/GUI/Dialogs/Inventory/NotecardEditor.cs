@@ -73,7 +73,7 @@ namespace METAbolt
             objectid = UUID.Zero;
             istaskobj = false; 
             
-            this.Text = item.Name + " (notecard) - METAbolt";
+            Text = $"{item.Name} (notecard) - MEGAbolt";
 
             assetUUID = item.AssetUUID;
 
@@ -101,7 +101,7 @@ namespace METAbolt
             objectid = UUID.Zero;
             istaskobj = false;
 
-            this.Text = item.Name + " (notecard) - METAbolt";
+            Text = $"{item.Name} (notecard) - MEGAbolt";
 
             assetUUID = item.AssetUUID;
 
@@ -133,7 +133,7 @@ namespace METAbolt
             objectid = obj.ID;
             istaskobj = true; 
 
-            this.Text = item.Name + " (notecard) - METAbolt";
+            Text = $"{item.Name} (notecard) - MEGAbolt";
 
             assetUUID = item.AssetUUID;
 
@@ -269,12 +269,12 @@ namespace METAbolt
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
             closePending = false;
-            this.Close();
+            Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private static DialogResult AskForSave()
@@ -382,7 +382,7 @@ namespace METAbolt
                 if (closePending)
                 {
                     closePending = false;
-                    this.Close();
+                    Close();
                     return;
                 }
 
@@ -444,7 +444,7 @@ namespace METAbolt
             // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
 
-            string logdir = METAbolt.DataFolder.GetDataFolder();
+            string logdir = DataFolder.GetDataFolder();
 
             saveFile1.InitialDirectory = logdir;
 
@@ -454,7 +454,7 @@ namespace METAbolt
             saveFile1.Title = "Save chat contents to hard disk...";
 
             // Determine if the user selected a file name from the saveFileDialog.
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+            if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
                 if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
@@ -478,7 +478,7 @@ namespace METAbolt
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void toolStripDropDownButton2_Click(object sender, EventArgs e)
@@ -736,7 +736,7 @@ namespace METAbolt
        
         private void frmNotecardEditor_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             
             if (nreadonly)
             {

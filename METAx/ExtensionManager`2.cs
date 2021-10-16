@@ -36,31 +36,31 @@ namespace METAx
 {
   public class ExtensionManager<ClientInterface, HostInterface>
   {
-      public event ExtensionManager<ClientInterface, HostInterface>.AssemblyLoadingEventHandler AssemblyLoading;
+      public event AssemblyLoadingEventHandler AssemblyLoading;
 
     private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
     {
-      if (this.AssemblyLoading == null)
+      if (AssemblyLoading == null)
         return;
-      this.AssemblyLoading((object) this, e);
+      AssemblyLoading((object) this, e);
     }
 
-    public event ExtensionManager<ClientInterface, HostInterface>.AssemblyLoadedEventHandler AssemblyLoaded;
+    public event AssemblyLoadedEventHandler AssemblyLoaded;
 
     private void OnAssemblyLoaded(AssemblyLoadedEventArgs e)
     {
-      if (this.AssemblyLoaded == null)
+      if (AssemblyLoaded == null)
         return;
-      this.AssemblyLoaded((object) this, e);
+      AssemblyLoaded((object) this, e);
     }
 
-    public event ExtensionManager<ClientInterface, HostInterface>.AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
+    public event AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
 
     private void OnAssemblyFailedLoading(AssemblyFailedLoadingEventArgs e)
     {
-      if (this.AssemblyFailedLoading == null)
+      if (AssemblyFailedLoading == null)
         return;
-      this.AssemblyFailedLoading((object) this, e);
+      AssemblyFailedLoading((object) this, e);
     }
 
     public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();
@@ -74,7 +74,7 @@ namespace METAx
     public void UnloadExtension(Extension<ClientInterface> extension)
     {
       Extension<ClientInterface> extension1 = (Extension<ClientInterface>) null;
-      foreach (Extension<ClientInterface> extension2 in this.Extensions)
+      foreach (Extension<ClientInterface> extension2 in Extensions)
       {
         if (extension2.Filename.ToLower().Trim() == extension.Filename.ToLower().Trim())
         {
@@ -82,16 +82,16 @@ namespace METAx
           break;
         }
       }
-      this.Extensions.Remove(extension1);
+      Extensions.Remove(extension1);
     }
 
     public void LoadDefaultFileExtensions()
     {
-      this.SourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
-      this.SourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
-      this.SourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
-      this.CompiledFileExtensions.Add(".dll");
-      this.CompiledFileExtensions.Add(".exe");
+      SourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
+      SourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
+      SourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
+      CompiledFileExtensions.Add(".dll");
+      CompiledFileExtensions.Add(".exe");
     }
 
     public void LoadExtensions(string folderPath)
@@ -99,25 +99,25 @@ namespace METAx
       if (!Directory.Exists(folderPath))
         return;
       foreach (string file in Directory.GetFiles(folderPath))
-        this.LoadExtension(file);
+        LoadExtension(file);
     }
 
     public void LoadExtension(string filename)
     {
       AssemblyLoadingEventArgs e = new AssemblyLoadingEventArgs(filename);
-      this.OnAssemblyLoading(e);
+      OnAssemblyLoading(e);
       if (e.Cancel)
         return;
       string lower = new FileInfo(filename).Extension.TrimStart('.').Trim().ToLower();
-      if (this.SourceFileExtensionMappings.ContainsKey(lower) || this.SourceFileExtensionMappings.ContainsKey("." + lower))
+      if (SourceFileExtensionMappings.ContainsKey(lower) || SourceFileExtensionMappings.ContainsKey("." + lower))
       {
-        SourceFileLanguage language = !this.SourceFileExtensionMappings.ContainsKey(lower) ? this.SourceFileExtensionMappings["." + lower] : this.SourceFileExtensionMappings[lower];
-        this.loadSourceFile(filename, language);
+        SourceFileLanguage language = !SourceFileExtensionMappings.ContainsKey(lower) ? SourceFileExtensionMappings["." + lower] : SourceFileExtensionMappings[lower];
+        loadSourceFile(filename, language);
       }
-      else if (this.CompiledFileExtensions.Contains(lower) || this.CompiledFileExtensions.Contains("." + lower))
-        this.loadCompiledFile(filename);
+      else if (CompiledFileExtensions.Contains(lower) || CompiledFileExtensions.Contains("." + lower))
+        loadCompiledFile(filename);
       else
-        this.OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
         {
           ExtensionType = ExtensionType.Unknown,
           ErrorMessage = "File (" + filename + ") does not match any SourceFileExtensionMappings or CompiledFileExtensions and cannot be loaded."
@@ -128,7 +128,7 @@ namespace METAx
     {
       bool flag = false;
       string str = "";
-      CompilerResults compilerResults = this.compileScript(filename, this.SourceFileReferencedAssemblies, this.getCodeDomLanguage(language));
+      CompilerResults compilerResults = compileScript(filename, SourceFileReferencedAssemblies, getCodeDomLanguage(language));
       if (compilerResults.Errors.Count <= 0)
       {
         foreach (Type type in compilerResults.CompiledAssembly.GetTypes())
@@ -138,7 +138,7 @@ namespace METAx
           {
             try
             {
-              this.Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface) compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
+              Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface) compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
               {
                 InstanceAssembly = compilerResults.CompiledAssembly
               });
@@ -156,14 +156,14 @@ namespace METAx
       else
         str = "Source File Compilation Errors were Detected";
       if (!flag)
-        this.OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
         {
           ExtensionType = ExtensionType.SourceFile,
           SourceFileCompilerErrors = compilerResults.Errors,
           ErrorMessage = str
         });
       else
-        this.OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
+        OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
     }
 
     private void loadCompiledFile(string filename)
@@ -189,7 +189,7 @@ namespace METAx
           {
             try
             {
-              this.Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface) assembly.CreateInstance(type.FullName, true))
+              Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface) assembly.CreateInstance(type.FullName, true))
               {
                 InstanceAssembly = assembly
               });
@@ -205,13 +205,13 @@ namespace METAx
           str = "Expected interface (" + typeof (ClientInterface).ToString() + ") was not found in Compiled Assembly (" + filename + ")";
       }
       if (!flag)
-        this.OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
         {
           ExtensionType = ExtensionType.Compiled,
           ErrorMessage = str
         });
       else
-        this.OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
+        OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
     }
 
     private CompilerResults compileScript(

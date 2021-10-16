@@ -43,7 +43,7 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            string msg4 = "If META3D is not rendering textures and displaying them as WHITE surfaces, then disable mipmaps";
+            string msg4 = "If MEGA3D is not rendering textures and displaying them as WHITE surfaces, then disable mipmaps";
             toolTip3 = new Popup(customToolTip = new CustomToolTip(instance, msg4));
             toolTip3.AutoClose = false;
             toolTip3.FocusOnOpen = false;
@@ -70,15 +70,9 @@ namespace METAbolt
 
         #region IPreferencePane Members
 
-        string IPreferencePane.Name
-        {
-            get { return "  META3D"; }
-        }
+        string IPreferencePane.Name => "  MEGA3D";
 
-        Image IPreferencePane.Icon
-        {
-            get { return Properties.Resources._3d; }
-        }
+        Image IPreferencePane.Icon => Properties.Resources._3d;
 
         void IPreferencePane.SetPreferences()
         {

@@ -40,11 +40,11 @@ namespace METAbolt
 
             this.instance = instance;
             this.tab = tab;
-            this.Controls.Add(tab.Control);
+            Controls.Add(tab.Control);
             tab.Control.BringToFront();
 
             AddTabEvents();
-            this.Text = tab.Label + " (tab) - METAbolt";
+            Text = tab.Label + " (tab) - MEGAbolt";
 
             ApplyConfig(this.instance.Config.CurrentConfig);
             this.instance.Config.ConfigApplied += Config_ConfigApplied;
@@ -93,7 +93,7 @@ namespace METAbolt
         private void tbtnReattach_Click(object sender, EventArgs e)
         {
             tab.AttachTo(ReattachStrip, ReattachContainer);
-            this.Close();
+            Close();
         }
 
         public ToolStrip ReattachStrip { get; set; }

@@ -13,7 +13,7 @@ namespace METAbolt
     {
         private METAboltInstance instance;
         private MEGAboltNetcom netcom;
-        private string dir = METAbolt.DataFolder.GetDataFolder() + "\\Spelling\\";
+        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
         //private string words = string.Empty;
         private int start = 0;
         private int indexOfSearchText = 0;
@@ -62,7 +62,7 @@ namespace METAbolt
             //words = sentence;
             richTextBox1.Text = sentence;
             this.swords = swords;
-            this.ctype = type;
+            ctype = type;
 
             ischat = true;
         }
@@ -101,7 +101,7 @@ namespace METAbolt
         {
             //instance.TabConsole.chatConsole._textBox = richTextBox1.Text;
 
-            this.Close(); 
+            Close(); 
         }
 
         private void frmSpelling_Load(object sender, EventArgs e)
@@ -164,7 +164,7 @@ namespace METAbolt
                 //}
                 currentword = string.Empty;
 
-                this.Close();
+                Close();
             }
             else
             {
@@ -283,7 +283,7 @@ namespace METAbolt
         {
             //instance.TabConsole.chatConsole._textBox = richTextBox1.Text;
 
-            this.Close();
+            Close();
         }
 
         private void button1_Click(object sender, EventArgs e)

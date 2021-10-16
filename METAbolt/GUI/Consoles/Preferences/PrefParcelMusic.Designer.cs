@@ -42,7 +42,7 @@
             this.groupBox2.Size = new System.Drawing.Size(338, 48);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "METAplayer";
+            this.groupBox2.Text = "MEGAplayer";
             // 
             // chkParcelMusic
             // 
@@ -61,7 +61,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(304, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "* Turning METAplayer on/off requires METAbolt to be restarted";
+            this.label1.Text = "* Turning MEGAplayer on/off requires MEGAbolt to be restarted";
             // 
             // PrefParcelMusic
             // 

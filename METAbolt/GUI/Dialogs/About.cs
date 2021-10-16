@@ -46,9 +46,9 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            lblVersion.Text = Properties.Resources.METAboltTitle + " V " + Properties.Resources.METAboltVersion;   
+            lblVersion.Text = $"{Properties.Resources.METAboltTitle} V {Properties.Resources.METAboltVersion}";   
             txtDir.Text =  Application.StartupPath.ToString();
-            textBox1.Text = METAbolt.DataFolder.GetDataFolder() ;
+            textBox1.Text = DataFolder.GetDataFolder() ;
             //platform = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE").ToString();
 
             //lblVersion.Text += " (" + Properties.Resources.PlatformType + ")";
@@ -68,12 +68,12 @@ namespace METAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmAbout_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             Thread thread = new Thread(ScrollRTB);
             thread.Start();
@@ -91,12 +91,12 @@ namespace METAbolt
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             //ShellExecute(this.Handle, "open", "mail:legolas.luke@yahoo.co.uk", null, null, 0);
-            ShellExecute(this.Handle, "open", "http://www.metabolt.net/", null, null, 0);
+            ShellExecute(Handle, "open", "http://www.metabolt.net/", null, null, 0);
         }
 
         private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ShellExecute(this.Handle, "open", "http://www.metabolt.net/metaforums/", null, null, 0);
+            ShellExecute(Handle, "open", "http://www.metabolt.net/metaforums/", null, null, 0);
         }
 
         private void lblVersion_Click(object sender, EventArgs e)
@@ -140,14 +140,14 @@ namespace METAbolt
 
                 row++;
 
-                this.richTextBox1.SelectionStart = charCount;
+                richTextBox1.SelectionStart = charCount;
 
                 if (row == richTextBox1.Lines.Length + 1)
                 {
                     //set the caret here
                     charCount = 0;
                     row = 1;
-                    this.richTextBox1.SelectionStart = 0;
+                    richTextBox1.SelectionStart = 0;
                 }
             }));
         }

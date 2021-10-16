@@ -268,7 +268,7 @@ namespace METAbolt
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(540, 374);
             this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "METAsearch";
+            this.tabPage1.Text = "MEGAsearch";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // panel4

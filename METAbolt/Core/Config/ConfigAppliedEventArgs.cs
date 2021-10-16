@@ -30,7 +30,7 @@ namespace METAbolt
     {
         public ConfigAppliedEventArgs(Config appliedConfig)
         {
-            this.AppliedConfig = appliedConfig;
+            AppliedConfig = appliedConfig;
         }
 
         public Config AppliedConfig { get; }

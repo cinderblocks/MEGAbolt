@@ -49,27 +49,27 @@ namespace METAbolt.Core.Components
 
                     while (counter > 0)
                     {
-                        string item1 = this.Items[counter].ToString();
-                        string item2 = this.Items[counter - 1].ToString();
+                        string item1 = Items[counter].ToString();
+                        string item2 = Items[counter - 1].ToString();
 
                         if (SortByName)
                         {
                             if (item1.CompareTo(item2) == -1)
                             {
                                 object temp = Items[counter];
-                                this.Items[counter] = this.Items[counter - 1];
-                                this.Items[counter - 1] = temp;
+                                Items[counter] = Items[counter - 1];
+                                Items[counter - 1] = temp;
                                 swapped = true;
                             }
                         }
                         else
                         {
-                            ObjectsListItem itemp1 = (ObjectsListItem)this.Items[counter];
+                            ObjectsListItem itemp1 = (ObjectsListItem)Items[counter];
                             Vector3 pos1 = new Vector3();
                             pos1 = itemp1.Prim.Position;
                             double dist1 = Math.Round(Vector3.Distance(location, pos1), MidpointRounding.ToEven);
 
-                            ObjectsListItem itemp2 = (ObjectsListItem)this.Items[counter - 1];
+                            ObjectsListItem itemp2 = (ObjectsListItem)Items[counter - 1];
                             Vector3 pos2 = new Vector3();
                             pos2 = itemp2.Prim.Position;
                             double dist2 = Math.Round(Vector3.Distance(location, pos2), MidpointRounding.ToEven);
@@ -77,8 +77,8 @@ namespace METAbolt.Core.Components
                             if (dist1 < dist2)
                             {
                                 object temp = Items[counter];
-                                this.Items[counter] = this.Items[counter - 1];
-                                this.Items[counter - 1] = temp;
+                                Items[counter] = Items[counter - 1];
+                                Items[counter - 1] = temp;
                                 swapped = true;
                             }
                         }
@@ -92,7 +92,7 @@ namespace METAbolt.Core.Components
 
         public void SortList()
         {
-            this.Sort();
+            Sort();
         } 
     }
 }

@@ -28,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
 using System.Globalization;
 
 namespace METAbolt
@@ -50,7 +49,7 @@ namespace METAbolt
             InitializeComponent();
 
             LLUUIDs = new SafeDictionary<string, uint>();
-            this.QueryID = queryID;
+            QueryID = queryID;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
@@ -155,7 +154,7 @@ namespace METAbolt
                 return;
             }
 
-            if (qqueryID != this.QueryID) return;
+            if (qqueryID != QueryID) return;
 
             lvwFindEvents.BeginUpdate();
 

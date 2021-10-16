@@ -41,22 +41,22 @@ namespace MEGAbolt.Controls
   [ToolboxItem(true)]
   public class ComboBox : System.Windows.Forms.ComboBox
   {
-    private static System.Type _modalMenuFilter;
+    private static Type _modalMenuFilter;
     private static MethodInfo _suspendMenuMode;
     private static MethodInfo _resumeMenuMode;
     private IContainer components;
 
-    public ComboBox() => this.InitializeComponent();
+    public ComboBox() => InitializeComponent();
 
-    private static System.Type modalMenuFilter
+    private static Type modalMenuFilter
     {
       get
       {
-        if (ComboBox._modalMenuFilter == null)
-          ComboBox._modalMenuFilter = System.Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
-        if (ComboBox._modalMenuFilter == null)
-          ComboBox._modalMenuFilter = new List<System.Type>((IEnumerable<System.Type>) typeof (ToolStripManager).Assembly.GetTypes()).Find((Predicate<System.Type>) (type => type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
-        return ComboBox._modalMenuFilter;
+        if (_modalMenuFilter == null)
+          _modalMenuFilter = Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
+        if (_modalMenuFilter == null)
+          _modalMenuFilter = new List<Type>((IEnumerable<Type>) typeof (ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>) (type => type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
+        return _modalMenuFilter;
       }
     }
 
@@ -64,57 +64,57 @@ namespace MEGAbolt.Controls
     {
       get
       {
-        if (ComboBox._suspendMenuMode == null)
+        if (_suspendMenuMode == null)
         {
-          System.Type modalMenuFilter = ComboBox.modalMenuFilter;
+          Type modalMenuFilter = ComboBox.modalMenuFilter;
           if (modalMenuFilter != null)
-            ComboBox._suspendMenuMode = modalMenuFilter.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            _suspendMenuMode = modalMenuFilter.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
-        return ComboBox._suspendMenuMode;
+        return _suspendMenuMode;
       }
     }
 
-    private static void SuspendMenuMode() => ComboBox.suspendMenuMode?.Invoke((object) null, (object[]) null);
+    private static void SuspendMenuMode() => suspendMenuMode?.Invoke((object) null, (object[]) null);
 
     private static MethodInfo resumeMenuMode
     {
       get
       {
-        if (ComboBox._resumeMenuMode == null)
+        if (_resumeMenuMode == null)
         {
-          System.Type modalMenuFilter = ComboBox.modalMenuFilter;
+          Type modalMenuFilter = ComboBox.modalMenuFilter;
           if (modalMenuFilter != null)
-            ComboBox._resumeMenuMode = modalMenuFilter.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            _resumeMenuMode = modalMenuFilter.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
-        return ComboBox._resumeMenuMode;
+        return _resumeMenuMode;
       }
     }
 
-    private static void ResumeMenuMode() => ComboBox.resumeMenuMode?.Invoke((object) null, (object[]) null);
+    private static void ResumeMenuMode() => resumeMenuMode?.Invoke((object) null, (object[]) null);
 
     protected override void OnDropDown(EventArgs e)
     {
       base.OnDropDown(e);
-      ComboBox.SuspendMenuMode();
+      SuspendMenuMode();
     }
 
     protected override void OnDropDownClosed(EventArgs e)
     {
-      ComboBox.ResumeMenuMode();
+      ResumeMenuMode();
       base.OnDropDownClosed(e);
     }
 
     protected override void Dispose(bool disposing)
     {
-      if (disposing && this.components != null)
-        this.components.Dispose();
+      if (disposing && components != null)
+        components.Dispose();
       base.Dispose(disposing);
     }
 
     private void InitializeComponent()
     {
-      this.SuspendLayout();
-      this.ResumeLayout(false);
+      SuspendLayout();
+      ResumeLayout(false);
     }
   }
 }

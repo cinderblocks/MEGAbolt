@@ -102,7 +102,7 @@ namespace METAbolt
                     if (lowfilename.EndsWith(".tga", StringComparison.CurrentCultureIgnoreCase))
                         bitmap = LoadTGAClass.LoadTGA(fileName);
                     else
-                        bitmap = (Bitmap)System.Drawing.Image.FromFile(fileName);
+                        bitmap = (Bitmap)Image.FromFile(fileName);
 
                     int oldwidth = bitmap.Width;
                     int oldheight = bitmap.Height;
@@ -162,12 +162,12 @@ namespace METAbolt
         private void btnClose_Click(object sender, EventArgs e)
         {
             img.Dispose(); 
-            this.Close();
+            Close();
         }        
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text += " uploaded by METAbolt " + DateTime.Now.ToLongDateString(); 
+            textBox2.Text += " uploaded by MEGAbolt " + DateTime.Now.ToLongDateString(); 
 
             label3.Text = "Uploading image...";
             UploadImg(textBox1.Text, textBox2.Text);    

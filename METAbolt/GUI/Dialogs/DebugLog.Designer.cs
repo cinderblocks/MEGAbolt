@@ -561,7 +561,7 @@ namespace METAbolt
             this.Name = "frmDebugLog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Debug Log - METAbolt";
+            this.Text = "Debug Log - MEGAbolt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDebugLog_FormClosing);
             this.Load += new System.EventHandler(this.frmDebugLog_Load);
             this.Shown += new System.EventHandler(this.frmDebugLog_Shown);

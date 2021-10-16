@@ -31,9 +31,9 @@ namespace MEGAbolt.NetworkComm
     {
         public ClientLoginEventArgs(LoginStatus status, string message, string fail)
         {
-            this.Status = status;
-            this.Message = message;
-            this.Fail = fail;
+            Status = status;
+            Message = message;
+            Fail = fail;
         }
 
         public LoginStatus Status { get; }

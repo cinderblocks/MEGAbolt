@@ -52,7 +52,7 @@ namespace METAbolt
             client = this.instance.Client;
             this.item = item;
             
-            this.Disposed += InventoryItemConsole_Disposed;
+            Disposed += InventoryItemConsole_Disposed;
 
             //iconsole = new InventoryConsole(instance); 
 
@@ -94,7 +94,7 @@ namespace METAbolt
         //runs on the GUI thread
         private void CreatorOwnerReceived(Dictionary<UUID, string> names)
         {
-            if (this.InvokeRequired) this.BeginInvoke((MethodInvoker)delegate { CreatorOwnerReceived(names); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { CreatorOwnerReceived(names); });
             else
             {
                 foreach (KeyValuePair<UUID, string> kvp in names)

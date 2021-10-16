@@ -139,7 +139,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.GW);
-            this.Name = "PrefMETAgiver";
+            this.Name = "PrefMEGAgiver";
             this.Size = new System.Drawing.Size(380, 308);
             this.Load += new System.EventHandler(this.PrefAI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GW)).EndInit();

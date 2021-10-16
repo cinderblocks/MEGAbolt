@@ -58,12 +58,12 @@ namespace METAbolt
         private void button1_Click(object sender, EventArgs e)
         {
             //instance.MuteList = GW.DataSource;
-            this.Close();
+            Close();
         }
 
         private void frmMutes_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
 
             lvMutes.Columns[0].Width = lvMutes.Width - 25 - 60;
             LoadMutes();

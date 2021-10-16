@@ -455,7 +455,7 @@
             // frmPlayer
             // 
             this.AccessibleDescription = "Plays land music";
-            this.AccessibleName = "METAplayer window";
+            this.AccessibleName = "MEGAplayer window";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -467,7 +467,7 @@
             this.Name = "frmPlayer";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "METAplayer";
+            this.Text = "MEGAplayer";
             this.Load += new System.EventHandler(this.frmPlayer_Load);
             this.ResizeEnd += new System.EventHandler(this.frmPlayer_ResizeEnd);
             this.Resize += new System.EventHandler(this.frmPlayer_Resize);

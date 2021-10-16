@@ -323,7 +323,7 @@ namespace METAbolt.FileINI
         // *** Getters for various types ***
         internal bool GetValue(string SectionName, string Key, bool DefaultValue)
         {
-            string StringValue = GetValue(SectionName, Key, DefaultValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            string StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
             int Value;
             if (int.TryParse(StringValue, out Value)) return (Value != 0);
             return DefaultValue;

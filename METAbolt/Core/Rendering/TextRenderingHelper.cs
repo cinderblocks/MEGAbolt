@@ -76,7 +76,7 @@ namespace METAbolt
 
                             #region Vertex
 
-                            OpenMetaverse.Vector3 pos = new OpenMetaverse.Vector3(vertex.Position);
+                            Vector3 pos = new Vector3(vertex.Position);
 
                             // Apply scaling
                             pos *= mesh.Prim.Scale;
@@ -160,7 +160,7 @@ namespace METAbolt
         // |  2  6 10 14 |
         // |  3  7 11 15 |
 
-        public static float[] CreateTranslationMatrix(OpenMetaverse.Vector3 v)
+        public static float[] CreateTranslationMatrix(Vector3 v)
         {
             float[] mat = new float[16];
 
@@ -172,7 +172,7 @@ namespace METAbolt
             return mat;
         }
 
-        public static float[] CreateRotationMatrix(OpenMetaverse.Quaternion q)
+        public static float[] CreateRotationMatrix(Quaternion q)
         {
             float[] mat = new float[16];
 
@@ -217,7 +217,7 @@ namespace METAbolt
             return mat;
         }
 
-        public static float[] CreateScaleMatrix(OpenMetaverse.Vector3 v)
+        public static float[] CreateScaleMatrix(Vector3 v)
         {
             float[] mat = new float[16];
 

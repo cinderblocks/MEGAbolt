@@ -83,7 +83,7 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            this.Text = "Group invite avatar selection ";
+            Text = "Group invite avatar selection ";
             btnGive.Text = "Invite";
             //tabControl1.TabPages[1].Hide();
             tabControl1.TabPages.RemoveAt(1);
@@ -94,8 +94,8 @@ namespace METAbolt
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
             
-            this.grp = group;
-            this.rle = role; 
+            grp = group;
+            rle = role; 
 
             textBox1.GotFocus += textBox1_GotFocus;
             textBox1.MouseUp += textBox1_MouseUp;
@@ -111,7 +111,7 @@ namespace METAbolt
         {
             InitializeComponent();
 
-            this.Text = "Group invite avatar selection ";
+            Text = "Group invite avatar selection ";
             btnGive.Text = "Invite";
             //tabControl1.TabPages[1].Hide();
             tabControl1.TabPages.RemoveAt(1);
@@ -122,8 +122,8 @@ namespace METAbolt
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
 
-            this.grp = group;
-            this.rle = role;
+            grp = group;
+            rle = role;
             //this.name = name;
 
             textBox1.GotFocus += textBox1_GotFocus;
@@ -147,7 +147,7 @@ namespace METAbolt
         //UI thread
         private void PeopleReply(UUID qqueryID, List<DirectoryManager.AgentSearchData> matchedPeople)
         {
-            if (qqueryID != this.queryID) return;
+            if (qqueryID != queryID) return;
 
             lvwFindFriends.BeginUpdate();
 
@@ -193,17 +193,17 @@ namespace METAbolt
         {
             List<FriendInfo> friendslist;
 
-            if (this.instance.State.AvatarFriends == null || this.instance.State.AvatarFriends.Count == 0)
+            if (instance.State.AvatarFriends == null || instance.State.AvatarFriends.Count == 0)
             {
                 friendslist = client.Friends.FriendList.FindAll(delegate(FriendInfo friend) { return true; });
 
-                this.instance.State.AvatarFriends = friendslist;
+                instance.State.AvatarFriends = friendslist;
 
                 //MessageBox.Show("You must first initialise your friends-list by selecting the 'Friends' tab once.\n\nClose this window and select the Friends tab, then re-try", "MEGAbolt");
                 //return;
             }
 
-            friendslist = this.instance.State.AvatarFriends;
+            friendslist = instance.State.AvatarFriends;
 
             if (friendslist.Count > 0)
             {
@@ -237,7 +237,7 @@ namespace METAbolt
 
         private void UpdateMembers()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(UpdateMembers));
                 return;
@@ -278,7 +278,7 @@ namespace METAbolt
 
         private void frmGive_Load(object sender, EventArgs e)
         {
-            this.CenterToParent();
+            CenterToParent();
             textBox1.Focus();  
         }
 
@@ -462,22 +462,22 @@ namespace METAbolt
             // Select all text only if the mouse isn't down.    
             if (MouseButtons == MouseButtons.None)    
             {        
-                this.textBox1.SelectAll();
+                textBox1.SelectAll();
             }
         }
 
         private void textBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!alreadyFocused && this.textBox1.SelectionLength == 0) 
+            if (!alreadyFocused && textBox1.SelectionLength == 0) 
             { 
                 alreadyFocused = true; 
-                this.textBox1.SelectAll(); 
+                textBox1.SelectAll(); 
             }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmGive_FormClosing(object sender, FormClosingEventArgs e)
@@ -548,7 +548,7 @@ namespace METAbolt
 
         private void UpdateNames()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(UpdateNames));
                 return;
