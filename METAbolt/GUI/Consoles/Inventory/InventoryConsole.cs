@@ -758,9 +758,8 @@ namespace METAbolt
                 {
                     return;
                 }
-
-                //client.Inventory.RemoveFolder(folder.UUID);
-                client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash), inventoryFolder.Name);
+                
+                client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash));
                 inventoryFolder = null;
             }
             else if (io is InventoryItem item)
