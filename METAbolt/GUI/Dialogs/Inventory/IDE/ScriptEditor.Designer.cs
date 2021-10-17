@@ -1126,7 +1126,6 @@ namespace METAbolt
         private System.Windows.Forms.ToolStripMenuItem collectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem advancedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem snippetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem makeUpperCaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem makeLowerCaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commentToolStripMenuItem;
@@ -1146,8 +1145,6 @@ namespace METAbolt
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripMenuItem whitespaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem endOfLineToolStripMenuItem;
@@ -1158,9 +1155,6 @@ namespace METAbolt
         private System.Windows.Forms.ToolStripMenuItem unfoldLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem foldAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unfoldAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-        private System.Windows.Forms.ToolStripMenuItem navigateForwardToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem navigateBackwardToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton4;
         private System.Windows.Forms.ToolStripMenuItem lSLFileToolStripMenuItem;
