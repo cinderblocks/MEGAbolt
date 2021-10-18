@@ -520,12 +520,7 @@ namespace METAbolt
             {
                 if (searching) return;
 
-                //if (folderID == CoF.UUID)
-                //{
-                //    CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(AssetType.CurrentOutfitFolder)].Data; ;
-                //}
-
-                if (folderID == UUID.Zero || folderID == null)
+                if (folderID == UUID.Zero)
                 {
                     folderID = client.Inventory.Store.RootFolder.UUID;
                 }

@@ -91,11 +91,9 @@ namespace METAbolt
             {
                 profile = instance.State.Groups[fromAgentID];
 
-                //string grp = instance.State.Groups[fromAgentID].Name.ToUpper(CultureInfo.CurrentCulture);
+                label2.Text = $"Sent by: {imsg.FromAgentName}, {profile.Name}";
 
-                label2.Text = "Sent by: " + imsg.FromAgentName + ", " + profile.Name;
-
-                if ((profile.InsigniaID != null && (profile.InsigniaID != UUID.Zero)))
+                if (profile.InsigniaID != UUID.Zero)
                 {
                     // Request insignia
                     client.Assets.RequestImage(profile.InsigniaID, ImageType.Normal, Assets_OnImageReceived);
@@ -103,7 +101,7 @@ namespace METAbolt
             }
             else
             {
-                label2.Text = "Sent by: " + imsg.FromAgentName;
+                label2.Text = $"Sent by: {imsg.FromAgentName}";
             }
 
             int rep = imsg.Message.IndexOf('|');
@@ -139,14 +137,9 @@ namespace METAbolt
 
                     assetfolder = client.Inventory.FindFolderForType(assettype);
 
-                    if (imsg.BinaryBucket.Length > 18)
-                    {
-                        filename = Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19);
-                    }
-                    else
-                    {
-                        filename = string.Empty;  
-                    }
+                    filename = imsg.BinaryBucket.Length > 18 
+                        ? Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19) 
+                        : string.Empty;
 
                     panel1.Visible = true;
                     label4.Visible = true;

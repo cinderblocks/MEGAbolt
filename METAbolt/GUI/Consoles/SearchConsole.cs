@@ -664,13 +664,10 @@ namespace METAbolt
 
         private void btnFriend_Click(object sender, EventArgs e)
         {
-            // V 0.9.1.6 change
             if (console.SelectedName == client.Self.Name)
                 return;
-            // end
- 
+
             string  sAvName = console.SelectedName;
-            if (console.SelectedAgentUUID == null) return;
 
             Boolean fFound = true;
 
@@ -744,12 +741,7 @@ namespace METAbolt
 
         private void button10_Click(object sender, EventArgs e)
         {
-            // V 0.9.1.6 change
-            if (console.SelectedName == client.Self.Name)
-                return;
-            // end
-
-            if (console.SelectedAgentUUID == null) return;
+            if (console.SelectedName == client.Self.Name) { return; }
 
             DialogResult res = MessageBox.Show("Are you sure you want to ban this avatar?", "MEGAbolt", MessageBoxButtons.YesNo);
 

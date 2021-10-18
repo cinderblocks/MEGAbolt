@@ -544,7 +544,7 @@ namespace METAbolt
             {
                 label16.Text = Profile.GroupMembershipCount.ToString() + " members";
 
-                if (Group.InsigniaID != null && Group.InsigniaID != UUID.Zero)
+                if (Group.InsigniaID != UUID.Zero)
                     Client.Assets.RequestImage(Group.InsigniaID, ImageType.Normal,
                         delegate(TextureRequestState state, AssetTexture assetTexture)
                         {
