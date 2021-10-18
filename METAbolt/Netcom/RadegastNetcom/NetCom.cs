@@ -30,7 +30,7 @@
 using System;
 using System.ComponentModel;
 using OpenMetaverse;
-using System.Management;
+using System.Net.NetworkInformation;
 using METAbolt;
 
 
@@ -316,7 +316,7 @@ namespace MEGAbolt.NetworkComm
                 loginParams.AgreeToTos = true;
 
                 loginParams.UserAgent = $"{LoginOptions.Channel} {LoginOptions.Version}";
-                loginParams.MAC = GetMACAddress();
+                loginParams.MAC = GetMacAddress();
                 loginParams.Platform = Environment.OSVersion.VersionString;   // "Windows";
 
                 switch (LoginOptions.Grid)
@@ -334,38 +334,46 @@ namespace MEGAbolt.NetworkComm
             }
         }
 
-        public string GetMACAddress()
+        public static string GetMacAddress()
         {
-            ManagementObjectSearcher query = null;
-            ManagementObjectCollection queryCollection = null;
-
-            string macad = string.Empty;
+            var mac = string.Empty;
 
             try
             {
-                query = new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapterConfiguration");
+                System.Net.NetworkInformation.NetworkInterface[] nics =
+                    System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
 
-                queryCollection = query.Get();
-
-                foreach (ManagementObject mo in queryCollection)
+                if (nics.Length > 0)
                 {
-                    if (mo["MacAddress"] != null)
+                    foreach (NetworkInterface t in nics)
                     {
-                        bool ipenabled = Convert.ToBoolean(mo["IPEnabled"].ToString());
-
-                        if (ipenabled)
+                        string adapterMac = t.GetPhysicalAddress().ToString().ToUpper();
+                        if (adapterMac.Length == 12 && adapterMac != "000000000000")
                         {
-                            macad = mo["MacAddress"].ToString();
+                            mac = adapterMac;
+                            break;
                         }
                     }
                 }
             }
             catch
             {
-                macad = string.Empty;
+                Logger.Log("Could not detect MAC address of NIC", Helpers.LogLevel.Info);
+                return "00:00:00:00:00:00";
             }
 
-            return macad;
+            if (mac.Length < 12)
+            {
+                mac = UUID.Random().ToString().Substring(24, 12);
+            }
+
+            return String.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+                mac.Substring(0, 2),
+                mac.Substring(2, 2),
+                mac.Substring(4, 2),
+                mac.Substring(6, 2),
+                mac.Substring(8, 2),
+                mac.Substring(10, 2));
         }
 
 
