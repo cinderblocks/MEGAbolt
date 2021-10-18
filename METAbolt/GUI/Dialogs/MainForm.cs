@@ -1209,27 +1209,6 @@ namespace METAbolt
             (new frmMapClient(instance)).Show();
         }
 
-        private void lindeXToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //System.Diagnostics.Process.Start(@"https://secure-web19.secondlife.com/currency/");
-        }
-
-        //private void sLXToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    System.Diagnostics.Process.Start(@"http://www.xstreetsl.com/modules.php?name=Currency");
-        //}
-
-        private void mnuDonate_Click(object sender, EventArgs e)
-        {
-            UUID sLuke = (UUID)"2e288cf4-9535-4407-a0b7-9b4a8aa31f6d";
-            (new frmPay(instance, sLuke, "Legolas Luke")).Show(this);
-        }
-
-        private void mnuDollar_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"http://www.metabolt.net/donate.htm");
-        }
-
         private void tb1_Click(object sender, EventArgs e)
         {
 
@@ -1418,7 +1397,7 @@ namespace METAbolt
             {
                 // The following line was borrowed from Kitten Lulu's SLRun1CPU
                 // http://kittenlulu.wordpress.com/2006/11/08/secondlife-on-multi-core-systems/
-                String SecondLifeExe = GetSecondLifeExe();
+                string SecondLifeExe = GetSecondLifeExe();
 
                 if (string.IsNullOrEmpty(SecondLifeExe))
                     return;
@@ -1435,7 +1414,7 @@ namespace METAbolt
             }
         }
 
-        private static String GetSecondLifeExe()
+        private static string GetSecondLifeExe()
         {
             try
             {
