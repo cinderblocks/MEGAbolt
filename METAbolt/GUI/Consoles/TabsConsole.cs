@@ -28,11 +28,11 @@ using System.Text;
 using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using System.Media;
 using System.Threading;
 using System.Globalization;
 using System.Linq;
 using BugSplatDotNetStandard;
+using MEGAbolt;
 
 namespace METAbolt
 {
@@ -240,9 +240,7 @@ namespace METAbolt
             {
                 if (instance.Config.CurrentConfig.PlayPaymentReceived)
                 {
-                    SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.MoneyBeep);
-                    simpleSound.Play();
-                    simpleSound.Dispose();
+                    instance.MediaManager.PlayUISound(Properties.Resources.MoneyBeep);
                 }
             }
 
@@ -263,7 +261,7 @@ namespace METAbolt
                     }
                     else
                     {
-                        if (!String.IsNullOrEmpty(e.Description))
+                        if (!string.IsNullOrEmpty(e.Description))
                         {
                             string pfrm = string.Empty;
 
@@ -278,14 +276,9 @@ namespace METAbolt
                         }
                         else
                         {
-                            if (!String.IsNullOrEmpty(ti.ItemDescription))
-                            {
-                                body = "You have received a payment of L$" + ti.Amount.ToString(CultureInfo.CurrentCulture) + " from " + ti.ItemDescription;
-                            }
-                            else
-                            {
-                                body = "You have received a payment of L$" + ti.Amount.ToString(CultureInfo.CurrentCulture);
-                            }
+                            body = !string.IsNullOrEmpty(ti.ItemDescription) 
+                                ? $"You have received a payment of L${ti.Amount.ToString(CultureInfo.CurrentCulture)} from {ti.ItemDescription}" 
+                                : $"You have received a payment of L${ti.Amount.ToString(CultureInfo.CurrentCulture)}";
                         }
                     }
                 }                
@@ -338,9 +331,7 @@ namespace METAbolt
                 {
                     if (instance.Config.CurrentConfig.PlayFriendOffline)
                     {
-                        SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.Friend_Off);
-                        simpleSound.Play();
-                        simpleSound.Dispose();
+                        instance.MediaManager.PlayUISound(Properties.Resources.Friend_Off);
                     }
 
                     string ttl = "MEGAbolt Alert";
@@ -365,9 +356,7 @@ namespace METAbolt
                 {
                     if (instance.Config.CurrentConfig.PlayFriendOnline)
                     {
-                        SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.Friend_On);
-                        simpleSound.Play();
-                        simpleSound.Dispose();
+                        instance.MediaManager.PlayUISound(Properties.Resources.Friend_On);
                     }
 
                     string ttl = "MEGAbolt Alert";
@@ -698,9 +687,7 @@ namespace METAbolt
                 if (instance.Config.CurrentConfig.PlaySound)
                 {
                     //System.Media.SystemSounds..Play();
-                    SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.notify);
-                    simpleSound.Play();
-                    simpleSound.Dispose();
+                    instance.MediaManager.PlayUISound(Properties.Resources.notify);
                 }
             }
         }
@@ -730,9 +717,7 @@ namespace METAbolt
                 if (instance.Config.CurrentConfig.PlaySound && makesound)
                 {
                     //System.Media.SystemSounds..Play();
-                    SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.notify);
-                    simpleSound.Play();
-                    simpleSound.Dispose();
+                    instance.MediaManager.PlayUISound(Properties.Resources.notify);
                 }
             }
         }
@@ -983,9 +968,7 @@ namespace METAbolt
 
                         if (instance.Config.CurrentConfig.PlayGroupIMreceived)
                         {
-                            SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.Group_Im_received);
-                            simpleSound.Play();
-                            simpleSound.Dispose();
+                            instance.MediaManager.PlayUISound(Properties.Resources.Group_Im_received);
                         }
 
                         //Logger.Log("Stored|NewGroupTab:: " + e.IM.Message, Helpers.LogLevel.Debug);
@@ -1012,9 +995,7 @@ namespace METAbolt
 
                         if (instance.Config.CurrentConfig.PlayIMreceived)
                         {
-                            SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.IM_received);
-                            simpleSound.Play();
-                            simpleSound.Dispose();
+                            instance.MediaManager.PlayUISound(Properties.Resources.IM_received);
                         }
                     }
                 }

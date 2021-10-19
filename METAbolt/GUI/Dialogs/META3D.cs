@@ -41,7 +41,6 @@ using OpenMetaverse.Assets;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using MEGAbolt.Controls;
-using System.Media;
 using BugSplatDotNetStandard;
 using OpenTK.Windowing.Desktop;
 using OpenTK.WinForms;
@@ -597,9 +596,7 @@ namespace METAbolt
             {
                 if (snapped)
                 {
-                    SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.camera_clic_with_flash);
-                    simpleSound.Play();
-                    simpleSound.Dispose();
+                    instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
 
                     capScreenBeforeNextSwap();
                     TakeScreenShot = false;
@@ -1873,12 +1870,7 @@ namespace METAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //TakeScreenShot = true;
-            //snapped = false;
-
-            SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.camera_clic_with_flash);
-            simpleSound.Play();
-            simpleSound.Dispose();
+            instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
 
             getScreehShot();
         }

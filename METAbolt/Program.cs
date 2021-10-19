@@ -41,6 +41,7 @@ namespace METAbolt
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            MEGAbolt.Core.NativeMethods.Init();
 
             if (args.Length > 0)
             {

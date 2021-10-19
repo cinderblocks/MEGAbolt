@@ -27,7 +27,6 @@
 using System;
 using System.Windows.Forms;
 using OpenMetaverse;
-using System.Media;
 using System.Threading;
 using System.Globalization;
 using BugSplatDotNetStandard;
@@ -100,9 +99,7 @@ namespace METAbolt
 
             if (instance.Config.CurrentConfig.PlayInventoryItemReceived)
             {
-                SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.Item_received);
-                simpleSound.Play();
-                simpleSound.Dispose();
+                instance.MediaManager.PlayUISound(Properties.Resources.Item_received);
             }
 
             timer1.Interval = instance.DialogTimeOut;

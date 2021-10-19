@@ -36,6 +36,7 @@ using System.Drawing;
 using System.Threading;
 using System.Globalization;
 using BugSplatDotNetStandard;
+using MEGAbolt.Media;
 using MEGAbolt.NetworkComm;
 
 
@@ -133,6 +134,8 @@ namespace METAbolt
 
             ImageCache = new ImageCache();
 
+            MediaManager = new MediaManager(this);
+
             MainForm = new frmMain(this);
             MainForm.InitializeControls();
             TabConsole = MainForm.TabConsole;
@@ -203,6 +206,7 @@ namespace METAbolt
 
             ImageCache = new ImageCache();
             State = new StateManager(this);
+            MediaManager = new MediaManager(this);
 
             MainForm = new frmMain(this);
             MainForm.InitializeControls();
@@ -350,7 +354,7 @@ namespace METAbolt
             }
             catch (Exception)
             {
-                return (false);                                 //Exception occured, return False
+                return (false);                                 //Exception occurred, return False
             }
         }
 
@@ -1109,6 +1113,8 @@ namespace METAbolt
         public ImageCache ImageCache { get; }
 
         public StateManager State { get; }
+
+        public MediaManager MediaManager { get; }
 
         public ConfigManager Config { get; }
 

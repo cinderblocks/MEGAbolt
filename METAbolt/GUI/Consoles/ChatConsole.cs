@@ -571,23 +571,8 @@ namespace METAbolt
                 Logger.Log("Chat Console Error updating Land Media: " + ex.Message, Helpers.LogLevel.Error);   
             }
 
-            if (string.IsNullOrEmpty(instance.Config.CurrentConfig.mURL))
-            {
-                tsMovie.Enabled = false;
-            }
-            else
-            {
-                tsMovie.Enabled = true;
-            }
-
-            if (string.IsNullOrEmpty(instance.Config.CurrentConfig.pURL))
-            {
-                tsMusic.Enabled = false;
-            }
-            else
-            {
-                tsMusic.Enabled = true;
-            }
+            tsMovie.Enabled = !string.IsNullOrEmpty(instance.Config.CurrentConfig.mURL);
+            tsMusic.Enabled = !string.IsNullOrEmpty(instance.Config.CurrentConfig.pURL);
         }
 
         private void CheckWearables()
@@ -696,10 +681,7 @@ namespace METAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    CheckAutoSit();
-                }));
+                BeginInvoke(new MethodInvoker(CheckAutoSit));
 
                 return;
             }

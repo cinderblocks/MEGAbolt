@@ -30,7 +30,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
-using System.Media;
 using System.Web;
 using System.Globalization;
 using OpenJpegDotNet.IO;
@@ -70,9 +69,7 @@ namespace METAbolt
 
             if (instance.Config.CurrentConfig.PlayGroupNoticeReceived)
             {
-                SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.Group_Notice);
-                simpleSound.Play();
-                simpleSound.Dispose();
+                instance.MediaManager.PlayUISound(Properties.Resources.Group_Notice);
             }
 
             PrepareGroupNotice();
