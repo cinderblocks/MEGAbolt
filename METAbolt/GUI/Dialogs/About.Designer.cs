@@ -74,7 +74,7 @@ namespace METAbolt
             this.lblVersion.AccessibleDescription = "MEGAbolt version";
             this.lblVersion.AccessibleName = "Version";
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblVersion.Location = new System.Drawing.Point(12, 9);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(246, 18);
@@ -104,10 +104,10 @@ namespace METAbolt
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(5, 35);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(133, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(109, 13);
             this.linkLabel1.TabIndex = 4;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://www.metabolt.net/";
+            this.linkLabel1.Text = "https://radegast.life/";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label1
@@ -125,10 +125,10 @@ namespace METAbolt
             this.lnkWebsite.AutoSize = true;
             this.lnkWebsite.Location = new System.Drawing.Point(6, 70);
             this.lnkWebsite.Name = "lnkWebsite";
-            this.lnkWebsite.Size = new System.Drawing.Size(194, 13);
+            this.lnkWebsite.Size = new System.Drawing.Size(109, 13);
             this.lnkWebsite.TabIndex = 5;
             this.lnkWebsite.TabStop = true;
-            this.lnkWebsite.Text = "http://www.metabolt.net/metaforums/";
+            this.lnkWebsite.Text = "https://radegast.life/";
             this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebsite_LinkClicked);
             // 
             // label4
@@ -148,7 +148,7 @@ namespace METAbolt
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(246, 23);
             this.label10.TabIndex = 1;
-            this.label10.Text = "Copyright © 2008-2013 www.metabolt.net";
+            this.label10.Text = "Copyright © 2021 Sjofn LLC. All rights reserved";
             // 
             // pictureBox1
             // 
@@ -195,7 +195,7 @@ namespace METAbolt
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(382, 251);
             this.button1.Name = "button1";
@@ -242,7 +242,7 @@ namespace METAbolt
             this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(382, 278);
             this.button2.Name = "button2";
@@ -298,7 +298,7 @@ namespace METAbolt
             this.Controls.Add(this.label10);
             this.Controls.Add(this.lblVersion);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

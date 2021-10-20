@@ -1,5 +1,6 @@
-﻿/**
+﻿/*
  * MEGAbolt Metaverse Client
+ * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
  * Copyright(c) 2021, Sjofn, LLC
  * All rights reserved.
  *  
