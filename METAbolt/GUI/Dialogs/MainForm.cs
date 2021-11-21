@@ -37,6 +37,7 @@ using System.Globalization;
 using BugSplatDotNetStandard;
 using NetSparkleUpdater;
 using NetSparkleUpdater.SignatureVerifiers;
+using System.Runtime.InteropServices;
 
 namespace METAbolt
 {
@@ -1149,13 +1150,8 @@ namespace METAbolt
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics22_Help.aspx");
+            // FIXME: Help menu link
         }
-
-        //private void visitLTekToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    System.Diagnostics.Process.Start(@"http://l-tek.vistalogic.co.uk");
-        //}
 
         private void avatarToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1262,7 +1258,7 @@ namespace METAbolt
 
         private void tlblMoneyBalance_Click(object sender, EventArgs e)
         {
-            Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
+            OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void tlblMoneyBalance_MouseEnter(object sender, EventArgs e)
@@ -1308,17 +1304,6 @@ namespace METAbolt
         {
             instance.State.SetAlwaysRun(alwaysRunToolStripMenuItem.Checked);
         }
-
-        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
-        {
-            //System.Diagnostics.Process.Start(@"https://www.euroslex.com?r=48c");
-        }
-
-        private void linDexToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            Process.Start(@"https://secure-web13.secondlife.com/currency/?lang=en");
-        }
-
        
         private void tlblParcel_Click(object sender, EventArgs e)
         {
@@ -1331,32 +1316,27 @@ namespace METAbolt
 
         private void accountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"https://secondlife.com/my/account/history.php?lang=en");
+            OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void sLHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://secondlife.com/support/");
+            OpenBrowser(@"https://secondlife.com/support/");
         }
 
         private void sLKnowledgebaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://community.secondlife.com/t5/tkb/communitypage");
-        }
-
-        private void mEToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"http://www.metabolt.net/metawiki/");
+            OpenBrowser(@"https://community.secondlife.com/t5/tkb/communitypage");
         }
 
         private void scriptingPortalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://wiki.secondlife.com/wiki/LSL_Portal");
+            OpenBrowser(@"https://wiki.secondlife.com/wiki/LSL_Portal");
         }
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://www.metabolt.net/METAforums/yaf_topics26_Bugs-and-Fixes.aspx");
+            // FIXME: Report a bug
         }
 
         private void aboutLandToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1472,11 +1452,6 @@ namespace METAbolt
 
         }
 
-        private void btnTools_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void teleportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             (new frmTeleport(instance, "", 0, 0, 0, false)).Show(this);
@@ -1583,11 +1558,6 @@ namespace METAbolt
             tsFlag.ToolTipText = "Detectected language: " + lang; 
         }
 
-        //private void detectSpokenLanguageToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    instance.DetectLang = tsMenuDetect.Checked;
-        //}
-
         private void mETAplayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             (new frmPlayer(instance)).Show(this);
@@ -1596,31 +1566,6 @@ namespace METAbolt
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             (new frmStats(instance)).Show(this);
-        }
-
-        private void aLphToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //client.Self.Chat("Alpha Genjutsu", 566666, ChatType.Normal);   
-        }
-
-        private void earthSpikeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //client.Self.Chat("Earth Spike", 566666, ChatType.Normal);
-        }
-
-        private void katonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //client.Self.Chat("Katon;Housenka No Jutsu!", 566666, ChatType.Normal);
-        }
-
-        private void mETAboltQuickStartGToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"http://www.metabolt.net/metawiki/Quick.ashx?NoRedirect=1");
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void teleportHistoryToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1710,79 +1655,6 @@ namespace METAbolt
         {
             instance.InitAI(); 
         }
-
-        //protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
-        //{
-        //    int key = m.WParam.ToInt32();
-
-        //    if (m.Msg == WM_KEYUP)
-        //    {
-        //        if (key == (int)Keys.ControlKey)                                              
-        //        {
-        //            if (Control.ModifierKeys == Keys.L)
-        //            {
-        //                aboutLandToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.P)
-        //            {
-        //                tmnuPrefs.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.E)
-        //            {
-        //                Close();
-        //            }
-        //            else if (Control.ModifierKeys == Keys.R)
-        //            {
-        //                avatarToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.W)
-        //            {
-        //                awayToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.B)
-        //            {
-        //                busyToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.F)
-        //            {
-        //                fallOnFaceToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.H)
-        //            {
-        //                tPHomeToolStripMenuItem.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.T)
-        //            {
-        //                tbtnTeleport.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.M)
-        //            {
-        //                btnMap.PerformClick(); 
-        //            }
-        //            else if (Control.ModifierKeys == Keys.O)
-        //            {
-        //                tbtnObjects.PerformClick(); 
-        //            }
-        //            //else if (Control.ModifierKeys == Keys.D)
-        //            //{
-        //            //    tbtnDebug.Visible = !tbtnDebug.Visible;
-        //            //}
-        //            else if (Control.ModifierKeys == Keys.Y)
-        //            {
-        //                helpToolStripMenuItem.PerformClick(); 
-        //            }
-        //        }
-        //        else if (key == (int)Keys.Alt)
-        //        {
-        //            if (Control.ModifierKeys == Keys.D)
-        //            {
-        //                tbtnDebug.Visible = !tbtnDebug.Visible;
-        //            }
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         /// <summary>
         /// Disconnects from the server.
@@ -1990,8 +1862,10 @@ namespace METAbolt
         {
             try
             {
-                OpenFileDialog open = new OpenFileDialog();
-                open.Filter = "Image Files(*.jpg; *.jpeg; *.tga; *.bmp; *.png)|*.jpg; *.jpeg; *.tga; *.bmp; *.png";
+                OpenFileDialog open = new OpenFileDialog
+                {
+                    Filter = "Image Files(*.jpg; *.jpeg; *.tga; *.bmp; *.png)|*.jpg; *.jpeg; *.tga; *.bmp; *.png"
+                };
 
                 string ext = string.Empty;
 
@@ -2023,17 +1897,7 @@ namespace METAbolt
 
         private void sLGridStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"http://status.secondlifegrid.net/");
-        }
-
-        private void getMETAboltPluginsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"http://www.metabolt.net/metawiki/METAbolt_Addins.ashx");
-        }
-
-        private void getMETAboltLSLPluginsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"http://www.metabolt.net/metawiki/lslcommands.ashx");
+            OpenBrowser(@"https://status.secondlifegrid.net/");
         }
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)
@@ -2196,6 +2060,22 @@ namespace METAbolt
                         }
                     }
                 );
+        }
+
+        private static void OpenBrowser(string url)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url);
+            }
         }
 
         private void StartUpdater()
