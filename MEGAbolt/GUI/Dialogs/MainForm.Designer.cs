@@ -1,0 +1,1334 @@
+namespace MEGAbolt
+{
+    partial class frmMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+        //private USKINCOMFREELib.USkinCOMObjectClass skin = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            //skin.USkinExit();
+
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tlblMoneyBalance = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlblLoginName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlblRegionInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlblParcel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb6 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tb7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tbtnMEGAbolt = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tmnuPrefs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tmnuBackup = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.tmnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbtnHelp = new System.Windows.Forms.ToolStripDropDownButton();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.reportABugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
+            this.sLGridStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
+            this.sLHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sLKnowledgebaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scriptingPortalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.tmnuAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAvatar = new System.Windows.Forms.ToolStripDropDownButton();
+            this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.awayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.busyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.fallOnFaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.bellyDanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salsaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alwaysRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.setHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tPHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setHomeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.createLandmarkHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToPicksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.groundSitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.standToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.crouchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.stopAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.avatarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setPreviousAppearanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.accountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutLandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tlTools = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbtnTeleport = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbtnObjects = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.mETAplayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.uploadImageL10PerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tlLogs = new System.Windows.Forms.ToolStripDropDownButton();
+            this.teleportHistoryToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.muteListToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.chatLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.debugLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsUtilities = new System.Windows.Forms.ToolStripDropDownButton();
+            this.scriptManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.landMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadAIMLLibrariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.launchSLViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsPlugins = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsFlag = new System.Windows.Forms.ToolStripButton();
+            this.tsTime = new System.Windows.Forms.ToolStripLabel();
+            this.tsTimeOut = new System.Windows.Forms.ToolStripLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.statusStrip1.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.AccessibleName = "Information strip";
+            this.statusStrip1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlblMoneyBalance,
+            this.tlblLoginName,
+            this.tlblRegionInfo,
+            this.toolStripStatusLabel1,
+            this.tlblParcel,
+            this.toolStripStatusLabel2,
+            this.tb1,
+            this.tb2,
+            this.tb3,
+            this.tb4,
+            this.tb5,
+            this.tb6,
+            this.tb7});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 25);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusStrip1.Size = new System.Drawing.Size(720, 24);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tlblMoneyBalance
+            // 
+            this.tlblMoneyBalance.AccessibleDescription = "Displays the amount of money yoru avatar has";
+            this.tlblMoneyBalance.AccessibleName = "Money";
+            this.tlblMoneyBalance.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.tlblMoneyBalance.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tlblMoneyBalance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tlblMoneyBalance.ForeColor = System.Drawing.Color.SeaGreen;
+            this.tlblMoneyBalance.IsLink = true;
+            this.tlblMoneyBalance.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.tlblMoneyBalance.LinkColor = System.Drawing.Color.SeaGreen;
+            this.tlblMoneyBalance.Name = "tlblMoneyBalance";
+            this.tlblMoneyBalance.Size = new System.Drawing.Size(31, 19);
+            this.tlblMoneyBalance.Text = "L$0";
+            this.tlblMoneyBalance.Click += new System.EventHandler(this.tlblMoneyBalance_Click);
+            this.tlblMoneyBalance.MouseEnter += new System.EventHandler(this.tlblMoneyBalance_MouseEnter);
+            // 
+            // tlblLoginName
+            // 
+            this.tlblLoginName.AccessibleDescription = "Displays the name of your avatar when online";
+            this.tlblLoginName.AccessibleName = "Avatar name or status";
+            this.tlblLoginName.AutoSize = false;
+            this.tlblLoginName.ForeColor = System.Drawing.Color.White;
+            this.tlblLoginName.Image = global::MEGAbolt.Properties.Resources.Home_Black;
+            this.tlblLoginName.IsLink = true;
+            this.tlblLoginName.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.tlblLoginName.Margin = new System.Windows.Forms.Padding(0);
+            this.tlblLoginName.Name = "tlblLoginName";
+            this.tlblLoginName.Size = new System.Drawing.Size(20, 24);
+            this.tlblLoginName.Click += new System.EventHandler(this.tlblLoginName_Click);
+            this.tlblLoginName.MouseEnter += new System.EventHandler(this.tlblLoginName_MouseEnter);
+            this.tlblLoginName.MouseLeave += new System.EventHandler(this.tlblLoginName_MouseLeave);
+            this.tlblLoginName.MouseHover += new System.EventHandler(this.tlblLoginName_MouseHover);
+            // 
+            // tlblRegionInfo
+            // 
+            this.tlblRegionInfo.AccessibleDescription = "Displays the name of the SIM you are in and the coordinates of your avatar\'s loca" +
+    "tion";
+            this.tlblRegionInfo.AccessibleName = "SIM name and coordinates";
+            this.tlblRegionInfo.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.tlblRegionInfo.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tlblRegionInfo.IsLink = true;
+            this.tlblRegionInfo.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.tlblRegionInfo.LinkColor = System.Drawing.Color.RoyalBlue;
+            this.tlblRegionInfo.Name = "tlblRegionInfo";
+            this.tlblRegionInfo.Size = new System.Drawing.Size(67, 19);
+            this.tlblRegionInfo.Text = "No Region";
+            this.tlblRegionInfo.Click += new System.EventHandler(this.tlblRegionInfo_Click);
+            this.tlblRegionInfo.MouseEnter += new System.EventHandler(this.tlblRegionInfo_MouseEnter);
+            this.tlblRegionInfo.MouseLeave += new System.EventHandler(this.tlblRegionInfo_MouseLeave);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.AutoSize = false;
+            this.toolStripStatusLabel1.Image = global::MEGAbolt.Properties.Resources.get_info;
+            this.toolStripStatusLabel1.IsLink = true;
+            this.toolStripStatusLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0);
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(20, 24);
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            this.toolStripStatusLabel1.MouseEnter += new System.EventHandler(this.toolStripStatusLabel1_MouseEnter);
+            this.toolStripStatusLabel1.MouseLeave += new System.EventHandler(this.toolStripStatusLabel1_MouseLeave);
+            this.toolStripStatusLabel1.MouseHover += new System.EventHandler(this.toolStripStatusLabel1_MouseHover);
+            // 
+            // tlblParcel
+            // 
+            this.tlblParcel.AccessibleDescription = "The name of the parcel you are on";
+            this.tlblParcel.AccessibleName = "Parcel name";
+            this.tlblParcel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.tlblParcel.ForeColor = System.Drawing.Color.Navy;
+            this.tlblParcel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tlblParcel.IsLink = true;
+            this.tlblParcel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.tlblParcel.LinkColor = System.Drawing.Color.RoyalBlue;
+            this.tlblParcel.Name = "tlblParcel";
+            this.tlblParcel.Size = new System.Drawing.Size(547, 19);
+            this.tlblParcel.Spring = true;
+            this.tlblParcel.Text = "No Parcel";
+            this.tlblParcel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tlblParcel.ToolTipText = "Parcel name. Click me for About Land";
+            this.tlblParcel.Click += new System.EventHandler(this.tlblParcel_Click);
+            this.tlblParcel.MouseEnter += new System.EventHandler(this.tlblParcel_MouseEnter);
+            this.tlblParcel.MouseLeave += new System.EventHandler(this.tlblParcel_MouseLeave);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.AutoSize = false;
+            this.toolStripStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabel2.Image = global::MEGAbolt.Properties.Resources.Favorites_black;
+            this.toolStripStatusLabel2.IsLink = true;
+            this.toolStripStatusLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.toolStripStatusLabel2.Margin = new System.Windows.Forms.Padding(0);
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(20, 24);
+            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
+            this.toolStripStatusLabel2.MouseEnter += new System.EventHandler(this.toolStripStatusLabel2_MouseEnter);
+            this.toolStripStatusLabel2.MouseLeave += new System.EventHandler(this.toolStripStatusLabel2_MouseLeave);
+            // 
+            // tb1
+            // 
+            this.tb1.AccessibleDescription = "You cannot fly on this parcel";
+            this.tb1.AccessibleName = "No fly";
+            this.tb1.AutoSize = false;
+            this.tb1.Image = global::MEGAbolt.Properties.Resources.no_fly;
+            this.tb1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb1.Margin = new System.Windows.Forms.Padding(1);
+            this.tb1.Name = "tb1";
+            this.tb1.Size = new System.Drawing.Size(18, 22);
+            this.tb1.ToolTipText = "No Fly";
+            this.tb1.Visible = false;
+            this.tb1.Click += new System.EventHandler(this.tb1_Click);
+            this.tb1.MouseEnter += new System.EventHandler(this.tb1_MouseEnter);
+            this.tb1.MouseLeave += new System.EventHandler(this.tb1_MouseLeave);
+            // 
+            // tb2
+            // 
+            this.tb2.AccessibleName = "Building not allowed on current parcel";
+            this.tb2.AutoSize = false;
+            this.tb2.BackColor = System.Drawing.Color.DarkRed;
+            this.tb2.Image = global::MEGAbolt.Properties.Resources.build;
+            this.tb2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb2.Margin = new System.Windows.Forms.Padding(0);
+            this.tb2.Name = "tb2";
+            this.tb2.Size = new System.Drawing.Size(18, 24);
+            this.tb2.ToolTipText = "No Build";
+            this.tb2.Visible = false;
+            this.tb2.MouseEnter += new System.EventHandler(this.tb2_MouseEnter);
+            this.tb2.MouseLeave += new System.EventHandler(this.tb2_MouseLeave);
+            // 
+            // tb3
+            // 
+            this.tb3.AccessibleName = "Scripts not allowed on current parcel";
+            this.tb3.AutoSize = false;
+            this.tb3.Image = global::MEGAbolt.Properties.Resources.no_scripts;
+            this.tb3.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb3.Margin = new System.Windows.Forms.Padding(1);
+            this.tb3.Name = "tb3";
+            this.tb3.Size = new System.Drawing.Size(18, 22);
+            this.tb3.ToolTipText = "No Scripts";
+            this.tb3.Visible = false;
+            this.tb3.MouseEnter += new System.EventHandler(this.tb3_MouseEnter);
+            this.tb3.MouseLeave += new System.EventHandler(this.tb3_MouseLeave);
+            // 
+            // tb4
+            // 
+            this.tb4.AccessibleName = "Push not allowed on current parcel";
+            this.tb4.AutoSize = false;
+            this.tb4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tb4.Image = global::MEGAbolt.Properties.Resources.no_push;
+            this.tb4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb4.Margin = new System.Windows.Forms.Padding(1);
+            this.tb4.Name = "tb4";
+            this.tb4.Size = new System.Drawing.Size(18, 22);
+            this.tb4.ToolTipText = "No Push";
+            this.tb4.Visible = false;
+            this.tb4.MouseEnter += new System.EventHandler(this.tb4_MouseEnter);
+            this.tb4.MouseLeave += new System.EventHandler(this.tb4_MouseLeave);
+            // 
+            // tb5
+            // 
+            this.tb5.AccessibleName = "Damage not allowed on current parcel";
+            this.tb5.AutoSize = false;
+            this.tb5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tb5.Image = global::MEGAbolt.Properties.Resources.safe;
+            this.tb5.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb5.Margin = new System.Windows.Forms.Padding(1);
+            this.tb5.Name = "tb5";
+            this.tb5.Size = new System.Drawing.Size(18, 22);
+            this.tb5.ToolTipText = "Safe";
+            this.tb5.Visible = false;
+            this.tb5.Click += new System.EventHandler(this.tb5_Click);
+            this.tb5.MouseEnter += new System.EventHandler(this.tb5_MouseEnter);
+            this.tb5.MouseLeave += new System.EventHandler(this.tb5_MouseLeave);
+            // 
+            // tb6
+            // 
+            this.tb6.AccessibleName = "This parcel is for sale";
+            this.tb6.AutoSize = false;
+            this.tb6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tb6.Image = global::MEGAbolt.Properties.Resources.for_sale;
+            this.tb6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb6.Margin = new System.Windows.Forms.Padding(1);
+            this.tb6.Name = "tb6";
+            this.tb6.Size = new System.Drawing.Size(18, 22);
+            this.tb6.ToolTipText = "For Sale";
+            this.tb6.Visible = false;
+            this.tb6.MouseEnter += new System.EventHandler(this.tb6_MouseEnter);
+            this.tb6.MouseLeave += new System.EventHandler(this.tb6_MouseLeave);
+            // 
+            // tb7
+            // 
+            this.tb7.AccessibleName = "Voice disabled";
+            this.tb7.AutoSize = false;
+            this.tb7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tb7.Image = global::MEGAbolt.Properties.Resources.no_voice;
+            this.tb7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tb7.Margin = new System.Windows.Forms.Padding(1);
+            this.tb7.Name = "tb7";
+            this.tb7.Size = new System.Drawing.Size(18, 22);
+            this.tb7.ToolTipText = "Voice disabled";
+            this.tb7.Visible = false;
+            this.tb7.MouseEnter += new System.EventHandler(this.tb7_MouseEnter);
+            this.tb7.MouseLeave += new System.EventHandler(this.tb7_MouseLeave);
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            this.toolStripContainer1.BottomToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(720, 540);
+            this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // toolStripContainer1.LeftToolStripPanel
+            // 
+            this.toolStripContainer1.LeftToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            // 
+            // toolStripContainer1.RightToolStripPanel
+            // 
+            this.toolStripContainer1.RightToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStripContainer1.Size = new System.Drawing.Size(720, 589);
+            this.toolStripContainer1.TabIndex = 10;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.statusStrip1);
+            this.toolStripContainer1.TopToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AccessibleName = "Main MEGAbolt menu";
+            this.toolStrip1.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
+            this.toolStrip1.BackColor = System.Drawing.Color.Gainsboro;
+            this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbtnMEGAbolt,
+            this.toolStripSeparator1,
+            this.tbtnHelp,
+            this.btnAvatar,
+            this.toolStripSeparator2,
+            this.tlTools,
+            this.toolStripSeparator3,
+            this.tlLogs,
+            this.toolStripSeparator24,
+            this.tsUtilities,
+            this.toolStripSeparator15,
+            this.tsPlugins,
+            this.toolStripSeparator25,
+            this.tsFlag,
+            this.tsTime,
+            this.tsTimeOut});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStrip1.Size = new System.Drawing.Size(720, 25);
+            this.toolStrip1.Stretch = true;
+            this.toolStrip1.TabIndex = 8;
+            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
+            // 
+            // tbtnMETAbolt
+            // 
+            this.tbtnMEGAbolt.AccessibleName = "Application menu";
+            this.tbtnMEGAbolt.AutoToolTip = false;
+            this.tbtnMEGAbolt.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmnuPrefs,
+            this.toolStripMenuItem2,
+            this.tmnuBackup,
+            this.toolStripSeparator16,
+            this.tmnuExit});
+            this.tbtnMEGAbolt.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tbtnMEGAbolt.Image = ((System.Drawing.Image)(resources.GetObject("tbtnMETAbolt.Image")));
+            this.tbtnMEGAbolt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbtnMEGAbolt.Name = "tbtnMEGAbolt";
+            this.tbtnMEGAbolt.Size = new System.Drawing.Size(97, 22);
+            this.tbtnMEGAbolt.Text = "&Application";
+            // 
+            // tmnuPrefs
+            // 
+            this.tmnuPrefs.AccessibleName = "Preferences menu option";
+            this.tmnuPrefs.Image = global::MEGAbolt.Properties.Resources.pref23png;
+            this.tmnuPrefs.Name = "tmnuPrefs";
+            this.tmnuPrefs.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.tmnuPrefs.Size = new System.Drawing.Size(185, 22);
+            this.tmnuPrefs.Text = "Preferences...";
+            this.tmnuPrefs.Click += new System.EventHandler(this.tmnuPrefs_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(182, 6);
+            // 
+            // tmnuBackup
+            // 
+            this.tmnuBackup.AccessibleName = "File backup menu option";
+            this.tmnuBackup.Image = global::MEGAbolt.Properties.Resources.backup;
+            this.tmnuBackup.Name = "tmnuBackup";
+            this.tmnuBackup.Size = new System.Drawing.Size(185, 22);
+            this.tmnuBackup.Text = "File Backup/Restore";
+            this.tmnuBackup.Click += new System.EventHandler(this.tmnuBackup_Click);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(182, 6);
+            // 
+            // tmnuExit
+            // 
+            this.tmnuExit.AccessibleName = "Exit application menu option";
+            this.tmnuExit.Image = global::MEGAbolt.Properties.Resources.delete_16;
+            this.tmnuExit.Name = "tmnuExit";
+            this.tmnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.tmnuExit.Size = new System.Drawing.Size(185, 22);
+            this.tmnuExit.Text = "Exit";
+            this.tmnuExit.Click += new System.EventHandler(this.tmnuExit_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tbtnHelp
+            // 
+            this.tbtnHelp.AccessibleName = "Help menu";
+            this.tbtnHelp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tbtnHelp.AutoToolTip = false;
+            this.tbtnHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkForUpdatesToolStripMenuItem,
+            this.toolStripSeparator28,
+            this.reportABugToolStripMenuItem,
+            this.toolStripSeparator29,
+            this.sLGridStatusToolStripMenuItem,
+            this.toolStripSeparator27,
+            this.sLHelpToolStripMenuItem,
+            this.sLKnowledgebaseToolStripMenuItem,
+            this.scriptingPortalToolStripMenuItem,
+            this.toolStripSeparator9,
+            this.tmnuAbout});
+            this.tbtnHelp.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbtnHelp.ForeColor = System.Drawing.Color.Red;
+            this.tbtnHelp.Image = global::MEGAbolt.Properties.Resources.Help_and_Support_16;
+            this.tbtnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbtnHelp.Name = "tbtnHelp";
+            this.tbtnHelp.Size = new System.Drawing.Size(57, 22);
+            this.tbtnHelp.Text = "&Help";
+            this.tbtnHelp.Click += new System.EventHandler(this.tbtnHelp_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.AccessibleName = "Check for updates";
+            this.checkForUpdatesToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.arrow_back;
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator28
+            // 
+            this.toolStripSeparator28.Name = "toolStripSeparator28";
+            this.toolStripSeparator28.Size = new System.Drawing.Size(177, 6);
+            // 
+            // reportABugToolStripMenuItem
+            // 
+            this.reportABugToolStripMenuItem.AccessibleName = "Report a bug menu option";
+            this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
+            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportABugToolStripMenuItem.Text = "Report a Bug";
+            this.reportABugToolStripMenuItem.Click += new System.EventHandler(this.reportABugToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator29
+            // 
+            this.toolStripSeparator29.Name = "toolStripSeparator29";
+            this.toolStripSeparator29.Size = new System.Drawing.Size(177, 6);
+            // 
+            // sLGridStatusToolStripMenuItem
+            // 
+            this.sLGridStatusToolStripMenuItem.Name = "sLGridStatusToolStripMenuItem";
+            this.sLGridStatusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLGridStatusToolStripMenuItem.Text = "SL Grid Status";
+            this.sLGridStatusToolStripMenuItem.Click += new System.EventHandler(this.sLGridStatusToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(177, 6);
+            // 
+            // sLHelpToolStripMenuItem
+            // 
+            this.sLHelpToolStripMenuItem.AccessibleName = "SL help menu option";
+            this.sLHelpToolStripMenuItem.Name = "sLHelpToolStripMenuItem";
+            this.sLHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLHelpToolStripMenuItem.Text = "SL Help";
+            this.sLHelpToolStripMenuItem.Click += new System.EventHandler(this.sLHelpToolStripMenuItem_Click);
+            // 
+            // sLKnowledgebaseToolStripMenuItem
+            // 
+            this.sLKnowledgebaseToolStripMenuItem.AccessibleName = "SL knowledge base menu option";
+            this.sLKnowledgebaseToolStripMenuItem.Name = "sLKnowledgebaseToolStripMenuItem";
+            this.sLKnowledgebaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLKnowledgebaseToolStripMenuItem.Text = "SL Knowledge Base";
+            this.sLKnowledgebaseToolStripMenuItem.Click += new System.EventHandler(this.sLKnowledgebaseToolStripMenuItem_Click);
+            // 
+            // scriptingPortalToolStripMenuItem
+            // 
+            this.scriptingPortalToolStripMenuItem.AccessibleName = "SL scripting portal menu option";
+            this.scriptingPortalToolStripMenuItem.Name = "scriptingPortalToolStripMenuItem";
+            this.scriptingPortalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scriptingPortalToolStripMenuItem.Text = "SL Scripting Portal";
+            this.scriptingPortalToolStripMenuItem.Click += new System.EventHandler(this.scriptingPortalToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
+            // 
+            // tmnuAbout
+            // 
+            this.tmnuAbout.AccessibleName = "About MEGAbolt menu option";
+            this.tmnuAbout.Name = "tmnuAbout";
+            this.tmnuAbout.Size = new System.Drawing.Size(180, 22);
+            this.tmnuAbout.Text = "About MEGAbolt";
+            this.tmnuAbout.Click += new System.EventHandler(this.tmnuAbout_Click);
+            // 
+            // btnAvatar
+            // 
+            this.btnAvatar.AccessibleName = "World menu";
+            this.btnAvatar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusToolStripMenuItem,
+            this.contolToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.setHomeToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.createLandmarkHereToolStripMenuItem,
+            this.addToPicksToolStripMenuItem,
+            this.toolStripSeparator17,
+            this.groundSitToolStripMenuItem,
+            this.standToolStripMenuItem1,
+            this.crouchToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.stopAnimationToolStripMenuItem,
+            this.toolStripSeparator18,
+            this.avatarToolStripMenuItem,
+            this.setPreviousAppearanceToolStripMenuItem,
+            this.toolStripSeparator8,
+            this.accountHistoryToolStripMenuItem,
+            this.toolStripSeparator12,
+            this.aboutLandToolStripMenuItem});
+            this.btnAvatar.Enabled = false;
+            this.btnAvatar.Image = global::MEGAbolt.Properties.Resources.world;
+            this.btnAvatar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAvatar.Name = "btnAvatar";
+            this.btnAvatar.Size = new System.Drawing.Size(68, 22);
+            this.btnAvatar.Text = "&World";
+            // 
+            // statusToolStripMenuItem
+            // 
+            this.statusToolStripMenuItem.AccessibleName = "Status and animation menu";
+            this.statusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.awayToolStripMenuItem,
+            this.busyToolStripMenuItem,
+            this.toolStripSeparator13,
+            this.fallOnFaceToolStripMenuItem,
+            this.toolStripSeparator14,
+            this.bellyDanceToolStripMenuItem,
+            this.clubToolStripMenuItem,
+            this.salsaToolStripMenuItem});
+            this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.statusToolStripMenuItem.Text = "Status/Animate";
+            this.statusToolStripMenuItem.Click += new System.EventHandler(this.statusToolStripMenuItem_Click);
+            // 
+            // awayToolStripMenuItem
+            // 
+            this.awayToolStripMenuItem.AccessibleName = "Away menu option";
+            this.awayToolStripMenuItem.CheckOnClick = true;
+            this.awayToolStripMenuItem.Name = "awayToolStripMenuItem";
+            this.awayToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.awayToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.awayToolStripMenuItem.Text = "Away";
+            this.awayToolStripMenuItem.Click += new System.EventHandler(this.awayToolStripMenuItem_Click);
+            // 
+            // busyToolStripMenuItem
+            // 
+            this.busyToolStripMenuItem.AccessibleName = "Busy menu option";
+            this.busyToolStripMenuItem.CheckOnClick = true;
+            this.busyToolStripMenuItem.Name = "busyToolStripMenuItem";
+            this.busyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
+            this.busyToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.busyToolStripMenuItem.Text = "Busy";
+            this.busyToolStripMenuItem.Click += new System.EventHandler(this.busyToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(171, 6);
+            // 
+            // fallOnFaceToolStripMenuItem
+            // 
+            this.fallOnFaceToolStripMenuItem.AccessibleName = "Fall on face menu option";
+            this.fallOnFaceToolStripMenuItem.CheckOnClick = true;
+            this.fallOnFaceToolStripMenuItem.Name = "fallOnFaceToolStripMenuItem";
+            this.fallOnFaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.fallOnFaceToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.fallOnFaceToolStripMenuItem.Text = "Fall on face";
+            this.fallOnFaceToolStripMenuItem.Click += new System.EventHandler(this.fallOnFaceToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(171, 6);
+            // 
+            // bellyDanceToolStripMenuItem
+            // 
+            this.bellyDanceToolStripMenuItem.AccessibleName = "Belly dance menu option";
+            this.bellyDanceToolStripMenuItem.CheckOnClick = true;
+            this.bellyDanceToolStripMenuItem.Name = "bellyDanceToolStripMenuItem";
+            this.bellyDanceToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.bellyDanceToolStripMenuItem.Text = "Belly Dance";
+            this.bellyDanceToolStripMenuItem.Click += new System.EventHandler(this.bellyDanceToolStripMenuItem_Click);
+            // 
+            // clubToolStripMenuItem
+            // 
+            this.clubToolStripMenuItem.AccessibleName = "Club dance menu option";
+            this.clubToolStripMenuItem.CheckOnClick = true;
+            this.clubToolStripMenuItem.Name = "clubToolStripMenuItem";
+            this.clubToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.clubToolStripMenuItem.Text = "Club Dance";
+            this.clubToolStripMenuItem.Click += new System.EventHandler(this.clubToolStripMenuItem_Click);
+            // 
+            // salsaToolStripMenuItem
+            // 
+            this.salsaToolStripMenuItem.AccessibleName = "Salsa menu option";
+            this.salsaToolStripMenuItem.CheckOnClick = true;
+            this.salsaToolStripMenuItem.Name = "salsaToolStripMenuItem";
+            this.salsaToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.salsaToolStripMenuItem.Text = "Salsa";
+            this.salsaToolStripMenuItem.Click += new System.EventHandler(this.salsaToolStripMenuItem_Click);
+            // 
+            // contolToolStripMenuItem
+            // 
+            this.contolToolStripMenuItem.AccessibleName = "Control menu";
+            this.contolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.flyToolStripMenuItem,
+            this.alwaysRunToolStripMenuItem});
+            this.contolToolStripMenuItem.Name = "contolToolStripMenuItem";
+            this.contolToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.contolToolStripMenuItem.Text = "Control";
+            // 
+            // flyToolStripMenuItem
+            // 
+            this.flyToolStripMenuItem.AccessibleName = "Fly menu option";
+            this.flyToolStripMenuItem.CheckOnClick = true;
+            this.flyToolStripMenuItem.Name = "flyToolStripMenuItem";
+            this.flyToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.flyToolStripMenuItem.Text = "Fly";
+            this.flyToolStripMenuItem.Click += new System.EventHandler(this.flyToolStripMenuItem_Click);
+            // 
+            // alwaysRunToolStripMenuItem
+            // 
+            this.alwaysRunToolStripMenuItem.AccessibleName = "Always run menu option";
+            this.alwaysRunToolStripMenuItem.CheckOnClick = true;
+            this.alwaysRunToolStripMenuItem.Name = "alwaysRunToolStripMenuItem";
+            this.alwaysRunToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.alwaysRunToolStripMenuItem.Text = "Always Run";
+            this.alwaysRunToolStripMenuItem.Click += new System.EventHandler(this.alwaysRunToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(201, 6);
+            // 
+            // setHomeToolStripMenuItem
+            // 
+            this.setHomeToolStripMenuItem.AccessibleName = "Home menu";
+            this.setHomeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tPHomeToolStripMenuItem,
+            this.setHomeToolStripMenuItem1});
+            this.setHomeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("setHomeToolStripMenuItem.Image")));
+            this.setHomeToolStripMenuItem.Name = "setHomeToolStripMenuItem";
+            this.setHomeToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.setHomeToolStripMenuItem.Text = "Home";
+            this.setHomeToolStripMenuItem.Click += new System.EventHandler(this.setHomeToolStripMenuItem_Click);
+            // 
+            // tPHomeToolStripMenuItem
+            // 
+            this.tPHomeToolStripMenuItem.AccessibleName = "Teleport home menu option";
+            this.tPHomeToolStripMenuItem.Name = "tPHomeToolStripMenuItem";
+            this.tPHomeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.tPHomeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.tPHomeToolStripMenuItem.Text = "Teleport Home";
+            this.tPHomeToolStripMenuItem.Click += new System.EventHandler(this.tPHomeToolStripMenuItem_Click);
+            // 
+            // setHomeToolStripMenuItem1
+            // 
+            this.setHomeToolStripMenuItem1.AccessibleName = "Set home here menu option";
+            this.setHomeToolStripMenuItem1.Name = "setHomeToolStripMenuItem1";
+            this.setHomeToolStripMenuItem1.Size = new System.Drawing.Size(195, 22);
+            this.setHomeToolStripMenuItem1.Text = "Set Home to Here";
+            this.setHomeToolStripMenuItem1.Click += new System.EventHandler(this.setHomeToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(201, 6);
+            // 
+            // createLandmarkHereToolStripMenuItem
+            // 
+            this.createLandmarkHereToolStripMenuItem.AccessibleName = "Create landmark here menu option";
+            this.createLandmarkHereToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.lm;
+            this.createLandmarkHereToolStripMenuItem.Name = "createLandmarkHereToolStripMenuItem";
+            this.createLandmarkHereToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.createLandmarkHereToolStripMenuItem.Text = "Create Landmark here";
+            this.createLandmarkHereToolStripMenuItem.Click += new System.EventHandler(this.createLandmarkHereToolStripMenuItem_Click);
+            // 
+            // addToPicksToolStripMenuItem
+            // 
+            this.addToPicksToolStripMenuItem.AccessibleName = "Add to picks menu option";
+            this.addToPicksToolStripMenuItem.Name = "addToPicksToolStripMenuItem";
+            this.addToPicksToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.addToPicksToolStripMenuItem.Text = "Add to Picks";
+            this.addToPicksToolStripMenuItem.Visible = false;
+            this.addToPicksToolStripMenuItem.Click += new System.EventHandler(this.addToPicksToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(201, 6);
+            // 
+            // groundSitToolStripMenuItem
+            // 
+            this.groundSitToolStripMenuItem.AccessibleName = "Ground sit menu option";
+            this.groundSitToolStripMenuItem.Name = "groundSitToolStripMenuItem";
+            this.groundSitToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.groundSitToolStripMenuItem.Text = "Ground Sit";
+            this.groundSitToolStripMenuItem.Click += new System.EventHandler(this.groundSitToolStripMenuItem_Click);
+            // 
+            // standToolStripMenuItem1
+            // 
+            this.standToolStripMenuItem1.AccessibleName = "Stand menu option";
+            this.standToolStripMenuItem1.Name = "standToolStripMenuItem1";
+            this.standToolStripMenuItem1.Size = new System.Drawing.Size(204, 22);
+            this.standToolStripMenuItem1.Text = "Stand";
+            this.standToolStripMenuItem1.Click += new System.EventHandler(this.standToolStripMenuItem1_Click);
+            // 
+            // crouchToolStripMenuItem
+            // 
+            this.crouchToolStripMenuItem.AccessibleName = "Crouch menu option";
+            this.crouchToolStripMenuItem.CheckOnClick = true;
+            this.crouchToolStripMenuItem.Name = "crouchToolStripMenuItem";
+            this.crouchToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.crouchToolStripMenuItem.Text = "Crouch";
+            this.crouchToolStripMenuItem.Click += new System.EventHandler(this.crouchToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(201, 6);
+            // 
+            // stopAnimationToolStripMenuItem
+            // 
+            this.stopAnimationToolStripMenuItem.Name = "stopAnimationToolStripMenuItem";
+            this.stopAnimationToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.stopAnimationToolStripMenuItem.Text = "Stop Animations";
+            this.stopAnimationToolStripMenuItem.Click += new System.EventHandler(this.stopAnimationToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(201, 6);
+            // 
+            // avatarToolStripMenuItem
+            // 
+            this.avatarToolStripMenuItem.AccessibleName = "Rebake menu option";
+            this.avatarToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.rebake;
+            this.avatarToolStripMenuItem.Name = "avatarToolStripMenuItem";
+            this.avatarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.avatarToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.avatarToolStripMenuItem.Text = "Rebake";
+            this.avatarToolStripMenuItem.Click += new System.EventHandler(this.avatarToolStripMenuItem_Click);
+            // 
+            // setPreviousAppearanceToolStripMenuItem
+            // 
+            this.setPreviousAppearanceToolStripMenuItem.AccessibleName = "Set previous appearance menu option";
+            this.setPreviousAppearanceToolStripMenuItem.Name = "setPreviousAppearanceToolStripMenuItem";
+            this.setPreviousAppearanceToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.setPreviousAppearanceToolStripMenuItem.Text = "Set Previous Appearance";
+            this.setPreviousAppearanceToolStripMenuItem.Visible = false;
+            this.setPreviousAppearanceToolStripMenuItem.Click += new System.EventHandler(this.setPreviousAppearanceToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(201, 6);
+            // 
+            // accountHistoryToolStripMenuItem
+            // 
+            this.accountHistoryToolStripMenuItem.AccessibleName = "Account history menu option";
+            this.accountHistoryToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.acchist;
+            this.accountHistoryToolStripMenuItem.Name = "accountHistoryToolStripMenuItem";
+            this.accountHistoryToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.accountHistoryToolStripMenuItem.Text = "SL Account History";
+            this.accountHistoryToolStripMenuItem.Click += new System.EventHandler(this.accountHistoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(201, 6);
+            // 
+            // aboutLandToolStripMenuItem
+            // 
+            this.aboutLandToolStripMenuItem.AccessibleName = "About land menu option";
+            this.aboutLandToolStripMenuItem.Name = "aboutLandToolStripMenuItem";
+            this.aboutLandToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.aboutLandToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.aboutLandToolStripMenuItem.Text = "About Land";
+            this.aboutLandToolStripMenuItem.Click += new System.EventHandler(this.aboutLandToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tlTools
+            // 
+            this.tlTools.AccessibleName = "Tools menu";
+            this.tlTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbtnTeleport,
+            this.toolStripSeparator22,
+            this.btnMap,
+            this.tbtnObjects,
+            this.toolStripSeparator21,
+            this.mETAplayerToolStripMenuItem,
+            this.toolStripSeparator19,
+            this.toolStripMenuItem4,
+            this.toolStripSeparator23,
+            this.uploadImageL10PerUploadToolStripMenuItem});
+            this.tlTools.Enabled = false;
+            this.tlTools.Image = global::MEGAbolt.Properties.Resources.tools1;
+            this.tlTools.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlTools.Name = "tlTools";
+            this.tlTools.Size = new System.Drawing.Size(63, 22);
+            this.tlTools.Text = "&Tools";
+            this.tlTools.Click += new System.EventHandler(this.tlTools_Click);
+            // 
+            // tbtnTeleport
+            // 
+            this.tbtnTeleport.AccessibleName = "Teleport menu option";
+            this.tbtnTeleport.Image = global::MEGAbolt.Properties.Resources.tp;
+            this.tbtnTeleport.Name = "tbtnTeleport";
+            this.tbtnTeleport.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.tbtnTeleport.Size = new System.Drawing.Size(239, 22);
+            this.tbtnTeleport.Text = "Teleport";
+            this.tbtnTeleport.Click += new System.EventHandler(this.teleportToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(236, 6);
+            // 
+            // btnMap
+            // 
+            this.btnMap.AccessibleName = "Map menu option";
+            this.btnMap.Name = "btnMap";
+            this.btnMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.btnMap.Size = new System.Drawing.Size(239, 22);
+            this.btnMap.Text = "Map";
+            this.btnMap.Click += new System.EventHandler(this.mapToolStripMenuItem_Click);
+            // 
+            // tbtnObjects
+            // 
+            this.tbtnObjects.AccessibleName = "Object manager menu option";
+            this.tbtnObjects.Image = global::MEGAbolt.Properties.Resources.objects;
+            this.tbtnObjects.Name = "tbtnObjects";
+            this.tbtnObjects.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.tbtnObjects.Size = new System.Drawing.Size(239, 22);
+            this.tbtnObjects.Text = "Object Manager";
+            this.tbtnObjects.Click += new System.EventHandler(this.objectsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(236, 6);
+            // 
+            // mETAplayerToolStripMenuItem
+            // 
+            this.mETAplayerToolStripMenuItem.AccessibleName = "MEGAplayer menu option";
+            this.mETAplayerToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.metaplayer;
+            this.mETAplayerToolStripMenuItem.Name = "mETAplayerToolStripMenuItem";
+            this.mETAplayerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Y)));
+            this.mETAplayerToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.mETAplayerToolStripMenuItem.Text = "MEGAplayer";
+            this.mETAplayerToolStripMenuItem.Click += new System.EventHandler(this.mETAplayerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(236, 6);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.AccessibleName = "SIM stats menu option";
+            this.toolStripMenuItem4.Image = global::MEGAbolt.Properties.Resources.stats1;
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(239, 22);
+            this.toolStripMenuItem4.Text = "SIM Stats";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(236, 6);
+            // 
+            // uploadImageL10PerUploadToolStripMenuItem
+            // 
+            this.uploadImageL10PerUploadToolStripMenuItem.Name = "uploadImageL10PerUploadToolStripMenuItem";
+            this.uploadImageL10PerUploadToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.uploadImageL10PerUploadToolStripMenuItem.Text = "Upload Image (L$10 per image)";
+            this.uploadImageL10PerUploadToolStripMenuItem.Click += new System.EventHandler(this.uploadImageL10PerUploadToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tlLogs
+            // 
+            this.tlLogs.AccessibleName = "Logs menu";
+            this.tlLogs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.teleportHistoryToolStripMenuItem1,
+            this.muteListToolStripMenuItem1,
+            this.toolStripSeparator6,
+            this.chatLogsToolStripMenuItem,
+            this.searchLogsToolStripMenuItem,
+            this.toolStripSeparator20,
+            this.debugLogsToolStripMenuItem});
+            this.tlLogs.Image = global::MEGAbolt.Properties.Resources.documents_16;
+            this.tlLogs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlLogs.Name = "tlLogs";
+            this.tlLogs.Size = new System.Drawing.Size(61, 22);
+            this.tlLogs.Text = "&Logs";
+            // 
+            // teleportHistoryToolStripMenuItem1
+            // 
+            this.teleportHistoryToolStripMenuItem1.AccessibleName = "teleport history menu option";
+            this.teleportHistoryToolStripMenuItem1.Name = "teleportHistoryToolStripMenuItem1";
+            this.teleportHistoryToolStripMenuItem1.Size = new System.Drawing.Size(191, 22);
+            this.teleportHistoryToolStripMenuItem1.Text = "Teleport History";
+            this.teleportHistoryToolStripMenuItem1.Click += new System.EventHandler(this.teleportHistoryToolStripMenuItem1_Click);
+            // 
+            // muteListToolStripMenuItem1
+            // 
+            this.muteListToolStripMenuItem1.AccessibleName = "Mute list menu option";
+            this.muteListToolStripMenuItem1.Name = "muteListToolStripMenuItem1";
+            this.muteListToolStripMenuItem1.Size = new System.Drawing.Size(191, 22);
+            this.muteListToolStripMenuItem1.Text = "Mute List";
+            this.muteListToolStripMenuItem1.Click += new System.EventHandler(this.muteListToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(188, 6);
+            // 
+            // chatLogsToolStripMenuItem
+            // 
+            this.chatLogsToolStripMenuItem.AccessibleName = "Chat and IM logs menu option";
+            this.chatLogsToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.chat;
+            this.chatLogsToolStripMenuItem.Name = "chatLogsToolStripMenuItem";
+            this.chatLogsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.chatLogsToolStripMenuItem.Text = "Chat/IM Logs";
+            this.chatLogsToolStripMenuItem.Click += new System.EventHandler(this.chatLogsToolStripMenuItem_Click);
+            // 
+            // searchLogsToolStripMenuItem
+            // 
+            this.searchLogsToolStripMenuItem.AccessibleName = "Chat and IM logs manager menu option";
+            this.searchLogsToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.Search_16;
+            this.searchLogsToolStripMenuItem.Name = "searchLogsToolStripMenuItem";
+            this.searchLogsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.searchLogsToolStripMenuItem.Text = "Chat/IM Log Manager";
+            this.searchLogsToolStripMenuItem.Click += new System.EventHandler(this.searchLogsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator20
+            // 
+            this.toolStripSeparator20.Name = "toolStripSeparator20";
+            this.toolStripSeparator20.Size = new System.Drawing.Size(188, 6);
+            // 
+            // debugLogsToolStripMenuItem
+            // 
+            this.debugLogsToolStripMenuItem.AccessibleName = "Debug logs menu option";
+            this.debugLogsToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.debug;
+            this.debugLogsToolStripMenuItem.Name = "debugLogsToolStripMenuItem";
+            this.debugLogsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.debugLogsToolStripMenuItem.Text = "Debug Logs";
+            this.debugLogsToolStripMenuItem.Click += new System.EventHandler(this.debugLogsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsUtilities
+            // 
+            this.tsUtilities.AccessibleName = "Utilities menu";
+            this.tsUtilities.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scriptManagerToolStripMenuItem,
+            this.toolStripSeparator26,
+            this.landMonitorToolStripMenuItem,
+            this.reloadAIMLLibrariesToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.launchSLViewerToolStripMenuItem});
+            this.tsUtilities.Image = global::MEGAbolt.Properties.Resources.applications_32;
+            this.tsUtilities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsUtilities.Name = "tsUtilities";
+            this.tsUtilities.Size = new System.Drawing.Size(75, 22);
+            this.tsUtilities.Text = "&Utilities";
+            this.tsUtilities.Click += new System.EventHandler(this.tsUtilities_Click);
+            // 
+            // scriptManagerToolStripMenuItem
+            // 
+            this.scriptManagerToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.source_i;
+            this.scriptManagerToolStripMenuItem.Name = "scriptManagerToolStripMenuItem";
+            this.scriptManagerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.scriptManagerToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.scriptManagerToolStripMenuItem.Text = "Script Manager";
+            this.scriptManagerToolStripMenuItem.Click += new System.EventHandler(this.scriptManagerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(201, 6);
+            // 
+            // landMonitorToolStripMenuItem
+            // 
+            this.landMonitorToolStripMenuItem.Name = "landMonitorToolStripMenuItem";
+            this.landMonitorToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.landMonitorToolStripMenuItem.Text = "Land Monitor";
+            this.landMonitorToolStripMenuItem.Visible = false;
+            this.landMonitorToolStripMenuItem.Click += new System.EventHandler(this.landMonitorToolStripMenuItem_Click);
+            // 
+            // reloadAIMLLibrariesToolStripMenuItem
+            // 
+            this.reloadAIMLLibrariesToolStripMenuItem.Name = "reloadAIMLLibrariesToolStripMenuItem";
+            this.reloadAIMLLibrariesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.reloadAIMLLibrariesToolStripMenuItem.Text = "Re-load AIML libraries";
+            this.reloadAIMLLibrariesToolStripMenuItem.Click += new System.EventHandler(this.reloadAIMLLibrariesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(201, 6);
+            // 
+            // launchSLViewerToolStripMenuItem
+            // 
+            this.launchSLViewerToolStripMenuItem.AccessibleName = "Launch official SL viewer menu option";
+            this.launchSLViewerToolStripMenuItem.Name = "launchSLViewerToolStripMenuItem";
+            this.launchSLViewerToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.launchSLViewerToolStripMenuItem.Text = "Launch official SL viewer";
+            this.launchSLViewerToolStripMenuItem.ToolTipText = "Runs the official SL viewer using 1 CPU on dual core machines";
+            this.launchSLViewerToolStripMenuItem.Click += new System.EventHandler(this.launchSLViewerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsPlugins
+            // 
+            this.tsPlugins.AccessibleName = "Plugins menu";
+            this.tsPlugins.Image = global::MEGAbolt.Properties.Resources.plugin_icon;
+            this.tsPlugins.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsPlugins.Name = "tsPlugins";
+            this.tsPlugins.Size = new System.Drawing.Size(75, 22);
+            this.tsPlugins.Text = "&Plugins";
+            this.tsPlugins.Visible = false;
+            this.tsPlugins.Click += new System.EventHandler(this.tsPlugins_Click);
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            this.toolStripSeparator25.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsFlag
+            // 
+            this.tsFlag.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsFlag.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsFlag.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsFlag.Name = "tsFlag";
+            this.tsFlag.Size = new System.Drawing.Size(23, 22);
+            // 
+            // tsTime
+            // 
+            this.tsTime.Name = "tsTime";
+            this.tsTime.Size = new System.Drawing.Size(30, 22);
+            this.tsTime.Text = "--:--";
+            // 
+            // tsTimeOut
+            // 
+            this.tsTimeOut.ForeColor = System.Drawing.Color.Red;
+            this.tsTimeOut.Name = "tsTimeOut";
+            this.tsTimeOut.Size = new System.Drawing.Size(34, 22);
+            this.tsTimeOut.Text = "00:00";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 5000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // frmMain
+            // 
+            this.AccessibleName = "Main MEGAbolt window";
+            this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(720, 589);
+            this.Controls.Add(this.toolStripContainer1);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
+            this.Name = "frmMain";
+            this.Text = "MEGAbolt";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Load += new System.EventHandler(this.frmMain_Load);
+            this.LocationChanged += new System.EventHandler(this.frmMain_LocationChanged);
+            this.Resize += new System.EventHandler(this.frmMain_Resize);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tlblLoginName;
+        private System.Windows.Forms.ToolStripStatusLabel tlblRegionInfo;
+        private System.Windows.Forms.ToolStripStatusLabel tlblMoneyBalance;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStripStatusLabel tlblParcel;
+        private System.Windows.Forms.ToolStripStatusLabel tb1;
+        private System.Windows.Forms.ToolStripStatusLabel tb2;
+        private System.Windows.Forms.ToolStripStatusLabel tb4;
+        private System.Windows.Forms.ToolStripStatusLabel tb5;
+        private System.Windows.Forms.ToolStripStatusLabel tb6;
+        private System.Windows.Forms.ToolStripStatusLabel tb3;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripDropDownButton tbtnMEGAbolt;
+        private System.Windows.Forms.ToolStripMenuItem tmnuPrefs;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem tmnuBackup;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem tmnuExit;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripDropDownButton tbtnHelp;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
+        private System.Windows.Forms.ToolStripMenuItem reportABugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
+        private System.Windows.Forms.ToolStripMenuItem sLGridStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
+        private System.Windows.Forms.ToolStripMenuItem sLHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sLKnowledgebaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scriptingPortalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem tmnuAbout;
+        private System.Windows.Forms.ToolStripDropDownButton btnAvatar;
+        private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem awayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem busyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem fallOnFaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem bellyDanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clubToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salsaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alwaysRunToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem setHomeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tPHomeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setHomeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem createLandmarkHereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToPicksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private System.Windows.Forms.ToolStripMenuItem groundSitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem standToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem crouchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem stopAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem avatarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setPreviousAppearanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem accountHistoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem aboutLandToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripDropDownButton tlTools;
+        private System.Windows.Forms.ToolStripMenuItem tbtnTeleport;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem btnMap;
+        private System.Windows.Forms.ToolStripMenuItem tbtnObjects;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.ToolStripMenuItem mETAplayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripMenuItem uploadImageL10PerUploadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripDropDownButton tlLogs;
+        private System.Windows.Forms.ToolStripMenuItem teleportHistoryToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem muteListToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem chatLogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchLogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
+        private System.Windows.Forms.ToolStripMenuItem debugLogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
+        private System.Windows.Forms.ToolStripDropDownButton tsUtilities;
+        private System.Windows.Forms.ToolStripMenuItem scriptManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
+        private System.Windows.Forms.ToolStripMenuItem landMonitorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadAIMLLibrariesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem launchSLViewerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripDropDownButton tsPlugins;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+        private System.Windows.Forms.ToolStripButton tsFlag;
+        private System.Windows.Forms.ToolStripLabel tsTime;
+        private System.Windows.Forms.ToolStripLabel tsTimeOut;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel tb7;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+    }
+}
+

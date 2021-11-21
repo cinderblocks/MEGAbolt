@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "METAbolt", "METAbolt\METAbolt.csproj", "{A6D955CD-1F55-459F-A7AD-01E591404989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MEGAbolt", "MEGAbolt\MEGAbolt.csproj", "{A6D955CD-1F55-459F-A7AD-01E591404989}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8915D4B9-62BA-4C56-BA79-4A07FB938F8C} = {8915D4B9-62BA-4C56-BA79-4A07FB938F8C}
 		{C8B40AE0-71AE-4F96-90DE-705D23F1857D} = {C8B40AE0-71AE-4F96-90DE-705D23F1857D}
@@ -14,9 +14,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePluginApp", "SamplePl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5library", "MD5library\MD5library.csproj", "{C8B40AE0-71AE-4F96-90DE-705D23F1857D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "METAbrain", "METAbrain\METAbrain.csproj", "{EF2A2CEA-7FB5-4F36-8087-7D4BEBF1C103}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEGAbrain", "MEGAbrain\MEGAbrain.csproj", "{EF2A2CEA-7FB5-4F36-8087-7D4BEBF1C103}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "METAx", "METAx\METAx.csproj", "{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEGAx", "MEGAx\MEGAx.csproj", "{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
