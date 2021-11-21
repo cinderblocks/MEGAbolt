@@ -417,9 +417,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="logs\" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
