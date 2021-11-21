@@ -352,20 +352,6 @@ namespace METAbolt
 
                             string fname = client.Self.FirstName + "_" + client.Self.LastName;
 
-                            if (chkCmd.Checked)
-                            {
-                                // create the CMD file
-                                CreateCmdFile();
-
-                                FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), fname + "_MEGAbolt.ini"));
-
-                                if (!newFileInfo.Exists)
-                                {
-                                    string pth = Path.Combine(DataFolder.GetDataFolder(), fname + "_MEGAbolt.ini");
-                                    instance.Config.CurrentConfig.Save(pth);
-                                }
-                            }
-
                             //instance.Config.ChangeConfigFile(fname);
                             instance.ReapplyConfig(fname);
 

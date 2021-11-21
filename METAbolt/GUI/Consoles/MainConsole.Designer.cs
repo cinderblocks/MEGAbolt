@@ -40,7 +40,6 @@ namespace METAbolt
             this.button1 = new System.Windows.Forms.Button();
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.cboUserList = new System.Windows.Forms.ComboBox();
-            this.chkCmd = new System.Windows.Forms.CheckBox();
             this.chkPWD = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomLoginUri = new System.Windows.Forms.TextBox();
@@ -93,7 +92,7 @@ namespace METAbolt
             // 
             this.lblLoginStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblLoginStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoginStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblLoginStatus.Location = new System.Drawing.Point(3, 3);
             this.lblLoginStatus.Name = "lblLoginStatus";
             this.lblLoginStatus.Size = new System.Drawing.Size(548, 51);
@@ -140,7 +139,6 @@ namespace METAbolt
             this.pnlLoginPrompt.Controls.Add(this.button1);
             this.pnlLoginPrompt.Controls.Add(this.txtFirstName);
             this.pnlLoginPrompt.Controls.Add(this.cboUserList);
-            this.pnlLoginPrompt.Controls.Add(this.chkCmd);
             this.pnlLoginPrompt.Controls.Add(this.chkPWD);
             this.pnlLoginPrompt.Controls.Add(this.label6);
             this.pnlLoginPrompt.Controls.Add(this.txtCustomLoginUri);
@@ -207,23 +205,6 @@ namespace METAbolt
             this.cboUserList.TabIndex = 15;
             this.cboUserList.SelectedIndexChanged += new System.EventHandler(this.cboUserList_SelectedIndexChanged);
             // 
-            // chkCmd
-            // 
-            this.chkCmd.AccessibleDescription = "Option to create a BAT file for the avatar you are logging in with next time you " +
-    "start MEGAbolt";
-            this.chkCmd.AccessibleName = "Create BAT file";
-            this.chkCmd.AutoSize = true;
-            this.chkCmd.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.chkCmd.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.chkCmd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.chkCmd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkCmd.Location = new System.Drawing.Point(424, 44);
-            this.chkCmd.Name = "chkCmd";
-            this.chkCmd.Size = new System.Drawing.Size(110, 17);
-            this.chkCmd.TabIndex = 6;
-            this.chkCmd.Text = "Create av BAT file";
-            this.chkCmd.UseVisualStyleBackColor = true;
-            // 
             // chkPWD
             // 
             this.chkPWD.AccessibleDescription = "Option to remember your password next time you start MEGAbolt";
@@ -233,7 +214,7 @@ namespace METAbolt
             this.chkPWD.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
             this.chkPWD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
             this.chkPWD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkPWD.Location = new System.Drawing.Point(275, 45);
+            this.chkPWD.Location = new System.Drawing.Point(410, 44);
             this.chkPWD.Name = "chkPWD";
             this.chkPWD.Size = new System.Drawing.Size(140, 17);
             this.chkPWD.TabIndex = 5;
@@ -376,7 +357,7 @@ namespace METAbolt
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Tahoma", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Tahoma", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.label7.Location = new System.Drawing.Point(4, 365);
             this.label7.Name = "label7";
@@ -398,7 +379,7 @@ namespace METAbolt
             this.Controls.Add(this.pnlLoginPage);
             this.Controls.Add(this.btnLogin);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "MainConsole";
             this.Size = new System.Drawing.Size(682, 466);
             this.Load += new System.EventHandler(this.MainConsole_Load);
@@ -430,7 +411,6 @@ namespace METAbolt
         private System.Windows.Forms.ComboBox cbxLocation;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkPWD;
-        private System.Windows.Forms.CheckBox chkCmd;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ComboBox cboUserList;
         private System.Windows.Forms.TextBox txtFirstName;

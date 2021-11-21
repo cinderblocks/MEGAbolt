@@ -1111,7 +1111,9 @@ namespace METAbolt
             msg.AppendLine("Compiler Errors: ");
 
             foreach (System.CodeDom.Compiler.CompilerError errorOn in e.SourceFileCompilerErrors)
-                msg.AppendLine("  #" + errorOn.ErrorNumber.ToString(CultureInfo.CurrentCulture) + " on Line: " + errorOn.Line.ToString(CultureInfo.CurrentCulture) + " at Column: " + errorOn.Column.ToString(CultureInfo.CurrentCulture) + " - " + errorOn.ErrorText);
+                msg.AppendLine($"  #{errorOn.ErrorNumber.ToString(CultureInfo.CurrentCulture)} " +
+                    $"on Line: {errorOn.Line.ToString(CultureInfo.CurrentCulture)} " +
+                    $"at Column: {errorOn.Column.ToString(CultureInfo.CurrentCulture)} - {errorOn.ErrorText}");
 
             //Show the user
             //MessageBox.Show(this, msg.ToString(), "Extension Compilation Error", MessageBoxButtons.OK);

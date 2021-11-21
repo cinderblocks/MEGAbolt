@@ -58,7 +58,6 @@ namespace METAbolt
         //private ManualResetEvent PrimEvent = new ManualResetEvent(false);
 
         private Timer pointtimer;
-        private Timer agentUpdateTicker;
         
         private Vector3d offset = new Vector3d(Vector3d.Zero); 
         private Vector3d beamoffset1 = new Vector3d(0, 0, 0.1);
