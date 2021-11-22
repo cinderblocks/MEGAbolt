@@ -43,9 +43,6 @@ namespace MEGAbolt
             lblVersion.Text = $"{Properties.Resources.MEGAboltTitle} V {Properties.Resources.MEGAboltVersion}";   
             txtDir.Text =  Application.StartupPath.ToString();
             textBox1.Text = DataFolder.GetDataFolder() ;
-            //platform = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE").ToString();
-
-            //lblVersion.Text += " (" + Properties.Resources.PlatformType + ")";
             lblVersion.Text += " (" + Platform + ")";
         }
 

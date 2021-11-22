@@ -433,9 +433,6 @@
   <data name="save_sl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save_sl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PlatformType" xml:space="preserve">
-    <value>32bit</value>
-  </data>
   <data name="Help_and_Support_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Help_and_Support_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -483,7 +480,7 @@
     <value>..\Resources\ChairAnn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="notify" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\notify.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\notify.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="prec_bookmark_i" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\prec bookmark_i.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
