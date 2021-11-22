@@ -462,15 +462,6 @@ namespace MEGAbolt.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to See the new Version .3 of METAbolt in action here!.
-        /// </summary>
-        internal static string ChairAdvert {
-            get {
-                return ResourceManager.GetString("ChairAdvert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ChairAnn {

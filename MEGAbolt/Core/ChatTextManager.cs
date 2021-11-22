@@ -791,11 +791,15 @@ namespace MEGAbolt
 
                         if (pwd == "invalid")
                         {
-                            gmsg = "IMPORTANT WARNING: A chair announcement could not be sent out. Your Chair Announcer is out of date. \nThe password used is: " + pwd + ".";
+                            gmsg = "IMPORTANT WARNING: A chair announcement could not be sent out. Your Chair Announcer is out of date. \n" +
+                                "The password used is: " + pwd + ".";
                         }
                         else
                         {
-                            gmsg = "IMPORTANT WARNING: A chair announcement with an invalid password has been received. Either the passwords in MEGAbolt & Chair Announcer don't match or someone is trying to get unauthorised access. This is for information purposes only. DO NOT PANIC. The request has been discarded.  \nThe password used is: " + pwd;
+                            gmsg = "IMPORTANT WARNING: A chair announcement with an invalid password has been received. " +
+                                "Either the passwords in MEGAbolt & Chair Announcer don't match or someone is trying to get unauthorised access. " +
+                                "This is for information purposes only. DO NOT PANIC. The request has been discarded.  \n" +
+                                "The password used is: " + pwd;
                         }
 
                         TextPrinter.PrintTextLine(gmsg); //always print even if chairAnnChat is turned off
