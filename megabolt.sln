@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEGAbrain", "MEGAbrain\MEGA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEGAx", "MEGAx\MEGAx.csproj", "{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEGArestart", "MEGArestart\MEGArestart.csproj", "{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,14 @@ Global
 		{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}.Release|x64.ActiveCfg = Release|Any CPU
 		{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}.Release|x64.Build.0 = Release|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Debug|x64.Build.0 = Debug|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Release|x64.ActiveCfg = Release|Any CPU
+		{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
