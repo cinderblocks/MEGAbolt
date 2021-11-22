@@ -373,10 +373,6 @@
     <Content Include="MBLSL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MB_Tray.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="metabolt_new.ico" />
     <None Update="MEGArestart.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
