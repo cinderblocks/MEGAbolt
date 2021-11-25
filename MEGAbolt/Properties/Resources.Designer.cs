@@ -1048,15 +1048,6 @@ namespace MEGAbolt.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to nerf nerf nerf.
-        /// </summary>
-        internal static string METAboltAuthor {
-            get {
-                return ResourceManager.GetString("METAboltAuthor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to MEGAbolt.
         /// </summary>
         internal static string MEGAboltTitle {
