@@ -389,10 +389,10 @@
     <Content Include="Resources\script.png" />
     <Content Include="Resources\up.png" />
     <Content Include="Resources\wmp.png" />
-    <None Update="SciLexer.dll">
+    <None Update="assemblies\SciLexer.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="SciLexerx64.dll">
+    <Content Include="assemblies\SciLexerx64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TP_History.xml">
