@@ -6,6 +6,7 @@
     <Product>MEGArestart</Product>
     <Copyright>Copyright © 2021 Sjofn LLC. All rights reserved.</Copyright>
     <FileVersion>1.0.0.0</FileVersion>
+	<Platforms>AnyCPU;x64</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>

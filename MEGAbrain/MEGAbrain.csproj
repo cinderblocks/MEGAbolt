@@ -11,6 +11,7 @@
     <Product>MEGAbrain</Product>
     <Description>AI brain for MEGAbolt</Description>
     <Copyright>Copyright © 2021, Sjofn LLC. All rights reserved.</Copyright>
+	<Platforms>AnyCPU;x64</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
