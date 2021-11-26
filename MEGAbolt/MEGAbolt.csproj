@@ -8,13 +8,16 @@
 	<TargetCulture>en</TargetCulture>
     <ProductName>MEGAbolt</ProductName>
     <PublisherName>Sjofn LLC</PublisherName>
-    <AutorunEnabled>true</AutorunEnabled>
     <DisallowUrlActivation>true</DisallowUrlActivation>
     <UseApplicationTrust>true</UseApplicationTrust>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
 	<PublishReadyToRun>true</PublishReadyToRun>
 	<PublishSingleFile>true</PublishSingleFile>
+	<BootstrapperEnabled>true</BootstrapperEnabled>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	<OutputPath>..\bin\$(Configuration)\</OutputPath>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+	<FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
 	<ItemGroup>
     <Reference Include="CbtHook">

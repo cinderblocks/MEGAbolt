@@ -31,20 +31,20 @@ using System.CodeDom.Compiler;
 
 namespace MEGAx
 {
-  public class AssemblyFailedLoadingEventArgs : EventArgs
-  {
-      public AssemblyFailedLoadingEventArgs()
+    public class AssemblyFailedLoadingEventArgs : EventArgs
     {
+        public AssemblyFailedLoadingEventArgs()
+        {
+        }
+
+        public AssemblyFailedLoadingEventArgs(string filename) => Filename = filename;
+
+        public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
+
+        public CompilerErrorCollection SourceFileCompilerErrors { get; set; } = new CompilerErrorCollection();
+
+        public string ErrorMessage { get; set; } = "";
+
+        public string Filename { get; set; } = "";
     }
-
-    public AssemblyFailedLoadingEventArgs(string filename) => Filename = filename;
-
-    public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
-
-    public CompilerErrorCollection SourceFileCompilerErrors { get; set; } = new CompilerErrorCollection();
-
-    public string ErrorMessage { get; set; } = "";
-
-    public string Filename { get; set; } = "";
-  }
 }
