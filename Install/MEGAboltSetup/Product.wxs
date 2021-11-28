@@ -31,7 +31,7 @@
 		<!-- Windows Add/Remove Programs properties -->
 		<Property Id="ARPCOMMENTS">$(var.productDesc)</Property>
 		<Property Id="ARPCONTACT">$(var.companyName)</Property>
-		<Property Id="ARPPRODUCTICON" Value="MB.ico" />
+		<Property Id="ARPPRODUCTICON" Value="ICO_File" />
 		<Property Id="ARPHELPLINK">$(var.aboutUrl)</Property>
 		<Property Id="ARPURLINFOABOUT">$(var.aboutUrl)</Property>
 		<Property Id="ARPURLUPDATEINFO">$(var.aboutUrl)</Property>
