@@ -44,3 +44,8 @@ dotnet_csproj:
 before_build:
   - ps: util/InstallRemotePfx.ps1 -PfxDownloadUrl $env:PfxDownloadUrl -PfxDownloadUser AppVeyor -PfxDownloadPasswd $env:PfxDownloadPasswd -PfxPasswd $env:PfxPassword
   - nuget restore megabolt.sln
+
+artifacts:
+  - path: 'MEGAboltSetup*.msi'
+    name: 'MEGAbolt Windows MSI'
+    type: Auto
