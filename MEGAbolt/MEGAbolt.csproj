@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
-	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <OutputType>WinExe</OutputType>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ApplicationIcon>MB.ico</ApplicationIcon>
@@ -12,13 +11,13 @@
     <UseApplicationTrust>true</UseApplicationTrust>
     <UseWindowsForms>true</UseWindowsForms>
 	<PublishReadyToRun>true</PublishReadyToRun>
-	<PublishSingleFile>true</PublishSingleFile>
 	<BootstrapperEnabled>true</BootstrapperEnabled>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
 	<AssemblyVersion>1.0.0</AssemblyVersion>
 	<FileVersion>1.0.0</FileVersion>
 	<Platforms>AnyCPU;x64</Platforms>
+	<StartupObject>MEGAbolt.Program</StartupObject>
   </PropertyGroup>
 	<ItemGroup>
     <Reference Include="CbtHook">

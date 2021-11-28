@@ -4,13 +4,18 @@
     <OutputType>Exe</OutputType>
     <AssemblyTitle>MEGArestart</AssemblyTitle>
     <Product>MEGArestart</Product>
+	<PublisherName>Sjofn LLC</PublisherName>
     <Copyright>Copyright © 2021 Sjofn LLC. All rights reserved.</Copyright>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
 	<Platforms>AnyCPU;x64</Platforms>
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<BootstrapperEnabled>true</BootstrapperEnabled>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <TargetFramework>net5.0</TargetFramework>
+	<StartupObject>MEGArestart.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

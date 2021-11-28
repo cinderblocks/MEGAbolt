@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<?include BuildProperties.wxi?>
+	<?define productVersion="!(bind.fileVersion.MEGAbolt.exe)"?>
+
+	<?if $(var.Platform)=x64 ?>
+	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+	<?else ?>
+	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+	<?endif ?>
+
+	<Product Id="*"
+			 Name="$(var.productName)"
+			 Language="1033"
+             Version="$(var.productVersion)"
+			 Manufacturer="$(var.companyName)"
+			 UpgradeCode="b39d75c2-2f2c-4812-8519-ea0c95fd3030">
+		<Package InstallerVersion="405"
+				 Manufacturer="$(var.companyName)"
+				 Description="$(var.productDesc)"
+		         Compressed="yes" />
+
+		<Icon Id="MB.ico" SourceFile="assets\MB.ico"/>
+
+		<MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
+		<Media Id="1" Cabinet="MEGAbolt.cab" EmbedCab="yes" />
+
+		<Property Id="ApplicationFolderName" Value="$(var.productName)" />
+		<Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+
+		<!-- Windows Add/Remove Programs properties -->
+		<Property Id="ARPCOMMENTS">$(var.productDesc)</Property>
+		<Property Id="ARPCONTACT">$(var.companyName)</Property>
+		<Property Id="ARPPRODUCTICON" Value="MB.ico" />
+		<Property Id="ARPHELPLINK">$(var.aboutUrl)</Property>
+		<Property Id="ARPURLINFOABOUT">$(var.aboutUrl)</Property>
+		<Property Id="ARPURLUPDATEINFO">$(var.aboutUrl)</Property>
+		<!--<Property Id="ARPHELPTELEPHONE"></Property>-->
+		<Property Id="ARPREADME">https://metabolt.radegast.life/</Property>
+		<!-- Update this value with the install size in Kb -->
+		<Property Id="ARPSIZE">$(var.totalFileSize)</Property>
+		<!-- This refers to the Id attribute of the <Icon> element -->
+		<!--<Property Id="ARPNOMODIFY">1</Property>-->
+		<!-- Prevent the Modify feature in Add/Remove Programs -->
+		<!--<Property Id="ARPNOREPAIR">1</Property>-->
+		<!-- Prevent the Repair feature in Add/Remove Programs -->
+
+		<Feature Id="ProductFeature" Title="MEGAbolt" Level="1">
+			<ComponentGroupRef Id="ProductFilesComponentGroup" />
+			<ComponentRef Id="ApplicationShortcut" />
+
+			<Feature Id="VoiceFeature" Title="VoicePack" Level="1">
+				<ComponentGroupRef Id="VoicePackComponentGroup" />
+				<Feature Id="VCRedist" Title="Visual C++ 2013 Runtime"
+                         AllowAdvertise="no" Display="hidden" InstallDefault="followParent" Level="1">
+					<MergeRef Id="VC_Redist" />
+				</Feature>
+			</Feature>
+		</Feature>
+
+		<?include UI.wxi?>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
+				<Directory Id="APPLICATIONFOLDER" Name="$(var.productName)" />
+				<Directory Id="ProductFilesComponentGroup" />
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="$(var.productName)" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="Runtime" Directory="APPLICATIONFOLDER">
+			<Component Id="MEGAboltExe">
+				<File Id="MEGAboltExe" KeyPath="yes" Checksum="yes" Source="$(var.MEGAbolt.TargetPath)" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+
+	<!-- Start menu -->
+	<Fragment>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+                          Name="$(var.productName)"
+                          Description="$(var.productDesc)"
+                          Target="[APPLICATIONFOLDER]MEGAbolt.exe"
+                          WorkingDirectory="APPLICATIONFOLDER"/>
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\$(var.companyName)\$(var.productName)"
+                               Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>
