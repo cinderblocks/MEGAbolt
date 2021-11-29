@@ -442,7 +442,7 @@ namespace MEGAbolt
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
             // 
-            // tbtnMETAbolt
+            // tbtnMEGAbolt
             // 
             this.tbtnMEGAbolt.AccessibleName = "Application menu";
             this.tbtnMEGAbolt.AutoToolTip = false;
@@ -453,7 +453,7 @@ namespace MEGAbolt
             this.toolStripSeparator16,
             this.tmnuExit});
             this.tbtnMEGAbolt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tbtnMEGAbolt.Image = ((System.Drawing.Image)(resources.GetObject("tbtnMETAbolt.Image")));
+            this.tbtnMEGAbolt.Image = ((System.Drawing.Image)(resources.GetObject("tbtnMEGAbolt.Image")));
             this.tbtnMEGAbolt.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbtnMEGAbolt.Name = "tbtnMEGAbolt";
             this.tbtnMEGAbolt.Size = new System.Drawing.Size(97, 22);
@@ -535,45 +535,45 @@ namespace MEGAbolt
             this.checkForUpdatesToolStripMenuItem.AccessibleName = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.arrow_back;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // toolStripSeparator28
             // 
             this.toolStripSeparator28.Name = "toolStripSeparator28";
-            this.toolStripSeparator28.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator28.Size = new System.Drawing.Size(163, 6);
             // 
             // reportABugToolStripMenuItem
             // 
             this.reportABugToolStripMenuItem.AccessibleName = "Report a bug menu option";
             this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
-            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.reportABugToolStripMenuItem.Text = "Report a Bug";
             this.reportABugToolStripMenuItem.Click += new System.EventHandler(this.reportABugToolStripMenuItem_Click);
             // 
             // toolStripSeparator29
             // 
             this.toolStripSeparator29.Name = "toolStripSeparator29";
-            this.toolStripSeparator29.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator29.Size = new System.Drawing.Size(163, 6);
             // 
             // sLGridStatusToolStripMenuItem
             // 
             this.sLGridStatusToolStripMenuItem.Name = "sLGridStatusToolStripMenuItem";
-            this.sLGridStatusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLGridStatusToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.sLGridStatusToolStripMenuItem.Text = "SL Grid Status";
             this.sLGridStatusToolStripMenuItem.Click += new System.EventHandler(this.sLGridStatusToolStripMenuItem_Click);
             // 
             // toolStripSeparator27
             // 
             this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator27.Size = new System.Drawing.Size(163, 6);
             // 
             // sLHelpToolStripMenuItem
             // 
             this.sLHelpToolStripMenuItem.AccessibleName = "SL help menu option";
             this.sLHelpToolStripMenuItem.Name = "sLHelpToolStripMenuItem";
-            this.sLHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLHelpToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.sLHelpToolStripMenuItem.Text = "SL Help";
             this.sLHelpToolStripMenuItem.Click += new System.EventHandler(this.sLHelpToolStripMenuItem_Click);
             // 
@@ -581,7 +581,7 @@ namespace MEGAbolt
             // 
             this.sLKnowledgebaseToolStripMenuItem.AccessibleName = "SL knowledge base menu option";
             this.sLKnowledgebaseToolStripMenuItem.Name = "sLKnowledgebaseToolStripMenuItem";
-            this.sLKnowledgebaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sLKnowledgebaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.sLKnowledgebaseToolStripMenuItem.Text = "SL Knowledge Base";
             this.sLKnowledgebaseToolStripMenuItem.Click += new System.EventHandler(this.sLKnowledgebaseToolStripMenuItem_Click);
             // 
@@ -589,20 +589,20 @@ namespace MEGAbolt
             // 
             this.scriptingPortalToolStripMenuItem.AccessibleName = "SL scripting portal menu option";
             this.scriptingPortalToolStripMenuItem.Name = "scriptingPortalToolStripMenuItem";
-            this.scriptingPortalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scriptingPortalToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.scriptingPortalToolStripMenuItem.Text = "SL Scripting Portal";
             this.scriptingPortalToolStripMenuItem.Click += new System.EventHandler(this.scriptingPortalToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(163, 6);
             // 
             // tmnuAbout
             // 
             this.tmnuAbout.AccessibleName = "About MEGAbolt menu option";
             this.tmnuAbout.Name = "tmnuAbout";
-            this.tmnuAbout.Size = new System.Drawing.Size(180, 22);
+            this.tmnuAbout.Size = new System.Drawing.Size(166, 22);
             this.tmnuAbout.Text = "About MEGAbolt";
             this.tmnuAbout.Click += new System.EventHandler(this.tmnuAbout_Click);
             // 
@@ -660,7 +660,7 @@ namespace MEGAbolt
             this.awayToolStripMenuItem.CheckOnClick = true;
             this.awayToolStripMenuItem.Name = "awayToolStripMenuItem";
             this.awayToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.awayToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.awayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.awayToolStripMenuItem.Text = "Away";
             this.awayToolStripMenuItem.Click += new System.EventHandler(this.awayToolStripMenuItem_Click);
             // 
@@ -670,14 +670,14 @@ namespace MEGAbolt
             this.busyToolStripMenuItem.CheckOnClick = true;
             this.busyToolStripMenuItem.Name = "busyToolStripMenuItem";
             this.busyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.busyToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.busyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.busyToolStripMenuItem.Text = "Busy";
             this.busyToolStripMenuItem.Click += new System.EventHandler(this.busyToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(177, 6);
             // 
             // fallOnFaceToolStripMenuItem
             // 
@@ -685,21 +685,21 @@ namespace MEGAbolt
             this.fallOnFaceToolStripMenuItem.CheckOnClick = true;
             this.fallOnFaceToolStripMenuItem.Name = "fallOnFaceToolStripMenuItem";
             this.fallOnFaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.fallOnFaceToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.fallOnFaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fallOnFaceToolStripMenuItem.Text = "Fall on face";
             this.fallOnFaceToolStripMenuItem.Click += new System.EventHandler(this.fallOnFaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(177, 6);
             // 
             // bellyDanceToolStripMenuItem
             // 
             this.bellyDanceToolStripMenuItem.AccessibleName = "Belly dance menu option";
             this.bellyDanceToolStripMenuItem.CheckOnClick = true;
             this.bellyDanceToolStripMenuItem.Name = "bellyDanceToolStripMenuItem";
-            this.bellyDanceToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.bellyDanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bellyDanceToolStripMenuItem.Text = "Belly Dance";
             this.bellyDanceToolStripMenuItem.Click += new System.EventHandler(this.bellyDanceToolStripMenuItem_Click);
             // 
@@ -708,7 +708,7 @@ namespace MEGAbolt
             this.clubToolStripMenuItem.AccessibleName = "Club dance menu option";
             this.clubToolStripMenuItem.CheckOnClick = true;
             this.clubToolStripMenuItem.Name = "clubToolStripMenuItem";
-            this.clubToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.clubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clubToolStripMenuItem.Text = "Club Dance";
             this.clubToolStripMenuItem.Click += new System.EventHandler(this.clubToolStripMenuItem_Click);
             // 
@@ -717,7 +717,7 @@ namespace MEGAbolt
             this.salsaToolStripMenuItem.AccessibleName = "Salsa menu option";
             this.salsaToolStripMenuItem.CheckOnClick = true;
             this.salsaToolStripMenuItem.Name = "salsaToolStripMenuItem";
-            this.salsaToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.salsaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salsaToolStripMenuItem.Text = "Salsa";
             this.salsaToolStripMenuItem.Click += new System.EventHandler(this.salsaToolStripMenuItem_Click);
             // 
@@ -736,7 +736,7 @@ namespace MEGAbolt
             this.flyToolStripMenuItem.AccessibleName = "Fly menu option";
             this.flyToolStripMenuItem.CheckOnClick = true;
             this.flyToolStripMenuItem.Name = "flyToolStripMenuItem";
-            this.flyToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.flyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.flyToolStripMenuItem.Text = "Fly";
             this.flyToolStripMenuItem.Click += new System.EventHandler(this.flyToolStripMenuItem_Click);
             // 
@@ -745,7 +745,7 @@ namespace MEGAbolt
             this.alwaysRunToolStripMenuItem.AccessibleName = "Always run menu option";
             this.alwaysRunToolStripMenuItem.CheckOnClick = true;
             this.alwaysRunToolStripMenuItem.Name = "alwaysRunToolStripMenuItem";
-            this.alwaysRunToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.alwaysRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.alwaysRunToolStripMenuItem.Text = "Always Run";
             this.alwaysRunToolStripMenuItem.Click += new System.EventHandler(this.alwaysRunToolStripMenuItem_Click);
             // 
@@ -969,6 +969,7 @@ namespace MEGAbolt
             // mETAplayerToolStripMenuItem
             // 
             this.mETAplayerToolStripMenuItem.AccessibleName = "MEGAplayer menu option";
+            this.mETAplayerToolStripMenuItem.Enabled = false;
             this.mETAplayerToolStripMenuItem.Image = global::MEGAbolt.Properties.Resources.metaplayer;
             this.mETAplayerToolStripMenuItem.Name = "mETAplayerToolStripMenuItem";
             this.mETAplayerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
