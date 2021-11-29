@@ -38,8 +38,6 @@ namespace MEGAbolt
             this.btnNext = new System.Windows.Forms.Button();
             this.btnProfile = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlFindEvents = new System.Windows.Forms.Panel();
@@ -111,7 +109,6 @@ namespace MEGAbolt
             this.label9 = new System.Windows.Forms.Label();
             this.button17 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tpgPlaces.SuspendLayout();
             this.tpgPeople.SuspendLayout();
@@ -247,7 +244,6 @@ namespace MEGAbolt
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tpgPlaces);
             this.tabControl1.Controls.Add(this.tpgPeople);
@@ -260,26 +256,6 @@ namespace MEGAbolt
             this.tabControl1.ShowToolTips = true;
             this.tabControl1.Size = new System.Drawing.Size(548, 400);
             this.tabControl1.TabIndex = 9;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.panel4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(540, 374);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "MEGAsearch";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(540, 374);
-            this.panel4.TabIndex = 0;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // tabPage2
             // 
@@ -930,7 +906,7 @@ namespace MEGAbolt
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(93, 6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(360, 20);
+            this.textBox1.Size = new System.Drawing.Size(360, 23);
             this.textBox1.TabIndex = 2;
             // 
             // button4
@@ -1011,7 +987,7 @@ namespace MEGAbolt
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(43, 7);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(413, 20);
+            this.textBox2.Size = new System.Drawing.Size(413, 23);
             this.textBox2.TabIndex = 12;
             // 
             // button8
@@ -1118,7 +1094,7 @@ namespace MEGAbolt
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Location = new System.Drawing.Point(93, 6);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(360, 20);
+            this.textBox3.Size = new System.Drawing.Size(360, 23);
             this.textBox3.TabIndex = 2;
             // 
             // button15
@@ -1171,11 +1147,10 @@ namespace MEGAbolt
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "SearchConsole";
             this.Size = new System.Drawing.Size(548, 400);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tpgPlaces.ResumeLayout(false);
@@ -1259,8 +1234,6 @@ namespace MEGAbolt
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button cmdInfo;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TabPage tpgLand;
         private System.Windows.Forms.Panel pnlFindLand;
         private System.Windows.Forms.Button btnNextLand;
