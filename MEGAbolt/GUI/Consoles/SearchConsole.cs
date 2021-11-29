@@ -46,7 +46,6 @@ namespace MEGAbolt
         private UUID requestedgroupid = UUID.Zero;  
 
         private int totalResults = 0;
-        private WebBrowser webBrowser;
         private string clickedurl;
 
 
@@ -86,19 +85,6 @@ namespace MEGAbolt
             landconsole.SelectedIndexChanged += landconsole_SelectedIndexChanged;
             pnlFindLand.Controls.Add(landconsole);
 
-            webBrowser = new WebBrowser();
-            webBrowser.DocumentCompleted += webBrowser_DocumentCompleted;
-            webBrowser.Navigating += webBrowser_Navigating;
-            webBrowser.Url = new Uri("http://www.metabolt.net/metasearch.php");
-            webBrowser.AllowNavigation = true;
-            //webBrowser.AllowWebBrowserDrop = false;
-            webBrowser.Dock = DockStyle.Fill;
-            webBrowser.IsWebBrowserContextMenuEnabled = false;
-            webBrowser.ScriptErrorsSuppressed = true;
-            webBrowser.ScrollBarsEnabled = true;
-            webBrowser.NewWindow += webBrowser_NewWindow;
-            panel4.Controls.Add(webBrowser);
-
             Disposed += SearchConsole_Disposed;
 
             PopulateCbos();
@@ -130,40 +116,6 @@ namespace MEGAbolt
             cboPrice.Items.Add("< 10k L$");
             cboPrice.Items.Add("> 10k L$");
             cboPrice.SelectedIndex = 0;
-        }
-
-        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-
-            HtmlElementCollection links = webBrowser.Document.Links;
-
-            foreach (HtmlElement var in links)
-            {
-                var.AttachEventHandler("onclick", LinkClicked);
-            }
-        }
-
-        private void webBrowser_NewWindow(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-
-            HtmlElement link = webBrowser.Document.ActiveElement;
-            clickedurl = link.GetAttribute("href");
-
-            string murl = "http://www.metabolt.net/METAsearchRedirect.php?URL=" + clickedurl;
-            System.Diagnostics.Process.Start(murl);
-        }
-
-        private void LinkClicked(object sender, EventArgs e)
-        {
-
-            HtmlElement link = webBrowser.Document.ActiveElement;
-            clickedurl = link.GetAttribute("href");
-        }
-
-        private void webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            //clickedurl = e.Url.ToString();
         }
 
         private void console_SelectedIndexChanged(object sender, EventArgs e)
@@ -240,8 +192,6 @@ namespace MEGAbolt
             client.Directory.DirPlacesReply -= Directory_OnDirPlacesReply;
             client.Directory.DirGroupsReply -= Directory_OnDirGroupsReply;
             client.Directory.DirLandReply -= Directory_OnDirLandReply;
-            webBrowser.DocumentCompleted -= webBrowser_DocumentCompleted;
-            webBrowser.Navigating -= webBrowser_Navigating;
         }
 
         //Separate thread
