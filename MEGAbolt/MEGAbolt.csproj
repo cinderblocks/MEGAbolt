@@ -410,7 +410,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AIMLbot-Radegast" Version="2.5.1.1" />
-    <PackageReference Include="BugSplatDotNetStandard" Version="2.0.7" />
+    <PackageReference Include="BugSplatDotNetStandard" Version="2.1.2" />
     <PackageReference Include="LibreMetaverse" Version="1.9.4.297" />
     <PackageReference Include="LibreMetaverse.PrimMesher" Version="1.9.4.297" />
     <PackageReference Include="LibreMetaverse.Rendering.Meshmerizer" Version="1.9.4.297" />
