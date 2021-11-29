@@ -473,7 +473,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MD5library\MD5library.csproj" />
-    <ProjectReference Include="..\MEGAbrain\MEGAbrain.csproj" />
     <ProjectReference Include="..\MEGAx\MEGAx.csproj" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

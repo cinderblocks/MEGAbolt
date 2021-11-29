@@ -46,7 +46,7 @@ namespace MEGAbolt
         //private bool TEnabled = false;
         //private bool tweet = true;
         //private string tweetname = string.Empty;
-        public mBrain answer;
+        public global::MEGAbrain.MEGAbrain answer;
 
         //private ArrayList textBuffer;
         private AIMLbot.Bot myBot;

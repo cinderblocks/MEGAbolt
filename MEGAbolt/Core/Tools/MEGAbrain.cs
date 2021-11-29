@@ -31,7 +31,7 @@ namespace MEGAbolt
     {
         private MEGAboltInstance instance;
         private MEGAboltNetcom netcom;
-        public mBrain answer;
+        public global::MEGAbrain.MEGAbrain answer;
 
         //private ArrayList textBuffer;
         //private bool showTimestamps;
@@ -48,7 +48,7 @@ namespace MEGAbolt
             netcom = this.instance.Netcom;
             this.myBot = myBot;
 
-            answer = new mBrain();
+            answer = new global::MEGAbrain.MEGAbrain();
         }
 
         public void StartProcess(InstantMessageEventArgs e)
