@@ -19,6 +19,18 @@
 	<Platforms>AnyCPU;x64</Platforms>
 	<StartupObject>MEGAbolt.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 	<ItemGroup>
     <Reference Include="CbtHook">
       <HintPath>..\Libs\CbtHook.dll</HintPath>
@@ -418,8 +430,8 @@
     <PackageReference Include="LibreMetaverse.Types" Version="1.9.4.297" />
     <PackageReference Include="LibreMetaverse.Utilities" Version="1.9.4.297" />
     <PackageReference Include="NetSparkleUpdater.UI.WinForms.NetCore" Version="2.0.9" />
-    <PackageReference Include="OpenTK.Core" Version="4.6.7" />
-    <PackageReference Include="OpenTK.WinForms.Radegast" Version="0.1.0" />
+    <PackageReference Include="OpenTK" Version="4.6.7" />
+    <PackageReference Include="OpenTK.WinForms" Version="4.0.0-pre.6" />
     <PackageReference Include="RawScape.Nini" Version="1.0.0" />
     <PackageReference Include="ScintillaNET.Core" Version="3.6.51" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

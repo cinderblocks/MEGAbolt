@@ -1,7 +1,8 @@
-﻿/*
+﻿/**
  * MEGAbolt Metaverse Client
- * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2009-2014, Radegast Development Team
+ * Copyright(c) 2010-2014, www.metabolt.net (METAbolt)
+ * Copyright(c) 2016-2021, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -24,34 +25,38 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.IO;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using OpenMetaverse.Imaging;
 using OpenMetaverse.Rendering;
 using OpenMetaverse.Assets;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using MEGAbolt.Controls;
+using MEGAbolt.Rendering;
 using BugSplatDotNetStandard;
 using OpenTK.Windowing.Desktop;
 using OpenTK.WinForms;
-using NativeWindow = OpenTK.Windowing.Desktop.NativeWindow;
 
+using Matrix4 = OpenTK.Mathematics.Matrix4;
+using NativeWindow = OpenTK.Windowing.Desktop.NativeWindow;
 
 namespace MEGAbolt
 {
     public partial class MEGA3D : Form
     {
-        public GLControl glControl;
-        public bool UseMultiSampling = false;
+        public GLControl glControl = null;
+        public bool UseMultiSampling = false;   //true;
         public bool RenderingEnabled = false;
         Dictionary<uint, FacetedMesh> Prims = new();
         public uint RootPrimLocalID = 0;
         public Vector3 Center = new(Vector3.Zero);
 
         private TextRendering textRendering;
-        private OpenTK.Mathematics.Matrix4 ModelMatrix;
-        private OpenTK.Mathematics.Matrix4 ProjectionMatrix;
-        private readonly int[] Viewport = new int[4];
+        private Matrix4 ModelMatrix;
+        private Matrix4 ProjectionMatrix;
+        private int[] Viewport = new int[4];
 
         public enum RenderPass
         {
@@ -63,10 +68,6 @@ namespace MEGAbolt
         //private OpenTK.Graphics.IGraphicsContextInternal context;
         private bool MipmapsSupported = false;
 
-#pragma warning disable 0612
-        //public TextPrinter Printer = new TextPrinter(OpenTK.Graphics.TextQuality.High);
-#pragma warning restore 0612
-
         private Popup toolTip;
         private CustomToolTip customToolTip;
 
@@ -74,7 +75,6 @@ namespace MEGAbolt
         Dictionary<UUID, Image> Textures = new Dictionary<UUID, Image>();
         MEGAboltInstance instance;
         private GridClient client;
-        //private SLNetCom netcom;
         MeshmerizerR renderer;
         GLControlSettings GLMode;
         AutoResetEvent TextureThreadContextReady = new AutoResetEvent(false);
@@ -94,10 +94,6 @@ namespace MEGAbolt
         public bool isobject = true;
         public bool enablemipmapd = true;
 
-        //static readonly Font TextFont = new Font(FontFamily.GenericSansSerif, 10);
-        //Bitmap TextBitmap;   // = new Bitmap(512, 512);
-        //int texture;
-        //bool viewport_changed = true;
         private Primitive selitem = new();
         private bool msgdisplayed = false;
 
@@ -422,13 +418,13 @@ namespace MEGAbolt
                 GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 0.3f, 0.3f, 0.3f, 1f });
                 GL.Light(LightName.Light0, LightParameter.Specular, new float[] { 0.8f, 0.8f, 0.8f, 1.0f });
                 GL.Light(LightName.Light0, LightParameter.Position, lightPos);
-                //OpenTK.Graphics.OpenGL.GL.Light(OpenTK.Graphics.OpenGL.LightName.Light0, OpenTK.Graphics.OpenGL.LightParameter.LinearAttenuation, lightPos);
-                //OpenTK.Graphics.OpenGL.GL.Light(OpenTK.Graphics.OpenGL.LightName.Light0, OpenTK.Graphics.OpenGL.LightParameter.QuadraticAttenuation, lightPos);
-                //OpenTK.Graphics.OpenGL.GL.Light(OpenTK.Graphics.OpenGL.LightName.Light0, OpenTK.Graphics.OpenGL.LightParameter.SpotDirection, lightPos);
-                //OpenTK.Graphics.OpenGL.GL.Light(OpenTK.Graphics.OpenGL.LightName.Light0, OpenTK.Graphics.OpenGL.LightParameter.SpotExponent, lightPos);
+                //GL.Light(LightName.Light0, LightParameter.LinearAttenuation, lightPos);
+                //GL.Light(LightName.Light0, LightParameter.QuadraticAttenuation, lightPos);
+                //GL.Light(LightName.Light0, LightParameter.SpotDirection, lightPos);
+                //GL.Light(LightName.Light0, LightParameter.SpotExponent, lightPos);
 
-                //OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Lighting);
-                //OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Light0); 
+                //GL.Disable(EnableCap.Lighting);
+                //GL.Disable(EnableCap.Light0); 
 
                 GL.ClearDepth(1.0d);
                 GL.Enable(EnableCap.DepthTest);
@@ -729,18 +725,18 @@ namespace MEGAbolt
                     _pendingTexturesDataAvailable.Wait(token);
                     if (!PendingTextures.TryDequeue(out var item)) continue;
 
-                    if (LoadTexture(item.TeFace.TextureID, ref item.Data.Texture, false))
+                    if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
                     {
-                        GL.GenTextures(1, out item.Data.TexturePointer);
-                        GL.BindTexture(TextureTarget.Texture2D, item.Data.TexturePointer);
+                        GL.GenTextures(1, out item.Data.TextureInfo.TexturePointer);
+                        GL.BindTexture(TextureTarget.Texture2D, item.Data.TextureInfo.TexturePointer);
 
-                        Bitmap bitmap = new Bitmap(item.Data.Texture);
+                        Bitmap bitmap = new Bitmap(item.Data.TextureInfo.Texture);
 
                         bool hasAlpha;
 
-                        hasAlpha = item.Data.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb;
+                        hasAlpha = item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb;
 
-                        item.Data.IsAlpha = hasAlpha;
+                        item.Data.TextureInfo.HasAlpha = hasAlpha;
 
                         bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
                         Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
@@ -762,27 +758,6 @@ namespace MEGAbolt
                             hasAlpha ? OpenTK.Graphics.OpenGL.PixelFormat.Bgra : OpenTK.Graphics.OpenGL.PixelFormat.Bgr,
                             PixelType.UnsignedByte,
                             bitmapData.Scan0);
-
-                        //// Auto detect if mipmaps are supported
-                        //int[] MipMapCount = new int[1];
-                        //OpenTK.Graphics.OpenGL.GL.GetTexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.GetTextureParameter.TextureMaxLevel, out MipMapCount[0]);
-
-                        //OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
-
-                        //if (MipMapCount[0] == 0) // if no MipMaps are present, use linear Filter
-                        //{
-                        //    OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
-                        //}
-                        //else
-                        //{
-                        //    OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.LinearMipmapLinear);
-                        //    OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.Repeat);
-                        //    OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.Repeat);
-                        //    OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.GenerateMipmap, 1);
-                        //    OpenTK.Graphics.OpenGL.GL.GenerateMipmap(OpenTK.Graphics.OpenGL.GenerateMipmapTarget.Texture2D);
-                        //}
-
-                        //if (!enablemipmapd)
 
                         if (instance.Config.CurrentConfig.DisableMipmaps)
                         {
@@ -880,7 +855,7 @@ namespace MEGAbolt
                     Faces = new List<ProfileFace>(),
                     Positions = new List<Vector3>()
                 },
-                Path = new Path
+                Path = new OpenMetaverse.Rendering.Path
                 {
                     Points = new List<PathPoint>()
                 }
@@ -1012,13 +987,15 @@ namespace MEGAbolt
             OpenTK.Mathematics.Vector3 screen = new OpenTK.Mathematics.Vector3();
             screen = OpenTK.Mathematics.Vector3.Zero;
 
-            double[] ModelViewMatrix = new double[16];
-            double[] ProjectionMatrix = new double[16];
+            Matrix4 ModelViewMatrix;
+            Matrix4 ProjectionMatrix;
             int[] Vport = new int[4];
 
             GL.GetInteger(GetPName.Viewport, Vport);
-            GL.GetDouble(GetPName.ModelviewMatrix, ModelViewMatrix);
-            GL.GetDouble(GetPName.ProjectionMatrix, ProjectionMatrix);
+            GL.GetFloat(GetPName.ModelviewMatrix, out ModelViewMatrix);
+            GL.GetFloat(GetPName.ProjectionMatrix, out ProjectionMatrix);
+
+            Math3D.GluProject(world, ModelViewMatrix, ProjectionMatrix, Vport, out screen);
 
             screen.Y = glControl.Height - screen.Y;
 
@@ -1061,6 +1038,7 @@ namespace MEGAbolt
                             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.ReplaceExt);
                             Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
 
+                            // *FIXME: TextPrinter removed from OpenTK 4.x
                             /*Printer.Begin();
 
                             using (Font f = new Font(FontFamily.GenericSansSerif, 10f, FontStyle.Regular))
@@ -1078,8 +1056,7 @@ namespace MEGAbolt
                                 Printer.Print(text, f, color, new RectangleF(screenPos.X, screenPos.Y, size.BoundingBox.Width, size.BoundingBox.Height), OpenTK.Graphics.TextPrinterOptions.Default, OpenTK.Graphics.TextAlignment.Center);
                             }
 
-                            Printer.End();
-                            */
+                            Printer.End();*/
                         }
                         else
                         {
@@ -1088,7 +1065,7 @@ namespace MEGAbolt
 
                             if (Prims.TryGetValue(prim.ParentID, out parent))
                             {
-                                var newPrimPos = prim.Position * Matrix4.CreateFromQuaternion(parent.Prim.Rotation);
+                                var newPrimPos = prim.Position * OpenMetaverse.Matrix4.CreateFromQuaternion(parent.Prim.Rotation);
                                 primPos = new OpenTK.Mathematics.Vector3(newPrimPos.X, newPrimPos.Y, newPrimPos.Z);
                             }
 
@@ -1168,7 +1145,7 @@ namespace MEGAbolt
 
                         if (pass != RenderPass.Picking)
                         {
-                            bool belongToAlphaPass = (teFace.RGBA.A < 0.99) || data.IsAlpha;
+                            bool belongToAlphaPass = (teFace.RGBA.A < 0.99) || data.TextureInfo.HasAlpha;
 
                             if (belongToAlphaPass && pass != RenderPass.Alpha) continue;
                             if (!belongToAlphaPass && pass == RenderPass.Alpha) continue;
@@ -1203,7 +1180,7 @@ namespace MEGAbolt
                             GL.Material(MaterialFace.Front, MaterialParameter.AmbientAndDiffuse, faceColor);
                             GL.Material(MaterialFace.Front, MaterialParameter.Specular, faceColor);
 
-                            if (data.TexturePointer != 0)
+                            if (data.TextureInfo.TexturePointer != 0)
                             {
                                 GL.Enable(EnableCap.Texture2D);
                             }
@@ -1213,7 +1190,7 @@ namespace MEGAbolt
                             }
 
                             // Bind the texture
-                            GL.BindTexture(TextureTarget.Texture2D, data.TexturePointer);
+                            GL.BindTexture(TextureTarget.Texture2D, data.TextureInfo.TexturePointer);
                         }
                         else
                         {
@@ -1227,7 +1204,7 @@ namespace MEGAbolt
                         GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, data.TexCoords);
                         GL.VertexPointer(3, VertexPointerType.Float, 0, data.Vertices);
                         GL.NormalPointer(NormalPointerType.Float, 0, data.Normals);
-                        GL.DrawElements(BeginMode.Triangles, data.Indices.Length, DrawElementsType.UnsignedShort, data.Indices);
+                        GL.DrawElements(PrimitiveType.Triangles, data.Indices.Length, DrawElementsType.UnsignedShort, data.Indices);
 
                     }
 
@@ -1521,11 +1498,11 @@ namespace MEGAbolt
                 if (existingMesh != null &&
                     j < existingMesh.Faces.Count &&
                     existingMesh.Faces[j].TextureFace.TextureID == teFace.TextureID &&
-                    ((FaceData)existingMesh.Faces[j].UserData).TexturePointer != 0
+                    ((FaceData)existingMesh.Faces[j].UserData).TextureInfo.TexturePointer != 0
                     )
                 {
                     FaceData existingData = (FaceData)existingMesh.Faces[j].UserData;
-                    data.TexturePointer = existingData.TexturePointer;
+                    data.TextureInfo.TexturePointer = existingData.TextureInfo.TexturePointer;
                 }
                 else
                 {

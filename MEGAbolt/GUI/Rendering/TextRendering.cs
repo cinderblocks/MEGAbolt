@@ -1,6 +1,7 @@
-﻿/*
- * MEGAbolt Metaverse Client
- * Copyright(c) 2021, Sjofn, LLC
+﻿/**
+ * Radegast Metaverse Client
+ * Copyright(c) 2009-2014, Radegast Development Team
+ * Copyright(c) 2016-2020, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -20,14 +21,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 
-
-namespace MEGAbolt
+namespace MEGAbolt.Rendering
 {
-    public class TextRendering
+    public class TextRendering : IDisposable
     {
         class CachedInfo
         {
@@ -75,6 +74,10 @@ namespace MEGAbolt
             textItems = new List<TextItem>();
         }
 
+        public void Dispose()
+        {
+        }
+
         public void Print(string text, Font font, Color color, Rectangle box, TextFormatFlags flags)
         {
             textItems.Add(new TextItem(text, font, color, box, flags));
@@ -87,22 +90,6 @@ namespace MEGAbolt
 
         public void Begin()
         {
-        }
-
-        public static void Draw2DBox(float x, float y, float width, float height, float depth)
-        {
-            GL.Begin(BeginMode.Quads);
-            {
-                GL.TexCoord2(0, 1);
-                GL.Vertex3(x, y, depth);
-                GL.TexCoord2(1, 1);
-                GL.Vertex3(x + width, y, depth);
-                GL.TexCoord2(1, 0);
-                GL.Vertex3(x + width, y + height, depth);
-                GL.TexCoord2(0, 0);
-                GL.Vertex3(x, y + height, depth);
-            }
-            GL.End();
         }
 
         public void End()
@@ -141,7 +128,7 @@ namespace MEGAbolt
                     if (tex.TextureID == -1) continue;
                     GL.Color4(item.Color);
                     GL.BindTexture(TextureTarget.Texture2D, tex.TextureID);
-                    Draw2DBox(item.Box.X, ScreenHeight - item.Box.Y - tex.Height, tex.Width, tex.Height, 0f);
+                    RHelp.Draw2DBox(item.Box.X, ScreenHeight - item.Box.Y - tex.Height, tex.Width, tex.Height, 0f);
                 }
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -153,7 +140,7 @@ namespace MEGAbolt
             textItems.Clear();
         }
 
-        static int GetItemHash(TextItem item)
+        int GetItemHash(TextItem item)
         {
             int ret = 17;
             ret = ret * 31 + item.Text.GetHashCode();
@@ -162,60 +149,6 @@ namespace MEGAbolt
             return ret;
         }
 
-        //OpenTK.Graphics.IGraphicsContextInternal context = glControl.Context as OpenTK.Graphics.IGraphicsContextInternal;
-
-        public int GLLoadImage(Bitmap bitmap, bool hasAlpha, bool useMipmap)
-        {
-            if (Instance.Config.CurrentConfig.DisableMipmaps)
-            {
-                useMipmap = false;
-            }
-            else
-            {
-                useMipmap = true;
-            }
-
-            int ret = -1;
-            GL.GenTextures(1, out ret);
-            GL.BindTexture(TextureTarget.Texture2D, ret);
-
-            Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-
-            BitmapData bitmapData =
-                bitmap.LockBits(
-                rectangle,
-                ImageLockMode.ReadOnly,
-                hasAlpha ? System.Drawing.Imaging.PixelFormat.Format32bppArgb : System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            GL.TexImage2D(
-                TextureTarget.Texture2D,
-                0,
-                hasAlpha ? PixelInternalFormat.Rgba : PixelInternalFormat.Rgb8,
-                bitmap.Width,
-                bitmap.Height,
-                0,
-                hasAlpha ? OpenTK.Graphics.OpenGL.PixelFormat.Bgra : OpenTK.Graphics.OpenGL.PixelFormat.Bgr,
-                PixelType.UnsignedByte,
-                bitmapData.Scan0);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-
-            if (useMipmap)
-            {
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
-                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            }
-            else
-            {
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            }
-
-            bitmap.UnlockBits(bitmapData);
-            return ret;
-        }
 
         void PrepareText(TextItem item)
         {
@@ -228,14 +161,14 @@ namespace MEGAbolt
             }
 
             Size s;
-
+            
             try
             {
-                s = TextRenderer.MeasureText(
-                   item.Text,
-                   item.Font,
-                   MaxSize,
-                   item.Flags);
+                 s = TextRenderer.MeasureText(
+                    item.Text,
+                    item.Font,
+                    MaxSize,
+                    item.Flags);
             }
             catch
             {
@@ -245,11 +178,11 @@ namespace MEGAbolt
             item.ImgWidth = s.Width;
             item.ImgHeight = s.Height;
 
-            //if (!RenderSettings.TextureNonPowerOfTwoSupported)
-            //{
-            //    item.ImgWidth = RHelp.NextPow2(s.Width);
-            //    item.ImgHeight = RHelp.NextPow2(s.Height);
-            //}
+            if (!RenderSettings.TextureNonPowerOfTwoSupported)
+            {
+                item.ImgWidth = RHelp.NextPow2(s.Width);
+                item.ImgHeight = RHelp.NextPow2(s.Height);
+            }
 
             Bitmap img = new Bitmap(
                 item.ImgWidth,
@@ -268,7 +201,7 @@ namespace MEGAbolt
                 Color.Transparent,
                 item.Flags);
 
-            item.TextureID = GLLoadImage(img, true, false);
+            item.TextureID = RHelp.GLLoadImage(img, true, false);
             g.Dispose();
             img.Dispose();
         }
