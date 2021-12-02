@@ -25,10 +25,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
-using System.IO;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using OpenMetaverse.Imaging;
 using OpenMetaverse.Rendering;
 using OpenMetaverse.Assets;
 using OpenTK.Graphics.OpenGL;
@@ -79,8 +77,10 @@ namespace MEGAbolt
         GLControlSettings GLMode;
         AutoResetEvent TextureThreadContextReady = new AutoResetEvent(false);
         ConcurrentQueue<TextureLoadItem> PendingTextures = new();
-        private SemaphoreSlim _pendingTexturesDataAvailable = new(0);
-        private CancellationTokenSource _cancellationTokenSource = null;
+        private SemaphoreSlim pendingTexturesDataAvailable = new(0);
+        private CancellationTokenSource cancellationTokenSource;
+
+        private NativeWindow nativeGLFWWindow;
 
         float[] lightPos = { 0f, 0f, 1f, 0f };
 
@@ -88,7 +88,6 @@ namespace MEGAbolt
         private bool snapped = false;
         bool dragging = false;
         int dragX, dragY, downX, downY;
-        bool TextureThreadRunning = true;
         private Color clearcolour = Color.RoyalBlue;
         public ObjectsListItem objectitem;
         public bool isobject = true;
@@ -119,7 +118,12 @@ namespace MEGAbolt
                 {
                     glControl.Dispose();
                     glControl = null;
-                }                
+                }
+                if (nativeGLFWWindow != null)
+                {
+                    nativeGLFWWindow.Dispose();
+                    nativeGLFWWindow = null;
+                }
 
                 textRendering = null;
 
@@ -130,11 +134,11 @@ namespace MEGAbolt
                 instance.CrashReporter.Post(ex);
             }
 
-            if (_cancellationTokenSource != null)
+            if (cancellationTokenSource != null)
             {
-                _cancellationTokenSource.Cancel();
-                _cancellationTokenSource.Dispose();
-                _cancellationTokenSource = null;
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+                cancellationTokenSource = null;
             }
         }
 
@@ -156,22 +160,25 @@ namespace MEGAbolt
                             "Wheel in/out to Zoom in/out\n\n" +
                             "Click camera then object for snapshot";
 
-            toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
-            toolTip.AutoClose = false;
-            toolTip.FocusOnOpen = false;
+            toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1))
+            {
+                AutoClose = false,
+                FocusOnOpen = false
+            };
             toolTip.ShowingAnimation = toolTip.HidingAnimation = PopupAnimations.Blend;
 
             UseMultiSampling = false;
 
             this.instance = instance;
             client = this.instance.Client;
-            //netcom = this.instance.Netcom;
             isobject = false;
 
             TexturePointers[0] = 0;
 
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
+            cancellationTokenSource = new CancellationTokenSource();
+            nativeGLFWWindow = CreateNativeWindow();
 
             client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
             client.Objects.ObjectUpdate += Objects_ObjectUpdate;
@@ -207,7 +214,6 @@ namespace MEGAbolt
 
             this.instance = instance;
             client = this.instance.Client;
-            //netcom = this.instance.Netcom;
             isobject = true;
             objectitem = obtectitem;
 
@@ -215,6 +221,8 @@ namespace MEGAbolt
 
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
+            cancellationTokenSource = new CancellationTokenSource();
+            nativeGLFWWindow = CreateNativeWindow();
 
             client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
             client.Objects.ObjectUpdate += Objects_ObjectUpdate;
@@ -305,7 +313,6 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    //this.Close();
                     Dispose();
                 }
             });
@@ -393,7 +400,10 @@ namespace MEGAbolt
 
         void glControl_Disposed(object sender, EventArgs e)
         {
-            TextureThreadRunning = false;
+            if (cancellationTokenSource != null)
+            {
+                cancellationTokenSource.Cancel();
+            }
         }
 
         void glControl_Click(object sender, EventArgs e)
@@ -464,8 +474,6 @@ namespace MEGAbolt
                 GLInvalidate();
 
                 Logger.Log("OpenGL control initialised", Helpers.LogLevel.Info , client);
-                //Application.Idle += Application_Idle;
-                //sw.Start(); 
             }
             catch (Exception ex)
             {
@@ -473,55 +481,6 @@ namespace MEGAbolt
                 Logger.Log("Failed to initialize OpenGL control", Helpers.LogLevel.Warning, client, ex);
             }
         }
-
-        //float rotation = 0;
-        //void Application_Idle(object sender, EventArgs e)
-        //{
-        //    double milliseconds = ComputeTimeSlice();
-        //    Accumulate(milliseconds);
-        //    Animate(milliseconds);
-        //}
-
-        //private double ComputeTimeSlice()
-        //{
-        //    sw.Stop();
-        //    double timeslice = sw.Elapsed.TotalMilliseconds;
-        //    sw.Reset();
-        //    sw.Start();
-        //    return timeslice;
-        //}
-
-        //private void Animate(double milliseconds)
-        //{
-        //    float deltaRotation = (float)milliseconds / 20.0f;
-        //    rotation += deltaRotation;
-        //    glControl.Invalidate();
-
-        //    WorkPool.QueueUserWorkItem(sync =>
-        //    {
-        //        if (client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
-        //        {
-        //            UpdatePrimBlocking(client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-        //            var children = client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
-        //            children.ForEach(p => UpdatePrimBlocking(p));
-        //        }
-        //    }
-        //    );
-        //}
-
-        //double accumulator = 0;
-        //int idleCounter = 0;
-        //private void Accumulate(double milliseconds)
-        //{
-        //    idleCounter++;
-        //    accumulator += milliseconds;
-        //    if (accumulator > 1000)
-        //    {
-        //        label1.Text = idleCounter.ToString();
-        //        accumulator -= 1000;
-        //        idleCounter = 0; // don't forget to reset the counter!
-        //    }
-        //}
 
         private void glControl_Paint(object sender, PaintEventArgs e)
         {
@@ -558,16 +517,7 @@ namespace MEGAbolt
 
             glControl.MakeCurrent();
 
-            //viewport_changed = true;
-
-            //TextBitmap.Dispose();
-            //TextBitmap = new Bitmap(ClientSize.Width, ClientSize.Height);
-
-            //OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D,texture);
-            //OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, TextBitmap.Width, TextBitmap.Height,
-            //    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
-
-            GL.ClearColor(clearcolour);   //   0.39f, 0.58f, 0.93f, 1.0f);
+            GL.ClearColor(clearcolour);
 
             if (glControl.ClientSize.Height == 0)
                 glControl.ClientSize = new Size(glControl.ClientSize.Width, 1);
@@ -708,21 +658,17 @@ namespace MEGAbolt
         {
             try
             {
-                NativeWindowSettings settings = new();
-                
-                NativeWindow window = new(settings);
-
                 TextureThreadContextReady.Set();
 
                 Logger.DebugLog("Started Texture Thread");
 
-                var token = _cancellationTokenSource?.Token ?? throw new NullReferenceException();
+                var token = cancellationTokenSource?.Token ?? throw new NullReferenceException();
 
-                while (window.Exists && TextureThreadRunning)
+                while (nativeGLFWWindow.Exists && !token.IsCancellationRequested)
                 {
-                    window.ProcessEvents();
+                    nativeGLFWWindow.ProcessEvents();
 
-                    _pendingTexturesDataAvailable.Wait(token);
+                    pendingTexturesDataAvailable.Wait(token);
                     if (!PendingTextures.TryDequeue(out var item)) continue;
 
                     if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
@@ -834,17 +780,8 @@ namespace MEGAbolt
             );
         }
 
-        #region Public methods
-        //public void SetView(OpenMetaverse.Vector3 center, int roll, int pitch, int yaw, int zoom)
-        //{
-        //    this.Center = center;
-        //    scrollRoll.Value = roll;
-        //    scrollPitch.Value = pitch;
-        //    scrollYaw.Value = yaw;
-        //    scrollZoom.Value = zoom;
-        //}
-
-        public static FacetedMesh GenerateFacetedMesh(Primitive prim, OSDMap MeshData, DetailLevel LOD)
+        #region Private methods (the meat)
+        private static FacetedMesh GenerateFacetedMesh(Primitive prim, OSDMap MeshData, DetailLevel LOD)
         {
             FacetedMesh ret = new FacetedMesh
             {
@@ -979,9 +916,7 @@ namespace MEGAbolt
 
             return ret;
         }
-        #endregion Public methods
-
-        #region Private methods (the meat)
+        
         private OpenTK.Mathematics.Vector3 WorldToScreen(OpenTK.Mathematics.Vector3 world)
         {
             OpenTK.Mathematics.Vector3 screen = new OpenTK.Mathematics.Vector3();
@@ -1388,8 +1323,7 @@ namespace MEGAbolt
                 }
             }
 
-            if (prim.Textures == null)
-                return;
+            if (prim.Textures == null) { return; }
 
             //if (prim.PrimData.PCode == PCode.Avatar)
             //{
@@ -1515,7 +1449,7 @@ namespace MEGAbolt
                     };
 
                     PendingTextures.Enqueue(textureItem);
-                    _pendingTexturesDataAvailable.Release();
+                    pendingTexturesDataAvailable.Release();
                 }
             }
 
@@ -1882,6 +1816,20 @@ namespace MEGAbolt
             }
 
             newbmp.Dispose();
+        }
+
+        private NativeWindow CreateNativeWindow()
+        {
+            NativeWindowSettings settings = NativeWindowSettings.Default;
+            settings.API = OpenTK.Windowing.Common.ContextAPI.OpenGL;
+            settings.AutoLoadBindings = true;
+            settings.Flags = OpenTK.Windowing.Common.ContextFlags.Offscreen;
+            settings.IsEventDriven = false;
+            settings.IsFullscreen = false;
+            settings.Title = "MEGA3D";
+            settings.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
+
+            return new NativeWindow(settings);
         }
 
         //public Bitmap GrabScreenshot()
