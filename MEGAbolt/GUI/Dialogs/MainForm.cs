@@ -37,7 +37,6 @@ using System.Globalization;
 using BugSplatDotNetStandard;
 using NetSparkleUpdater;
 using NetSparkleUpdater.SignatureVerifiers;
-using System.Runtime.InteropServices;
 
 namespace MEGAbolt
 {
@@ -1258,7 +1257,7 @@ namespace MEGAbolt
 
         private void tlblMoneyBalance_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
+           Utilities.OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void tlblMoneyBalance_MouseEnter(object sender, EventArgs e)
@@ -1316,22 +1315,22 @@ namespace MEGAbolt
 
         private void accountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
+            Utilities.OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void sLHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://secondlife.com/support/");
+            Utilities.OpenBrowser(@"https://secondlife.com/support/");
         }
 
         private void sLKnowledgebaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://community.secondlife.com/t5/tkb/communitypage");
+            Utilities.OpenBrowser(@"https://community.secondlife.com/t5/tkb/communitypage");
         }
 
         private void scriptingPortalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://wiki.secondlife.com/wiki/LSL_Portal");
+            Utilities.OpenBrowser(@"https://wiki.secondlife.com/wiki/LSL_Portal");
         }
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1897,7 +1896,7 @@ namespace MEGAbolt
 
         private void sLGridStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenBrowser(@"https://status.secondlifegrid.net/");
+            Utilities.OpenBrowser(@"https://status.secondlifegrid.net/");
         }
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)
@@ -2060,22 +2059,6 @@ namespace MEGAbolt
                         }
                     }
                 );
-        }
-
-        private static void OpenBrowser(string url)
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", url);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("open", url);
-            }
         }
 
         private void StartUpdater()
