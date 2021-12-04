@@ -15,10 +15,8 @@
         {
             if (disposing && (components != null))
             {
-                TextureThreadContextReady.Close();
-                //Printer.Dispose();
                 Prims.Clear();
-                Textures.Clear();
+                TexturesPtrMap.Clear();
                 glControl.Dispose();
                 renderer = null;
                 GLMode = null;

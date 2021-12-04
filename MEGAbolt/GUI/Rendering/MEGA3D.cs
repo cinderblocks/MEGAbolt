@@ -44,24 +44,51 @@ namespace MEGAbolt
 {
     public partial class MEGA3D : Form
     {
-        public GLControl glControl = null;
-        public bool UseMultiSampling = false;   //true;
-        public bool RenderingEnabled = false;
-        Dictionary<uint, FacetedMesh> Prims = new();
-        public uint RootPrimLocalID = 0;
-        public Vector3 Center = new(Vector3.Zero);
-
-        private TextRendering textRendering;
-        private Matrix4 ModelMatrix;
-        private Matrix4 ProjectionMatrix;
-        private int[] Viewport = new int[4];
-
         public enum RenderPass
         {
             Picking,
             Simple,
-            Alpha
+            Alpha,
+            Invisible
         }
+
+        #region Public fields
+        /// <summary>
+        /// The OpenGL surface
+        /// </summary>
+        public GLControl glControl = null;
+
+        /// <summary>
+        /// Use multi sampling (anti aliasing)
+        /// </summary>
+        public bool UseMultiSampling = true;
+
+        /// <summary>
+        /// Is rendering engine ready and enabled
+        /// </summary>
+        public bool RenderingEnabled = false;
+
+        /// <summary>
+        /// Rednder in wireframe mode
+        /// </summary>
+        public bool Wireframe = false;
+
+        /// <summary>
+        /// List of prims in the scene
+        /// </summary>
+        Dictionary<uint, FacetedMesh> Prims = new Dictionary<uint, FacetedMesh>();
+
+        /// <summary>
+        /// Local ID of the root prim
+        /// </summary>
+        public uint RootPrimLocalID = 0;
+        /// <summary>
+        /// Camera center
+        /// </summary>
+        public Vector3 Center = Vector3.Zero;
+        #endregion Public fields
+
+        #region Private fields
 
         //private OpenTK.Graphics.IGraphicsContextInternal context;
         private bool MipmapsSupported = false;
@@ -69,20 +96,13 @@ namespace MEGAbolt
         private Popup toolTip;
         private CustomToolTip customToolTip;
 
-        int[] TexturePointers = new int[1];
-        Dictionary<UUID, Image> Textures = new Dictionary<UUID, Image>();
+        Dictionary<UUID, TextureInfo> TexturesPtrMap = new Dictionary<UUID, TextureInfo>();
         MEGAboltInstance instance;
-        private GridClient client;
+        private GridClient Client;
         MeshmerizerR renderer;
-        GLControlSettings GLMode;
-        AutoResetEvent TextureThreadContextReady = new AutoResetEvent(false);
+        GLControlSettings GLMode = null;
         ConcurrentQueue<TextureLoadItem> PendingTextures = new();
-        private SemaphoreSlim pendingTexturesDataAvailable = new(0);
         private CancellationTokenSource cancellationTokenSource;
-
-        private NativeWindow nativeGLFWWindow;
-
-        float[] lightPos = { 0f, 0f, 1f, 0f };
 
         private bool TakeScreenShot = false;
         private bool snapped = false;
@@ -95,6 +115,15 @@ namespace MEGAbolt
 
         private Primitive selitem = new();
         private bool msgdisplayed = false;
+
+        float[] lightPos = { 0f, 0f, 1f, 0f };
+
+        private TextRendering textRendering;
+        private Matrix4 ModelMatrix;
+        private Matrix4 ProjectionMatrix;
+        private int[] Viewport = new int[4];
+
+        #endregion Private fields
 
         internal class ThreadExceptionHandler
         {
@@ -118,11 +147,6 @@ namespace MEGAbolt
                 {
                     glControl.Dispose();
                     glControl = null;
-                }
-                if (nativeGLFWWindow != null)
-                {
-                    nativeGLFWWindow.Dispose();
-                    nativeGLFWWindow = null;
                 }
 
                 textRendering = null;
@@ -170,21 +194,18 @@ namespace MEGAbolt
             UseMultiSampling = false;
 
             this.instance = instance;
-            client = this.instance.Client;
+            Client = this.instance.Client;
             isobject = false;
-
-            TexturePointers[0] = 0;
 
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
             cancellationTokenSource = new CancellationTokenSource();
-            nativeGLFWWindow = CreateNativeWindow();
 
-            client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
-            client.Objects.ObjectUpdate += Objects_ObjectUpdate;
-            client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
-            client.Network.SimChanged += SIM_OnSimChanged;
-            client.Self.TeleportProgress += Self_TeleportProgress;
+            Client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
+            Client.Objects.ObjectUpdate += Objects_ObjectUpdate;
+            Client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
+            Client.Network.SimChanged += SIM_OnSimChanged;
+            Client.Self.TeleportProgress += Self_TeleportProgress;
         }
 
         public MEGA3D(MEGAboltInstance instance, ObjectsListItem obtectitem)
@@ -213,22 +234,92 @@ namespace MEGAbolt
             UseMultiSampling = false;
 
             this.instance = instance;
-            client = this.instance.Client;
+            Client = this.instance.Client;
             isobject = true;
             objectitem = obtectitem;
-
-            TexturePointers[0] = 0;
 
             renderer = new MeshmerizerR();
             textRendering = new TextRendering(instance);
             cancellationTokenSource = new CancellationTokenSource();
-            nativeGLFWWindow = CreateNativeWindow();
 
-            client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
-            client.Objects.ObjectUpdate += Objects_ObjectUpdate;
-            client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
-            client.Network.SimChanged += SIM_OnSimChanged;
-            client.Self.TeleportProgress += Self_TeleportProgress;
+            Client.Objects.TerseObjectUpdate += Objects_TerseObjectUpdate;
+            Client.Objects.ObjectUpdate += Objects_ObjectUpdate;
+            Client.Objects.ObjectDataBlockUpdate += Objects_ObjectDataBlockUpdate;
+            Client.Network.SimChanged += SIM_OnSimChanged;
+            Client.Self.TeleportProgress += Self_TeleportProgress;
+        }
+
+        private void ReLoadObject()
+        {
+            ThreadPool.QueueUserWorkItem(delegate(object sync)
+            {
+                // Search for the new local id of the object
+                List<Primitive> results = Client.Network.CurrentSim.ObjectsPrimitives.FindAll(
+                    delegate(Primitive prim)
+                    {
+                        try
+                        {
+                            return (prim.ID == selitem.ID);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    });
+
+                if (results != null)
+                {
+                    try
+                    {
+                        selitem = results[0];
+
+                        RootPrimLocalID = selitem.LocalID;
+
+                        if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
+                        {
+                            UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
+                            var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
+                            children.ForEach(p => UpdatePrimBlocking(p));
+                        }
+                    }
+                    catch { ; }
+                }
+                else
+                {
+                    Dispose();
+                }
+            });
+        }
+
+        #region Network messaage handlers
+        void Objects_TerseObjectUpdate(object sender, TerseObjectUpdateEventArgs e)
+        {
+            if (!IsHandleCreated) return;
+
+            if (Prims.ContainsKey(e.Prim.LocalID))
+            {
+                UpdatePrimBlocking(e.Prim);
+            }
+        }
+
+        void Objects_ObjectUpdate(object sender, PrimEventArgs e)
+        {
+            if (!IsHandleCreated) return;
+
+            if (Prims.ContainsKey(e.Prim.LocalID) || Prims.ContainsKey(e.Prim.ParentID))
+            {
+                UpdatePrimBlocking(e.Prim);
+            }
+        }
+
+        void Objects_ObjectDataBlockUpdate(object sender, ObjectDataBlockUpdateEventArgs e)
+        {
+            if (!IsHandleCreated) return;
+
+            if (Prims.ContainsKey(e.Prim.LocalID))
+            {
+                UpdatePrimBlocking(e.Prim);
+            }
         }
 
         private void SIM_OnSimChanged(object sender, SimChangedEventArgs e)
@@ -240,9 +331,9 @@ namespace MEGAbolt
                 Prims.Clear();
             }
 
-            lock (Textures)
+            lock (TexturesPtrMap)
             {
-                Textures.Clear();
+                TexturesPtrMap.Clear();
             }
         }
 
@@ -276,107 +367,47 @@ namespace MEGAbolt
             }
         }
 
-        private void ReLoadObject()
-        {
-            ThreadPool.QueueUserWorkItem(delegate(object sync)
-            {
-                // Search for the new local id of the object
-                List<Primitive> results = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    delegate(Primitive prim)
-                    {
-                        try
-                        {
-                            return (prim.ID == selitem.ID);
-                        }
-                        catch
-                        {
-                            return false;
-                        }
-                    });
+        #endregion Network messaage handlers
 
-                if (results != null)
-                {
-                    try
-                    {
-                        selitem = results[0];
-
-                        RootPrimLocalID = selitem.LocalID;
-
-                        if (client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
-                        {
-                            UpdatePrimBlocking(client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                            var children = client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
-                            children.ForEach(p => UpdatePrimBlocking(p));
-                        }
-                    }
-                    catch { ; }
-                }
-                else
-                {
-                    Dispose();
-                }
-            });
-        }
-
-        void Objects_TerseObjectUpdate(object sender, TerseObjectUpdateEventArgs e)
-        {
-            if (!IsHandleCreated) return;
-
-            if (Prims.ContainsKey(e.Prim.LocalID))
-            {
-                UpdatePrimBlocking(e.Prim);
-            }
-        }
-
-        void Objects_ObjectUpdate(object sender, PrimEventArgs e)
-        {
-            if (!IsHandleCreated) return;
-
-            if (Prims.ContainsKey(e.Prim.LocalID) || Prims.ContainsKey(e.Prim.ParentID))
-            {
-                UpdatePrimBlocking(e.Prim);
-            }
-        }
-
-        void Objects_ObjectDataBlockUpdate(object sender, ObjectDataBlockUpdateEventArgs e)
-        {
-            if (!IsHandleCreated) return;
-
-            if (Prims.ContainsKey(e.Prim.LocalID))
-            {
-                UpdatePrimBlocking(e.Prim);
-            }
-        }
-
+        #region glControl setup and disposal
         public void SetupGLControl()
         {
             RenderingEnabled = false;
 
-            if (glControl != null)
-            {
-                glControl.Dispose();
-            }
-
+            glControl?.Dispose();
             glControl = null;
 
-            GLMode = new GLControlSettings();
+            try
+            {
+                GLMode = GLControlSettings.Default;
+                GLMode.Flags = OpenTK.Windowing.Common.ContextFlags.ForwardCompatible;
+                GLMode.AutoLoadBindings = true;
+                GLMode.IsEventDriven = false;
+                GLMode.API = OpenTK.Windowing.Common.ContextAPI.OpenGL;
+                GLMode.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
+                GLMode.NumberOfSamples = UseMultiSampling ? 4 : 0;
+            }
+            catch
+            {
+                GLMode = null;
+            }
             try
             {
                 glControl = GLMode == null ? new GLControl() : new GLControl(GLMode);
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.Message, Helpers.LogLevel.Warning, client);
+                Logger.Log(ex.Message, Helpers.LogLevel.Warning, Client);
                 glControl = null;
             }
 
             if (glControl == null)
             {
-                Logger.Log("Failed to initialize OpenGL control, cannot continue", Helpers.LogLevel.Error, client);
+                Logger.Log("Failed to initialize OpenGL control, cannot continue", Helpers.LogLevel.Error, Client);
                 return;
             }
 
-            Logger.Log("Initializing OpenGL mode: " + GLMode.ToString(), Helpers.LogLevel.Info);
+            Logger.Log("Initializing OpenGL mode: " + (GLMode == null ? "" : GLMode.ToString()), Helpers.LogLevel.Info);
 
             glControl.Paint += glControl_Paint;
             glControl.Resize += glControl_Resize;
@@ -404,6 +435,11 @@ namespace MEGAbolt
             {
                 cancellationTokenSource.Cancel();
             }
+            while (!PendingTextures.IsEmpty)
+            {
+                PendingTextures.TryDequeue(out _);
+            }
+
         }
 
         void glControl_Click(object sender, EventArgs e)
@@ -440,6 +476,7 @@ namespace MEGAbolt
                 GL.Enable(EnableCap.DepthTest);
                 GL.Enable(EnableCap.ColorMaterial);
                 GL.Enable(EnableCap.CullFace);
+                GL.CullFace(CullFaceMode.Back);
                 GL.ColorMaterial(MaterialFace.Front, ColorMaterialParameter.AmbientAndDiffuse);
                 GL.ColorMaterial(MaterialFace.Front, ColorMaterialParameter.Specular);
 
@@ -449,6 +486,7 @@ namespace MEGAbolt
                 GL.MatrixMode(MatrixMode.Projection);
 
                 GL.Enable(EnableCap.Blend);
+                GL.AlphaFunc(AlphaFunction.Greater, 0.5f);
                 GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
                 MipmapsSupported = true;
@@ -459,7 +497,6 @@ namespace MEGAbolt
                 glControl_Resize(null, null);
 
                 glControl.Context.MakeCurrent();
-                TextureThreadContextReady.Reset();
 
                 var textureThread = new Thread(TextureThread)
                 {
@@ -468,20 +505,21 @@ namespace MEGAbolt
                 };
 
                 textureThread.Start();
-                TextureThreadContextReady.WaitOne(1000, false);
                 glControl.MakeCurrent();
 
                 GLInvalidate();
 
-                Logger.Log("OpenGL control initialised", Helpers.LogLevel.Info , client);
+                Logger.Log("OpenGL control initialised", Helpers.LogLevel.Info , Client);
             }
             catch (Exception ex)
             {
                 RenderingEnabled = false;
-                Logger.Log("Failed to initialize OpenGL control", Helpers.LogLevel.Warning, client, ex);
+                Logger.Log("Failed to initialize OpenGL control", Helpers.LogLevel.Warning, Client, ex);
             }
         }
+        #endregion glControl setup and disposal
 
+        #region glControl paint and resize events
         private void glControl_Paint(object sender, PaintEventArgs e)
         {
             if (!RenderingEnabled) return;
@@ -538,6 +576,7 @@ namespace MEGAbolt
             //// A LL
             GLInvalidate();
         }
+        #endregion glControl paint and resize events
 
         #region Mouse handling
 
@@ -643,8 +682,8 @@ namespace MEGAbolt
 
                     if (TryPick(e.X, e.Y, out picked, out faceID))
                     {
-                        client.Self.Grab(picked.Prim.LocalID, Vector3.Zero, Vector3.Zero, Vector3.Zero, faceID, Vector3.Zero, Vector3.Zero, Vector3.Zero);
-                        client.Self.DeGrab(picked.Prim.LocalID);
+                        Client.Self.Grab(picked.Prim.LocalID, Vector3.Zero, Vector3.Zero, Vector3.Zero, faceID, Vector3.Zero, Vector3.Zero, Vector3.Zero);
+                        Client.Self.DeGrab(picked.Prim.LocalID);
                     }
                 }
 
@@ -654,108 +693,60 @@ namespace MEGAbolt
         #endregion Mouse handling
 
         #region Texture thread
+        bool TextureThreadRunning = true;
+
         void TextureThread()
         {
-            try
+            Logger.DebugLog("Started Texture Thread");
+
+            try {
+            while (TextureThreadRunning)
             {
-                TextureThreadContextReady.Set();
+                TextureLoadItem item = null;
 
-                Logger.DebugLog("Started Texture Thread");
+                if (!PendingTextures.TryDequeue(out item)) continue;
 
-                var token = cancellationTokenSource?.Token ?? throw new NullReferenceException();
-
-                while (nativeGLFWWindow.Exists && !token.IsCancellationRequested)
+                if (TexturesPtrMap.ContainsKey(item.TeFace.TextureID))
                 {
-                    nativeGLFWWindow.ProcessEvents();
+                    item.Data.TextureInfo = TexturesPtrMap[item.TeFace.TextureID];
+                    continue;
+                }
 
-                    pendingTexturesDataAvailable.Wait(token);
-                    if (!PendingTextures.TryDequeue(out var item)) continue;
+                if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
+                {
+                    Bitmap bitmap = (Bitmap)item.Data.TextureInfo.Texture;
 
-                    if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
+                    bool hasAlpha;
+                    if (item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                     {
-                        GL.GenTextures(1, out item.Data.TextureInfo.TexturePointer);
-                        GL.BindTexture(TextureTarget.Texture2D, item.Data.TextureInfo.TexturePointer);
+                        hasAlpha = true;
+                    }
+                    else
+                    {
+                        hasAlpha = false;
+                    }
+                    
+                    item.Data.TextureInfo.HasAlpha = hasAlpha;
 
-                        Bitmap bitmap = new Bitmap(item.Data.TextureInfo.Texture);
+                    bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-                        bool hasAlpha;
-
-                        hasAlpha = item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb;
-
-                        item.Data.TextureInfo.HasAlpha = hasAlpha;
-
-                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                        Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-
-
-                        BitmapData bitmapData =
-                            bitmap.LockBits(
-                            rectangle,
-                            ImageLockMode.ReadOnly,
-                            hasAlpha ? System.Drawing.Imaging.PixelFormat.Format32bppArgb : System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-                        GL.TexImage2D(
-                            TextureTarget.Texture2D,
-                            0,
-                            hasAlpha ? PixelInternalFormat.Rgba : PixelInternalFormat.Rgb8,
-                            bitmap.Width,
-                            bitmap.Height,
-                            0,
-                            hasAlpha ? OpenTK.Graphics.OpenGL.PixelFormat.Bgra : OpenTK.Graphics.OpenGL.PixelFormat.Bgr,
-                            PixelType.UnsignedByte,
-                            bitmapData.Scan0);
-
-                        if (instance.Config.CurrentConfig.DisableMipmaps)
-                        {
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                        }
-                        else
-                        {
-                            if (MipmapsSupported)
-                            {
-                                try
-                                {
-                                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-                                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-                                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
-                                    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-                                }
-                                catch
-                                {
-                                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
-                                    if (!msgdisplayed)
-                                    {
-                                        MessageBox.Show("Your video card does not support Mipmaps.\n" +
-                                                        "Disable Mipmaps from the MEGA3D tab under\nthe Application/Preferences menu");
-                                        msgdisplayed = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
-                                if (!msgdisplayed)
-                                {
-                                    MessageBox.Show("Your video card does not support Mipmaps.\n" +
-                                                    "Disable Mipmaps from the MEGA3D tab under\nthe Application/Preferences menu");
-                                    msgdisplayed = true;
-                                }
-                            }
-                        }
-
-                        bitmap.UnlockBits(bitmapData);
+                    var loadOnMainThread = new MethodInvoker(() =>
+                    {
+                        item.Data.TextureInfo.TexturePointer = RHelp.GLLoadImage(bitmap, hasAlpha, RenderSettings.HasMipmap);
+                        TexturesPtrMap[item.TeFace.TextureID] = item.Data.TextureInfo;
                         bitmap.Dispose();
-
-                        GL.Flush();
-
+                        item.Data.TextureInfo.Texture = null;
                         GLInvalidate();
+                    });
+
+                    if (IsHandleCreated)
+                    {
+                        BeginInvoke(loadOnMainThread);
                     }
                 }
 
-                //Logger.DebugLog("Texture thread exited");
+                Logger.DebugLog("Texture thread exited");
+            }
             }
             catch (Exception ex)
             {
@@ -770,172 +761,28 @@ namespace MEGAbolt
 
             ThreadPool.QueueUserWorkItem(sync =>
             {
-                if (client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
+                if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
                 {
-                    UpdatePrimBlocking(client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                    var children = client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
+                    UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
+                    var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
                     children.ForEach(p => UpdatePrimBlocking(p));
                 }
             }
             );
         }
 
+        #region Public methods
+        public void SetView(Vector3 center, int roll, int pitch, int yaw, int zoom)
+        {
+            Center = center;
+            scrollRoll.Value = roll;
+            scrollPitch.Value = pitch;
+            scrollYaw.Value = yaw;
+            scrollZoom.Value = zoom;
+        }
+        #endregion Public methods
+
         #region Private methods (the meat)
-        private static FacetedMesh GenerateFacetedMesh(Primitive prim, OSDMap MeshData, DetailLevel LOD)
-        {
-            FacetedMesh ret = new FacetedMesh
-            {
-                Faces = new List<Face>(),
-                Prim = prim,
-                Profile = new Profile
-                {
-                    Faces = new List<ProfileFace>(),
-                    Positions = new List<Vector3>()
-                },
-                Path = new OpenMetaverse.Rendering.Path
-                {
-                    Points = new List<PathPoint>()
-                }
-            };
-
-            try
-            {
-                OSD facesOSD = null;
-
-                switch (LOD)
-                {
-                    default:
-                    case DetailLevel.Highest:
-                        facesOSD = MeshData["high_lod"];
-                        break;
-
-                    case DetailLevel.High:
-                        facesOSD = MeshData["medium_lod"];
-                        break;
-
-                    case DetailLevel.Medium:
-                        facesOSD = MeshData["low_lod"];
-                        break;
-
-                    case DetailLevel.Low:
-                        facesOSD = MeshData["lowest_lod"];
-                        break;
-                }
-
-                if (facesOSD is not OSDArray decodedMeshOsdArray)
-                {
-                    return ret;
-                }
-
-                for (int faceNr = 0; faceNr < decodedMeshOsdArray.Count; faceNr++)
-                {
-                    OSD subMeshOsd = decodedMeshOsdArray[faceNr];
-                    Face oface = new Face
-                    {
-                        ID = faceNr,
-                        Vertices = new List<Vertex>(),
-                        Indices = new List<ushort>(),
-                        TextureFace = prim.Textures.GetFace((uint)faceNr)
-                    };
-
-                    if (subMeshOsd is OSDMap subMeshMap)
-                    {
-                        Vector3 posMax = new Vector3();
-                        posMax = ((OSDMap)subMeshMap["PositionDomain"])["Max"];
-                        Vector3 posMin = new Vector3();
-                        posMin = ((OSDMap)subMeshMap["PositionDomain"])["Min"];
-
-                        Vector2 texPosMax = new Vector2();
-                        texPosMax = ((OSDMap)subMeshMap["TexCoord0Domain"])["Max"];
-                        Vector2 texPosMin = new Vector2();
-                        texPosMin = ((OSDMap)subMeshMap["TexCoord0Domain"])["Min"];
-
-
-                        byte[] posBytes = subMeshMap["Position"];
-                        byte[] norBytes = subMeshMap["Normal"];
-                        byte[] texBytes = subMeshMap["TexCoord0"];
-
-                        for (int i = 0; i < posBytes.Length; i += 6)
-                        {
-                            ushort uX = Utils.BytesToUInt16(posBytes, i);
-                            ushort uY = Utils.BytesToUInt16(posBytes, i + 2);
-                            ushort uZ = Utils.BytesToUInt16(posBytes, i + 4);
-
-                            Vertex vx = new Vertex
-                            {
-                                Position = new Vector3(
-                                    Utils.UInt16ToFloat(uX, posMin.X, posMax.X),
-                                    Utils.UInt16ToFloat(uY, posMin.Y, posMax.Y),
-                                    Utils.UInt16ToFloat(uZ, posMin.Z, posMax.Z))
-                            };
-
-                            ushort nX = Utils.BytesToUInt16(norBytes, i);
-                            ushort nY = Utils.BytesToUInt16(norBytes, i + 2);
-                            ushort nZ = Utils.BytesToUInt16(norBytes, i + 4);
-
-                            vx.Normal = new Vector3(
-                                Utils.UInt16ToFloat(nX, posMin.X, posMax.X),
-                                Utils.UInt16ToFloat(nY, posMin.Y, posMax.Y),
-                                Utils.UInt16ToFloat(nZ, posMin.Z, posMax.Z));
-
-                            var vertexIndexOffset = oface.Vertices.Count * 4;
-
-                            if (texBytes != null && texBytes.Length >= vertexIndexOffset + 4)
-                            {
-                                ushort tX = Utils.BytesToUInt16(texBytes, vertexIndexOffset);
-                                ushort tY = Utils.BytesToUInt16(texBytes, vertexIndexOffset + 2);
-
-                                vx.TexCoord = new Vector2(
-                                    Utils.UInt16ToFloat(tX, texPosMin.X, texPosMax.X),
-                                    Utils.UInt16ToFloat(tY, texPosMin.Y, texPosMax.Y));
-                            }
-
-                            oface.Vertices.Add(vx);
-                        }
-
-                        byte[] triangleBytes = subMeshMap["TriangleList"];
-                        for (int i = 0; i < triangleBytes.Length; i += 6)
-                        {
-                            ushort v1 = (ushort)(Utils.BytesToUInt16(triangleBytes, i));
-                            oface.Indices.Add(v1);
-                            ushort v2 = (ushort)(Utils.BytesToUInt16(triangleBytes, i + 2));
-                            oface.Indices.Add(v2);
-                            ushort v3 = (ushort)(Utils.BytesToUInt16(triangleBytes, i + 4));
-                            oface.Indices.Add(v3);
-                        }
-                    }
-
-                    ret.Faces.Add(oface);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("Failed to decode mesh asset: " + ex.Message, Helpers.LogLevel.Warning);
-            }
-
-            return ret;
-        }
-        
-        private OpenTK.Mathematics.Vector3 WorldToScreen(OpenTK.Mathematics.Vector3 world)
-        {
-            OpenTK.Mathematics.Vector3 screen = new OpenTK.Mathematics.Vector3();
-            screen = OpenTK.Mathematics.Vector3.Zero;
-
-            Matrix4 ModelViewMatrix;
-            Matrix4 ProjectionMatrix;
-            int[] Vport = new int[4];
-
-            GL.GetInteger(GetPName.Viewport, Vport);
-            GL.GetFloat(GetPName.ModelviewMatrix, out ModelViewMatrix);
-            GL.GetFloat(GetPName.ProjectionMatrix, out ProjectionMatrix);
-
-            Math3D.GluProject(world, ModelViewMatrix, ProjectionMatrix, Vport, out screen);
-
-            screen.Y = glControl.Height - screen.Y;
-
-            return screen;
-        }
 
         private void RenderText()
         {
@@ -946,91 +793,44 @@ namespace MEGAbolt
                 foreach (FacetedMesh mesh in Prims.Values)
                 {
                     primNr++;
-                    Primitive prim = new Primitive();
-                    prim = mesh.Prim;
+                    Primitive prim = mesh.Prim;
+                    if (string.IsNullOrEmpty(prim.Text)) continue;
 
-                    if (!string.IsNullOrEmpty(prim.Text))
+                    string text = System.Text.RegularExpressions.Regex.Replace(prim.Text, "(\r?\n)+", "\n");
+                    OpenTK.Mathematics.Vector3 screenPos = OpenTK.Mathematics.Vector3.Zero;
+                    OpenTK.Mathematics.Vector3 primPos = OpenTK.Mathematics.Vector3.Zero;
+
+                    // Is it child prim
+                    FacetedMesh parent = null;
+                    if (Prims.TryGetValue(prim.ParentID, out parent))
                     {
-                        string text = System.Text.RegularExpressions.Regex.Replace(prim.Text, "(\r?\n)+", "\n");
-                        OpenTK.Mathematics.Vector3 screenPos = new OpenTK.Mathematics.Vector3();
-                        screenPos = OpenTK.Mathematics.Vector3.Zero;
-                        OpenTK.Mathematics.Vector3 primPos = new OpenTK.Mathematics.Vector3();
-                        primPos = OpenTK.Mathematics.Vector3.Zero;
-
-                        if (!MipmapsSupported)
-                        {
-                            // Is it a child prim
-                            if (prim.ParentID == RootPrimLocalID)
-                            {
-                                primPos = new OpenTK.Mathematics.Vector3(prim.Position.X, prim.Position.Y, prim.Position.Z);
-                            }
-
-                            GL.MatrixMode(MatrixMode.Modelview);
-
-                            primPos.Z += prim.Scale.Z * 0.7f;
-                            screenPos = WorldToScreen(primPos);
-
-                            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.ReplaceExt);
-                            Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
-
-                            // *FIXME: TextPrinter removed from OpenTK 4.x
-                            /*Printer.Begin();
-
-                            using (Font f = new Font(FontFamily.GenericSansSerif, 10f, FontStyle.Regular))
-                            {
-                                var size = Printer.Measure(text, f);
-                                screenPos.X -= size.BoundingBox.Width / 2;
-                                screenPos.Y -= size.BoundingBox.Height;
-
-                                //Shadow
-                                if (color != Color.DarkGray)
-                                {
-                                    Printer.Print(text, f, Color.DarkGray, new RectangleF(screenPos.X + 0.75f, screenPos.Y + 0.75f, size.BoundingBox.Width, size.BoundingBox.Height), OpenTK.Graphics.TextPrinterOptions.Default, OpenTK.Graphics.TextAlignment.Center);
-                                }
-
-                                Printer.Print(text, f, color, new RectangleF(screenPos.X, screenPos.Y, size.BoundingBox.Width, size.BoundingBox.Height), OpenTK.Graphics.TextPrinterOptions.Default, OpenTK.Graphics.TextAlignment.Center);
-                            }
-
-                            Printer.End();*/
-                        }
-                        else
-                        {
-                            // Is it child prim
-                            FacetedMesh parent = null;
-
-                            if (Prims.TryGetValue(prim.ParentID, out parent))
-                            {
-                                var newPrimPos = prim.Position * OpenMetaverse.Matrix4.CreateFromQuaternion(parent.Prim.Rotation);
-                                primPos = new OpenTK.Mathematics.Vector3(newPrimPos.X, newPrimPos.Y, newPrimPos.Z);
-                            }
-
-                            primPos.Z += prim.Scale.Z * 0.8f;
-                            if (!Math3D.GluProject(primPos, ModelMatrix, ProjectionMatrix, Viewport, out screenPos)) continue;
-                            screenPos.Y = glControl.Height - screenPos.Y;
-
-                            textRendering.Begin();
-
-                            Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
-                            TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.Top;
-
-                            using (Font f = new Font(FontFamily.GenericSansSerif, 10f, FontStyle.Regular))
-                            {
-                                var size = TextRendering.Measure(text, f, flags);
-                                screenPos.X -= size.Width / 2;
-                                screenPos.Y -= size.Height;
-
-                                //Shadow
-                                if (color != Color.DarkGray)
-                                {
-                                    textRendering.Print(text, f, Color.DarkGray, new Rectangle((int)screenPos.X + 1, (int)screenPos.Y + 1, size.Width, size.Height), flags);
-                                }
-
-                                textRendering.Print(text, f, color, new Rectangle((int)screenPos.X, (int)screenPos.Y, size.Width, size.Height), flags);
-                            }
-
-                            textRendering.End();
-                        }
+                        var newPrimPos = prim.Position * OpenMetaverse.Matrix4.CreateFromQuaternion(parent.Prim.Rotation);
+                        primPos = new OpenTK.Mathematics.Vector3(newPrimPos.X, newPrimPos.Y, newPrimPos.Z);
                     }
+
+                    primPos.Z += prim.Scale.Z * 0.8f;
+                    if (!Math3D.GluProject(primPos, ModelMatrix, ProjectionMatrix, Viewport, out screenPos)) continue;
+                    screenPos.Y = glControl.Height - screenPos.Y;
+
+                    textRendering.Begin();
+
+                    Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
+                    TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.Top;
+
+                    using (Font f = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular))
+                    {
+                        var size = TextRendering.Measure(text, f, flags);
+                        screenPos.X -= size.Width / 2;
+                        screenPos.Y -= size.Height;
+
+                        // Shadow
+                        if (color != Color.Black)
+                        {
+                            textRendering.Print(text, f, Color.Black, new Rectangle((int)screenPos.X + 1, (int)screenPos.Y + 1, size.Width, size.Height), flags);
+                        }
+                        textRendering.Print(text, f, color, new Rectangle((int)screenPos.X, (int)screenPos.Y, size.Width, size.Height), flags);
+                    }
+                    textRendering.End();
                 }
             }
         }
@@ -1043,8 +843,7 @@ namespace MEGAbolt
                 foreach (FacetedMesh mesh in Prims.Values)
                 {
                     primNr++;
-                    Primitive prim = new Primitive();
-                    prim = mesh.Prim;
+                    Primitive prim = mesh.Prim;
                     // Individual prim matrix
                     GL.PushMatrix();
 
@@ -1078,7 +877,15 @@ namespace MEGAbolt
                         if (teFace == null)
                             teFace = mesh.Prim.Textures.DefaultTexture;
 
-                        if (pass != RenderPass.Picking)
+                        if (pass == RenderPass.Picking)
+                        {
+                            data.PickingID = primNr;
+                            var primNrBytes = Utils.Int16ToBytes((short)primNr);
+                            var faceColor = new byte[] { primNrBytes[0], primNrBytes[1], (byte)j, 255 };
+
+                            GL.Color4(faceColor);
+                        }
+                        else
                         {
                             bool belongToAlphaPass = (teFace.RGBA.A < 0.99) || data.TextureInfo.HasAlpha;
 
@@ -1093,16 +900,12 @@ namespace MEGAbolt
                                 case Shininess.High:
                                     GL.Material(MaterialFace.Front, MaterialParameter.Shininess, 94f);
                                     break;
-
                                 case Shininess.Medium:
                                     GL.Material(MaterialFace.Front, MaterialParameter.Shininess, 64f);
                                     break;
-
                                 case Shininess.Low:
                                     GL.Material(MaterialFace.Front, MaterialParameter.Shininess, 24f);
                                     break;
-
-
                                 case Shininess.None:
                                 default:
                                     GL.Material(MaterialFace.Front, MaterialParameter.Shininess, 0f);
@@ -1127,14 +930,6 @@ namespace MEGAbolt
                             // Bind the texture
                             GL.BindTexture(TextureTarget.Texture2D, data.TextureInfo.TexturePointer);
                         }
-                        else
-                        {
-                            data.PickingID = primNr;
-                            var primNrBytes = Utils.Int16ToBytes((short)primNr);
-                            var faceColor = new byte[] { primNrBytes[0], primNrBytes[1], (byte)j, 255 };
-
-                            GL.Color4(faceColor);
-                        }
 
                         GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, data.TexCoords);
                         GL.VertexPointer(3, VertexPointerType.Float, 0, data.Vertices);
@@ -1151,11 +946,7 @@ namespace MEGAbolt
 
         private void Render(bool picking)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.LoadIdentity();
-
             glControl.MakeCurrent();
-
             if (picking)
             {
                 GL.ClearColor(clearcolour);
@@ -1165,7 +956,18 @@ namespace MEGAbolt
                 GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
             }
 
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.LoadIdentity();
+
+            // Setup wireframe or solid fill drawing mode
+            if (Wireframe && !picking)
+            {
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            }
+            else
+            {
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            }
 
             var mLookAt = OpenTK.Mathematics.Matrix4d.LookAt(
                     Center.X, (double)scrollZoom.Value * 0.1d + Center.Y, Center.Z,
@@ -1185,12 +987,9 @@ namespace MEGAbolt
             GL.Rotate((float)scrollPitch.Value, 0f, 1f, 0f);
             GL.Rotate((float)scrollYaw.Value, 0f, 0f, 1f);
 
-            if (MipmapsSupported)
-            {
-                GL.GetInteger(GetPName.Viewport, Viewport);
-                GL.GetFloat(GetPName.ModelviewMatrix, out ModelMatrix);
-                GL.GetFloat(GetPName.ProjectionMatrix, out ProjectionMatrix);
-            }
+            GL.GetInteger(GetPName.Viewport, Viewport);
+            GL.GetFloat(GetPName.ModelviewMatrix, out ModelMatrix);
+            GL.GetFloat(GetPName.ProjectionMatrix, out ProjectionMatrix);
 
             if (picking)
             {
@@ -1201,7 +1000,6 @@ namespace MEGAbolt
                 RenderObjects(RenderPass.Simple);
                 RenderObjects(RenderPass.Alpha);
                 RenderText();
-                //RenderAvatar();
             }
 
             // Pop the world matrix
@@ -1214,36 +1012,7 @@ namespace MEGAbolt
             GL.Flush();
         }
 
-        //protected override void OnRenderFrame(FrameEventArgs e)
-        //{
-        //    //base.OnRenderFrame(e);
-
-        //    if (viewport_changed)
-        //    {
-        //        viewport_changed = false;
-
-        //        OpenTK.Graphics.OpenGL.GL.Viewport(0, 0, Width, Height);
-
-        //        OpenTK.Matrix4 ortho_projection = OpenTK.Matrix4.CreateOrthographicOffCenter(0, Width, Height, 0, -1, 1);
-        //        OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-        //        OpenTK.Graphics.OpenGL.GL.LoadMatrix(ref ortho_projection);
-        //    }
-
-        //    OpenTK.Graphics.OpenGL.GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit);
-
-        //    OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
-
-        //    OpenTK.Graphics.OpenGL.GL.TexCoord2(0, 0); OpenTK.Graphics.OpenGL.GL.Vertex2(0, 0);
-        //    OpenTK.Graphics.OpenGL.GL.TexCoord2(1, 0); OpenTK.Graphics.OpenGL.GL.Vertex2(TextBitmap.Width, 0);
-        //    OpenTK.Graphics.OpenGL.GL.TexCoord2(1, 1); OpenTK.Graphics.OpenGL.GL.Vertex2(TextBitmap.Width, TextBitmap.Height);
-        //    OpenTK.Graphics.OpenGL.GL.TexCoord2(0, 1); OpenTK.Graphics.OpenGL.GL.Vertex2(0, TextBitmap.Height);
-
-        //    OpenTK.Graphics.OpenGL.GL.End();
-
-        //    glControl.SwapBuffers();
-        //}
-
-        private static void GluPerspective(float fovy, float aspect, float zNear, float zFar)
+        private void GluPerspective(float fovy, float aspect, float zNear, float zFar)
         {
             float fH = (float)Math.Tan(fovy / 360 * (float)Math.PI) * zNear;
             float fW = fH * aspect;
@@ -1269,7 +1038,8 @@ namespace MEGAbolt
             Render(true);
 
             byte[] color = new byte[4];
-            GL.ReadPixels(x, glControl.Height - y, 1, 1, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, color);
+            GL.ReadPixels(x, glControl.Height - y, 1, 1, 
+                OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, color);
 
             GL.PopAttrib();
 
@@ -1298,16 +1068,6 @@ namespace MEGAbolt
             return picked != null;
         }
 
-        //private void ShowAvatar(Avatar av)
-        //{
-        //    GLAvatar ga = new GLAvatar();
-
-        //    RenderAvatar ra = new Rendering.RenderAvatar();
-        //    ra.avatar = av;
-        //    ra.glavatar = ga;
-        //    updateAVtes(ra);
-        //    ra.glavatar.morph(av);
-        //}
 
         private void UpdatePrimBlocking(Primitive prim)
         {
@@ -1323,12 +1083,8 @@ namespace MEGAbolt
                 }
             }
 
-            if (prim.Textures == null) { return; }
-
-            //if (prim.PrimData.PCode == PCode.Avatar)
-            //{
-            //    ShowAvatar(client.Network.CurrentSim.ObjectsAvatars[prim.LocalID]);
-            //}
+            if (prim.Textures == null)
+                return;
 
             try
             {
@@ -1348,31 +1104,21 @@ namespace MEGAbolt
                         AutoResetEvent gotMesh = new AutoResetEvent(false);
                         bool meshSuccess = false;
 
-                        client.Assets.RequestMesh(prim.Sculpt.SculptTexture, (success, meshAsset) =>
-                        {
-                            if (!success || !meshAsset.Decode())
+                        Client.Assets.RequestMesh(prim.Sculpt.SculptTexture, (success, meshAsset) =>
                             {
-                                Logger.Log("Failed to fetch or decode the mesh asset", Helpers.LogLevel.Warning, client);
-                            }
-                            else
-                            {
-                                mesh = GenerateFacetedMesh(prim, meshAsset.MeshData, DetailLevel.Highest);
-                                meshSuccess = true;
-                            }
-                            gotMesh.Set();
-                        });
+                                if (!success || !FacetedMesh.TryDecodeFromAsset(prim, meshAsset, DetailLevel.Highest, out mesh))
+                                {
+                                    Logger.Log("Failed to fetch or decode the mesh asset", Helpers.LogLevel.Warning, Client);
+                                }
+                                else
+                                {
+                                    meshSuccess = true;
+                                }
+                                gotMesh.Set();
+                            });
 
-                        if (!gotMesh.WaitOne(20 * 1000, false))
-                        {
-                            gotMesh.Close();
-                            return;
-                        }
-
-                        if (!meshSuccess)
-                        {
-                            gotMesh.Close();
-                            return;
-                        }
+                        if (!gotMesh.WaitOne(20 * 1000, false)) return;
+                        if (!meshSuccess) return;
                     }
                 }
                 else
@@ -1392,11 +1138,11 @@ namespace MEGAbolt
                 Face face = mesh.Faces[j];
                 FaceData data = new FaceData
                 {
-                    // Vertices for this face
-                    Vertices = new float[face.Vertices.Count * 3],
+                    Vertices = new float[face.Vertices.Count * 3], 
                     Normals = new float[face.Vertices.Count * 3]
                 };
 
+                // Vertices for this face
                 for (int k = 0; k < face.Vertices.Count; k++)
                 {
                     data.Vertices[k * 3 + 0] = face.Vertices[k].Position.X;
@@ -1413,8 +1159,7 @@ namespace MEGAbolt
 
                 // Texture transform for this face
                 Primitive.TextureEntryFace teFace = prim.Textures.GetFace((uint)j);
-
-                if (teFace != null) renderer.TransformTexCoords(face.Vertices, face.Center, teFace, mesh.Prim.Scale);
+                renderer.TransformTexCoords(face.Vertices, face.Center, teFace, prim.Scale);
 
                 // Texcoords for this face
                 data.TexCoords = new float[face.Vertices.Count * 2];
@@ -1449,7 +1194,6 @@ namespace MEGAbolt
                     };
 
                     PendingTextures.Enqueue(textureItem);
-                    pendingTexturesDataAvailable.Release();
                 }
             }
 
@@ -1458,53 +1202,50 @@ namespace MEGAbolt
                 Prims[prim.LocalID] = mesh;
             }
 
-            mesh = null;
-            existingMesh = null;
-
             GLInvalidate();
         }
 
         private bool LoadTexture(UUID textureID, ref Image texture, bool removeAlpha)
         {
+            if (textureID == UUID.Zero) return false;
+
             ManualResetEvent gotImage = new ManualResetEvent(false);
             Image img = null;
-
-            if (Textures.ContainsKey(textureID))
-            {
-                texture = Textures[textureID];
-                return true;
-            }
 
             try
             {
                 gotImage.Reset();
-                instance.Client.Assets.RequestImage(textureID, (TextureRequestState state, AssetTexture assetTexture) =>
-                {
-                    if (state == TextureRequestState.Finished)
+                instance.Client.Assets.RequestImage(textureID, (state, assetTexture) =>
                     {
-                        using (var reader = new OpenJpegDotNet.IO.Reader(assetTexture.AssetData))
+                        try
                         {
-                            if (!reader.ReadHeader())
+                            if (state == TextureRequestState.Finished)
                             {
-                                throw new Exception("Failed to decode texture header " + assetTexture.AssetID);
-                            }
-                            try
-                            {
-                                img = reader.Decode().ToBitmap(!removeAlpha);
-                            }
-                            catch (NotSupportedException)
-                            {
-                                img = null;
+                                // what the fk is going on here? lol
+                                using (var reader = new OpenJpegDotNet.IO.Reader(assetTexture.AssetData))
+                                {
+                                    if (!reader.ReadHeader())
+                                    {
+                                        throw new Exception("Failed to decode texture header " + assetTexture.AssetID.ToString());
+                                    }
+
+                                    try
+                                    {
+                                        img = reader.Decode().ToBitmap(!removeAlpha);
+                                    }
+                                    catch (NotSupportedException)
+                                    {
+                                        img = null;
+                                    }
+                                }    
                             }
                         }
-
-                        Textures[textureID] = (Image)img.Clone();
+                        finally
+                        {
+                            gotImage.Set();                            
+                        }
                     }
-
-                    gotImage.Set();
-                }
                 );
-
                 gotImage.WaitOne(30 * 1000, false);
 
                 gotImage.Close();
@@ -1553,6 +1294,12 @@ namespace MEGAbolt
             GLInvalidate();
         }
 
+        private void ChkWireFrame_CheckedChanged(object sender, EventArgs e)
+        {
+            // FIXME: Wireframe = chkWireFrame.Checked;
+            GLInvalidate();
+        }
+
         private void btnReset_Click(object sender, EventArgs e)
         {
             scrollYaw.Value = 90;
@@ -1566,8 +1313,7 @@ namespace MEGAbolt
 
         private void oBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "OBJ files (*.obj)|*.obj";
+            SaveFileDialog dialog = new SaveFileDialog {Filter = "OBJ files (*.obj)|*.obj"};
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -1583,8 +1329,9 @@ namespace MEGAbolt
 
         private void cbAA_CheckedChanged(object sender, EventArgs e)
         {
-            //instance.GlobalSettings["use_multi_sampling"] = UseMultiSampling = cbAA.Checked;
-            //SetupGLControl();
+            // FIXME:
+            // instance.GlobalSettings["use_multi_sampling"] = UseMultiSampling = cbAA.Checked;
+            SetupGLControl();
         }
 
         #endregion Form controls handlers
@@ -1658,7 +1405,7 @@ namespace MEGAbolt
             {
                 if (RightclickedPrim.Prim.Properties != null)
                 {
-                    if (RightclickedPrim.Prim.Properties.OwnerID == client.Self.AgentID)
+                    if (RightclickedPrim.Prim.Properties.OwnerID == Client.Self.AgentID)
                     {
                         takeToolStripMenuItem.Enabled = true;
                         deleteToolStripMenuItem.Enabled = true;
@@ -1681,9 +1428,9 @@ namespace MEGAbolt
         private void touchToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            client.Self.Grab(RightclickedPrim.Prim.LocalID, Vector3.Zero, Vector3.Zero, Vector3.Zero, RightclickedFaceID, Vector3.Zero, Vector3.Zero, Vector3.Zero);
+            Client.Self.Grab(RightclickedPrim.Prim.LocalID, Vector3.Zero, Vector3.Zero, Vector3.Zero, RightclickedFaceID, Vector3.Zero, Vector3.Zero, Vector3.Zero);
             Thread.Sleep(100);
-            client.Self.DeGrab(RightclickedPrim.Prim.LocalID);
+            Client.Self.DeGrab(RightclickedPrim.Prim.LocalID);
         }
 
         private void sitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1700,25 +1447,28 @@ namespace MEGAbolt
 
         private void takeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID);
+            instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+            Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID);
             Close();
         }
 
         private void returnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID, DeRezDestination.ReturnToOwner, UUID.Zero, UUID.Random());
+            instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+            Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID, DeRezDestination.ReturnToOwner, UUID.Zero, UUID.Random());
             Close();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (RightclickedPrim.Prim.Properties != null && RightclickedPrim.Prim.Properties.OwnerID != client.Self.AgentID)
+            if (RightclickedPrim.Prim.Properties != null && RightclickedPrim.Prim.Properties.OwnerID != Client.Self.AgentID)
                 returnToolStripMenuItem_Click(sender, e);
             else
             {
-                client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID,
+                instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+                Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID,
                     DeRezDestination.AgentInventoryTake, 
-                    client.Inventory.FindFolderForType(FolderType.Trash), UUID.Random());
+                    Client.Inventory.FindFolderForType(FolderType.Trash), UUID.Random());
             }
 
             Close();
@@ -1817,40 +1567,6 @@ namespace MEGAbolt
 
             newbmp.Dispose();
         }
-
-        private NativeWindow CreateNativeWindow()
-        {
-            NativeWindowSettings settings = NativeWindowSettings.Default;
-            settings.API = OpenTK.Windowing.Common.ContextAPI.OpenGL;
-            settings.AutoLoadBindings = true;
-            settings.Flags = OpenTK.Windowing.Common.ContextFlags.Offscreen;
-            settings.IsEventDriven = false;
-            settings.IsFullscreen = false;
-            settings.Title = "MEGA3D";
-            settings.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
-
-            return new NativeWindow(settings);
-        }
-
-        //public Bitmap GrabScreenshot()
-        //{
-        //    Bitmap newbmp = new Bitmap(glControl.Width, glControl.Height);
-        //    Bitmap bmp = newbmp;
-
-        //    System.Drawing.Imaging.BitmapData data = bmp.LockBits(glControl.ClientRectangle, System.Drawing.Imaging.ImageLockMode.WriteOnly,
-        //        System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-        //    OpenTK.Graphics.OpenGL.GL.ReadPixels(0, 0, glControl.Width, glControl.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data.Scan0);
-
-        //    OpenTK.Graphics.OpenGL.GL.Finish();
-
-        //    bmp.UnlockBits(data);
-        //    bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-        //    newbmp.Dispose(); 
-
-        //    return bmp;
-        //}
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -1973,20 +1689,20 @@ namespace MEGAbolt
         {
             try
             {
-                client.Objects.TerseObjectUpdate -= Objects_TerseObjectUpdate;
-                client.Objects.ObjectUpdate -= Objects_ObjectUpdate;
-                client.Objects.ObjectDataBlockUpdate -= Objects_ObjectDataBlockUpdate;
-                client.Network.SimChanged -= SIM_OnSimChanged;
-                client.Self.TeleportProgress -= Self_TeleportProgress;
+                Client.Objects.TerseObjectUpdate -= Objects_TerseObjectUpdate;
+                Client.Objects.ObjectUpdate -= Objects_ObjectUpdate;
+                Client.Objects.ObjectDataBlockUpdate -= Objects_ObjectDataBlockUpdate;
+                Client.Network.SimChanged -= SIM_OnSimChanged;
+                Client.Self.TeleportProgress -= Self_TeleportProgress;
 
                 lock (Prims)
                 {
                     Prims.Clear();
                 }
 
-                lock (Textures)
+                lock (TexturesPtrMap)
                 {
-                    Textures.Clear();
+                    TexturesPtrMap.Clear();
                 }
             }
             catch (Exception ex)
