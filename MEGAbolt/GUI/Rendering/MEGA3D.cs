@@ -73,7 +73,7 @@ namespace MEGAbolt
         /// <summary>
         /// List of prims in the scene
         /// </summary>
-        Dictionary<uint, FacetedMesh> Prims = new Dictionary<uint, FacetedMesh>();
+        readonly Dictionary<uint, FacetedMesh> Prims = new();
 
         /// <summary>
         /// Local ID of the root prim
@@ -83,17 +83,17 @@ namespace MEGAbolt
         /// Camera center
         /// </summary>
         public Vector3 Center = Vector3.Zero;
+
         #endregion Public fields
 
         #region Private fields
 
-
         private Popup toolTip;
         private CustomToolTip customToolTip;
 
-        Dictionary<UUID, TextureInfo> TexturesPtrMap = new Dictionary<UUID, TextureInfo>();
-        MEGAboltInstance instance;
-        private GridClient Client;
+        readonly Dictionary<UUID, TextureInfo> TexturesPtrMap = new();
+        readonly MEGAboltInstance Instance;
+        private readonly GridClient Client;
         MeshmerizerR renderer;
         GLControlSettings GLMode = null;
 
@@ -112,7 +112,7 @@ namespace MEGAbolt
 
         private Primitive selitem = new();
 
-        float[] lightPos = { 0f, 0f, 1f, 0f };
+        readonly float[] lightPos = { 0f, 0f, 1f, 0f };
 
         private TextRendering textRendering;
         private Matrix4 ModelMatrix;
@@ -125,7 +125,7 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                BugSplat crashReporter = new("radegast", "MEGAbolt",
                     Properties.Resources.MEGAboltVersion)
                 {
                     User = "cinder@cinderblocks.biz",
@@ -151,7 +151,7 @@ namespace MEGAbolt
             catch (Exception ex)
             {
                 //string exp = ex.Message;
-                instance.CrashReporter.Post(ex);
+                Instance.CrashReporter.Post(ex);
             }
 
             if (cancellationTokenSource != null)
@@ -189,8 +189,8 @@ namespace MEGAbolt
 
             UseMultiSampling = false;
 
-            this.instance = instance;
-            Client = this.instance.Client;
+            this.Instance = instance;
+            Client = this.Instance.Client;
             isobject = false;
 
             renderer = new MeshmerizerR();
@@ -229,8 +229,8 @@ namespace MEGAbolt
 
             UseMultiSampling = false;
 
-            this.instance = instance;
-            Client = this.instance.Client;
+            Instance = instance;
+            Client = Instance.Client;
             isobject = true;
             objectitem = obtectitem;
 
@@ -526,7 +526,7 @@ namespace MEGAbolt
             {
                 if (snapped)
                 {
-                    instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
+                    Instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
 
                     capScreenBeforeNextSwap();
                     TakeScreenShot = false;
@@ -796,7 +796,7 @@ namespace MEGAbolt
                     Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
                     TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.Top;
 
-                    using (Font f = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular))
+                    using (Font f = new(FontFamily.GenericSansSerif, 10, FontStyle.Regular))
                     {
                         var size = TextRendering.Measure(text, f, flags);
                         screenPos.X -= size.Width / 2;
@@ -1073,7 +1073,7 @@ namespace MEGAbolt
                     else
                     {
                         // Mesh
-                        AutoResetEvent gotMesh = new AutoResetEvent(false);
+                        AutoResetEvent gotMesh = new(false);
                         bool meshSuccess = false;
 
                         Client.Assets.RequestMesh(prim.Sculpt.SculptTexture, (success, meshAsset) =>
@@ -1108,7 +1108,7 @@ namespace MEGAbolt
             for (int j = 0; j < mesh.Faces.Count; j++)
             {
                 Face face = mesh.Faces[j];
-                FaceData data = new FaceData
+                FaceData data = new()
                 {
                     Vertices = new float[face.Vertices.Count * 3], 
                     Normals = new float[face.Vertices.Count * 3]
@@ -1181,13 +1181,13 @@ namespace MEGAbolt
         {
             if (textureID == UUID.Zero) return false;
 
-            ManualResetEvent gotImage = new ManualResetEvent(false);
+            ManualResetEvent gotImage = new(false);
             Image img = null;
 
             try
             {
                 gotImage.Reset();
-                instance.Client.Assets.RequestImage(textureID, (state, assetTexture) =>
+                Instance.Client.Assets.RequestImage(textureID, (state, assetTexture) =>
                     {
                         try
                         {
@@ -1232,7 +1232,7 @@ namespace MEGAbolt
             }
             catch (Exception e)
             {
-                Logger.Log(e.Message, Helpers.LogLevel.Error, instance.Client, e);
+                Logger.Log(e.Message, Helpers.LogLevel.Error, Instance.Client, e);
                 return false;
             }
         }
@@ -1285,7 +1285,7 @@ namespace MEGAbolt
 
         private void oBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog {Filter = "OBJ files (*.obj)|*.obj"};
+            SaveFileDialog dialog = new() { Filter = "OBJ files (*.obj)|*.obj"};
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -1311,7 +1311,7 @@ namespace MEGAbolt
         #region Context menu
         private void ctxObjects_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (instance.State.IsSitting)
+            if (Instance.State.IsSitting)
             {
                 sitToolStripMenuItem.Text = "Stand up";
             }
@@ -1407,26 +1407,26 @@ namespace MEGAbolt
 
         private void sitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!instance.State.IsSitting)
+            if (!Instance.State.IsSitting)
             {
-                instance.State.SetSitting(true, RightclickedPrim.Prim.ID);
+                Instance.State.SetSitting(true, RightclickedPrim.Prim.ID);
             }
             else
             {
-                instance.State.SetSitting(false, UUID.Zero);
+                Instance.State.SetSitting(false, UUID.Zero);
             }
         }
 
         private void takeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+            Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID);
             Close();
         }
 
         private void returnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+            Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID, DeRezDestination.ReturnToOwner, UUID.Zero, UUID.Random());
             Close();
         }
@@ -1437,7 +1437,7 @@ namespace MEGAbolt
                 returnToolStripMenuItem_Click(sender, e);
             else
             {
-                instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
+                Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
                 Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID,
                     DeRezDestination.AgentInventoryTake, 
                     Client.Inventory.FindFolderForType(FolderType.Trash), UUID.Random());
@@ -1454,7 +1454,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
+            Instance.MediaManager.PlayUISound(Properties.Resources.camera_clic_with_flash);
 
             getScreehShot();
         }
@@ -1467,7 +1467,7 @@ namespace MEGAbolt
             //Bitmap bmp = GrabScreenshot();
             //Image img = (Image)bmp;
 
-            Bitmap newbmp = new Bitmap(glControl.Width, glControl.Height);
+            Bitmap newbmp = new(glControl.Width, glControl.Height);
             Bitmap bmp = newbmp;
 
             BitmapData data = bmp.LockBits(glControl.ClientRectangle, ImageLockMode.WriteOnly,
@@ -1507,7 +1507,7 @@ namespace MEGAbolt
             //Bitmap bmp = GrabScreenshot();
             //Image img = (Image)bmp;
 
-            Bitmap newbmp = new Bitmap(glControl.Width, glControl.Height);
+            Bitmap newbmp = new(glControl.Width, glControl.Height);
             Bitmap bmp = newbmp;
 
             //System.Drawing.Imaging.BitmapData data = bmp.LockBits(glControl.ClientRectangle, System.Drawing.Imaging.ImageLockMode.WriteOnly,
@@ -1599,7 +1599,7 @@ namespace MEGAbolt
 
         private void payBuyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Primitive sPr = new Primitive();
+            Primitive sPr = new();
             sPr = RightclickedPrim.Prim;
 
             if (sPr.Properties == null)
@@ -1621,12 +1621,12 @@ namespace MEGAbolt
             {
                 int sprice = sPr.Properties.SalePrice;
 
-                (new frmPay(instance, sPr.ID, sPr.Properties.Name, sprice, sPr)).Show(this);
+                (new frmPay(Instance, sPr.ID, sPr.Properties.Name, sprice, sPr)).Show(this);
             }
             else
             {
                 //(new frmPay(instance, sPr.ID, sPr.Properties.Name)).Show(this);
-                (new frmPay(instance, sPr.ID, string.Empty, sPr.Properties.Name, sPr)).Show(this);
+                (new frmPay(Instance, sPr.ID, string.Empty, sPr.Properties.Name, sPr)).Show(this);
             }
             //}
         }
@@ -1670,55 +1670,55 @@ namespace MEGAbolt
             catch (Exception ex)
             {
                 //string exp = ex.Message;
-                instance.CrashReporter.Post(ex);
+                Instance.CrashReporter.Post(ex);
             }
         }
 
         private void button2_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button2, "Blue background");
         }
 
         private void button3_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button3, "White background");
         }
 
         private void button4_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button4, "Black background");
         }
 
         private void button5_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button5, "Red background");
         }
 
         private void button6_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button6, "Green background");
         }
 
         private void button7_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button7, "Yellow background");
         }
 
         private void button8_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button8, "Transparent background");
         }
 
         private void button1_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            ToolTip ToolTip1 = new();
             ToolTip1.SetToolTip(button1, "Take snapshot");
         }
     }
