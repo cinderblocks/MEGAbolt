@@ -70,24 +70,14 @@ namespace MEGAbolt
             thread.Start();
         }
 
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr ShellExecute(IntPtr hwnd,
-                                          string lpOperation,
-                                          string lpFile,
-                                          string lpParameters,
-                                          string lpDirectory,
-                                          int nShowCmd
-                                          );
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //ShellExecute(this.Handle, "open", "mail:legolas.luke@yahoo.co.uk", null, null, 0);
-            ShellExecute(Handle, "open", "http://www.metabolt.net/", null, null, 0);
+            Utilities.OpenBrowser("https://metabolt.radegast.life/");
         }
 
         private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ShellExecute(Handle, "open", "http://www.metabolt.net/metaforums/", null, null, 0);
+            Utilities.OpenBrowser("https://metabolt.radegast.life/help/");
         }
 
         private void lblVersion_Click(object sender, EventArgs e)

@@ -127,10 +127,5 @@ namespace MEGAbolt
         {
             toolTip3.Close();
         }
-
-        private void picSpell_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/How-customise-and-enable-spell-checking.ashx");
-        }
     }
 }

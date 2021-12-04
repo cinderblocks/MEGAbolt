@@ -36,7 +36,7 @@
 		<Property Id="ARPURLINFOABOUT">$(var.aboutUrl)</Property>
 		<Property Id="ARPURLUPDATEINFO">$(var.aboutUrl)</Property>
 		<!--<Property Id="ARPHELPTELEPHONE"></Property>-->
-		<Property Id="ARPREADME">https://metabolt.radegast.life/</Property>
+		<Property Id="ARPREADME">https://megabolt.radegast.life/</Property>
 		<!-- Update this value with the install size in Kb -->
 		<Property Id="ARPSIZE">$(var.totalFileSize)</Property>
 		<!-- This refers to the Id attribute of the <Icon> element -->

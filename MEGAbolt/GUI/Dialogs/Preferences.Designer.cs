@@ -121,7 +121,6 @@ namespace MEGAbolt
             this.picAutoSit.Size = new System.Drawing.Size(15, 15);
             this.picAutoSit.TabIndex = 39;
             this.picAutoSit.TabStop = false;
-            this.picAutoSit.Click += new System.EventHandler(this.picAutoSit_Click);
             this.picAutoSit.MouseLeave += new System.EventHandler(this.picAutoSit_MouseLeave);
             this.picAutoSit.MouseHover += new System.EventHandler(this.picAutoSit_MouseHover);
             // 

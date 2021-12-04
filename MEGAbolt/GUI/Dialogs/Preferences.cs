@@ -178,11 +178,6 @@ namespace MEGAbolt
 
         }
 
-        private void picAutoSit_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/Using-Preferences.ashx");
-        }
-
         private void picAutoSit_MouseHover(object sender, EventArgs e)
         {
             toolTip.Show(picAutoSit);

@@ -268,7 +268,7 @@ namespace MEGAbolt
             {
                 try
                 {
-                    exp.HelpLink = "http://www.metabolt.net/METAwiki/index.php?title=Main_Page"; // updated link addy
+                    exp.HelpLink = "http://megabolt.radegast.life/help/"; // updated link addy
                     //Logger.Log("ERROR while loading config file'" + filename + "'. Your settings may not have fully loaded. Message: " + exp.Message, Helpers.LogLevel.Error);
                     MessageBox.Show("The was an error when loading your Config (MEGAbolt.ini) file.\nNot all of your settings may have been loaded.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }

@@ -386,7 +386,6 @@
             this.picSpell.Size = new System.Drawing.Size(15, 15);
             this.picSpell.TabIndex = 18;
             this.picSpell.TabStop = false;
-            this.picSpell.Click += new System.EventHandler(this.picSpell_Click);
             this.picSpell.MouseLeave += new System.EventHandler(this.picSpell_MouseLeave);
             this.picSpell.MouseHover += new System.EventHandler(this.picSpell_MouseHover);
             // 

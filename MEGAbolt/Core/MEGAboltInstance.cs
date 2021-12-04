@@ -171,7 +171,7 @@ namespace MEGAbolt
 
             Client = new GridClient();
 
-            //at this point we have been given: metabolt.exe [firstname] [lastname] [password]
+            //at this point we have been given: megabolt.exe [firstname] [lastname] [password]
             //so args[0] and args[1] have the necessary name parts
             if (args.Length > 1)
             {

@@ -1488,7 +1488,6 @@ namespace MEGAbolt
             this.picVoice.Size = new System.Drawing.Size(15, 15);
             this.picVoice.TabIndex = 42;
             this.picVoice.TabStop = false;
-            this.picVoice.Click += new System.EventHandler(this.picAutoSit_Click);
             this.picVoice.MouseLeave += new System.EventHandler(this.picVoice_MouseLeave);
             this.picVoice.MouseHover += new System.EventHandler(this.picVoice_MouseHover);
             // 

@@ -1583,11 +1583,6 @@ namespace MEGAbolt
             toolTip.Close();
         }
 
-        private void picAutoSit_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/METAwiki/META3D.ashx");
-        }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();

@@ -588,7 +588,7 @@ namespace MEGAbolt
 
                     // Fix suggested on forums by Spirit
                     // http://www.metabolt.net/metaforums/yaf_postsm2417_using-bat-file.aspx#post2417
-                    line = "START \"\" /D \"" + Application.StartupPath + "\\\" \"" + Application.StartupPath + "\\metabolt.exe" + "\"" + " " + cuser.Replace("_", " ") + " " + txtPassword.Text;
+                    line = "START \"\" /D \"" + Application.StartupPath + "\\\" \"" + Application.StartupPath + "\\megabolt.exe" + "\"" + " " + cuser.Replace("_", " ") + " " + txtPassword.Text;
                     sr.WriteLine(line);
 
                     //sr.Close();

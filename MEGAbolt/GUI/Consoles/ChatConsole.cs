@@ -4265,9 +4265,7 @@ namespace MEGAbolt
         {
             if (!File.Exists(Application.StartupPath.ToString() + "\\" + filename))
             {
-                MessageBox.Show($"The required '{filename}' file was not found.\n" +
-                                $"Please read the wiki page below for instructions:\n\n" +
-                                $"http://www.metabolt.net/METAwiki/How-to-enable-VOICE.ashx?NoRedirect=1");
+                MessageBox.Show($"The required '{filename}' file was not found.");
                 return(false);
             }
             return (true);
@@ -4394,12 +4392,7 @@ namespace MEGAbolt
 
         private void tbtnHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/Quick.aspx");
-        }
-
-        private void picAutoSit_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/How-to-enable-VOICE.ashx");
+            Utilities.OpenBrowser(@"https://metabolt.radegast.life/help/");
         }
 
         private void button5_KeyDown(object sender, KeyEventArgs e)
