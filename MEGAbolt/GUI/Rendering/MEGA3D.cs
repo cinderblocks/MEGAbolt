@@ -26,19 +26,16 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using OpenMetaverse.Rendering;
-using OpenMetaverse.Assets;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
+using System.Threading.Tasks;
 using MEGAbolt.Controls;
 using MEGAbolt.Rendering;
 using BugSplatDotNetStandard;
-using OpenTK.Windowing.Desktop;
 using OpenTK.WinForms;
 
 using Matrix4 = OpenTK.Mathematics.Matrix4;
-using NativeWindow = OpenTK.Windowing.Desktop.NativeWindow;
 
 namespace MEGAbolt
 {
@@ -90,8 +87,6 @@ namespace MEGAbolt
 
         #region Private fields
 
-        //private OpenTK.Graphics.IGraphicsContextInternal context;
-        private bool MipmapsSupported = false;
 
         private Popup toolTip;
         private CustomToolTip customToolTip;
@@ -101,8 +96,10 @@ namespace MEGAbolt
         private GridClient Client;
         MeshmerizerR renderer;
         GLControlSettings GLMode = null;
-        ConcurrentQueue<TextureLoadItem> PendingTextures = new();
+
+        private Task TextureTask;
         private CancellationTokenSource cancellationTokenSource;
+        private readonly ConcurrentQueue<TextureLoadItem> PendingTextures = new();
 
         private bool TakeScreenShot = false;
         private bool snapped = false;
@@ -114,7 +111,6 @@ namespace MEGAbolt
         public bool enablemipmapd = true;
 
         private Primitive selitem = new();
-        private bool msgdisplayed = false;
 
         float[] lightPos = { 0f, 0f, 1f, 0f };
 
@@ -407,8 +403,6 @@ namespace MEGAbolt
                 return;
             }
 
-            Logger.Log("Initializing OpenGL mode: " + (GLMode == null ? "" : GLMode.ToString()), Helpers.LogLevel.Info);
-
             glControl.Paint += glControl_Paint;
             glControl.Resize += glControl_Resize;
             glControl.MouseDown += glControl_MouseDown;
@@ -439,7 +433,6 @@ namespace MEGAbolt
             {
                 PendingTextures.TryDequeue(out _);
             }
-
         }
 
         void glControl_Click(object sender, EventArgs e)
@@ -489,7 +482,6 @@ namespace MEGAbolt
                 GL.AlphaFunc(AlphaFunction.Greater, 0.5f);
                 GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-                MipmapsSupported = true;
                 RenderingEnabled = true;
 
                 // Call the resizing function which sets up the GL drawing window
@@ -498,18 +490,12 @@ namespace MEGAbolt
 
                 glControl.Context.MakeCurrent();
 
-                var textureThread = new Thread(TextureThread)
-                {
-                    IsBackground = true,
-                    Name = "TextureLoadingThread"
-                };
+                TextureTask = Task.Factory.StartNew(ProcessTextures,
+                    cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
-                textureThread.Start();
                 glControl.MakeCurrent();
 
                 GLInvalidate();
-
-                Logger.Log("OpenGL control initialised", Helpers.LogLevel.Info , Client);
             }
             catch (Exception ex)
             {
@@ -583,7 +569,7 @@ namespace MEGAbolt
 
         private void glControl_MouseWheel(object sender, MouseEventArgs e)
         {
-            int newVal = Utils.Clamp(scrollZoom.Value + e.Delta / 95, scrollZoom.Minimum, scrollZoom.Maximum);
+            int newVal = Utils.Clamp(scrollZoom.Value + e.Delta / 10, scrollZoom.Minimum, scrollZoom.Maximum);
 
             if (scrollZoom.Value != newVal)
             {
@@ -693,60 +679,52 @@ namespace MEGAbolt
         #endregion Mouse handling
 
         #region Texture thread
-        bool TextureThreadRunning = true;
 
-        void TextureThread()
+        void ProcessTextures()
         {
-            Logger.DebugLog("Started Texture Thread");
+            Logger.Log("Started MEGA3D Texture Thread", Helpers.LogLevel.Debug);
 
             try {
-            while (TextureThreadRunning)
-            {
-                TextureLoadItem item = null;
-
-                if (!PendingTextures.TryDequeue(out item)) continue;
-
-                if (TexturesPtrMap.ContainsKey(item.TeFace.TextureID))
+                while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    item.Data.TextureInfo = TexturesPtrMap[item.TeFace.TextureID];
-                    continue;
-                }
+                    TextureLoadItem item = null;
 
-                if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
-                {
-                    Bitmap bitmap = (Bitmap)item.Data.TextureInfo.Texture;
+                    if (!PendingTextures.TryDequeue(out item)) { continue; }
 
-                    bool hasAlpha;
-                    if (item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                    if (TexturesPtrMap.ContainsKey(item.TeFace.TextureID))
                     {
-                        hasAlpha = true;
+                        item.Data.TextureInfo = TexturesPtrMap[item.TeFace.TextureID];
+                        continue;
                     }
-                    else
-                    {
-                        hasAlpha = false;
-                    }
-                    
-                    item.Data.TextureInfo.HasAlpha = hasAlpha;
 
-                    bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-                    var loadOnMainThread = new MethodInvoker(() =>
+                    if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
                     {
-                        item.Data.TextureInfo.TexturePointer = RHelp.GLLoadImage(bitmap, hasAlpha, RenderSettings.HasMipmap);
-                        TexturesPtrMap[item.TeFace.TextureID] = item.Data.TextureInfo;
-                        bitmap.Dispose();
-                        item.Data.TextureInfo.Texture = null;
-                        GLInvalidate();
-                    });
+                        Bitmap bitmap = (Bitmap)item.Data.TextureInfo.Texture;
 
-                    if (IsHandleCreated)
-                    {
-                        BeginInvoke(loadOnMainThread);
+                        bool hasAlpha = 
+                            item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb
+                            || item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppPArgb
+                            || item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
+                        item.Data.TextureInfo.HasAlpha = hasAlpha;
+
+                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                        var loadOnMainThread = new MethodInvoker(() =>
+                        {
+                            item.Data.TextureInfo.TexturePointer = RHelp.GLLoadImage(bitmap, hasAlpha, RenderSettings.HasMipmap);
+                            TexturesPtrMap[item.TeFace.TextureID] = item.Data.TextureInfo;
+                            bitmap.Dispose();
+                            item.Data.TextureInfo.Texture = null;
+                            GLInvalidate();
+                        });
+
+                        if (IsHandleCreated)
+                        {
+                            BeginInvoke(loadOnMainThread);
+                        }
                     }
                 }
-
-                Logger.DebugLog("Texture thread exited");
-            }
+                Logger.Log("Exited MEGA3D Texture Thread", Helpers.LogLevel.Debug);
             }
             catch (Exception ex)
             {
@@ -765,6 +743,7 @@ namespace MEGAbolt
                 {
                     UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
                     var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
+                    Logger.Log($"Loading {children.Count} primitives", Helpers.LogLevel.Debug);
                     children.ForEach(p => UpdatePrimBlocking(p));
                 }
             }
@@ -947,14 +926,7 @@ namespace MEGAbolt
         private void Render(bool picking)
         {
             glControl.MakeCurrent();
-            if (picking)
-            {
-                GL.ClearColor(clearcolour);
-            }
-            else
-            {
-                GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-            }
+            GL.ClearColor(clearcolour);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.LoadIdentity();
@@ -1566,11 +1538,6 @@ namespace MEGAbolt
             }
 
             newbmp.Dispose();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void picAutoSit_MouseHover(object sender, EventArgs e)
