@@ -251,7 +251,7 @@
             // 
             // button1
             // 
-            this.button1.AccessibleDescription = "Takes a snapshot of tje displayed object on to your hard drive";
+            this.button1.AccessibleDescription = "Takes a snapshot of the displayed object on to your hard drive";
             this.button1.AccessibleName = "Snapshot";
             this.button1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
