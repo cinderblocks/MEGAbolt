@@ -718,7 +718,7 @@ namespace MEGAbolt
             {
                 string hword = rtbScript.GetWordFromPosition(rtbScript.CurrentPosition);
                 string surl = "http://wiki.secondlife.com/wiki/" + hword;
-                System.Diagnostics.Process.Start(@surl);
+                Utilities.OpenBrowser(@surl);
             }
         }
 

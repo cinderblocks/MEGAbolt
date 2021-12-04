@@ -358,11 +358,11 @@ namespace MEGAbolt
             }
             else if (e.LinkText.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase) || e.LinkText.StartsWith("ftp://", StringComparison.CurrentCultureIgnoreCase) || e.LinkText.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
             {
-                System.Diagnostics.Process.Start(e.LinkText);
+                Utilities.OpenBrowser(e.LinkText);
             }
             else
             {
-                System.Diagnostics.Process.Start("http://" + e.LinkText);
+                Utilities.OpenBrowser("http://" + e.LinkText);
             }
         }
     }

@@ -784,11 +784,11 @@ namespace MEGAbolt
 
             if (!e.LinkText.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
             {
-                System.Diagnostics.Process.Start("http://" + mlink);
+                Utilities.OpenBrowser("http://" + mlink);
             }
             else
             {
-                System.Diagnostics.Process.Start(mlink);
+                Utilities.OpenBrowser(mlink);
             }
         }
 
@@ -801,7 +801,7 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(albumlink))
             {
-                System.Diagnostics.Process.Start(@albumlink);
+                Utilities.OpenBrowser(@albumlink);
             }
         }
 
@@ -809,7 +809,7 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(lyrics))
             {
-                System.Diagnostics.Process.Start(@lyrics);
+                Utilities.OpenBrowser(@lyrics);
             }
         }
 
@@ -817,7 +817,7 @@ namespace MEGAbolt
         {
             string ulink = "http://www.youtube.com/results?search_query=" + currentartist + ":" + currenttrack; ;
 
-            System.Diagnostics.Process.Start(@ulink);
+            Utilities.OpenBrowser(@ulink);
         }
 
         private void button2_Click(object sender, EventArgs e)

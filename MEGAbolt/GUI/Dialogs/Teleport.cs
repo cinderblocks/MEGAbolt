@@ -459,7 +459,7 @@ namespace MEGAbolt
                     mapurl = "http://maps.secondlife.com/secondlife/";
                 }
                 string surl = mapurl + txtRegion.Text.Trim() + "/" + nudX.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ.Value.ToString(CultureInfo.CurrentCulture);
-                System.Diagnostics.Process.Start(@surl);
+                Utilities.OpenBrowser(@surl);
             }
         }
 

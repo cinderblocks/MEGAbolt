@@ -271,7 +271,7 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://secondlife.com/events/");
+            Utilities.OpenBrowser(@"http://secondlife.com/events/");
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -2681,11 +2681,11 @@ namespace MEGAbolt
             }
             else if (e.LinkText.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase) || e.LinkText.StartsWith("ftp://", StringComparison.CurrentCultureIgnoreCase) || e.LinkText.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
             {
-                System.Diagnostics.Process.Start(e.LinkText);
+                Utilities.OpenBrowser(e.LinkText);
             }
             else
             {
-                System.Diagnostics.Process.Start("http://" + e.LinkText);
+                Utilities.OpenBrowser("http://" + e.LinkText);
             }
         }
 
@@ -3067,7 +3067,7 @@ namespace MEGAbolt
 
         private void tsMovie_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@instance.Config.CurrentConfig.mURL);
+            Utilities.OpenBrowser(@instance.Config.CurrentConfig.mURL);
         }
 
         private void toolStripButton1_Click_1(object sender, EventArgs e)
@@ -4515,7 +4515,7 @@ namespace MEGAbolt
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.bing.com/");
+            Utilities.OpenBrowser(@"http://www.duckduckgo.com/");
         }
 
         private void lvwRadar_DrawItem(object sender, DrawListViewItemEventArgs e)

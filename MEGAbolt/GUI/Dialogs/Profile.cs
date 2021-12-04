@@ -608,9 +608,9 @@ namespace MEGAbolt
         private static void ProcessWebURL(string url)
         {
             if (url.StartsWith("http://", StringComparison.CurrentCulture) || url.StartsWith("ftp://", StringComparison.CurrentCulture))
-                System.Diagnostics.Process.Start(url);
+                Utilities.OpenBrowser(url);
             else
-                System.Diagnostics.Process.Start("http://" + url);
+                Utilities.OpenBrowser("http://" + url);
         }
 
         private void btnWebOpen_Click(object sender, EventArgs e)

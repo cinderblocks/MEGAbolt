@@ -725,7 +725,7 @@ namespace MEGAbolt
 
             try
             {
-                System.Diagnostics.Process.Start(fullfile);
+                Utilities.OpenBrowser(fullfile);
             }
             catch (Exception ex)
             {
@@ -752,7 +752,7 @@ namespace MEGAbolt
             if (clickedurl != string.Empty)
             {
                 e.Cancel = true;
-                System.Diagnostics.Process.Start(e.Url.ToString());
+                Utilities.OpenBrowser(e.Url.ToString());
             }
         }
 
@@ -793,7 +793,7 @@ namespace MEGAbolt
                 return;
             }
 
-            System.Diagnostics.Process.Start(clickedurl);
+            Utilities.OpenBrowser(clickedurl);
             clickedurl = string.Empty;  
         }
     }

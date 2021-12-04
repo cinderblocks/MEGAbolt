@@ -292,7 +292,7 @@ namespace MEGAbolt
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://wiki.secondlife.com/wiki/Statistics_Bar_Guide");
+            Utilities.OpenBrowser(@"http://wiki.secondlife.com/wiki/Statistics_Bar_Guide");
         }
     }
 }

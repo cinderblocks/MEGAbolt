@@ -448,12 +448,14 @@ namespace MEGAbolt
                 return;
             }
 
-            DialogResult sret = MessageBoxEx.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + "\nowned by " + e.OwnerID.ToString() + " is offering you a URL.\n\nClick 'OK' to visit.", "URL offer...", MessageBoxButtons.OKCancel, 15000);
+            DialogResult sret = MessageBoxEx.Show($"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}" +
+                $"\nowned by {e.OwnerID} is offering you a URL." +
+                $"\n\nClick 'OK' to visit.", "URL offer...", MessageBoxButtons.OKCancel, 15000);
 
             if (sret == DialogResult.OK)
             {
                 //ShellExecute(this.Handle, "open", e.url.ToString(), null, null, 0);
-                System.Diagnostics.Process.Start(@e.URL.ToString(CultureInfo.CurrentCulture));
+                Utilities.OpenBrowser(@e.URL.ToString(CultureInfo.CurrentCulture));
             }
         }
 

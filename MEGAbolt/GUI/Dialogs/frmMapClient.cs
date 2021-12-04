@@ -1106,7 +1106,7 @@ namespace MEGAbolt
             {
                 RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
                 string surl = "http://slurl.com/secondlife/" + item.Region.Name.Trim() + "/" + nudX1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ1.Value.ToString(CultureInfo.CurrentCulture);
-                System.Diagnostics.Process.Start(@surl);
+                Utilities.OpenBrowser(@surl);
             }
         }
 
