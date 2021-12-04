@@ -24,7 +24,7 @@ MEGAbolt promises no compatiblity with plugins for said client and should be con
 
 ### Prerequisites
 
-MEGAbolt requires .NET 5 and currently runs on the Winodows x64 platform exclusively.
+MEGAbolt requires .NET 5 and currently runs on the Windows x64 platform exclusively.
 
 ### Contributing
 
@@ -36,8 +36,7 @@ If you can't figure this out yourself, this project is not for you.
 
 **MEGAbolt Metaverse Client**
 * Copyright © 2008 - 2013, www (dot) metabolt (dot) net <-- site is riddled with virus, but copyright is intact.
-* Copyright © 2021, Sjofn, LLC.
-* All rights reserved.
+* Copyright © 2021, Sjofn, LLC. All rights reserved.
 
  MEGAbolt is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
