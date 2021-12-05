@@ -28,7 +28,6 @@ using System;
 using System.Windows.Forms;
 using System.Globalization;
 
-[assembly: CLSCompliant(true)]
 namespace MEGAbolt
 {
     static class Program
