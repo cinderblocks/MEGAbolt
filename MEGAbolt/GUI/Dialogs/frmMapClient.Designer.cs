@@ -33,13 +33,13 @@ namespace MEGAbolt
             this.btnClose = new System.Windows.Forms.Button();
             this.TabCont = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.btnBrowser = new System.Windows.Forms.Button();
+            this.btnClearMarker = new System.Windows.Forms.Button();
+            this.chkRange = new System.Windows.Forms.CheckBox();
             this.chkResident = new System.Windows.Forms.CheckBox();
             this.chkForSale = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblSlurl = new System.Windows.Forms.TextBox();
+            this.lblDownloading = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -70,7 +70,7 @@ namespace MEGAbolt
             this.btnFind = new System.Windows.Forms.Button();
             this.txtSearchFor = new System.Windows.Forms.TextBox();
             this.lbxRegionSearch = new System.Windows.Forms.ListBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureMap = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TabCont.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -85,7 +85,7 @@ namespace MEGAbolt
             ((System.ComponentModel.ISupportInitialize)(this.nudY1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudZ1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureMap)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -123,13 +123,13 @@ namespace MEGAbolt
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
-            this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Controls.Add(this.checkBox1);
+            this.tabPage1.Controls.Add(this.btnBrowser);
+            this.tabPage1.Controls.Add(this.btnClearMarker);
+            this.tabPage1.Controls.Add(this.chkRange);
             this.tabPage1.Controls.Add(this.chkResident);
             this.tabPage1.Controls.Add(this.chkForSale);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.lblSlurl);
+            this.tabPage1.Controls.Add(this.lblDownloading);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.label3);
@@ -146,61 +146,61 @@ namespace MEGAbolt
             this.tabPage1.Size = new System.Drawing.Size(268, 405);
             this.tabPage1.TabIndex = 0;
             // 
-            // button3
+            // btnBrowser
             // 
-            this.button3.AccessibleName = "Clear marker from map option";
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.BackColor = System.Drawing.Color.DimGray;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(162, 341);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 23);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "View in browser";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnBrowser.AccessibleName = "View in browser";
+            this.btnBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowser.BackColor = System.Drawing.Color.DimGray;
+            this.btnBrowser.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnBrowser.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnBrowser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBrowser.ForeColor = System.Drawing.Color.White;
+            this.btnBrowser.Location = new System.Drawing.Point(162, 341);
+            this.btnBrowser.Name = "button3";
+            this.btnBrowser.Size = new System.Drawing.Size(100, 23);
+            this.btnBrowser.TabIndex = 13;
+            this.btnBrowser.Text = "View in browser";
+            this.btnBrowser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnBrowser.UseVisualStyleBackColor = false;
+            this.btnBrowser.Click += new System.EventHandler(this.btnBrowser_Click);
             // 
-            // button1
+            // btnClearMarker
             // 
-            this.button1.AccessibleName = "Clear marker from map option";
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.DimGray;
-            this.button1.Enabled = false;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(214, 261);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(48, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "cl&ear";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnClearMarker.AccessibleName = "Clear marker from map option";
+            this.btnClearMarker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearMarker.BackColor = System.Drawing.Color.DimGray;
+            this.btnClearMarker.Enabled = false;
+            this.btnClearMarker.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnClearMarker.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnClearMarker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearMarker.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearMarker.ForeColor = System.Drawing.Color.White;
+            this.btnClearMarker.Location = new System.Drawing.Point(214, 261);
+            this.btnClearMarker.Name = "button1";
+            this.btnClearMarker.Size = new System.Drawing.Size(48, 23);
+            this.btnClearMarker.TabIndex = 2;
+            this.btnClearMarker.Text = "cl&ear";
+            this.btnClearMarker.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnClearMarker.UseVisualStyleBackColor = false;
+            this.btnClearMarker.Click += new System.EventHandler(this.btnClearMarker_Click);
             // 
-            // checkBox1
+            // chkRange
             // 
-            this.checkBox1.AccessibleName = "Display residents option";
-            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.Location = new System.Drawing.Point(162, 264);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(54, 17);
-            this.checkBox1.TabIndex = 12;
-            this.checkBox1.Text = "Range";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkRange.AccessibleName = "Range";
+            this.chkRange.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.chkRange.AutoSize = true;
+            this.chkRange.Checked = true;
+            this.chkRange.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRange.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkRange.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkRange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkRange.Location = new System.Drawing.Point(162, 264);
+            this.chkRange.Name = "checkBox1";
+            this.chkRange.Size = new System.Drawing.Size(54, 17);
+            this.chkRange.TabIndex = 12;
+            this.chkRange.Text = "Range";
+            this.chkRange.UseVisualStyleBackColor = true;
             // 
             // chkResident
             // 
@@ -235,29 +235,29 @@ namespace MEGAbolt
             this.chkForSale.UseVisualStyleBackColor = true;
             this.chkForSale.CheckedChanged += new System.EventHandler(this.chkForSale_CheckedChanged);
             // 
-            // label2
+            // lblSlurl
             // 
-            this.label2.AccessibleName = "SLurl of selected position textbox";
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblSlurl.AccessibleName = "SLurl of selected position textbox";
+            this.lblSlurl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label2.ForeColor = System.Drawing.Color.Gray;
-            this.label2.Location = new System.Drawing.Point(6, 316);
-            this.label2.Name = "label2";
-            this.label2.ReadOnly = true;
-            this.label2.Size = new System.Drawing.Size(256, 21);
-            this.label2.TabIndex = 3;
+            this.lblSlurl.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblSlurl.ForeColor = System.Drawing.Color.Gray;
+            this.lblSlurl.Location = new System.Drawing.Point(6, 316);
+            this.lblSlurl.Name = "lblSlurl";
+            this.lblSlurl.ReadOnly = true;
+            this.lblSlurl.Size = new System.Drawing.Size(256, 21);
+            this.lblSlurl.TabIndex = 3;
             // 
-            // label6
+            // lblDownloading
             // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(6, 6);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 17);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "MAP downloading...";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblDownloading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDownloading.ForeColor = System.Drawing.Color.Red;
+            this.lblDownloading.Location = new System.Drawing.Point(6, 6);
+            this.lblDownloading.Name = "lblDownloading";
+            this.lblDownloading.Size = new System.Drawing.Size(111, 17);
+            this.lblDownloading.TabIndex = 11;
+            this.lblDownloading.Text = "MAP downloading...";
+            this.lblDownloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
@@ -638,7 +638,7 @@ namespace MEGAbolt
             // 
             // txtSearchFor
             // 
-            this.txtSearchFor.AccessibleDescription = "Enter the name of the SIM you are searchign for";
+            this.txtSearchFor.AccessibleDescription = "Enter the name of the SIM you are searching for";
             this.txtSearchFor.AccessibleName = "Search textbox";
             this.txtSearchFor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtSearchFor.Location = new System.Drawing.Point(5, 12);
@@ -667,18 +667,18 @@ namespace MEGAbolt
             this.lbxRegionSearch.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbxRegionSearch_DrawItem);
             this.lbxRegionSearch.DoubleClick += new System.EventHandler(this.lbxRegionSearch_DoubleClick);
             // 
-            // pictureBox1
+            // pictureMap
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.Image = global::MEGAbolt.Properties.Resources.Help_and_Support_16;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 447);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(15, 15);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            this.pictureBox1.MouseHover += new System.EventHandler(this.pictureBox1_MouseHover);
+            this.pictureMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureMap.Image = global::MEGAbolt.Properties.Resources.Help_and_Support_16;
+            this.pictureMap.Location = new System.Drawing.Point(6, 447);
+            this.pictureMap.Name = "pictureMap";
+            this.pictureMap.Size = new System.Drawing.Size(15, 15);
+            this.pictureMap.TabIndex = 6;
+            this.pictureMap.TabStop = false;
+            this.pictureMap.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureMap.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+            this.pictureMap.MouseHover += new System.EventHandler(this.pictureBox1_MouseHover);
             // 
             // toolTip1
             // 
@@ -694,7 +694,7 @@ namespace MEGAbolt
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(284, 469);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureMap);
             this.Controls.Add(this.TabCont);
             this.Controls.Add(this.btnClose);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F);
@@ -727,7 +727,7 @@ namespace MEGAbolt
             ((System.ComponentModel.ISupportInitialize)(this.nudY1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudZ1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureMap)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -747,11 +747,11 @@ namespace MEGAbolt
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox label2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblDownloading;
+        private System.Windows.Forms.TextBox lblSlurl;
+        private System.Windows.Forms.PictureBox pictureMap;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnClearMarker;
         private System.Windows.Forms.CheckBox chkForSale;
         private System.Windows.Forms.CheckBox chkResident;
         private System.Windows.Forms.TabPage tabPage2;
@@ -773,8 +773,8 @@ namespace MEGAbolt
         private System.Windows.Forms.Label lblTeleportStatus;
         private System.Windows.Forms.Button btnTeleport;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.CheckBox chkRange;
+        private System.Windows.Forms.Button btnBrowser;
         private System.Windows.Forms.Button button4;
     }
 }

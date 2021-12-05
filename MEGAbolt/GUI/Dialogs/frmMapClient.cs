@@ -202,11 +202,11 @@ namespace MEGAbolt
                 {
                     g.Clear(BackColor);
                     g.FillRectangle(Brushes.White, 0f, 0f, 256f, 256f);
-                    label6.Visible = true;
+                    lblDownloading.Visible = true;
                 }
                 else
                 {
-                    label6.Visible = false;
+                    lblDownloading.Visible = false;
                 }
 
                 if (_LandLayer != null)
@@ -276,7 +276,7 @@ namespace MEGAbolt
                 // Draw self position
                 int rg = instance.Config.CurrentConfig.RadarRange;
 
-                if (checkBox1.Checked)
+                if (chkRange.Checked)
                 {
                     rg *= 2;
 
@@ -388,7 +388,7 @@ namespace MEGAbolt
                                                                             Math.Round(myPos.X, 0),
                                                                             Math.Round(myPos.Y, 0),
                                                                             Math.Round(myPos.Z, 0));
-                label2.Text = "http://slurl.com/secondlife/" + strInfo;
+                lblSlurl.Text = "http://slurl.com/secondlife/" + strInfo;
             }
         }
 
@@ -425,7 +425,7 @@ namespace MEGAbolt
             chkForSale.Checked = true;
             chkForSale.Checked = false;
 
-            checkBox1.Checked = !instance.Config.CurrentConfig.DisableRadarImageMiniMap;
+            chkRange.Checked = !instance.Config.CurrentConfig.DisableRadarImageMiniMap;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -440,7 +440,7 @@ namespace MEGAbolt
             clickedx = 0;
             clickedy = 0;
 
-            button1.Enabled = false;
+            btnClearMarker.Enabled = false;
 
             try
             {
@@ -456,12 +456,8 @@ namespace MEGAbolt
 
         private void world_MouseUp(object sender, MouseEventArgs e)
         {
-            //px = e.X;
-            //py = 255 - e.Y;
-
             px = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
-            //py = NormaliseSize(255 - e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
-            py = NormaliseSize(e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
+            py = NormaliseSize(255 - e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
 
             nuX.Value = (decimal)px;
             nuY.Value = (decimal)py;
@@ -476,7 +472,7 @@ namespace MEGAbolt
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
-            button1.Enabled = true; 
+            btnClearMarker.Enabled = true; 
 
             try
             {
@@ -550,7 +546,7 @@ namespace MEGAbolt
 
         private void pictureBox1_MouseHover(object sender, EventArgs e)
         {
-            toolTip.Show(pictureBox1);
+            toolTip.Show(pictureMap);
         }
 
         private void pictureBox1_MouseLeave(object sender, EventArgs e)
@@ -571,7 +567,7 @@ namespace MEGAbolt
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
 
-            button1.Enabled = true; 
+            btnClearMarker.Enabled = true; 
         }
 
         private void world_MouseMove(object sender, MouseEventArgs e)
@@ -637,12 +633,12 @@ namespace MEGAbolt
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnClearMarker_Click(object sender, EventArgs e)
         {
             clickedx = 0;
             clickedy = 0;
 
-            button1.Enabled = false; 
+            btnClearMarker.Enabled = false; 
         }
 
         private void chkForSale_CheckedChanged(object sender, EventArgs e)
@@ -1069,7 +1065,7 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            button1.Enabled = true; 
+            btnClearMarker.Enabled = true; 
         }
 
         private void nuX_ValueChanged(object sender, EventArgs e)
@@ -1079,7 +1075,7 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            button1.Enabled = true; 
+            btnClearMarker.Enabled = true; 
         }
 
         private void nuY_MouseUp(object sender, MouseEventArgs e)
@@ -1089,14 +1085,14 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            button1.Enabled = true; 
+            btnClearMarker.Enabled = true; 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnBrowser_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(label2.Text))
+            if (!string.IsNullOrEmpty(lblSlurl.Text))
             {
-                System.Diagnostics.Process.Start(@label2.Text);
+                System.Diagnostics.Process.Start(lblSlurl.Text);
             }
         }
 
