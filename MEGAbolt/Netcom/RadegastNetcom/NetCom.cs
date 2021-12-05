@@ -32,7 +32,7 @@ using System.ComponentModel;
 using OpenMetaverse;
 using System.Net.NetworkInformation;
 using MEGAbolt;
-
+using System.Management;
 
 namespace MEGAbolt.NetworkComm
 {
@@ -296,17 +296,7 @@ namespace MEGAbolt.NetworkComm
                         break;
                 }
 
-                string password;
-                if (LoginOptions.IsPasswordMD5(LoginOptions.Password))
-                {
-                    password = LoginOptions.Password;
-                }
-                else
-                {
-                    password = Utils.MD5(LoginOptions.Password.Length > 16 
-                        ? LoginOptions.Password.Substring(0, 16) 
-                        : LoginOptions.Password);
-                }
+                string password = LoginOptions.SecondLifePassHashIfNecessary(LoginOptions.Password);
 
                 LoginParams loginParams = client.Network.DefaultLoginParams(
                     LoginOptions.FirstName, LoginOptions.LastName, password,
@@ -317,6 +307,7 @@ namespace MEGAbolt.NetworkComm
 
                 loginParams.UserAgent = $"{LoginOptions.Channel} {LoginOptions.Version}";
                 loginParams.MAC = GetMacAddress();
+                loginParams.ID0 = GetId0();
                 loginParams.Platform = Environment.OSVersion.VersionString;   // "Windows";
 
                 switch (LoginOptions.Grid)
@@ -367,7 +358,7 @@ namespace MEGAbolt.NetworkComm
                 mac = UUID.Random().ToString().Substring(24, 12);
             }
 
-            return String.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+            return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
                 mac.Substring(0, 2),
                 mac.Substring(2, 2),
                 mac.Substring(4, 2),
@@ -376,6 +367,19 @@ namespace MEGAbolt.NetworkComm
                 mac.Substring(10, 2));
         }
 
+        public static string GetId0()
+        {
+            ManagementObjectSearcher searcher = new("SELECT * FROM Win32_PhysicalMedia");
+            foreach (ManagementObject wmi_HD in searcher.Get())
+            {
+                // get the hardware serial no.
+                if (wmi_HD["SerialNumber"] != null)
+                {
+                    return wmi_HD["SerialNumber"].ToString();
+                }
+            }
+            return "Undetected";
+        }
 
         public void Logout()
         {

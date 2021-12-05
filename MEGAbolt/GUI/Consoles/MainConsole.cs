@@ -170,7 +170,8 @@ namespace MEGAbolt
 
             instance.Config.CurrentConfig.iRemPWD = chkPWD.Checked;
 
-            instance.Config.CurrentConfig.PasswordMD5 = Utils.MD5(txtPassword.Text);
+            instance.Config.CurrentConfig.PasswordMD5 = 
+                LoginOptions.SecondLifePassHashIfNecessary(txtPassword.Text);
 
             instance.Config.CurrentConfig.LoginLocationType = cbxLocation.SelectedIndex;
             instance.Config.CurrentConfig.LoginLocation = cbxLocation.Text;
@@ -490,12 +491,10 @@ namespace MEGAbolt
                             // Check for http beginning
                             string hhder = string.Empty;
 
-                            if (!txtCustomLoginUri.Text.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
+                            if (!txtCustomLoginUri.Text.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase)
+                                || !txtCustomLoginUri.Text.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                if (!txtCustomLoginUri.Text.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    hhder = "http://";
-                                }
+                                hhder = "http://";
                             }
 
                             netcom.LoginOptions.GridCustomLoginUri = hhder + txtCustomLoginUri.Text;

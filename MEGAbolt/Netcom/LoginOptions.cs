@@ -33,9 +33,22 @@ namespace MEGAbolt.NetworkComm
 {
     public class LoginOptions
     {
-        public static bool IsPasswordMD5(string pass)
+        /// <summary>
+        /// Method for generating a stupid Second Life password hash. 
+        /// That is to say MD5 hash with input truncated at 16 characters.
+        /// </summary>
+        /// <param name="password">Password to hash</param>
+        /// <returns>MD5 sum of password</returns>
+        public static string SecondLifePassHashIfNecessary(string password)
         {
-            return pass.Length == 35 && pass.StartsWith("$1$");
+            if (password.Length == 35 && password.StartsWith("$1$"))
+            {
+                return password;
+            }
+            else
+            {
+                return Utils.MD5(password.Length > 16 ? password.Substring(0, 16) : password);
+            }
         }
 
         public string FirstName { get; set; }
