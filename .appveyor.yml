@@ -46,6 +46,6 @@ before_build:
   - nuget restore megabolt.sln
 
 artifacts:
-  - path: 'MEGAboltSetup*.msi'
+  - path: 'bin\Release\MEGAboltSetup*.msi'
     name: 'MEGAbolt Windows MSI'
     type: Auto

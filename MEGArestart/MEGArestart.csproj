@@ -10,6 +10,8 @@
     <FileVersion>1.0.0.0</FileVersion>
 	<Platforms>AnyCPU;x64</Platforms>
 	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishTrimmed>true</PublishTrimmed>
+	<PublishSingleFile>true</PublishSingleFile>
 	<BootstrapperEnabled>true</BootstrapperEnabled>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
