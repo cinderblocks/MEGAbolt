@@ -376,11 +376,10 @@ namespace MEGAbolt
             try
             {
                 GLMode = GLControlSettings.Default;
-                GLMode.Flags = OpenTK.Windowing.Common.ContextFlags.ForwardCompatible;
                 GLMode.AutoLoadBindings = true;
                 GLMode.IsEventDriven = false;
                 GLMode.API = OpenTK.Windowing.Common.ContextAPI.OpenGL;
-                GLMode.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
+                GLMode.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
                 GLMode.NumberOfSamples = UseMultiSampling ? 4 : 0;
             }
             catch
