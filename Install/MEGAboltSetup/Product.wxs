@@ -88,7 +88,7 @@
 				<Shortcut Id="ApplicationStartMenuShortcut"
                           Name="$(var.productName)"
                           Description="$(var.productDesc)"
-                          Target="[APPLICATIONFOLDER]MEGAbolt.exe"
+                          Target="[#MEGAbolt.exe]"
                           WorkingDirectory="APPLICATIONFOLDER"/>
 				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
 				<RegistryValue Root="HKCU" Key="Software\$(var.companyName)\$(var.productName)"
