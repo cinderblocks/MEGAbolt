@@ -9,27 +9,40 @@
     <PublisherName>Sjofn LLC</PublisherName>
     <DisallowUrlActivation>true</DisallowUrlActivation>
     <UseApplicationTrust>true</UseApplicationTrust>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
 	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishSingleFile>false</PublishSingleFile>
+	<SelfContained>true</SelfContained>
 	<BootstrapperEnabled>true</BootstrapperEnabled>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
-	<AssemblyVersion>1.0.0</AssemblyVersion>
-	<FileVersion>1.0.0</FileVersion>
-	<Platforms>AnyCPU;x64</Platforms>
+    <Version>0.10.0</Version>
+	<AssemblyVersion>0.10.0</AssemblyVersion>
+	<FileVersion>0.10.0</FileVersion>
+	<Platforms>AnyCPU;x64;x86</Platforms>
 	<StartupObject>MEGAbolt.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+	<DebugType>full</DebugType>
   </PropertyGroup>
 	<ItemGroup>
     <Reference Include="CbtHook">
@@ -405,10 +418,10 @@
     <Content Include="Resources\up.png" />
     <Content Include="Resources\wmp.png" />
     <None Update="assemblies\SciLexer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="assemblies\SciLexerx64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TP_History.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -470,8 +483,6 @@
     <Compile Remove="GUI\Dialogs\Inventory\IDE\ScriptStudio.Designer.cs" />
     <Compile Remove="Interfaces\HeightmapInterface.cs" />
     <Compile Remove="Interfaces\MinimapInterface.cs" />
-    <Content Remove="C:\Users\slunk\.nuget\packages\scintillanet.core\3.6.51\contentFiles\any\netcoreapp3.1\License.txt" />
-    <Content Remove="C:\Users\slunk\.nuget\packages\scintillanet.core\3.6.51\contentFiles\any\netcoreapp3.1\version.txt" />
     <EmbeddedResource Remove="Core\frmMapClient.resx" />
     <EmbeddedResource Remove="GUI\Consoles\IITabWindow.resx" />
     <EmbeddedResource Remove="GUI\Consoles\InventoryConsole.resx" />

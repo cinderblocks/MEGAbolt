@@ -7,13 +7,13 @@
     <FileUpgradeFlags />
     <UpgradeBackupLocation />
     <AssemblyTitle>MEGAx</AssemblyTitle>
-    <Company>MEGAbolt</Company>
+    <Company>Sjofn LLC</Company>
     <Product>MEGAx</Product>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Copyright © 2021 Sjofn LLC. All rights reserved.</Copyright>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-	<Platforms>AnyCPU;x64</Platforms>
+	<Platforms>AnyCPU;x64;x86</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
