@@ -13,10 +13,10 @@
 	<IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
 	<SignCabs>true</SignCabs>
 	<SignOutput>true</SignOutput>
-	<SuppressIces>ICE99</SuppressIces>
+    <SuppressIces>ICE69;ICE99</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-	<InstallerPlatform>x86</InstallerPlatform>
+    <InstallerPlatform>x86</InstallerPlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <InstallerPlatform>x64</InstallerPlatform>
@@ -64,8 +64,8 @@
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-	  <IsDotnetSDKProject>True</IsDotnetSDKProject>
-	  <Runtime>$(RuntimeIdentifier)</Runtime>
+      <IsDotnetSDKProject>True</IsDotnetSDKProject>
+      <Runtime>$(RuntimeIdentifier)</Runtime>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +79,7 @@
   </Target>
   <Target Name="BeforeBuild">
     <HeatDirectory OutputFile="$(ProjectDir)\ProductInstallFiles.wxs" Directory="..\..\bin\$(Configuration)" 
-                   ComponentGroupName="ProductFilesComponentGroup" DirectoryRefId="APPLICATIONFOLDER"
+                   ComponentGroupName="ProductFilesComponentGroup" DirectoryRefId="APPLICATIONFOLDER" 
                    AutogenerateGuids="true" PreprocessorVariable="var.OutDir" 
                    SuppressRegistry="true" SuppressRootDirectory="true" SuppressUniqueIds="true" 
                    ToolPath="$(WixToolPath)" NoLogo="true" VerboseOutput="true" />

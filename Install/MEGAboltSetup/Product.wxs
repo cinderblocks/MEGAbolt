@@ -20,9 +20,8 @@
 				 Description="$(var.productDesc)"
 		         Compressed="yes" />
 
-		<Icon Id="MB.ico" SourceFile="assets\MB.ico"/>
-
-		<MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
+		<MajorUpgrade Schedule="afterInstallInitialize" 
+		              AllowSameVersionUpgrades="no" AllowDowngrades="yes" />
 		<Media Id="1" Cabinet="MEGAbolt.cab" EmbedCab="yes" />
 
 		<Property Id="ApplicationFolderName" Value="$(var.productName)" />
