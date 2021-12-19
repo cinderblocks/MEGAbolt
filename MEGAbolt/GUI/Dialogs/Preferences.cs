@@ -48,17 +48,14 @@ namespace MEGAbolt
 
             this.instance = instance;
             panes = new Dictionary<string, IPreferencePane>();
-            //tcons = new PrefTextConsole(instance);  
             
             AddPreferencePane(new PrefGeneralConsole(instance));
             AddPreferencePane(new PrefTextConsole(instance));
             AddPreferencePane(new PrefAI(instance));
-            //AddPreferencePane(new PrefTwitter(instance));
             AddPreferencePane(new PrefChairAnn(instance));
             AddPreferencePane(new PrefProxy(instance));
             AddPreferencePane(new PrefPlugin(instance));
             AddPreferencePane(new PrefMEGAgiver(instance));
-            AddPreferencePane(new Pref3D(instance));
             AddPreferencePane(new PrefSpelling(instance));
             lbxPanes.SelectedIndex = 0;
         }

@@ -99,9 +99,6 @@
     <Compile Update="GUI\Consoles\Inventory\InventoryGestureConsole.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GUI\Consoles\Preferences\Pref3D.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="GUI\Consoles\Preferences\PrefIMETAgiver.cs">
       <SubType>UserControl</SubType>
     </Compile>

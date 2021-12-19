@@ -34,6 +34,10 @@ namespace MEGAbolt
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.numScriptBuff = new System.Windows.Forms.NumericUpDown();
+            this.label28 = new System.Windows.Forms.Label();
+            this.numChatBuff = new System.Windows.Forms.NumericUpDown();
+            this.label27 = new System.Windows.Forms.Label();
             this.chkFavs = new System.Windows.Forms.CheckBox();
             this.chkVoice = new System.Windows.Forms.CheckBox();
             this.chkDisableRadar = new System.Windows.Forms.CheckBox();
@@ -78,10 +82,6 @@ namespace MEGAbolt
             this.label3 = new System.Windows.Forms.Label();
             this.tBar1 = new System.Windows.Forms.TrackBar();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.chkConnect4 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
@@ -142,13 +142,11 @@ namespace MEGAbolt
             this.txtAdRemove = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.numChatBuff = new System.Windows.Forms.NumericUpDown();
-            this.label27 = new System.Windows.Forms.Label();
-            this.numScriptBuff = new System.Windows.Forms.NumericUpDown();
-            this.label28 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numScriptBuff)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numChatBuff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAutoSit)).BeginInit();
@@ -172,8 +170,6 @@ namespace MEGAbolt
             this.tabPage5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numChatBuff)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numScriptBuff)).BeginInit();
             this.SuspendLayout();
             // 
             // rdoSystemStyle
@@ -272,6 +268,54 @@ namespace MEGAbolt
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Options";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // numScriptBuff
+            // 
+            this.numScriptBuff.AccessibleName = "Auto logout interval setting";
+            this.numScriptBuff.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.numScriptBuff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numScriptBuff.Location = new System.Drawing.Point(217, 216);
+            this.numScriptBuff.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numScriptBuff.Name = "numScriptBuff";
+            this.numScriptBuff.Size = new System.Drawing.Size(50, 21);
+            this.numScriptBuff.TabIndex = 72;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 219);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(208, 13);
+            this.label28.TabIndex = 73;
+            this.label28.Text = "Script dialogue/URL offer flood buffer limit";
+            // 
+            // numChatBuff
+            // 
+            this.numChatBuff.AccessibleName = "Auto logout interval setting";
+            this.numChatBuff.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.numChatBuff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numChatBuff.Location = new System.Drawing.Point(118, 194);
+            this.numChatBuff.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numChatBuff.Name = "numChatBuff";
+            this.numChatBuff.Size = new System.Drawing.Size(53, 21);
+            this.numChatBuff.TabIndex = 70;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 197);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(111, 13);
+            this.label27.TabIndex = 71;
+            this.label27.Text = "Chat flood buffer limit";
             // 
             // chkFavs
             // 
@@ -472,7 +516,7 @@ namespace MEGAbolt
             this.chkMinimised.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkMinimised.Location = new System.Drawing.Point(182, 17);
             this.chkMinimised.Name = "chkMinimised";
-            this.chkMinimised.Size = new System.Drawing.Size(143, 17);
+            this.chkMinimised.Size = new System.Drawing.Size(144, 17);
             this.chkMinimised.TabIndex = 5;
             this.chkMinimised.Text = "Start MEGAbolt minimized";
             this.chkMinimised.UseVisualStyleBackColor = true;
@@ -567,7 +611,7 @@ namespace MEGAbolt
             this.chkHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkHide.Location = new System.Drawing.Point(8, 17);
             this.chkHide.Name = "chkHide";
-            this.chkHide.Size = new System.Drawing.Size(169, 17);
+            this.chkHide.Size = new System.Drawing.Size(170, 17);
             this.chkHide.TabIndex = 4;
             this.chkHide.Text = "Hide MEGAbolt when minimized";
             this.chkHide.UseVisualStyleBackColor = true;
@@ -875,10 +919,6 @@ namespace MEGAbolt
             // tabPage7
             // 
             this.tabPage7.BackColor = System.Drawing.Color.White;
-            this.tabPage7.Controls.Add(this.label26);
-            this.tabPage7.Controls.Add(this.label24);
-            this.tabPage7.Controls.Add(this.label23);
-            this.tabPage7.Controls.Add(this.label16);
             this.tabPage7.Controls.Add(this.chkConnect4);
             this.tabPage7.Controls.Add(this.label2);
             this.tabPage7.Controls.Add(this.checkBox13);
@@ -888,46 +928,6 @@ namespace MEGAbolt
             this.tabPage7.Size = new System.Drawing.Size(336, 271);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Network";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.ForeColor = System.Drawing.Color.DarkGray;
-            this.label26.Location = new System.Drawing.Point(35, 156);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(265, 13);
-            this.label26.TabIndex = 71;
-            this.label26.Text = "(To be set at both Global and Avatar (if exists) levels)";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.ForeColor = System.Drawing.Color.DarkGray;
-            this.label24.Location = new System.Drawing.Point(35, 207);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(265, 13);
-            this.label24.TabIndex = 70;
-            this.label24.Text = "(To be set at both Global and Avatar (if exists) levels)";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.ForeColor = System.Drawing.Color.DarkGray;
-            this.label23.Location = new System.Drawing.Point(158, 143);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(142, 13);
-            this.label23.TabIndex = 69;
-            this.label23.Text = "(requires MEGAbolt re-start)";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.ForeColor = System.Drawing.Color.DarkGray;
-            this.label16.Location = new System.Drawing.Point(158, 194);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(142, 13);
-            this.label16.TabIndex = 68;
-            this.label16.Text = "(requires MEGAbolt re-start)";
             // 
             // chkConnect4
             // 
@@ -951,7 +951,7 @@ namespace MEGAbolt
             this.label2.ForeColor = System.Drawing.Color.DarkGray;
             this.label2.Location = new System.Drawing.Point(158, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(142, 13);
+            this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 34;
             this.label2.Text = "(requires MEGAbolt re-start)";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -1155,7 +1155,7 @@ namespace MEGAbolt
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(205, 38);
             this.button1.Name = "button1";
@@ -1222,7 +1222,7 @@ namespace MEGAbolt
             this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(250, 105);
             this.button2.Name = "button2";
@@ -1240,7 +1240,7 @@ namespace MEGAbolt
             this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Location = new System.Drawing.Point(174, 105);
             this.button3.Name = "button3";
@@ -1387,7 +1387,7 @@ namespace MEGAbolt
             this.textBox7.AccessibleName = "Header font textbox";
             this.textBox7.BackColor = System.Drawing.Color.Lavender;
             this.textBox7.Enabled = false;
-            this.textBox7.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold);
+            this.textBox7.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBox7.Location = new System.Drawing.Point(122, 50);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(71, 21);
@@ -1521,7 +1521,7 @@ namespace MEGAbolt
             this.textBox8.AccessibleName = "Font size textbox";
             this.textBox8.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox8.Enabled = false;
-            this.textBox8.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold);
+            this.textBox8.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBox8.Location = new System.Drawing.Point(147, 98);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(71, 21);
@@ -1695,57 +1695,9 @@ namespace MEGAbolt
             this.fontDialog1.AllowSimulations = false;
             this.fontDialog1.AllowVerticalFonts = false;
             this.fontDialog1.Color = System.Drawing.Color.DarkGray;
-            this.fontDialog1.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold);
+            this.fontDialog1.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.fontDialog1.FontMustExist = true;
             this.fontDialog1.ShowEffects = false;
-            // 
-            // numChatBuff
-            // 
-            this.numChatBuff.AccessibleName = "Auto logout interval setting";
-            this.numChatBuff.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.numChatBuff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numChatBuff.Location = new System.Drawing.Point(118, 194);
-            this.numChatBuff.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numChatBuff.Name = "numChatBuff";
-            this.numChatBuff.Size = new System.Drawing.Size(53, 21);
-            this.numChatBuff.TabIndex = 70;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(6, 197);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(111, 13);
-            this.label27.TabIndex = 71;
-            this.label27.Text = "Chat flood buffer limit";
-            // 
-            // numScriptBuff
-            // 
-            this.numScriptBuff.AccessibleName = "Auto logout interval setting";
-            this.numScriptBuff.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.numScriptBuff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numScriptBuff.Location = new System.Drawing.Point(217, 216);
-            this.numScriptBuff.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numScriptBuff.Name = "numScriptBuff";
-            this.numScriptBuff.Size = new System.Drawing.Size(50, 21);
-            this.numScriptBuff.TabIndex = 72;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(6, 219);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(208, 13);
-            this.label28.TabIndex = 73;
-            this.label28.Text = "Script dialogue/URL offer flood buffer limit";
             // 
             // PrefGeneralConsole
             // 
@@ -1755,7 +1707,7 @@ namespace MEGAbolt
             this.Controls.Add(this.txtAdRemove);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "PrefGeneralConsole";
             this.Size = new System.Drawing.Size(344, 312);
             this.Load += new System.EventHandler(this.PrefGeneralConsole_Load);
@@ -1764,6 +1716,8 @@ namespace MEGAbolt
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numScriptBuff)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numChatBuff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAutoSit)).EndInit();
@@ -1796,8 +1750,6 @@ namespace MEGAbolt
             this.groupBox3.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numChatBuff)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numScriptBuff)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1913,11 +1865,7 @@ namespace MEGAbolt
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TabPage tabPage7;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.NumericUpDown numScriptBuff;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.NumericUpDown numChatBuff;
