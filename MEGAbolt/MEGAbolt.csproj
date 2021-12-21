@@ -576,24 +576,6 @@
     <Content Include="Resources\script.png" />
     <Content Include="Resources\up.png" />
     <Content Include="Resources\wmp.png" />
-    <Content Include="Spelling\fr_FR.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Spelling\fr_FR.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Spelling\it_IT.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Spelling\it_IT.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Spelling\en_GB.aff">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Spelling\en_GB.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Update="assemblies\SciLexer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -670,6 +652,66 @@
     <EmbeddedResource Remove="GUI\Dialogs\frmTPdialogue.resx" />
     <EmbeddedResource Remove="GUI\Dialogs\frmTranslate.resx" />
     <EmbeddedResource Remove="GUI\Dialogs\Inventory\IDE\ScriptStudio.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Spelling\de-DE.aff" />
+    <None Remove="Spelling\de-DE.dic" />
+    <None Remove="Spelling\en-GB.aff" />
+    <None Remove="Spelling\en-GB.dic" />
+    <None Remove="Spelling\en-US.aff" />
+    <None Remove="Spelling\en-US.dic" />
+    <None Remove="Spelling\es-ES.aff" />
+    <None Remove="Spelling\es-ES.dic" />
+    <None Remove="Spelling\et-ET.aff" />
+    <None Remove="Spelling\et-ET.dic" />
+    <None Remove="Spelling\fr-FR.aff" />
+    <None Remove="Spelling\fr-FR.dic" />
+    <None Remove="Spelling\ga-GA.aff" />
+    <None Remove="Spelling\ga-GA.dic" />
+    <None Remove="Spelling\it-IT.aff" />
+    <None Remove="Spelling\it-IT.dic" />
+    <None Remove="Spelling\ko-KO.aff" />
+    <None Remove="Spelling\ko-KO.dic" />
+    <None Remove="Spelling\nl-NL.aff" />
+    <None Remove="Spelling\nl-NL.dic" />
+    <None Remove="Spelling\pl-PL.aff" />
+    <None Remove="Spelling\pl-PL.dic" />
+    <None Remove="Spelling\pt-BR.aff" />
+    <None Remove="Spelling\pt-BR.dic" />
+    <None Remove="Spelling\ru-RU.aff" />
+    <None Remove="Spelling\ru-RU.dic" />
+    <None Remove="Spelling\tr-TR.aff" />
+    <None Remove="Spelling\tr-TR.dic" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Spelling\de-DE.aff" />
+    <EmbeddedResource Include="Spelling\de-DE.dic" />
+    <EmbeddedResource Include="Spelling\en-GB.aff" />
+    <EmbeddedResource Include="Spelling\en-GB.dic" />
+    <EmbeddedResource Include="Spelling\en-US.aff" />
+    <EmbeddedResource Include="Spelling\en-US.dic" />
+    <EmbeddedResource Include="Spelling\es-ES.aff" />
+    <EmbeddedResource Include="Spelling\es-ES.dic" />
+    <EmbeddedResource Include="Spelling\et-ET.aff" />
+    <EmbeddedResource Include="Spelling\et-ET.dic" />
+    <EmbeddedResource Include="Spelling\fr-FR.aff" />
+    <EmbeddedResource Include="Spelling\fr-FR.dic" />
+    <EmbeddedResource Include="Spelling\ga-GA.aff" />
+    <EmbeddedResource Include="Spelling\ga-GA.dic" />
+    <EmbeddedResource Include="Spelling\it-IT.aff" />
+    <EmbeddedResource Include="Spelling\it-IT.dic" />
+    <EmbeddedResource Include="Spelling\ko-KO.aff" />
+    <EmbeddedResource Include="Spelling\ko-KO.dic" />
+    <EmbeddedResource Include="Spelling\nl-NL.aff" />
+    <EmbeddedResource Include="Spelling\nl-NL.dic" />
+    <EmbeddedResource Include="Spelling\pl-PL.aff" />
+    <EmbeddedResource Include="Spelling\pl-PL.dic" />
+    <EmbeddedResource Include="Spelling\pt-BR.aff" />
+    <EmbeddedResource Include="Spelling\pt-BR.dic" />
+    <EmbeddedResource Include="Spelling\ru-RU.aff" />
+    <EmbeddedResource Include="Spelling\ru-RU.dic" />
+    <EmbeddedResource Include="Spelling\tr-TR.aff" />
+    <EmbeddedResource Include="Spelling\tr-TR.dic" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MD5library\MD5library.csproj" />

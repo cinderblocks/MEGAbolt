@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrefSpelling));
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBoxLanguage = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -44,23 +44,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.picSpell)).BeginInit();
             this.SuspendLayout();
             // 
-            // listBox1
+            // listBoxLanguage
             // 
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(59, 27);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(219, 145);
-            this.listBox1.Sorted = true;
-            this.listBox1.TabIndex = 0;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBoxLanguage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listBoxLanguage.FormattingEnabled = true;
+            this.listBoxLanguage.ItemHeight = 15;
+            this.listBoxLanguage.Location = new System.Drawing.Point(69, 31);
+            this.listBoxLanguage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.listBoxLanguage.Name = "listBoxLanguage";
+            this.listBoxLanguage.Size = new System.Drawing.Size(255, 167);
+            this.listBoxLanguage.Sorted = true;
+            this.listBoxLanguage.TabIndex = 0;
+            this.listBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 57);
+            this.label1.Location = new System.Drawing.Point(96, 66);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(156, 13);
+            this.label1.Size = new System.Drawing.Size(174, 15);
             this.label1.TabIndex = 1;
             this.label1.Text = "Available language dictionaries:";
             // 
@@ -72,9 +75,10 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(156, 180);
+            this.button1.Location = new System.Drawing.Point(182, 208);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
+            this.button1.Size = new System.Drawing.Size(142, 27);
             this.button1.TabIndex = 2;
             this.button1.Text = "Set Selected";
             this.button1.UseVisualStyleBackColor = false;
@@ -87,9 +91,10 @@
             this.checkBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
             this.checkBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
             this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.Location = new System.Drawing.Point(41, 23);
+            this.checkBox1.Location = new System.Drawing.Point(48, 27);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(113, 17);
+            this.checkBox1.Size = new System.Drawing.Size(119, 19);
             this.checkBox1.TabIndex = 3;
             this.checkBox1.Text = "Enable spell check";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -99,20 +104,23 @@
             // 
             this.groupBox1.Controls.Add(this.picFlag);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.listBox1);
+            this.groupBox1.Controls.Add(this.listBoxLanguage);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(38, 46);
+            this.groupBox1.Location = new System.Drawing.Point(44, 53);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(300, 236);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(350, 272);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
             // picFlag
             // 
-            this.picFlag.Location = new System.Drawing.Point(21, 27);
+            this.picFlag.Location = new System.Drawing.Point(24, 31);
+            this.picFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.picFlag.Name = "picFlag";
-            this.picFlag.Size = new System.Drawing.Size(16, 11);
+            this.picFlag.Size = new System.Drawing.Size(19, 13);
             this.picFlag.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picFlag.TabIndex = 4;
             this.picFlag.TabStop = false;
@@ -120,14 +128,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 211);
+            this.label2.Location = new System.Drawing.Point(65, 243);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 13);
+            this.label2.Size = new System.Drawing.Size(105, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "Current language: ";
             // 
             // ilFlags
             // 
+            this.ilFlags.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.ilFlags.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilFlags.ImageStream")));
             this.ilFlags.TransparentColor = System.Drawing.Color.Transparent;
             this.ilFlags.Images.SetKeyName(0, "ad.png");
@@ -381,9 +391,10 @@
             // picSpell
             // 
             this.picSpell.Image = global::MEGAbolt.Properties.Resources.Help_and_Support_16;
-            this.picSpell.Location = new System.Drawing.Point(323, 23);
+            this.picSpell.Location = new System.Drawing.Point(377, 27);
+            this.picSpell.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.picSpell.Name = "picSpell";
-            this.picSpell.Size = new System.Drawing.Size(15, 15);
+            this.picSpell.Size = new System.Drawing.Size(18, 17);
             this.picSpell.TabIndex = 18;
             this.picSpell.TabStop = false;
             this.picSpell.MouseLeave += new System.EventHandler(this.picSpell_MouseLeave);
@@ -391,14 +402,15 @@
             // 
             // PrefSpelling
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.picSpell);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "PrefSpelling";
-            this.Size = new System.Drawing.Size(380, 308);
+            this.Size = new System.Drawing.Size(443, 355);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picFlag)).EndInit();
@@ -410,7 +422,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBoxLanguage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox1;

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
+using System.Globalization;
 using MEGAbolt.Controls;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 
 namespace MEGAbolt
@@ -9,7 +13,6 @@ namespace MEGAbolt
     public partial class PrefSpelling : System.Windows.Forms.UserControl, IPreferencePane
     {
         private MEGAboltInstance instance;
-        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
         private string lang = string.Empty;
         private Popup toolTip3;
         private CustomToolTip customToolTip;
@@ -23,35 +26,30 @@ namespace MEGAbolt
             GetDictionaries();
 
             string msg = "Enables spell checking in public chat and IMs.\n\nClick for online help";
-            toolTip3 = new Popup(customToolTip = new CustomToolTip(instance, msg));
-            toolTip3.AutoClose = false;
-            toolTip3.FocusOnOpen = false;
+            toolTip3 = new Popup(customToolTip = new CustomToolTip(instance, msg))
+            {
+                AutoClose = false,
+                FocusOnOpen = false
+            };
             toolTip3.ShowingAnimation = toolTip3.HidingAnimation = PopupAnimations.Blend;
 
             checkBox1.Checked = instance.Config.CurrentConfig.EnableSpelling;
             lang = instance.Config.CurrentConfig.SpellLanguage;
 
-            label2.Text = "Selected language: " + lang;
+            label2.Text = $"Selected language: {lang}";
 
-            listBox1.SelectedItem = lang + ".dic";
+            listBoxLanguage.SelectedItem = lang + ".dic";
 
             SetFlag();
-
-            //this.instance.DictionaryFile = lang + ".dic";
-            //this.instance.AffFile = lang + ".aff";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            lang = listBox1.Items[listBox1.SelectedIndex].ToString();
+            lang = listBoxLanguage.Items[listBoxLanguage.SelectedIndex].ToString();
 
-            //string[] sfile = lang.Split('.');
-            //string file = lang = sfile[0];
+            instance.Config.CurrentConfig.SpellLanguage = lang;
 
-            instance.DictionaryFile = lang + ".dic";
-            instance.AffFile = lang + ".aff";
-
-            label2.Text = "Selected language: " + lang;
+            label2.Text = $"Selected language: {lang}";
             SetFlag();
         }
 
@@ -71,21 +69,14 @@ namespace MEGAbolt
 
         private void GetDictionaries()
         {
-
-            DirectoryInfo di = new DirectoryInfo(dir);
-            //FileInfo[] files = di.GetFiles();
-
-            listBox1.Items.Clear();
-
-            foreach (FileInfo fi in di.GetFiles())
+            var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            foreach (var entry in resources)
             {
-                //string inFile = fi.FullName;
-                string finname = fi.Name;
+                if (!entry.StartsWith("MEGAbolt.Spelling.") || !entry.EndsWith(".dic")) { continue; }
 
-                if (fi.Extension == ".dic")
-                {
-                    listBox1.Items.Add(finname);
-                }
+                string chopped = entry.Substring("MEGAbolt.Spelling.".Length);
+                chopped = chopped.Substring(0, chopped.Length - ".dic".Length);
+                listBoxLanguage.Items.Add(chopped);
             }
         }
 
@@ -96,22 +87,22 @@ namespace MEGAbolt
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.Enabled = (listBox1.SelectedIndex != -1);
+            button1.Enabled = (listBoxLanguage.SelectedIndex != -1);
 
             SetSelFlag();
         }
 
         private void SetFlag()
         {
-            string[] sfile = lang.Split('_');
+            string[] sfile = lang.Split('-');
 
             picFlag.Image = ilFlags.Images[sfile[1] + ".png"];
         }
 
         private void SetSelFlag()
         {
-            string sellang = listBox1.Items[listBox1.SelectedIndex].ToString();
-            string[] sfile = sellang.Split('_');
+            string sellang = listBoxLanguage.Items[listBoxLanguage.SelectedIndex].ToString();
+            string[] sfile = sellang.Split('-');
 
             sfile = sfile[1].Split('.');
 

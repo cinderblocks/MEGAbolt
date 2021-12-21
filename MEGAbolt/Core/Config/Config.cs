@@ -260,7 +260,7 @@ namespace MEGAbolt
                 {
                     // Spelling
                     config.EnableSpelling = conf.Configs["Spelling"].GetBoolean("EnableSpelling", false);
-                    config.SpellLanguage = conf.Configs["Spelling"].GetString("SpellLanguage", "en_GB");
+                    config.SpellLanguage = conf.Configs["Spelling"].GetString("SpellLanguage", "en-US");
                 }
                 catch { ; }
             }
@@ -779,7 +779,7 @@ namespace MEGAbolt
 
         public bool EnableSpelling { get; set; } = false;
 
-        public string SpellLanguage { get; set; } = "en_GB";
+        public string SpellLanguage { get; set; } = "en-US";
 
         public bool HideDisconnectPrompt { get; set; } = false;
 

@@ -35,6 +35,7 @@ using System.Linq;
 using OpenMetaverse.Voice;
 using MEGAbolt.Controls;
 using System.Globalization;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using OpenJpegDotNet.IO;
 using WeCantSpell.Hunspell;
@@ -89,10 +90,6 @@ namespace MEGAbolt
         private CustomToolTip customToolTip;
 
         private WordList spellChecker = null;
-        private string afffile = string.Empty;
-        private string dicfile = string.Empty;
-        private string dic = string.Empty;
-        private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
 
         private ToolTip toolTip = new ToolTip();
         private string tooltiptext = string.Empty;
@@ -150,9 +147,6 @@ namespace MEGAbolt
 
             ChatManager = new ChatTextManager(instance, new RichTextBoxPrinter(instance, rtbChat));
             ChatManager.PrintStartupMessage();
-
-            afffile = this.instance.AffFile = instance.Config.CurrentConfig.SpellLanguage + ".aff";   // "en_GB.aff";
-            dicfile = this.instance.DictionaryFile = instance.Config.CurrentConfig.SpellLanguage + ".dic";   // "en_GB.dic";
 
             this.instance.MainForm.Load += MainForm_Load;
 
@@ -1085,26 +1079,28 @@ namespace MEGAbolt
 
             if (instance.Config.CurrentConfig.EnableSpelling)
             {
-                dicfile = instance.Config.CurrentConfig.SpellLanguage;   // "en_GB.dic";
+                var spellLang = instance.Config.CurrentConfig.SpellLanguage;
 
-                instance.AffFile = afffile = dicfile + ".aff";
-                instance.DictionaryFile = dicfile + ".dic";
-
-                dic = dir + dicfile;
-
-                dicfile += ".dic";
-
-                if (!File.Exists(dic + ".csv"))
+                var assembly = Assembly.GetExecutingAssembly();
+                var names = assembly.GetManifestResourceNames();
+                using var dictResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.dic");
+                using var affResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.aff");
+                if (dictResourceStream == null || affResourceStream == null)
                 {
-                    //System.IO.File.Create(dic + ".csv");
+                    spellChecker = null;
+                }
+                else
+                {
+                    var csvFile = $"{DataFolder.GetDataFolder()}\\{spellLang}.csv";
 
-                    using (StreamWriter sw = File.CreateText(dic + ".csv"))
+                    if (!File.Exists(csvFile))
                     {
+                        using StreamWriter sw = File.CreateText(csvFile);
                         sw.Dispose();
                     }
-                }
 
-                spellChecker = WordList.CreateFromFiles(dir+dicfile, dir+afffile);
+                    spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
+                }
             }
             else
             {
@@ -2018,7 +2014,7 @@ namespace MEGAbolt
             input = instance.CleanReplace("http://secondlife:///", "secondlife:///", input);
             input = instance.CleanReplace("http://secondlife://", "secondlife:///", input);
  
-                if (instance.Config.CurrentConfig.EnableSpelling)
+                if (instance.Config.CurrentConfig.EnableSpelling && spellChecker != null)
                 {
                     // put preference check here
                     //string cword = Regex.Replace(cbxInput.Text, @"[^a-zA-Z0-9]", "");

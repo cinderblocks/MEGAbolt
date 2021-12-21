@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Text.RegularExpressions;
@@ -23,10 +25,8 @@ namespace MEGAbolt
         private List<string> mistakes = new List<string>();
         private ChatType ctype;
 
+        private string spellLang;
         private WordList spellChecker = null;
-        private string afffile = string.Empty;
-        private string dicfile = string.Empty;
-        private string dic = string.Empty;
         private bool ischat = true;
         //private string tabname = string.Empty;
         private UUID target = UUID.Zero;
@@ -39,24 +39,26 @@ namespace MEGAbolt
 
             this.instance = instance;
 
-            afffile = this.instance.AffFile;   // "en_GB.aff";
-            dicfile = this.instance.DictionaryFile;   // "en_GB.dic";
+            spellLang = instance.Config.CurrentConfig.SpellLanguage;
 
-            string[] idic = dicfile.Split('.');
-            dic = dir + idic[0];
-
-            if (!System.IO.File.Exists(dic + ".csv"))
+            var assembly = Assembly.GetExecutingAssembly();
+            using var dictResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.dic");
+            using var affResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.aff");
+            if (dictResourceStream == null || affResourceStream == null)
             {
-                System.IO.File.Create(dic + ".csv");
+                spellChecker = null;
             }
+            else
+            {
+                var csvFile = $"{DataFolder.GetDataFolder()}\\{spellLang}.csv";
 
-            try
-            {
-                spellChecker = WordList.CreateFromFiles(dir + dicfile, dir + afffile);
-            }
-            catch
-            {
-                //string exp = ex.Message; 
+                if (!File.Exists(csvFile))
+                {
+                    using StreamWriter sw = File.CreateText(csvFile);
+                    sw.Dispose();
+                }
+
+                spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
             }
 
             //words = sentence;
@@ -74,18 +76,27 @@ namespace MEGAbolt
             this.instance = instance;
             netcom = this.instance.Netcom;
 
-            afffile = this.instance.AffFile;   // "en_GB.aff";
-            dicfile = this.instance.DictionaryFile;   // "en_GB.dic";
+            spellLang = instance.Config.CurrentConfig.SpellLanguage;
 
-            string[] idic = dicfile.Split('.');
-            dic = dir + idic[0];
-
-            if (!System.IO.File.Exists(dic + ".csv"))
+            var assembly = Assembly.GetExecutingAssembly();
+            using var dictResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.dic");
+            using var affResourceStream = assembly.GetManifestResourceStream($"MEGAbolt.Spelling.{spellLang}.aff");
+            if (dictResourceStream == null || affResourceStream == null)
             {
-                System.IO.File.Create(dic + ".csv");
+                spellChecker = null;
             }
+            else
+            {
+                var csvFile = $"{DataFolder.GetDataFolder()}\\{spellLang}.csv";
 
-            spellChecker = WordList.CreateFromFiles(dir + dicfile, dir + afffile);
+                if (!File.Exists(csvFile))
+                {
+                    using StreamWriter sw = File.CreateText(csvFile);
+                    sw.Dispose();
+                }
+
+                spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
+            }
 
             //words = sentence;
             richTextBox1.Text = sentence;
@@ -374,9 +385,9 @@ namespace MEGAbolt
 
         private void AddWord(string aword)
         {
-            string dicfilea = dic + ".csv";
+            var csvFile = $"{DataFolder.GetDataFolder()}\\{spellLang}.csv";
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(dicfilea, true))
+            using (StreamWriter file = new System.IO.StreamWriter(csvFile, true))
             {
                 file.WriteLine(aword + ",");
             }

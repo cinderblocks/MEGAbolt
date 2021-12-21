@@ -44,20 +44,9 @@ namespace MEGAbolt
             }
         }
 
-        private static string GetDataFolderInternal()
-        {
-            if (Type.GetType("Mono.Runtime") != null)
-            {
-                return Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) + "/data";
-            }
-            else
-            {
-                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt";
-            }
-        }
         public static string GetDataFolder()
         {
-            string folder = GetDataFolderInternal();
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt";
             if (firstRun)
             {
                 firstRun = false;

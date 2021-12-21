@@ -1148,10 +1148,6 @@ namespace MEGAbolt
 
         public bool ReadIMs { get; set; } = false;
 
-        public string AffFile { get; set; } = string.Empty;
-
-        public string DictionaryFile { get; set; } = string.Empty;
-
         public bool AllowVoice { get; set; } = true;
 
         public bool BlockChatIn { get; set; } = false;
