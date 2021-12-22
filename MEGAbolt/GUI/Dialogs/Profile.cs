@@ -28,6 +28,7 @@ using OpenMetaverse;
 using OpenMetaverse.Assets;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 using BugSplatDotNetStandard;
 using OpenJpegDotNet.IO;
 
@@ -161,7 +162,8 @@ namespace MEGAbolt
                 //string old = e.OldDisplayName;
                 string newname = e.DisplayName.DisplayName;
 
-                if (!newname.ToLower(CultureInfo.CurrentCulture).Contains("resident") && !newname.ToLower(CultureInfo.CurrentCulture).Contains(" "))
+                if (!newname.ToLower(CultureInfo.CurrentCulture).Contains("resident") 
+                    && !newname.ToLower(CultureInfo.CurrentCulture).Contains(" "))
                 {
                     txtDisplayName.Text = newname;
                     button7.Enabled = false;
@@ -259,8 +261,7 @@ namespace MEGAbolt
             else
             {
                 BeginInvoke(
-                    new OnSetPickImage(SetPickImage),
-                    new object[] { PickImageID, instance.ImageCache.GetImage(PickImageID) });
+                    new OnSetPickImage(SetPickImage), PickImageID, instance.ImageCache.GetImage(PickImageID));
             }
         }
 
@@ -283,7 +284,7 @@ namespace MEGAbolt
                 posY = (int)e.Parcel.GlobalY % 256;
                 posZ = (int)e.Parcel.GlobalZ % 256;
 
-                txtSlurl.Text = parcelname + ", " + simname + "(" + posX.ToString(CultureInfo.CurrentCulture) + "," + posY.ToString(CultureInfo.CurrentCulture) + "," + posZ.ToString(CultureInfo.CurrentCulture) + ")";
+                txtSlurl.Text = $"{parcelname}, {simname} ({posX.ToString(CultureInfo.CurrentCulture)},{posY.ToString(CultureInfo.CurrentCulture)},{posZ.ToString(CultureInfo.CurrentCulture)})";
             }));
         }
 
@@ -293,7 +294,7 @@ namespace MEGAbolt
             {
                 try
                 {
-                    BeginInvoke(new OnSetPartnerText(SetPartnerText), new object[] { av });
+                    BeginInvoke(new OnSetPartnerText(SetPartnerText), av);
                     break;
                 }
                 catch
@@ -315,18 +316,13 @@ namespace MEGAbolt
 
             //lvGroups.Items.Clear();  
 
-            foreach (AvatarGroup group in e.Groups)
+            foreach (var lvi in e.Groups.Select(@group => new ListViewItem
+                     {
+                         Text = @group.GroupName,
+                         Tag = @group
+                     }).Where(lvi => !lvGroups.Items.Contains(lvi)))
             {
-                ListViewItem lvi = new ListViewItem
-                {
-                    Text = @group.GroupName,
-                    Tag = @group
-                };
-
-                if (!lvGroups.Items.Contains(lvi))
-                {
-                    lvGroups.Items.Add(lvi);
-                }
+                lvGroups.Items.Add(lvi);
             }
         }
 
@@ -380,7 +376,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    BeginInvoke(new OnSetProfileImage(SetProfileImage), new object[] { texture.AssetID, decodedImage });
+                    BeginInvoke(new OnSetProfileImage(SetProfileImage), texture.AssetID, decodedImage);
                 }
                 catch { ; }
 
@@ -463,8 +459,7 @@ namespace MEGAbolt
                     client.Assets.RequestImage(SLImageID, ImageType.Normal, Assets_OnImageReceived);
                 else
                     BeginInvoke(
-                        new OnSetProfileImage(SetProfileImage),
-                        new object[] { SLImageID, instance.ImageCache.GetImage(SLImageID) });
+                        new OnSetProfileImage(SetProfileImage), SLImageID, instance.ImageCache.GetImage(SLImageID));
             }
             else
             {
@@ -477,8 +472,7 @@ namespace MEGAbolt
                     client.Assets.RequestImage(FLImageID, ImageType.Normal, Assets_OnImageReceived);
                 else
                     BeginInvoke(
-                        new OnSetProfileImage(SetProfileImage),
-                        new object[] { FLImageID, instance.ImageCache.GetImage(FLImageID) });
+                        new OnSetProfileImage(SetProfileImage), FLImageID, instance.ImageCache.GetImage(FLImageID));
             }
             else
             {
@@ -486,8 +480,7 @@ namespace MEGAbolt
             }
 
             BeginInvoke(
-                new OnSetProfileProperties(SetProfileProperties),
-                new object[] { props });
+                new OnSetProfileProperties(SetProfileProperties), props);
         }
 
         //called on GUI thread
@@ -512,8 +505,9 @@ namespace MEGAbolt
 
                 try
                 {
-                    if (fullName.EndsWith("Linden", StringComparison.CurrentCulture)) rtbAccountInfo.AppendText("Linden Lab Employee\n");
-                    else rtbAccountInfo.AppendText("Resident\n");
+                    rtbAccountInfo.AppendText(fullName.EndsWith("Linden", StringComparison.CurrentCulture)
+                        ? "Linden Lab Employee\n"
+                        : "Resident\n");
                 }
                 catch { ; }
 
@@ -521,8 +515,7 @@ namespace MEGAbolt
                 else if (properties.Transacted) rtbAccountInfo.AppendText("Payment Info Used\n");
                 else rtbAccountInfo.AppendText("No Payment Info On File\n");
 
-                if (properties.Online) txtOnline.Text = "Currently Online";
-                else txtOnline.Text = "unknown";
+                txtOnline.Text = properties.Online ? "Currently Online" : "unknown";
 
                 rtbAbout.AppendText(properties.AboutText);
 
@@ -533,9 +526,9 @@ namespace MEGAbolt
 
                 txtUUID.Text = agentID.ToString();
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                Logger.Log(String.Format(CultureInfo.CurrentCulture,"frmProfile.SetProfileProperties: {0}", exp.ToString()), Helpers.LogLevel.Error);
+                Logger.Log("Exception setting Profile properties", Helpers.LogLevel.Error, ex);
             }
         }
 
@@ -630,7 +623,7 @@ namespace MEGAbolt
 
         private void btnOfferTeleport_Click(object sender, EventArgs e)
         {
-            client.Self.SendTeleportLure(agentID, "Join me in " + client.Network.CurrentSim.Name + "!");
+            client.Self.SendTeleportLure(agentID, $"Join me in {client.Network.CurrentSim.Name}!");
         }
 
         private void btnPay_Click(object sender, EventArgs e)
@@ -675,14 +668,8 @@ namespace MEGAbolt
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void textBox1_DragDrop(object sender, DragEventArgs e)
@@ -714,7 +701,7 @@ namespace MEGAbolt
                     }
 
                     client.Inventory.GiveItem(item.UUID, item.Name, item.AssetType, agentID, true);
-                    instance.TabConsole.DisplayChatScreen("Offered inventory item " + item.Name + " to " + fullName + ".");
+                    instance.TabConsole.DisplayChatScreen($"Offered inventory item {item.Name} to {fullName}.");
                 }
             }
         }
@@ -771,14 +758,8 @@ namespace MEGAbolt
 
         private void textBox1_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void rtbAbout_Leave(object sender, EventArgs e)
@@ -835,14 +816,8 @@ namespace MEGAbolt
             //    e.Effect = DragDropEffects.None;
             //}
 
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void picSLImage_DragDrop(object sender, DragEventArgs e)
@@ -908,10 +883,8 @@ namespace MEGAbolt
 
                 if (node.Tag is InventoryFolder folder)
                 {
-                    //InventoryFolder folder = (InventoryFolder)io;
-
                     client.Inventory.GiveFolder(folder.UUID, folder.Name, agentID, true);
-                    instance.TabConsole.DisplayChatScreen("Offered inventory folder " + folder.Name + " to " + fullName + ".");
+                    instance.TabConsole.DisplayChatScreen($"Offered inventory folder {folder.Name} to {fullName}.");
                 }
                 else
                 {
@@ -927,12 +900,12 @@ namespace MEGAbolt
                         }
 
                         client.Inventory.GiveItem(item.UUID, item.Name, item.AssetType, agentID, true);
-                        instance.TabConsole.DisplayChatScreen("Offered inventory item " + item.Name + " to " + fullName + ".");
+                        instance.TabConsole.DisplayChatScreen($"Offered inventory item {item.Name} to {fullName}.");
                     }
                     else
                     {
                         // Change the picture
-                        if (item.AssetType == AssetType.ImageJPEG || item.AssetType == AssetType.ImageTGA || item.AssetType == AssetType.Texture || item.AssetType == AssetType.TextureTGA)
+                        if (item.AssetType is AssetType.ImageJPEG or AssetType.ImageTGA or AssetType.Texture or AssetType.TextureTGA)
                         {
                             SLImageID = item.AssetUUID;
 
@@ -973,97 +946,65 @@ namespace MEGAbolt
             //    e.Effect = DragDropEffects.None;
             //}
 
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void picFLImage_DragOver(object sender, DragEventArgs e)
         {
             if (agentID != client.Self.AgentID) return;
 
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void picFLImage_DragEnter(object sender, DragEventArgs e)
         {
             if (agentID != client.Self.AgentID) return;
 
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void picFLImage_DragDrop(object sender, DragEventArgs e)
         {
-            if (agentID != client.Self.AgentID) return;
+            if (agentID != client.Self.AgentID) { return; }
 
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
-
-            if (node == null) return;
+            if (e.Data.GetData(typeof(TreeNode)) is not TreeNode node) { return; }
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
                 InventoryBase io = (InventoryBase)node.Tag;
 
-                if (node.Tag is InventoryFolder)
-                {
-                    return;
-                }
-                else
-                {
-                    InventoryItem item = (InventoryItem)io;
+                if (node.Tag is InventoryFolder) { return; }
 
-                    if (agentID != client.Self.AgentID)
+                InventoryItem item = (InventoryItem)io;
+
+                // Change the picture
+                if (item.AssetType is AssetType.ImageJPEG or AssetType.ImageTGA or AssetType.Texture or AssetType.TextureTGA)
+                {
+                    SLImageID = item.AssetUUID;
+
+                    props.ProfileImage = SLImageID;
+
+                    client.Self.UpdateProfile(props);
+
+                    proFLImage.Visible = true;
+
+                    if (!instance.ImageCache.ContainsImage(SLImageID))
                     {
-                        return;
+                        client.Assets.RequestImage(SLImageID, ImageType.Normal, Assets_OnImageReceived);
                     }
                     else
                     {
-                        // Change the picture
-                        if (item.AssetType == AssetType.ImageJPEG || item.AssetType == AssetType.ImageTGA || item.AssetType == AssetType.Texture || item.AssetType == AssetType.TextureTGA)
-                        {
-                            SLImageID = item.AssetUUID;
-
-                            props.ProfileImage = SLImageID;
-
-                            client.Self.UpdateProfile(props);
-
-                            proFLImage.Visible = true;
-
-                            if (!instance.ImageCache.ContainsImage(SLImageID))
-                            {
-                                client.Assets.RequestImage(SLImageID, ImageType.Normal, Assets_OnImageReceived);
-                            }
-                            else
-                            {
-                                picFLImage.Image = instance.ImageCache.GetImage(SLImageID);
-                                proFLImage.Visible = false;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("To change your picture you must drag and drop an image or a texture", "MEGAbolt");
-                            return;
-                        }
+                        picFLImage.Image = instance.ImageCache.GetImage(SLImageID);
+                        proFLImage.Visible = false;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("To change your picture you must drag and drop an image or a texture", "MEGAbolt");
+                    return;
                 }
             }
         }
@@ -1072,7 +1013,7 @@ namespace MEGAbolt
         {
             if (instance.IsAvatarMuted(agentID, fullName))
             {
-                MessageBox.Show(fullName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show($"{fullName} is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -1083,7 +1024,7 @@ namespace MEGAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, agentID, fullName);
 
-            MessageBox.Show(fullName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show($"{fullName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1252,7 +1193,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    MessageBox.Show("Display name could not be set.\nReason: " + reason, "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Display name could not be set.\nReason: {reason}", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
