@@ -4252,36 +4252,29 @@ namespace MEGAbolt
             vgate.SpkrMute = checkBox4.Checked;
         }
 
-        private void button10_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private bool CheckVoiceSetupFile(string filename)
         {
-            if (!File.Exists(Application.StartupPath.ToString() + "\\" + filename))
+            if (!File.Exists(Application.StartupPath + "\\" + filename))
             {
                 MessageBox.Show($"The required '{filename}' file was not found.");
-                return(false);
+                return false;
             }
-            return (true);
+            return true;
         }
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            if (!CheckVoiceSetupFile("SLVoice.exe")) return;
-            if (!CheckVoiceSetupFile("alut.dll")) return;
-            //if (!this.CheckVoiceSetupFile("openal32.dll")) return;
-            if (!CheckVoiceSetupFile("ortp.dll")) return;
-            if (!CheckVoiceSetupFile("vivoxsdk.dll")) return;
-            if (!CheckVoiceSetupFile("wrap_oal.dll")) return;
+            if (!CheckVoiceSetupFile("SLVoice.exe")) { return; }
+            if (!CheckVoiceSetupFile("DbgHelp.dll")) { return; }
+            if (!CheckVoiceSetupFile("ortp.dll")) { return; }
+            if (!CheckVoiceSetupFile("vivoxsdk.dll")) { return; }
+            if (!CheckVoiceSetupFile("zlib1.dll")) { return; }
 
             if (checkBox5.Checked)
             {
                 if (!instance.AllowVoice)
                 {
                     label18.Text = "Voice is disabled on this parcel";
-                    
                     return;
                 }
 
@@ -4305,7 +4298,6 @@ namespace MEGAbolt
                 if (!instance.AllowVoice)
                 {
                     label18.Text = "Voice is disabled on this parcel";
-
                     return;
                 }
 
