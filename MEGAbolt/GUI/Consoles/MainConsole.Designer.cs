@@ -348,6 +348,7 @@ namespace MEGAbolt
             this.WebView.Size = new System.Drawing.Size(676, 368);
             this.WebView.TabIndex = 0;
             this.WebView.ZoomFactor = 1D;
+            this.WebView.NavigationCompleted += this.WebView_NavigationCompleted;
             // 
             // MainConsole
             // 

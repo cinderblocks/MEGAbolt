@@ -31,6 +31,8 @@ using System.Linq;
 using System.Threading;
 using System.Globalization;
 using BugSplatDotNetStandard;
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace MEGAbolt
 {
@@ -79,7 +81,7 @@ namespace MEGAbolt
             //if (webBrowser == null)
             //    this.InitializeWebBrowser();
 
-            InitializeWebBrowser();
+            WebView_Initialize();
             
             //btnInfo.Text = "Hide Grid Status";
             label7.Text = "V " + Properties.Resources.MEGAboltVersion; 
@@ -420,9 +422,21 @@ namespace MEGAbolt
             btnLogin.Enabled = false;
         }
 
-        private void InitializeWebBrowser()
+        private void WebView_Initialize()
         {
             WebView.Source = new Uri("https://megabolt.radegast.life/splash.html");
+        }
+
+        private void WebView_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            if (e.IsSuccess)
+            {
+                ((WebView2)sender).ExecuteScriptAsync(
+                    "document.querySelector('body').style.overflow='scroll';" +
+                    "var style=document.createElement('style');" +
+                    "style.type='text/css';style.innerHTML='::-webkit-scrollbar{display:none}';" +
+                    "document.getElementsByTagName('body')[0].appendChild(style)");
+            }
         }
 
         private void BeginLogin()
@@ -600,11 +614,6 @@ namespace MEGAbolt
         }
 
         #endregion IMEGAboltTabControl Members
-
-        private void pnlLoginPage_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void MainConsole_Load(object sender, EventArgs e)
         {
