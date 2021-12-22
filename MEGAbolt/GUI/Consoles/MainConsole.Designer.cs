@@ -29,12 +29,9 @@ namespace MEGAbolt
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainConsole));
             this.btnLogin = new System.Windows.Forms.Button();
             this.pnlLoggingIn = new System.Windows.Forms.Panel();
             this.lblLoginStatus = new System.Windows.Forms.Label();
-            this.pnlLoginPage = new System.Windows.Forms.Panel();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.pnlLoginPrompt = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -54,9 +51,10 @@ namespace MEGAbolt
             this.label3 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.label7 = new System.Windows.Forms.Label();
+            this.WebView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.pnlLoggingIn.SuspendLayout();
-            this.pnlLoginPage.SuspendLayout();
             this.pnlLoginPrompt.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WebView)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -99,34 +97,6 @@ namespace MEGAbolt
             this.lblLoginStatus.TabIndex = 12;
             this.lblLoginStatus.Text = "Login status goes here.";
             this.lblLoginStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pnlLoginPage
-            // 
-            this.pnlLoginPage.AccessibleDescription = "Displays the MEGAbolt start web page";
-            this.pnlLoginPage.AccessibleName = "MEGAbolt start page";
-            this.pnlLoginPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlLoginPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnlLoginPage.BackgroundImage")));
-            this.pnlLoginPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pnlLoginPage.Controls.Add(this.webBrowser1);
-            this.pnlLoginPage.Location = new System.Drawing.Point(3, 4);
-            this.pnlLoginPage.Name = "pnlLoginPage";
-            this.pnlLoginPage.Size = new System.Drawing.Size(676, 358);
-            this.pnlLoginPage.TabIndex = 10;
-            this.pnlLoginPage.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlLoginPage_Paint);
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(676, 358);
-            this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-            this.webBrowser1.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser1_Navigating);
-            this.webBrowser1.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser1_NewWindow);
             // 
             // pnlLoginPrompt
             // 
@@ -365,6 +335,20 @@ namespace MEGAbolt
             this.label7.TabIndex = 18;
             this.label7.Text = "version";
             // 
+            // WebView
+            // 
+            this.WebView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.WebView.BackColor = System.Drawing.Color.Gainsboro;
+            this.WebView.CreationProperties = null;
+            this.WebView.DefaultBackgroundColor = System.Drawing.Color.Gainsboro;
+            this.WebView.Location = new System.Drawing.Point(3, 0);
+            this.WebView.Name = "WebView";
+            this.WebView.Size = new System.Drawing.Size(676, 368);
+            this.WebView.TabIndex = 0;
+            this.WebView.ZoomFactor = 1D;
+            // 
             // MainConsole
             // 
             this.AccessibleDescription = "Console to login to SL or other OpenSim based grid";
@@ -373,10 +357,10 @@ namespace MEGAbolt
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.Controls.Add(this.WebView);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.pnlLoginPrompt);
             this.Controls.Add(this.pnlLoggingIn);
-            this.Controls.Add(this.pnlLoginPage);
             this.Controls.Add(this.btnLogin);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -384,9 +368,9 @@ namespace MEGAbolt
             this.Size = new System.Drawing.Size(682, 466);
             this.Load += new System.EventHandler(this.MainConsole_Load);
             this.pnlLoggingIn.ResumeLayout(false);
-            this.pnlLoginPage.ResumeLayout(false);
             this.pnlLoginPrompt.ResumeLayout(false);
             this.pnlLoginPrompt.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WebView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -397,7 +381,6 @@ namespace MEGAbolt
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Panel pnlLoggingIn;
         private System.Windows.Forms.Label lblLoginStatus;
-        private System.Windows.Forms.Panel pnlLoginPage;
         private System.Windows.Forms.Panel pnlLoginPrompt;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtCustomLoginUri;
@@ -417,6 +400,6 @@ namespace MEGAbolt
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private Microsoft.Web.WebView2.WinForms.WebView2 WebView;
     }
 }

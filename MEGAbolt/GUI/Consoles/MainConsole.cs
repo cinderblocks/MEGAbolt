@@ -80,8 +80,7 @@ namespace MEGAbolt
             //    this.InitializeWebBrowser();
 
             InitializeWebBrowser();
-
-            webBrowser1.Visible = true;
+            
             //btnInfo.Text = "Hide Grid Status";
             label7.Text = "V " + Properties.Resources.MEGAboltVersion; 
 
@@ -423,14 +422,7 @@ namespace MEGAbolt
 
         private void InitializeWebBrowser()
         {
-            murl = "https://megabolt.radegast.life/splash.html";
-
-            webBrowser1.Url = new Uri(murl);
-            webBrowser1.AllowNavigation = true;
-            webBrowser1.Dock = DockStyle.Fill;
-            webBrowser1.IsWebBrowserContextMenuEnabled = false;
-            webBrowser1.ScriptErrorsSuppressed = true;
-
+            WebView.Source = new Uri("https://megabolt.radegast.life/splash.html");
         }
 
         private void BeginLogin()
@@ -737,63 +729,6 @@ namespace MEGAbolt
             LoadGrids();
             InitGridCombo();
             cbxGrid.SelectedIndex = 0; 
-        }
-
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            webBrowser1.ScrollBarsEnabled = false;
-
-            webBrowser1.Document.Body.Style = "overflow:hidden";
-        }
-
-        private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (clickedurl != string.Empty)
-            {
-                e.Cancel = true;
-                Utilities.OpenBrowser(e.Url.ToString());
-            }
-        }
-
-        private void webBrowser1_NewWindow(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(clickedurl))
-            {
-                HtmlElement link = webBrowser1.Document.ActiveElement;
-                clickedurl = link.GetAttribute("href");
-            }
-
-            e.Cancel = true;
-
-            if (clickedurl.StartsWith("http://slurl.", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // Open up the TP form here
-                string[] split = clickedurl.Split(new Char[] { '/' });
-                string sim = split[4].ToString(CultureInfo.CurrentCulture);
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture));
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture));
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture));
-
-                (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
-                clickedurl = string.Empty;
-                return;
-            }
-            else if (clickedurl.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // Open up the TP form here
-                string[] split = clickedurl.Split(new Char[] { '/' });
-                string sim = split[4].ToString(CultureInfo.CurrentCulture);
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture));
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture));
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture));
-
-                (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
-                clickedurl = string.Empty;
-                return;
-            }
-
-            Utilities.OpenBrowser(clickedurl);
-            clickedurl = string.Empty;  
         }
     }
 }
