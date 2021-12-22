@@ -30,6 +30,7 @@ using System.Threading;
 using System.Globalization;
 using System.Linq;
 using BugSplatDotNetStandard;
+using Microsoft.Web.WebView2.WinForms;
 using OpenJpegDotNet.IO;
 
 
@@ -584,16 +585,21 @@ namespace MEGAbolt
 
         private void btnWebView_Click(object sender, EventArgs e)
         {
-            WebBrowser web = new WebBrowser();
+            WebView2 web = new WebView2();
             web.Dock = DockStyle.Fill;
 
             string url = txtWebURL.Text;
-            if (!url.StartsWith("http", StringComparison.CurrentCulture) && !url.StartsWith("https", StringComparison.CurrentCulture))
+            if (!url.StartsWith("http", StringComparison.CurrentCulture) 
+                && !url.StartsWith("https", StringComparison.CurrentCulture))
             {
+
                 url = "http://" + url;
             }
 
-            web.Url = new Uri(url);
+            try {
+                web.Source = new Uri(url);
+            } catch (UriFormatException)
+            { return; } 
 
             pnlWeb.Controls.Add(web);
         }
