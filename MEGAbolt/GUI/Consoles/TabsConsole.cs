@@ -1020,7 +1020,9 @@ namespace MEGAbolt
             if (instance.State.IsBusy)
             {
                 string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); 
+                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, 
+                    e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, 
+                    instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); 
                 return;
             }
 
@@ -1034,7 +1036,7 @@ namespace MEGAbolt
             tabs[tpTab.TargetUUID.ToString()].Highlight();
 
             string ttl = "MEGAbolt";
-            string body = "You have received a Teleport request from " + fromAgent;
+            string body = $"You have received a Teleport request from {fromAgent}";
             TrayNotifiy(ttl, body);
         }
 
@@ -1045,7 +1047,9 @@ namespace MEGAbolt
             if (instance.State.IsBusy)
             {
                 string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]);
+                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, 
+                    e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline,
+                    instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 return;
             }
 
@@ -1195,7 +1199,7 @@ namespace MEGAbolt
             if (instance.State.IsBusy) return;
 
             string ttl = "MEGAbolt";
-            string body = e.IM.FromAgentName + " has accepted your invetory offer";
+            string body = $"{e.IM.FromAgentName} has accepted your inventory offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -1204,7 +1208,7 @@ namespace MEGAbolt
             if (instance.State.IsBusy) return;
 
             string ttl = "MEGAbolt";
-            string body = e.IM.FromAgentName + " has declined your invetory offer";
+            string body = $"{e.IM.FromAgentName} has declined your inventory offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -1265,10 +1269,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeChatTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeChatTab));
 
                 return;
             }
@@ -1292,10 +1293,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeFriendsTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeFriendsTab));
 
                 return;
             }
@@ -1319,10 +1317,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeIMboxTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeIMboxTab));
 
                 return;
             }
@@ -1349,19 +1344,18 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeGroupsTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeGroupsTab));
 
                 return;
             }
 
             try
             {
-                GroupsConsole groupsConsole = new GroupsConsole(instance);
-                groupsConsole.Dock = DockStyle.Fill;
-                groupsConsole.Visible = false;
+                GroupsConsole groupsConsole = new GroupsConsole(instance)
+                {
+                    Dock = DockStyle.Fill,
+                    Visible = false
+                };
 
                 toolStripContainer1.ContentPanel.Controls.Add(groupsConsole);
 
@@ -1384,10 +1378,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeSearchTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeSearchTab));
 
                 return;
             }
@@ -1411,18 +1402,16 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeInventoryTab();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeInventoryTab));
 
                 return;
             }
 
-            InventoryConsole invConsole = new InventoryConsole(instance);
-
-            invConsole.Dock = DockStyle.Fill;
-            invConsole.Visible = false;
+            InventoryConsole invConsole = new InventoryConsole(instance)
+            {
+                Dock = DockStyle.Fill,
+                Visible = false
+            };
 
             toolStripContainer1.ContentPanel.Controls.Add(invConsole);
 
@@ -1876,11 +1865,6 @@ namespace MEGAbolt
         }
 
         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
         {
 
         }
