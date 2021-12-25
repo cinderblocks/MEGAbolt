@@ -3814,12 +3814,15 @@ namespace MEGAbolt
                             iname = iname.Substring(0, 48) + "...";
                         }
 
-                        ToolStripButton btn = new ToolStripButton(iname, null, FavsToolStripMenuItem_Click, item.AssetUUID.ToString());
+                        ToolStripButton btn = new ToolStripButton(iname, null,
+                            FavsToolStripMenuItem_Click, item.AssetUUID.ToString())
+                        {
 
-                        //if (!tsFavs.Items.Contains(btn))
-                        //{
-                        btn.TextAlign = ContentAlignment.MiddleLeft;
-                        btn.ToolTipText = desc;
+                            //if (!tsFavs.Items.Contains(btn))
+                            //{
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            ToolTipText = desc
+                        };
                         tsFavs.Items.Add(btn);
 
                         ToolStripSeparator sep = new ToolStripSeparator();
@@ -3972,7 +3975,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("MB ERROR: " + ex.Message, Helpers.LogLevel.Error);  
+                Logger.Log("MB ERROR", Helpers.LogLevel.Error, ex);  
             }
         }
 
@@ -3990,7 +3993,7 @@ namespace MEGAbolt
         private void button2_MouseHover(object sender, EventArgs e)
         {
             ToolTip ToolTip1 = new ToolTip();
-            ToolTip1.SetToolTip(button2, "Trun left");
+            ToolTip1.SetToolTip(button2, "Turn left");
         }
 
         private void button7_MouseHover(object sender, EventArgs e)
