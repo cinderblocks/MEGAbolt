@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Reflection;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
 using OpenTK.Graphics.OpenGL;
@@ -126,7 +127,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard

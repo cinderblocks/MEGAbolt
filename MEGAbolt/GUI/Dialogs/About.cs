@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -40,21 +41,10 @@ namespace MEGAbolt
         {
             InitializeComponent();
 
-            lblVersion.Text = $"{Properties.Resources.MEGAboltTitle} V {Properties.Resources.MEGAboltVersion}";   
-            txtDir.Text =  Application.StartupPath.ToString();
-            textBox1.Text = DataFolder.GetDataFolder() ;
-            lblVersion.Text += " (" + Platform + ")";
-        }
-
-        public static string Platform
-        {
-            get
-            {
-                if (IntPtr.Size == 8)
-                    return "64bit";
-                else
-                    return "32bit";
-            }
+            lblVersion.Text = $"{Assembly.GetExecutingAssembly().GetName().Name} " +
+                              $"v{Assembly.GetExecutingAssembly().GetName().Version}";   
+            txtDir.Text =  Application.StartupPath;
+            textBox1.Text = DataFolder.GetDataFolder();
         }
 
         private void btnClose_Click(object sender, EventArgs e)

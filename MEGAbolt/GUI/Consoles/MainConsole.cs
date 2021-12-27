@@ -30,6 +30,7 @@ using MD5library;
 using System.Linq;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
@@ -51,7 +52,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
@@ -84,7 +85,7 @@ namespace MEGAbolt
             WebView_Initialize();
             
             //btnInfo.Text = "Hide Grid Status";
-            label7.Text = "V " + Properties.Resources.MEGAboltVersion; 
+            label7.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version}"; 
 
             Disposed += MainConsole_Disposed;
 

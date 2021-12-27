@@ -30,6 +30,7 @@ using OpenMetaverse;
 using MD5library;
 using System.Timers;
 using System.Globalization;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 
@@ -95,7 +96,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
@@ -462,7 +463,9 @@ namespace MEGAbolt
         public void PrintStartupMessage()
         {
             ChatBufferItem title = new ChatBufferItem(
-                DateTime.Now, $"{Properties.Resources.MEGAboltTitle} {Properties.Resources.MEGAboltVersion}" + Environment.NewLine, ChatBufferTextStyle.StartupTitle);
+                DateTime.Now, $"{Assembly.GetExecutingAssembly().GetName().Name} " +
+                              $"{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine, 
+                ChatBufferTextStyle.StartupTitle);
 
             ChatBufferItem ready = new ChatBufferItem(
                 DateTime.Now, " Ready to login...\n", ChatBufferTextStyle.StatusBlue);

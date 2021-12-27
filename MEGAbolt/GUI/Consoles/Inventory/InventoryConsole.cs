@@ -30,6 +30,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using File = System.IO.File;
 
@@ -77,7 +78,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard

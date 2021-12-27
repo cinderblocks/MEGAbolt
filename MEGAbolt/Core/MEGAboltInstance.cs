@@ -29,6 +29,7 @@ using MEGAxCommon;
 using System.Drawing;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using MEGAbolt.Media;
 using MEGAbolt.NetworkComm;
@@ -84,7 +85,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
@@ -96,7 +97,7 @@ namespace MEGAbolt
         public MEGAboltInstance(bool firstInstance)
         {
             CrashReporter = new BugSplat("radegast", "MEGAbolt",
-                Properties.Resources.MEGAboltVersion)
+                Assembly.GetExecutingAssembly().GetName().Version?.ToString())
             {
                 User = "cinder@cinderblocks.biz",
                 ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
@@ -145,13 +146,13 @@ namespace MEGAbolt
 
             RandomPwd();
 
-            MEGAbolt_Version = Properties.Resources.MEGAboltVersion.ToString(CultureInfo.CurrentCulture);
+            MEGAbolt_Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
         }
 
         public MEGAboltInstance(bool firstInstance, string[] args)
         {
             CrashReporter = new BugSplat("radegast", "MEGAbolt",
-                Properties.Resources.MEGAboltVersion)
+                Assembly.GetExecutingAssembly().GetName().Version?.ToString())
             {
                 User = "cinder@cinderblocks.biz",
                 ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
@@ -215,7 +216,7 @@ namespace MEGAbolt
 
             RandomPwd();
 
-            MEGAbolt_Version = Properties.Resources.MEGAboltVersion.ToString(CultureInfo.CurrentCulture);
+            MEGAbolt_Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
         }
 
         public void ReapplyConfig(string full_name)

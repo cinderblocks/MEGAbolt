@@ -1046,25 +1046,7 @@ namespace MEGAbolt.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MEGAbolt.
-        /// </summary>
-        internal static string MEGAboltTitle {
-            get {
-                return ResourceManager.GetString("METAboltTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 0.9.71.
-        /// </summary>
-        internal static string MEGAboltVersion {
-            get {
-                return ResourceManager.GetString("METAboltVersion", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>

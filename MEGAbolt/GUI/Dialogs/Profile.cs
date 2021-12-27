@@ -29,6 +29,7 @@ using OpenMetaverse.Assets;
 using System.Threading;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.WinForms;
 using OpenJpegDotNet.IO;
@@ -73,7 +74,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard

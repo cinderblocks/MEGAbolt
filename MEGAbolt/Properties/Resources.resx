@@ -130,9 +130,6 @@
   <data name="turnleft" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\turnleft.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="METAboltVersion" xml:space="preserve">
-    <value>0.0.1</value>
-  </data>
   <data name="play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -354,9 +351,6 @@
   </data>
   <data name="cut_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cut_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="METAboltTitle" xml:space="preserve">
-    <value>MEGAbolt</value>
   </data>
   <data name="rebake" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rebake.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

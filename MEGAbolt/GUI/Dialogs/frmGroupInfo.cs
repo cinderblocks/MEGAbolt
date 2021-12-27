@@ -29,6 +29,7 @@ using OpenMetaverse.Packets;
 using MEGAbolt.NetworkComm;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
 using System.Web;
 using BugSplatDotNetStandard;
 using OpenJpegDotNet.IO;
@@ -81,7 +82,7 @@ namespace MEGAbolt
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
                 BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
-                    Properties.Resources.MEGAboltVersion)
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
                     ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
