@@ -575,8 +575,8 @@ namespace MEGAbolt
         {
             try
             {
-                string cuser = txtFirstName.Text + "_" + txtLastName.Text;
-                string textfile = cuser + ".bat";
+                string cuser = $"{txtFirstName.Text} {txtLastName.Text}";
+                string textfile = $"{cuser}.bat";
                 string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
                 if (File.Exists(path))
@@ -584,25 +584,21 @@ namespace MEGAbolt
                     File.Delete(path);
                 }
 
-                using (StreamWriter sr = File.CreateText(path))
-                {
-                    string line = "@ECHO OFF";
-                    sr.WriteLine(line);
-                    sr.WriteLine("");
-                    sr.WriteLine("");
+                using StreamWriter sr = File.CreateText(path);
 
-                    // Fix suggested on forums by Spirit
-                    // http://www.metabolt.net/metaforums/yaf_postsm2417_using-bat-file.aspx#post2417
-                    line = "START \"\" /D \"" + Application.StartupPath + "\\\" \"" + Application.StartupPath + "\\megabolt.exe" + "\"" + " " + cuser.Replace("_", " ") + " " + txtPassword.Text;
-                    sr.WriteLine(line);
-
-                    //sr.Close();
-                    sr.Dispose();
-                }
+                string line = "@ECHO OFF";
+                sr.WriteLine(line);
+                sr.WriteLine("");
+                sr.WriteLine("");
+                
+                line = $"START \"\" /D \"{Application.StartupPath}\\\" \"{Application.ExecutablePath}\" {cuser.Replace("_", " ")} {txtPassword.Text}";
+                sr.WriteLine(line);
+                
+                sr.Dispose();
             }
             catch (Exception ex)
             {
-                Logger.Log("Login (create cmd file): " + ex.Message, Helpers.LogLevel.Error);
+                Logger.Log("Login (create cmd file)", Helpers.LogLevel.Error, ex);
             }
         }
 
