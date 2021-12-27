@@ -29,6 +29,7 @@ using MEGAxCommon;
 using System.Drawing;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using MEGAbolt.Media;
@@ -256,19 +257,22 @@ namespace MEGAbolt
 
         public void InitAI()
         {
-            string aimlDirectory = Application.StartupPath.ToString(CultureInfo.CurrentCulture);
-            aimlDirectory += "\\aiml\\";
+            string aimlDirectory = $"{Application.StartupPath}\\aiml\\";
 
-            bool direxists = DirExists(aimlDirectory);
-
-            if (direxists)
+            if (DirExists(aimlDirectory))
             {
-                myBot = null;
-
-                myBot = new AIMLbot.Bot();
-                myBot.loadSettings();
-                myBot.loadAIMLFromFiles();
-                myBot.isAcceptingUserInput = true;
+                try
+                {
+                    myBot = new AIMLbot.Bot();
+                    myBot.loadSettings(aimlDirectory);
+                    myBot.loadAIMLFromFiles();
+                    myBot.isAcceptingUserInput = true;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("AI is enabled but AI failed to load", Helpers.LogLevel.Warning, ex);
+                    myBot = null;
+                }
             }
             else
             {
@@ -278,40 +282,31 @@ namespace MEGAbolt
 
         private void CreateNotesDir()
         {
-            string logdir = appdir;   // Application.StartupPath.ToString();
-            logdir += "\\Notes\\";
+            string notesdir = appdir + "\\Notes\\";
 
-            bool direxists = DirExists(logdir);
-
-            if (!direxists)
+            if (!DirExists(notesdir))
             {
                 // Create the dir
-                Directory.CreateDirectory(logdir);
+                Directory.CreateDirectory(notesdir);
             }
         }
 
         private void CreateSpellingDir()
         {
-            string logdir = appdir;   // Application.StartupPath.ToString();
-            logdir += "\\Spelling\\";
+            string spellingdir = appdir + "\\Spelling\\";
 
-            bool direxists = DirExists(logdir);
-
-            if (!direxists)
+            if (!DirExists(spellingdir))
             {
                 // Create the dir
-                Directory.CreateDirectory(logdir);
+                Directory.CreateDirectory(spellingdir);
             }
         }
 
         private void CreateLogDir()
         {
-            string logdir = appdir;   // Application.StartupPath.ToString();
-            logdir += "\\Logs\\";
+            string logdir = appdir + "\\Logs\\";
 
-            bool direxists = DirExists(logdir);
-
-            if (!direxists)
+            if (!DirExists(logdir))
             {
                 // Create the dir
                 Directory.CreateDirectory(logdir);
@@ -329,12 +324,9 @@ namespace MEGAbolt
             }
 
             // Create the Extensions dir
-            logdir = appdir;   // Application.StartupPath.ToString();
-            logdir += "\\Extensions\\";
+            logdir = appdir + "\\Extensions\\";
 
-            direxists = DirExists(logdir);
-
-            if (!direxists)
+            if (!DirExists(logdir))
             {
                 // Create the dir
                 Directory.CreateDirectory(logdir);
@@ -357,14 +349,7 @@ namespace MEGAbolt
         {
             string[] a = Directory.GetFiles(p, "*.*");
 
-            long b = 0;
-            foreach (string name in a)
-            {
-                FileInfo info = new FileInfo(name);
-                b += info.Length;
-            }
-
-            return b;
+            return a.Select(name => new FileInfo(name)).Select(info => info.Length).Sum();
         }
 
         private static double ConvertBytesToMegabytes(long bytes)
