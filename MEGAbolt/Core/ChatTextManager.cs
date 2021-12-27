@@ -384,50 +384,44 @@ namespace MEGAbolt
             //e.ObjectOwner.ToString();
             //e.Questions.ToString();
 
-            ScriptPermission sperm = ScriptPermission.None;
-            string smsg = string.Empty;
+            ScriptPermission scriptPerm = ScriptPermission.None;
+            string scriptMsg = string.Empty;
 
             switch (e.Questions)
             {
                 case ScriptPermission.Attach:
-                    sperm = ScriptPermission.Attach;
-                    smsg = "Wants permission to ATTACH.";
+                    scriptPerm = ScriptPermission.Attach;
+                    scriptMsg = "Wants permission to ATTACH.";
                     break;
 
                 case ScriptPermission.Debit:
-                    sperm = ScriptPermission.Debit;
-                    smsg = "Wants permission to DEBIT.";
+                    scriptPerm = ScriptPermission.Debit;
+                    scriptMsg = "Wants permission to DEBIT.";
                     break;
 
                 case ScriptPermission.TakeControls:
-                    sperm = ScriptPermission.TakeControls;
-                    smsg = "Wants permission to TAKE CONTROLS.";
+                    scriptPerm = ScriptPermission.TakeControls;
+                    scriptMsg = "Wants permission to TAKE CONTROLS.";
                     break;
 
                 case ScriptPermission.TriggerAnimation:
-                    sperm = ScriptPermission.TriggerAnimation;
-                    smsg = "Wants permission to TRIGGER ANIMATION.";
+                    scriptPerm = ScriptPermission.TriggerAnimation;
+                    scriptMsg = "Wants permission to TRIGGER ANIMATION.";
                     break;
 
                 case ScriptPermission.Teleport:
-                    sperm = ScriptPermission.Teleport;
-                    smsg = "Wants permission to TELEPORT.";
+                    scriptPerm = ScriptPermission.Teleport;
+                    scriptMsg = "Wants permission to TELEPORT.";
                     break;
             }
+            
+            DialogResult sret = MessageBoxEx.Show(
+                $"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}\nowned by {e.ObjectOwnerName}:\n\n{scriptMsg}",
+                "Script permission...", MessageBoxButtons.OKCancel, 15000);
 
-            //DialogResult sret = MessageBox.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + " owned by " + e.ObjectOwnerName + ":\n\n" + smsg, "Script permission...", MessageBoxButtons.OKCancel);
-            DialogResult sret = MessageBoxEx.Show(e.ObjectName.ToString(CultureInfo.CurrentCulture) + "\nowned by " + e.ObjectOwnerName + ":\n\n" + smsg, "Script permission...", MessageBoxButtons.OKCancel, 15000);
 
-
-            if (sret == DialogResult.OK)
-            {
-                // Grant permission
-                client.Self.ScriptQuestionReply(client.Network.CurrentSim, e.ItemID, e.TaskID, sperm);
-            }
-            else
-            {
-                client.Self.ScriptQuestionReply(client.Network.CurrentSim, e.ItemID, e.TaskID, ScriptPermission.None);
-            }
+            client.Self.ScriptQuestionReply(client.Network.CurrentSim, e.ItemID, e.TaskID,
+                sret == DialogResult.OK ? scriptPerm : ScriptPermission.None);
         }
 
         private void netcom_LoadURLReceived(object sender, LoadUrlEventArgs e)
@@ -449,9 +443,8 @@ namespace MEGAbolt
                 return;
             }
 
-            DialogResult sret = MessageBoxEx.Show($"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}" +
-                $"\nowned by {e.OwnerID} is offering you a URL." +
-                $"\n\nClick 'OK' to visit.", "URL offer...", MessageBoxButtons.OKCancel, 15000);
+            DialogResult sret = MessageBoxEx.Show(
+                $"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}\nowned by {e.OwnerID} is offering you a URL.\n\nClick 'OK' to visit.", "URL offer...", MessageBoxButtons.OKCancel, 15000);
 
             if (sret == DialogResult.OK)
             {
@@ -487,7 +480,7 @@ namespace MEGAbolt
             string avid = client.Self.AgentID.ToString();
 
             ChatBufferItem avuuid = new ChatBufferItem(
-                DateTime.Now, " My UUID is " + avid, ChatBufferTextStyle.Alert);
+                DateTime.Now, $" My UUID is {avid}", ChatBufferTextStyle.Alert);
 
             ProcessBufferItem(avuuid, true);
         }
