@@ -91,11 +91,11 @@ namespace MEGAbolt
         private Popup toolTip;
         private CustomToolTip customToolTip;
 
-        readonly Dictionary<UUID, TextureInfo> TexturesPtrMap = new();
-        readonly MEGAboltInstance Instance;
+        private readonly Dictionary<UUID, TextureInfo> TexturesPtrMap = new();
+        private readonly MEGAboltInstance Instance;
         private readonly GridClient Client;
-        MeshmerizerR renderer;
-        GLControlSettings GLMode = null;
+        private MeshmerizerR renderer;
+        private GLControlSettings GLMode = null;
 
         private Task TextureTask;
         private CancellationTokenSource cancellationTokenSource;
@@ -274,8 +274,9 @@ namespace MEGAbolt
                         if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
                         {
                             UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                            var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
-                            children.ForEach(p => UpdatePrimBlocking(p));
+                            var children = Client.Network.CurrentSim.ObjectsPrimitives
+                                .FindAll((Primitive p) => p.ParentID == RootPrimLocalID);
+                            children.ForEach(UpdatePrimBlocking);
                         }
                     }
                     catch { ; }
@@ -700,10 +701,10 @@ namespace MEGAbolt
                     {
                         Bitmap bitmap = (Bitmap)item.Data.TextureInfo.Texture;
 
-                        bool hasAlpha = 
-                            item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb
-                            || item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppPArgb
-                            || item.Data.TextureInfo.Texture.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
+                        bool hasAlpha = item.Data.TextureInfo.Texture.PixelFormat 
+                            is System.Drawing.Imaging.PixelFormat.Format32bppArgb 
+                            or System.Drawing.Imaging.PixelFormat.Format32bppPArgb 
+                            or System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
                         item.Data.TextureInfo.HasAlpha = hasAlpha;
 
                         bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -748,17 +749,6 @@ namespace MEGAbolt
             }
             );
         }
-
-        #region Public methods
-        public void SetView(Vector3 center, int roll, int pitch, int yaw, int zoom)
-        {
-            Center = center;
-            scrollRoll.Value = roll;
-            scrollPitch.Value = pitch;
-            scrollYaw.Value = yaw;
-            scrollZoom.Value = zoom;
-        }
-        #endregion Public methods
 
         #region Private methods (the meat)
 
@@ -1298,13 +1288,6 @@ namespace MEGAbolt
             dialog.Dispose();
         }
 
-        private void cbAA_CheckedChanged(object sender, EventArgs e)
-        {
-            // FIXME:
-            // instance.GlobalSettings["use_multi_sampling"] = UseMultiSampling = cbAA.Checked;
-            SetupGLControl();
-        }
-
         #endregion Form controls handlers
 
         #region Context menu
@@ -1324,14 +1307,7 @@ namespace MEGAbolt
                 sitToolStripMenuItem.Text = "Sit";
             }
 
-            if (!isobject)
-            {
-                sitToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                sitToolStripMenuItem.Enabled = true;
-            }
+            sitToolStripMenuItem.Enabled = isobject;
 
             if (RightclickedPrim.Prim.Properties != null
                 && !string.IsNullOrEmpty(RightclickedPrim.Prim.Properties.TouchName))
@@ -1343,14 +1319,7 @@ namespace MEGAbolt
                 touchToolStripMenuItem.Text = "Touch";
             }
 
-            if ((RightclickedPrim.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
-            {
-                touchToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                touchToolStripMenuItem.Enabled = false;
-            }
+            touchToolStripMenuItem.Enabled = (RightclickedPrim.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
             if ((RightclickedPrim.Prim.Flags & PrimFlags.Money) == PrimFlags.Money)
             {
@@ -1463,9 +1432,6 @@ namespace MEGAbolt
             snapped = false;
             TakeScreenShot = false;
 
-            //Bitmap bmp = GrabScreenshot();
-            //Image img = (Image)bmp;
-
             Bitmap newbmp = new(glControl.Width, glControl.Height);
             Bitmap bmp = newbmp;
 
@@ -1480,7 +1446,7 @@ namespace MEGAbolt
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             string path = DataFolder.GetDataFolder() ;
-            string filename = "Object_Snaphot_" + DateTime.Now.ToString() + ".png";
+            string filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");
 
@@ -1500,21 +1466,14 @@ namespace MEGAbolt
 
         private void getScreehShot()
         {
-            //snapped = false;
-            //TakeScreenShot = false;
-
-            //Bitmap bmp = GrabScreenshot();
-            //Image img = (Image)bmp;
-
             Bitmap newbmp = new(glControl.Width, glControl.Height);
             Bitmap bmp = newbmp;
 
-            //System.Drawing.Imaging.BitmapData data = bmp.LockBits(glControl.ClientRectangle, System.Drawing.Imaging.ImageLockMode.WriteOnly,
-            //    System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            BitmapData data = data = bmp.LockBits(glControl.ClientRectangle, 
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            BitmapData data = data = bmp.LockBits(glControl.ClientRectangle, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            GL.ReadPixels(0, 0, glControl.Width, glControl.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            GL.ReadPixels(0, 0, glControl.Width, glControl.Height,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
             GL.Finish();
 
@@ -1522,7 +1481,7 @@ namespace MEGAbolt
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             string path = DataFolder.GetDataFolder() ;
-            string filename = "Object_Snaphot_" + DateTime.Now.ToString() + ".png";
+            string filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");
 
@@ -1630,16 +1589,9 @@ namespace MEGAbolt
             //}
         }
 
-        private void chkMipmaps_CheckedChanged(object sender, EventArgs e)
-        {
-            //enablemipmapd = chkMipmaps.Checked; 
-        }
-
         private void button8_Click(object sender, EventArgs e)
         {
             clearcolour = Color.Transparent;
-            //OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-            //OpenTK.Graphics.OpenGL.GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
             GL.ClearColor(clearcolour);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -1668,7 +1620,6 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                //string exp = ex.Message;
                 Instance.CrashReporter.Post(ex);
             }
         }
