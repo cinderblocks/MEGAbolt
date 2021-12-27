@@ -464,7 +464,7 @@ namespace MEGAbolt
         {
             ChatBufferItem title = new ChatBufferItem(
                 DateTime.Now, $"{Assembly.GetExecutingAssembly().GetName().Name} " +
-                              $"{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine, 
+                              $"v{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine, 
                 ChatBufferTextStyle.StartupTitle);
 
             ChatBufferItem ready = new ChatBufferItem(
