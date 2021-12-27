@@ -403,16 +403,10 @@ namespace MEGAbolt
 
             if (avatar == Client.Self.AgentID || name == Client.Self.Name) return false;
 
-            if (null != Client.Self.MuteList.Find(mle => (mle.ID == avatar) || (mle.Type == MuteType.ByName && mle.Name == name)
-                                                    || (mle.Type == MuteType.Object && mle.Name == name)
-                                                    || (mle.Type == MuteType.Resident && mle.Name == name)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return null != Client.Self.MuteList.Find(mle => (mle.ID == avatar) 
+                                                            || (mle.Type == MuteType.ByName && mle.Name == name) 
+                                                            || (mle.Type == MuteType.Object && mle.Name == name)
+                                                            || (mle.Type == MuteType.Resident && mle.Name == name));
         }
 
         public bool IsObjectMuted(UUID avatar, string name)
