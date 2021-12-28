@@ -23,7 +23,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Threading;
@@ -46,11 +45,11 @@ namespace MEGAbolt
 {
     public partial class InventoryConsole : UserControl
     {
-        private GridClient client;
-        private MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly MEGAboltInstance instance;
         private InventoryItemConsole currentProperties;
-        private InventoryClipboard clip;
-        private InventoryTreeSorter treeSorter = new InventoryTreeSorter();
+        private readonly InventoryClipboard clip;
+        private readonly InventoryTreeSorter treeSorter = new InventoryTreeSorter();
         private bool ShowAuto = false;
         private string SortBy = "By Name";
 
@@ -60,17 +59,11 @@ namespace MEGAbolt
         private int x = 0;
         public bool managerbusy = false;
         private bool searching = false;
-        //private UUID folderproc = UUID.Zero;
         private TreeNode sellectednode = new TreeNode();
         private InventoryFolder rootFolder;
         private TreeNode rootNode;
         private TreeNode selectednode = null;
-        //private bool nodecol = false;
         private UUID favfolder = UUID.Zero;
-        private Dictionary<UUID, InventoryItem> inventoryitems = new Dictionary<UUID, InventoryItem>();
-        //private bool AppearanceSet = false;
-        //private TreeViewWalker treeViewWalker;
-        //public InventoryFolder CoF;
         private bool gotCoF = false;
 
         internal class ThreadExceptionHandler
@@ -415,15 +408,7 @@ namespace MEGAbolt
 
         public static bool IsAttached(List<Primitive> attachments, InventoryItem item)
         {
-            foreach (Primitive prim in attachments)
-            {
-                if (IsAttachment(prim) == item.UUID)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return attachments.Any(prim => IsAttachment(prim) == item.UUID);
         }
 
         private static UUID IsAttachment(Primitive prim)
@@ -1528,7 +1513,7 @@ namespace MEGAbolt
 
                 if (cfolder == UUID.Zero)
                 {
-                    Logger.Log("Outfit changer: outfit path '" + clth + "' not found", Helpers.LogLevel.Warning);
+                    Logger.Log($"Outfit changer: outfit path '{clth}' not found", Helpers.LogLevel.Warning);
                     return;
                 }
 
@@ -1536,7 +1521,7 @@ namespace MEGAbolt
 
                 if (contents == null)
                 {
-                    Logger.Log("Outfit changer: failed to get contents of '" + clth + "'", Helpers.LogLevel.Warning);
+                    Logger.Log($"Outfit changer: failed to get contents of '{clth}'", Helpers.LogLevel.Warning);
                     return;
                 }
 
@@ -1578,13 +1563,13 @@ namespace MEGAbolt
                 });
                 //client.Appearance.RequestSetAppearance(true);
 
-                Logger.Log("Outfit changer: Starting to change outfit to '" + clth + "'", Helpers.LogLevel.Info);
-                label5.Text = "Currently wearing folder : " + clth;
+                Logger.Log($"Outfit changer: Starting to change outfit to '{clth}'", Helpers.LogLevel.Info);
+                label5.Text = $"Currently wearing folder : {clth}";
 
                 double ntime = Convert.ToDouble(trackBar1.Value);
                 DateTime nexttime = DateTime.Now;
                 nexttime = nexttime.AddMinutes(ntime);
-                label6.Text = "Next clothes change @ " + nexttime.ToShortTimeString();
+                label6.Text = $"Next clothes change at {nexttime.ToShortTimeString()}";
             }
             catch (Exception ex)
             {
@@ -1621,7 +1606,7 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null)
             {
-                MessageBox.Show("Select a clothes folder first", "MEGAbolt");
+                MessageBox.Show("Select a clothing folder first", "MEGAbolt");
                 return;
             }
 
@@ -1635,7 +1620,7 @@ namespace MEGAbolt
             }
             else
             {
-                MessageBox.Show("Select a clothes folder first", "MEGAbolt");
+                MessageBox.Show("Select a clothing folder first", "MEGAbolt");
             }
         }
 
@@ -1657,7 +1642,7 @@ namespace MEGAbolt
 
             using (StreamWriter sr = File.CreateText(path))
             {
-                foreach (object o in listBox1.Items)
+                foreach (var o in listBox1.Items)
                 {
                     // write a line of text to the file
                     sr.WriteLine(o.ToString());
@@ -1718,7 +1703,7 @@ namespace MEGAbolt
                 double ntime = Convert.ToDouble(trackBar1.Value);
                 DateTime nexttime = DateTime.Now;
                 nexttime = nexttime.AddMinutes(ntime);
-                label6.Text = "Next clothes change @ " + nexttime.ToShortTimeString();
+                label6.Text = $"Next clothes change at {nexttime.ToShortTimeString()}";
 
                 try
                 {
@@ -1726,7 +1711,9 @@ namespace MEGAbolt
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Auto clothes changer is running and functional\nbut the details have failed to save into\na text file for the foloowing reason: " + ex.Message, "MEGAbolt");  
+                    MessageBox.Show("Auto clothing changer is running and functional\n" +
+                                    "but the details have failed to save into\n" +
+                                    "a text file for the following reason: " + ex.Message, "MEGAbolt");  
                 }
             }
             else
@@ -1741,7 +1728,7 @@ namespace MEGAbolt
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label4.Text = "Every " + trackBar1.Value.ToString(CultureInfo.CurrentCulture) + " minutes";
+            label4.Text = $"Every {trackBar1.Value.ToString(CultureInfo.CurrentCulture)} minutes";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -1802,7 +1789,7 @@ namespace MEGAbolt
 
                 if (cfolder == UUID.Zero)
                 {
-                    Logger.Log("Outfit changer: outfit path '" + clth + "' not found", Helpers.LogLevel.Warning);
+                    Logger.Log($"Outfit changer: outfit path '{clth}' not found", Helpers.LogLevel.Warning);
                     return;
                 }
 
@@ -1810,7 +1797,7 @@ namespace MEGAbolt
 
                 if (contents == null)
                 {
-                    Logger.Log("Outfit changer: failed to get contents of '" + clth + "'", Helpers.LogLevel.Warning);
+                    Logger.Log($"Outfit changer: failed to get contents of '{clth}'", Helpers.LogLevel.Warning);
                     return;
                 }
 
@@ -1826,7 +1813,8 @@ namespace MEGAbolt
 
                 foreach (var item in items)
                 {
-                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+                        AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
                     {
                         if (success)
                         {
@@ -1843,8 +1831,8 @@ namespace MEGAbolt
                     client.Appearance.RequestSetAppearance(true);
                 });
 
-                Logger.Log("Outfit changer: Starting to change outfit to '" + clth + "'", Helpers.LogLevel.Info);
-                label5.Text = "Currently wearing folder : " + clth;
+                Logger.Log($"Outfit changer: Starting to change outfit to '{clth}'", Helpers.LogLevel.Info);
+                label5.Text = $"Currently wearing folder : {clth}";
             }
             catch (Exception ex)
             {
@@ -1985,26 +1973,12 @@ namespace MEGAbolt
 
         private void treeView1_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Move;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) ? DragDropEffects.Move : DragDropEffects.None;
         }
 
         private void treeView1_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void tbtnOrganize_Click(object sender, EventArgs e)
@@ -2044,12 +2018,7 @@ namespace MEGAbolt
                 }
             }
 
-            List<UUID> remclothing = new List<UUID>();
-
-            foreach (InventoryBase item in cofcontents)
-            {
-                remclothing.Add(item.UUID);
-            }
+            List<UUID> remclothing = cofcontents.Select(item => item.UUID).ToList();
 
             if (remclothing.Count > 0)
             {
@@ -2058,7 +2027,8 @@ namespace MEGAbolt
 
             foreach (var item in clothing)
             {
-                client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty,
+                    AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
                 {
                     if (success)
                     {
@@ -2379,12 +2349,9 @@ namespace MEGAbolt
 
                 List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
 
-                foreach (InventoryItem item in contents)
+                foreach (var item in contents.OfType<InventoryWearable>())
                 {
-                    if (item is InventoryWearable)
-                    {
-                        ProcessWearItem(item);       
-                    }
+                    ProcessWearItem(item);
                 }
             }
             else
@@ -2406,24 +2373,7 @@ namespace MEGAbolt
 
             if (item is InventoryWearable)
             {
-                foreach (InventoryItem link in cofcontents)
-                {
-                    InventoryItem wItem = AInventoryItem(link);
-
-                    if (link.AssetUUID == item.UUID)
-                    {
-                        remclothing.Add(link.UUID);
-                    }
-                    //else if (wItem is InventoryWearable)
-                    //{
-                    //    InventoryWearable ci = (InventoryWearable)wItem;
-
-                    //    if (ci.WearableType == ((InventoryWearable)item).WearableType)
-                    //    {
-                    //        remclothing.Add(link.UUID);
-                    //    }
-                    //}
-                }
+                remclothing.AddRange(from InventoryItem link in cofcontents let wItem = AInventoryItem(link) where link.AssetUUID == item.UUID select link.UUID);
             }
 
             if (remclothing.Count > 0)
