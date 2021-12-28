@@ -25,6 +25,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<Optimize>true</Optimize>
+	<DebugType>pdbonly</DebugType>
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -32,6 +34,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<Optimize>true</Optimize>
+	<DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -39,12 +43,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
 	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+	<Optimize>true</Optimize>
+	<DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
 	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
 	<DebugType>full</DebugType>
   </PropertyGroup>
-	<ItemGroup>
+  <ItemGroup>
     <Reference Include="CbtHook">
       <HintPath>..\Libs\CbtHook.dll</HintPath>
     </Reference>

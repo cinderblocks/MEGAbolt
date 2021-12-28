@@ -49,3 +49,6 @@ artifacts:
   - path: 'bin\Release\MEGAboltSetup*.msi'
     name: 'MEGAbolt Windows MSI'
     type: Auto
+  - path: 'bin\Release\win-x64\*.pdb'
+    name: 'Symbols'
+    type: Auto

@@ -31,6 +31,14 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MEGAboltSetup", "Install\ME
 		{C8B40AE0-71AE-4F96-90DE-705D23F1857D} = {C8B40AE0-71AE-4F96-90DE-705D23F1857D}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4B1C4C0B-EFB3-4507-8031-224A2E60BD90}"
+	ProjectSection(SolutionItems) = preProject
+		.appveyor.yml = .appveyor.yml
+		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
