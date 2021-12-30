@@ -83,7 +83,7 @@ namespace MEGAbolt
             targetSession = e.IM.IMSessionID; 
 
             lblSubheading.Text =
-                "Received teleport offer from " + TargetName + " with message:";
+                $"Received teleport offer from {TargetName} with message:";
 
             rtbOfferMessage.AppendText(e.IM.Message);
         }

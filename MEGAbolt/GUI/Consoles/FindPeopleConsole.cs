@@ -22,18 +22,16 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
 
 namespace MEGAbolt
 {
     public partial class FindPeopleConsole : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
 
         public event EventHandler SelectedIndexChanged;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public FindPeopleConsole(MEGAboltInstance instance, UUID queryID)
         {
@@ -43,7 +41,6 @@ namespace MEGAbolt
             QueryID = queryID;
 
             this.instance = instance;
-            //netcom = this.instance.Netcom;
             client = this.instance.Client;
             AddClientEvents();
 
@@ -112,7 +109,7 @@ namespace MEGAbolt
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
+            SelectedIndexChanged?.Invoke(this, e);
         }
 
         public SafeDictionary<string, UUID> LLUUIDs { get; }
@@ -123,39 +120,30 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindPeople.SelectedItems == null) return -1;
                 if (lvwFindPeople.SelectedItems.Count == 0) return -1;
 
                 return lvwFindPeople.SelectedIndices[0];
             }
         }
 
-        public string SelectedName
-        {
-            get
-            {
-                if (lvwFindPeople.SelectedItems == null) return string.Empty;
-                if (lvwFindPeople.SelectedItems.Count == 0) return string.Empty;
-
-                return lvwFindPeople.SelectedItems[0].Text;
-            }
-        }
+        public string SelectedName =>
+            lvwFindPeople.SelectedItems.Count == 0 
+                ? string.Empty : lvwFindPeople.SelectedItems[0].Text;
 
         public bool SelectedOnlineStatus
         {
             get
             {
-                if (lvwFindPeople.SelectedItems == null) return false;
                 if (lvwFindPeople.SelectedItems.Count == 0) return false;
 
                 string yesNo = lvwFindPeople.SelectedItems[0].SubItems[0].Text;
 
-                if (yesNo == "Yes")
-                    return true;
-                else if (yesNo == "No")
-                    return false;
-                else
-                    return false;
+                return yesNo switch
+                {
+                    "Yes" => true,
+                    "No" => false,
+                    _ => false
+                };
             }
         }
 
@@ -163,7 +151,6 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindPeople.SelectedItems == null) return UUID.Zero;
                 if (lvwFindPeople.SelectedItems.Count == 0) return UUID.Zero;
 
                 string name = lvwFindPeople.SelectedItems[0].Text;
@@ -181,14 +168,8 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                    ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

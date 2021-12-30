@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
 using System.Globalization;
 
 
@@ -30,12 +29,11 @@ namespace MEGAbolt
 {
     public partial class FindGroups : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
 
         public event EventHandler SelectedIndexChanged;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public FindGroups(MEGAboltInstance instance, UUID queryID)
         {
@@ -45,7 +43,6 @@ namespace MEGAbolt
             QueryID = queryID;
 
             this.instance = instance;
-            //netcom = this.instance.Netcom;
             client = this.instance.Client;
             AddClientEvents();
 
@@ -107,7 +104,7 @@ namespace MEGAbolt
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
+            SelectedIndexChanged?.Invoke(this, e);
         }
 
         private void lvwFindGroups_SelectedIndexChanged(object sender, EventArgs e)
@@ -123,29 +120,19 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindGroups.SelectedItems == null) return -1;
                 if (lvwFindGroups.SelectedItems.Count == 0) return -1;
 
                 return lvwFindGroups.SelectedIndices[0];
             }
         }
 
-        public string SelectedName
-        {
-            get
-            {
-                if (lvwFindGroups.SelectedItems == null) return string.Empty;
-                if (lvwFindGroups.SelectedItems.Count == 0) return string.Empty;
-
-                return lvwFindGroups.SelectedItems[0].Text;
-            }
-        }
+        public string SelectedName => lvwFindGroups.SelectedItems.Count == 0 
+            ? string.Empty : lvwFindGroups.SelectedItems[0].Text;
 
         public UUID SelectedGroupUUID
         {
             get
             {
-                if (lvwFindGroups.SelectedItems == null) return UUID.Zero;
                 if (lvwFindGroups.SelectedItems.Count == 0) return UUID.Zero;
 
                 return (UUID)lvwFindGroups.SelectedItems[0].Tag;
@@ -162,14 +149,8 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                    ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

@@ -36,8 +36,8 @@ namespace MEGAbolt
 {
     public partial class GroupsConsole : UserControl
     {
-        private MEGAboltInstance instance;
-        private GridClient Client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient Client;
         private TabsConsole tabConsole;
 
         internal class ThreadExceptionHandler
@@ -90,10 +90,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    UpdateGroups();
-                }));
+                BeginInvoke(new MethodInvoker(UpdateGroups));
 
                 return;
             }
@@ -111,12 +108,12 @@ namespace MEGAbolt
                         {
                             if (Client.Self.ActiveGroup == group.ID)
                             {
-                                label1.Text = "Current group tag worn: " + group.Name;
+                                label1.Text = $"Current active group tag: {group.Name}";
                             }
                         }
                         else
                         {
-                            label1.Text = "Current group tag worn: None";
+                            label1.Text = "No active group tag set";
                         }
                     }
                 }
@@ -138,7 +135,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Groups Console error: " + ex.Message, Helpers.LogLevel.Error); 
+                Logger.Log("Groups Console error", Helpers.LogLevel.Error, ex); 
             }
         }
 
@@ -286,7 +283,7 @@ namespace MEGAbolt
             {
                 Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
-                DialogResult res = MessageBox.Show("Are you sure you want to LEAVE " + group.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
+                DialogResult res = MessageBox.Show($"Are you sure you want to LEAVE {group.Name}?", "MEGAbolt", MessageBoxButtons.YesNo);
 
                 if (res == DialogResult.No)
                 {

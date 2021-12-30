@@ -21,7 +21,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
@@ -39,13 +38,13 @@ namespace MEGAbolt
 {
     public partial class MainConsole : UserControl, IMEGAboltTabControl
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         private string murl;
         private string clickedurl = string.Empty;
         private Dictionary<string, string> MGrids = new();
-        private List<string> usernlist = new List<string>();
+        private readonly List<string> usernlist = new List<string>();
 
         internal class ThreadExceptionHandler
         {
@@ -202,8 +201,8 @@ namespace MEGAbolt
 
         private class Item
         {
-            public string Name;
-            public string Value;
+            public readonly string Name;
+            public readonly string Value;
 
             public Item(string name, string value)
             {

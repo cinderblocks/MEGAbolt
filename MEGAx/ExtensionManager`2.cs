@@ -40,27 +40,21 @@ namespace MEGAx
 
     private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
     {
-      if (AssemblyLoading == null)
-        return;
-      AssemblyLoading((object) this, e);
+        AssemblyLoading?.Invoke((object) this, e);
     }
 
     public event AssemblyLoadedEventHandler AssemblyLoaded;
 
     private void OnAssemblyLoaded(AssemblyLoadedEventArgs e)
     {
-      if (AssemblyLoaded == null)
-        return;
-      AssemblyLoaded((object) this, e);
+        AssemblyLoaded?.Invoke((object) this, e);
     }
 
     public event AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
 
     private void OnAssemblyFailedLoading(AssemblyFailedLoadingEventArgs e)
     {
-      if (AssemblyFailedLoading == null)
-        return;
-      AssemblyFailedLoading((object) this, e);
+        AssemblyFailedLoading?.Invoke((object) this, e);
     }
 
     public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();

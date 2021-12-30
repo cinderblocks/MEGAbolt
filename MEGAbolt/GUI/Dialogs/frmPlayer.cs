@@ -691,11 +691,9 @@ namespace MEGAbolt
             }
             finally
             {
-                if (mystream != null)
-                    mystream.Close();
+                mystream?.Close();
 
-                if (wresp != null)
-                    wresp.Close();
+                wresp?.Close();
             }
 
             return (bmp);

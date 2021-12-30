@@ -148,7 +148,7 @@ namespace MEGAbolt
         private delegate void OnMapImageRaise(EventArgs e);
         protected virtual void OnMapImageDownloaded(EventArgs e)
         {
-            if (MapImageDownloaded != null) MapImageDownloaded(this, e);
+            MapImageDownloaded?.Invoke(this, e);
         }
 
         public GridRegion Region => region;

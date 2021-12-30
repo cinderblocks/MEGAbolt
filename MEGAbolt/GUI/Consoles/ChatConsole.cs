@@ -604,86 +604,6 @@ namespace MEGAbolt
             }
         }
 
-        private void AddLanguages()
-        {
-            // TODO: This should be converted into a language combobox component at
-            // some stage
-
-            //cboLanguage.Items.Clear();
-            ////cboLanguage.Items.Add("Select...");
-            //cboLanguage.Items.Add(new ComboEx.ICItem("Select...", -1));
-
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Arabic en|ar", 1));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Chineese(simp) en|zh-CN", 2));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Chineese(trad) en|zh-TW", 3));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Croatian en|hr", 4));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Czech en|cs", 5));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Danish en|da", 6));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Dutch en|nl", 7));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Filipino en|tl", 9));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Finnish en|fi", 10));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/French en|fr", 11));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/German en|de", 12));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Greek en|el", 13));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Hebrew en|iw", 14));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Hindi en|hi", 15));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Hungarian en|hu", 16));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Indonesian en|id", 17));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Italian en|it", 18));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Japanese en|ja", 19));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Korean en|ko", 20));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Lithuanian en|lt", 21));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Norwegian en|no", 22));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Polish en|pl", 23));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Portuguese en|p", 24));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Romanian en|ro", 25));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Russian en|ru", 26));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Slovenian en|sl", 27));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Spanish en|es", 28));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Swedish en|sv", 29));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Thai en|th", 30));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Turkish en|tr", 31));
-            //cboLanguage.Items.Add(new ComboEx.ICItem("English/Ukrainian en|uk", 32));
-
-            //cboLanguage.Items.Add("Arabic/English ar|en");
-            //cboLanguage.Items.Add("Chineese(simp)/English zh-CN|en");
-            //cboLanguage.Items.Add("Chineese(trad)/English zh-TW|en");
-            //cboLanguage.Items.Add("Croatian/English hr|en");
-            //cboLanguage.Items.Add("Czech/English cs|en");
-            //cboLanguage.Items.Add("Danish/English da|en");
-            //cboLanguage.Items.Add("Dutch/English nl|en");
-            //cboLanguage.Items.Add("Finnish/English fi|en");
-            //cboLanguage.Items.Add("Filipino/English tl|en");
-            //cboLanguage.Items.Add("French/English fr|en");
-            //cboLanguage.Items.Add("German/English de|en");
-            //cboLanguage.Items.Add("Greek/English el|en");
-            //cboLanguage.Items.Add("Hebrew/English iw|en");
-            //cboLanguage.Items.Add("Hindi/English hi|en");
-            //cboLanguage.Items.Add("Hungarian/English hu|en");
-            //cboLanguage.Items.Add("Indonesian/English id|en");
-            //cboLanguage.Items.Add("Italian/English it|en");
-            //cboLanguage.Items.Add("Japanese/English ja|en");
-            //cboLanguage.Items.Add("Korean/English ko|en");
-            //cboLanguage.Items.Add("Lithuanian/English lt|en");
-            //cboLanguage.Items.Add("Norwegian/English no|en");
-            //cboLanguage.Items.Add("Polish/English pl|en");
-            //cboLanguage.Items.Add("Portuguese/English pt|en");
-            //cboLanguage.Items.Add("Russian/English ru|en");
-            //cboLanguage.Items.Add("Romanian/English ro|en");
-            //cboLanguage.Items.Add("Slovenian/English sl|en");
-            //cboLanguage.Items.Add("Spanish/English es|en");
-            //cboLanguage.Items.Add("Swedish/English sv|en");
-            //cboLanguage.Items.Add("Thai/English th|en");
-            //cboLanguage.Items.Add("Turkish/English tr|en");
-            //cboLanguage.Items.Add("Ukrainian/English uk|en");
-
-            //cboLanguage.Items.Add("German/French de|fr");
-            //cboLanguage.Items.Add("Spanish/French es|fr");
-            //cboLanguage.Items.Add("French/German fr|de");
-            //cboLanguage.Items.Add("French/Spanish fr|es");
-            //cboLanguage.SelectedIndex = 0;
-        }
-
         private void CreateSmileys()
         {
             // TODO: This should be converted into a smiley menu component at
@@ -1081,18 +1001,16 @@ namespace MEGAbolt
             {
                 BeginInvoke(new MethodInvoker(delegate()
                 {
-                    if (e.Type == MeanCollisionType.Bump)
+                    cty = e.Type switch
                     {
-                        cty = "Bumped in by: (" + e.Time.ToString(CultureInfo.CurrentCulture) + " - " + e.Magnitude.ToString(CultureInfo.CurrentCulture) + "): ";
-                    }
-                    else if (e.Type == MeanCollisionType.LLPushObject)
-                    {
-                        cty = "Pushed by: (" + e.Time.ToString(CultureInfo.CurrentCulture) + " - " + e.Magnitude.ToString(CultureInfo.CurrentCulture) + "): ";
-                    }
-                    else if (e.Type == MeanCollisionType.PhysicalObjectCollide)
-                    {
-                        cty = "Physical object collided (" + e.Time.ToString() + " - " + e.Magnitude.ToString(CultureInfo.CurrentCulture) + "): ";
-                    }
+                        MeanCollisionType.Bump =>
+                            $"Bumped in by: ({e.Time.ToString(CultureInfo.CurrentCulture)} - {e.Magnitude.ToString(CultureInfo.CurrentCulture)}): ",
+                        MeanCollisionType.LLPushObject =>
+                            $"Pushed by: ({e.Time.ToString(CultureInfo.CurrentCulture)} - {e.Magnitude.ToString(CultureInfo.CurrentCulture)}): ",
+                        MeanCollisionType.PhysicalObjectCollide =>
+                            $"Physical object collided ({e.Time.ToString(CultureInfo.CurrentCulture)} - {e.Magnitude.ToString(CultureInfo.CurrentCulture)}): ",
+                        _ => cty
+                    };
 
                     ChatManager.PrintAlertMessage(cty + e.Aggressor.ToString());
                 }));
@@ -1248,7 +1166,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Radar update: " + ex.Message, Helpers.LogLevel.Warning);
+                Logger.Log("Radar update", Helpers.LogLevel.Warning, ex);
             }
         }
 
@@ -1635,15 +1553,12 @@ namespace MEGAbolt
             string name = instance.avnames[av];
 
             Avatar sav = new Avatar();
-            sav = CurrentSIM.ObjectsAvatars.Find(delegate(Avatar fa)
-            {
-                return fa.ID == av;
-            }
-            );
+            sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
 
             if (sav == null)
             {
-                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this operation.", "MEGAbolt", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1686,22 +1601,6 @@ namespace MEGAbolt
 
                 ClipboardAsync Clipboard2 = new ClipboardAsync();
 
-                //string ptxt = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
-                //cbxInput.Text += ptxt;
-                ////Clipboard.SetText(" ");
-                ////Clipboard.Clear();
-                ////string fgt = Clipboard.GetText();
-                ////Clipboard.SetText(ptxt);
-
-                ////////pasted = true;
-                ////string ptxt = Clipboard.GetText().Replace(Environment.NewLine, "\r\n");
-
-                ////Clipboard.SetText(" ");
-                ////string fgt = Clipboard.GetText();
-                ////Clipboard.Clear();
-                ////Clipboard.SetText(ptxt); 
-                ////cbxInput.Text += ptxt;
-
                 string insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
                 int selectionIndex = textBox1.SelectionStart;
                 cbxInput.Text = cbxInput.Text.Insert(selectionIndex, insertText);
@@ -1714,12 +1613,18 @@ namespace MEGAbolt
             if (e.KeyCode != Keys.Enter) return;
             e.SuppressKeyPress = true;
 
-            if (e.Control && e.Shift)
-                ProcessChatInput(cbxInput.Text, ChatType.Whisper);
-            else if (e.Control)
-                ProcessChatInput(cbxInput.Text, ChatType.Shout);
-            else
-                ProcessChatInput(cbxInput.Text, ChatType.Normal);
+            switch (e.Control)
+            {
+                case true when e.Shift:
+                    ProcessChatInput(cbxInput.Text, ChatType.Whisper);
+                    break;
+                case true:
+                    ProcessChatInput(cbxInput.Text, ChatType.Shout);
+                    break;
+                default:
+                    ProcessChatInput(cbxInput.Text, ChatType.Normal);
+                    break;
+            }
         }
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1729,16 +1634,13 @@ namespace MEGAbolt
 
         private void tbtnAddFriend_Click(object sender, EventArgs e)
         {
-            //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            //if (av == null) return;
-
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
             string name = instance.avnames[av];
 
-            Boolean fFound = true;
+            bool fFound = true;
 
             client.Friends.FriendList.ForEach(delegate(FriendInfo friend)
             {
@@ -1756,9 +1658,6 @@ namespace MEGAbolt
 
         private void tbtnFreeze_Click(object sender, EventArgs e)
         {
-            //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            //if (av == null) return;
-
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.FreezeUser(av, true);
@@ -1766,9 +1665,6 @@ namespace MEGAbolt
 
         private void tbtnBan_Click(object sender, EventArgs e)
         {
-            //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            //if (av == null) return;
-
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.EjectUser(av, true);
@@ -1776,9 +1672,6 @@ namespace MEGAbolt
 
         private void tbtnEject_Click_1(object sender, EventArgs e)
         {
-            //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            //if (av == null) return;
-
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.EjectUser(av, false);
@@ -1786,76 +1679,6 @@ namespace MEGAbolt
 
         private void rtbChat_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void rtbChat_TextChanged_1(object sender, EventArgs e)
-        {
-            ////int i = rtbChat.Lines.Length;
-
-            ////if (i > 10)
-            ////{
-            ////    int lineno = i-10;
-            ////    int chars = rtbChat.GetFirstCharIndexFromLine(lineno);
-            ////    rtbChat.SelectionStart = 0;
-            ////    rtbChat.SelectionLength = chars; // rtbChat.Text.IndexOf("\n", 0) + 1;
-            ////    rtbChat.SelectedText = "*** " + lineno.ToString() + "lines purged\n";
-            ////}
-            ////else
-            ////{
-            ////    return;
-            ////}
-
-            ////int lncnt = Convert.ToInt32(rtbChat.Lines.LongLength);
-
-            ////if (lncnt > this.instance.Config.CurrentConfig.lineMax)
-            ////{
-            ////    int numOfLines = 1;
-            ////    var lines = rtbChat.Lines;
-            ////    var newLines = lines.Skip(numOfLines);
-
-            ////    rtbChat.Lines = newLines.ToArray();
-
-            ////    chatManager.ReprintAllText();  
-            ////}
-
-            //int lncnt = Convert.ToInt32(rtbChat.Lines.LongLength);
-            //int maxlines = this.instance.Config.CurrentConfig.lineMax;
-
-            //if (lncnt > maxlines)
-            //{
-            //    int numOfLines = 1;
-            //    var lines = rtbChat.Lines;
-            //    var newLines = lines.Skip(numOfLines);
-
-            //    rtbChat.Lines = newLines.ToArray();
-            //}
-
-            //bool focused = rtbChat.Focused;
-            ////backup initial selection
-            //int selection = rtbChat.SelectionStart;
-            //int length = rtbChat.SelectionLength;
-            ////allow autoscroll if selection is at end of text
-            //bool autoscroll = (selection == rtbChat.Text.Length);
-
-            //if (!autoscroll)
-            //{
-            //    //shift focus from RichTextBox to some other control
-            //    if (focused) cbxInput.Focus();
-            //    //hide selection
-            //    SendMessage(rtbChat.Handle, EM_HIDESELECTION, 1, 0);
-            //}
-            //else
-            //{
-            //    SendMessage(rtbChat.Handle, EM_HIDESELECTION, 0, 0);
-            //    //restore focus to RichTextBox
-            //    if (focused) rtbChat.Focus();
-            //}
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void chkTranslate_CheckedChanged(object sender, EventArgs e)
@@ -1872,29 +1695,7 @@ namespace MEGAbolt
             //}
         }
 
-        //private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (checkBox2.Checked == true)
-        //    {
-        //        (new frmTranslate(instance)).Show();
-        //    }
-        //    else
-        //    {
-        //        (new frmTranslate(instance)).Close();
-        //    }
-        //}
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //(new frmTranslate(instance)).Show();
-        }
-
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
         {
 
         }
@@ -1904,30 +1705,21 @@ namespace MEGAbolt
             set => cbxInput.Text = value;
         }
 
-        //public bool _Search
-        //{
-        //    set { panel7.Visible = value; }
-        //}
-
         private void tbtnGoto_Click(object sender, EventArgs e)
         {
             client.Self.AutoPilotCancel();
 
-            ////Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            ////if (av == null) return;
-
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
-
-            //string name = instance.avnames[av];
 
             Avatar sav = new Avatar();
             sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
 
             if (sav == null)
             {
-                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this operation.", "MEGAbolt",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -1950,7 +1742,8 @@ namespace MEGAbolt
                     {
                         // do nothing
                         client.Self.AutoPilotCancel();
-                        Logger.Log("GoTo cancelled. Could find the object the target avatar is sitting on.", Helpers.LogLevel.Warning);
+                        Logger.Log("GoTo cancelled. Could find the object the target avatar is sitting on.",
+                            Helpers.LogLevel.Warning);
                         return;
                     }
                     else
@@ -1974,40 +1767,18 @@ namespace MEGAbolt
             ulong y = (ulong)pos.Y + followRegionY;
             float z = pos.Z - 1f;
 
-            //if (instance.State.GoName != name)
-            //{
-            //    instance.State.Follow(string.Empty, UUID.Zero);
-
-            //    instance.State.GoTo(string.Empty, UUID.Zero);
-            //    instance.State.GoTo(name, av);
-            //    //tbtnGoto.ToolTipText = "Stop Go to";
-            //}
-            //else
-            //{
-            //    instance.State.GoTo(string.Empty, UUID.Zero);
-            //    //tbtnFollow.ToolTipText = "Go to";
-            //}
-
             client.Self.AutoPilot(x, y, z);
         }
 
         private void tbtnTurn_Click(object sender, EventArgs e)
         {
-            //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
-            //if (av == null) return;
 
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            //string name = instance.avnames[av];
-
             Avatar sav = new Avatar();
-            sav = CurrentSIM.ObjectsAvatars.Find(delegate(Avatar fa)
-             {
-                 return fa.ID == av;
-             }
-             );
+            sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
 
             if (sav != null)
             {
@@ -2024,7 +1795,8 @@ namespace MEGAbolt
             }
             else
             {
-                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -2174,50 +1946,22 @@ namespace MEGAbolt
             switch (key)
             {
                 case 33: // <--- page up.
-                    if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
-                    {
-                        up(true);
-                    }
-                    else
-                    {
-                        up(false);
-                    }
+                    up(m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN);
                     break;
                 case 34: // <--- page down.
-                    if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
-                    {
-                        dwn(true);
-                    }
-                    else
-                    {
-                        dwn(false);
-                    }
+                    dwn(m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN);
                     break;
                 case 37: // <--- left arrow.
                     lft();
                     break;
                 case 38: // <--- up arrow.
-                    if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
-                    {
-                        fwd(true);
-                    }
-                    else
-                    {
-                        fwd(false);
-                    }
+                    fwd(m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN);
                     break;
                 case 39: // <--- right arrow.
                     rgt();
                     break;
                 case 40: // <--- down arrow.
-                    if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
-                    {
-                        bck(true);
-                    }
-                    else
-                    {
-                        bck(false);
-                    }
+                    bck(m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN);
                     break;
                 case 114: // <--- F3 Key
                     if (!checkBox5.Checked) return false; 
@@ -2372,15 +2116,10 @@ namespace MEGAbolt
             if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
-                if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
-                {
-                    // Save the contents of the RichTextBox into the file.
-                    rtbChat.SaveFile(saveFile1.FileName, RichTextBoxStreamType.RichText);
-                }
-                else
-                {
-                    rtbChat.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
-                }
+                rtbChat.SaveFile(saveFile1.FileName,
+                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                        ? RichTextBoxStreamType.RichText
+                        : RichTextBoxStreamType.PlainText);
             }
 
             saveFile1.Dispose(); 
@@ -3074,7 +2813,8 @@ namespace MEGAbolt
             }
             else
             {
-                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+                MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);  
             }
         }
 
@@ -3136,50 +2876,10 @@ namespace MEGAbolt
                 tbtnEject.Enabled =
                 tbtnAttachments.Enabled =
                 tbtnProfile.Enabled = false;
-
-            //if (!instance.Config.CurrentConfig.iRadar)
-            //{
-            //    UpdateRadar();
-            //}
         }
 
         private void ChatConsole_SizeChanged(object sender, EventArgs e)
         {
-            //newsize = tabPage2.Width - 40;
-
-            //px = world.Top;
-            //py = world.Left;
-
-            //System.Drawing.Size sz = new Size();
-            //sz.Height = newsize;
-            //sz.Width = newsize;
-
-            //panel6.Size = sz;
-
-            //lvwRadar.Columns[0].Width = lvwRadar.Width - 3;
-
-            //if (instance.MainForm.WindowState == FormWindowState.Maximized)
-            //{
-            //    px = world.Top;
-            //    py = world.Left;
-
-            //    System.Drawing.Size sz = new Size();
-            //    sz.Height = 256;
-            //    sz.Width = 256;
-
-            //    panel6.Size = sz;
-            //}
-            //else
-            //{
-            //    System.Drawing.Size sz = new Size();
-            //    sz.Height = 140;
-            //    sz.Width = 140;
-
-            //    panel6.Size = sz;
-
-            //    world.Top = px;
-            //    world.Left = py;
-            //}
         }
 
         private void lvwRadar_KeyUp(object sender, KeyEventArgs e)
@@ -3254,9 +2954,6 @@ namespace MEGAbolt
             }
 
             prevsearchtxt = tsFindText.Text.Trim();
-
-            //int linenumber = rtbScript.GetLineFromCharIndex(rtbScript.SelectionStart) + 1;
-            //Point pnt = rtbScript.GetPositionFromCharIndex(rtbScript.SelectionStart);
 
             if (tsFindText.Text.Length > 0)
                 startindex = FindNext(tsFindText.Text.Trim(), start, rtbChat.Text.Length);
@@ -3371,28 +3068,15 @@ namespace MEGAbolt
 
             try
             {
-                string s = string.Empty;
-
-                if (state == VoiceGateway.ConnectionState.AccountLogin)
+                string s = state switch
                 {
-                    s = "Logging In...";
-                }
-                else if (state == VoiceGateway.ConnectionState.ConnectorConnected)
-                {
-                    s = "Connected...";
-                }
-                else if (state == VoiceGateway.ConnectionState.DaemonConnected)
-                {
-                    s = "Daemon Connected. Starting...";
-                }
-                else if (state == VoiceGateway.ConnectionState.DaemonStarted)
-                {
-                    s = "Daemon Started. Please wait...";
-                }
-                else if (state == VoiceGateway.ConnectionState.SessionRunning)
-                {
-                    s = "Session Started & Ready";
-                }
+                    VoiceGateway.ConnectionState.AccountLogin => "Logging In...",
+                    VoiceGateway.ConnectionState.ConnectorConnected => "Connected...",
+                    VoiceGateway.ConnectionState.DaemonConnected => "Daemon Connected. Starting...",
+                    VoiceGateway.ConnectionState.DaemonStarted => "Daemon Started. Please wait...",
+                    VoiceGateway.ConnectionState.SessionRunning => "Session Started & Ready",
+                    _ => string.Empty
+                };
 
                 label18.Text = s;
             }
@@ -3791,47 +3475,44 @@ namespace MEGAbolt
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)
         {
-            if (foundfolders == null) return;
+            if (foundfolders is not { Count: > 0 }) return;
 
-            if (foundfolders.Count > 0)
+            tsFavs.Visible = true;
+            tsFavs.Items.Clear();
+
+            foreach (InventoryBase oitem in foundfolders)
             {
-                tsFavs.Visible = true;
-                tsFavs.Items.Clear();
+                InventoryItem item = (InventoryItem)oitem;
 
-                foreach (InventoryBase oitem in foundfolders)
+                if (item.InventoryType == InventoryType.Landmark)
                 {
-                    InventoryItem item = (InventoryItem)oitem;
+                    string iname = item.Name;
+                    string desc = item.Description;
 
-                    if (item.InventoryType == InventoryType.Landmark)
+                    //int twh = tabPage4.Width; 
+
+                    if (iname.Length > 48)
                     {
-                        string iname = item.Name;
-                        string desc = item.Description;
-
-                        //int twh = tabPage4.Width; 
-
-                        if (iname.Length > 48)
-                        {
-                            iname = iname.Substring(0, 48) + "...";
-                        }
-
-                        ToolStripButton btn = new ToolStripButton(iname, null,
-                            FavsToolStripMenuItem_Click, item.AssetUUID.ToString())
-                        {
-
-                            //if (!tsFavs.Items.Contains(btn))
-                            //{
-                            TextAlign = ContentAlignment.MiddleLeft,
-                            ToolTipText = desc
-                        };
-                        tsFavs.Items.Add(btn);
-
-                        ToolStripSeparator sep = new ToolStripSeparator();
-                        tsFavs.Items.Add(sep);
-                        //}
-
-                        //sep.Dispose(); 
-                        //btn.Dispose(); 
+                        iname = iname.Substring(0, 48) + "...";
                     }
+
+                    ToolStripButton btn = new ToolStripButton(iname, null,
+                        FavsToolStripMenuItem_Click, item.AssetUUID.ToString())
+                    {
+
+                        //if (!tsFavs.Items.Contains(btn))
+                        //{
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        ToolTipText = desc
+                    };
+                    tsFavs.Items.Add(btn);
+
+                    ToolStripSeparator sep = new ToolStripSeparator();
+                    tsFavs.Items.Add(sep);
+                    //}
+
+                    //sep.Dispose(); 
+                    //btn.Dispose(); 
                 }
             }
         }
@@ -3852,39 +3533,16 @@ namespace MEGAbolt
             client.Self.Teleport(landmark);
         }
 
-        //[DllImport("user32.dll")]
-        //static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, Int32 wParam, Int32 lParam);
-
-        //const int WM_USER = 0x400;
-        //const int EM_HIDESELECTION = WM_USER + 63;
-        //int cpos = 0;
-
         private void rtbChat_Click(object sender, EventArgs e)
         {
-            //rtbChat.HideSelection = true;
-            //SendMessage(rtbChat.Handle, EM_HIDESELECTION, 1, 0);
-            //cpos = rtbChat.SelectionStart;
-
-            ////LockWindow(this.Handle);
-            ////rtbChat.SuspendLayout();  
         }
 
         private void rtbChat_Leave(object sender, EventArgs e)
         {
-            ////rtbChat.HideSelection = false;
-
-            //SendMessage(rtbChat.Handle, EM_HIDESELECTION, 0, 0);
-
-            //rtbChat.SelectionStart = cpos;
-            //cpos = 0;
-            ////LockWindow(IntPtr.Zero);
         }
 
         private void rtbChat_Enter(object sender, EventArgs e)
         {
-            ////rtbChat.HideSelection = true;
-            //SendMessage(rtbChat.Handle, EM_HIDESELECTION, 1, 0);
-            //cpos = rtbChat.SelectionStart;
         }
 
         private void world_DoubleClick(object sender, EventArgs e)

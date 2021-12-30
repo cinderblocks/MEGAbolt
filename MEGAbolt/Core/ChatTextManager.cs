@@ -571,7 +571,7 @@ namespace MEGAbolt
 
                     TextPrinter.SetSelectionForeColor(Color.Gray);
 
-                    if (item.Style == ChatBufferTextStyle.StatusDarkBlue || item.Style == ChatBufferTextStyle.Alert)
+                    if (item.Style is ChatBufferTextStyle.StatusDarkBlue or ChatBufferTextStyle.Alert)
                     {
                         //textPrinter.PrintText("\n" + dte.ToString("[HH:mm] "));
                         prefix = "\n" + dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
@@ -628,7 +628,7 @@ namespace MEGAbolt
 
                         //textPrinter.ForeColor = Color.Gray;
 
-                        if (item.Style == ChatBufferTextStyle.StatusDarkBlue || item.Style == ChatBufferTextStyle.Alert)
+                        if (item.Style is ChatBufferTextStyle.StatusDarkBlue or ChatBufferTextStyle.Alert)
                         {
                             prefix = "\n" + dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
                             //prefix = dte.ToString("[HH:mm] ");

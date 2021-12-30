@@ -28,15 +28,14 @@ namespace MEGAbolt
 {
     public partial class FindEvents : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private float fX;
         private float fY;
         private float fZ;
 
         public event EventHandler SelectedIndexChanged;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public FindEvents(MEGAboltInstance instance, UUID queryID)
         {
@@ -46,7 +45,6 @@ namespace MEGAbolt
             QueryID = queryID;
 
             this.instance = instance;
-            //netcom = this.instance.Netcom;
             client = this.instance.Client;
             AddClientEvents();
 
@@ -99,13 +97,13 @@ namespace MEGAbolt
             if (matchedEvent.Duration > 59)
             {
                 uint dur = matchedEvent.Duration/60;
-                textBox5.Text = dur.ToString(CultureInfo.CurrentCulture) + " hours"; 
+                textBox5.Text = $"{dur.ToString(CultureInfo.CurrentCulture)} hours"; 
             }
             else
             {
-                textBox5.Text = matchedEvent.Duration.ToString(CultureInfo.CurrentCulture) + " minutes";
+                textBox5.Text = $"{matchedEvent.Duration.ToString(CultureInfo.CurrentCulture)} minutes";
             }
-            textBox6.Text = matchedEvent.Date.ToString();
+            textBox6.Text = matchedEvent.Date;
 
             // Get region handle
             //ulong regionhand =Helpers.UIntsToLong((uint)(matchedEvent.GlobalPos.X - (matchedEvent.GlobalPos.X % 256)), (uint)(matchedEvent.GlobalPos.Y - (matchedEvent.GlobalPos.Y % 256)));
@@ -129,7 +127,7 @@ namespace MEGAbolt
             }
             else
             {
-                textBox9.Text = "L$ " + matchedEvent.Cover.ToString(CultureInfo.CurrentCulture);
+                textBox9.Text = $"L${matchedEvent.Cover.ToString(CultureInfo.CurrentCulture)}";
             }
 
             textBox1.Text = matchedEvent.Desc.ToString();
@@ -159,12 +157,7 @@ namespace MEGAbolt
                 try
                 {
                     string fullName = events.Name;
-                    bool fx = false;
-
-                    if (LLUUIDs.ContainsKey(fullName))
-                    {
-                        fx = true;
-                    }
+                    bool fx = LLUUIDs.ContainsKey(fullName);
 
                     if (!fx)
                     {
@@ -210,7 +203,7 @@ namespace MEGAbolt
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
+            SelectedIndexChanged?.Invoke(this, e);
         }
 
         public SafeDictionary<string, uint> LLUUIDs { get; }
@@ -221,29 +214,19 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindEvents.SelectedItems == null) return -1;
                 if (lvwFindEvents.SelectedItems.Count == 0) return -1;
 
                 return lvwFindEvents.SelectedIndices[0];
             }
         }
 
-        public string SelectedName
-        {
-            get
-            {
-                if (lvwFindEvents.SelectedItems == null) return string.Empty;
-                if (lvwFindEvents.SelectedItems.Count == 0) return string.Empty;
-
-                return lvwFindEvents.SelectedItems[0].Text;
-            }
-        }
+        public string SelectedName => lvwFindEvents.SelectedItems.Count == 0 
+            ? string.Empty : lvwFindEvents.SelectedItems[0].Text;
 
         public string SelectedTime
         {
             get
             {
-                if (lvwFindEvents.SelectedItems == null) return "";
                 if (lvwFindEvents.SelectedItems.Count == 0) return "";
 
                 string sTime = lvwFindEvents.SelectedItems[0].SubItems[0].Text;
@@ -256,7 +239,6 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindEvents.SelectedItems == null) return 0;
                 if (lvwFindEvents.SelectedItems.Count == 0) return 0;
 
                 string name = lvwFindEvents.SelectedItems[0].Text;
@@ -292,14 +274,8 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                    ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

@@ -153,7 +153,7 @@ namespace MEGAbolt
         private delegate void OnPropReceivedRaise(EventArgs e);
         protected virtual void OnPropertiesReceived(EventArgs e)
         {
-            if (PropertiesReceived != null) PropertiesReceived(this, e);
+            PropertiesReceived?.Invoke(this, e);
         }
 
         public Primitive Prim { get; } = new Primitive();

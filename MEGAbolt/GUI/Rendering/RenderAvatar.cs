@@ -1221,7 +1221,7 @@ namespace MEGAbolt.Rendering
                         //warning struct copy non reference
                         binBVHJointState state = (binBVHJointState)ar.anim.joints[jpos].Tag;
 
-                        if (ar.playstate == animationwrapper.animstate.STATE_STOP || ar.playstate == animationwrapper.animstate.STATE_EASEOUT)
+                        if (ar.playstate is animationwrapper.animstate.STATE_STOP or animationwrapper.animstate.STATE_EASEOUT)
                             continue;
 
                         //FIX ME need to consider ease out here on priorities somehow
@@ -2169,7 +2169,7 @@ namespace MEGAbolt.Rendering
 
         public static Vector3 XmlParseVector(string data)
         {
-            string[] posparts = data.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            string[] posparts = data.Split(Array.Empty<char>(), StringSplitOptions.RemoveEmptyEntries);
             return new Vector3(float.Parse(posparts[0], Utils.EnUsCulture), float.Parse(posparts[1], Utils.EnUsCulture), float.Parse(posparts[2], Utils.EnUsCulture));
         }
 

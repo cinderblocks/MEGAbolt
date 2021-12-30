@@ -144,7 +144,7 @@ namespace MEGAbolt.FileINI
                 finally
                 {
                     // *** Cleanup: close file ***
-                    if (sr != null) sr.Close();
+                    sr?.Close();
                     sr = null;
                 }
             }
@@ -194,7 +194,7 @@ namespace MEGAbolt.FileINI
                 finally
                 {
                     // *** Cleanup: close file ***
-                    if (sw != null) sw.Close();
+                    sw?.Close();
                     sw = null;
                 }
             }

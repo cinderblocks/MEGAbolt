@@ -426,10 +426,7 @@ namespace MEGAbolt
 
         void glControl_Disposed(object sender, EventArgs e)
         {
-            if (cancellationTokenSource != null)
-            {
-                cancellationTokenSource.Cancel();
-            }
+            cancellationTokenSource?.Cancel();
             while (!PendingTextures.IsEmpty)
             {
                 PendingTextures.TryDequeue(out _);

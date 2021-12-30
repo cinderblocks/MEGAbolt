@@ -98,10 +98,7 @@ namespace MEGAbolt
 
         private void OnCheckChanged(object sender, EventArgs e)
         {
-            if (CheckedChanged != null)
-            {
-                CheckedChanged(this, e);
-            }
+            CheckedChanged?.Invoke(this, e);
         }
     }
 }

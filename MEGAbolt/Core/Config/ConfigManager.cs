@@ -147,7 +147,7 @@ namespace MEGAbolt
         public event EventHandler<ConfigAppliedEventArgs> ConfigApplied;
         protected virtual void OnConfigApplied(ConfigAppliedEventArgs e)
         {
-            if (ConfigApplied != null) ConfigApplied(this, e);
+            ConfigApplied?.Invoke(this, e);
         }
 
         public Config CurrentConfig { get; private set; }

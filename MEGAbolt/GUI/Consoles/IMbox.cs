@@ -32,11 +32,11 @@ namespace MEGAbolt
 {
     public partial class IMbox : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         private GridClient client;
-        private MEGAboltNetcom netcom;
-        private TabsConsole tabsconsole;
-        private Popup toolTip;
+        private readonly MEGAboltNetcom netcom;
+        private readonly TabsConsole tabsconsole;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
 
         internal class ThreadExceptionHandler

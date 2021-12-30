@@ -183,7 +183,7 @@ namespace MEGAbolt.Media
                         VERSION.number.ToString("X") + ".");
 
                 // Try to detect sound system used
-                if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+                if (Environment.OSVersion.Platform is PlatformID.Unix or PlatformID.MacOSX)
                 {
                     bool audioOK = false;
                     var res = system.setOutput(OUTPUTTYPE.COREAUDIO);

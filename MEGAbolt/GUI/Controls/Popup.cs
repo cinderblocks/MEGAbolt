@@ -50,8 +50,7 @@ namespace MEGAbolt.Controls
     {
       if (disposing)
       {
-        if (components != null)
-          components.Dispose();
+          components?.Dispose();
         if (Content != null)
         {
           Control content = Content;

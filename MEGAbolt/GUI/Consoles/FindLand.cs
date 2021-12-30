@@ -20,10 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using OpenMetaverse;
-//using MEGAbolt.NetworkComm;
 using System.Linq;
 using System.Globalization;
 
@@ -31,19 +29,18 @@ namespace MEGAbolt
 {
     public partial class FindLand : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private float fX;
         private float fY;
         private float fZ;
         //private string sSIM;
 
-        private SafeDictionary<string, DirectoryManager.DirectoryParcel> findLandResults;
+        private readonly SafeDictionary<string, DirectoryManager.DirectoryParcel> findLandResults;
         //private DirectoryManager.DirectoryParcel EmptyPlace;
 
         public event EventHandler SelectedIndexChanged;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public FindLand(MEGAboltInstance instance, UUID queryID)
         {
@@ -53,7 +50,6 @@ namespace MEGAbolt
             QueryID = queryID;
 
             this.instance = instance;
-            //netcom = this.instance.Netcom;
             client = this.instance.Client;
 
             AddClientEvents();
@@ -105,13 +101,7 @@ namespace MEGAbolt
                 try
                 {
                     string fullName = places.Name;
-                    bool fx = false;
-
-                    if (findLandResults.ContainsKey(fullName))
-                    {
-                        //DirectoryManager.DirectoryParcel pcl = findLandResults[fullName];
-                        fx = true; 
-                    }
+                    bool fx = findLandResults.ContainsKey(fullName);
 
                     if (!fx)
                     {
@@ -179,7 +169,7 @@ namespace MEGAbolt
             txtName.Text = place.Name;
 
             txtDescription.Text = place.Description;
-            txtInformation.Text = "Traffic: " + place.Dwell + " Area: " + place.ActualArea.ToString(CultureInfo.CurrentCulture) + " sq. m. " + sForSale;
+            txtInformation.Text = $"Traffic: {place.Dwell} Area: {place.ActualArea.ToString(CultureInfo.CurrentCulture)} sq. m. {sForSale}";
             chkMature.Checked = place.Mature;   
 
             // Convert Global pos to local
@@ -213,7 +203,7 @@ namespace MEGAbolt
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
+            SelectedIndexChanged?.Invoke(this, e);
         }
 
 
@@ -223,7 +213,6 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindLand.SelectedItems == null) return -1;
                 if (lvwFindLand.SelectedItems.Count == 0) return -1;
 
                 return lvwFindLand.SelectedIndices[0];
@@ -240,7 +229,6 @@ namespace MEGAbolt
                     Name = string.Empty
                 };
 
-                if (lvwFindLand.SelectedItems == null) return pcl;
                 if (lvwFindLand.SelectedItems.Count == 0) return pcl;
 
                 string name = lvwFindLand.SelectedItems[0].Text;
@@ -254,14 +242,8 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                    ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

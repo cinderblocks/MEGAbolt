@@ -609,7 +609,7 @@ namespace MEGAbolt
             this.rtbChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbChat_LinkClicked);
             this.rtbChat.Click += new System.EventHandler(this.rtbChat_Click);
             this.rtbChat.SizeChanged += new System.EventHandler(this.rtbChat_SizeChanged);
-            this.rtbChat.TextChanged += new System.EventHandler(this.rtbChat_TextChanged_1);
+            this.rtbChat.TextChanged += new System.EventHandler(this.rtbChat_TextChanged);
             this.rtbChat.Enter += new System.EventHandler(this.rtbChat_Enter);
             this.rtbChat.Leave += new System.EventHandler(this.rtbChat_Leave);
             // 

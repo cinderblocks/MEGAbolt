@@ -545,7 +545,7 @@ namespace MEGAbolt
                     Client.Assets.RequestImage(Group.InsigniaID, ImageType.Normal,
                         delegate(TextureRequestState state, AssetTexture assetTexture)
                         {
-                            if (state != TextureRequestState.Timeout || state != TextureRequestState.NotFound)
+                            if (state is not (TextureRequestState.Timeout and TextureRequestState.NotFound))
                             {
                                 using var reader = new Reader(assetTexture.AssetData);
                                 reader.ReadHeader();

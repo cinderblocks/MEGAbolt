@@ -37,17 +37,17 @@ namespace MEGAbolt
 {
     public partial class IMTabWindowGroup : UserControl
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         private bool typing = false;
-        private OpenMetaverse.Group imgroup;
+        private readonly OpenMetaverse.Group imgroup;
         //private bool pasted = false;
         private SafeDictionary<UUID, string> people = new SafeDictionary<UUID, string>();
-        ManualResetEvent WaitForSessionStart = new ManualResetEvent(false);
+        readonly ManualResetEvent WaitForSessionStart = new ManualResetEvent(false);
         private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
-        private TabsConsole tab;
+        private readonly TabsConsole tab;
         private bool hideparts = false;
 
         private WordList spellChecker = null;
@@ -72,7 +72,7 @@ namespace MEGAbolt
             
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
-            label1.Text = "Starting session with " + grp.Name + " please wait...";
+            label1.Text = $"Starting session with {grp.Name}. Please wait...";
             label1.Visible = true;
 
             this.instance = instance;
@@ -94,8 +94,6 @@ namespace MEGAbolt
 
             ApplyConfig(this.instance.Config.CurrentConfig);
             this.instance.Config.ConfigApplied += Config_ConfigApplied;
-
-            //people = new SafeDictionary<UUID, string>();
 
             client.Self.GroupChatJoined += Self_OnGroupChatJoin;
             client.Self.ChatSessionMemberAdded += Self_OnChatSessionMemberAdded;
@@ -130,7 +128,6 @@ namespace MEGAbolt
             }
             else
             {
-                //BeginInvoke(new MethodInvoker(Group_JoinError));
                 BeginInvoke(new MethodInvoker(delegate()
                 {
                     try
@@ -979,7 +976,7 @@ namespace MEGAbolt
             if ((m.Msg != WM_CHAR) && (m.Msg != WM_SYSCHAR) && (m.Msg != WM_IME_CHAR))
             {
                 e = new KeyEventArgs(((Keys)((int)((long)m.WParam))) | ModifierKeys);
-                if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
+                if (m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN)
                 {
                     TrappedKeyDown(e);
                 }

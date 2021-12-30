@@ -381,7 +381,7 @@ namespace MEGAbolt.Rendering
 
                 if (Meshed)
                 {
-                    if (Prim.Type == PrimType.Sculpt || Prim.Type == PrimType.Mesh)
+                    if (Prim.Type is PrimType.Sculpt or PrimType.Mesh)
                     {
                         var sculptHash = Prim.Sculpt.GetHashCode();
                         if (Prim.Sculpt.GetHashCode() != prevSculptHash || TEHash != prevTEHash)

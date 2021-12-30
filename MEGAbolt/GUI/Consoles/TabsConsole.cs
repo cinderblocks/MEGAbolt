@@ -35,9 +35,9 @@ namespace MEGAbolt
 {
     public partial class TabsConsole : UserControl
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         public ChatConsole chatConsole;
         public SafeDictionary<string, MEGAboltTab> tabs = new SafeDictionary<string, MEGAboltTab>();
         private string TabAgentName = "";

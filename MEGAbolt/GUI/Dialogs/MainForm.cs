@@ -639,8 +639,7 @@ namespace MEGAbolt
 
         private void netcom_InstantMessageReceived(object sender, InstantMessageEventArgs e)
         {
-            if (e.IM.Dialog == InstantMessageDialog.StartTyping ||
-                e.IM.Dialog == InstantMessageDialog.StopTyping)
+            if (e.IM.Dialog is InstantMessageDialog.StartTyping or InstantMessageDialog.StopTyping)
                 return;
 
             // Check to see if group IMs or Notices are disabled
@@ -1065,15 +1064,12 @@ namespace MEGAbolt
             //IExtension extInstance = extobj.Instance; 
 
             //If we have an instance, call process!
-            if (extInstance != null)
-            {
-                //if (!manager.Extensions.Contains(extobj))
-                //{
-                //    manager.LoadExtension(extobj.Filename);
-                //}
+            //if (!manager.Extensions.Contains(extobj))
+            //{
+            //    manager.LoadExtension(extobj.Filename);
+            //}
 
-                extInstance.Process(instance);
-            }
+            extInstance?.Process(instance);
         }
 
         #region IHost Members

@@ -30,16 +30,16 @@ namespace MEGAbolt
 {
     public partial class SearchConsole : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
+        private readonly GridClient client;
 
-        private TabsConsole tabConsole;
-        private FindPeopleConsole console;
-        private FindEvents eventsconsole;
-        private FindPlaces placesconsole;
-        private FindGroups groupsconsole;
-        private FindLand landconsole;
+        private readonly TabsConsole tabConsole;
+        private readonly FindPeopleConsole console;
+        private readonly FindEvents eventsconsole;
+        private readonly FindPlaces placesconsole;
+        private readonly FindGroups groupsconsole;
+        private readonly FindLand landconsole;
 
         private string lastQuery = string.Empty;
         private int startResult = 0;
@@ -261,7 +261,7 @@ namespace MEGAbolt
             if (groupsconsole.QueryID != queryID) return;
 
             totalResults += matchedGroups.Count;
-            lblGroupsFound.Text = totalResults.ToString(CultureInfo.CurrentCulture) + " groups found";
+            lblGroupsFound.Text = $"{totalResults.ToString(CultureInfo.CurrentCulture)} groups found";
 
             txtGroups.Enabled = true;
             btnFindGroups.Enabled = true;
@@ -282,7 +282,7 @@ namespace MEGAbolt
             if (console.QueryID != queryID) return;
 
             totalResults += matchedPeople.Count;
-            lblResultCount.Text = totalResults.ToString(CultureInfo.CurrentCulture) + " people found";
+            lblResultCount.Text = $"{totalResults.ToString(CultureInfo.CurrentCulture)} people found";
 
             txtPersonName.Enabled = true;
             btnFind.Enabled = true;
@@ -302,7 +302,7 @@ namespace MEGAbolt
             if (eventsconsole.QueryID != queryID) return;
 
             totalResults += matchedEvents.Count;
-            lblEventsCount.Text = totalResults.ToString(CultureInfo.CurrentCulture) + " events found";
+            lblEventsCount.Text = $"{totalResults.ToString(CultureInfo.CurrentCulture)} events found";
 
             txtEvents.Enabled = true;
             btnFindEvents.Enabled = true;
@@ -322,7 +322,7 @@ namespace MEGAbolt
             if (placesconsole.QueryID != queryID) return;
 
             totalResults += matchedPlaces.Count;
-            lblPlacesCount.Text = totalResults.ToString(CultureInfo.CurrentCulture) + " places found";
+            lblPlacesCount.Text = $"{totalResults.ToString(CultureInfo.CurrentCulture)} places found";
 
             txtPlaces.Enabled = true;
             btnFindPlaces.Enabled = true;
@@ -342,7 +342,7 @@ namespace MEGAbolt
             //if (placesconsole.QueryID != queryID) return;
 
             totalResults += matchedPlaces.Count;
-            lblLandCount.Text = totalResults.ToString(CultureInfo.CurrentCulture) + " parcels found";
+            lblLandCount.Text = $"{totalResults.ToString(CultureInfo.CurrentCulture)} parcels found";
 
             txtLand.Enabled = true;
             btnFindLand.Enabled = true;
@@ -435,7 +435,7 @@ namespace MEGAbolt
             console.Controls["pPeople"].Visible = true;
 
             totalResults = 0;
-            lblResultCount.Text = "Searching for " + lastQuery;
+            lblResultCount.Text = $"Searching for {lastQuery}";
 
             txtPersonName.Enabled = false;
             btnFind.Enabled = false;
@@ -461,7 +461,7 @@ namespace MEGAbolt
             eventsconsole.Controls["pEvents"].Visible = true;
    
             totalResults = 0;
-            lblEventsCount.Text = "Searching for " + lastQuery;
+            lblEventsCount.Text = $"Searching for {lastQuery}";
 
             txtEvents.Enabled = false;
             btnFindEvents.Enabled = false;
@@ -486,7 +486,7 @@ namespace MEGAbolt
             placesconsole.Controls["pPlaces"].Visible = true;
 
             totalResults = 0;
-            lblPlacesCount.Text = "Searching for " + lastQuery;
+            lblPlacesCount.Text = $"Searching for {lastQuery}";
 
             txtPlaces.Enabled = false;
             btnFindPlaces.Enabled = false;
@@ -520,7 +520,7 @@ namespace MEGAbolt
             groupsconsole.Controls["pGroups"].Visible = true;
             totalResults = 0;
 
-            lblGroupsFound.Text = "Searching for " + lastQuery;
+            lblGroupsFound.Text = $"Searching for {lastQuery}";
 
             txtGroups.Enabled = false;
             btnFindGroups.Enabled = false;
@@ -771,7 +771,7 @@ namespace MEGAbolt
             landconsole.Controls["pLand"].Visible = true;
 
             totalResults = 0;
-            lblLandCount.Text = "Searching for " + lastQuery;
+            lblLandCount.Text = $"Searching for {lastQuery}";
 
             txtLand.Enabled = false;
             btnFindLand.Enabled = false;
@@ -890,7 +890,6 @@ namespace MEGAbolt
                         else
                         {
                             client.Directory.StartLandSearch(dflag | DirectoryManager.DirFindFlags.LimitByArea | DirectoryManager.DirFindFlags.LimitByPrice, sflag, price, area, startResult);
-                            //client.Directory.StartLandSearch(DirectoryManager.DirFindFlags.ForSale | DirectoryManager.DirFindFlags.PerMeterSort | DirectoryManager.DirFindFlags.IncludeMature | DirectoryManager.DirFindFlags.IncludeAdult | DirectoryManager.DirFindFlags.IncludePG, sflag, price, area, startResult);
                         }
                     }
                 }

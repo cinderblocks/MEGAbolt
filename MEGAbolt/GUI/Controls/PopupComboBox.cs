@@ -40,10 +40,8 @@ namespace MEGAbolt.Controls
     {
       if (disposing)
       {
-        if (components != null)
-          components.Dispose();
-        if (dropDown != null)
-          dropDown.Dispose();
+          components?.Dispose();
+          dropDown?.Dispose();
       }
       base.Dispose(disposing);
     }
@@ -102,8 +100,7 @@ namespace MEGAbolt.Controls
         return;
       if ((DateTime.UtcNow - dropDownHideTime).TotalSeconds > 0.5)
       {
-        if (DropDown != null)
-          DropDown((object) this, EventArgs.Empty);
+          DropDown?.Invoke((object) this, EventArgs.Empty);
         dropDown.Show((Control) this);
       }
       else
@@ -120,9 +117,7 @@ namespace MEGAbolt.Controls
       if (dropDown == null)
         return;
       dropDown.Hide();
-      if (DropDownClosed == null)
-        return;
-      DropDownClosed((object) this, EventArgs.Empty);
+      DropDownClosed?.Invoke((object) this, EventArgs.Empty);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]

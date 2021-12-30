@@ -178,9 +178,7 @@ namespace MEGAbolt
             //if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.CommandInID)) return;
             //if (e.IM.Message.Contains(this.instance.Config.CurrentConfig.IgnoreUID)) return;
 
-            if (e.IM.Dialog == InstantMessageDialog.StartTyping ||
-                e.IM.Dialog == InstantMessageDialog.StopTyping ||
-                e.IM.Dialog == InstantMessageDialog.MessageFromObject)
+            if (e.IM.Dialog is InstantMessageDialog.StartTyping or InstantMessageDialog.StopTyping or InstantMessageDialog.MessageFromObject)
                 return;
 
             string cp = Properties.Resources.ChairPrefix;
@@ -262,7 +260,7 @@ namespace MEGAbolt
                 if (instance.State.IsBusy)
                 {
                     string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                    client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); 
+                    client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); 
                 }
                 else
                 {

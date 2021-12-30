@@ -31,10 +31,9 @@ namespace MEGAbolt
 {
     public partial class FriendsConsole : UserControl
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private FriendInfo selectedFriend;
-        //private SLNetCom netcom;
         private FileConfig fconfig;
         Dictionary<string, Dictionary<string, string>> fgrps;
 
@@ -76,31 +75,11 @@ namespace MEGAbolt
             //InitializeFriendsList();
         }
 
-        //private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
-        //{
-        //    string old = e.OldDisplayName;
-        //    string newname = e.DisplayName.DisplayName;
-        //    //txtDisplayName.Text = newname;
-
-        //    List<FriendInfo> friendslist = this.instance.State.AvatarFriends;
-
-        //    if (friendslist.Count > 0)
-        //    {
-        //        foreach (FriendInfo friend in friendslist)
-        //        {
-        //            if (friend.UUID == e.DisplayName.ID)
-        //            {
-        //                friend.Name = e.DisplayName.DisplayName + " (" + e.DisplayName.UserName + ")";
-        //            }
-        //        }
-        //    }
-        //}
-
         public void InitializeFriendsList()
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(() => InitializeFriendsList()));
+                BeginInvoke(new MethodInvoker(InitializeFriendsList));
                 return;
             }
 
@@ -115,15 +94,6 @@ namespace MEGAbolt
 
                 foreach (FriendInfo friend in friendslist)
                 {
-                    //bool dnavailable = client.Avatars.DisplayNamesAvailable();
-
-                    //if (dnavailable)
-                    //{
-                    //    List<UUID> avIDs = new List<UUID>();
-                    //    avIDs.Add(friend.UUID);
-                    //    //client.Avatars.GetDisplayNames(avIDs, DisplayNameReceived);
-                    //}
-
                     lbxFriends.Items.Add(new FriendsListItem(friend));
                 }
 
@@ -132,41 +102,6 @@ namespace MEGAbolt
 
                 lblFriendName.Text = string.Empty;  
             }
-        }
-
-        private void DisplayNameReceived(bool success, AgentDisplayName[] names, UUID[] badIDs)
-        {
-            //if (success)
-            //{
-            //    this.BeginInvoke(new MethodInvoker(delegate()
-            //    {
-            //        List<FriendInfo> friendslist = this.instance.State.AvatarFriends;
-
-            //        if (friendslist.Count > 0)
-            //        {
-            //            foreach (FriendInfo friend in friendslist)
-            //            {
-            //                if (friend.UUID == names[0].ID)
-            //                {
-            //                    if (names[0].DisplayName != string.Empty)
-            //                    {
-            //                        if (!names[0].DisplayName.ToLower().Contains("resident") && !names[0].DisplayName.ToLower().Contains(" "))
-            //                        {
-            //                            friend.Name = names[0].DisplayName + " (" + names[0].UserName + ")";
-
-            //                            int s = lbxFriends.FindString(names[0].LegacyFullName);
-
-            //                            if (s > -1)
-            //                            {
-            //                                lbxFriends.Items[s] = friend.Name;
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }));
-            //}
         }
 
         public void FriendsConsole_Disposed(object sender, EventArgs e)
@@ -181,23 +116,14 @@ namespace MEGAbolt
 
             try
             {
-                if (fconfig != null)
-                {
-                    fconfig.Save();
-                }
+                fconfig?.Save();
             }
             catch { ; }
         }
 
         private void RefreshFriendsList()
         {
-            //if (InvokeRequired)
-            //{
-            //    BeginInvoke(new MethodInvoker(() => RefreshFriendsList()));
-            //    return;
-            //}
-
-            if (cbofgroups.SelectedIndex == 0 || cbofgroups.SelectedIndex == -1)
+            if (cbofgroups.SelectedIndex is 0 or -1)
             {
                 InitializeFriendsList();
             }
@@ -219,10 +145,7 @@ namespace MEGAbolt
 
             if (e.Accepted)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    RefreshFriendsList();
-                }));
+                BeginInvoke(new MethodInvoker(RefreshFriendsList));
             }
         }
 
@@ -275,10 +198,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
-            {
-                RefreshFriendsList();
-            }));
+            BeginInvoke(new MethodInvoker(RefreshFriendsList));
         }
 
         //Separate thread
@@ -290,10 +210,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
-            {
-                RefreshFriendsList();
-            }));
+            BeginInvoke(new MethodInvoker(RefreshFriendsList));
         }
 
         private void Friends_OnFriendRights(object sender, FriendInfoEventArgs e)
@@ -304,10 +221,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
-            {
-                RefreshFriendsList();
-            }));
+            BeginInvoke(new MethodInvoker(RefreshFriendsList));
         }
 
         private void Friends_OnFriendNamesReceived(object sender, FriendNamesEventArgs e)
@@ -531,7 +445,8 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to terminate\nyour friendship with " + selectedFriend.Name + "?", "MEGAbolt", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show($"Are you sure you want to terminate\nyour friendship with {selectedFriend.Name}?", 
+                "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.No)
             {
@@ -687,7 +602,8 @@ namespace MEGAbolt
             if (e.Data.GetDataPresent(typeof(FriendsListItem)))
             {
                 fconfig.AddFriendToGroup(lbGroups.SelectedItem.ToString(), node.Friend.Name, node.Friend.UUID.ToString());
-                MessageBox.Show(node.Friend.Name + " has been added to your '" + lbGroups.SelectedItem.ToString() + "' group.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"{node.Friend.Name} has been added to your '{lbGroups.SelectedItem}' group.", "MEGAbolt", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

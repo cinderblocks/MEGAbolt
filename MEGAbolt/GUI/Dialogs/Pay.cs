@@ -234,7 +234,7 @@ namespace MEGAbolt
 
             if (oprice != buyprice && buyprice != -1 & oprice != -1)
             {
-                if (Prim.ClickAction == ClickAction.Buy || Prim.ClickAction == ClickAction.Pay)
+                if (Prim.ClickAction is ClickAction.Buy or ClickAction.Pay)
                 {
                     label5.Text = "Buy Price: L$" + oprice;
                     label5.Visible = true;

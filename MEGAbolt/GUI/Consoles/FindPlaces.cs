@@ -28,19 +28,19 @@ namespace MEGAbolt
 {
     public partial class FindPlaces : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
+        private readonly GridClient client;
         private float fX;
         private float fY;
         private float fZ;
         //private string sSIM;
 
-        private SafeDictionary<string, DirectoryManager.DirectoryParcel> findPlacesResults;
+        private readonly SafeDictionary<string, DirectoryManager.DirectoryParcel> findPlacesResults;
         //private DirectoryManager.DirectoryParcel EmptyPlace;
 
         public event EventHandler SelectedIndexChanged;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public FindPlaces(MEGAboltInstance instance, UUID queryID)
         {
@@ -101,13 +101,7 @@ namespace MEGAbolt
                 try
                 {
                     string fullName = places.Name;
-                    bool fx = false;
-
-                    if (findPlacesResults.ContainsKey(fullName))
-                    {
-                        //DirectoryManager.DirectoryParcel pcl = findPlacesResults[fullName];
-                        fx = true; 
-                    }
+                    bool fx = findPlacesResults.ContainsKey(fullName);
 
                     if (!fx)
                     {
@@ -115,7 +109,7 @@ namespace MEGAbolt
                     }
                     else
                     {
-                        fullName += " (" + icnt.ToString(CultureInfo.CurrentCulture) + ")"; 
+                        fullName += $" ({icnt.ToString(CultureInfo.CurrentCulture)})"; 
                         findPlacesResults.Add(fullName, places);
                     }
 
@@ -151,13 +145,13 @@ namespace MEGAbolt
 
             if (place.SalePrice > 0)
             {
-                sForSale = "For Sale for L$" + place.SalePrice.ToString(CultureInfo.CurrentCulture);   
+                sForSale = $"For Sale for L${place.SalePrice.ToString(CultureInfo.CurrentCulture)}";   
             }
 
             txtName.Text = place.Name;
 
             txtDescription.Text = place.Description;
-            txtInformation.Text = "Traffic: " + place.Dwell + " Area: " + place.ActualArea.ToString(CultureInfo.CurrentCulture) + " sq. m. " + sForSale;
+            txtInformation.Text = $"Traffic: {place.Dwell} Area: {place.ActualArea.ToString(CultureInfo.CurrentCulture)} sq. m. {sForSale}";
 
 
             // Convert Global pos to local
@@ -191,7 +185,7 @@ namespace MEGAbolt
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
         {
-            if (SelectedIndexChanged != null) SelectedIndexChanged(this, e);
+            SelectedIndexChanged?.Invoke(this, e);
         }
 
 
@@ -201,7 +195,6 @@ namespace MEGAbolt
         {
             get
             {
-                if (lvwFindPlaces.SelectedItems == null) return -1;
                 if (lvwFindPlaces.SelectedItems.Count == 0) return -1;
 
                 return lvwFindPlaces.SelectedIndices[0];
@@ -218,7 +211,6 @@ namespace MEGAbolt
                     Name = string.Empty
                 };
 
-                if (lvwFindPlaces.SelectedItems == null) return pcl;
                 if (lvwFindPlaces.SelectedItems.Count == 0) return pcl;
 
                 string name = lvwFindPlaces.SelectedItems[0].Text;
@@ -236,14 +228,8 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending
+                    ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

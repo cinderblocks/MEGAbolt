@@ -642,7 +642,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    if (item.InventoryType == InventoryType.Wearable || item.InventoryType == InventoryType.Attachment || item.InventoryType == InventoryType.Object)
+                    if (item.InventoryType is InventoryType.Wearable or InventoryType.Attachment or InventoryType.Object)
                     {
                         //console.Controls["btnDetach"].Visible = true;
                         //console.Controls["btnWear"].Visible = true;
@@ -977,7 +977,7 @@ namespace MEGAbolt
                 //InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;
                 InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-                if (io is InventoryObject || io is InventoryAttachment)
+                if (io is InventoryObject or InventoryAttachment)
                 {
                     try
                     {
@@ -1005,7 +1005,7 @@ namespace MEGAbolt
                     tbtnOrganize.Enabled = false;
                 }
 
-                if (io is InventoryWearable || io is InventoryObject || io is InventoryAttachment)
+                if (io is InventoryWearable or InventoryObject or InventoryAttachment)
                 {
                     wearToolStripMenuItem.Visible = true;
                 }
@@ -2131,7 +2131,7 @@ namespace MEGAbolt
 
                             //InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-                            if (io is InventoryWearable || io is InventoryObject || io is InventoryAttachment)
+                            if (io is InventoryWearable or InventoryObject or InventoryAttachment)
                             {
                                 wearToolStripMenuItem.Visible = true;
                             }
@@ -2151,7 +2151,7 @@ namespace MEGAbolt
 
                         //InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-                        if (io is InventoryWearable || io is InventoryObject || io is InventoryAttachment)
+                        if (io is InventoryWearable or InventoryObject or InventoryAttachment)
                         {
                             wearToolStripMenuItem.Visible = true;
                         }
@@ -2380,7 +2380,7 @@ namespace MEGAbolt
             {
                 client.Inventory.Remove(remclothing, null);
 
-                if (item.AssetType == AssetType.Clothing || item.AssetType == AssetType.Bodypart)
+                if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
                 {
                     client.Appearance.RemoveFromOutfit(item);
                 }
@@ -2390,7 +2390,7 @@ namespace MEGAbolt
                 }
             }
 
-            if (item.AssetType == AssetType.Clothing || item.AssetType == AssetType.Bodypart)
+            if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
             {
                 managerbusy = client.Appearance.ManagerBusy;
                 client.Appearance.AddToOutfit(item, true);
@@ -2500,7 +2500,7 @@ namespace MEGAbolt
 
             selectednode = treeView1.SelectedNode;
 
-            if (item.AssetType == AssetType.Clothing || item.AssetType == AssetType.Bodypart)
+            if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
             {
                 List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
                 List<UUID> remclothing = new List<UUID>();

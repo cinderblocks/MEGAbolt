@@ -26,11 +26,9 @@ namespace MEGAbolt
 {
     public partial class FRTabWindow : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private UUID targetUUID;
-        //private FriendsConsole fconsole;
 
         public FRTabWindow(MEGAboltInstance instance, InstantMessageEventArgs e)
         {
@@ -49,7 +47,7 @@ namespace MEGAbolt
             iSession = e.IM.IMSessionID;
 
             lblSubheading.Text =
-                "You have received a Friendship invite from " + TargetName + "";
+                $"You have received a Friendship invite from {TargetName}";
 
             //rtbOfferMessage.AppendText(e.IM.Message);
         }
@@ -66,18 +64,14 @@ namespace MEGAbolt
 
         public UUID iSession { get; private set; }
 
-        private void btnAccept_Click_1(object sender, EventArgs e)
+        private void btnAccept_Click(object sender, EventArgs e)
         {
             client.Friends.AcceptFriendship(targetUUID, iSession);
-
-            //fconsole = new FriendsConsole(instance); 
-            //fconsole.InitializeFriendsList();
-            ////BeginInvoke(new MethodInvoker(fconsole.InitializeFriendsList()));
-            ////BeginInvoke(new MethodInvoker(fconsole.InitializeFriendsList()));
+            
             CloseTab();
         }
 
-        private void btnDecline_Click_1(object sender, EventArgs e)
+        private void btnDecline_Click(object sender, EventArgs e)
         {
             client.Friends.DeclineFriendship(targetUUID, iSession);
             CloseTab();

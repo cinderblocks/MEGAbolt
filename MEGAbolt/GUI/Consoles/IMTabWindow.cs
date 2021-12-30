@@ -36,14 +36,14 @@ namespace MEGAbolt
 {
     public partial class IMTabWindow : UserControl
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
 
         private bool typing = false;
         //private bool pasted = false;
         //private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
-        private TabsConsole tab;
+        private readonly TabsConsole tab;
 
         private WordList spellChecker = null;
         private string avloc = string.Empty;
@@ -288,7 +288,7 @@ namespace MEGAbolt
                 avloc = "http://slurl.com/secondlife/" + avsim + "/" + (avloccords.X - 1).ToString(CultureInfo.CurrentCulture) + "/" + avloccords.Y.ToString(CultureInfo.CurrentCulture) + "/" + avloccords.Z.ToString(CultureInfo.CurrentCulture);
 
                 tsbLocation.Enabled = true;
-                tsbLocation.ToolTipText = e.IM.FromAgentName + "'s Location";
+                tsbLocation.ToolTipText = $"{e.IM.FromAgentName}'s Location";
             }
         }
 
@@ -733,7 +733,7 @@ namespace MEGAbolt
         {
             if (instance.IsAvatarMuted(TargetId, TargetName))
             {
-                MessageBox.Show(TargetName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show($"{TargetName} is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -744,7 +744,7 @@ namespace MEGAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, TargetId, instance.avnames[TargetId]);
 
-            MessageBox.Show(TargetName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show($"{TargetName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
         }
 
         private void cbxInput_SelectedIndexChanged(object sender, EventArgs e)
@@ -765,7 +765,7 @@ namespace MEGAbolt
             if ((m.Msg != WM_CHAR) && (m.Msg != WM_SYSCHAR) && (m.Msg != WM_IME_CHAR))
             {
                 e = new KeyEventArgs(((Keys)((int)((long)m.WParam))) | ModifierKeys);
-                if ((m.Msg == WM_KEYDOWN) || (m.Msg == WM_SYSKEYDOWN))
+                if (m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN)
                 {
                     TrappedKeyDown(e);
                 }

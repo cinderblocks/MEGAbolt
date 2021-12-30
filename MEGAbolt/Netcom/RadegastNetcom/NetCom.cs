@@ -142,7 +142,7 @@ namespace MEGAbolt.NetworkComm
         {
             try
             {
-                if (ea.Status == TeleportStatus.Finished || ea.Status == TeleportStatus.Failed)
+                if (ea.Status is TeleportStatus.Finished or TeleportStatus.Failed)
                     IsTeleporting = false;
 
                 if (NetcomSync != null)

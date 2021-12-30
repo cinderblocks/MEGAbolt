@@ -26,9 +26,8 @@ namespace MEGAbolt
 {
     public partial class GRTabWindow : UserControl
     {
-        private MEGAboltInstance instance;
-        //private SLNetCom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private UUID targetUUID;
 
         public GRTabWindow(MEGAboltInstance instance, InstantMessageEventArgs e)
@@ -92,7 +91,9 @@ namespace MEGAbolt
             // There is a bug here which needs to be looked at some stage
             try
             {
-                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Accept Group Invitation (Join Group)
+                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, 
+                    InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline, 
+                    instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); // Accept Group Invitation (Join Group)
                 CloseTab();
             }
             catch
@@ -103,7 +104,9 @@ namespace MEGAbolt
 
         private void btnDecline_Click(object sender, EventArgs e)
         {
-            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, InstantMessageDialog.GroupInvitationDecline, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, new byte[0]); // Decline Group Invitation
+            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, 
+                InstantMessageDialog.GroupInvitationDecline, InstantMessageOnline.Offline,
+                instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); // Decline Group Invitation
             CloseTab();
         }
     }
