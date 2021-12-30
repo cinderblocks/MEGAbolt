@@ -2,16 +2,10 @@
   <PropertyGroup>
     <ProjectGuid>{C8B40AE0-71AE-4F96-90DE-705D23F1857D}</ProjectGuid>
     <TargetFramework>net5.0</TargetFramework>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
-    <FileUpgradeFlags />
-    <UpgradeBackupLocation />
-    <AssemblyTitle>MD5library</AssemblyTitle>
+	<AssemblyTitle>MD5library</AssemblyTitle>
     <Company>Sjofn LLC</Company>
     <Product>MD5library</Product>
-    <Copyright>Copyright © Sjofn LLC, 2021</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-	<Platforms>AnyCPU;x64;x86</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>

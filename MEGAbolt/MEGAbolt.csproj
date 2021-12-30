@@ -17,9 +17,6 @@
 	<BootstrapperEnabled>true</BootstrapperEnabled>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
-    <Version>0.10.0</Version>
-	<AssemblyVersion>0.10.0</AssemblyVersion>
-	<FileVersion>0.10.0</FileVersion>
 	<Platforms>AnyCPU;x64;x86</Platforms>
 	<StartupObject>MEGAbolt.Program</StartupObject>
   </PropertyGroup>
