@@ -402,7 +402,7 @@ namespace MEGAbolt.Media
         }
 
         /// <summary>
-        /// Handle request to play a sound, which might (or mioght not) have been preloaded.
+        /// Handle request to play a sound, which might (or might not) have been preloaded.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
