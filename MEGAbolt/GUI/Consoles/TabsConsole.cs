@@ -678,12 +678,11 @@ namespace MEGAbolt
             if (!stopnotify)
             {
                 notifyIcon1.BalloonTipText = msg;
-                notifyIcon1.BalloonTipTitle = title + " [" + avname + "]";
+                notifyIcon1.BalloonTipTitle = $"{title} [{avname}]";
                 notifyIcon1.ShowBalloonTip(2000);
 
                 if (instance.Config.CurrentConfig.PlaySound)
                 {
-                    //System.Media.SystemSounds..Play();
                     instance.MediaManager.PlayUISound(Properties.Resources.notify);
                 }
             }
@@ -708,7 +707,7 @@ namespace MEGAbolt
             if (!stopnotify)
             {
                 notifyIcon1.BalloonTipText = msg;
-                notifyIcon1.BalloonTipTitle = title + " [" + avname + "]";
+                notifyIcon1.BalloonTipTitle = $"{title} [{avname}]";
                 notifyIcon1.ShowBalloonTip(2000);
 
                 if (instance.Config.CurrentConfig.PlaySound && makesound)

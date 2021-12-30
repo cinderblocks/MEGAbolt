@@ -30,14 +30,14 @@ namespace MEGAbolt
 {
     public partial class frmInvOffered : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private InstantMessage msg;
-        private UUID objectID;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly InstantMessage msg;
+        private readonly UUID objectID;
         //private bool diainv = false;
-        private AssetType invtype = AssetType.Unknown;
+        private readonly AssetType invtype = AssetType.Unknown;
         private bool printed = false;
-        private InstantMessageDialog diag;
+        private readonly InstantMessageDialog diag;
 
         internal class ThreadExceptionHandler
         {
@@ -63,34 +63,15 @@ namespace MEGAbolt
             client = this.instance.Client;
             msg = e;
             this.objectID = objectID;
-            Text += " [" + client.Self.Name + "]";
+            Text += $" [{client.Self.Name}]";
 
             invtype = type;
 
-            if (invtype == AssetType.Folder)
-            {
-                instance.State.FolderRcvd = true;
-            }
-            else
-            {
-                instance.State.FolderRcvd = false;
-            }
+            instance.State.FolderRcvd = invtype == AssetType.Folder;
 
             diag = e.Dialog;
 
-            //if (e.Dialog == InstantMessageDialog.TaskInventoryOffered)
-            //{
-            //    diainv = true;
-            //}
-
-            string a = "a";
-
-            if (type.ToString().ToLower(CultureInfo.CurrentCulture).StartsWith("a", StringComparison.CurrentCultureIgnoreCase) || type.ToString().ToLower(CultureInfo.CurrentCulture).StartsWith("o", StringComparison.CurrentCultureIgnoreCase) || type.ToString().ToLower(CultureInfo.CurrentCulture).StartsWith("u", StringComparison.CurrentCultureIgnoreCase))
-            {
-                a = "an";
-            }
-
-            lblSubheading.Text = "You have received " + a + " " + type.ToString() + " named '" + e.Message + "' from " + e.FromAgentName;
+            lblSubheading.Text = $"You have received {type} named '{e.Message}' from {e.FromAgentName}";
 
             if (instance.Config.CurrentConfig.PlayInventoryItemReceived)
             {
@@ -103,9 +84,9 @@ namespace MEGAbolt
 
             DateTime dte = DateTime.Now.AddMinutes(15.0d);
 
-            label1.Text = "This item will be auto accepted @ " + dte.ToShortTimeString();
+            label1.Text = $"This item will be auto accepted at {dte.ToShortTimeString()}";
 
-            Text += "   " + "[ " + client.Self.Name + " ]";
+            Text += $"   [ {client.Self.Name} ]";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -121,7 +102,8 @@ namespace MEGAbolt
             {
                 if (instance.IsObjectMuted(msg.FromAgentID, msg.FromAgentName))
                 {
-                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show($"{msg.FromAgentName} is already in your mute list.", "MEGAbolt", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -131,14 +113,16 @@ namespace MEGAbolt
             {
                 if (instance.IsAvatarMuted(msg.FromAgentID, msg.FromAgentName))
                 {
-                    MessageBox.Show(msg.FromAgentName + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show($"{msg.FromAgentName} is already in your mute list.", "MEGAbolt", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
                 instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, msg.FromAgentID, msg.FromAgentName);
             }
 
-            MessageBox.Show(msg.FromAgentName + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"{msg.FromAgentName} is now muted.", "MEGAbolt", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             timer1.Stop();
             timer1.Enabled = false;
@@ -165,12 +149,16 @@ namespace MEGAbolt
 
                 if (diag == InstantMessageDialog.InventoryOffered)
                 {
-                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, InstantMessageDialog.InventoryAccepted, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, invfolder.GetBytes());   //  new byte[0]); // Accept Inventory Offer
+                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, 
+                        InstantMessageDialog.InventoryAccepted, InstantMessageOnline.Offline, instance.SIMsittingPos(), 
+                        client.Network.CurrentSim.RegionID, invfolder.GetBytes());   //  new byte[0]); // Accept Inventory Offer
                     client.Inventory.RequestFetchInventory(objectID, client.Self.AgentID);
                 }
                 else if (diag == InstantMessageDialog.TaskInventoryOffered)
                 {
-                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, InstantMessageDialog.TaskInventoryAccepted, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Accept TaskInventory Offer
+                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID,
+                        InstantMessageDialog.TaskInventoryAccepted, InstantMessageOnline.Offline, instance.SIMsittingPos(), 
+                        client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Accept TaskInventory Offer
                     client.Inventory.RequestFetchInventory(objectID, client.Self.AgentID);
                 }
                 else
@@ -185,7 +173,8 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error has been encountered but the item\nshould have been saved into your inventory:\n" + ex.Message, "MEGAbolt");  
+                MessageBox.Show("An error has been encountered but the item\n" +
+                                "should have been saved into your inventory:\n" + ex.Message, "MEGAbolt");  
             }
             
             Close();
@@ -210,7 +199,9 @@ namespace MEGAbolt
 
                 if (diag == InstantMessageDialog.InventoryOffered)
                 {
-                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, InstantMessageDialog.InventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
+                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, 
+                        InstantMessageDialog.InventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), 
+                        client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
 
                     try
                     {
@@ -232,7 +223,9 @@ namespace MEGAbolt
                 }
                 else if (diag == InstantMessageDialog.TaskInventoryOffered)
                 {
-                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, InstantMessageDialog.TaskInventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
+                    client.Self.InstantMessage(client.Self.Name, msg.FromAgentID, string.Empty, msg.IMSessionID, 
+                        InstantMessageDialog.TaskInventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), 
+                        client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
                 }
 
                 timer1.Stop();
@@ -257,12 +250,11 @@ namespace MEGAbolt
 
             timer1.Enabled = false;
             timer1.Stop();
-
-            //instance.TabConsole.DisplayChatScreen("'Inventory offer' from " + msg.FromAgentName + " has timed out and the item has been moved to your trash: " + msg.Message + " (" + invtype.ToString() + ")");
-
+            
             if (!printed)
             {
-                instance.TabConsole.DisplayChatScreen(" 'Inventory offer' from " + msg.FromAgentName + " has timed out and the item named '" + msg.Message + "' has been saved to your " + invtype.ToString() + " folder. ");
+                instance.TabConsole.DisplayChatScreen(
+                    $" 'Inventory offer' from {msg.FromAgentName} has timed out and the item named '{msg.Message}' has been saved to your {invtype} folder.");
             }
 
             printed = true;
