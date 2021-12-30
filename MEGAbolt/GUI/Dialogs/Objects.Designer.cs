@@ -37,13 +37,13 @@ namespace MEGAbolt
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmObjects));
             this.gbxInworld = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnView3D = new System.Windows.Forms.Button();
             this.btnReturn = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnMute = new System.Windows.Forms.Button();
             this.btnTake = new System.Windows.Forms.Button();
             this.btnPointAt = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnWalk1 = new System.Windows.Forms.Button();
+            this.btnTurnTo = new System.Windows.Forms.Button();
+            this.btnWalkTo = new System.Windows.Forms.Button();
             this.btnLocation = new System.Windows.Forms.Button();
             this.btnTouch = new System.Windows.Forms.Button();
             this.btnSitOn = new System.Windows.Forms.Button();
@@ -52,8 +52,8 @@ namespace MEGAbolt
             this.btnClose = new System.Windows.Forms.Button();
             this.btnTP = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
+            this.txtHover = new System.Windows.Forms.TextBox();
+            this.labelName = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -61,26 +61,26 @@ namespace MEGAbolt
             this.label20 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblUUID = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.TextBox();
-            this.lblOwner = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.TextBox();
+            this.labelOwnerName = new System.Windows.Forms.TextBox();
+            this.labelOwnerId = new System.Windows.Forms.TextBox();
+            this.labelDesc = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.chkResell = new System.Windows.Forms.CheckBox();
+            this.chkCopy = new System.Windows.Forms.CheckBox();
+            this.chkModify = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.labelDistance = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.labelCost = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelSalePrice = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkNextOwnerResell = new System.Windows.Forms.CheckBox();
+            this.chkNextOwnerCopy = new System.Windows.Forms.CheckBox();
+            this.chkNextOwnerModify = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pB1 = new System.Windows.Forms.ProgressBar();
@@ -140,14 +140,14 @@ namespace MEGAbolt
             this.gbxInworld.AccessibleName = "In world button panel";
             this.gbxInworld.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxInworld.BackColor = System.Drawing.Color.Transparent;
-            this.gbxInworld.Controls.Add(this.button1);
+            this.gbxInworld.Controls.Add(this.btnView3D);
             this.gbxInworld.Controls.Add(this.btnReturn);
-            this.gbxInworld.Controls.Add(this.button5);
+            this.gbxInworld.Controls.Add(this.btnMute);
             this.gbxInworld.Controls.Add(this.btnTake);
             this.gbxInworld.Controls.Add(this.btnPointAt);
             this.gbxInworld.Controls.Add(this.btnTP);
-            this.gbxInworld.Controls.Add(this.button2);
-            this.gbxInworld.Controls.Add(this.btnWalk1);
+            this.gbxInworld.Controls.Add(this.btnTurnTo);
+            this.gbxInworld.Controls.Add(this.btnWalkTo);
             this.gbxInworld.Controls.Add(this.btnLocation);
             this.gbxInworld.Controls.Add(this.btnTouch);
             this.gbxInworld.Controls.Add(this.btnSitOn);
@@ -162,19 +162,19 @@ namespace MEGAbolt
             // 
             // button1
             // 
-            this.button1.AccessibleName = "3D view button";
-            this.button1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(177, 79);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 23);
-            this.button1.TabIndex = 55;
-            this.button1.Text = "&View 3D";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnView3D.AccessibleName = "3D view button";
+            this.btnView3D.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnView3D.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnView3D.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnView3D.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnView3D.ForeColor = System.Drawing.Color.White;
+            this.btnView3D.Location = new System.Drawing.Point(177, 79);
+            this.btnView3D.Name = "btnView3D";
+            this.btnView3D.Size = new System.Drawing.Size(56, 23);
+            this.btnView3D.TabIndex = 55;
+            this.btnView3D.Text = "&View 3D";
+            this.btnView3D.UseVisualStyleBackColor = false;
+            this.btnView3D.Click += new System.EventHandler(this.btnView3D_Click);
             // 
             // btnReturn
             // 
@@ -191,23 +191,23 @@ namespace MEGAbolt
             this.btnReturn.TabIndex = 3;
             this.btnReturn.Text = "&Return";
             this.btnReturn.UseVisualStyleBackColor = false;
-            this.btnReturn.Click += new System.EventHandler(this.button1_Click);
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
             // button5
             // 
-            this.button5.AccessibleName = "Mute button";
-            this.button5.BackColor = System.Drawing.Color.Red;
-            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(68, 79);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(45, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "M&ute";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnMute.AccessibleName = "Mute button";
+            this.btnMute.BackColor = System.Drawing.Color.Red;
+            this.btnMute.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnMute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnMute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMute.ForeColor = System.Drawing.Color.White;
+            this.btnMute.Location = new System.Drawing.Point(68, 79);
+            this.btnMute.Name = "btnMute";
+            this.btnMute.Size = new System.Drawing.Size(45, 23);
+            this.btnMute.TabIndex = 8;
+            this.btnMute.Text = "M&ute";
+            this.btnMute.UseVisualStyleBackColor = false;
+            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
             // 
             // btnTake
             // 
@@ -224,7 +224,7 @@ namespace MEGAbolt
             this.btnTake.TabIndex = 2;
             this.btnTake.Text = "Ta&ke";
             this.btnTake.UseVisualStyleBackColor = false;
-            this.btnTake.Click += new System.EventHandler(this.button4_Click);
+            this.btnTake.Click += new System.EventHandler(this.btnTake_Click);
             // 
             // btnPointAt
             // 
@@ -244,35 +244,35 @@ namespace MEGAbolt
             // 
             // button2
             // 
-            this.button2.AccessibleName = "Turn to button";
-            this.button2.BackColor = System.Drawing.Color.DimGray;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(177, 50);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(56, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Tur&n to";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnTurnTo.AccessibleName = "Turn to button";
+            this.btnTurnTo.BackColor = System.Drawing.Color.DimGray;
+            this.btnTurnTo.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnTurnTo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnTurnTo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTurnTo.ForeColor = System.Drawing.Color.White;
+            this.btnTurnTo.Location = new System.Drawing.Point(177, 50);
+            this.btnTurnTo.Name = "btnTurnTo";
+            this.btnTurnTo.Size = new System.Drawing.Size(56, 23);
+            this.btnTurnTo.TabIndex = 6;
+            this.btnTurnTo.Text = "Tur&n to";
+            this.btnTurnTo.UseVisualStyleBackColor = false;
+            this.btnTurnTo.Click += new System.EventHandler(this.btnTurnTo_Click);
             // 
             // btnWalk1
             // 
-            this.btnWalk1.AccessibleName = "Walk to button";
-            this.btnWalk1.BackColor = System.Drawing.Color.DimGray;
-            this.btnWalk1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnWalk1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.btnWalk1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWalk1.ForeColor = System.Drawing.Color.White;
-            this.btnWalk1.Location = new System.Drawing.Point(114, 50);
-            this.btnWalk1.Name = "btnWalk1";
-            this.btnWalk1.Size = new System.Drawing.Size(62, 23);
-            this.btnWalk1.TabIndex = 5;
-            this.btnWalk1.Text = "&Walk to";
-            this.btnWalk1.UseVisualStyleBackColor = false;
-            this.btnWalk1.Click += new System.EventHandler(this.btnWalk1_Click);
+            this.btnWalkTo.AccessibleName = "Walk to button";
+            this.btnWalkTo.BackColor = System.Drawing.Color.DimGray;
+            this.btnWalkTo.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnWalkTo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnWalkTo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWalkTo.ForeColor = System.Drawing.Color.White;
+            this.btnWalkTo.Location = new System.Drawing.Point(114, 50);
+            this.btnWalkTo.Name = "btnWalkTo";
+            this.btnWalkTo.Size = new System.Drawing.Size(62, 23);
+            this.btnWalkTo.TabIndex = 5;
+            this.btnWalkTo.Text = "&Walk to";
+            this.btnWalkTo.UseVisualStyleBackColor = false;
+            this.btnWalkTo.Click += new System.EventHandler(this.btnWalkTo_Click);
             // 
             // btnLocation
             // 
@@ -387,8 +387,8 @@ namespace MEGAbolt
             this.groupBox1.AccessibleName = "Object information panel";
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.label23);
+            this.groupBox1.Controls.Add(this.txtHover);
+            this.groupBox1.Controls.Add(this.labelName);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.pictureBox2);
@@ -396,26 +396,26 @@ namespace MEGAbolt
             this.groupBox1.Controls.Add(this.label20);
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.lblUUID);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.lblOwner);
-            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.labelOwnerName);
+            this.groupBox1.Controls.Add(this.labelOwnerId);
+            this.groupBox1.Controls.Add(this.labelDesc);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.checkBox4);
-            this.groupBox1.Controls.Add(this.checkBox5);
-            this.groupBox1.Controls.Add(this.checkBox6);
+            this.groupBox1.Controls.Add(this.chkResell);
+            this.groupBox1.Controls.Add(this.chkCopy);
+            this.groupBox1.Controls.Add(this.chkModify);
             this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.labelDistance);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.labelCost);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.labelSalePrice);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.checkBox3);
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.chkNextOwnerResell);
+            this.groupBox1.Controls.Add(this.chkNextOwnerCopy);
+            this.groupBox1.Controls.Add(this.chkNextOwnerModify);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Enabled = false;
@@ -428,25 +428,25 @@ namespace MEGAbolt
             // 
             // textBox2
             // 
-            this.textBox2.AccessibleName = "Hover text textbox";
-            this.textBox2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.textBox2.Location = new System.Drawing.Point(72, 44);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(164, 20);
-            this.textBox2.TabIndex = 1;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
+            this.txtHover.AccessibleName = "Hover text textbox";
+            this.txtHover.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtHover.Location = new System.Drawing.Point(72, 44);
+            this.txtHover.Multiline = true;
+            this.txtHover.Name = "txtHover";
+            this.txtHover.Size = new System.Drawing.Size(164, 20);
+            this.txtHover.TabIndex = 1;
+            this.txtHover.TextChanged += new System.EventHandler(this.txtHover_TextChanged);
+            this.txtHover.Leave += new System.EventHandler(this.txtHover_Leave);
             // 
             // label23
             // 
-            this.label23.AutoSize = true;
-            this.label23.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label23.Location = new System.Drawing.Point(6, 47);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(38, 13);
-            this.label23.TabIndex = 53;
-            this.label23.Text = "Name:";
+            this.labelName.AutoSize = true;
+            this.labelName.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.labelName.Location = new System.Drawing.Point(6, 47);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(38, 13);
+            this.labelName.TabIndex = 53;
+            this.labelName.Text = "Name:";
             // 
             // label22
             // 
@@ -529,38 +529,38 @@ namespace MEGAbolt
             // 
             // label9
             // 
-            this.label9.AccessibleName = "Owner name textbox";
-            this.label9.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label9.Location = new System.Drawing.Point(54, 191);
-            this.label9.Multiline = true;
-            this.label9.Name = "label9";
-            this.label9.ReadOnly = true;
-            this.label9.Size = new System.Drawing.Size(154, 20);
-            this.label9.TabIndex = 4;
+            this.labelOwnerName.AccessibleName = "Owner name textbox";
+            this.labelOwnerName.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.labelOwnerName.Location = new System.Drawing.Point(54, 191);
+            this.labelOwnerName.Multiline = true;
+            this.labelOwnerName.Name = "labelOwnerName";
+            this.labelOwnerName.ReadOnly = true;
+            this.labelOwnerName.Size = new System.Drawing.Size(154, 20);
+            this.labelOwnerName.TabIndex = 4;
             // 
             // lblOwner
             // 
-            this.lblOwner.AccessibleName = "Owner UUID textbox";
-            this.lblOwner.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lblOwner.Location = new System.Drawing.Point(40, 102);
-            this.lblOwner.Multiline = true;
-            this.lblOwner.Name = "lblOwner";
-            this.lblOwner.ReadOnly = true;
-            this.lblOwner.Size = new System.Drawing.Size(22, 20);
-            this.lblOwner.TabIndex = 4;
-            this.lblOwner.Visible = false;
+            this.labelOwnerId.AccessibleName = "Owner UUID textbox";
+            this.labelOwnerId.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.labelOwnerId.Location = new System.Drawing.Point(40, 102);
+            this.labelOwnerId.Multiline = true;
+            this.labelOwnerId.Name = "labelOwnerId";
+            this.labelOwnerId.ReadOnly = true;
+            this.labelOwnerId.Size = new System.Drawing.Size(22, 20);
+            this.labelOwnerId.TabIndex = 4;
+            this.labelOwnerId.Visible = false;
             // 
             // label15
             // 
-            this.label15.AccessibleName = "Description textbox";
-            this.label15.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label15.Location = new System.Drawing.Point(72, 68);
-            this.label15.Multiline = true;
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(164, 55);
-            this.label15.TabIndex = 2;
-            this.label15.TextChanged += new System.EventHandler(this.label15_TextChanged);
-            this.label15.Leave += new System.EventHandler(this.label15_Leave);
+            this.labelDesc.AccessibleName = "Description textbox";
+            this.labelDesc.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.labelDesc.Location = new System.Drawing.Point(72, 68);
+            this.labelDesc.Multiline = true;
+            this.labelDesc.Name = "labelDesc";
+            this.labelDesc.Size = new System.Drawing.Size(164, 55);
+            this.labelDesc.TabIndex = 2;
+            this.labelDesc.TextChanged += new System.EventHandler(this.labelDesc_TextChanged);
+            this.labelDesc.Leave += new System.EventHandler(this.labelDesc_Leave);
             // 
             // label11
             // 
@@ -588,53 +588,53 @@ namespace MEGAbolt
             // 
             // checkBox4
             // 
-            this.checkBox4.AccessibleName = "Owner perms Resell option";
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox4.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox4.Location = new System.Drawing.Point(189, 308);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(45, 17);
-            this.checkBox4.TabIndex = 10;
-            this.checkBox4.Text = "Tran";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chkResell.AccessibleName = "Owner perms Resell option";
+            this.chkResell.AutoSize = true;
+            this.chkResell.Enabled = false;
+            this.chkResell.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkResell.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkResell.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkResell.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkResell.Location = new System.Drawing.Point(189, 308);
+            this.chkResell.Name = "chkResell";
+            this.chkResell.Size = new System.Drawing.Size(45, 17);
+            this.chkResell.TabIndex = 10;
+            this.chkResell.Text = "Tran";
+            this.chkResell.UseVisualStyleBackColor = true;
             // 
             // checkBox5
             // 
-            this.checkBox5.AccessibleName = "Owner perms Copy option";
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Enabled = false;
-            this.checkBox5.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox5.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox5.Location = new System.Drawing.Point(143, 308);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(48, 17);
-            this.checkBox5.TabIndex = 9;
-            this.checkBox5.Text = "Copy";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+            this.chkCopy.AccessibleName = "Owner perms Copy option";
+            this.chkCopy.AutoSize = true;
+            this.chkCopy.Enabled = false;
+            this.chkCopy.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkCopy.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkCopy.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkCopy.Location = new System.Drawing.Point(143, 308);
+            this.chkCopy.Name = "chkCopy";
+            this.chkCopy.Size = new System.Drawing.Size(48, 17);
+            this.chkCopy.TabIndex = 9;
+            this.chkCopy.Text = "Copy";
+            this.chkCopy.UseVisualStyleBackColor = true;
+            this.chkCopy.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // checkBox6
             // 
-            this.checkBox6.AccessibleName = "Owner perms Modify option";
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Enabled = false;
-            this.checkBox6.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox6.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox6.Location = new System.Drawing.Point(102, 308);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(43, 17);
-            this.checkBox6.TabIndex = 8;
-            this.checkBox6.Text = "Mod";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+            this.chkModify.AccessibleName = "Owner perms Modify option";
+            this.chkModify.AutoSize = true;
+            this.chkModify.Enabled = false;
+            this.chkModify.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkModify.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkModify.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkModify.Location = new System.Drawing.Point(102, 308);
+            this.chkModify.Name = "chkModify";
+            this.chkModify.Size = new System.Drawing.Size(43, 17);
+            this.chkModify.TabIndex = 8;
+            this.chkModify.Text = "Mod";
+            this.chkModify.UseVisualStyleBackColor = true;
+            this.chkModify.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
             // label14
             // 
@@ -648,12 +648,12 @@ namespace MEGAbolt
             // 
             // label13
             // 
-            this.label13.AccessibleName = "Distance label";
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(75, 137);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(0, 13);
-            this.label13.TabIndex = 2;
+            this.labelDistance.AccessibleName = "Distance label";
+            this.labelDistance.AutoSize = true;
+            this.labelDistance.Location = new System.Drawing.Point(75, 137);
+            this.labelDistance.Name = "labelDistance";
+            this.labelDistance.Size = new System.Drawing.Size(0, 13);
+            this.labelDistance.TabIndex = 2;
             // 
             // label12
             // 
@@ -687,13 +687,13 @@ namespace MEGAbolt
             // 
             // label5
             // 
-            this.label5.AccessibleName = "Cost of ownership label";
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(111, 286);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 13);
-            this.label5.TabIndex = 7;
+            this.labelCost.AccessibleName = "Cost of ownership label";
+            this.labelCost.AutoSize = true;
+            this.labelCost.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.labelCost.Location = new System.Drawing.Point(111, 286);
+            this.labelCost.Name = "labelCost";
+            this.labelCost.Size = new System.Drawing.Size(0, 13);
+            this.labelCost.TabIndex = 7;
             // 
             // label7
             // 
@@ -707,13 +707,13 @@ namespace MEGAbolt
             // 
             // label3
             // 
-            this.label3.AccessibleName = "Sale price label";
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(102, 268);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 13);
-            this.label3.TabIndex = 6;
+            this.labelSalePrice.AccessibleName = "Sale price label";
+            this.labelSalePrice.AutoSize = true;
+            this.labelSalePrice.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.labelSalePrice.Location = new System.Drawing.Point(102, 268);
+            this.labelSalePrice.Name = "labelSalePrice";
+            this.labelSalePrice.Size = new System.Drawing.Size(0, 13);
+            this.labelSalePrice.TabIndex = 6;
             // 
             // label4
             // 
@@ -727,51 +727,51 @@ namespace MEGAbolt
             // 
             // checkBox3
             // 
-            this.checkBox3.AccessibleName = "Next owner Resell option";
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox3.Location = new System.Drawing.Point(189, 329);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(45, 17);
-            this.checkBox3.TabIndex = 13;
-            this.checkBox3.Text = "Tran";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.chkNextOwnerResell.AccessibleName = "Next owner Resell option";
+            this.chkNextOwnerResell.AutoSize = true;
+            this.chkNextOwnerResell.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkNextOwnerResell.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerResell.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerResell.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkNextOwnerResell.Location = new System.Drawing.Point(189, 329);
+            this.chkNextOwnerResell.Name = "chkNextOwnerResell";
+            this.chkNextOwnerResell.Size = new System.Drawing.Size(45, 17);
+            this.chkNextOwnerResell.TabIndex = 13;
+            this.chkNextOwnerResell.Text = "Tran";
+            this.chkNextOwnerResell.UseVisualStyleBackColor = true;
+            this.chkNextOwnerResell.CheckedChanged += new System.EventHandler(this.chkNextOwnerResell_CheckedChanged);
             // 
             // checkBox2
             // 
-            this.checkBox2.AccessibleName = "Next owner Copy option";
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox2.Location = new System.Drawing.Point(143, 329);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(48, 17);
-            this.checkBox2.TabIndex = 12;
-            this.checkBox2.Text = "Copy";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.chkNextOwnerCopy.AccessibleName = "Next owner Copy option";
+            this.chkNextOwnerCopy.AutoSize = true;
+            this.chkNextOwnerCopy.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkNextOwnerCopy.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerCopy.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkNextOwnerCopy.Location = new System.Drawing.Point(143, 329);
+            this.chkNextOwnerCopy.Name = "chkNextOwnerCopy";
+            this.chkNextOwnerCopy.Size = new System.Drawing.Size(48, 17);
+            this.chkNextOwnerCopy.TabIndex = 12;
+            this.chkNextOwnerCopy.Text = "Copy";
+            this.chkNextOwnerCopy.UseVisualStyleBackColor = true;
+            this.chkNextOwnerCopy.CheckedChanged += new System.EventHandler(this.chkNextOwnerCopy_CheckedChanged);
             // 
             // checkBox1
             // 
-            this.checkBox1.AccessibleName = "Next owner modify option";
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.checkBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.Location = new System.Drawing.Point(102, 329);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(43, 17);
-            this.checkBox1.TabIndex = 11;
-            this.checkBox1.Text = "Mod";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.chkNextOwnerModify.AccessibleName = "Next owner modify option";
+            this.chkNextOwnerModify.AutoSize = true;
+            this.chkNextOwnerModify.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkNextOwnerModify.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerModify.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkNextOwnerModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkNextOwnerModify.Location = new System.Drawing.Point(102, 329);
+            this.chkNextOwnerModify.Name = "chkNextOwnerModify";
+            this.chkNextOwnerModify.Size = new System.Drawing.Size(43, 17);
+            this.chkNextOwnerModify.TabIndex = 11;
+            this.chkNextOwnerModify.Text = "Mod";
+            this.chkNextOwnerModify.UseVisualStyleBackColor = true;
+            this.chkNextOwnerModify.CheckedChanged += new System.EventHandler(this.chkNextOwnerModify_CheckedChanged);
             // 
             // label6
             // 
@@ -802,7 +802,6 @@ namespace MEGAbolt
             this.pB1.Size = new System.Drawing.Size(376, 12);
             this.pB1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pB1.TabIndex = 33;
-            this.pB1.Click += new System.EventHandler(this.pB1_Click);
             // 
             // statusStrip1
             // 
@@ -1116,7 +1115,6 @@ namespace MEGAbolt
             this.label19.Size = new System.Drawing.Size(164, 13);
             this.label19.TabIndex = 49;
             this.label19.Text = "Object contents (task inventory)";
-            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // pBar1
             // 
@@ -1411,36 +1409,36 @@ namespace MEGAbolt
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chkNextOwnerCopy;
+        private System.Windows.Forms.CheckBox chkNextOwnerModify;
+        private System.Windows.Forms.CheckBox chkNextOwnerResell;
+        private System.Windows.Forms.Label labelSalePrice;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelCost;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnWalk1;
+        private System.Windows.Forms.Button btnWalkTo;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelDistance;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnTurnTo;
         private System.Windows.Forms.ProgressBar pB1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel tlbDisplay;
         private System.Windows.Forms.Button btnPointAt;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox chkResell;
+        private System.Windows.Forms.CheckBox chkCopy;
+        private System.Windows.Forms.CheckBox chkModify;
         private System.Windows.Forms.ListBox lbxChildren;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox label11;
-        private System.Windows.Forms.TextBox label15;
+        private System.Windows.Forms.TextBox labelDesc;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox lblOwner;
-        private System.Windows.Forms.TextBox label9;
+        private System.Windows.Forms.TextBox labelOwnerId;
+        private System.Windows.Forms.TextBox labelOwnerName;
         private System.Windows.Forms.TextBox lblUUID;
         private System.Windows.Forms.Button btnTake;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1455,7 +1453,7 @@ namespace MEGAbolt
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.PictureBox pBar1;
         private System.Windows.Forms.PictureBox pBar2;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnMute;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
@@ -1472,15 +1470,15 @@ namespace MEGAbolt
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnReturn;
         private System.Windows.Forms.PictureBox pBar3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnView3D;
         private System.Windows.Forms.PictureBox picAutoSit;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox txtCreator;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox txtHover;
+        private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.LinkLabel lkLocation;
     }

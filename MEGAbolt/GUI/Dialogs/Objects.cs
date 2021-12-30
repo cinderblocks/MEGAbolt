@@ -28,6 +28,7 @@ using MEGAbolt.NetworkComm;
 using MEGAbolt.Controls;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 
@@ -132,7 +133,7 @@ namespace MEGAbolt
             {
                 if (av.Key == sPr.Properties.OwnerID)
                 {
-                    label9.Text = av.Value;
+                    labelOwnerName.Text = av.Value;
                     pictureBox1.Enabled = true;
                     pictureBox1.Cursor = Cursors.Hand;
                 }
@@ -1501,7 +1502,7 @@ namespace MEGAbolt
 
                 //btnTP.Enabled = true;
 
-                lblOwner.Text = sPr.Properties.OwnerID.ToString();
+                labelOwnerId.Text = sPr.Properties.OwnerID.ToString();
                 lblUUID.Text = sPr.Properties.ObjectID.ToString();
 
                 if (instance.State.SitPrim != UUID.Zero)
@@ -1529,7 +1530,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    label9.Text = instance.avnames[lookup];
+                    labelOwnerName.Text = instance.avnames[lookup];
                     pictureBox1.Enabled = true;
                     pictureBox1.Cursor = Cursors.Hand;
                 }
@@ -1571,16 +1572,16 @@ namespace MEGAbolt
 
                 if (sPr.Properties.SaleType != 0)
                 {
-                    label3.Text = "L$" + sPr.Properties.SalePrice.ToString(CultureInfo.CurrentCulture);
+                    labelSalePrice.Text = "L$" + sPr.Properties.SalePrice.ToString(CultureInfo.CurrentCulture);
                 }
                 else
                 {
-                    label3.Text = "Not for sale";
+                    labelSalePrice.Text = "Not for sale";
                 }
 
                 label11.Text = sPr.Text;
-                textBox2.Text = sPr.Properties.Name;
-                label15.Text = sPr.Properties.Description;
+                txtHover.Text = sPr.Properties.Name;
+                labelDesc.Text = sPr.Properties.Description;
 
                 Vector3 primpos = new Vector3(Vector3.Zero); 
                 primpos = sPr.Position;
@@ -1607,65 +1608,65 @@ namespace MEGAbolt
 
                 double dist = Math.Round(Vector3.Distance(instance.SIMsittingPos(), primpos), MidpointRounding.ToEven);
 
-                label13.Text = " " + dist.ToString(CultureInfo.CurrentCulture) + "m - [ Elev.:" + vZ.ToString(CultureInfo.CurrentCulture) + "m]";
+                labelDistance.Text = " " + dist.ToString(CultureInfo.CurrentCulture) + "m - [ Elev.:" + vZ.ToString(CultureInfo.CurrentCulture) + "m]";
 
-                label5.Text = "L$" + sPr.Properties.OwnershipCost.ToString(CultureInfo.CurrentCulture);
+                labelCost.Text = "L$" + sPr.Properties.OwnershipCost.ToString(CultureInfo.CurrentCulture);
                 //label3.Text = sPr.Properties.SaleType.ToString(); 
 
                 // Owner perms
                 if (sOEp.Contains("Modify"))
                 {
-                    checkBox6.Checked = true;
+                    chkModify.Checked = true;
                 }
                 else
                 {
-                    checkBox6.Checked = false;
+                    chkModify.Checked = false;
                 }
 
                 if (sOEp.Contains("Copy"))
                 {
-                    checkBox5.Checked = true;
+                    chkCopy.Checked = true;
                 }
                 else
                 {
-                    checkBox5.Checked = false;
+                    chkCopy.Checked = false;
                 }
 
                 if (sOEp.Contains("Transfer"))
                 {
-                    checkBox4.Checked = true;
+                    chkResell.Checked = true;
                 }
                 else
                 {
-                    checkBox4.Checked = false;
+                    chkResell.Checked = false;
                 }
 
                 // Next Owner perms
                 if (sEp.Contains("Modify"))
                 {
-                    checkBox1.Checked = true;
+                    chkNextOwnerModify.Checked = true;
                 }
                 else
                 {
-                    checkBox1.Checked = false;
+                    chkNextOwnerModify.Checked = false;
                 }
 
                 if (sEp.Contains("Copy"))
                 {
-                    checkBox2.Checked = true;
+                    chkNextOwnerCopy.Checked = true;
                 }
                 else
                 {
-                    checkBox2.Checked = false;
+                    chkNextOwnerCopy.Checked = false;
                 }
 
                 if (sEp.Contains("Transfer"))
                 {
-                    checkBox3.Checked = true;
+                    chkNextOwnerResell.Checked = true;
                 }
                 else
                 {
-                    checkBox3.Checked = false;
+                    chkNextOwnerResell.Checked = false;
                 }
 
                 //if (btnTP.Enabled)
@@ -1757,15 +1758,15 @@ namespace MEGAbolt
         {
             if (sPr.Properties.OwnerID != client.Self.AgentID)
             {
-                checkBox1.Enabled = checkBox2.Enabled = checkBox3.Enabled = false;
+                chkNextOwnerModify.Enabled = chkNextOwnerCopy.Enabled = chkNextOwnerResell.Enabled = false;
                 //label11.Enabled = label15.Enabled = textBox2.Enabled = false;
-                label11.ReadOnly = label15.ReadOnly = textBox2.ReadOnly = true;
+                label11.ReadOnly = labelDesc.ReadOnly = txtHover.ReadOnly = true;
             }
             else
             {
-                checkBox1.Enabled = checkBox2.Enabled = checkBox3.Enabled = true;
+                chkNextOwnerModify.Enabled = chkNextOwnerCopy.Enabled = chkNextOwnerResell.Enabled = true;
                 //label11.Enabled = label15.Enabled = textBox2.Enabled = true;
-                label11.ReadOnly = label15.ReadOnly = textBox2.ReadOnly = false;
+                label11.ReadOnly = labelDesc.ReadOnly = txtHover.ReadOnly = false;
             }
 
             //// Set permission checboxes  
@@ -1818,17 +1819,17 @@ namespace MEGAbolt
              }
              );
 
-            if (checkBox1.Checked)
+            if (chkNextOwnerModify.Checked)
             {
                 Perms |= PermissionMask.Modify;
             }
 
-            if (checkBox2.Checked)
+            if (chkNextOwnerCopy.Checked)
             {
                 Perms |= PermissionMask.Copy;
             }
 
-            if (checkBox3.Checked)
+            if (chkNextOwnerResell.Checked)
             {
                 Perms |= PermissionMask.Transfer;
             }
@@ -1912,8 +1913,6 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             if (btnSitOn.Text == "&Sit")
             {
                 instance.State.SetSitting(true, item.Prim.ID);
@@ -1963,8 +1962,6 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             if ((item.Prim.Flags & PrimFlags.Touch) != 0)
             {
                 Vector3 pos = new Vector3(Vector3.Zero); 
@@ -2011,8 +2008,6 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             //"http://slurl.com/GridClient/" + 
             string sPos = client.Network.CurrentSim.Name + "/" + item.Prim.Position.X + "/" + item.Prim.Position.Y + "/" + item.Prim.Position.Z;
             lkLocation.Text = sPos;
@@ -2024,17 +2019,13 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             (new frmTeleport(instance, client.Network.CurrentSim.Name, item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnTurnTo_Click(object sender, EventArgs e)
         {
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-            if (item == null) return;
 
             Vector3 target = new Vector3(Vector3.Zero); 
             target = item.Prim.Position; // the object to look at
@@ -2077,8 +2068,6 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             Primitive sPr = new Primitive();
             sPr = item.Prim;
             SaleType styp = sPr.Properties.SaleType;
@@ -2089,11 +2078,11 @@ namespace MEGAbolt
             //if (sprice != 0)
             if (styp != SaleType.Not)
             {
-                (new frmPay(instance, item.Prim.ID, label9.Text, sprice, sPr)).Show(this);
+                (new frmPay(instance, item.Prim.ID, labelOwnerName.Text, sprice, sPr)).Show(this);
             }
             else
             {
-                (new frmPay(instance, item.Prim.ID, label9.Text, item.Prim.Properties.Name, sPr)).Show(this);
+                (new frmPay(instance, item.Prim.ID, labelOwnerName.Text, item.Prim.Properties.Name, sPr)).Show(this);
             }
         }
 
@@ -2103,8 +2092,6 @@ namespace MEGAbolt
             {
                 int iDx = lbxPrims.SelectedIndex;
                 ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-                if (item == null) return;
 
                 uint regionX, regionY;
                 Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
@@ -2154,14 +2141,9 @@ namespace MEGAbolt
             Font boldFont = new Font(e.Font, FontStyle.Bold);
             Font regularFont = new Font(e.Font, FontStyle.Regular);
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-            }
-            else
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
-            }
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+                : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             string name;
             string description;
@@ -2175,14 +2157,8 @@ namespace MEGAbolt
             {
                 if ((itemToDraw.Prim.Flags & PrimFlags.Scripted) != 0)
                 {
-                    if ((itemToDraw.Prim.Flags & PrimFlags.Touch) != 0)
-                    {
-                        name = "Child Object (scripted/touch)";
-                    }
-                    else
-                    {
-                        name = "Child Object (scripted)";
-                    }
+                    name = (itemToDraw.Prim.Flags & PrimFlags.Touch) != 0 
+                        ? "Child Object (scripted/touch)" : "Child Object (scripted)";
                 }
                 else
                 {
@@ -2224,19 +2200,15 @@ namespace MEGAbolt
             int iDx = lbxChildren.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxChildren.Items[iDx];
 
-            if (item == null) return;
-
             client.Self.Touch(item.Prim.LocalID);
         }
 
-        private void btnWalk1_Click(object sender, EventArgs e)
+        private void btnWalkTo_Click(object sender, EventArgs e)
         {
-            if (btnWalk1.Text == "Walk to")
+            if (btnWalkTo.Text == "Walk to")
             {
                 int iDx = lbxPrims.SelectedIndex;
                 ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-                if (item == null) return;
 
                 Primitive prim = new Primitive();
                 prim = item.Prim;
@@ -2251,23 +2223,21 @@ namespace MEGAbolt
 
                 //string sPos = client.Network.CurrentSim.Name + "/" + item.Prim.Position.X + "/" + item.Prim.Position.Y + "/" + item.Prim.Position.Z;
 
-                btnWalk1.Text = "Stop";
+                btnWalkTo.Text = "Stop";
                 client.Self.AutoPilotCancel();
                 client.Self.AutoPilot(x, y, pos.Z);
             }
             else
             {
                 client.Self.AutoPilotCancel();
-                btnWalk1.Text = "Walk to";
+                btnWalkTo.Text = "Walk to";
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnTake_Click(object sender, EventArgs e)
         {
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-            if (item == null) return;
 
             Primitive sPr = new Primitive();
             sPr = item.Prim;
@@ -2292,7 +2262,7 @@ namespace MEGAbolt
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void chkNextOwnerModify_CheckedChanged(object sender, EventArgs e)
         {
             if (sloading) return;
 
@@ -2309,7 +2279,7 @@ namespace MEGAbolt
             SetPerms(sPr);
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void chkNextOwnerCopy_CheckedChanged(object sender, EventArgs e)
         {
             if (sloading) return;
 
@@ -2326,7 +2296,7 @@ namespace MEGAbolt
             SetPerms(sPr);
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void chkNextOwnerResell_CheckedChanged(object sender, EventArgs e)
         {
             if (sloading) return;
 
@@ -2357,15 +2327,7 @@ namespace MEGAbolt
             lbxTask.Items.Clear();
             button3.Visible = button7.Visible = false;
 
-            if (query.Length == 0)
-            {
-                btnClear.Enabled = false;
-            }
-            else
-            {
-                //SearchFor(query);
-                btnClear.Enabled = true;
-            }
+            btnClear.Enabled = query.Length != 0;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -2454,19 +2416,19 @@ namespace MEGAbolt
             txtSearch.Text = string.Empty;   
 
             label11.Text = string.Empty;
-            label15.Text = string.Empty;
-            label13.Text = string.Empty;
-            label9.Text = string.Empty;
-            lblOwner.Text = string.Empty;
+            labelDesc.Text = string.Empty;
+            labelDistance.Text = string.Empty;
+            labelOwnerName.Text = string.Empty;
+            labelOwnerId.Text = string.Empty;
             lblUUID.Text = string.Empty;
-            label3.Text = string.Empty;
-            label5.Text = string.Empty;
-            checkBox1.Checked = false;
-            checkBox2.Checked = false;
-            checkBox3.Checked = false;
-            checkBox4.Checked = false;
-            checkBox5.Checked = false;
-            checkBox6.Checked = false;
+            labelSalePrice.Text = string.Empty;
+            labelCost.Text = string.Empty;
+            chkNextOwnerModify.Checked = false;
+            chkNextOwnerCopy.Checked = false;
+            chkNextOwnerResell.Checked = false;
+            chkResell.Checked = false;
+            chkCopy.Checked = false;
+            chkModify.Checked = false;
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -2585,7 +2547,7 @@ namespace MEGAbolt
                             }
                         }
 
-                        ListViewItem litem = lbxTask.Items.Add(sitem.Name, "   - [" + sitem.AssetType + "] " + sitem.Name + " " + perms, string.Empty);
+                        ListViewItem litem = lbxTask.Items.Add(sitem.Name, $"   - [{sitem.AssetType}] {sitem.Name} {perms}", string.Empty);
                         litem.Tag = sitem;
                     }
                 }
@@ -2661,16 +2623,14 @@ namespace MEGAbolt
             GetTaskInventory(sPr.ID, sPr.LocalID);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnMute_Click(object sender, EventArgs e)
         {
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            if (item == null) return;
-
             if (instance.IsObjectMuted(item.Prim.ID, item.Prim.Properties.Name))
             {
-                MessageBox.Show(item.Prim.Properties.Name + " is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show($"{item.Prim.Properties.Name} is already in your mute list.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -2681,7 +2641,7 @@ namespace MEGAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Object, item.Prim.ID, item.Prim.Properties.Name);
 
-            MessageBox.Show(item.Prim.Properties.Name + " is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"{item.Prim.Properties.Name} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -2689,17 +2649,16 @@ namespace MEGAbolt
             int iDx = lbxChildren.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxChildren.Items[iDx];
 
-            if (item == null) return;
-
-            if (button7.Text == "Sit On")
+            switch (button7.Text)
             {
-                instance.State.SetSitting(true, item.Prim.ID);
-                button7.Text = "Stand Up";
-            }
-            else if (button7.Text == "Stand Up")
-            {
-                instance.State.SetSitting(false, item.Prim.ID);
-                button7.Text = "Sit On";
+                case "Sit On":
+                    instance.State.SetSitting(true, item.Prim.ID);
+                    button7.Text = "Stand Up";
+                    break;
+                case "Stand Up":
+                    instance.State.SetSitting(false, item.Prim.ID);
+                    button7.Text = "Sit On";
+                    break;
             }
         }
 
@@ -2720,7 +2679,7 @@ namespace MEGAbolt
             //SetPerms(sPr);
         }
 
-        private void label15_Leave(object sender, EventArgs e)
+        private void labelDesc_Leave(object sender, EventArgs e)
         {
             if (sloading) return;
 
@@ -2740,13 +2699,8 @@ namespace MEGAbolt
 
                 //SetPerms(sPr);
 
-                client.Objects.SetDescription(client.Network.CurrentSim, sPr.LocalID, label15.Text);
+                client.Objects.SetDescription(client.Network.CurrentSim, sPr.LocalID, labelDesc.Text);
             }
-        }
-
-        private void lvwRadar_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void pBar2_Click(object sender, EventArgs e)
@@ -2868,11 +2822,6 @@ namespace MEGAbolt
             }
         }
 
-        //void Inventory_TaskInventoryReply(object sender, TaskInventoryReplyEventArgs e)
-        //{
-        //    e.AssetFilename
-        //}
-
         private void Item_CopiedCallback(InventoryBase item)
         {
             //string citem = item.Name;
@@ -2880,26 +2829,14 @@ namespace MEGAbolt
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void textBox1_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+                ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void lbxTask_KeyUp(object sender, KeyEventArgs e)
@@ -2974,17 +2911,13 @@ namespace MEGAbolt
             bool folderfound = false;
             UUID newfolder = UUID.Zero;
 
-            foreach (InventoryBase o in foundfolders)
+            foreach (var o in foundfolders.Where(
+                         o => o.Name.ToLower(CultureInfo.CurrentCulture) 
+                              == llitemname.Name.ToLower(CultureInfo.CurrentCulture)).OfType<InventoryFolder>())
             {
-                if (o.Name.ToLower(CultureInfo.CurrentCulture) == llitemname.Name.ToLower(CultureInfo.CurrentCulture))
-                {
-                    if (o is InventoryFolder)
-                    {
-                        folderfound = true;
-                        newfolder = o.UUID;
-                        break;
-                    }
-                }
+                folderfound = true;
+                newfolder = o.UUID;
+                break;
             }
 
             if (!folderfound)
@@ -2997,7 +2930,7 @@ namespace MEGAbolt
             button4.PerformClick();
             button6.PerformClick();
 
-            MessageBox.Show("Item has been copied to " + llitemname.Name + " folder");
+            MessageBox.Show($"Item has been copied to {llitemname.Name} folder");
         }
 
         private void lbxTask_MouseDown(object sender, MouseEventArgs e)
@@ -3041,22 +2974,12 @@ namespace MEGAbolt
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            UUID aID = (UUID)lblOwner.Text;
+            UUID aID = (UUID)labelOwnerId.Text;
 
-            (new frmProfile(instance, label9.Text, aID)).Show();
+            (new frmProfile(instance, labelOwnerName.Text, aID)).Show();
         }
 
-        private void label19_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pB1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void btnReturn_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("Are you sure you want to return the selected object?", "MEGAbolt", MessageBoxButtons.YesNo);
 
@@ -3065,31 +2988,27 @@ namespace MEGAbolt
                 int iDx = lbxPrims.SelectedIndex;
                 ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                if (item == null) return;
-
                 Primitive sPr = new Primitive();
                 sPr = item.Prim;
 
                 //if (sPr.Properties.OwnerID != client.Self.AgentID) return;
 
+                instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
                 client.Inventory.RequestDeRezToInventory(sPr.LocalID, DeRezDestination.ReturnToOwner, UUID.Zero, UUID.Random());
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnView3D_Click(object sender, EventArgs e)
         {
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-            if (item == null) return;
-
-            //(new META3D(instance, item.Prim.LocalID)).Show();
+            
             (new MEGA3D(instance, item)).Show();
         }
 
         private void picAutoSit_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/ObjectManager.ashx");
+            //*FIXME: System.Diagnostics.Process.Start(@"http://www.metabolt.net/metawiki/ObjectManager.ashx");
         }
 
         private void picAutoSit_MouseHover(object sender, EventArgs e)
@@ -3142,21 +3061,21 @@ namespace MEGAbolt
             //SetPerms(sPr);
         }
 
-        private void label15_TextChanged(object sender, EventArgs e)
+        private void labelDesc_TextChanged(object sender, EventArgs e)
         {
             if (sloading) return;
 
             txtDescChanged = true;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void txtHover_TextChanged(object sender, EventArgs e)
         {
             if (sloading) return;
 
             txtNameChanged = true;
         }
 
-        private void textBox2_Leave(object sender, EventArgs e)
+        private void txtHover_Leave(object sender, EventArgs e)
         {
             if (sloading) return;
 
@@ -3176,7 +3095,7 @@ namespace MEGAbolt
 
                 //SetPerms(sPr);
 
-                client.Objects.SetName(client.Network.CurrentSim, sPr.LocalID, textBox2.Text);     
+                client.Objects.SetName(client.Network.CurrentSim, sPr.LocalID, txtHover.Text);     
             }
         }
 
@@ -3194,8 +3113,6 @@ namespace MEGAbolt
 
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-
-            if (item == null) return;
 
             (new frmTeleport(instance, client.Network.CurrentSim.Name, item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();
         }
