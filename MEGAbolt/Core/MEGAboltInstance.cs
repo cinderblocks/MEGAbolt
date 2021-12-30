@@ -85,7 +85,7 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                     Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
@@ -97,7 +97,7 @@ namespace MEGAbolt
 
         public MEGAboltInstance(bool firstInstance)
         {
-            CrashReporter = new BugSplat("radegast", "MEGAbolt",
+            CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                 Assembly.GetExecutingAssembly().GetName().Version?.ToString())
             {
                 User = "cinder@cinderblocks.biz",
@@ -152,7 +152,7 @@ namespace MEGAbolt
 
         public MEGAboltInstance(bool firstInstance, string[] args)
         {
-            CrashReporter = new BugSplat("radegast", "MEGAbolt",
+            CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                 Assembly.GetExecutingAssembly().GetName().Version?.ToString())
             {
                 User = "cinder@cinderblocks.biz",

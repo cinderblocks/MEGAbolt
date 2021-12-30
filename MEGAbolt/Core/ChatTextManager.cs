@@ -95,7 +95,7 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat("radegast", "MEGAbolt",
+                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                     Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
