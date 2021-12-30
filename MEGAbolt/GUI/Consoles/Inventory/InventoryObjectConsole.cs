@@ -53,6 +53,7 @@ namespace MEGAbolt
 
                 client.Inventory.RequestRezFromInventory(
                     client.Network.CurrentSim, Quaternion.Identity, rezpos, (InventoryObject)item);
+                instance.MediaManager.PlayUISound(UISounds.ObjectRez);
             }
             catch
             {
@@ -61,14 +62,11 @@ namespace MEGAbolt
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnTouch_Click(object sender, EventArgs e)
         {
             Primitive targetPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(
-                    delegate(Primitive prim)
-                    {
-                        return prim.ID == item.UUID;
-                    }
-                );
+                prim => prim.ID == item.UUID
+            );
 
             if (targetPrim != null)
             {

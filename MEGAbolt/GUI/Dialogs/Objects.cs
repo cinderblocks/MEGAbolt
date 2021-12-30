@@ -2259,6 +2259,7 @@ namespace MEGAbolt
 
                 client.Self.PointAtEffect(client.Self.AgentID, UUID.Zero, Vector3d.Zero, PointAtType.None, pointID);
                 client.Self.BeamEffect(client.Self.AgentID, UUID.Zero, Vector3d.Zero, new Color4(0, 0, 255, 0), 0, beamID);
+                instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             }
         }
 

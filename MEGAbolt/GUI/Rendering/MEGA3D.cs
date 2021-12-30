@@ -1390,6 +1390,7 @@ namespace MEGAbolt
         {
             Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID);
+            Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Close();
         }
 
@@ -1397,6 +1398,7 @@ namespace MEGAbolt
         {
             Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID, DeRezDestination.ReturnToOwner, UUID.Zero, UUID.Random());
+            Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             Close();
         }
 
@@ -1406,10 +1408,10 @@ namespace MEGAbolt
                 returnToolStripMenuItem_Click(sender, e);
             else
             {
-                Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
                 Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID,
                     DeRezDestination.AgentInventoryTake, 
                     Client.Inventory.FindFolderForType(FolderType.Trash), UUID.Random());
+                Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             }
 
             Close();
