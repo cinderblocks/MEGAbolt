@@ -20,7 +20,7 @@ There is a strong focus on accessability and non-3D interaction.
 ## Disclaimer
 
 MEGAbolt has *no* affiliation or endorsement from the METAbolt project or its author. 
-MEGAbolt promises no compatiblity with plugins for said client and should be considered a seperate work entirely.
+MEGAbolt promises no compatibility with plugins for said client and should be considered a separate work entirely.
 
 ### Prerequisites
 
