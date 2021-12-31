@@ -257,26 +257,24 @@ namespace MEGAbolt
 
         public void InitAI()
         {
-            string aimlDirectory = $"{Application.StartupPath}\\aiml\\";
-
-            if (DirExists(aimlDirectory))
+            var aimlDirectory = $"{Directory.GetCurrentDirectory()}\\aiml\\";
+            var configDirectory = $"{Directory.GetCurrentDirectory()}\\Config\\";
+            if (!DirExists(aimlDirectory) || !DirExists(configDirectory))
             {
-                try
-                {
-                    myBot = new AIMLbot.Bot();
-                    myBot.loadSettings(aimlDirectory);
-                    myBot.loadAIMLFromFiles();
-                    myBot.isAcceptingUserInput = true;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log("AI is enabled but AI failed to load", Helpers.LogLevel.Warning, ex);
-                    myBot = null;
-                }
+                Logger.Log("AI is enabled but AI libraries are not installed.", Helpers.LogLevel.Warning);
             }
-            else
+
+            try
             {
-                Logger.Log("AI is enabled but AI libraries are not installed.", Helpers.LogLevel.Warning);    
+                myBot = new AIMLbot.Bot();
+                myBot.loadSettings();
+                myBot.loadAIMLFromFiles();
+                myBot.isAcceptingUserInput = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("AI is enabled but AI failed to load", Helpers.LogLevel.Warning, ex);
+                myBot = null;
             }
         }
 
