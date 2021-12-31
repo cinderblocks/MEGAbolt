@@ -37,6 +37,7 @@ namespace MEGAbolt
             this.button1 = new System.Windows.Forms.Button();
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.cboUserList = new System.Windows.Forms.ComboBox();
+            this.chkCmd = new System.Windows.Forms.CheckBox();
             this.chkPWD = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomLoginUri = new System.Windows.Forms.TextBox();
@@ -109,6 +110,7 @@ namespace MEGAbolt
             this.pnlLoginPrompt.Controls.Add(this.button1);
             this.pnlLoginPrompt.Controls.Add(this.txtFirstName);
             this.pnlLoginPrompt.Controls.Add(this.cboUserList);
+            this.pnlLoginPrompt.Controls.Add(this.chkCmd);
             this.pnlLoginPrompt.Controls.Add(this.chkPWD);
             this.pnlLoginPrompt.Controls.Add(this.label6);
             this.pnlLoginPrompt.Controls.Add(this.txtCustomLoginUri);
@@ -174,6 +176,20 @@ namespace MEGAbolt
             this.cboUserList.Size = new System.Drawing.Size(191, 21);
             this.cboUserList.TabIndex = 15;
             this.cboUserList.SelectedIndexChanged += new System.EventHandler(this.cboUserList_SelectedIndexChanged);
+            this.chkCmd.AccessibleDescription = "Option to create a BAT file for the avatar you are logging in with next time you " +
+                                                "start MEGAbolt";
+            this.chkCmd.AccessibleName = "Create BAT file";
+            this.chkCmd.AutoSize = true;
+            this.chkCmd.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.chkCmd.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkCmd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.chkCmd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkCmd.Location = new System.Drawing.Point(424, 44);
+            this.chkCmd.Name = "chkCmd";
+            this.chkCmd.Size = new System.Drawing.Size(110, 17);
+            this.chkCmd.TabIndex = 6;
+            this.chkCmd.Text = "Create av BAT file";
+            this.chkCmd.UseVisualStyleBackColor = true;
             // 
             // chkPWD
             // 
@@ -184,7 +200,7 @@ namespace MEGAbolt
             this.chkPWD.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightSteelBlue;
             this.chkPWD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
             this.chkPWD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkPWD.Location = new System.Drawing.Point(410, 44);
+            this.chkPWD.Location = new System.Drawing.Point(275, 45);
             this.chkPWD.Name = "chkPWD";
             this.chkPWD.Size = new System.Drawing.Size(140, 17);
             this.chkPWD.TabIndex = 5;
@@ -394,6 +410,7 @@ namespace MEGAbolt
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.ComboBox cbxLocation;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chkCmd;
         private System.Windows.Forms.CheckBox chkPWD;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ComboBox cboUserList;

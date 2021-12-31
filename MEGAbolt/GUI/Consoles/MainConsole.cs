@@ -352,9 +352,22 @@ namespace MEGAbolt
                         {
                             SaveUserSettings();
 
-                            string fname = client.Self.FirstName + "_" + client.Self.LastName;
+                            string fname = $"{client.Self.FirstName}_{client.Self.LastName}";
 
-                            //instance.Config.ChangeConfigFile(fname);
+                            if (chkCmd.Checked)
+                            {
+                                // create the CMD file
+                                CreateCmdFile();
+
+                                FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini"));
+
+                                if (!newFileInfo.Exists)
+                                {
+                                    string path = Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini");
+                                    instance.Config.CurrentConfig.Save(path);
+                                }
+                            }
+                            
                             instance.ReapplyConfig(fname);
 
                             if (instance.Config.CurrentConfig.AIon)
@@ -575,7 +588,7 @@ namespace MEGAbolt
         {
             try
             {
-                string cuser = $"{txtFirstName.Text} {txtLastName.Text}";
+                string cuser = $"{txtFirstName.Text}_{txtLastName.Text}";
                 string textfile = $"{cuser}.bat";
                 string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
