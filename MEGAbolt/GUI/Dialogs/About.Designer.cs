@@ -46,9 +46,15 @@ namespace MEGAbolt
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.pbLibreMetaverse = new System.Windows.Forms.PictureBox();
+            this.pbFmod = new System.Windows.Forms.PictureBox();
+            this.pbBugSplat = new System.Windows.Forms.PictureBox();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLibreMetaverse)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFmod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBugSplat)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -152,10 +158,10 @@ namespace MEGAbolt
             // 
             // pictureBox1
             // 
-            this.pictureBox1.AccessibleDescription = "Metabolt logo";
-            this.pictureBox1.AccessibleName = "Logo";
+            this.pictureBox1.AccessibleDescription = "MEGAbolt logo";
+            this.pictureBox1.AccessibleName = "MEGAbolt Logo";
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Image = global::MEGAbolt.Properties.Resources.MEGAbolt;
             this.pictureBox1.Location = new System.Drawing.Point(286, 7);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(129, 129);
@@ -274,6 +280,45 @@ namespace MEGAbolt
             this.label2.TabIndex = 24;
             this.label2.Text = "Data Dir:";
             // 
+            // pbLibreMetaverse
+            // 
+            this.pbLibreMetaverse.AccessibleDescription = "LibreMetaverse Logo";
+            this.pbLibreMetaverse.AccessibleName = "LibreMetaverse";
+            this.pbLibreMetaverse.BackColor = System.Drawing.Color.Transparent;
+            this.pbLibreMetaverse.Image = global::MEGAbolt.Properties.Resources.libremetaverse;
+            this.pbLibreMetaverse.Location = new System.Drawing.Point(12, 303);
+            this.pbLibreMetaverse.Name = "pbLibreMetaverse";
+            this.pbLibreMetaverse.Size = new System.Drawing.Size(32, 30);
+            this.pbLibreMetaverse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLibreMetaverse.TabIndex = 25;
+            this.pbLibreMetaverse.TabStop = false;
+            // 
+            // pbFmod
+            // 
+            this.pbFmod.AccessibleDescription = "FMOD logo";
+            this.pbFmod.AccessibleName = "FMOD";
+            this.pbFmod.BackColor = System.Drawing.Color.Transparent;
+            this.pbFmod.Image = global::MEGAbolt.Properties.Resources.fmod;
+            this.pbFmod.Location = new System.Drawing.Point(50, 307);
+            this.pbFmod.Name = "pbFmod";
+            this.pbFmod.Size = new System.Drawing.Size(100, 23);
+            this.pbFmod.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFmod.TabIndex = 26;
+            this.pbFmod.TabStop = false;
+            // 
+            // pbBugSplat
+            // 
+            this.pbBugSplat.AccessibleDescription = "BugSplat Logo";
+            this.pbBugSplat.AccessibleName = "BugSplat";
+            this.pbBugSplat.BackColor = System.Drawing.Color.Transparent;
+            this.pbBugSplat.Image = global::MEGAbolt.Properties.Resources.bugsplat;
+            this.pbBugSplat.Location = new System.Drawing.Point(156, 303);
+            this.pbBugSplat.Name = "pbBugSplat";
+            this.pbBugSplat.Size = new System.Drawing.Size(113, 30);
+            this.pbBugSplat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbBugSplat.TabIndex = 27;
+            this.pbBugSplat.TabStop = false;
+            // 
             // frmAbout
             // 
             this.AccessibleDescription = "Displays information about MEGAbolt";
@@ -285,6 +330,9 @@ namespace MEGAbolt
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(431, 340);
+            this.Controls.Add(this.pbBugSplat);
+            this.Controls.Add(this.pbFmod);
+            this.Controls.Add(this.pbLibreMetaverse);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
@@ -314,6 +362,9 @@ namespace MEGAbolt
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbLibreMetaverse)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFmod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBugSplat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,5 +389,8 @@ namespace MEGAbolt
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pbLibreMetaverse;
+        private System.Windows.Forms.PictureBox pbFmod;
+        private System.Windows.Forms.PictureBox pbBugSplat;
     }
 }

@@ -1047,6 +1047,42 @@ namespace MEGAbolt.Properties {
             }
         }
 
+        internal static System.Drawing.Bitmap MEGAbolt
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("METAbolt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap fmod
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("fmod", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap libremetaverse
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("libremetaverse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap bugsplat
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("bugsplat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
