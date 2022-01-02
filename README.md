@@ -9,6 +9,7 @@ MEGAbolt Metaverse Client (https://megabolt.radegast.life)
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://github.com/cinderblocks/megabolt/blob/master/LICENSE.txt)  
 [![Build status](https://ci.appveyor.com/api/projects/status/59so9kvaj660v01i/branch/master?svg=true)](https://ci.appveyor.com/project/cinderblocks57647/megabolt/branch/master)  
+[![Latest version downloads](https://img.shields.io/github/downloads-pre/cinderblocks/megabolt/latest/total)](https://radegast.life/downloads/)  
 [![ZEC](https://img.shields.io/keybase/zec/cinder)](https://keybase.io/cinder) [![BTC](https://img.shields.io/keybase/btc/cinder)](https://keybase.io/cinder)  
 
 ## Say what?
