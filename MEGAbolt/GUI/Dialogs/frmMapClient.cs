@@ -1093,7 +1093,7 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(lblSlurl.Text))
             {
-                System.Diagnostics.Process.Start(lblSlurl.Text);
+                Utilities.OpenBrowser(lblSlurl.Text);
             }
         }
 
