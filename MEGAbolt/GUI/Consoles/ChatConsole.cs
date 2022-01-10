@@ -32,7 +32,7 @@ using OpenMetaverse.Assets;
 using System.Timers;
 using System.Threading;
 using System.Linq;
-using OpenMetaverse.Voice;
+using LibreMetaverse.Voice;
 using MEGAbolt.Controls;
 using System.Globalization;
 using System.Reflection;
