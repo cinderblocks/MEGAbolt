@@ -290,8 +290,8 @@ namespace MEGAbolt.NetworkComm
                     case StartLocationType.Custom:
                         startLocation = LoginOptions.StartLocationCustom.Trim();
 
-                        StartLocationParser parser = new StartLocationParser(startLocation);
-                        startLocation = NetworkManager.StartLocation(parser.Sim, parser.X, parser.Y, parser.Z);
+                        var parser = new LocationParser(startLocation);
+                        startLocation = parser.GetStartLocationUri();
 
                         break;
                 }
