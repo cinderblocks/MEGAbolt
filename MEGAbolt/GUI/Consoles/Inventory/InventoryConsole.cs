@@ -1,10 +1,10 @@
 /*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2022, Sjofn, LLC
  * All rights reserved.
  *  
- * Radegast is free software: you can redistribute it and/or modify
+ * MEGAbolt is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -33,13 +33,6 @@ using System.Reflection;
 using BugSplatDotNetStandard;
 using File = System.IO.File;
 
-// Some parts of this code has been adopted from OpenMetaverse.GUI
-//
-/*
- * Copyright (c) 2007-2008, openmetaverse.org
- * All rights reserved.
-*/
-
 
 namespace MEGAbolt
 {
@@ -49,7 +42,7 @@ namespace MEGAbolt
         private readonly MEGAboltInstance instance;
         private InventoryItemConsole currentProperties;
         private readonly InventoryClipboard clip;
-        private readonly InventoryTreeSorter treeSorter = new InventoryTreeSorter();
+        private readonly InventoryTreeSorter treeSorter = new();
         private bool ShowAuto = false;
         private string SortBy = "By Name";
 
@@ -70,7 +63,7 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                     Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                 {
                     User = "cinder@cinderblocks.biz",
@@ -92,20 +85,16 @@ namespace MEGAbolt
 
             Disposed += InventoryConsole_Disposed;
 
-            textfile = "\\" + client.Self.FirstName + "_" + client.Self.LastName + "_" + "Outfit.mtb";
+            textfile = $"\\{client.Self.FirstName}_{client.Self.LastName}_Outfit.mtb";
             path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
             ReadTextFile();
-
-            //baseinv.RestoreFromDisk
 
             InitializeImageList();
             InitializeTree();
             GetRoot();
 
             instance.insconsole = this;
-
-            //TreeViewWalker treeViewWalker = new TreeViewWalker(treeView1);
         }
 
         private void InitializeImageList()
@@ -130,8 +119,6 @@ namespace MEGAbolt
             rootNode = treeView1.Nodes.Add(rootFolder.UUID.ToString(), "My Inventory");
             rootNode.Tag = rootFolder;
             rootNode.ImageKey = "ClosedFolder";
-
-            //treeLookup.Add(rootFolder.UUID, rootNode);
 
             //Triggers treInventory's AfterExpand event, thus triggering the root content request
             rootNode.Nodes.Add("Requesting folder contents...");
@@ -177,13 +164,9 @@ namespace MEGAbolt
 
             try
             {
-                //nodecol = false;
+                var fldr = item.UUID;
 
-                //addeditem = item.UUID;
-                //UUID fldr = client.Inventory.Store.RootFolder.UUID;
-                UUID fldr = item.UUID;
-
-                InventoryBase io = (InventoryBase)item;
+                InventoryBase io = item;
 
                 if (io is InventoryFolder)
                 {
@@ -206,12 +189,9 @@ namespace MEGAbolt
 
         private void Store_OnInventoryObjectRemoved(object sender, InventoryObjectRemovedEventArgs e)
         {
-            //nodecol = false;
-            //RefreshInventory();
+            var fldr = e.Obj.UUID;
 
-            UUID fldr = e.Obj.UUID;
-
-            InventoryBase io = (InventoryBase)e.Obj;
+            var io = e.Obj;
 
             if (io is InventoryFolder)
             {
@@ -225,61 +205,11 @@ namespace MEGAbolt
                 }
             }
 
-
-            //WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), fldr);
-
             client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
             UpdateFolder(fldr);
             client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
 
         }
-
-        //private void Store_OnInventoryObjectAdded(object sender, InventoryObjectAddedEventArgs e)
-        //{
-        //    if (InvokeRequired)
-        //    {
-
-        //        BeginInvoke(new MethodInvoker(delegate()
-        //        {
-        //            Store_OnInventoryObjectAdded(sender, e);
-        //        }));
-
-        //        return;
-        //    }
-
-        //    //////addeditem = item.UUID;
-        //    //UUID fldr = client.Inventory.Store.RootFolder.UUID;
-
-        //    //if (e.Obj.ParentUUID != UUID.Zero)
-        //    //{
-        //    //    fldr = e.Obj.ParentUUID;
-        //    //}
-
-        //    //WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), fldr);
-
-        //    //if (!instance.State.FolderRcvd)
-        //    //{
-        //    //    return;
-        //    //}
-
-        //    //instance.State.FolderRcvd = false;
-
-        //    //if (nodecol) return;
-
-        //    //RefreshInventory();
-
-        //    //treeView1.Nodes.Clear();
-
-        //    //treeSorter.CurrentSortName = SortBy;
-        //    //treeView1.TreeViewNodeSorter = treeSorter;
-
-        //    //((ToolStripMenuItem)tbtnSort.DropDown.Items[0]).PerformClick();
-
-        //    //GetRoot();
-
-        //    UpdateFolder(e.Obj.ParentUUID);
-        //}
-
         private void Inventory_OnAppearanceSet(object sender, AppearanceSetEventArgs e)
         {
             if (InvokeRequired)
@@ -293,17 +223,11 @@ namespace MEGAbolt
                 return;
             }
 
-            //AppearanceSet = true;
-
-            //CheckAttachments();
-            //client.Appearance.RequestAgentWearables();  
-
             try
             {
-                //RefreshInventory();
                 if (favfolder.CompareTo(UUID.Zero) != 0)
                 {
-                    List<InventoryBase> foundfolders = client.Inventory.Store.GetContents(favfolder);
+                    var foundfolders = client.Inventory.Store.GetContents(favfolder);
                     instance.MainForm.UpdateFavourites(foundfolders);
                 }
             }
@@ -326,9 +250,9 @@ namespace MEGAbolt
 
         private void GetRoots()
         {
-            List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
+            var invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
-            foreach (InventoryBase o in invroot)
+            foreach (var o in invroot)
             {
                 if (o.Name.ToLower(CultureInfo.CurrentCulture) == "current outfit")
                 {
@@ -368,44 +292,6 @@ namespace MEGAbolt
             }
         }
 
-        //private void CheckAttachments()
-        //{
-        //    //inventoryitems
-
-        //    lock (inventoryitems)
-        //    {
-        //        List<Primitive> attachments = client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => p.ParentID == client.Self.LocalID);
-
-        //        //foreach (InventoryItem item in inventoryitems.Values)
-        //        //{
-        //        //    //if (item is InventoryObject || item is InventoryAttachment)
-        //        //    //{
-        //        //        if (!IsAttached(attachments, item))
-        //        //        {
-        //        //            client.Appearance.Attach(item, AttachmentPoint.Default, false);
-        //        //        }
-        //        //    //}
-        //        //}
-
-        //        foreach (Primitive prim in attachments)
-        //        {
-        //            //if (prim.NameValues != null)
-        //            //{
-        //            //    for (int i = 0; i < prim.NameValues.Length; i++)
-        //            //    {
-        //            //        if (prim.NameValues[i].Name == "AttachItemID")
-        //            //        {
-        //            //            return (UUID)prim.NameValues[i].Value.ToString(); prim.
-        //            //        }
-        //            //    }
-        //            //}
-
-        //            client.Appearance.Detach(prim.ID);
-        //            client.Appearance.Attach(prim.ID, client.Self.AgentID, "", "", Permissions.FullPermissions, 0, AttachmentPoint.Default, false); 
-        //        }
-        //    }
-        //}
-
         public static bool IsAttached(List<Primitive> attachments, InventoryItem item)
         {
             return attachments.Any(prim => IsAttachment(prim) == item.UUID);
@@ -415,7 +301,7 @@ namespace MEGAbolt
         {
             if (prim.NameValues == null) return UUID.Zero;
 
-            for (int i = 0; i < prim.NameValues.Length; i++)
+            for (var i = 0; i < prim.NameValues.Length; i++)
             {
                 if (prim.NameValues[i].Name == "AttachItemID")
                 {
@@ -426,7 +312,7 @@ namespace MEGAbolt
             return UUID.Zero;
         }
 
-        //Seperate thread
+        //Separate thread
         private void Inventory_OnFolderUpdated(object sender, FolderUpdatedEventArgs e)
         {
             if (InvokeRequired)
@@ -441,57 +327,28 @@ namespace MEGAbolt
 
             try
             {
-                if (!searching)
+                if (searching) { return; }
+
+                client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
+                UpdateFolder(e.FolderID);
+                client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
+
+                if (instance.CoF != null)
                 {
-                    //if (folderproc == e.FolderID)
-                    //{
-                        ////WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), e.FolderID);
-
-                        client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
-                        UpdateFolder(e.FolderID);
-                        client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
-                        //folderproc = UUID.Zero;
-
-                        if (instance.CoF != null)
-                        {
-                            if (e.FolderID == instance.CoF.UUID)
-                            {
-                                instance.CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.CurrentOutfit)].Data;
-                            }
-                        }
-
-                    //}
+                    if (e.FolderID == instance.CoF.UUID)
+                    {
+                        instance.CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.CurrentOutfit)].Data;
+                    }
                 }
             }
             catch { ; }
         }
-
-        //private void Store_OnInventoryObjectUpdated(object sender, InventoryObjectUpdatedEventArgs e)
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        BeginInvoke(new MethodInvoker(delegate()
-        //        {
-        //            Store_OnInventoryObjectUpdated(sender, e);
-        //        }));
-
-        //        return;
-        //    }
-
-        //    //UpdateFolder(e.NewObject.ParentUUID);
-        //    RefreshInventory();
-        //}
 
         private void CleanUp()
         {
             ClearCurrentProperties();
             timer1.Enabled = false;
         }
-
-        //public void UpdateFolder(object folderID)
-        //{
-        //    UpdateFolder((UUID)folderID);
-        //}
 
         public void UpdateFolder(UUID folderID)
         {
@@ -507,7 +364,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    TreeViewWalker treeViewWalker = new TreeViewWalker(treeView1);
+                    var treeViewWalker = new TreeViewWalker(treeView1);
 
                     treeViewWalker.LoadInventory(instance, folderID);
 
@@ -522,7 +379,7 @@ namespace MEGAbolt
 
                 if (folderID == favfolder)
                 {
-                    List<InventoryBase> invroot = client.Inventory.Store.GetContents(favfolder);
+                    var invroot = client.Inventory.Store.GetContents(favfolder);
                     instance.MainForm.UpdateFavourites(invroot);
                 }
                 
@@ -537,18 +394,13 @@ namespace MEGAbolt
             {
                 client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
                 client.Inventory.ItemReceived += Inventory_OnItemReceived;
-                //client.Inventory.InventoryObjectOffered += new EventHandler<InventoryObjectOfferedEventArgs>(Inventory_InventoryObjectOffered);
                 client.Appearance.AppearanceSet += Inventory_OnAppearanceSet;
                 client.Inventory.Store.InventoryObjectRemoved += Store_OnInventoryObjectRemoved;
-                //client.Inventory.Store.InventoryObjectUpdated += new EventHandler<InventoryObjectUpdatedEventArgs>(Store_OnInventoryObjectUpdated);
                 client.Network.EventQueueRunning += Network_OnEventQueueRunning;
-                //client.Appearance.AgentWearablesReply += Appearance_AgentWearablesReply;
 
-                //client.Appearance.RequestAgentWearables();   
-
-                foreach (ITreeSortMethod method in treeSorter.GetSortMethods())
+                foreach (var method in treeSorter.GetSortMethods())
                 {
-                    ToolStripMenuItem item = (ToolStripMenuItem)tbtnSort.DropDown.Items.Add(method.Name);
+                    var item = (ToolStripMenuItem)tbtnSort.DropDown.Items.Add(method.Name);
                     item.ToolTipText = method.Description;
                     item.Name = method.Name;
 
@@ -575,22 +427,12 @@ namespace MEGAbolt
             }
         }
 
-        //void Appearance_AgentWearablesReply(object sender, AgentWearablesReplyEventArgs e)
-        //{
-        //    var ftgd = e.ToString();
-        //}
-
         private void InventoryConsole_Disposed(object sender, EventArgs e)
         {
             client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
             client.Inventory.ItemReceived -= Inventory_OnItemReceived;
-            //client.Inventory.InventoryObjectOffered -= new EventHandler<InventoryObjectOfferedEventArgs>(Inventory_InventoryObjectOffered);
             client.Appearance.AppearanceSet -= Inventory_OnAppearanceSet;
             client.Inventory.Store.InventoryObjectRemoved -= Store_OnInventoryObjectRemoved;
-            //client.Inventory.Store.InventoryObjectAdded -= new EventHandler<InventoryObjectAddedEventArgs>(Store_OnInventoryObjectAdded);
-            //netcom.ClientLoggedOut -= new EventHandler(netcom_ClientLoggedOut);
-            //netcom.ClientDisconnected -= new EventHandler<DisconnectedEventArgs>(netcom_ClientDisconnected);
-            //client.Inventory.Store.InventoryObjectUpdated -= new EventHandler<InventoryObjectUpdatedEventArgs>(Store_OnInventoryObjectUpdated);
             client.Network.EventQueueRunning -= Network_OnEventQueueRunning;
         }
 
@@ -598,12 +440,12 @@ namespace MEGAbolt
         {
             client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
 
-            TreeNode node = treeView1.SelectedNode;
+            var node = treeView1.SelectedNode;
 
             if (!string.IsNullOrEmpty(treeSorter.CurrentSortName))
                 ((ToolStripMenuItem)tbtnSort.DropDown.Items[treeSorter.CurrentSortName]).Checked = false;
 
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = (ToolStripMenuItem)sender;
             treeSorter.CurrentSortName = item.Text;
 
             treeView1.BeginUpdate();
@@ -621,49 +463,35 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             if (io is InventoryItem item)
             {
                 panel2.Visible = false;
-
-                //TreeNode node = treeView1.SelectedNode;
-
-                //InventoryImageConsole.vi 
-                InventoryItemConsole console = new InventoryItemConsole(instance, item);
+                
+                var console = new InventoryItemConsole(instance, item);
                 console.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(console);
 
                 ClearCurrentProperties();
-                //ClearAutoProperties();
                 currentProperties = console;
-
-                //item.InventoryType 
 
                 try
                 {
-                    if (item.InventoryType is InventoryType.Wearable or InventoryType.Attachment or InventoryType.Object)
+                    switch (item.InventoryType)
                     {
-                        //console.Controls["btnDetach"].Visible = true;
-                        //console.Controls["btnWear"].Visible = true;
-                        console.Controls["label11"].Visible = true;
-                        
-                        console.Controls["btnTP"].Visible = false;
+                        case InventoryType.Wearable or InventoryType.Attachment or InventoryType.Object:
+                            console.Controls["label11"].Visible = true;
+                            console.Controls["btnTP"].Visible = false;
+                            break;
+                        case InventoryType.Landmark:
+                            console.Controls["btnTP"].Visible = true;
+                            break;
+                        default:
+                            console.Controls["label11"].Visible = false;
+                            console.Controls["btnTP"].Visible = false;
+                            break;
                     }
-                    else if (item.InventoryType == InventoryType.Landmark)
-                    {
-                        console.Controls["btnTP"].Visible = true;
-                    }
-                    else
-                    {
-                        //console.Controls["btnDetach"].Visible = false;
-                        //console.Controls["btnWear"].Visible = false;
-                        console.Controls["label11"].Visible = false;
-
-                        console.Controls["btnTP"].Visible = false;
-                    }
-
-                    //console.Controls["btnGive"].Visible = true;
                 }
                 catch
                 {
@@ -710,42 +538,36 @@ namespace MEGAbolt
         {
             if (node == null) return;
 
-            InventoryBase io = (InventoryBase)node.Tag;
+            var io = (InventoryBase)node.Tag;
 
-            if (io is InventoryFolder inventoryFolder)
+            switch (io)
             {
-                try
-                {
-                    InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
+                case InventoryFolder inventoryFolder:
+                    try
+                    {
+                        var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
-                    if (aitem.PreferredType != FolderType.None)
+                        if (aitem.PreferredType != FolderType.None)
+                        {
+                            return;
+                        }
+                    }
+                    catch
                     {
                         return;
-                        //DialogResult result = MessageBox.Show("You are about to delete a SYSTEM FOLDER!\nAre you sure you want to continue?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                        //if (DialogResult.No == result)
-                        //{
-                        //    return;
-                        //}
                     }
-                }
-                catch
-                {
-                    return;
-                }
                 
-                client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash));
-                inventoryFolder = null;
-            }
-            else if (io is InventoryItem item)
-            {
-                //client.Inventory.RemoveItem(item.UUID);
-                //item = null;
+                    client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash));
+                    inventoryFolder = null;
+                    break;
+                case InventoryItem item:
+                {
+                    var folder = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.Trash)].Data;
 
-                InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.Trash)].Data;
-
-                client.Inventory.MoveItem(item.UUID, folder.UUID, item.Name);
-                item = null;
+                    client.Inventory.MoveItem(item.UUID, folder.UUID, item.Name);
+                    item = null;
+                    break;
+                }
             }
 
             io = null;
@@ -762,15 +584,13 @@ namespace MEGAbolt
 
             if (treeView1.SelectedNode == null) return;
 
-            //nodecol = true;
-
             selectednode = treeView1.SelectedNode;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             if (io is InventoryFolder)
             {
-                InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
+                var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
                 if (aitem.PreferredType != FolderType.None)
                 {
@@ -779,7 +599,6 @@ namespace MEGAbolt
             }
 
             clip.SetClipboardNode(treeView1.SelectedNode, true);
-            //iscut = true;
             tmnuPaste.Enabled = true;
             pasteMenu.Enabled = true;
 
@@ -794,14 +613,11 @@ namespace MEGAbolt
 
                 if (treeView1.SelectedNode == null) return;
 
-                //nodecol = true;
-
                 selectednode = treeView1.SelectedNode;
 
                 clip.PasteTo(treeView1.SelectedNode);
                 tmnuPaste.Enabled = false;
-
-                //iscut = false;
+                
                 tmnuPaste.Enabled = false;
                 pasteMenu.Enabled = false;
 
@@ -822,29 +638,24 @@ namespace MEGAbolt
 
         private void AddNewFolder()
         {
-            string newFolderName = "New Folder";
+            var newFolderName = "New Folder";
 
             if (treeView1.SelectedNode == null)
             {
-                InventoryFolder rtFolder = client.Inventory.Store.RootFolder;
+                var rtFolder = client.Inventory.Store.RootFolder;
                 client.Inventory.CreateFolder(rtFolder.UUID, newFolderName);
 
                 return;
             }
 
-            //nodecol = false;
-
-            if (treeView1.SelectedNode.Tag is InventoryFolder tag)
+            switch (treeView1.SelectedNode.Tag)
             {
-                client.Inventory.CreateFolder(tag.UUID, newFolderName);
-
-                //UpdateFolder(selfolder.UUID);
-            }
-            else if (treeView1.SelectedNode.Tag is InventoryItem selfolder)
-            {
-                client.Inventory.CreateFolder(selfolder.ParentUUID, newFolderName);
-
-                //UpdateFolder(selfolder.ParentUUID);
+                case InventoryFolder tag:
+                    client.Inventory.CreateFolder(tag.UUID, newFolderName);
+                    break;
+                case InventoryItem selfolder:
+                    client.Inventory.CreateFolder(selfolder.ParentUUID, newFolderName);
+                    break;
             }
         }
 
@@ -867,13 +678,13 @@ namespace MEGAbolt
 
         private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            TreeNode aNode = (TreeNode)e.Item;
+            var aNode = (TreeNode)e.Item;
 
-            InventoryBase io = (InventoryBase)aNode.Tag;
+            var io = (InventoryBase)aNode.Tag;
 
             if (aNode.Tag is InventoryFolder)
             {
-                InventoryFolder folder = (InventoryFolder)io;
+                var folder = (InventoryFolder)io;
 
                 if (folder.PreferredType != FolderType.None)
                 {
@@ -882,7 +693,7 @@ namespace MEGAbolt
             }
             else
             {
-                InventoryItem item = (InventoryItem)io;
+                var item = (InventoryItem)io;
 
                 if ((item.Permissions.OwnerMask & PermissionMask.Transfer) != PermissionMask.Transfer)
                 {
@@ -902,46 +713,116 @@ namespace MEGAbolt
             if (instance.CoF == null)
             {
                 GetRoots();
-                //return;
             }
 
             tbtnNew.Enabled = true;
             tbtnOrganize.Enabled = true;
 
-            if (e.Node.Tag is InventoryFolder)
+            switch (e.Node.Tag)
             {
-                //tmnuRename.Enabled = false;
-                replaceOutfitToolStripMenuItem.Visible = true;
-                wearToolStripMenuItem.Visible = false;
-                attachToToolStripMenuItem.Visible = false;
-                toolStripButton2.Enabled = true;
-
-                InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
-
-                if (aitem.PreferredType == FolderType.Trash)
+                case InventoryFolder:
                 {
-                    for (int i = 0; i < smM1.Items.Count; i++)
+                    replaceOutfitToolStripMenuItem.Visible = true;
+                    wearToolStripMenuItem.Visible = false;
+                    attachToToolStripMenuItem.Visible = false;
+                    toolStripButton2.Enabled = true;
+
+                    var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
+
+                    switch (aitem.PreferredType)
                     {
-                        smM1.Items[i].Visible = false;
+                        case FolderType.Trash:
+                        {
+                            for (var i = 0; i < smM1.Items.Count; i++)
+                            {
+                                smM1.Items[i].Visible = false;
+                            }
+
+                            emptyMenu.Visible = true;
+                            emptyTrashToolStripMenuItem.Visible = true;
+                            break;
+                        }
+                        case FolderType.CurrentOutfit:
+                            tbtnNew.Enabled = false;
+                            tbtnOrganize.Enabled = false;
+                            break;
+                        default:
+                        {
+                            for (var i = 0; i < smM1.Items.Count; i++)
+                            {
+                                smM1.Items[i].Visible = true;
+                            }
+
+                            emptyMenu.Visible = false;
+                            emptyTrashToolStripMenuItem.Visible = false;
+                            cutMenu.Enabled = true;
+                            copyMenu.Enabled = true;
+                            renameToolStripMenuItem.Enabled = true;
+                            deleteToolStripMenuItem.Enabled = true;
+                            tmnuCut.Enabled = true;
+                            tmnuRename.Enabled = true;
+                            tmnuDelete.Enabled = true;
+                            tmnuCopy.Enabled = true;
+
+                            var io = (InventoryBase)treeView1.SelectedNode.Tag;
+
+                            if (io is InventoryFolder)
+                            {
+                                if (aitem.PreferredType != FolderType.None)
+                                {
+                                    cutMenu.Enabled = false;
+                                    copyMenu.Enabled = false;
+                                    renameToolStripMenuItem.Enabled = false;
+                                    deleteToolStripMenuItem.Enabled = false;
+                                    tmnuCut.Enabled = false;
+                                    tmnuRename.Enabled = false;
+                                    tmnuDelete.Enabled = false;
+                                    tmnuCopy.Enabled = false;
+                                }
+                            }
+
+                            break;
+                        }
                     }
 
-                    emptyMenu.Visible = true;
-                    emptyTrashToolStripMenuItem.Visible = true;
+                    break;
                 }
-                else if (aitem.PreferredType == FolderType.CurrentOutfit)
+                case InventoryItem:
                 {
-                    tbtnNew.Enabled = false;
-                    tbtnOrganize.Enabled = false;
-                }
-                else
-                {
-                    for (int i = 0; i < smM1.Items.Count; i++)
+                    replaceOutfitToolStripMenuItem.Visible = false;
+                        
+                    var io = (InventoryBase)treeView1.SelectedNode?.Tag;
+
+                    if (io is InventoryObject or InventoryAttachment)
                     {
-                        smM1.Items[i].Visible = true;
+                        try
+                        {
+                            if (gotCoF)
+                            {
+                                if (io.ParentUUID != instance.CoF.UUID)
+                                {
+                                    attachToToolStripMenuItem.Visible = true;
+                                }
+                            }
+                            else
+                            {
+                                attachToToolStripMenuItem.Visible = true;
+                            }
+                        }
+                        catch
+                        {
+                            attachToToolStripMenuItem.Visible = true;
+                        }
                     }
 
-                    emptyMenu.Visible = false;
-                    emptyTrashToolStripMenuItem.Visible = false;
+                    if (io.ParentUUID == instance.CoF.UUID)
+                    {
+                        tbtnNew.Enabled = false;
+                        tbtnOrganize.Enabled = false;
+                    }
+
+                    wearToolStripMenuItem.Visible = io is InventoryWearable or InventoryObject or InventoryAttachment;
+
                     cutMenu.Enabled = true;
                     copyMenu.Enabled = true;
                     renameToolStripMenuItem.Enabled = true;
@@ -950,78 +831,8 @@ namespace MEGAbolt
                     tmnuRename.Enabled = true;
                     tmnuDelete.Enabled = true;
                     tmnuCopy.Enabled = true;
-
-                    InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
-
-                    if (io is InventoryFolder)
-                    {
-                        if (aitem.PreferredType != FolderType.None)
-                        {
-                            cutMenu.Enabled = false;
-                            copyMenu.Enabled = false;
-                            renameToolStripMenuItem.Enabled = false;
-                            deleteToolStripMenuItem.Enabled = false;
-                            tmnuCut.Enabled = false;
-                            tmnuRename.Enabled = false;
-                            tmnuDelete.Enabled = false;
-                            tmnuCopy.Enabled = false;
-                        }
-                    }
+                    break;
                 }
-            }
-            else if (e.Node.Tag is InventoryItem)
-            {
-                //tmnuRename.Enabled = true;
-                replaceOutfitToolStripMenuItem.Visible = false;
-
-                //InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;
-                InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
-
-                if (io is InventoryObject or InventoryAttachment)
-                {
-                    try
-                    {
-                        if (gotCoF)
-                        {
-                            if (io.ParentUUID != instance.CoF.UUID)
-                            {
-                                attachToToolStripMenuItem.Visible = true;
-                            }
-                        }
-                        else
-                        {
-                            attachToToolStripMenuItem.Visible = true;
-                        }
-                    }
-                    catch
-                    {
-                        attachToToolStripMenuItem.Visible = true;
-                    }
-                }
-
-                if (io.ParentUUID == instance.CoF.UUID)
-                {
-                    tbtnNew.Enabled = false;
-                    tbtnOrganize.Enabled = false;
-                }
-
-                if (io is InventoryWearable or InventoryObject or InventoryAttachment)
-                {
-                    wearToolStripMenuItem.Visible = true;
-                }
-                else
-                {
-                    wearToolStripMenuItem.Visible = false;
-                }
-
-                cutMenu.Enabled = true;
-                copyMenu.Enabled = true;
-                renameToolStripMenuItem.Enabled = true;
-                deleteToolStripMenuItem.Enabled = true;
-                tmnuCut.Enabled = true;
-                tmnuRename.Enabled = true;
-                tmnuDelete.Enabled = true;
-                tmnuCopy.Enabled = true;
             }
 
             RefreshPropertiesPane();
@@ -1039,28 +850,11 @@ namespace MEGAbolt
 
         private void tmnuNewNotecard_Click(object sender, EventArgs e)
         {
-            string newNotecardName = "New Notecard";
-            string newNotecardDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with MEGAbolt {1}", newNotecardName, DateTime.Now); ;
-            string newNotecardContent = string.Empty;
+            var newNotecardName = "New Notecard";
+            var newNotecardDescription = $"{newNotecardName} created with MEGAbolt {DateTime.Now}";
+            var newNotecardContent = string.Empty;
 
-            //nodecol = false;
-
-            if (treeView1.SelectedNode == null)
-            {
-                AddNewNotecard(
-                    newNotecardName,
-                    newNotecardDescription,
-                    newNotecardContent,
-                    treeView1.Nodes[0]);
-            }
-            else
-            {
-                AddNewNotecard(
-                    newNotecardName,
-                    newNotecardDescription,
-                    newNotecardContent,
-                    treeView1.SelectedNode);
-            }
+            AddNewNotecard(newNotecardName, newNotecardDescription, newNotecardContent, treeView1.SelectedNode ?? treeView1.Nodes[0]);
         }
 
         private void AddNewNotecard(string notecardName, string notecardDescription, string notecardContent, TreeNode node)
@@ -1069,23 +863,18 @@ namespace MEGAbolt
 
             InventoryFolder folder = null;
 
-            //nodecol = false;
-
             if (node.Text == "(empty)")
             {
                 folder = (InventoryFolder)node.Parent.Tag;
             }
             else
             {
-                if (node.Tag is InventoryFolder tag)
+                folder = node.Tag switch
                 {
-                    folder = tag;
-                }
-                else if (node.Tag is InventoryItem)
-                {
-
-                    folder = (InventoryFolder)node.Parent.Tag;
-                }
+                    InventoryFolder tag => tag,
+                    InventoryItem => (InventoryFolder)node.Parent.Tag,
+                    _ => folder
+                };
             }
 
             client.Inventory.RequestCreateItem(folder.UUID,
@@ -1108,7 +897,7 @@ namespace MEGAbolt
             body = body.Trim();
 
             // Format the string body into Linden text
-            string lindenText = "Linden text version 1\n";
+            var lindenText = "Linden text version 1\n";
             lindenText += "{\n";
             lindenText += "LLEmbeddedItems version 1\n";
             lindenText += "{\n";
@@ -1119,8 +908,8 @@ namespace MEGAbolt
             lindenText += "}\n";
 
             // Assume this is a string, add 1 for the null terminator
-            byte[] stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
-            byte[] assetData = new byte[stringBytes.Length]; //+ 1];
+            var stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
+            var assetData = new byte[stringBytes.Length]; //+ 1];
             Array.Copy(stringBytes, 0, assetData, 0, stringBytes.Length);
 
             return assetData;
@@ -1130,19 +919,6 @@ namespace MEGAbolt
         {
             if (success)
             {
-                //InventoryBase invObj = client.Inventory.Store[ifolder.UUID];
-                //UpdateFolder(ifolder.UUID);
-                //WorkPool.QueueUserWorkItem(new WaitCallback(UpdateFolder), ifolder.UUID);
-
-                //InventoryItem ifitm = client.Inventory.FetchItem(itemID, client.Self.AgentID, 3000);
-
-                //UpdateFolder(ifitm.ParentUUID);
-
-                //if (selectednode != null)
-                //{
-                //    ReloadInventory();
-                //}
-
                 RefreshInventory();
             }
         }
@@ -1167,12 +943,9 @@ namespace MEGAbolt
 
             if (treeView1.SelectedNode == null) return;
 
-            //nodecol = false;
-
             clip.SetClipboardNode(treeView1.SelectedNode, false);
             tmnuPaste.Enabled = true;
             pasteMenu.Enabled = true;
-            //iscut = false;
         }
 
         private void tmnuRename_Click(object sender, EventArgs e)
@@ -1181,11 +954,11 @@ namespace MEGAbolt
 
             if (treeView1.SelectedNode.Tag.ToString() == "empty") return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             if (io is InventoryFolder)
             {
-                InventoryFolder aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
+                var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
 
                 if (aitem.PreferredType != FolderType.None)
                 {
@@ -1198,57 +971,16 @@ namespace MEGAbolt
 
         private void FindByText()
         {
-            //Boolean found = false;
-            //TreeNodeCollection nodes = sellectednode.Nodes;
-            //TreeNodeCollection nodes = treeView1.Nodes;
-
             client.Inventory.FolderUpdated -= Inventory_OnFolderUpdated;
 
             sellectednode.Expand();
-            //found = FindRecursive(sellectednode);
             FindRecursive(sellectednode);
-
-            //foreach (TreeNode n in nodes)
-            //{
-            //    found = FindRecursive(n);
-            //    //found = WorkPool.QueueUserWorkItem(new WaitCallback(FindRecursive), n);
-
-            //    if (!found)
-            //    {
-            //        n.Collapse();
-            //        found = false;
-            //    }
-            //}
-
-            //foreach (TreeNode n in nodes)
-            //{
-            //    BackgroundWorker bw = new BackgroundWorker();
-            //    bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            //    bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-            //    object[] oArgs = new object[] { n, "Loading..." };
-            //    bw.RunWorkerAsync(oArgs);
-            //}
 
             searching = false;
             client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-        }
-
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-
-        }
-
-        //private void FindRecursive(Object treeNode)
-        //{
-        //    FindRecursive((TreeNode)treeNode);
-        //}
-
-        private Boolean FindRecursive(TreeNode treeNode)
+        private bool FindRecursive(TreeNode treeNode)
         {
             if (InvokeRequired)
             {
@@ -1260,9 +992,9 @@ namespace MEGAbolt
                 return false;
             }
 
-            string searchstring = textBox1.Text.Trim();
+            var searchstring = textBox1.Text.Trim();
             searchstring = searchstring.ToLower(CultureInfo.CurrentCulture);
-            Boolean found = false;
+            var found = false;
 
             foreach (TreeNode tn in treeNode.Nodes)
             {
@@ -1289,7 +1021,7 @@ namespace MEGAbolt
 
         private void ClearBackColor()
         {
-            TreeNodeCollection nodes = treeView1.Nodes;
+            var nodes = treeView1.Nodes;
 
             foreach (TreeNode n in nodes)
             {
@@ -1357,41 +1089,46 @@ namespace MEGAbolt
         {
             if (e.CancelEdit) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             //protect against an empty name
             if (string.IsNullOrEmpty(e.Label) || io.ParentUUID == instance.CoF.UUID)
             {
                 e.CancelEdit = true;
-                //Logger.Log("Attempt to give inventory item a blank name was foiled!", Helpers.LogLevel.Warning);
                 return;
             }           
 
-            if (e.Node.Tag is InventoryFolder)
+            switch (e.Node.Tag)
             {
-                InventoryFolder aitem = (InventoryFolder)io;
-
-                if (aitem.PreferredType != FolderType.None)
+                case InventoryFolder:
                 {
-                    e.CancelEdit = true;
-                    return;
+                    var aitem = (InventoryFolder)io;
+
+                    if (aitem.PreferredType != FolderType.None)
+                    {
+                        e.CancelEdit = true;
+                        return;
+                    }
+
+                    client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
+                    break;
                 }
-
-                client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
-            }
-            else if (e.Node.Tag is InventoryItem inventoryItem)
-            {
-                inventoryItem.Name = e.Label;
-                InventoryItem item = (InventoryItem)io;
-
-                if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
+                case InventoryItem inventoryItem:
                 {
-                    client.Inventory.RequestUpdateItem(item);
-                }
-                else
-                {
-                    e.CancelEdit = true;
-                    return;
+                    inventoryItem.Name = e.Label;
+                    var item = (InventoryItem)io;
+
+                    if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
+                    {
+                        client.Inventory.RequestUpdateItem(item);
+                    }
+                    else
+                    {
+                        e.CancelEdit = true;
+                        return;
+                    }
+
+                    break;
                 }
             }
 
@@ -1411,7 +1148,7 @@ namespace MEGAbolt
             if (InvokeRequired) BeginInvoke((MethodInvoker)RefreshInventory);
             else
             {
-                TreeNode node = treeView1.SelectedNode;
+                var node = treeView1.SelectedNode;
                 InventoryFolder folder = null;
 
                 if (node == null)
@@ -1420,14 +1157,15 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    if (node.Tag is InventoryFolder tag)
+                    switch (node.Tag)
                     {
-                        folder = tag;
-                    }
-                    else if (node.Tag is InventoryItem)
-                    {
-                        folder = (InventoryFolder)node.Parent.Tag;
-                        node = node.Parent;
+                        case InventoryFolder tag:
+                            folder = tag;
+                            break;
+                        case InventoryItem:
+                            folder = (InventoryFolder)node.Parent.Tag;
+                            node = node.Parent;
+                            break;
                     }
                 }
 
@@ -1455,14 +1193,12 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    if (node.Tag is InventoryFolder tag)
+                    folder = node.Tag switch
                     {
-                        folder = tag;
-                    }
-                    else if (node.Tag is InventoryItem)
-                    {
-                        folder = (InventoryFolder)node.Parent.Tag;
-                    }
+                        InventoryFolder tag => tag,
+                        InventoryItem => (InventoryFolder)node.Parent.Tag,
+                        _ => folder
+                    };
                 }
 
                 UpdateFolder(folder.UUID);
@@ -1471,7 +1207,7 @@ namespace MEGAbolt
 
         private void ReloadInventory()
         {
-            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { ReloadInventory(); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)ReloadInventory);
             else
             {
                 treeView1.Nodes.Clear();
@@ -1487,10 +1223,10 @@ namespace MEGAbolt
 
         public void SortInventory()
         {
-            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { SortInventory(); });
+            if (InvokeRequired) BeginInvoke((MethodInvoker)SortInventory);
             else
             {
-                TreeNode node = treeView1.SelectedNode;
+                var node = treeView1.SelectedNode;
 
                 try
                 {
@@ -1504,12 +1240,12 @@ namespace MEGAbolt
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            string clth = string.Empty; // String.Empty;
+            var clth = string.Empty; // String.Empty;
             clth = "Clothing/" + listBox1.Items[x].ToString();
 
             try
             {
-                UUID cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 30 * 1000);
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 30 * 1000);
 
                 if (cfolder == UUID.Zero)
                 {
@@ -1517,7 +1253,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                List<InventoryBase> contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
+                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
 
                 if (contents == null)
                 {
@@ -1525,22 +1261,13 @@ namespace MEGAbolt
                     return;
                 }
 
-                List<InventoryItem> items = contents.OfType<InventoryItem>().ToList();
+                var items = contents.OfType<InventoryItem>().ToList();
 
                 contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                List<UUID> remclothing = new List<UUID>();
 
-                foreach (InventoryBase item in contents)
+                foreach (var item in contents.OfType<InventoryItem>())
                 {
-                    if (item is InventoryItem)
-                    {
-                        remclothing.Add(item.UUID);
-                    }
-                }
-
-                if (remclothing.Count > 0)
-                {
-                    client.Inventory.Remove(remclothing, null);
+                    client.Inventory.RemoveItem(item.UUID);
                 }
 
                 foreach (var item in items)
@@ -1566,8 +1293,8 @@ namespace MEGAbolt
                 Logger.Log($"Outfit changer: Starting to change outfit to '{clth}'", Helpers.LogLevel.Info);
                 label5.Text = $"Currently wearing folder : {clth}";
 
-                double ntime = Convert.ToDouble(trackBar1.Value);
-                DateTime nexttime = DateTime.Now;
+                var ntime = Convert.ToDouble(trackBar1.Value);
+                var nexttime = DateTime.Now;
                 nexttime = nexttime.AddMinutes(ntime);
                 label6.Text = $"Next clothes change at {nexttime.ToShortTimeString()}";
             }
@@ -1586,22 +1313,6 @@ namespace MEGAbolt
             }
         }
 
-        //private void ClearCache()
-        //{
-        //    string folder = client.Settings.ASSET_CACHE_DIR;
-
-        //    if (!Directory.Exists(folder))
-        //    {
-        //        return;
-        //    }
-
-        //    string[] files = Directory.GetFiles(@folder);
-
-
-        //    foreach (string file in files)
-        //        File.Delete(file);
-        //}
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode == null)
@@ -1610,7 +1321,7 @@ namespace MEGAbolt
                 return;
             }
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             if (io is InventoryFolder)
             {
@@ -1640,17 +1351,15 @@ namespace MEGAbolt
                 File.Delete(path);
             }
 
-            using (StreamWriter sr = File.CreateText(path))
+            using var sr = File.CreateText(path);
+            foreach (var o in listBox1.Items)
             {
-                foreach (var o in listBox1.Items)
-                {
-                    // write a line of text to the file
-                    sr.WriteLine(o.ToString());
-                }
-
-                //sr.Close();
-                sr.Dispose();
+                // write a line of text to the file
+                sr.WriteLine(o.ToString());
             }
+
+            //sr.Close();
+            sr.Dispose();
         }
 
         private void ReadTextFile()
@@ -1664,18 +1373,16 @@ namespace MEGAbolt
 
                 listBox1.Items.Clear();
 
-                using (StreamReader sr = File.OpenText(path))
+                using var sr = File.OpenText(path);
+                var s = "";
+
+                while ((s = sr.ReadLine()) != null)
                 {
-                    string s = "";
-
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        listBox1.Items.Add(s);
-                    }
-
-                    //sr.Close();
-                    sr.Dispose();
+                    listBox1.Items.Add(s);
                 }
+
+                //sr.Close();
+                sr.Dispose();
             }
             catch (Exception ex)
             {
@@ -1700,8 +1407,8 @@ namespace MEGAbolt
                 button3.Enabled = false;
                 button4.Text = "Stop";
 
-                double ntime = Convert.ToDouble(trackBar1.Value);
-                DateTime nexttime = DateTime.Now;
+                var ntime = Convert.ToDouble(trackBar1.Value);
+                var nexttime = DateTime.Now;
                 nexttime = nexttime.AddMinutes(ntime);
                 label6.Text = $"Next clothes change at {nexttime.ToShortTimeString()}";
 
@@ -1773,19 +1480,14 @@ namespace MEGAbolt
             }
         }
 
-        private void textBox2_Enter(object sender, EventArgs e)
-        {
-            textBox2.SelectAll();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            string clth = string.Empty;
+            var clth = string.Empty;
 
             try
             {
                 clth = "Clothing/" + listBox1.SelectedItem.ToString();
-                UUID cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 20 * 1000);
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 20 * 1000);
 
                 if (cfolder == UUID.Zero)
                 {
@@ -1793,7 +1495,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                List<InventoryBase> contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
+                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
 
                 if (contents == null)
                 {
@@ -1801,14 +1503,12 @@ namespace MEGAbolt
                     return;
                 }
 
-                List<InventoryItem> items = contents.OfType<InventoryItem>().ToList();
+                var items = contents.OfType<InventoryItem>().ToList();
 
                 contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                List<UUID> remclothing = contents.OfType<InventoryItem>().Select(item => item.UUID).ToList();
-
-                if (remclothing.Count > 0)
+                foreach (var item in contents.OfType<InventoryItem>())
                 {
-                    client.Inventory.Remove(remclothing, null);
+                    client.Inventory.RemoveItem(item.UUID);
                 }
 
                 foreach (var item in items)
@@ -1847,27 +1547,12 @@ namespace MEGAbolt
 
         private void tmnuNewScript_Click(object sender, EventArgs e)
         {
-            string newScriptName = "New Script";
-            string newScriptDescription = String.Format(CultureInfo.CurrentCulture, "{0} created with MEGAbolt {1}", newScriptName, DateTime.Now); ;
-            string newScriptContent = string.Empty;
+            var newScriptName = "New Script";
+            var newScriptDescription = $"{newScriptName} created with MEGAbolt {DateTime.Now}";
+            var newScriptContent = string.Empty;
 
 
-            if (treeView1.SelectedNode == null)
-            {
-                AddNewScript(
-                    newScriptName,
-                    newScriptDescription,
-                    newScriptContent,
-                    treeView1.Nodes[0]);
-            }
-            else
-            {
-                AddNewScript(
-                    newScriptName,
-                    newScriptDescription,
-                    newScriptContent,
-                    treeView1.SelectedNode);
-            }
+            AddNewScript(newScriptName, newScriptDescription, newScriptContent, treeView1.SelectedNode ?? treeView1.Nodes[0]);
         }
 
         private void AddNewScript(string scriptName, string scriptDescription, string scriptContent, TreeNode node)
@@ -1882,15 +1567,12 @@ namespace MEGAbolt
             }
             else
             {
-                if (node.Tag is InventoryFolder tag)
+                folder = node.Tag switch
                 {
-                    folder = tag;
-                }
-                else if (node.Tag is InventoryItem)
-                {
-
-                    folder = (InventoryFolder)node.Parent.Tag;
-                }
+                    InventoryFolder tag => tag,
+                    InventoryItem => (InventoryFolder)node.Parent.Tag,
+                    _ => folder
+                };
             }
 
             client.Inventory.RequestCreateItem(folder.UUID,
@@ -1899,7 +1581,7 @@ namespace MEGAbolt
                     {
                         if (success) // upload the asset
                         {
-                            string scriptbody = "default\n{\n    state_entry()\n    {\n        llSay(0,'Hello MEGAbolt user');\n    }\n}";
+                            var scriptbody = "default\n{\n    state_entry()\n    {\n        llSay(0,'Hello MEGAbolt user');\n    }\n}";
                             client.Inventory.RequestUploadNotecardAsset(CreateScriptAsset(scriptbody), nitem.UUID, OnNoteUpdate);
                         }
                     }
@@ -1911,11 +1593,11 @@ namespace MEGAbolt
             body = body.Trim();
 
             // Format the string body into Linden text
-            string lindenText = body;
+            var lindenText = body;
 
             // Assume this is a string, add 1 for the null terminator
-            byte[] stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
-            byte[] assetData = new byte[stringBytes.Length]; //+ 1];
+            var stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
+            var assetData = new byte[stringBytes.Length]; //+ 1];
             Array.Copy(stringBytes, 0, assetData, 0, stringBytes.Length);
 
             return assetData;
@@ -1940,12 +1622,12 @@ namespace MEGAbolt
             if (treeView1.SelectedNode.Tag is InventoryItem tag)
             {
                 InventoryBase io = tag;
-                InventoryItem item = (InventoryItem)io;
+                var item = (InventoryItem)io;
 
                 if (item.InventoryType != InventoryType.Landmark)
                     return;
 
-                UUID landmark = new UUID();
+                var landmark = new UUID();
 
                 if (!UUID.TryParse(item.AssetUUID.ToString(), out landmark))
                 {
@@ -1953,22 +1635,7 @@ namespace MEGAbolt
                 }
 
                 client.Self.Teleport(landmark);
-
-                //if (client.Self.Teleport(landmark))
-                ////if (client.Self.Teleport(item.AssetUUID))
-                //{
-                //    MessageBox.Show("Teleport successful", "Teleport", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Teleport failed", "Teleport", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
             }
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void treeView1_DragEnter(object sender, DragEventArgs e)
@@ -1995,34 +1662,29 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             ReplacesesOutfit(io);
-            //client.Appearance.RequestSetAppearance(true);
         }
 
         private void ReplacesesOutfit(InventoryBase io)
         {
-            //selectednode = treeView1.SelectedNode;
-            List<InventoryBase> cofcontents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-            List<InventoryBase> contents = client.Inventory.Store.GetContents(io.UUID);
-            List<InventoryItem> clothing = new List<InventoryItem>();
-            List<InventoryItem> oitems = new List<InventoryItem>();
+            var cofcontents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+            var contents = client.Inventory.Store.GetContents(io.UUID);
+            var clothing = new List<InventoryItem>();
+            var oitems = new List<InventoryItem>();
 
-            foreach (InventoryBase item in contents)
+            foreach (var item in contents)
             {
-                //if (item.InventoryType == InventoryType.Wearable || item.InventoryType == InventoryType.Attachment || item.InventoryType == InventoryType.Object)
                 if (item is InventoryItem inventoryItem)
                 {
                     clothing.Add(inventoryItem);
                 }
             }
-
-            List<UUID> remclothing = cofcontents.Select(item => item.UUID).ToList();
-
-            if (remclothing.Count > 0)
+            
+            foreach (var item in cofcontents)
             {
-                client.Inventory.Remove(remclothing, null);
+                client.Inventory.RemoveItem(item.UUID);
             }
 
             foreach (var item in clothing)
@@ -2066,15 +1728,13 @@ namespace MEGAbolt
                 return;
             }
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
-            string sitem = treeView1.SelectedNode.Text;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var sitem = treeView1.SelectedNode.Text;
 
             if (io is InventoryFolder)
             {
-                if (gotCoF == true)
+                if (gotCoF)
                 {
-                    //InventoryFolder folder = (InventoryFolder)io;
-
                     if (io.UUID == instance.CoF.UUID)
                     {
                         takeOffToolStripMenuItem.Visible = false;
@@ -2095,7 +1755,7 @@ namespace MEGAbolt
             }
             else
             {
-                if (gotCoF == true)
+                if (gotCoF)
                 {
                     if (io.ParentUUID == instance.CoF.UUID)
                     {
@@ -2117,8 +1777,6 @@ namespace MEGAbolt
                         newFolderToolStripMenuItem.Enabled = true;
                         newNotecardToolStripMenuItem.Enabled = true;
                         newScriptToolStripMenuItem.Enabled = true;
-                        //cutMenu.Enabled = true;
-                        //copyMenu.Enabled = true;
 
                         if (sitem.ToLower(CultureInfo.CurrentCulture).Contains("worn"))
                         {
@@ -2128,8 +1786,6 @@ namespace MEGAbolt
                         else
                         {
                             takeOffToolStripMenuItem.Visible = false;
-
-                            //InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
                             if (io is InventoryWearable or InventoryObject or InventoryAttachment)
                             {
@@ -2148,8 +1804,6 @@ namespace MEGAbolt
                     else
                     {
                         takeOffToolStripMenuItem.Visible = false;
-
-                        //InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
 
                         if (io is InventoryWearable or InventoryObject or InventoryAttachment)
                         {
@@ -2229,21 +1883,9 @@ namespace MEGAbolt
 
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //if (e.Node.Nodes[0].Tag == null)
-            //{
-            //    InventoryFolder folder = (InventoryFolder)e.Node.Tag;
-            //    client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByName);
-            //}
-
-            //nodecol = true;
-
             if (e.Node.Nodes[0].Tag == null)
             {
-                InventoryFolder folder = (InventoryFolder)client.Inventory.Store[new UUID(e.Node.Name)];    //(InventoryFolder)e.Node.Tag;
-
-                //selectednode = e.Node;
-
-                //folderproc = folder.UUID;
+                var folder = (InventoryFolder)client.Inventory.Store[new UUID(e.Node.Name)];    //(InventoryFolder)e.Node.Tag;
 
                 if (SortBy == "By Date")
                 {
@@ -2272,23 +1914,14 @@ namespace MEGAbolt
             e.Node.ImageKey = "ClosedFolder";
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button7_Click(object sender, EventArgs e)
         {
             try
             {
-                //client.Inventory.FolderUpdated -= new EventHandler<FolderUpdatedEventArgs>(Inventory_OnFolderUpdated);
-                //searching = true;
                 treeView1.ExpandAll();
                 ClearBackColor();
-
-                //FindByText();
-
-                TreeViewWalker treeViewWalker = new TreeViewWalker(treeView1);
+                
+                var treeViewWalker = new TreeViewWalker(treeView1);
 
                 treeViewWalker.ProcessNode += treeViewWalker_ProcessNode_HighlightMatchingNodes;
 
@@ -2308,8 +1941,6 @@ namespace MEGAbolt
                 e.Node.ForeColor = Color.Red;
                 e.Node.Expand();
             }
-
-            //treeViewWalker.ProcessNode -= new ProcessNodeEventHandler(treeViewWalker_ProcessNode_HighlightMatchingNodes);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -2327,7 +1958,7 @@ namespace MEGAbolt
 
         }
 
-        public InventoryItem AInventoryItem(InventoryItem item)
+        public InventoryItem LinkInventoryItem(InventoryItem item)
         {
             if (item.IsLink() && client.Inventory.Store.Contains(item.AssetUUID) && client.Inventory.Store[item.AssetUUID] is InventoryItem)
             {
@@ -2341,13 +1972,13 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
             if (treeView1.SelectedNode.Tag is InventoryFolder)
             {
-                InventoryFolder folder = (InventoryFolder)io;
+                var folder = (InventoryFolder)io;
 
-                List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
+                var contents = client.Inventory.Store.GetContents(folder.UUID);
 
                 foreach (var item in contents.OfType<InventoryWearable>())
                 {
@@ -2356,7 +1987,7 @@ namespace MEGAbolt
             }
             else
             {
-                InventoryItem item = (InventoryItem)io;
+                var item = (InventoryItem)io;
 
                 selectednode = treeView1.SelectedNode;
 
@@ -2368,59 +1999,59 @@ namespace MEGAbolt
 
         private void ProcessWearItem(InventoryItem item)
         {
-            List<InventoryBase> cofcontents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-            List<UUID> remclothing = new List<UUID>();
-
+            var cofcontents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+            bool worn = false;
             if (item is InventoryWearable)
             {
-                remclothing.AddRange(from InventoryItem link in cofcontents let wItem = AInventoryItem(link) where link.AssetUUID == item.UUID select link.UUID);
-            }
-
-            if (remclothing.Count > 0)
-            {
-                client.Inventory.Remove(remclothing, null);
-
-                if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
+                foreach (var link in from InventoryItem link in cofcontents
+                         let wItem = LinkInventoryItem(link) where link.AssetUUID == item.UUID select link)
                 {
-                    client.Appearance.RemoveFromOutfit(item);
-                }
-                else if (item.AssetType == AssetType.Object)
-                {
-                    client.Appearance.Detach(item);
+                    client.Inventory.RemoveItem(link.UUID);
+                    worn = true;
                 }
             }
 
-            if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
+            if (worn)
             {
-                managerbusy = client.Appearance.ManagerBusy;
-                client.Appearance.AddToOutfit(item, true);
-            }
-            else if (item.AssetType == AssetType.Object)
-            {
-                managerbusy = client.Appearance.ManagerBusy;
-                client.Appearance.Attach(item, AttachmentPoint.Default, false);
+                switch (item.AssetType)
+                {
+                    case AssetType.Clothing or AssetType.Bodypart:
+                        client.Appearance.RemoveFromOutfit(item);
+                        break;
+                    case AssetType.Object:
+                        client.Appearance.Detach(item);
+                        break;
+                }
             }
 
-            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+            switch (item.AssetType)
+            {
+                case AssetType.Clothing or AssetType.Bodypart:
+                    managerbusy = client.Appearance.ManagerBusy;
+                    client.Appearance.AddToOutfit(item, true);
+                    break;
+                case AssetType.Object:
+                    managerbusy = client.Appearance.ManagerBusy;
+                    client.Appearance.Attach(item, AttachmentPoint.Default, false);
+                    break;
+            }
+
+            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+                AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
                 {
                     client.Inventory.RequestFetchInventory(newItem.UUID, newItem.OwnerID);
                 }
             });
-
-            //WorkPool.QueueUserWorkItem(sync =>
-            //{
-            //    Thread.Sleep(2000);
-            //    client.Appearance.RequestSetAppearance(true);
-            //});
         }
 
         private void AttachTo(InventoryItem item, AttachmentPoint pnt)
         {
             client.Appearance.Attach(item, pnt, false);
 
-            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+                AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
                 {
@@ -2454,26 +2085,20 @@ namespace MEGAbolt
 
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
-            InventoryItem item = (InventoryItem)io;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var item = (InventoryItem)io;
 
             if (io.ParentUUID == instance.CoF.UUID)
             {
                 if (item.AssetType == AssetType.Link)
                 {
-                    List<UUID> remclothing = new List<UUID>();
-
-                    remclothing.Add(item.UUID);
-
-                    InventoryItem wItem;
-
                     try
                     {
-                        wItem = AInventoryItem(item);
+                        var wItem = LinkInventoryItem(item);
 
                         try
                         {
-                            client.Inventory.Remove(remclothing, null);
+                            client.Inventory.RemoveItem(item.UUID);
 
                             if (wItem.AssetType == AssetType.Object)
                             {
@@ -2486,12 +2111,12 @@ namespace MEGAbolt
                         }
                         catch (Exception ex)
                         {
-                            string exp = ex.Message;
+                            var exp = ex.Message;
                         }
                     }
                     catch (Exception ex)
                     {
-                        string exp = ex.Message;
+                        var exp = ex.Message;
                     }
 
                     return;
@@ -2500,63 +2125,38 @@ namespace MEGAbolt
 
             selectednode = treeView1.SelectedNode;
 
-            if (item.AssetType is AssetType.Clothing or AssetType.Bodypart)
+            switch (item.AssetType)
             {
-                List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                List<UUID> remclothing = new List<UUID>();
-
-                foreach (InventoryItem ritem in contents)
+                case AssetType.Clothing or AssetType.Bodypart:
                 {
-                    if (ritem.AssetUUID == item.UUID)
+                    var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+
+                    foreach (var ritem in contents.Cast<InventoryItem>().Where(
+                                 ritem => ritem.AssetUUID == item.UUID))
                     {
-                        remclothing.Add(ritem.UUID);
+                        client.Inventory.RemoveItem(ritem.UUID);
                     }
-                }
-
-                try
-                {
-                    client.Inventory.Remove(remclothing, null);
                     client.Appearance.RemoveFromOutfit(item);
-                }
-                catch (Exception ex)
-                {
-                    //string exp = ex.Message;
-                }
-            }
-            else
-            {
-                if (item.AssetType == AssetType.Object)
-                {
-                    List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                    List<UUID> remclothing = new List<UUID>();
 
-                    foreach (InventoryItem ritem in contents)
+                    break;
+                }
+                case AssetType.Object:
+                {
+                    var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+
+                    foreach (var ritem in contents.Cast<InventoryItem>().Where(
+                                 ritem => ritem.AssetUUID == item.UUID))
                     {
-                        if (ritem.AssetUUID == item.UUID)
-                        {
-                            remclothing.Add(ritem.UUID);
-                        }
+                        client.Inventory.RemoveItem(ritem.UUID);
                     }
 
-                    try
-                    {
-                        client.Inventory.Remove(remclothing, null);
-                        client.Appearance.Detach(item);
-                    }
-                    catch
-                    {
-                        //string exp = ex.Message;
-                    }
+                    client.Appearance.Detach(item);
+
+                    break;
                 }
             }
 
             WearTakeoff(false, selectednode);
-
-            //WorkPool.QueueUserWorkItem(sync =>
-            //    {
-            //        Thread.Sleep(2000);
-            //        client.Appearance.RequestSetAppearance(true);
-            //    });
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -2585,9 +2185,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Default); 
         }
@@ -2596,9 +2196,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Chest); 
         }
@@ -2607,9 +2207,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Chin); 
         }
@@ -2618,9 +2218,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Mouth); 
         }
@@ -2629,9 +2229,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Neck); 
         }
@@ -2640,9 +2240,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Nose); 
         }
@@ -2651,9 +2251,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Pelvis); 
         }
@@ -2662,9 +2262,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftEar); 
         }
@@ -2673,9 +2273,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftEyeball); 
         }
@@ -2684,9 +2284,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftFoot); 
         }
@@ -2695,9 +2295,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftForearm); 
         }
@@ -2706,9 +2306,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftHand); 
         }
@@ -2717,9 +2317,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftHip); 
         }
@@ -2728,9 +2328,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftLowerLeg); 
         }
@@ -2739,9 +2339,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftPec); 
         }
@@ -2750,9 +2350,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftShoulder); 
         }
@@ -2761,9 +2361,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftUpperArm); 
         }
@@ -2772,9 +2372,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.LeftUpperLeg); 
         }
@@ -2783,9 +2383,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightEar); 
         }
@@ -2794,9 +2394,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightEyeball); 
         }
@@ -2805,9 +2405,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightFoot); 
         }
@@ -2816,9 +2416,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightForearm); 
         }
@@ -2827,9 +2427,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightHand); 
         }
@@ -2838,9 +2438,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightHip); 
         }
@@ -2849,9 +2449,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightLowerLeg); 
         }
@@ -2860,9 +2460,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightPec); 
         }
@@ -2871,9 +2471,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightShoulder); 
         }
@@ -2882,9 +2482,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightUpperArm); 
         }
@@ -2893,9 +2493,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.RightUpperLeg); 
         }
@@ -2904,9 +2504,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Skull); 
         }
@@ -2915,9 +2515,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Spine); 
         }
@@ -2926,9 +2526,9 @@ namespace MEGAbolt
         {
             if (treeView1.SelectedNode == null) return;
 
-            InventoryBase io = (InventoryBase)treeView1.SelectedNode.Tag;
+            var io = (InventoryBase)treeView1.SelectedNode.Tag;
 
-            InventoryItem item = (InventoryItem)io;
+            var item = (InventoryItem)io;
 
             AttachTo(item, AttachmentPoint.Stomach); 
         }
@@ -2942,7 +2542,7 @@ namespace MEGAbolt
         {
             SetStyle(ControlStyles.DoubleBuffer, true);
 
-            int style = NativeWinAPI.GetWindowLong(Handle, NativeWinAPI.GWL_EXSTYLE);
+            var style = NativeWinAPI.GetWindowLong(Handle, NativeWinAPI.GWL_EXSTYLE);
 
             style |= NativeWinAPI.WS_EX_COMPOSITE;
 

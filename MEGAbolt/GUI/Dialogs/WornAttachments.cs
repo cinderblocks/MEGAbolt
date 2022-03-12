@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using OpenMetaverse;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 
 
 namespace MEGAbolt
@@ -645,8 +646,6 @@ namespace MEGAbolt
             {
                 AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
-                if (item == null) return;
-
                 UUID itmid = GetItemID(item.Prim);
 
                 if (itmid == UUID.Zero) return;
@@ -659,17 +658,12 @@ namespace MEGAbolt
                 //remclothing.Add(attid.UUID);
 
                 List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-                List<UUID> remclothing = new List<UUID>();
 
-                foreach (InventoryItem ritem in contents)
+                foreach (var ritem in contents.Cast<InventoryItem>().Where(ritem => ritem.AssetUUID == attid.UUID))
                 {
-                    if (ritem.AssetUUID == attid.UUID)
-                    {
-                        remclothing.Add(ritem.UUID);
-                    }
+                    client.Inventory.RemoveItem(ritem.UUID);
                 }
-
-                client.Inventory.Remove(remclothing, null);
+                
                 client.Appearance.Detach(attid);
 
                 lock (listItems)
