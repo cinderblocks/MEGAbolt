@@ -32,26 +32,26 @@ namespace MEGArestart
             DateTime now = DateTime.Now;
             if (args.Length > 0)
             {
-                string str1 = args[0].ToString();
-                string str2 = args[1].ToString();
-                string str3 = args[2].ToString();
+                string str1 = args[0];
+                string str2 = args[1];
+                string str3 = args[2];
                 string str4 = "Unknown";
                 if (args.Length > 3)
-                    str4 = args[3].ToString().Replace("|", " ");
+                    str4 = args[3].Replace("|", " ");
                 if (args.Length > 4)
                 {
-                    num = Convert.ToInt32(args[4].ToString()) / 60;
-                    millisecondsTimeout = Convert.ToInt32(args[4].ToString()) * 1000;
+                    num = Convert.ToInt32(args[4]) / 60;
+                    millisecondsTimeout = Convert.ToInt32(args[4]) * 1000;
                 }
                 Console.WriteLine("----------------------------<<< MEGArestart >>>----------------------------");
                 Console.WriteLine("");
                 Console.WriteLine("Re-Start Reason:");
                 Console.WriteLine(str4);
                 Console.WriteLine("");
-                Console.WriteLine("Parameters used- Fistname:" + str1 + " Lastname:" + str2 + " Password: ***********");
-                Console.Write(now.ToString() + ">>> MEGAbolt restarting...@ " + (object)now.AddMinutes((double)num));
+                Console.WriteLine("Parameters used- Firstname:" + str1 + " Lastname:" + str2 + " Password: ***********");
+                Console.Write(now + ">>> MEGAbolt restarting...@ " + now.AddMinutes(num));
                 Thread.Sleep(millisecondsTimeout);
-                new Process()
+                new Process
                 {
                     StartInfo = {
                         FileName = "MEGAbolt.exe",
@@ -61,9 +61,9 @@ namespace MEGArestart
             }
             else
             {
-                Console.Write(now.ToString() + ">>> MEGAbolt restarting...@ " + (object)now.AddMinutes((double)num));
+                Console.Write(now + ">>> MEGAbolt restarting...@ " + now.AddMinutes(num));
                 Thread.Sleep(millisecondsTimeout);
-                new Process() { StartInfo = { FileName = "MEGAbolt.exe" } }.Start();
+                new Process { StartInfo = { FileName = "MEGAbolt.exe" } }.Start();
             }
         }
     }
