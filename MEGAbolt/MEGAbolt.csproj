@@ -2,10 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net7.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <ApplicationIcon>MB.ico</ApplicationIcon>
-	<TargetCulture>en</TargetCulture>
     <ProductName>MEGAbolt</ProductName>
+    <ApplicationIcon>MB.ico</ApplicationIcon>
     <PublisherName>Sjofn LLC</PublisherName>
     <DisallowUrlActivation>true</DisallowUrlActivation>
     <UseApplicationTrust>true</UseApplicationTrust>

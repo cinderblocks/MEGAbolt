@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{DD8CE596-E9D5-400E-A6EB-DBB41F0C5CC9}</ProjectGuid>
+    <TargetFramework>net7.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyTitle>MEGArestart</AssemblyTitle>
     <Product>MEGArestart</Product>
@@ -13,7 +13,7 @@
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <TargetFramework>net7.0</TargetFramework>
+    
 	<StartupObject>MEGArestart.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
