@@ -708,7 +708,7 @@ namespace MEGAbolt
         {
             tbtnNew.Enabled = tbtnSort.Enabled = tbtnOrganize.Enabled = (treeView1.SelectedNode != null);
 
-            if (e.Node.Tag.ToString() == "empty") return;
+            if (e.Node?.Tag == null || e.Node.Tag.ToString() == "empty") { return; }
 
             if (instance.CoF == null)
             {
@@ -1716,7 +1716,7 @@ namespace MEGAbolt
 
         private void smM1_Opening(object sender, CancelEventArgs e)
         {
-            if (treeView1.SelectedNode == null)
+            if (treeView1.SelectedNode?.Tag == null)
             {
                 e.Cancel = true;
                 return;
