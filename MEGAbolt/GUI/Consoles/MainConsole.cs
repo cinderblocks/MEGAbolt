@@ -241,7 +241,7 @@ namespace MEGAbolt
                         {
                             try
                             {
-                                Crypto cryp = new Crypto(Crypto.SymmProvEnum.Rijndael);
+                                Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
                                 string cpwd = cryp.Decrypt(epwd);
                                 epwd = cpwd;
                             }
@@ -333,7 +333,7 @@ namespace MEGAbolt
                         if (chkPWD.Checked)
                         {
                             string epwd = txtPassword.Text;
-                            Crypto cryp = new Crypto(Crypto.SymmProvEnum.Rijndael);
+                            Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
                             string cpwd = cryp.Encrypt(epwd);
 
                             uname += cpwd;

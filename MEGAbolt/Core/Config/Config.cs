@@ -219,7 +219,7 @@ namespace MEGAbolt
                 {
                     if (!string.IsNullOrEmpty(epwd))
                     {
-                        Crypto cryp = new Crypto(Crypto.SymmProvEnum.Rijndael);
+                        Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
                         //string cpwd = cryp.Decrypting(epwd);
                         string cpwd = cryp.Decrypt(epwd);
 
@@ -378,7 +378,7 @@ namespace MEGAbolt
 
                 if (!string.IsNullOrEmpty(epwd))
                 {
-                    Crypto cryp = new Crypto(Crypto.SymmProvEnum.Rijndael);
+                    Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
                     //string cpwd = cryp.Encrypting(epwd);
                     string cpwd = cryp.Encrypt(epwd);
 

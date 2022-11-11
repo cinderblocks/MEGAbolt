@@ -1,6 +1,6 @@
 ﻿/*
  * MEGAbolt Metaverse Client
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2022, Sjofn, LLC
  * All rights reserved.
  *  
  * Redistribution and use in source and binary forms, with or without
@@ -34,69 +34,74 @@ using System.Text;
 
 namespace MD5library
 {
-  public class MEGAMD5
-  {
-    public string MD5(string password)
+    public class MEGAMD5
     {
-      byte[] hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object) 4564467));
-      return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
-    }
+        public string MD5(string password)
+        {
+            using MD5 cipher = System.Security.Cryptography.MD5.Create();
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
+            return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
+        }
 
-    public string MD5(string password, int length)
-    {
-      byte[] hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object) 4564467));
-      return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
-    }
+        public string MD5(string password, int length)
+        {
+            using MD5 cipher = System.Security.Cryptography.MD5.Create();
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
+            return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
+        }
 
-    public string MD5Special(string password, int nonce)
-    {
-      byte[] hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object) nonce));
-      return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
-    }
+        public string MD5Special(string password, int nonce)
+        {
+            using MD5 cipher = System.Security.Cryptography.MD5.Create();
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object)nonce));
+            return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
+        }
 
-    public string MD5Special(string password, int nonce, int length)
-    {
-      byte[] hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object) nonce));
-      return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
-    }
+        public string MD5Special(string password, int nonce, int length)
+        {
+            using MD5 cipher = System.Security.Cryptography.MD5.Create();
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object)nonce));
+            return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
+        }
 
-    public string MachineMD5(string password)
-    {
-      byte[] hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + (object) 93674681));
-      return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
-    }
+        public string MachineMD5(string password)
+        {
+            using MD5 cipher = System.Security.Cryptography.MD5.Create();
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + (object)93674681));
+            return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
+        }
 
-    public string GetAvatarKey(string avname, string avUUID) => MachineMD5(avUUID);
+        public string GetAvatarKey(string avname, string avUUID) => MachineMD5(avUUID);
 
-    public string GetMachinePassKey()
-    {
-      IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
-      NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-      if (networkInterfaces.Length < 1)
-        return string.Empty;
-      foreach (var networkInterface in networkInterfaces)
-      {
-        var physicalAddress = networkInterface.GetPhysicalAddress();
-        string password = globalProperties.HostName + physicalAddress.ToString();
-        return MachineMD5(password);
-      }
-      return string.Empty;
-    }
+        public string GetMachinePassKey()
+        {
+            IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            if (networkInterfaces.Length < 1)
+                return string.Empty;
+            foreach (var networkInterface in networkInterfaces)
+            {
+                var physicalAddress = networkInterface.GetPhysicalAddress();
+                string password = globalProperties.HostName + physicalAddress;
+                return MachineMD5(password);
+            }
+            return string.Empty;
+        }
 
-    public bool ValidateMachinePasscode(string passcode)
-    {
-      IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
-      NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-      if (networkInterfaces.Length < 1)
-        return false;
-      string password = string.Empty;
-      foreach (var networkInterface in networkInterfaces)
-      {
-        var physicalAddress = networkInterface.GetPhysicalAddress();
-        password = globalProperties.HostName + physicalAddress;
-        break;
-      }
-      return MachineMD5(MachineMD5(password) + " - Remove MB ads") == passcode;
+        public bool ValidateMachinePasscode(string passcode)
+        {
+            IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            if (networkInterfaces.Length < 1)
+                return false;
+            string password = string.Empty;
+            foreach (var networkInterface in networkInterfaces)
+            {
+                var physicalAddress = networkInterface.GetPhysicalAddress();
+                password = globalProperties.HostName + physicalAddress;
+                break;
+            }
+            return MachineMD5(MachineMD5(password) + " - Remove MB ads") == passcode;
+        }
     }
-  }
 }
