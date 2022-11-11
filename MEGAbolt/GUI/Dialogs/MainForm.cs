@@ -1076,9 +1076,9 @@ namespace MEGAbolt
         public void HostStatus(string statusMessage)
         {
             //Change the status label
-            // this is here for future profing incase
+            // this is here for future proofing in case
             // we want to receive a response from the plugin
-            //string tstatus = statusMessage;
+            //string status = statusMessage;
         }
         #endregion
 
