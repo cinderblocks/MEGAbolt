@@ -100,8 +100,8 @@ namespace MEGAbolt.Controls
         return;
       if ((DateTime.UtcNow - dropDownHideTime).TotalSeconds > 0.5)
       {
-          DropDown?.Invoke((object) this, EventArgs.Empty);
-        dropDown.Show((Control) this);
+          DropDown?.Invoke(this, EventArgs.Empty);
+        dropDown.Show(this);
       }
       else
       {
@@ -117,7 +117,7 @@ namespace MEGAbolt.Controls
       if (dropDown == null)
         return;
       dropDown.Hide();
-      DropDownClosed?.Invoke((object) this, EventArgs.Empty);
+      DropDownClosed?.Invoke(this, EventArgs.Empty);
     }
 
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]

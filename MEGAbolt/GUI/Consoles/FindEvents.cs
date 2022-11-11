@@ -91,7 +91,7 @@ namespace MEGAbolt
             }
 
             textBox7.Text = matchedEvent.Creator.ToString();
-            textBox2.Text = matchedEvent.Name.ToString();
+            textBox2.Text = matchedEvent.Name;
             textBox3.Text = DirectoryManager.EventCategories.All.ToString();   // matchedEvent.Category.ToString();
 
             if (matchedEvent.Duration > 59)
@@ -130,7 +130,7 @@ namespace MEGAbolt
                 textBox9.Text = $"L${matchedEvent.Cover.ToString(CultureInfo.CurrentCulture)}";
             }
 
-            textBox1.Text = matchedEvent.Desc.ToString();
+            textBox1.Text = matchedEvent.Desc;
         }
 
         //UI thread
@@ -266,7 +266,7 @@ namespace MEGAbolt
             //netcom.Teleport(iDets[0],
             //client.Self.Teleport(   
 
-            (new frmTeleport(instance, iDets[0].ToString(), fX, fY, fZ, false)).Show();
+            (new frmTeleport(instance, iDets[0], fX, fY, fZ, false)).Show();
         }
 
         private void lvwFindEvents_ColumnClick(object sender, ColumnClickEventArgs e)

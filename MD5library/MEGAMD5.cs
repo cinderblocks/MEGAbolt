@@ -53,21 +53,21 @@ namespace MD5library
         public string MD5Special(string password, int nonce)
         {
             using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object)nonce));
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
         }
 
         public string MD5Special(string password, int nonce, int length)
         {
             using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + (object)nonce));
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
         }
 
         public string MachineMD5(string password)
         {
             using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + (object)93674681));
+            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + 93674681));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
         }
 

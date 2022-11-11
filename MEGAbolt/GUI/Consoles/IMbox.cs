@@ -200,13 +200,13 @@ namespace MEGAbolt
                     {
                         string[] splits = fullName.Split('(');
 
-                        fullName = splits[0].ToString().Trim();
-                        imcount = splits[1].ToString().Trim();
+                        fullName = splits[0].Trim();
+                        imcount = splits[1].Trim();
                         string[] splits1 = imcount.Split(')');
 
                         try
                         {
-                            imcount = splits1[0].ToString().Trim();
+                            imcount = splits1[0].Trim();
                             cnt = Convert.ToInt32(imcount, CultureInfo.CurrentCulture) + 1;
                         }
                         catch { cnt = 1; }
@@ -257,7 +257,7 @@ namespace MEGAbolt
 
             string[] splits = fullName.Split('(');
 
-            fullName = splits[0].ToString().Trim();
+            fullName = splits[0].Trim();
 
             lbxIMs.Items.RemoveAt(selinx);
 
@@ -321,7 +321,7 @@ namespace MEGAbolt
 
             string[] splits = fullName.Split('(');
 
-            fullName = splits[0].ToString().Trim();
+            fullName = splits[0].Trim();
 
             lbxIMs.Items.RemoveAt(selinx);
 

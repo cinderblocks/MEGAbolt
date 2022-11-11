@@ -267,11 +267,11 @@ namespace MEGAbolt
                     InventoryItem wItem = AInventoryItem(item);
 
                     werbl = wItem as InventoryWearable;
-                    label9.Text = "Wearable type: " + werbl.WearableType.ToString();
+                    label9.Text = "Wearable type: " + werbl.WearableType;
                 }
                 else
                 {
-                    label9.Text = "Wearable type: " + werbl.WearableType.ToString();
+                    label9.Text = "Wearable type: " + werbl.WearableType;
                 }
             }
             else
@@ -285,7 +285,7 @@ namespace MEGAbolt
                 //    label9.Text = string.Empty;
                 //}
 
-                label9.Text = "Asset type: " + item.AssetType.ToString();
+                label9.Text = "Asset type: " + item.AssetType;
             }
 
             if ((item.Permissions.OwnerMask & PermissionMask.Modify) != PermissionMask.Modify)

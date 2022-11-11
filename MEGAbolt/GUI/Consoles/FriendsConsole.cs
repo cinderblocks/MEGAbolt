@@ -170,7 +170,7 @@ namespace MEGAbolt
 
             foreach (KeyValuePair<string, Dictionary<string, string>> fr in fgrps)
             {
-                string header = fr.Key.ToString();
+                string header = fr.Key;
                 //Dictionary<string, string> rec = fr.Value;
 
                 Dictionary<string, string> grps;
@@ -423,7 +423,7 @@ namespace MEGAbolt
             cbofgroups.Items.Add("...All friends");
             cbofgroups.SelectedIndex = 0;
 
-            string fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID.ToString() + "_fr_groups.ini";
+            string fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID + "_fr_groups.ini";
 // maybe use "Path.Combine(MEGAbolt.DataFolder.GetDataFolder(),client.Self.AgentID.ToString() + "_fr_groups.ini");" ?
 
             if (!System.IO.File.Exists(fconffile))
@@ -503,7 +503,7 @@ namespace MEGAbolt
 
             foreach (KeyValuePair<string, Dictionary<string, string>> fr in fgrps)
             {
-                string header = fr.Key.ToString();
+                string header = fr.Key;
                 //Dictionary<string, string> rec = fr.Value;
 
                 cbofgroups.Items.Add(header);

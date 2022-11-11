@@ -40,21 +40,21 @@ namespace MEGAx
 
     private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
     {
-        AssemblyLoading?.Invoke((object) this, e);
+        AssemblyLoading?.Invoke(this, e);
     }
 
     public event AssemblyLoadedEventHandler AssemblyLoaded;
 
     private void OnAssemblyLoaded(AssemblyLoadedEventArgs e)
     {
-        AssemblyLoaded?.Invoke((object) this, e);
+        AssemblyLoaded?.Invoke(this, e);
     }
 
     public event AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
 
     private void OnAssemblyFailedLoading(AssemblyFailedLoadingEventArgs e)
     {
-        AssemblyFailedLoading?.Invoke((object) this, e);
+        AssemblyFailedLoading?.Invoke(this, e);
     }
 
     public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();
@@ -67,7 +67,7 @@ namespace MEGAx
 
     public void UnloadExtension(Extension<ClientInterface> extension)
     {
-      Extension<ClientInterface> extension1 = (Extension<ClientInterface>) null;
+      Extension<ClientInterface> extension1 = null;
       foreach (Extension<ClientInterface> extension2 in Extensions)
       {
         if (extension2.Filename.ToLower().Trim() == extension.Filename.ToLower().Trim())
@@ -145,7 +145,7 @@ namespace MEGAx
           }
         }
         if (!flag && string.IsNullOrEmpty(str))
-          str = "Expected interface (" + typeof (ClientInterface).ToString() + ") was not found in any types in the compiled Source File";
+          str = "Expected interface (" + typeof (ClientInterface) + ") was not found in any types in the compiled Source File";
       }
       else
         str = "Source File Compilation Errors were Detected";
@@ -164,7 +164,7 @@ namespace MEGAx
     {
       bool flag = false;
       string str = "";
-      Assembly assembly = (Assembly) null;
+      Assembly assembly = null;
       byte[] rawAssembly = File.ReadAllBytes(filename);
       try
       {
@@ -196,7 +196,7 @@ namespace MEGAx
           }
         }
         if (!flag && string.IsNullOrEmpty(str))
-          str = "Expected interface (" + typeof (ClientInterface).ToString() + ") was not found in Compiled Assembly (" + filename + ")";
+          str = "Expected interface (" + typeof (ClientInterface) + ") was not found in Compiled Assembly (" + filename + ")";
       }
       if (!flag)
         OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)

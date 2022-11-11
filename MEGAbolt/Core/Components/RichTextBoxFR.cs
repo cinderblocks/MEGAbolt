@@ -28,7 +28,7 @@ namespace MEGAbolt
         {
             Find(FindText);
 
-            if (!(SelectionLength == 0))
+            if (SelectionLength != 0)
             {
                 SelectedText = ReplaceText;
             }
@@ -67,7 +67,7 @@ namespace MEGAbolt
                         }
                     }
 
-                    if (!(SelectionLength == 0))
+                    if (SelectionLength != 0)
                     {
                         SelectedText = ReplaceText;
                     }
@@ -106,7 +106,7 @@ namespace MEGAbolt
                             }
                         }
 
-                        if (!(SelectionLength == 0))
+                        if (SelectionLength != 0)
                         {
                             SelectedText = ReplaceText;
                         }

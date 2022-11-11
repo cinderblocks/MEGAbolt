@@ -445,7 +445,7 @@ namespace MEGAbolt
             tabs["chat"].Highlight();
 
             string ttl = "MEGAbolt Alert";
-            string body = e.Message.ToString();
+            string body = e.Message;
             TrayNotifiy(ttl, body);
         }
 
@@ -486,7 +486,7 @@ namespace MEGAbolt
             BeginInvoke(new MethodInvoker(delegate()
             {
                 ChatBufferItem ready = new ChatBufferItem(DateTime.Now,
-                           e.IM.FromAgentName + " (" + e.IM.FromAgentID.ToString() + "): " + e.IM.Message,
+                           e.IM.FromAgentName + " (" + e.IM.FromAgentID + "): " + e.IM.Message,
                            ChatBufferTextStyle.ObjectChat,
                            null,
                            e.IM.IMSessionID); //added by GM on 3-JUL-2009 - the FromAgentID

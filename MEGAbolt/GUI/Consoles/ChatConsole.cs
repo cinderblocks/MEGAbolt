@@ -612,7 +612,7 @@ namespace MEGAbolt
             var _menuItem = new EmoticonMenuItem(Smileys.AngelSmile);
             _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
-            cmenu_Emoticons.Items[0].Tag = (object)"angelsmile;";
+            cmenu_Emoticons.Items[0].Tag = "angelsmile;";
             //_menuItem.Dispose();
 
             _menuItem = new EmoticonMenuItem(Smileys.AngrySmile);
@@ -1012,7 +1012,7 @@ namespace MEGAbolt
                         _ => cty
                     };
 
-                    ChatManager.PrintAlertMessage(cty + e.Aggressor.ToString());
+                    ChatManager.PrintAlertMessage(cty + e.Aggressor);
                 }));
             }
             catch
@@ -1185,8 +1185,8 @@ namespace MEGAbolt
             Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
             Vector3d objpos;
 
-            objpos.X = (double)pos.X + (double)regionX;
-            objpos.Y = (double)pos.Y + (double)regionY;
+            objpos.X = pos.X + (double)regionX;
+            objpos.Y = pos.Y + (double)regionY;
             objpos.Z = pos.Z;   // -2f;
 
             return objpos; 
@@ -1494,7 +1494,7 @@ namespace MEGAbolt
         {
             string[] inputArgs = sPair.Split(' ');
 
-            return inputArgs[1].ToString();
+            return inputArgs[1];
         }
 
         private void ClearChatInput()
@@ -1761,7 +1761,7 @@ namespace MEGAbolt
             ulong regionHandle = client.Network.CurrentSim.Handle;
 
             ulong followRegionX = regionHandle >> 32;
-            ulong followRegionY = regionHandle & (ulong)0xFFFFFFFF;
+            ulong followRegionY = regionHandle & 0xFFFFFFFF;
 
             ulong x = (ulong)pos.X + followRegionX;
             ulong y = (ulong)pos.Y + followRegionY;
@@ -1810,7 +1810,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4].ToString();
+                    string simr = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -1828,7 +1828,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4].ToString();
+                    string simr = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -1845,15 +1845,15 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0].ToString();
+                    string aavname = split[0];
                     string[] avnamesplit = aavname.Split(new Char[] { '#' });
-                    aavname = avnamesplit[0].ToString();
+                    aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
                     string elink = split[2].ToString(CultureInfo.CurrentCulture);
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0].ToString();
+                    UUID avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -1868,7 +1868,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    uuid = (UUID)split[7].ToString();
+                    uuid = (UUID)split[7];
                 }
                 catch
                 {
@@ -2675,7 +2675,7 @@ namespace MEGAbolt
 
         private int NormaliseSize(int number)
         {
-            decimal ssize = (decimal)256 / (decimal)panel6.Width;
+            decimal ssize = 256 / (decimal)panel6.Width;
 
             int pos = Convert.ToInt32(Math.Round(number * ssize));
 

@@ -115,7 +115,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath.ToString() + "\\config\\Settings.xml";
+            string dir = Application.StartupPath + "\\config\\Settings.xml";
 
             if (System.IO.File.Exists(dir))
             {
@@ -129,14 +129,14 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath.ToString() + "\\config";
+            string dir = Application.StartupPath + "\\config";
 
             Process.Start("explorer.exe", dir);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath.ToString() + "\\aiml"; ;
+            string dir = Application.StartupPath + "\\aiml"; ;
 
             if (System.IO.Directory.Exists(dir))
             {

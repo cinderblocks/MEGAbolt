@@ -72,7 +72,7 @@ namespace MEGAbolt
 
             try
             {
-                label1.Text = "Name: " + sim.ToString();
+                label1.Text = "Name: " + sim;
 
                 label22.Text = "Version: " + sim.SimVersion;
                 label23.Text = "Location: " + sim.ColoLocation;
@@ -100,7 +100,7 @@ namespace MEGAbolt
                 label28.Text = client.Network.InboxCount.ToString(CultureInfo.CurrentCulture);
 
                 label7.Text = "FPS: " + sim.Stats.FPS.ToString(CultureInfo.CurrentCulture);
-                progressBar7.Value = (int)sim.Stats.FPS;
+                progressBar7.Value = sim.Stats.FPS;
 
                 label8.Text = "Physics FPS: " + sim.Stats.PhysicsFPS.ToString(CultureInfo.CurrentCulture);
                 progressBar8.Value = (int)sim.Stats.PhysicsFPS;
@@ -108,7 +108,7 @@ namespace MEGAbolt
                 label29.Text = sim.Stats.AgentUpdates.ToString(CultureInfo.CurrentCulture);
 
                 label10.Text = "Objects: " + sim.Stats.Objects.ToString(CultureInfo.CurrentCulture);
-                progressBar10.Value = (int)sim.Stats.Objects;
+                progressBar10.Value = sim.Stats.Objects;
 
                 label30.Text = sim.Stats.ScriptedObjects.ToString(CultureInfo.CurrentCulture);
 

@@ -51,7 +51,7 @@ namespace MEGAbolt.Core.Components
 
                         if (SortByName)
                         {
-                            if (item1.CompareTo(item2) == -1)
+                            if (string.Compare(item1, item2, StringComparison.Ordinal) == -1)
                             {
                                 object temp = Items[counter];
                                 Items[counter] = Items[counter - 1];

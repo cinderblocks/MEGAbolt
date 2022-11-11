@@ -84,7 +84,7 @@ namespace MEGAbolt
                             Change(this, pe);
                             break;
                         default:
-                            pe = new PingEventArgs("Ping failed " + reply.Status.ToString());
+                            pe = new PingEventArgs("Ping failed " + reply.Status);
                             Change(this, pe);
                             break;
                     }
@@ -129,7 +129,7 @@ namespace MEGAbolt
             StringBuilder statistics = new StringBuilder();
             statistics.AppendLine();
             statistics.AppendLine();
-            statistics.AppendFormat("Ping statistics for {0}:", ip.ToString());
+            statistics.AppendFormat("Ping statistics for {0}:", ip);
             statistics.AppendLine();
             statistics.AppendFormat("   Packets: Sent = 4, " +
                 "Received = {0}, Lost = {1} <{2}% loss>,",
@@ -144,7 +144,7 @@ namespace MEGAbolt
                 statistics.AppendLine();
                 statistics.AppendFormat("    Minimum = {0}ms, " +
                     "Maximum = {1}ms, Average = {2}ms",
-                    minimumTime, maximumTime, (long)(averageTime / received));
+                    minimumTime, maximumTime, averageTime / received);
             }
 
             PingEventArgs pes = new PingEventArgs(statistics.ToString());

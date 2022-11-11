@@ -299,11 +299,11 @@ namespace MEGAbolt
             {
                 string cleangrpname = instance.RemoveReservedCharacters(groupname);
 
-                filename = "IM-" + timestamp.Date.ToString() + "-" + client.Self.Name + "-GROUP-" + cleangrpname + ".txt";
+                filename = "IM-" + timestamp.Date + "-" + client.Self.Name + "-GROUP-" + cleangrpname + ".txt";
             }
             else
             {
-                filename = "IM-" + timestamp.Date.ToString() + "-" + client.Self.Name + "-" + sessionAVname + ".txt";
+                filename = "IM-" + timestamp.Date + "-" + client.Self.Name + "-" + sessionAVname + ".txt";
             }
 
             //filename = filename.Replace("/", "-");
@@ -409,7 +409,7 @@ namespace MEGAbolt
                     sb.Append(message);
 
 
-                    string avid = "http://mbprofile:" + uuid.ToString();
+                    string avid = "http://mbprofile:" + uuid;
 
                     if (fromName.ToLower(CultureInfo.CurrentCulture) != client.Self.Name.ToLower(CultureInfo.CurrentCulture))
                     {
@@ -441,14 +441,14 @@ namespace MEGAbolt
 
                 try
                 {
-                    string avid = "http://mbprofile:" + uuid.ToString();
+                    string avid = "http://mbprofile:" + uuid;
 
                     if (lastspeaker != fromName)
                     {
                         if (fromName.ToLower(CultureInfo.CurrentCulture) != client.Self.Name.ToLower(CultureInfo.CurrentCulture))
                         {
                             //textPrinter.PrintLinkHeader(fromName, avid + "&" + fromName);
-                            TextPrinter.PrintLinkHeader(fromName, uuid.ToString(), avid + "&" + fromName);
+                            TextPrinter.PrintLinkHeader(fromName, uuid, avid + "&" + fromName);
                         }
                         else
                         {

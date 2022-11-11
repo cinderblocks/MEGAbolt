@@ -382,7 +382,7 @@ namespace MEGAbolt
 
                         //LoadWebPage();
 
-                        client.Self.Movement.Camera.Far = (float)instance.Config.CurrentConfig.RadarRange;
+                        client.Self.Movement.Camera.Far = instance.Config.CurrentConfig.RadarRange;
 
                         break;
 

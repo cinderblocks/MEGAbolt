@@ -551,7 +551,7 @@ namespace MEGAbolt
             GL.LoadIdentity();
 
 
-            float dAspRat = (float)glControl.Width / (float)glControl.Height;
+            float dAspRat = glControl.Width / (float)glControl.Height;
             GluPerspective(50f, dAspRat, 0.1f, 100.0f);
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -929,7 +929,7 @@ namespace MEGAbolt
             }
 
             var mLookAt = OpenTK.Mathematics.Matrix4d.LookAt(
-                    Center.X, (double)scrollZoom.Value * 0.1d + Center.Y, Center.Z,
+                    Center.X, scrollZoom.Value * 0.1d + Center.Y, Center.Z,
                     Center.X, Center.Y, Center.Z,
                     0d, 0d, 1d);
             GL.MultMatrix(ref mLookAt);
@@ -942,9 +942,9 @@ namespace MEGAbolt
             GL.EnableClientState(ArrayCap.NormalArray);
 
             // World rotations
-            GL.Rotate((float)scrollRoll.Value, 1f, 0f, 0f);
-            GL.Rotate((float)scrollPitch.Value, 0f, 1f, 0f);
-            GL.Rotate((float)scrollYaw.Value, 0f, 0f, 1f);
+            GL.Rotate(scrollRoll.Value, 1f, 0f, 0f);
+            GL.Rotate(scrollPitch.Value, 0f, 1f, 0f);
+            GL.Rotate(scrollYaw.Value, 0f, 0f, 1f);
 
             GL.GetInteger(GetPName.Viewport, Viewport);
             GL.GetFloat(GetPName.ModelviewMatrix, out ModelMatrix);
@@ -1185,7 +1185,7 @@ namespace MEGAbolt
                                 {
                                     if (!reader.ReadHeader())
                                     {
-                                        throw new Exception("Failed to decode texture header " + assetTexture.AssetID.ToString());
+                                        throw new Exception("Failed to decode texture header " + assetTexture.AssetID);
                                     }
 
                                     try

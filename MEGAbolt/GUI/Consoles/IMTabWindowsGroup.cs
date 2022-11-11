@@ -321,7 +321,7 @@ namespace MEGAbolt
             _menuItem = new EmoticonMenuItem(Smileys.AngelSmile);
             _menuItem.Click += cmenu_Emoticons_Click;
             cmenu_Emoticons.Items.Add(_menuItem);
-            cmenu_Emoticons.Items[0].Tag = (object)"angelsmile;";
+            cmenu_Emoticons.Items[0].Tag = "angelsmile;";
 
             _menuItem = new EmoticonMenuItem(Smileys.AngrySmile);
             _menuItem.Click += cmenu_Emoticons_Click;
@@ -810,7 +810,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4].ToString();
+                    string simr = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -828,7 +828,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4].ToString();
+                    string simr = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -845,15 +845,15 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0].ToString();
+                    string aavname = split[0];
                     string[] avnamesplit = aavname.Split(new Char[] { '#' });
-                    aavname = avnamesplit[0].ToString();
+                    aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
                     string elink = split[2].ToString(CultureInfo.CurrentCulture);
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0].ToString();
+                    UUID avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -868,7 +868,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    uuid = (UUID)split[7].ToString();
+                    uuid = (UUID)split[7];
                 }
                 catch
                 {
@@ -943,7 +943,7 @@ namespace MEGAbolt
 
         private void lvwList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (((ListViewItem)lvwList.SelectedItems[0]).Tag is not ChatSessionMemberAddedEventArgs av) return;
+            if (lvwList.SelectedItems[0].Tag is not ChatSessionMemberAddedEventArgs av) return;
 
             (new frmProfile(instance, people[av.AgentID], av.AgentID)).Show();
         }

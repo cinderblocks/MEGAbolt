@@ -46,7 +46,7 @@ namespace MEGAbolt.Controls
         if (_modalMenuFilter == null)
           _modalMenuFilter = Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
         if (_modalMenuFilter == null)
-          _modalMenuFilter = new List<Type>((IEnumerable<Type>) typeof (ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>) (type => type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
+          _modalMenuFilter = new List<Type>(typeof (ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>) (type => type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
         return _modalMenuFilter;
       }
     }
@@ -65,7 +65,7 @@ namespace MEGAbolt.Controls
       }
     }
 
-    private static void SuspendMenuMode() => suspendMenuMode?.Invoke((object) null, (object[]) null);
+    private static void SuspendMenuMode() => suspendMenuMode?.Invoke(null, null);
 
     private static MethodInfo resumeMenuMode
     {
@@ -81,7 +81,7 @@ namespace MEGAbolt.Controls
       }
     }
 
-    private static void ResumeMenuMode() => resumeMenuMode?.Invoke((object) null, (object[]) null);
+    private static void ResumeMenuMode() => resumeMenuMode?.Invoke(null, null);
 
     protected override void OnDropDown(EventArgs e)
     {

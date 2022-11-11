@@ -315,7 +315,7 @@ namespace MEGAbolt
                 else
                 {
                     name = itemToDraw.Prim.Properties.Name;
-                    wornat = "worn on: " + itemToDraw.Prim.PrimData.AttachmentPoint.ToString();
+                    wornat = "worn on: " + itemToDraw.Prim.PrimData.AttachmentPoint;
 
                     if ((itemToDraw.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
                     {

@@ -126,7 +126,7 @@ namespace MEGAbolt.Rendering
             }
             else
             {
-                numFrames = Math.Max(1f, (float)(PrimAnimInfo.SizeX * PrimAnimInfo.SizeY));
+                numFrames = Math.Max(1f, PrimAnimInfo.SizeX * PrimAnimInfo.SizeY);
             }
 
             if ((PrimAnimInfo.Flags & Primitive.TextureAnimMode.PING_PONG) != 0)
@@ -227,8 +227,8 @@ namespace MEGAbolt.Rendering
             }
             else // Translate
             {
-                float sizeX = Math.Max(1f, (float)PrimAnimInfo.SizeX);
-                float sizeY = Math.Max(1f, (float)PrimAnimInfo.SizeY);
+                float sizeX = Math.Max(1f, PrimAnimInfo.SizeX);
+                float sizeY = Math.Max(1f, PrimAnimInfo.SizeY);
 
                 GL.Scale(1f / sizeX, 1f / sizeY, 0);
                 GL.Translate(frameCounter % sizeX, Math.Floor(frameCounter / sizeY), 0);

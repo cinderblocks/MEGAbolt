@@ -73,7 +73,7 @@ namespace MEGAbolt
             client = this.instance.Client;
 
             this.target = target;
-            nudAmount.Value = (decimal)sprice;
+            nudAmount.Value = sprice;
 
             LoadCallBacks();
         }
@@ -106,7 +106,7 @@ namespace MEGAbolt
             textBox1.Text = prim.Properties.Name;
             btnPay.Text = "&Buy"; 
 
-            nudAmount.Value = (decimal)sprice;
+            nudAmount.Value = sprice;
             oprice = sprice;
 
             Prim = prim;
@@ -219,14 +219,14 @@ namespace MEGAbolt
 
             if (e.DefaultPrice > 0)
             {
-                nudAmount.Value = (decimal)e.DefaultPrice;
+                nudAmount.Value = e.DefaultPrice;
                 //SetNud(e.DefaultPrice);
                 buyprice = e.DefaultPrice;
                 btnPay.Text = "&Pay"; 
             }
             else if (e.DefaultPrice == -1)
             {
-                nudAmount.Value = (decimal)e.ButtonPrices[0];
+                nudAmount.Value = e.ButtonPrices[0];
                 //SetNud(e.ButtonPrices[0]);
                 buyprice = e.ButtonPrices[0];
                 btnPay.Text = "&Pay";

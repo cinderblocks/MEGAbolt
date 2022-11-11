@@ -27,6 +27,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace MEGAbrain
@@ -61,99 +62,99 @@ namespace MEGAbrain
         {
             string str = string.Empty;
             DateTime dateTime;
-            if (input.IndexOf("what is the date today") > 0)
+            if (input.IndexOf("what is the date today", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
                 dateTime = dateTime.Date;
-                str = "it's " + dateTime.ToString();
+                str = "it's " + dateTime.ToString(CultureInfo.CurrentCulture);
             }
-            if (input.IndexOf("what is todays date") > 0)
+            if (input.IndexOf("what is todays date", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
                 dateTime = dateTime.Date;
-                str = "it's " + dateTime.ToString();
+                str = "it's " + dateTime.ToString(CultureInfo.CurrentCulture);
             }
-            if (input.IndexOf("what is todays's date") > 0)
+            if (input.IndexOf("what is today's date", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
                 dateTime = dateTime.Date;
-                str = "it's " + dateTime.ToString();
+                str = "it's " + dateTime.ToString(CultureInfo.CurrentCulture);
             }
-            if (input.IndexOf("what date is it") > 0)
+            if (input.IndexOf("what date is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
                 dateTime = dateTime.Date;
-                str = "it's " + dateTime.ToString();
+                str = "it's " + dateTime.ToString(CultureInfo.CurrentCulture);
             }
-            if (input.IndexOf("what day is it") > 0)
+            if (input.IndexOf("what day is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.DayOfWeek.ToString();
+                str = "it's " + dateTime.DayOfWeek;
             }
-            if (input.IndexOf("what is the day today") > 0)
+            if (input.IndexOf("what is the day today", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.DayOfWeek.ToString();
+                str = "it's " + dateTime.DayOfWeek;
             }
-            if (input.IndexOf("what day of the week is it") > 0)
+            if (input.IndexOf("what day of the week is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.DayOfWeek.ToString();
+                str = "it's " + dateTime.DayOfWeek;
             }
-            if (input.IndexOf("what time is it") > 0)
+            if (input.IndexOf("what time is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.TimeOfDay.ToString();
+                str = "it's " + dateTime.TimeOfDay;
             }
-            if (input.IndexOf("what is the time") > 0)
+            if (input.IndexOf("what is the time", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.TimeOfDay.ToString();
+                str = "it's " + dateTime.TimeOfDay;
             }
-            if (input.IndexOf("what month is it") > 0)
+            if (input.IndexOf("what month is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Month.ToString();
+                str = "it's " + dateTime.Month;
             }
-            if (input.IndexOf("which month are we") > 0)
+            if (input.IndexOf("which month are we", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Month.ToString();
+                str = "it's " + dateTime.Month;
             }
-            if (input.IndexOf("what month are we") > 0)
+            if (input.IndexOf("what month are we", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Month.ToString();
+                str = "it's " + dateTime.Month;
             }
-            if (input.IndexOf("what is the month") > 0)
+            if (input.IndexOf("what is the month", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Month.ToString();
+                str = "it's " + dateTime.Month;
             }
-            if (input.IndexOf("which month is it") > 0)
+            if (input.IndexOf("which month is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Month.ToString();
+                str = "it's " + dateTime.Month;
             }
-            if (input.IndexOf("what year is it") > 0)
+            if (input.IndexOf("what year is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Year.ToString();
+                str = "it's " + dateTime.Year;
             }
-            if (input.IndexOf("what is the year") > 0)
+            if (input.IndexOf("what is the year", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Year.ToString();
+                str = "it's " + dateTime.Year;
             }
-            if (input.IndexOf("which year is it") > 0)
+            if (input.IndexOf("which year is it", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Year.ToString();
+                str = "it's " + dateTime.Year;
             }
-            if (input.IndexOf("what year are we") > 0)
+            if (input.IndexOf("what year are we", StringComparison.Ordinal) > 0)
             {
                 dateTime = DateTime.Today;
-                str = "it's " + dateTime.Year.ToString();
+                str = "it's " + dateTime.Year;
             }
             return str;
         }
@@ -166,17 +167,17 @@ namespace MEGAbrain
             string empty2 = string.Empty;
             bool flag = false;
             string str2 = input.Replace('?', ' ').Replace('.', ' ').Replace("times", "*").Replace("multipliedby", "*").Replace("multiplied by", "*").Replace("multiplied", "*").Replace("plus", "+").Replace("add to", "+").Replace("added to", "+").Replace("add", "+").Replace("minus", "-");
-            if (str2.IndexOf("subtracted from") > 0)
+            if (str2.IndexOf("subtracted from", StringComparison.Ordinal) > 0)
             {
                 str2 = str2.Replace("subtracted from", "-");
                 flag = true;
             }
-            if (str2.IndexOf("minus from") > 0)
+            if (str2.IndexOf("minus from", StringComparison.Ordinal) > 0)
             {
                 str2 = str2.Replace("minus from", "-");
                 flag = true;
             }
-            if (str2.IndexOf("minused from") > 0)
+            if (str2.IndexOf("minused from", StringComparison.Ordinal) > 0)
             {
                 str2 = str2.Replace("minused from", "-");
                 flag = true;
@@ -184,111 +185,111 @@ namespace MEGAbrain
             string str3 = str2.Replace("subtract", "-").Replace("divided by", "/").Replace("dividedby", "/").Replace("divided", "/");
             if (str3.Contains("x"))
             {
-                int length = str3.IndexOf("x");
+                int length = str3.IndexOf("x", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
                 string str4 = str3.Substring(0, length);
                 string str5 = str3.Substring(length + 1);
-                if (!(str4 == string.Empty) && !(str5 == string.Empty))
+                if (str4 != string.Empty && str5 != string.Empty)
                 {
                     char ch = ' ';
                     string[] strArray1 = str4.Split(ch);
                     string[] strArray2 = str5.Split(ch);
-                    string strNumber1 = strArray1[strArray1.Length - 1];
+                    string strNumber1 = strArray1[^1];
                     if (strNumber1 == string.Empty)
-                        strNumber1 = strArray1[strArray1.Length - 2];
+                        strNumber1 = strArray1[^2];
                     string strNumber2 = strArray2[0];
                     if (strNumber2 == string.Empty)
                         strNumber2 = strArray2[1];
                     if (IsNumber(strNumber1) && IsNumber(strNumber2))
-                        str1 = Convert.ToString((float)Convert.ToInt32(strNumber1) * (float)Convert.ToInt32(strNumber2));
+                        str1 = Convert.ToString(Convert.ToInt32(strNumber1) * Convert.ToInt32(strNumber2));
                 }
             }
             if (str3.Contains("*"))
             {
-                int length = str3.IndexOf("*");
+                int length = str3.IndexOf("*", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
                 string str6 = str3.Substring(0, length);
                 string str7 = str3.Substring(length + 1);
-                if (!(str6 == string.Empty) && !(str7 == string.Empty))
+                if (str6 != string.Empty && str7 != string.Empty)
                 {
                     char ch = ' ';
                     string[] strArray3 = str6.Split(ch);
                     string[] strArray4 = str7.Split(ch);
-                    string strNumber3 = strArray3[strArray3.Length - 1];
+                    string strNumber3 = strArray3[^1];
                     if (strNumber3 == string.Empty)
-                        strNumber3 = strArray3[strArray3.Length - 2];
+                        strNumber3 = strArray3[^2];
                     string strNumber4 = strArray4[0];
                     if (strNumber4 == string.Empty)
                         strNumber4 = strArray4[1];
                     if (IsNumber(strNumber3) && IsNumber(strNumber4))
-                        str1 = Convert.ToString((float)Convert.ToInt32(strNumber3) * (float)Convert.ToInt32(strNumber4));
+                        str1 = Convert.ToString(Convert.ToInt32(strNumber3) * Convert.ToInt32(strNumber4), CultureInfo.InvariantCulture);
                 }
             }
             if (str3.Contains("/"))
             {
-                int length = str3.IndexOf("/");
+                int length = str3.IndexOf("/", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
                 string str8 = str3.Substring(0, length);
                 string str9 = str3.Substring(length + 1);
-                if (!(str8 == string.Empty) && !(str9 == string.Empty))
+                if (str8 != string.Empty && str9 != string.Empty)
                 {
                     char ch = ' ';
                     string[] strArray5 = str8.Split(ch);
                     string[] strArray6 = str9.Split(ch);
-                    string strNumber5 = strArray5[strArray5.Length - 1];
+                    string strNumber5 = strArray5[^1];
                     if (strNumber5 == string.Empty)
-                        strNumber5 = strArray5[strArray5.Length - 2];
+                        strNumber5 = strArray5[^2];
                     string strNumber6 = strArray6[0];
                     if (strNumber6 == string.Empty)
                         strNumber6 = strArray6[1];
                     if (IsNumber(strNumber5) && IsNumber(strNumber6))
-                        str1 = Convert.ToString((float)Convert.ToInt32(strNumber5) / (float)Convert.ToInt32(strNumber6));
+                        str1 = Convert.ToString(Convert.ToInt32(strNumber5) / (float)Convert.ToInt32(strNumber6));
                 }
             }
             if (str3.Contains("+"))
             {
                 str3 = str3.Replace('?', ' ').Replace('.', ' ');
-                int length = str3.IndexOf("+");
+                int length = str3.IndexOf("+", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
                 string str10 = str3.Substring(0, length);
                 string str11 = str3.Substring(length + 1);
-                if (!(str10 == string.Empty) && !(str11 == string.Empty))
+                if (str10 != string.Empty && str11 != string.Empty)
                 {
                     char ch = ' ';
                     string[] strArray7 = str10.Split(ch);
                     string[] strArray8 = str11.Split(ch);
-                    string strNumber7 = strArray7[strArray7.Length - 1];
+                    string strNumber7 = strArray7[^1];
                     if (strNumber7 == string.Empty)
-                        strNumber7 = strArray7[strArray7.Length - 2];
+                        strNumber7 = strArray7[^2];
                     string strNumber8 = strArray8[0];
                     if (strNumber8 == string.Empty)
                         strNumber8 = strArray8[1];
                     if (IsNumber(strNumber7) && IsNumber(strNumber8))
-                        str1 = Convert.ToString((float)Convert.ToInt32(strNumber7) + (float)Convert.ToInt32(strNumber8));
+                        str1 = Convert.ToString(Convert.ToInt32(strNumber7) + (float)Convert.ToInt32(strNumber8), CultureInfo.InvariantCulture);
                 }
             }
             if (str3.Contains("-"))
             {
-                int length = str3.IndexOf("-");
+                int length = str3.IndexOf("-", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
                 string str12 = str3.Substring(0, length);
                 string str13 = str3.Substring(length + 1);
-                if (!(str12 == string.Empty) && !(str13 == string.Empty))
+                if (str12 != string.Empty && str13 != string.Empty)
                 {
                     char ch = ' ';
                     string[] strArray9 = str12.Split(ch);
                     string[] strArray10 = str13.Split(ch);
-                    string strNumber9 = strArray9[strArray9.Length - 1];
+                    string strNumber9 = strArray9[^1];
                     if (strNumber9 == string.Empty)
-                        strNumber9 = strArray9[strArray9.Length - 2];
+                        strNumber9 = strArray9[^2];
                     string strNumber10 = strArray10[0];
                     if (strNumber10 == string.Empty)
                         strNumber10 = strArray10[1];
                     if (IsNumber(strNumber9) && IsNumber(strNumber10))
                     {
-                        float int32_1 = (float)Convert.ToInt32(strNumber9);
-                        float int32_2 = (float)Convert.ToInt32(strNumber10);
-                        str1 = flag ? Convert.ToString(int32_2 - int32_1) : Convert.ToString(int32_1 - int32_2);
+                        float int32_1 = Convert.ToInt32(strNumber9);
+                        float int32_2 = Convert.ToInt32(strNumber10);
+                        str1 = flag ? Convert.ToString(int32_2 - int32_1, CultureInfo.InvariantCulture) : Convert.ToString(int32_1 - int32_2);
                     }
                 }
             }

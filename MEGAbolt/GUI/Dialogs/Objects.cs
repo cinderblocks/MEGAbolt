@@ -89,7 +89,7 @@ namespace MEGAbolt
             client = this.instance.Client;
             netcom = this.instance.Netcom;
 
-            range = (float)instance.Config.CurrentConfig.ObjectRange;
+            range = instance.Config.CurrentConfig.ObjectRange;
             //newrange = range;
             //numericUpDown1.Maximum = instance.Config.CurrentConfig.RadarRange;
             numericUpDown1.Value = Convert.ToDecimal(range);
@@ -1445,7 +1445,7 @@ namespace MEGAbolt
         {
             CenterToParent();
             
-            Text = "Object Manager [" + client.Self.FirstName.ToString() + " " + client.Self.LastName.ToString() + "]";
+            Text = "Object Manager [" + client.Self.FirstName + " " + client.Self.LastName + "]";
 
             //numericUpDown1.Maximum = instance.Config.CurrentConfig.RadarRange;
 
@@ -1840,7 +1840,7 @@ namespace MEGAbolt
             if (rootPrim == null)
                 return;
             else
-                Logger.DebugLog("Found requested prim " + rootPrim.ID.ToString(), client);
+                Logger.DebugLog("Found requested prim " + rootPrim.ID, client);
 
             if (rootPrim.ParentID != 0)
             {
@@ -1971,8 +1971,8 @@ namespace MEGAbolt
                 Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
                 Vector3d objpos;
 
-                objpos.X = (double)pos.X + (double)regionX;
-                objpos.Y = (double)pos.Y + (double)regionY;
+                objpos.X = pos.X + (double)regionX;
+                objpos.Y = pos.Y + (double)regionY;
                 objpos.Z = pos.Z;   // -2f;
 
                 instance.State.SetPointingTouch(true, item.Prim.ID, objpos, pos);
@@ -2100,8 +2100,8 @@ namespace MEGAbolt
 
                 Vector3d objpos;
 
-                objpos.X = (double)pos.X + (double)regionX;
-                objpos.Y = (double)pos.Y + (double)regionY;
+                objpos.X = pos.X + (double)regionX;
+                objpos.Y = pos.Y + (double)regionY;
                 objpos.Z = pos.Z;   // -2f;
 
                 if (btnPointAt.Text == "Po&int At")
@@ -2726,7 +2726,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                InventoryItem llitem = ((ListViewItem)lbxTask.SelectedItems[0]).Tag as InventoryItem;
+                InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
                 ListViewItem selitem = lbxTask.SelectedItems[0];
 
                 if (llitem.InventoryType == InventoryType.LSL)
@@ -2869,7 +2869,7 @@ namespace MEGAbolt
             Primitive sPr = new Primitive();
             sPr = item.Prim;
 
-            InventoryItem llitem = ((ListViewItem)lbxTask.SelectedItems[0]).Tag as InventoryItem;
+            InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
             //ListViewItem selitem = lbxTask.SelectedItems[0];
 
             client.Inventory.RemoveTaskInventory(sPr.LocalID, llitem.UUID, client.Network.CurrentSim);
@@ -2900,7 +2900,7 @@ namespace MEGAbolt
             Primitive sPr = new Primitive();
             sPr = item.Prim;
 
-            InventoryItem llitem = ((ListViewItem)lbxTask.SelectedItems[0]).Tag as InventoryItem;
+            InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
             InventoryItem llitemname = ((ListViewItem)lbxPrims.SelectedItems[0]).Tag as InventoryItem;
             
             //ListViewItem selitem = lbxTask.SelectedItems[0];

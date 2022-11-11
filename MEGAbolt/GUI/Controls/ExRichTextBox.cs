@@ -136,38 +136,38 @@ namespace MEGAbolt.Controls
       ArgumentException argumentException;
       try
       {
-        if (!rtfColor.Contains((object) RtfColor.Aqua))
-          rtfColor.Add((object) RtfColor.Aqua, (object) "\\red0\\green255\\blue255");
-        if (!rtfColor.Contains((object) RtfColor.Black))
-          rtfColor.Add((object) RtfColor.Black, (object) "\\red0\\green0\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Blue))
-          rtfColor.Add((object) RtfColor.Blue, (object) "\\red0\\green0\\blue255");
-        if (!rtfColor.Contains((object) RtfColor.Fuchsia))
-          rtfColor.Add((object) RtfColor.Fuchsia, (object) "\\red255\\green0\\blue255");
-        if (!rtfColor.Contains((object) RtfColor.Gray))
-          rtfColor.Add((object) RtfColor.Gray, (object) "\\red128\\green128\\blue128");
-        if (!rtfColor.Contains((object) RtfColor.Green))
-          rtfColor.Add((object) RtfColor.Green, (object) "\\red0\\green128\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Lime))
-          rtfColor.Add((object) RtfColor.Lime, (object) "\\red0\\green255\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Maroon))
-          rtfColor.Add((object) RtfColor.Maroon, (object) "\\red128\\green0\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Navy))
-          rtfColor.Add((object) RtfColor.Navy, (object) "\\red0\\green0\\blue128");
-        if (!rtfColor.Contains((object) RtfColor.Olive))
-          rtfColor.Add((object) RtfColor.Olive, (object) "\\red128\\green128\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Purple))
-          rtfColor.Add((object) RtfColor.Purple, (object) "\\red128\\green0\\blue128");
-        if (!rtfColor.Contains((object) RtfColor.Red))
-          rtfColor.Add((object) RtfColor.Red, (object) "\\red255\\green0\\blue0");
-        if (!rtfColor.Contains((object) RtfColor.Silver))
-          rtfColor.Add((object) RtfColor.Silver, (object) "\\red192\\green192\\blue192");
-        if (!rtfColor.Contains((object) RtfColor.Teal))
-          rtfColor.Add((object) RtfColor.Teal, (object) "\\red0\\green128\\blue128");
-        if (!rtfColor.Contains((object) RtfColor.White))
-          rtfColor.Add((object) RtfColor.White, (object) "\\red255\\green255\\blue255");
-        if (!rtfColor.Contains((object) RtfColor.Yellow))
-          rtfColor.Add((object) RtfColor.Yellow, (object) "\\red255\\green255\\blue0");
+        if (!rtfColor.Contains(RtfColor.Aqua))
+          rtfColor.Add(RtfColor.Aqua, "\\red0\\green255\\blue255");
+        if (!rtfColor.Contains(RtfColor.Black))
+          rtfColor.Add(RtfColor.Black, "\\red0\\green0\\blue0");
+        if (!rtfColor.Contains(RtfColor.Blue))
+          rtfColor.Add(RtfColor.Blue, "\\red0\\green0\\blue255");
+        if (!rtfColor.Contains(RtfColor.Fuchsia))
+          rtfColor.Add(RtfColor.Fuchsia, "\\red255\\green0\\blue255");
+        if (!rtfColor.Contains(RtfColor.Gray))
+          rtfColor.Add(RtfColor.Gray, "\\red128\\green128\\blue128");
+        if (!rtfColor.Contains(RtfColor.Green))
+          rtfColor.Add(RtfColor.Green, "\\red0\\green128\\blue0");
+        if (!rtfColor.Contains(RtfColor.Lime))
+          rtfColor.Add(RtfColor.Lime, "\\red0\\green255\\blue0");
+        if (!rtfColor.Contains(RtfColor.Maroon))
+          rtfColor.Add(RtfColor.Maroon, "\\red128\\green0\\blue0");
+        if (!rtfColor.Contains(RtfColor.Navy))
+          rtfColor.Add(RtfColor.Navy, "\\red0\\green0\\blue128");
+        if (!rtfColor.Contains(RtfColor.Olive))
+          rtfColor.Add(RtfColor.Olive, "\\red128\\green128\\blue0");
+        if (!rtfColor.Contains(RtfColor.Purple))
+          rtfColor.Add(RtfColor.Purple, "\\red128\\green0\\blue128");
+        if (!rtfColor.Contains(RtfColor.Red))
+          rtfColor.Add(RtfColor.Red, "\\red255\\green0\\blue0");
+        if (!rtfColor.Contains(RtfColor.Silver))
+          rtfColor.Add(RtfColor.Silver, "\\red192\\green192\\blue192");
+        if (!rtfColor.Contains(RtfColor.Teal))
+          rtfColor.Add(RtfColor.Teal, "\\red0\\green128\\blue128");
+        if (!rtfColor.Contains(RtfColor.White))
+          rtfColor.Add(RtfColor.White, "\\red255\\green255\\blue255");
+        if (!rtfColor.Contains(RtfColor.Yellow))
+          rtfColor.Add(RtfColor.Yellow, "\\red255\\green255\\blue0");
       }
       catch (ArgumentException ex)
       {
@@ -177,14 +177,14 @@ namespace MEGAbolt.Controls
         rtfFontFamily = new HybridDictionary();
       try
       {
-        if (!rtfFontFamily.Contains((object) FontFamily.GenericMonospace.Name))
-          rtfFontFamily.Add((object) FontFamily.GenericMonospace.Name, (object) "\\fmodern");
-        if (!rtfFontFamily.Contains((object) FontFamily.GenericSansSerif))
-          rtfFontFamily.Add((object) FontFamily.GenericSansSerif, (object) "\\fswiss");
-        if (!rtfFontFamily.Contains((object) FontFamily.GenericSerif))
-          rtfFontFamily.Add((object) FontFamily.GenericSerif, (object) "\\froman");
-        if (!rtfFontFamily.Contains((object) "UNKNOWN"))
-          rtfFontFamily.Add((object) "UNKNOWN", (object) "\\fnil");
+        if (!rtfFontFamily.Contains(FontFamily.GenericMonospace.Name))
+          rtfFontFamily.Add(FontFamily.GenericMonospace.Name, "\\fmodern");
+        if (!rtfFontFamily.Contains(FontFamily.GenericSansSerif))
+          rtfFontFamily.Add(FontFamily.GenericSansSerif, "\\fswiss");
+        if (!rtfFontFamily.Contains(FontFamily.GenericSerif))
+          rtfFontFamily.Add(FontFamily.GenericSerif, "\\froman");
+        if (!rtfFontFamily.Contains("UNKNOWN"))
+          rtfFontFamily.Add("UNKNOWN", "\\fnil");
       }
       catch (ArgumentException ex)
       {
@@ -269,7 +269,7 @@ namespace MEGAbolt.Controls
         stringBuilder.Append("\\ul");
       stringBuilder.Append("\\f0");
       stringBuilder.Append("\\fs");
-      stringBuilder.Append((int) Math.Round(2.0 * (double) _font.SizeInPoints));
+      stringBuilder.Append((int) Math.Round(2.0 * _font.SizeInPoints));
       stringBuilder.Append(" ");
       stringBuilder.Append(_text.Replace("\n", "\\par "));
       stringBuilder.Append("\\highlight0");
@@ -301,10 +301,10 @@ namespace MEGAbolt.Controls
     private string GetImagePrefix(Image _image)
     {
       StringBuilder stringBuilder = new StringBuilder();
-      int num1 = (int) Math.Round((double) _image.Width / (double) xDpi * 2540.0);
-      int num2 = (int) Math.Round((double) _image.Height / (double) yDpi * 2540.0);
-      int num3 = (int) Math.Round((double) _image.Width / (double) xDpi * 1440.0);
-      int num4 = (int) Math.Round((double) _image.Height / (double) yDpi * 1440.0);
+      int num1 = (int) Math.Round(_image.Width / (double) xDpi * 2540.0);
+      int num2 = (int) Math.Round(_image.Height / (double) yDpi * 2540.0);
+      int num3 = (int) Math.Round(_image.Width / (double) xDpi * 1440.0);
+      int num4 = (int) Math.Round(_image.Height / (double) yDpi * 1440.0);
       stringBuilder.Append("{\\pict\\wmetafile8");
       stringBuilder.Append("\\picw");
       stringBuilder.Append(num1);
@@ -328,9 +328,9 @@ namespace MEGAbolt.Controls
 
     private string GetRtfImage(Image _image)
     {
-      MemoryStream memoryStream = (MemoryStream) null;
-      Graphics graphics = (Graphics) null;
-      Metafile metafile = (Metafile) null;
+      MemoryStream memoryStream = null;
+      Graphics graphics = null;
+      Metafile metafile = null;
       try
       {
         StringBuilder stringBuilder = new StringBuilder();
@@ -338,17 +338,17 @@ namespace MEGAbolt.Controls
         using (graphics = CreateGraphics())
         {
           IntPtr hdc = graphics.GetHdc();
-          metafile = new Metafile((Stream) memoryStream, hdc);
+          metafile = new Metafile(memoryStream, hdc);
           graphics.ReleaseHdc(hdc);
         }
-        using (graphics = Graphics.FromImage((Image) metafile))
+        using (graphics = Graphics.FromImage(metafile))
           graphics.DrawImage(_image, new Rectangle(0, 0, _image.Width, _image.Height));
         IntPtr henhmetafile = metafile.GetHenhmetafile();
-        uint wmfBits = GdipEmfToWmfBits(henhmetafile, 0U, (byte[]) null, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
+        uint wmfBits = GdipEmfToWmfBits(henhmetafile, 0U, null, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
         byte[] _buffer = new byte[wmfBits];
         GdipEmfToWmfBits(henhmetafile, wmfBits, _buffer, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
         foreach (var t in _buffer)
-            stringBuilder.Append(string.Format("{0:X2}", (object) t));
+            stringBuilder.Append(string.Format("{0:X2}", t));
 
         return stringBuilder.ToString();
       }
@@ -430,10 +430,10 @@ namespace MEGAbolt.Controls
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.Append("{\\fonttbl{\\f0");
       stringBuilder.Append("\\");
-      if (rtfFontFamily.Contains((object) _font.FontFamily.Name))
-        stringBuilder.Append(rtfFontFamily[(object) _font.FontFamily.Name]);
+      if (rtfFontFamily.Contains(_font.FontFamily.Name))
+        stringBuilder.Append(rtfFontFamily[_font.FontFamily.Name]);
       else
-        stringBuilder.Append(rtfFontFamily[(object) "UNKNOWN"]);
+        stringBuilder.Append(rtfFontFamily["UNKNOWN"]);
       stringBuilder.Append("\\fcharset0 ");
       stringBuilder.Append(_font.Name);
       stringBuilder.Append(";}}");
@@ -444,9 +444,9 @@ namespace MEGAbolt.Controls
     {
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.Append("{\\colortbl ;");
-      stringBuilder.Append(rtfColor[(object) _textColor]);
+      stringBuilder.Append(rtfColor[_textColor]);
       stringBuilder.Append(";");
-      stringBuilder.Append(rtfColor[(object) _backColor]);
+      stringBuilder.Append(rtfColor[_backColor]);
       stringBuilder.Append(";}\\n");
       return stringBuilder.ToString();
     }

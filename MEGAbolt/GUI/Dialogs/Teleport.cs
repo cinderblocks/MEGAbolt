@@ -355,7 +355,7 @@ namespace MEGAbolt
             Font newFont = new Font(e.Font, FontStyle.Bold);
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
             
-            float iconSize = (float)trkIconSize.Value;
+            float iconSize = trkIconSize.Value;
             float leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
             float topTextMargin = e.Bounds.Top + 4.0f;
          

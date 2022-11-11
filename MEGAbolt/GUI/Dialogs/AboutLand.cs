@@ -471,7 +471,7 @@ namespace MEGAbolt
 
                      	   if (foundItem != null)
                      	   {
-                    	        foundItem.Text = instance.avnames[pe.AgentID].ToString();
+                    	        foundItem.Text = instance.avnames[pe.AgentID];
                     	    }
                     	}
                     }
@@ -1214,7 +1214,7 @@ namespace MEGAbolt
                         {
                             StreamWriter SW = new StreamWriter(tstream);
 
-                            string parcelname = client.Network.CurrentSim.ToString() + "/" + txtParcelname.Text.Replace(",", " ");
+                            string parcelname = client.Network.CurrentSim + "/" + txtParcelname.Text.Replace(",", " ");
 
                             SW.WriteLine("Land: " + parcelname + ",List Type: Blacklist,Ttl avatars: " + lvwBlackList.Items.Count.ToString(CultureInfo.CurrentCulture));
                             SW.WriteLine(",,");
@@ -1225,7 +1225,7 @@ namespace MEGAbolt
                                 ParcelManager.ParcelAccessEntry person = (ParcelManager.ParcelAccessEntry)lvwBlackList.Items[i].Tag;
                                 string personame = lvwBlackList.Items[i].Text;
 
-                                string line = personame + "," + person.AgentID.ToString() + ",";
+                                string line = personame + "," + person.AgentID + ",";
                                 SW.WriteLine(line);
                             }
 

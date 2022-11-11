@@ -216,7 +216,7 @@ namespace MEGAbolt
                 string msg = (string)message;
                 if (msg.Contains("ParticipantUpdatedEvent")) return;
 
-                rtb.AppendText("[" + DateTime.Now.ToString() + "] " + msg + "\n");
+                rtb.AppendText("[" + DateTime.Now + "] " + msg + "\n");
             }
             catch (Exception ex)
             {
@@ -252,7 +252,7 @@ namespace MEGAbolt
                 string msg = (string)message;
                 if (msg.Contains("ParticipantUpdatedEvent")) return;
 
-                rtb.AppendText("[" + dte.ToString() + "] " + msg + "\n");
+                rtb.AppendText("[" + dte + "] " + msg + "\n");
             }
             catch (Exception ex)
             {
@@ -336,7 +336,7 @@ namespace MEGAbolt
 
                 foreach (IPAddress ipadr in hostinfo.AddressList)
                 {
-                    rtBox1.Text += ipadr.ToString() + "\n";
+                    rtBox1.Text += ipadr + "\n";
                 }
 
                 // Display the list of alias names for the host
@@ -378,7 +378,7 @@ namespace MEGAbolt
                 return;
             }
 
-            rtBox1.Text += "Pinging " + textBox1.Text + " [" + ip.ToString() + "] with 32 bytes of data:\n";
+            rtBox1.Text += "Pinging " + textBox1.Text + " [" + ip + "] with 32 bytes of data:\n";
 
             PingHost ping = new PingHost();
             ping.Change += ping_Change;
@@ -456,7 +456,7 @@ namespace MEGAbolt
 
             BeginInvoke(new MethodInvoker(delegate()
             {
-                label10.Text = "SIM: " + client.Network.CurrentSim.Name + " (" + client.Network.CurrentSim.IPEndPoint.ToString() + ")";
+                label10.Text = "SIM: " + client.Network.CurrentSim.Name + " (" + client.Network.CurrentSim.IPEndPoint + ")";
             }));
 
             ip = simip.Address;

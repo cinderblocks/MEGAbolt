@@ -102,8 +102,8 @@ namespace MEGAbolt
 
             for (int a = 0; a < listBox1.Items.Count; a++)
             {
-                filename = currentDirectory + listBox1.Items[a].ToString();
-                destFile = @textBox1.Text + listBox1.Items[a].ToString();
+                filename = currentDirectory + listBox1.Items[a];
+                destFile = @textBox1.Text + listBox1.Items[a];
 
                 try
                 {
@@ -248,8 +248,8 @@ namespace MEGAbolt
 
             for (int a = 0; a < listBox2.Items.Count; a++)
             {
-                filename = @textBox2.Text + listBox2.Items[a].ToString();
-                destFile = currentDirectory + listBox2.Items[a].ToString();
+                filename = @textBox2.Text + listBox2.Items[a];
+                destFile = currentDirectory + listBox2.Items[a];
 
                 try
                 {
@@ -278,7 +278,7 @@ namespace MEGAbolt
                 }
                 catch (Exception ex)
                 {
-                    string nexp = ex.Message.ToString();
+                    string nexp = ex.Message;
                     label5.Text = nexp;
                     return;
                 }

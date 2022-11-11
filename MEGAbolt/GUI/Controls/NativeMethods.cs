@@ -62,18 +62,18 @@ namespace MEGAbolt.Controls
       try
       {
         new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Demand();
-        AnimateWindow(new HandleRef((object) control, control.Handle), time, flags);
+        AnimateWindow(new HandleRef(control, control.Handle), time, flags);
       }
       catch (SecurityException ex)
       {
       }
     }
 
-    internal static int HIWORD(int n) => n >> 16 & (int) ushort.MaxValue;
+    internal static int HIWORD(int n) => n >> 16 & ushort.MaxValue;
 
     internal static int HIWORD(IntPtr n) => HIWORD((int) (long) n);
 
-    internal static int LOWORD(int n) => n & (int) ushort.MaxValue;
+    internal static int LOWORD(int n) => n & ushort.MaxValue;
 
     internal static int LOWORD(IntPtr n) => LOWORD((int) (long) n);
 

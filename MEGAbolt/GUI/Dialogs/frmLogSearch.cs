@@ -118,7 +118,7 @@ namespace MEGAbolt
         private void FindText(string fName)
         {
             string[] s_arr = Regex.Split(fName, @"(\\)");
-            string name = s_arr[s_arr.Length - 1];   
+            string name = s_arr[^1];   
 
             StreamReader testTxt = new StreamReader(fName);
             string allRead = testTxt.ReadToEnd().ToLower(CultureInfo.CurrentCulture);

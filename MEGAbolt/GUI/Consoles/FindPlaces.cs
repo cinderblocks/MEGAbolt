@@ -155,15 +155,15 @@ namespace MEGAbolt
 
 
             // Convert Global pos to local
-            float locX = (float)place.GlobalX; ;
-            float locY = (float)place.GlobalY;
+            float locX = place.GlobalX; ;
+            float locY = place.GlobalY;
             float locX1;
             float locY1;
             Helpers.GlobalPosToRegionHandle(locX, locY, out locX1, out locY1);
 
             fX = locX1;
             fY = locY1;
-            fZ = (float)place.GlobalZ;
+            fZ = place.GlobalZ;
             //sSIM = place.SimName;  
 
             txtLocation.Text = place.SimName.ToString(CultureInfo.CurrentCulture) + " " + fX.ToString(CultureInfo.CurrentCulture) + ", " + fY.ToString(CultureInfo.CurrentCulture) + ", " + fZ.ToString(CultureInfo.CurrentCulture);
@@ -269,7 +269,7 @@ namespace MEGAbolt
             char[] deli = " ".ToCharArray();
             string[] iDets = sLoc.Split(deli);
 
-            (new frmTeleport(instance, iDets[0].ToString(), fX, fY, fZ, false)).Show();
+            (new frmTeleport(instance, iDets[0], fX, fY, fZ, false)).Show();
 
             //client.Self.Teleport(sSIM, posn);    
         }

@@ -216,7 +216,7 @@ namespace MEGAbolt
                 //List<Simulator> connectedsims = client.Network.Simulators; 
 
                 instance.Config.CurrentConfig.pURL = @parcel.MusicURL;
-                tlblParcel.Text = parcel.Name.ToString();
+                tlblParcel.Text = parcel.Name;
 
                // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
 
@@ -666,7 +666,7 @@ namespace MEGAbolt
             }
 
             client.Self.RequestMuteList();
-            client.Self.Movement.Camera.Far = (float)instance.Config.CurrentConfig.RadarRange;
+            client.Self.Movement.Camera.Far = instance.Config.CurrentConfig.RadarRange;
         }
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
@@ -1101,7 +1101,7 @@ namespace MEGAbolt
         {
             //Build an error message with specific compiler errors
             StringBuilder msg = new StringBuilder();
-            msg.AppendLine("Failed Loading Extension: " + e.Filename + " of Type: " + e.ExtensionType.ToString());
+            msg.AppendLine("Failed Loading Extension: " + e.Filename + " of Type: " + e.ExtensionType);
             msg.AppendLine("Error Message: ");
             msg.AppendLine(e.ErrorMessage);
             msg.AppendLine(" ");
@@ -1114,7 +1114,7 @@ namespace MEGAbolt
 
             //Show the user
             //MessageBox.Show(this, msg.ToString(), "Extension Compilation Error", MessageBoxButtons.OK);
-            Logger.Log("Plugin Error: " + msg.ToString(), Helpers.LogLevel.Error); 
+            Logger.Log("Plugin Error: " + msg, Helpers.LogLevel.Error); 
         }
         #endregion
         
@@ -1159,7 +1159,7 @@ namespace MEGAbolt
             }
             catch (Exception exp)
             {
-                Logger.Log("Rebake (menu): " + exp.InnerException.ToString(), Helpers.LogLevel.Error);
+                Logger.Log("Rebake (menu): " + exp.InnerException, Helpers.LogLevel.Error);
             }
         }
 
@@ -1614,7 +1614,7 @@ namespace MEGAbolt
             }
             catch (Exception exp)
             {
-                Logger.Log("Previous Appearance (menu): " + exp.InnerException.ToString(), Helpers.LogLevel.Error);
+                Logger.Log("Previous Appearance (menu): " + exp.InnerException, Helpers.LogLevel.Error);
             }
         }
 

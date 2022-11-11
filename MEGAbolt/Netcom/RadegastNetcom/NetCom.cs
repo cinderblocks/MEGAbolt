@@ -87,7 +87,7 @@ namespace MEGAbolt.NetworkComm
             }
             catch (Exception exp)
             {
-                Logger.Log(exp.Message.ToString(), Helpers.LogLevel.Error);
+                Logger.Log(exp.Message, Helpers.LogLevel.Error);
             }
         }
 

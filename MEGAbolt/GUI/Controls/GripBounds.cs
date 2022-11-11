@@ -21,7 +21,7 @@ using System.Drawing;
 
 namespace MEGAbolt.Controls
 {
-  internal struct GripBounds
+  internal readonly struct GripBounds
   {
     private const int GripSize = 6;
     private const int CornerGripSize = 12;

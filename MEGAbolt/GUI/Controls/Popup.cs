@@ -54,14 +54,14 @@ namespace MEGAbolt.Controls
         if (Content != null)
         {
           Control content = Content;
-          Content = (Control) null;
+          Content = null;
           content.Dispose();
         }
       }
       base.Dispose(disposing);
     }
 
-    private void InitializeComponent() => components = (IContainer) new Container();
+    private void InitializeComponent() => components = new Container();
 
     public Control Content { get; private set; }
 
@@ -143,10 +143,10 @@ namespace MEGAbolt.Controls
       Size = content.Size;
       TabStop = content.TabStop = true;
       content.Location = Point.Empty;
-      Items.Add((ToolStripItem) host);
+      Items.Add(host);
       content.Disposed += (EventHandler) ((sender, e) =>
       {
-        content = (Control) null;
+        content = null;
         popup.Dispose(true);
       });
       content.RegionChanged += (EventHandler) ((sender, e) => UpdateRegion());
@@ -179,7 +179,7 @@ namespace MEGAbolt.Controls
         else if ((popupAnimations & PopupAnimations.LeftToRight) != PopupAnimations.None)
           popupAnimations = popupAnimations & ~PopupAnimations.LeftToRight | PopupAnimations.RightToLeft;
       }
-      NativeMethods.AnimateWindow((Control) this, AnimationDuration, animationFlags | (NativeMethods.AnimationFlags) ((PopupAnimations) 1048575 & popupAnimations));
+      NativeMethods.AnimateWindow(this, AnimationDuration, animationFlags | (NativeMethods.AnimationFlags) ((PopupAnimations) 1048575 & popupAnimations));
     }
 
     [UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
@@ -193,7 +193,7 @@ namespace MEGAbolt.Controls
       }
       bool flag = base.ProcessDialogKey(keyData);
       if (!flag && (keyData == Keys.Tab || keyData == (Keys.Tab | Keys.Shift)))
-        Content.SelectNextControl((Control) null, (keyData & Keys.Shift) != Keys.Shift, true, true, true);
+        Content.SelectNextControl(null, (keyData & Keys.Shift) != Keys.Shift, true, true, true);
       return flag;
     }
 
@@ -202,7 +202,7 @@ namespace MEGAbolt.Controls
       if (Region != null)
       {
         Region.Dispose();
-        Region = (Region) null;
+        Region = null;
       }
       if (Content.Region == null)
         return;
@@ -291,7 +291,7 @@ namespace MEGAbolt.Controls
 
     protected override void OnClosed(ToolStripDropDownClosedEventArgs e)
     {
-      opener = (Control) null;
+      opener = null;
       if (ownerPopup != null)
         ownerPopup.isChildPopupOpened = false;
       base.OnClosed(e);
@@ -390,13 +390,13 @@ namespace MEGAbolt.Controls
       Size clientSize = Content.ClientSize;
       using (Bitmap bitmap = new Bitmap(16, 16))
       {
-        using (Graphics graphics = Graphics.FromImage((Image) bitmap))
+        using (Graphics graphics = Graphics.FromImage(bitmap))
         {
           if (Application.RenderWithVisualStyles)
           {
             if (sizeGripRenderer == null)
               sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
-            sizeGripRenderer.DrawBackground((IDeviceContext) graphics, new Rectangle(0, 0, 16, 16));
+            sizeGripRenderer.DrawBackground(graphics, new Rectangle(0, 0, 16, 16));
           }
           else
             ControlPaint.DrawSizeGrip(graphics, Content.BackColor, 0, 0, 16, 16);
@@ -408,20 +408,20 @@ namespace MEGAbolt.Controls
           if (resizableLeft)
           {
             e.Graphics.RotateTransform(180f);
-            e.Graphics.TranslateTransform((float) -clientSize.Width, (float) -clientSize.Height);
+            e.Graphics.TranslateTransform(-clientSize.Width, -clientSize.Height);
           }
           else
           {
             e.Graphics.ScaleTransform(1f, -1f);
-            e.Graphics.TranslateTransform(0.0f, (float) -clientSize.Height);
+            e.Graphics.TranslateTransform(0.0f, -clientSize.Height);
           }
         }
         else if (resizableLeft)
         {
           e.Graphics.ScaleTransform(-1f, 1f);
-          e.Graphics.TranslateTransform((float) -clientSize.Width, 0.0f);
+          e.Graphics.TranslateTransform(-clientSize.Width, 0.0f);
         }
-        e.Graphics.DrawImage((Image) bitmap, clientSize.Width - 16, clientSize.Height - 16 + 1, 16, 16);
+        e.Graphics.DrawImage(bitmap, clientSize.Width - 16, clientSize.Height - 16 + 1, 16, 16);
         e.Graphics.Restore(gstate);
       }
     }

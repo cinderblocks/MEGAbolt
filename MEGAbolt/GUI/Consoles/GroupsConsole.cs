@@ -147,7 +147,7 @@ namespace MEGAbolt
         {
             if (lstGroups.SelectedIndex >= 0)
             {
-                if ((string)lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
+                if (lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
                 {
                     picBusy.Visible = true;
                     Client.Groups.GroupProfile += GroupProfileHandler;
@@ -155,7 +155,7 @@ namespace MEGAbolt
                     Client.Groups.RequestGroupProfile(selgrp.ID);
 
                     cmdActivate.Enabled = cmdInfo.Enabled = cmdIM.Enabled = button4.Enabled = cmdLeave.Enabled = true;
-                    label5.Text = "Group UUID: " + ((Group)lstGroups.Items[lstGroups.SelectedIndex]).ID.ToString();
+                    label5.Text = "Group UUID: " + ((Group)lstGroups.Items[lstGroups.SelectedIndex]).ID;
                 }
                 else
                 {

@@ -99,7 +99,7 @@ namespace MEGAbolt
             {
                 // Open up the TP form here
                 string[] split = textBox2.Text.Split(new Char[] { '/' });
-                string sim = split[4].ToString();
+                string sim = split[4];
                 double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                 double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                 double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);

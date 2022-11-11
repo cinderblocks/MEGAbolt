@@ -18,6 +18,7 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Windows.Forms;
 using OpenMetaverse;
 
@@ -36,7 +37,7 @@ namespace MEGAbolt
                 returnVal = -itemX.CreationDate.CompareTo(itemY.CreationDate);
             }
             else if (x is InventoryFolder && y is InventoryFolder)
-                returnVal = nodeX.Text.CompareTo(nodeY.Text);
+                returnVal = string.Compare(nodeX.Text, nodeY.Text, StringComparison.Ordinal);
             else if (x is InventoryFolder && y is InventoryItem)
                 returnVal = 1;
             else if (x is InventoryItem && y is InventoryFolder)

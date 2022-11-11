@@ -131,8 +131,8 @@ namespace MEGAbolt.Rendering
                     int newY = y / diff;
                     float height = heightmap[newX, newY];
 
-                    float pctX = (float)newX / 255f;
-                    float pctY = (float)newY / 255f;
+                    float pctX = newX / 255f;
+                    float pctY = newY / 255f;
 
                     // Use bilinear interpolation between the four corners of start height and
                     // height range to select the current values at this position
@@ -317,7 +317,7 @@ namespace MEGAbolt.Rendering
         public static Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
         {
             Bitmap result = new Bitmap(nWidth, nHeight);
-            using (Graphics g = Graphics.FromImage((Image)result))
+            using (Graphics g = Graphics.FromImage(result))
             {
                 g.DrawImage(b, 0, 0, nWidth, nHeight);
             }
@@ -328,7 +328,7 @@ namespace MEGAbolt.Rendering
         public static Bitmap TileBitmap(Bitmap b, int tiles)
         {
             Bitmap result = new Bitmap(b.Width * tiles, b.Width * tiles);
-            using (Graphics g = Graphics.FromImage((Image)result))
+            using (Graphics g = Graphics.FromImage(result))
             {
                 for (int x = 0; x < tiles; x++)
                 {

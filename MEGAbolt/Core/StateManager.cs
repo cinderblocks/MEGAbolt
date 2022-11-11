@@ -292,7 +292,7 @@ namespace MEGAbolt
             {
                 client.Self.AutoPilotCancel();
                 ulong followRegionX = e.Simulator.Handle >> 32;
-                ulong followRegionY = e.Simulator.Handle & (ulong)0xFFFFFFFF;
+                ulong followRegionY = e.Simulator.Handle & 0xFFFFFFFF;
                 ulong xTarget = (ulong)pos.X + followRegionX;
                 ulong yTarget = (ulong)pos.Y + followRegionY;
                 float zTarget = pos.Z - 1f;

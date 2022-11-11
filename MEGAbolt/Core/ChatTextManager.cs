@@ -1073,7 +1073,7 @@ namespace MEGAbolt
                             //textPrinter.SetSelectionForeColor(Color.Gray);
                             // textPrinter.PrintTextLine(prefix + "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson.ToString() + ") is already a member.");
 
-                            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson.ToString() + ") is already a member.";
+                            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson + ") is already a member.";
 
                             ChatBufferItem ready = new ChatBufferItem(DateTime.Now, Msg, ChatBufferTextStyle.StatusGray);
 
@@ -1154,7 +1154,7 @@ namespace MEGAbolt
             //textPrinter.SetFontStyle(FontStyle.Bold);
             //textPrinter.PrintTextLine(prefix + "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson.ToString() + ")" + gname);
 
-            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson.ToString() + ")" + gname;
+            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson + ")" + gname;
 
             ChatBufferItem ready = new ChatBufferItem(
                DateTime.Now, Msg, ChatBufferTextStyle.StatusBold);
@@ -1545,7 +1545,7 @@ namespace MEGAbolt
                 Timestamp = DateTime.Now,
                 Text = sb.ToString(),
                 FromName = e.FromName,
-                Link = "http://mbprofile:" + e.OwnerID.ToString()
+                Link = "http://mbprofile:" + e.OwnerID
             };
 
             switch (e.SourceType)

@@ -358,7 +358,7 @@ namespace MEGAbolt
                 instance.Config.CurrentConfig.ClassicChatLayout = true;
             }
 
-            client.Self.Movement.Camera.Far = (float)tBar1.Value;
+            client.Self.Movement.Camera.Far = tBar1.Value;
 
             instance.Config.CurrentConfig.HeaderFont = headerfont;
             instance.Config.CurrentConfig.HeaderFontStyle = headerfontstyle;
@@ -484,7 +484,7 @@ namespace MEGAbolt
         {
             textBox1.Text = tBar1.Value.ToString(CultureInfo.CurrentCulture);
             tbar2.Maximum = tBar1.Value;
-            client.Self.Movement.Camera.Far = (float)tBar1.Value;
+            client.Self.Movement.Camera.Far = tBar1.Value;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

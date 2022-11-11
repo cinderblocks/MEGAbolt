@@ -460,9 +460,9 @@ namespace MEGAbolt
             px = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
             py = NormaliseSize(255 - e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
 
-            nuX.Value = (decimal)px;
-            nuY.Value = (decimal)py;
-            nuZ.Value = (decimal)10;
+            nuX.Value = px;
+            nuY.Value = py;
+            nuZ.Value = 10;
 
             clickedx = px;   // NormaliseSize(e.X);
             clickedy = py;   // NormaliseSize(e.Y); 
@@ -494,7 +494,7 @@ namespace MEGAbolt
         private int NormaliseSize(int number)
         {
             //decimal ssize = (decimal)256 / (decimal)tabPage1.Width;
-            decimal ssize = (decimal)256 / (decimal)world.Width;
+            decimal ssize = 256 / (decimal)world.Width;
 
             int pos = Convert.ToInt32(Math.Round(number * ssize));
 
@@ -891,7 +891,7 @@ namespace MEGAbolt
             Font newFont = new Font(e.Font, FontStyle.Bold);
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
 
-            float iconSize = (float)64;   // trkIconSize.Value;
+            float iconSize = 64;   // trkIconSize.Value;
             float leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
             float topTextMargin = e.Bounds.Top + 4.0f;
 
@@ -1030,9 +1030,9 @@ namespace MEGAbolt
             px = e.X;
             py = 255 - e.Y;
 
-            nudX1.Value = (decimal)px;
-            nudY1.Value = (decimal)py;
-            nudZ1.Value = (decimal)10;
+            nudX1.Value = px;
+            nudY1.Value = py;
+            nudZ1.Value = 10;
 
             //Bitmap map = (Bitmap)selectedmap;   // pictureBox2.Image;
             //Graphics g = Graphics.FromImage(map);

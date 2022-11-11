@@ -501,7 +501,7 @@ namespace MEGAbolt
                     }
                     else
                     {
-                        txtPartner.Text = instance.avnames[properties.Partner].ToString();
+                        txtPartner.Text = instance.avnames[properties.Partner];
                     }
                 }
 
@@ -1126,9 +1126,9 @@ namespace MEGAbolt
             {
                 Vector3 pos = new Vector3
                 {
-                    X = (float)posX,
-                    Y = (float)posY,
-                    Z = (float)posZ
+                    X = posX,
+                    Y = posY,
+                    Z = posZ
                 };
 
                 client.Self.Teleport(simname, pos);

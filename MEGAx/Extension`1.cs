@@ -52,7 +52,7 @@ namespace MEGAx
 
     public ClientInterface Instance { get; set; } = default (ClientInterface);
 
-    public Assembly InstanceAssembly { get; set; } = (Assembly) null;
+    public Assembly InstanceAssembly { get; set; } = null;
 
     public Type GetType(string name) => InstanceAssembly.GetType(name, false, true);
   }

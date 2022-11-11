@@ -209,7 +209,7 @@ namespace MEGAbolt
                     //ListViewItem lvi = new ListViewItem();
                     ListViewItem Item = lvwFindFriends.Items.Add(friend.Name);
                     //Item.Text = friend.Name; 
-                    Item.Tag = (UUID)friend.UUID;
+                    Item.Tag = friend.UUID;
 
                     //lvwFindFriends.Items.Add(Item);
                 }

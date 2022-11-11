@@ -54,7 +54,7 @@ namespace MEGAbolt
         {
             if (!sortMethods.ContainsKey(sort.Name))
             {
-            sortMethods.Add(sort.Name, sort);
+                sortMethods.Add(sort.Name, sort);
             }
         }
 

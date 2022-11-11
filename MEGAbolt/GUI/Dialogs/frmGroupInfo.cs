@@ -244,7 +244,7 @@ namespace MEGAbolt
                 Members.Remove(ejectedmemberid);
                 instance.TabConsole.DisplayChatScreen("Group member ejected: " + ejecttedgroupmember);
 
-                label16.Text = Members.Count.ToString() + " members";
+                label16.Text = Members.Count + " members";
             }
             else
             {
@@ -539,7 +539,7 @@ namespace MEGAbolt
 
             BeginInvoke(new MethodInvoker(delegate()
             {
-                label16.Text = Profile.GroupMembershipCount.ToString() + " members";
+                label16.Text = Profile.GroupMembershipCount + " members";
 
                 if (Group.InsigniaID != UUID.Zero)
                     Client.Assets.RequestImage(Group.InsigniaID, ImageType.Normal,
@@ -565,7 +565,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    lblFoundedBy.Text = "Founded by " + instance.avnames[e.Group.FounderID].ToString();
+                    lblFoundedBy.Text = "Founded by " + instance.avnames[e.Group.FounderID];
                 }
 
                 UpdateProfile();
@@ -649,7 +649,7 @@ namespace MEGAbolt
             }
             catch { ; }
 
-            textBox2.Text = "Group UUID: " + Profile.ID.ToString();
+            textBox2.Text = "Group UUID: " + Profile.ID;
 
             floading = false;
         }
@@ -1466,7 +1466,7 @@ namespace MEGAbolt
                         {
                             StreamWriter SW = new StreamWriter(tstream);
 
-                            SW.WriteLine("Group: " + Group.Name + ",UUID: " + grpid.ToString() + ",Ttl members: " + lstMembers2.Items.Count.ToString(CultureInfo.CurrentCulture) + ",");
+                            SW.WriteLine("Group: " + Group.Name + ",UUID: " + grpid + ",Ttl members: " + lstMembers2.Items.Count.ToString(CultureInfo.CurrentCulture) + ",");
                             SW.WriteLine(",,,");
                             SW.WriteLine("Name,UUID,Title,Last online");
 
@@ -1474,7 +1474,7 @@ namespace MEGAbolt
                             {
                                 try
                                 {
-                                    string line = entry.Name + "," + entry.ID.ToString() + "," + entry.Title + "," + entry.LastOnline.ToString(CultureInfo.CurrentCulture);
+                                    string line = entry.Name + "," + entry.ID + "," + entry.Title + "," + entry.LastOnline.ToString(CultureInfo.CurrentCulture);
                                     SW.WriteLine(line);
                                 }
                                 catch (Exception ex)
@@ -1491,7 +1491,7 @@ namespace MEGAbolt
                         MessageBox.Show(ex.Message);   
                     }
                 }
-             }
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -2066,7 +2066,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4].ToString();
+                    string sim = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -2084,7 +2084,7 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4].ToString();
+                    string sim = split[4];
                     double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
                     double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
@@ -2101,15 +2101,15 @@ namespace MEGAbolt
                     string encoded = HttpUtility.UrlDecode(e.LinkText);
                     string[] split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0].ToString();
+                    string aavname = split[0];
                     string[] avnamesplit = aavname.Split(new Char[] { '#' });
-                    aavname = avnamesplit[0].ToString();
+                    aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
-                    string elink = split[2].ToString();
+                    string elink = split[2];
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0].ToString();
+                    UUID avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -2121,9 +2121,9 @@ namespace MEGAbolt
                 string encoded = HttpUtility.UrlDecode(e.LinkText);
                 string[] split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                UUID uuid = (UUID)split[7].ToString();
+                UUID uuid = (UUID)split[7];
 
-                if (uuid != UUID.Zero && split[6].ToString().ToLower(CultureInfo.CurrentCulture) == "group")
+                if (uuid != UUID.Zero && split[6].ToLower(CultureInfo.CurrentCulture) == "group")
                 {
                     frmGroupInfo frm = new frmGroupInfo(uuid, instance);
                     frm.Show();
@@ -2359,11 +2359,11 @@ namespace MEGAbolt
                     case SortByColumn.Name:
                         if (CurrentOrder == SortOrder.Ascending)
                         {
-                            return string.Compare(member1.Name, member2.Name);
+                            return string.CompareOrdinal(member1.Name, member2.Name);
                         }
                         else
                         {
-                            return string.Compare(member2.Name, member1.Name);
+                            return string.CompareOrdinal(member2.Name, member1.Name);
                         }
 
                     case SortByColumn.LastOnline:
@@ -2413,11 +2413,11 @@ namespace MEGAbolt
                     case SortByColumn.Title:
                         if (CurrentOrder == SortOrder.Ascending)
                         {
-                            return string.Compare(member1.Title, member2.Title);
+                            return string.CompareOrdinal(member1.Title, member2.Title);
                         }
                         else
                         {
-                            return string.Compare(member2.Title, member1.Title);
+                            return string.CompareOrdinal(member2.Title, member1.Title);
                         }
                 }
 

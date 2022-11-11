@@ -106,12 +106,12 @@ namespace MEGAbolt.Rendering
                     for (int y = 0; y < 256; y += step)
                     {
                         float z = 0;
-                        int patchNr = ((int)x / 16) * 16 + (int)y / 16;
+                        int patchNr = (x / 16) * 16 + y / 16;
                         if (sim.Terrain[patchNr] != null
                             && sim.Terrain[patchNr].Data != null)
                         {
                             float[] data = sim.Terrain[patchNr].Data;
-                            z = data[(int)x % 16 * 16 + (int)y % 16];
+                            z = data[x % 16 * 16 + y % 16];
                         }
                         heightTable[x, y] = z;
                     }

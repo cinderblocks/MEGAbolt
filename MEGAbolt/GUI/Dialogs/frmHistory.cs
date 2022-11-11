@@ -93,7 +93,7 @@ namespace MEGAbolt
                 }
             }
 
-            if (ffiles.Count() == 0)
+            if (!ffiles.Any())
             {
                 label1.Text = "History for " + filename + " doesn't exist"; 
                 return;

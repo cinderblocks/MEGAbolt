@@ -64,7 +64,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             RegistryKey subKey = Registry.CurrentUser.CreateSubKey(strKey);
             try
             {
-                if (Convert.ToBoolean(subKey.GetValue(strValue, (object)false)))
+                if (Convert.ToBoolean(subKey.GetValue(strValue, false)))
                     return dr;
             }
             catch
@@ -74,7 +74,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             m_cbt.Install();
             dr = System.Windows.Forms.MessageBox.Show(strText, strTitle, buttons, icon);
             m_cbt.Uninstall();
-            subKey.SetValue(strValue, (object)m_bCheck);
+            subKey.SetValue(strValue, m_bCheck);
             return dr;
         }
 
@@ -134,7 +134,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             if (m_hwnd != e.Handle || m_bInit)
                 return;
             m_bInit = true;
-            IntPtr dlgItem1 = GetDlgItem(m_hwnd, (int)ushort.MaxValue);
+            IntPtr dlgItem1 = GetDlgItem(m_hwnd, ushort.MaxValue);
             IntPtr num = !(dlgItem1 != IntPtr.Zero) ? SendMessage(m_hwnd, 49, IntPtr.Zero, IntPtr.Zero) : SendMessage(dlgItem1, 49, IntPtr.Zero, IntPtr.Zero);
             Font font = Font.FromHfont(num);
             IntPtr dlgItem2 = GetDlgItem(m_hwnd, 20);

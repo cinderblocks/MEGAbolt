@@ -1241,7 +1241,7 @@ namespace MEGAbolt
         private void timer1_Tick(object sender, EventArgs e)
         {
             var clth = string.Empty; // String.Empty;
-            clth = "Clothing/" + listBox1.Items[x].ToString();
+            clth = "Clothing/" + listBox1.Items[x];
 
             try
             {
@@ -1486,7 +1486,7 @@ namespace MEGAbolt
 
             try
             {
-                clth = "Clothing/" + listBox1.SelectedItem.ToString();
+                clth = "Clothing/" + listBox1.SelectedItem;
                 var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 20 * 1000);
 
                 if (cfolder == UUID.Zero)

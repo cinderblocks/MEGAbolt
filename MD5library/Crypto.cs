@@ -111,7 +111,7 @@ namespace MD5library
             mobjCryptoService.Key = legalKey;
             mobjCryptoService.IV = legalKey;
             ICryptoTransform transform = mobjCryptoService.CreateDecryptor();
-            return new StreamReader((Stream)new CryptoStream((Stream)memoryStream, transform, CryptoStreamMode.Read)).ReadToEnd();
+            return new StreamReader(new CryptoStream(memoryStream, transform, CryptoStreamMode.Read)).ReadToEnd();
         }
 
         public string Encrypt(string plainText)
@@ -143,7 +143,7 @@ namespace MD5library
             rijndaelManaged.Mode = CipherMode.CBC;
             ICryptoTransform decryptor = rijndaelManaged.CreateDecryptor(bytes3, bytes1);
             MemoryStream memoryStream = new MemoryStream(buffer);
-            CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read);
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
             byte[] numArray = new byte[buffer.Length];
             int count = cryptoStream.Read(numArray, 0, numArray.Length);
             memoryStream.Close();
