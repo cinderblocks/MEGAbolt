@@ -835,7 +835,7 @@ namespace MEGAbolt
             Parcel parcel = instance.MainForm.parcel;
 
             parcel.MusicURL = textBox1.Text.Trim();
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

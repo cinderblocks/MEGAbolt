@@ -628,7 +628,7 @@ namespace MEGAbolt
             if (formloading) return;
 
             parcel.Name = txtParcelname.Text;
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void UpdateDesc()
@@ -636,7 +636,7 @@ namespace MEGAbolt
             if (formloading) return;
 
             parcel.Desc = txtParceldesc.Text.Replace("\r\n", "\n");
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void txtParceldesc_Leave(object sender, EventArgs e)
@@ -786,7 +786,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowTerraform;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cblandmark_CheckedChanged(object sender, EventArgs e)
@@ -812,7 +812,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowLandmark;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void txtMusic_Leave(object sender, EventArgs e)
@@ -848,7 +848,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowFly;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbcreater_CheckedChanged(object sender, EventArgs e)
@@ -874,7 +874,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.CreateObjects;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbcreateg_CheckedChanged(object sender, EventArgs e)
@@ -900,7 +900,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.CreateGroupObjects;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbentryr_CheckedChanged(object sender, EventArgs e)
@@ -926,7 +926,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowAPrimitiveEntry;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbentryg_CheckedChanged(object sender, EventArgs e)
@@ -953,7 +953,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowGroupObjectEntry;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbscriptsr_CheckedChanged(object sender, EventArgs e)
@@ -979,7 +979,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowOtherScripts;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbscriptsg_CheckedChanged(object sender, EventArgs e)
@@ -1005,7 +1005,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowGroupScripts;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbsafe_CheckedChanged(object sender, EventArgs e)
@@ -1031,7 +1031,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowDamage;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbpush_CheckedChanged(object sender, EventArgs e)
@@ -1057,7 +1057,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.RestrictPushObject;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbplace_CheckedChanged(object sender, EventArgs e)
@@ -1083,7 +1083,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.ShowDirectory;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void cbmature_CheckedChanged(object sender, EventArgs e)
@@ -1109,7 +1109,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.MaturePublish;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1127,7 +1127,7 @@ namespace MEGAbolt
             if (formloading) return;
 
             parcel.MusicURL = txtMusic.Text;
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -1158,7 +1158,7 @@ namespace MEGAbolt
                     blacklist.Remove(person);
                     parcel.AccessBlackList = blacklist;
                     parcel.AccessBlackList.Remove(person);
-                    parcel.Update(client.Network.CurrentSim, false);
+                    parcel.Update(client, client.Network.CurrentSim, false);
 
                     client.Parcels.RequestParcelAccessList(client.Network.CurrentSim, parcel.LocalID, AccessList.Ban, 1);
 
@@ -1309,7 +1309,7 @@ namespace MEGAbolt
                 parcel.Flags &= ~ParcelFlags.AllowVoiceChat;
             }
 
-            parcel.Update(client.Network.CurrentSim, false);
+            parcel.Update(client, client.Network.CurrentSim, false);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}</ProjectGuid>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>METAx</RootNamespace>
     <AssemblyTitle>MEGAx</AssemblyTitle>
     <Company>Sjofn LLC</Company>
@@ -37,6 +37,6 @@
 	<DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="System.CodeDom" Version="7.0.0" />
   </ItemGroup>
 </Project>
