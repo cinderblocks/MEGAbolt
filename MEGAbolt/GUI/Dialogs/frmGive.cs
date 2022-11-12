@@ -321,8 +321,7 @@ namespace MEGAbolt
             }
             else
             {
-                List<UUID> roles = new List<UUID>();
-                roles.Add(rle);
+                List<UUID> roles = new List<UUID> { rle };
 
                 for (int i = 0; i < c; i++)
                 {

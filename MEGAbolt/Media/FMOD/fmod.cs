@@ -1752,9 +1752,9 @@ namespace FMOD
         public RESULT getTag(string name, int index, out TAG tag)
         {
              using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
-            {
-                return FMOD5_Sound_GetTag(this.handle, encoder.byteFromStringUTF8(name), index, out tag);
-            }
+             {
+                 return FMOD5_Sound_GetTag(this.handle, encoder.byteFromStringUTF8(name), index, out tag);
+             }
         }
         public RESULT getOpenState(out OPENSTATE openstate, out uint percentbuffered, out bool starving, out bool diskbusy)
         {

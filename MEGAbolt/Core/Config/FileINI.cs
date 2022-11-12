@@ -96,8 +96,7 @@ namespace MEGAbolt.FileINI
 
                     // *** Read up the file content ***
                     Dictionary<string, string> CurrentSection = null;
-                    string s;
-                    while ((s = sr.ReadLine()) != null)
+                    while (sr.ReadLine() is { } s)
                     {
                         s = s.Trim();
 

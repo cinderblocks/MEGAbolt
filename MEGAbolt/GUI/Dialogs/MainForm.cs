@@ -220,9 +220,11 @@ namespace MEGAbolt
 
                // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
 
-                List<UUID> avIDs = new List<UUID>();
-                avIDs.Add(parcel.OwnerID);
-                avIDs.Add(parcel.GroupID);
+                List<UUID> avIDs = new List<UUID>
+                {
+                    parcel.OwnerID,
+                    parcel.GroupID
+                };
 
                 client.Avatars.UUIDNameReply += Avatars_OnAvatarNames;
                 client.Avatars.RequestAvatarNames(avIDs);

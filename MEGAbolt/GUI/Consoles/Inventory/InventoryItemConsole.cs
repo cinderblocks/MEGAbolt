@@ -126,9 +126,11 @@ namespace MEGAbolt
             txtItemCreator.Text = txtItemOwner.Text = "Retreiving name...";
             txtItemDescription.Text = item.Description;
 
-            List<UUID> avIDs = new List<UUID>();
-            avIDs.Add(item.CreatorID);
-            avIDs.Add(item.OwnerID);
+            List<UUID> avIDs = new List<UUID>
+            {
+                item.CreatorID,
+                item.OwnerID
+            };
             client.Avatars.RequestAvatarNames(avIDs);
 
             // Get permissions
@@ -357,7 +359,7 @@ namespace MEGAbolt
         {
             //if (item.AssetType == AssetType.Clothing)
             //{
-            //    iconsole.managerbusy = client.Appearance.ManagerBusy;
+            //    iconsole.managerBusy = client.Appearance.ManagerBusy;
             //    client.Appearance.RemoveFromOutfit(item);
             //    //client.Appearance.RequestSetAppearance(false);
             //    //MessageBox.Show("Use the 'Changer' function or the 'Replace Outfit' option \non popup menu");
@@ -391,7 +393,7 @@ namespace MEGAbolt
             //{
             //    try
             //    {
-            //        iconsole.managerbusy = client.Appearance.ManagerBusy;
+            //        iconsole.managerBusy = client.Appearance.ManagerBusy;
             //        //List<InventoryBase> clothing = new List<InventoryBase>();
             //        //clothing.Add((InventoryBase)item);
 

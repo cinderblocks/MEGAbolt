@@ -54,9 +54,9 @@ namespace MEGAbolt
                             OnPropertiesReceived(EventArgs.Empty);
                         }
 
-                //gettingProperties = true;
-                //client.Objects.ObjectPropertiesFamily += new EventHandler<ObjectPropertiesFamilyEventArgs>(Objects_OnObjectPropertiesFamily);
-                //client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, prim.ID);
+                        //gettingProperties = true;
+                        //client.Objects.ObjectPropertiesFamily += new EventHandler<ObjectPropertiesFamilyEventArgs>(Objects_OnObjectPropertiesFamily);
+                        //client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, prim.ID);
             }
             catch
             {

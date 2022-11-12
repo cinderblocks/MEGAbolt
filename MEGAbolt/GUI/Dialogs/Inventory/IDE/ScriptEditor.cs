@@ -154,8 +154,7 @@ namespace MEGAbolt
             string fileContent = Properties.Resources.LSL_Functions;
             using (var reader = new StringReader(fileContent))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                while (reader.ReadLine() is { } line)
                 {
                     calltip.Add(line);
 

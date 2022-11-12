@@ -50,13 +50,13 @@ namespace MEGAbolt
         private string textfile; // = "Outfit.txt";
         private string path; // = Path.Combine(Environment.CurrentDirectory, "Outfit.txt");
         private int x = 0;
-        public bool managerbusy = false;
+        public bool managerBusy = false;
         private bool searching = false;
         private TreeNode sellectednode = new TreeNode();
         private InventoryFolder rootFolder;
         private TreeNode rootNode;
         private TreeNode selectednode = null;
-        private UUID favfolder = UUID.Zero;
+        private UUID favFolder = UUID.Zero;
         private bool gotCoF = false;
 
         internal class ThreadExceptionHandler
@@ -120,7 +120,7 @@ namespace MEGAbolt
             rootNode.Tag = rootFolder;
             rootNode.ImageKey = "ClosedFolder";
 
-            //Triggers treInventory's AfterExpand event, thus triggering the root content request
+            //Triggers treeInventory's AfterExpand event, thus triggering the root content request
             rootNode.Nodes.Add("Requesting folder contents...");
             rootNode.Expand();
         }
@@ -225,17 +225,17 @@ namespace MEGAbolt
 
             try
             {
-                if (favfolder.CompareTo(UUID.Zero) != 0)
+                if (favFolder.CompareTo(UUID.Zero) != 0)
                 {
-                    var foundfolders = client.Inventory.Store.GetContents(favfolder);
+                    var foundfolders = client.Inventory.Store.GetContents(favFolder);
                     instance.MainForm.UpdateFavourites(foundfolders);
                 }
             }
             catch { ; }
 
-            if (managerbusy)
+            if (managerBusy)
             {
-                managerbusy = false;
+                managerBusy = false;
                 client.Appearance.RequestSetAppearance(true);
             }
         }
@@ -273,9 +273,9 @@ namespace MEGAbolt
                     {
                         if (o is InventoryFolder)
                         {
-                            favfolder = instance.FavsFolder = o.UUID;
+                            favFolder = instance.FavsFolder = o.UUID;
 
-                            client.Inventory.RequestFolderContents(favfolder, client.Self.AgentID, true, true, InventorySortOrder.ByDate); ;
+                            client.Inventory.RequestFolderContents(favFolder, client.Self.AgentID, true, true, InventorySortOrder.ByDate); ;
                         }
                     }
                 }
@@ -285,7 +285,7 @@ namespace MEGAbolt
                     {
                         if (o is InventoryFolder)
                         {
-                            favfolder = instance.FavsFolder = o.UUID;
+                            favFolder = instance.FavsFolder = o.UUID;
                         }
                     }
                 }
@@ -377,14 +377,13 @@ namespace MEGAbolt
                 }
                 catch { ; }
 
-                if (folderID == favfolder)
+                if (folderID == favFolder)
                 {
-                    var invroot = client.Inventory.Store.GetContents(favfolder);
+                    var invroot = client.Inventory.Store.GetContents(favFolder);
                     instance.MainForm.UpdateFavourites(invroot);
                 }
-                
 
-                treeView1.Sort();  
+                treeView1.Sort();
             }
         }
 
@@ -1374,9 +1373,8 @@ namespace MEGAbolt
                 listBox1.Items.Clear();
 
                 using var sr = File.OpenText(path);
-                var s = "";
 
-                while ((s = sr.ReadLine()) != null)
+                while (sr.ReadLine() is { } s)
                 {
                     listBox1.Items.Add(s);
                 }
@@ -1704,7 +1702,7 @@ namespace MEGAbolt
                 client.Appearance.Attach(item, AttachmentPoint.Default, false);
             }
 
-            managerbusy = client.Appearance.ManagerBusy;
+            managerBusy = client.Appearance.ManagerBusy;
             client.Appearance.ReplaceOutfit(clothing);
 
             ThreadPool.QueueUserWorkItem(sync =>
@@ -1889,11 +1887,13 @@ namespace MEGAbolt
 
                 if (SortBy == "By Date")
                 {
-                    client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate | InventorySortOrder.FoldersByName);
+                    client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID,
+                        true, true, InventorySortOrder.ByDate | InventorySortOrder.FoldersByName);
                 }
                 else
                 {
-                    client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByName | InventorySortOrder.FoldersByName);
+                    client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID,
+                        true, true, InventorySortOrder.ByName | InventorySortOrder.FoldersByName);
                 }
             }
 
@@ -2027,11 +2027,11 @@ namespace MEGAbolt
             switch (item.AssetType)
             {
                 case AssetType.Clothing or AssetType.Bodypart:
-                    managerbusy = client.Appearance.ManagerBusy;
+                    managerBusy = client.Appearance.ManagerBusy;
                     client.Appearance.AddToOutfit(item, true);
                     break;
                 case AssetType.Object:
-                    managerbusy = client.Appearance.ManagerBusy;
+                    managerBusy = client.Appearance.ManagerBusy;
                     client.Appearance.Attach(item, AttachmentPoint.Default, false);
                     break;
             }

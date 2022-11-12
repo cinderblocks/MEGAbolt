@@ -539,8 +539,7 @@ namespace MEGAbolt
 
             if (dnavailable)
             {
-                List<UUID> avIDs = new List<UUID>();
-                avIDs.Add(agentID);
+                List<UUID> avIDs = new List<UUID> { agentID };
                 client.Avatars.GetDisplayNames(avIDs, DisplayNameReceived);
             }
 

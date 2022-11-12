@@ -352,8 +352,7 @@ namespace MEGAbolt
 
         public void SetTyping(bool ttyping)
         {
-            Dictionary<UUID, bool> typingAnim = new Dictionary<UUID, bool>();
-            typingAnim.Add(TypingAnimationID, ttyping);
+            Dictionary<UUID, bool> typingAnim = new Dictionary<UUID, bool> { { TypingAnimationID, ttyping } };
 
             if (!instance.Config.CurrentConfig.DisableTyping)
             {
@@ -367,8 +366,7 @@ namespace MEGAbolt
 
         public void SetAway(bool aaway)
         {
-            Dictionary<UUID, bool> awayAnim = new Dictionary<UUID, bool>();
-            awayAnim.Add(AwayAnimationID, aaway);
+            Dictionary<UUID, bool> awayAnim = new Dictionary<UUID, bool> { { AwayAnimationID, aaway } };
 
             client.Self.Animate(awayAnim, true);
             IsAway = aaway;
@@ -376,8 +374,7 @@ namespace MEGAbolt
 
         public void SetBusy(bool bbusy)
         {
-            Dictionary<UUID, bool> busyAnim = new Dictionary<UUID, bool>();
-            busyAnim.Add(BusyAnimationID, bbusy);
+            Dictionary<UUID, bool> busyAnim = new Dictionary<UUID, bool> { { BusyAnimationID, bbusy } };
 
             client.Self.Animate(busyAnim, true);
             IsBusy = bbusy;
@@ -385,8 +382,7 @@ namespace MEGAbolt
 
         public void BellyDance(bool bbelly)
         {
-            Dictionary<UUID, bool> bdanceAnim = new Dictionary<UUID, bool>();
-            bdanceAnim.Add(BellydanceAnimationID, bbelly);
+            Dictionary<UUID, bool> bdanceAnim = new Dictionary<UUID, bool> { { BellydanceAnimationID, bbelly } };
 
             client.Self.Animate(bdanceAnim, true);
             IsBelly = bbelly;
@@ -394,8 +390,7 @@ namespace MEGAbolt
 
         public void ClubDance(bool cclub)
         {
-            Dictionary<UUID, bool> cdanceAnim = new Dictionary<UUID, bool>();
-            cdanceAnim.Add(ClubdanceAnimationID, cclub);
+            Dictionary<UUID, bool> cdanceAnim = new Dictionary<UUID, bool> { { ClubdanceAnimationID, cclub } };
 
             client.Self.Animate(cdanceAnim, true);
             //this.club = cclub;
@@ -403,8 +398,7 @@ namespace MEGAbolt
 
         public void SalsaDance(bool ssalsa)
         {
-            Dictionary<UUID, bool> sdanceAnim = new Dictionary<UUID, bool>();
-            sdanceAnim.Add(SalsaAnimationID, ssalsa);
+            Dictionary<UUID, bool> sdanceAnim = new Dictionary<UUID, bool> { { SalsaAnimationID, ssalsa } };
 
             client.Self.Animate(sdanceAnim, true);
             //this.salsa = ssalsa;
@@ -412,8 +406,7 @@ namespace MEGAbolt
 
         public void FallOnFace(bool ffall)
         {
-            Dictionary<UUID, bool> ffallAnim = new Dictionary<UUID, bool>();
-            ffallAnim.Add(FallAnimationID, ffall);
+            Dictionary<UUID, bool> ffallAnim = new Dictionary<UUID, bool> { { FallAnimationID, ffall } };
 
             client.Self.Animate(ffallAnim, true);
             //this.fall = ffall;
@@ -421,8 +414,7 @@ namespace MEGAbolt
 
         public void Crouch(bool ccrouch)
         {
-            Dictionary<UUID, bool> crouchAnim = new Dictionary<UUID, bool>();
-            crouchAnim.Add(CrouchAnimationID, ccrouch);
+            Dictionary<UUID, bool> crouchAnim = new Dictionary<UUID, bool> { { CrouchAnimationID, ccrouch } };
 
             client.Self.Animate(crouchAnim, true);
             //this.crouch = ccrouch;

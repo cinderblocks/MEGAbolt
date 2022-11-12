@@ -60,8 +60,7 @@ namespace MEGAbolt
         {
             UUID AnimationID = new UUID(item.AssetUUID.ToString());
 
-            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool>();
-            bAnim.Add(AnimationID, true);
+            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool> { { AnimationID, true } };
             client.Self.Animate(bAnim, true);
         }
 
@@ -69,8 +68,7 @@ namespace MEGAbolt
         {
             UUID AnimationID = new UUID(item.AssetUUID.ToString());
 
-            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool>();
-            bAnim.Add(AnimationID, false);
+            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool> { { AnimationID, false } };
 
             client.Self.Animate(bAnim, true);      
         }
