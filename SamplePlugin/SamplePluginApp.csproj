@@ -4,6 +4,9 @@
     <OutputType>WinExe</OutputType>
     <AssemblyName>SamplePlugin</AssemblyName>
     <MapFileExtensions>true</MapFileExtensions>
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishSingleFile>false</PublishSingleFile>
+	<SelfContained>true</SelfContained>
 	<BootstrapperEnabled>true</BootstrapperEnabled>
     <UseWindowsForms>true</UseWindowsForms>
 	<Platforms>AnyCPU;x64;x86</Platforms>
@@ -30,5 +33,21 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MEGAbolt\MEGAbolt.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

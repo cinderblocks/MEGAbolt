@@ -24,11 +24,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 //  POSSIBILITY OF SUCH DAMAGE.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using METAxCommon;
-using METAbolt;
+using MEGAxCommon;
+using MEGAbolt;
 
 
 namespace SamplePlugin
@@ -36,7 +33,7 @@ namespace SamplePlugin
     public class Extension: IExtension
     {
         // This whole class needs to be implemented in your project to interface
-        // with METAbolt
+        // with MEGAbolt
         // You obviously need to change the below information to suite your development
 
 
@@ -51,7 +48,7 @@ namespace SamplePlugin
 
         public string Version { get; set; } = "V1.0";
 
-        public void Process(METAboltInstance instance)
+        public void Process(MEGAboltInstance instance)
 		{ 
 			// Show the form to get user input or whatever
             // If you are not using forms then do whatever below

@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using METAxCommon;
+using MEGAxCommon;
 using OpenMetaverse;
-using METAbolt;
+using MEGAbolt;
 using System.Data.OleDb;   
 
 
@@ -43,10 +43,10 @@ namespace SamplePlugin
     public partial class Form1 : Form
     {
         Extension ext = new Extension();
-        private METAboltInstance instance;
+        private MEGAboltInstance instance;
         private GridClient client;
 
-        public Form1(METAboltInstance instance)
+        public Form1(MEGAboltInstance instance)
         {
             this.instance = instance;
             client = this.instance.Client;
