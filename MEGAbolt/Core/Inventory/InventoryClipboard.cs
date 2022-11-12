@@ -19,6 +19,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using OpenMetaverse;
 
@@ -82,7 +83,7 @@ namespace MEGAbolt
 
                         List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
 
-                        foreach (InventoryItem item in contents)
+                        foreach (var item in contents.Cast<InventoryItem>())
                         {
                             client.Inventory.RequestCopyItem(item.UUID, destfolder, item.Name, item.OwnerID, _ => { });
                         }
@@ -93,7 +94,7 @@ namespace MEGAbolt
 
                         List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
 
-                        foreach (InventoryItem pitem in contents)
+                        foreach (var pitem in contents.Cast<InventoryItem>())
                         {
                             client.Inventory.RequestCopyItem(pitem.UUID, destfolder, pitem.Name, pitem.OwnerID, _ => { });
                         }

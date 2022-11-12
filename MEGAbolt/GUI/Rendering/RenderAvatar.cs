@@ -48,11 +48,11 @@ namespace MEGAbolt.Rendering
         {
             if (node.Attributes == null) { return; }
 
-            name = node.Attributes.GetNamedItem("name").Value;
-            joint = node.Attributes.GetNamedItem("joint").Value;
-            location = node.Attributes.GetNamedItem("location").Value;
-            position = VisualParamEx.XmlParseVector(node.Attributes.GetNamedItem("position").Value);
-            rotation = VisualParamEx.XmlParseRotation(node.Attributes.GetNamedItem("rotation").Value);
+            name = node.Attributes.GetNamedItem("name")?.Value;
+            joint = node.Attributes.GetNamedItem("joint")?.Value;
+            location = node.Attributes.GetNamedItem("location")?.Value;
+            position = VisualParamEx.XmlParseVector(node.Attributes.GetNamedItem("position")?.Value);
+            rotation = VisualParamEx.XmlParseRotation(node.Attributes.GetNamedItem("rotation")?.Value);
             id = Int32.Parse(node.Attributes.GetNamedItem("id").Value);
             @group = Int32.Parse(node.Attributes.GetNamedItem("group").Value);
         }
