@@ -249,14 +249,7 @@ namespace MEGAbolt
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox2.SelectedItems.Count > 0)
-            {
-                button2.Enabled = true;
-            }
-            else
-            {
-                button2.Enabled = false;
-            }
+            button2.Enabled = listBox2.SelectedItems.Count > 0;
         }
 
         private void textBox1_Enter(object sender, EventArgs e)

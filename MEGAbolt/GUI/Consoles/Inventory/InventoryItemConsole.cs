@@ -143,25 +143,11 @@ namespace MEGAbolt
                 txtItemDescription.ReadOnly = true;
             }
 
-            if ((item.Permissions.NextOwnerMask & PermissionMask.Copy) == PermissionMask.Copy)
-            {
-                checkBox2.Checked = true;
-            }
-            else
-            {
-                checkBox2.Checked = false;
-            }
+            checkBox2.Checked = (item.Permissions.NextOwnerMask & PermissionMask.Copy) == PermissionMask.Copy;
 
-            if ((item.Permissions.NextOwnerMask & PermissionMask.Transfer) == PermissionMask.Transfer)
-            {
-                checkBox3.Checked = true;
-            }
-            else
-            {
-                checkBox3.Checked = false;
-            }
+            checkBox3.Checked = (item.Permissions.NextOwnerMask & PermissionMask.Transfer) == PermissionMask.Transfer;
 
-            // Set permission checboxes
+            // Set permission checkboxes
             if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
             {
                 checkBox1.Enabled = true;
@@ -173,14 +159,7 @@ namespace MEGAbolt
                 txtItemDescription.ReadOnly = true;
             }
 
-            if ((item.Permissions.OwnerMask & PermissionMask.Copy) == PermissionMask.Copy)
-            {
-                checkBox2.Enabled = true;
-            }
-            else
-            {
-                checkBox2.Enabled = false;
-            }
+            checkBox2.Enabled = (item.Permissions.OwnerMask & PermissionMask.Copy) == PermissionMask.Copy;
 
             if ((item.Permissions.OwnerMask & PermissionMask.Transfer) == PermissionMask.Transfer)
             {

@@ -61,7 +61,7 @@ namespace MEGAbolt.Rendering
                     ID = -1;
                     return false;
                 }
-                Logger.DebugLog(string.Format("{0} {1} compiled successfully", type, fileName));
+                Logger.DebugLog($"{type} {fileName} compiled successfully");
                 return true;
             }
             catch

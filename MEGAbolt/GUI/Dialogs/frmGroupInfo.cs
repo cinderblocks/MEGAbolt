@@ -285,7 +285,7 @@ namespace MEGAbolt
             if (e.GroupID != grpid)
                 return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 UpdateNotices(e.Notices);
             }));
@@ -314,10 +314,7 @@ namespace MEGAbolt
 
             groupmembersrequest = Client.Groups.RequestGroupRolesMembers(grpid);
 
-            BeginInvoke(new MethodInvoker(delegate()
-            {
-                PopulateRoles();
-            }));
+            BeginInvoke(new MethodInvoker(PopulateRoles));
         }
 
         private void PopulateRoles()
@@ -345,7 +342,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     UpdateNotices(notices);
                 }));
@@ -427,7 +424,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     netcom_InstantMessageReceived(sender, e);
                 }));
@@ -467,14 +464,7 @@ namespace MEGAbolt
 
                             assetfolder = Client.Inventory.FindFolderForType(assettype);
 
-                            if (imsg.BinaryBucket.Length > 18)
-                            {
-                                filename = Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19);
-                            }
-                            else
-                            {
-                                filename = string.Empty;
-                            }
+                            filename = imsg.BinaryBucket.Length > 18 ? Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19) : string.Empty;
 
                             label7.Text = filename;
                             label7.TextAlign = ContentAlignment.MiddleRight;
@@ -524,7 +514,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     GroupProfileHandler(sender, e);
                 }));
@@ -537,13 +527,13 @@ namespace MEGAbolt
             Group = e.Group; 
             Profile = e.Group;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 label16.Text = Profile.GroupMembershipCount + " members";
 
                 if (Group.InsigniaID != UUID.Zero)
                     Client.Assets.RequestImage(Group.InsigniaID, ImageType.Normal,
-                        delegate(TextureRequestState state, AssetTexture assetTexture)
+                        delegate (TextureRequestState state, AssetTexture assetTexture)
                         {
                             if (state is not (TextureRequestState.Timeout and TextureRequestState.NotFound))
                             {
@@ -579,7 +569,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     UpdateInsigniaProgressText(resultText);
                 }));
@@ -609,10 +599,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    UpdateProfile();
-                }));
+                BeginInvoke(new MethodInvoker(UpdateProfile));
 
                 return;
             }
@@ -658,7 +645,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     AvatarNamesHandler(sender, e);
                 }));
@@ -666,7 +653,7 @@ namespace MEGAbolt
                 return;
             }
                
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 List<UUID> memkeys = new List<UUID>();
 
@@ -698,7 +685,7 @@ namespace MEGAbolt
                             if (av.Key == founderid)
                             {
                                 lblFoundedBy.Text = "Founded by " + av.Value;
-                            }                            
+                            }
                         }
                         catch
                         {
@@ -710,7 +697,7 @@ namespace MEGAbolt
                 ThreadPool.QueueUserWorkItem(sync =>
                 {
                     if (isgroupmembers) UpdateMembers(memkeys);
-                });   
+                });
             }));
         }
 
@@ -722,7 +709,7 @@ namespace MEGAbolt
 
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     GroupMembersHandler(sender, e);
                 }));
@@ -730,7 +717,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 lstMembers.VirtualListSize = 0;
                 lstMembers2.VirtualListSize = 0;
@@ -771,14 +758,7 @@ namespace MEGAbolt
                 memberData.Title = member.Title;
                 memberData.Contribution = member.Contribution;
 
-                if (GrupMemberNames.ContainsKey(member.ID))
-                {
-                    memberData.Name = GrupMemberNames[member.ID];
-                }
-                else
-                {
-                    memberData.Name = "???";
-                }
+                memberData.Name = GrupMemberNames.ContainsKey(member.ID) ? GrupMemberNames[member.ID] : "???";
 
                 if (!MemberData.ContainsKey(member.ID))
                 {
@@ -787,11 +767,11 @@ namespace MEGAbolt
                 }                
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
-                {
-                    lstMembers.VirtualListSize = SortedMembers.Count;
-                    lstMembers2.VirtualListSize = SortedMembers.Count;
-                }));
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                lstMembers.VirtualListSize = SortedMembers.Count;
+                lstMembers2.VirtualListSize = SortedMembers.Count;
+            }));
 
             if (requestids.Count > 0)
             {
@@ -806,32 +786,32 @@ namespace MEGAbolt
             }
             else
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                    {
-                        label10.Visible = false;
-                    }));
+                BeginInvoke(new MethodInvoker(() =>
+                {
+                    label10.Visible = false;
+                }));
             }
         }
 
         private void SendNameRequsts(List<UUID> namelist)
         {
-            BeginInvoke(new MethodInvoker(delegate()
-                    {
-                        List<List<UUID>> chunks = splitList(namelist);
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                List<List<UUID>> chunks = splitList(namelist);
 
-                        pBar1.Visible = true;
-                        pBar1.Maximum = chunks.Count;
+                pBar1.Visible = true;
+                pBar1.Maximum = chunks.Count;
 
-                        foreach (List<UUID> chunklist in chunks)
-                        {
-                            pBar1.Value += 1;
+                foreach (List<UUID> chunklist in chunks)
+                {
+                    pBar1.Value += 1;
 
-                            Client.Avatars.RequestAvatarNames(chunklist);
-                            Thread.Sleep(100);
-                        }
+                    Client.Avatars.RequestAvatarNames(chunklist);
+                    Thread.Sleep(100);
+                }
 
-                        pBar1.Visible = false;
-                    }));
+                pBar1.Visible = false;
+            }));
         }
 
         public static DateTime ConvertDateTime(string Date)
@@ -884,7 +864,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     UpdateMembers(lst);
                 }));
@@ -1117,7 +1097,7 @@ namespace MEGAbolt
 
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     GroupTitlesHandler(sender, e);
                 }));
@@ -1595,26 +1575,12 @@ namespace MEGAbolt
 
         private void textBox6_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data?.GetDataPresent(typeof(TreeNode)) == true ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void textBox6_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data?.GetDataPresent(typeof(TreeNode)) == true ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void chkPublish_CheckedChanged(object sender, EventArgs e)
@@ -1703,14 +1669,9 @@ namespace MEGAbolt
 
         private void lstMembers_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending)
-            {
-                sortedlist.CurrentOrder = MemberSorter.SortOrder.Descending;
-            }
-            else
-            {
-                sortedlist.CurrentOrder = MemberSorter.SortOrder.Ascending;
-            }
+            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending 
+                ? MemberSorter.SortOrder.Descending 
+                : MemberSorter.SortOrder.Ascending;
 
             if (e.Column == 0)
             {
@@ -1732,14 +1693,9 @@ namespace MEGAbolt
 
         private void lstMembers2_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending)
-            {
-                sortedlist.CurrentOrder = MemberSorter.SortOrder.Descending;
-            }
-            else
-            {
-                sortedlist.CurrentOrder = MemberSorter.SortOrder.Ascending;
-            }
+            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending 
+                ? MemberSorter.SortOrder.Descending 
+                : MemberSorter.SortOrder.Ascending;
 
             if (e.Column == 0)
             {
@@ -1765,14 +1721,7 @@ namespace MEGAbolt
             if (e.Column == lvwDateColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwDateColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwDateColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwDateColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwDateColumnSorter.Order = lvwDateColumnSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

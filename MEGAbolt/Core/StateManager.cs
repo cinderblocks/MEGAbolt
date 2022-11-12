@@ -360,10 +360,7 @@ namespace MEGAbolt
                 client.Self.Animate(typingAnim, false);
             }
 
-            if (ttyping)
-                client.Self.Chat(string.Empty, 0, ChatType.StartTyping);
-            else
-                client.Self.Chat(string.Empty, 0, ChatType.StopTyping);
+            client.Self.Chat(string.Empty, 0, ttyping ? ChatType.StartTyping : ChatType.StopTyping);
 
             IsTyping = ttyping;
         }
@@ -735,7 +732,7 @@ namespace MEGAbolt
 
         public void StopAnimations()
         {
-            client.Self.SignaledAnimations.ForEach((UUID anims) =>
+            client.Self.SignaledAnimations.ForEach(anims =>
             {
                 client.Self.AnimationStop(anims, true);
             });

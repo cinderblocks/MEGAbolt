@@ -153,14 +153,7 @@ namespace MEGAbolt
 
             // Screen size change to accomodate initial IM feature thx to Elmo Clarity 20/12/2010
 
-            if (item.Name.ToLower(CultureInfo.CurrentCulture) == "text")
-            {
-                Height = 460;
-            }
-            else
-            {
-                Height = 390;
-            }
+            Height = item.Name.ToLower(CultureInfo.CurrentCulture) == "text" ? 460 : 390;
 
             SelectPreferencePane(item.Name);
         }

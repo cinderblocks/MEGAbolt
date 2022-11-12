@@ -116,7 +116,7 @@ namespace MEGAbolt
             // do the stuff here
             if (e.Members.ContainsKey(client.Self.AgentID))
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     grpID = e.GroupID;
                     RequestParcelDets();
@@ -143,7 +143,7 @@ namespace MEGAbolt
 
                 client.Parcels.ParcelDwellReply -= Parcels_OnParcelDwell;
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     PopData();
                     lblTraffic.Text = ea.Dwell.ToString(CultureInfo.CurrentCulture);
@@ -159,10 +159,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    SetOwnerProperties();
-                }));
+                BeginInvoke(new MethodInvoker(SetOwnerProperties));
 
                 return;
             }
@@ -171,14 +168,7 @@ namespace MEGAbolt
 
             if (grpID != UUID.Zero)
             {
-                if (HasGroupPower(GroupPowers.LandChangeIdentity, grpID))
-                {
-                    hasauth = true;
-                }
-                else
-                {
-                    hasauth = false;
-                }
+                hasauth = HasGroupPower(GroupPowers.LandChangeIdentity, grpID);
             }
 
             //parcelowner = true;
@@ -200,14 +190,7 @@ namespace MEGAbolt
 
             if (grpID != UUID.Zero)
             {
-                if (HasGroupPower(GroupPowers.LandOptions, grpID))
-                {
-                    hasauth = true;
-                }
-                else
-                {
-                    hasauth = false;
-                }
+                hasauth = HasGroupPower(GroupPowers.LandOptions, grpID);
             }
 
             if (parcel.OwnerID == client.Self.AgentID || hasauth)
@@ -236,10 +219,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    PopData();
-                }));
+                BeginInvoke(new MethodInvoker(PopData));
 
                 return;
             }
@@ -367,47 +347,20 @@ namespace MEGAbolt
                 if (parcel.ParcelPrimBonus != 1) txtPrimBonus.Text = "Region Object Bonus Factor: " + parcel.ParcelPrimBonus.ToString(CultureInfo.CurrentCulture);
                 else txtPrimBonus.Text = "";
                 // Options tab
-                if (instance.MainForm.AboutlandCreateObj) cbcreater.Checked = false;
-                else cbcreater.Checked = true;
-
-                if (instance.MainForm.AboutlandGroupCreateObj) cbcreateg.Checked = false;
-                else cbcreateg.Checked = true;
-
-                if (instance.MainForm.AboutShow) cbplace.Checked = true;
-                else cbplace.Checked = true;
-
-                if (instance.MainForm.AboutMature) cbmature.Checked = false;
-                else cbmature.Checked = true;
-
-                if (instance.MainForm.AllowOtherScripts) cbscriptsr.Checked = false;
-                else cbscriptsr.Checked = true;
-
-                if (!instance.MainForm.AboutlandAllowDamage) cbsafe.Checked = false;
-                else cbsafe.Checked = true;
-
-                if (instance.MainForm.AllowGroupScripts) cbscriptsg.Checked = false;
-                else cbscriptsg.Checked = true;
-
-                if (instance.MainForm.AboutAllowGroupObjectEntry) cbentryg.Checked = true;
-                else cbentryg.Checked = false;
-
-                if (instance.MainForm.AboutAllowAllObjectEntry) cbentryr.Checked = true;
-                else cbentryr.Checked = false;
-
-                if (instance.MainForm.AboutlandAllowFly) cbfly.Checked = false;
-                else cbfly.Checked = true;
-
-                if (instance.MainForm.Allowcreatelm) cblandmark.Checked = true;
-                else cblandmark.Checked = false;
-
-                if (instance.MainForm.AllowTerraform) cbTerrain.Checked = true;
-                else cbTerrain.Checked = false;
-
-                if (instance.MainForm.AboutlandRestrictPush) cbpush.Checked = true;
-                else cbpush.Checked = false;
-
-                if (instance.AllowVoice) cbVoice.Checked = true;
-                else cbVoice.Checked = false;
+                cbcreater.Checked = !instance.MainForm.AboutlandCreateObj;
+                cbcreateg.Checked = !instance.MainForm.AboutlandGroupCreateObj;
+                cbplace.Checked = instance.MainForm.AboutShow || true;
+                cbmature.Checked = !instance.MainForm.AboutMature;
+                cbscriptsr.Checked = !instance.MainForm.AllowOtherScripts;
+                cbsafe.Checked = instance.MainForm.AboutlandAllowDamage;
+                cbscriptsg.Checked = !instance.MainForm.AllowGroupScripts;
+                cbentryg.Checked = instance.MainForm.AboutAllowGroupObjectEntry;
+                cbentryr.Checked = instance.MainForm.AboutAllowAllObjectEntry;
+                cbfly.Checked = !instance.MainForm.AboutlandAllowFly;
+                cblandmark.Checked = instance.MainForm.Allowcreatelm;
+                cbTerrain.Checked = instance.MainForm.AllowTerraform;
+                cbpush.Checked = instance.MainForm.AboutlandRestrictPush;
+                cbVoice.Checked = instance.AllowVoice;
 
                 formloading = false;
             }
@@ -423,7 +376,7 @@ namespace MEGAbolt
 
             client.Groups.GroupNamesReply -= Groups_GroupNamesReply;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 txtGroupOwner.Text = e.GroupNames[parcel.GroupID];
                 pictureBox3.Visible = true;
@@ -448,7 +401,7 @@ namespace MEGAbolt
 
             //if (parcel.OwnerID != client.Self.AgentID && !hasauth) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 blacklist = e.AccessList;
                 lvwBlackList.BeginUpdate();
@@ -456,35 +409,30 @@ namespace MEGAbolt
 
                 foreach (ParcelManager.ParcelAccessEntry pe in blacklist)
                 {
-                    if (pe.AgentID != UUID.Zero) 
+                    if (pe.AgentID != UUID.Zero)
                     {
-                    	ListViewItem item = lvwBlackList.Items.Add(pe.AgentID.ToString());
-                    	item.Tag = pe;
+                        ListViewItem item = lvwBlackList.Items.Add(pe.AgentID.ToString());
+                        item.Tag = pe;
 
-                    	if (!instance.avnames.ContainsKey(pe.AgentID))
-                    	{
-                    	    client.Avatars.RequestAvatarName(pe.AgentID);
-                    	}
-                    	else
-                    	{
-                    	    ListViewItem foundItem = lvwBlackList.FindItemWithText(pe.AgentID.ToString());
+                        if (!instance.avnames.ContainsKey(pe.AgentID))
+                        {
+                            client.Avatars.RequestAvatarName(pe.AgentID);
+                        }
+                        else
+                        {
+                            ListViewItem foundItem = lvwBlackList.FindItemWithText(pe.AgentID.ToString());
 
-                     	   if (foundItem != null)
-                     	   {
-                    	        foundItem.Text = instance.avnames[pe.AgentID];
-                    	    }
-                    	}
+                            if (foundItem != null)
+                            {
+                                foundItem.Text = instance.avnames[pe.AgentID];
+                            }
+                        }
                     }
                 }
 
                 lvwBlackList.EndUpdate();
 
-                if (lvwBlackList.Items.Count > 0)
-                {
-                    button4.Enabled = true;
-                }
-                else
-                    button4.Enabled = false;
+                button4.Enabled = lvwBlackList.Items.Count > 0;
 
                 //lvwBlackList.Sort();
             }));
@@ -492,7 +440,7 @@ namespace MEGAbolt
 
         private void Parcel_ObjectOwners(object sender, ParcelObjectOwnersReplyEventArgs ea)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 lvwPrimOwners.BeginUpdate();
                 lvwPrimOwners.Items.Clear();
@@ -559,7 +507,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     OwnerReceived(names);
                 }));

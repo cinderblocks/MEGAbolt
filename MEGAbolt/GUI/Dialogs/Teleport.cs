@@ -120,7 +120,7 @@ namespace MEGAbolt
                 return;
             }
             
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 RegionSearchResult(e.Region);
             }));
@@ -224,7 +224,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     RefreshControls();
                     return;
@@ -261,14 +261,7 @@ namespace MEGAbolt
         {
             btnTeleport.Enabled = (txtRegion.Text.Trim().Length > 0);
 
-            if (txtRegion.TextLength > 0)
-            {
-                button1.Enabled = true;
-            }
-            else
-            {
-                button1.Enabled = false;
-            }
+            button1.Enabled = txtRegion.TextLength > 0;
         }
 
         private void btnTeleport_Click(object sender, EventArgs e)
@@ -347,10 +340,9 @@ namespace MEGAbolt
             RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-            else
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+                : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
             
             Font newFont = new Font(e.Font, FontStyle.Bold);
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);

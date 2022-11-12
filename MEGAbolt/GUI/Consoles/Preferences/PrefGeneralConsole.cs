@@ -215,14 +215,7 @@ namespace MEGAbolt
             cbLand.SelectedIndex = 0;
             cbFn.SelectedIndex = 0;
 
-            if (config.CurrentConfig.ClassicChatLayout)
-            {
-                checkBox4.Checked = false;
-            }
-            else
-            {
-                checkBox4.Checked = true;
-            }
+            checkBox4.Checked = !config.CurrentConfig.ClassicChatLayout;
 
             textBox7.BackColor = textBox6.BackColor = config.CurrentConfig.HeaderBackColour;
             //textBox9.BackColor = config.CurrentConfig.BgColour;
@@ -348,15 +341,7 @@ namespace MEGAbolt
             instance.Config.CurrentConfig.DisableRadarImageMiniMap = chkRadarMiniMap.Checked;
             instance.Config.CurrentConfig.ChatBufferLimit = Convert.ToInt32(numChatBuff.Value);
             instance.Config.CurrentConfig.ScriptUrlBufferLimit = Convert.ToInt32(numScriptBuff.Value);
-
-            if (checkBox4.Checked)
-            {
-                instance.Config.CurrentConfig.ClassicChatLayout = false;
-            }
-            else
-            {
-                instance.Config.CurrentConfig.ClassicChatLayout = true;
-            }
+            instance.Config.CurrentConfig.ClassicChatLayout = !checkBox4.Checked;
 
             client.Self.Movement.Camera.Far = tBar1.Value;
 
@@ -768,14 +753,7 @@ namespace MEGAbolt
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox4.Checked)
-            {
-                groupBox3.Enabled = true;
-            }
-            else
-            {
-                groupBox3.Enabled = false; 
-            }
+            groupBox3.Enabled = checkBox4.Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)

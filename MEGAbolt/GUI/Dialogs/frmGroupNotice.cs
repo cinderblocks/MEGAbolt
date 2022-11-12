@@ -194,7 +194,7 @@ namespace MEGAbolt
                 reader.ReadHeader();
                 Image bitmap = reader.DecodeToBitmap();
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     picInsignia.Image = bitmap;
                 }));

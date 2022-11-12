@@ -132,10 +132,7 @@ namespace MEGAbolt.Media
                         out channel), "Stream channel");
                     FMODExec(channel.setVolume(volume), "Stream volume");
 
-                    if (updateTimer == null)
-                    {
-                        updateTimer = new Timer(Update);
-                    }
+                    updateTimer ??= new Timer(Update);
                     updateTimer.Change(0, updateIntervl);
                 }
                 catch (Exception ex)

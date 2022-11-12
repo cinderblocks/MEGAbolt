@@ -770,14 +770,7 @@ namespace MEGAbolt
                     //chop out the Password if there is one
                     string[] chops = smsg.Split(new char[] { '|' }, StringSplitOptions.None);
                     string pwd;
-                    if (chops.Length == 3)
-                    {
-                        pwd = chops[1];
-                    }
-                    else
-                    {
-                        pwd = "invalid";
-                    }
+                    pwd = chops.Length == 3 ? chops[1] : "invalid";
 
                     string str = instance.Config.CurrentConfig.GroupManPro; //GM: actually it is the MEGAbolt password
                     MEGAMD5 md5 = new MEGAMD5();
@@ -1413,14 +1406,7 @@ namespace MEGAbolt
             sb.Append("(channel ");
             sb.Append(e.Channel);
 
-            if (classiclayout)
-            {
-                sb.Append(") You: ");
-            }
-            else
-            {
-                sb.Append(") ");
-            }
+            sb.Append(classiclayout ? ") You: " : ") ");
 
             switch (e.Type)
             {
@@ -1479,14 +1465,7 @@ namespace MEGAbolt
                 switch (e.Type)
                 {
                     case ChatType.Normal:
-                        if (classiclayout)
-                        {
-                            sb.Append(": ");
-                        }
-                        else
-                        {
-                            sb.Append(" ");
-                        }
+                        sb.Append(classiclayout ? ": " : " ");
                         break;
 
                     case ChatType.Whisper:
@@ -1515,14 +1494,7 @@ namespace MEGAbolt
                 switch (e.Type)
                 {
                     case ChatType.Normal:
-                        if (classiclayout)
-                        {
-                            sb.Append(": ");
-                        }
-                        else
-                        {
-                            sb.Append(" ");
-                        }
+                        sb.Append(classiclayout ? ": " : " ");
                         break;
 
                     case ChatType.Whisper:

@@ -53,9 +53,7 @@ namespace MEGAbolt.Core.Components
                         {
                             if (string.Compare(item1, item2, StringComparison.Ordinal) == -1)
                             {
-                                object temp = Items[counter];
-                                Items[counter] = Items[counter - 1];
-                                Items[counter - 1] = temp;
+                                (Items[counter], Items[counter - 1]) = (Items[counter - 1], Items[counter]);
                                 swapped = true;
                             }
                         }
@@ -73,9 +71,7 @@ namespace MEGAbolt.Core.Components
 
                             if (dist1 < dist2)
                             {
-                                object temp = Items[counter];
-                                Items[counter] = Items[counter - 1];
-                                Items[counter - 1] = temp;
+                                (Items[counter], Items[counter - 1]) = (Items[counter - 1], Items[counter]);
                                 swapped = true;
                             }
                         }

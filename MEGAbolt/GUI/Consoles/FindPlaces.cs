@@ -68,7 +68,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Directory_OnPlacesReply(sender, e);
                 }));
@@ -76,7 +76,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 PlacesReply(e.QueryID, e.MatchedParcels);
             }));

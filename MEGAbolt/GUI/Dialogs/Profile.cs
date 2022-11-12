@@ -159,12 +159,12 @@ namespace MEGAbolt
 
         private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 //string old = e.OldDisplayName;
                 string newname = e.DisplayName.DisplayName;
 
-                if (!newname.ToLower(CultureInfo.CurrentCulture).Contains("resident") 
+                if (!newname.ToLower(CultureInfo.CurrentCulture).Contains("resident")
                     && !newname.ToLower(CultureInfo.CurrentCulture).Contains(" "))
                 {
                     txtDisplayName.Text = newname;
@@ -203,7 +203,7 @@ namespace MEGAbolt
         {
             if (e.AvatarID != agentID) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 PopulatePicksList(e.Picks);
                 loadwait1.Visible = false;
@@ -226,14 +226,7 @@ namespace MEGAbolt
                 item.Tag = pick.Key;
             }
 
-            if (picks.Count < 10)
-            {
-                button8.Enabled = true;
-            }
-            else
-            {
-                button8.Enabled = false;
-            }
+            button8.Enabled = picks.Count < 10;
         }
 
         private void Avatars_OnPicksInfoReply(object sender, PickInfoReplyEventArgs e)
@@ -244,7 +237,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 txtTitle.Text = e.Pick.Name;
                 txtDescription.Text = e.Pick.Desc;
@@ -277,7 +270,7 @@ namespace MEGAbolt
 
             if (pickUUID != e.Parcel.ID) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 parcelname = e.Parcel.Name;
                 simname = e.Parcel.SimName;
@@ -351,7 +344,7 @@ namespace MEGAbolt
 
                 if (decodedImage != null)
                 {
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
                     {
                         pictureBox1.Image = decodedImage;
                         loadwait2.Visible = false;
@@ -560,7 +553,7 @@ namespace MEGAbolt
         {
             if (success)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     if (!names[0].DisplayName.ToLower(CultureInfo.CurrentCulture).Contains("resident") && !names[0].DisplayName.ToLower(CultureInfo.CurrentCulture).Contains(" "))
                     {
@@ -1038,7 +1031,7 @@ namespace MEGAbolt
         {
             Boolean fFound = true;
 
-            client.Friends.FriendList.ForEach(delegate(FriendInfo friend)
+            client.Friends.FriendList.ForEach(friend =>
             {
                 if (friend.Name == fullName)
                 {
@@ -1184,10 +1177,10 @@ namespace MEGAbolt
         {
             if (e.Status == 200)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     txtDisplayName.Text = e.DisplayName.DisplayName;
-                    button9.Enabled = false; 
+                    button9.Enabled = false;
                 }));
             }
             else
@@ -1204,7 +1197,7 @@ namespace MEGAbolt
                 }
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 pBar3.Visible = false;
             }));

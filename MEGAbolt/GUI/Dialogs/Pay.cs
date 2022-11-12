@@ -209,7 +209,7 @@ namespace MEGAbolt
 
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     PayPrice(sender, e);
                 }));

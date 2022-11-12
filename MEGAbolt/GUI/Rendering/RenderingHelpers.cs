@@ -1090,7 +1090,7 @@ namespace MEGAbolt.Rendering
             mSize = input.UnpackInt();
             offset += 34;
 
-            Logger.Log(String.Format("Found header for {0} type {1} length {2} at {3}", mFileID, mAssetType, mSize, mLocation), Helpers.LogLevel.Info);
+            Logger.Log($"Found header for {mFileID} type {mAssetType} length {mSize} at {mLocation}", Helpers.LogLevel.Info);
 
             return offset;
         }

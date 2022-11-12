@@ -189,7 +189,7 @@ namespace MEGAbolt
 
             if (instance.State.AvatarFriends == null || instance.State.AvatarFriends.Count == 0)
             {
-                friendslist = client.Friends.FriendList.FindAll(delegate(FriendInfo friend) { return true; });
+                friendslist = client.Friends.FriendList.FindAll((FriendInfo friend) => true);
 
                 instance.State.AvatarFriends = friendslist;
 
@@ -223,10 +223,7 @@ namespace MEGAbolt
         {
             Members = e.Members;
 
-            BeginInvoke((MethodInvoker)delegate
-            {
-                UpdateMembers();
-            }); 
+            BeginInvoke((MethodInvoker)UpdateMembers); 
         }
 
         private void UpdateMembers()
@@ -534,10 +531,7 @@ namespace MEGAbolt
                 }
             }
 
-            BeginInvoke((MethodInvoker)delegate
-            {
-                UpdateNames();
-            });
+            BeginInvoke((MethodInvoker)UpdateNames);
         }
 
         private void UpdateNames()
@@ -610,14 +604,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {
@@ -635,14 +622,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {

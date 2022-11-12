@@ -45,20 +45,9 @@ namespace MEGAbolt
             }
 
             IExtension result = this.instance.EList.Find(
-            delegate(IExtension fn)
-            {
-                return fn.Title == "MB_LSLAPI";
-            }
-            );
+            fn => fn.Title == "MB_LSLAPI");
 
-            if (result != null)
-            {
-                ismbapiloaded = true;
-            }
-            else
-            {
-                ismbapiloaded = false;
-            }
+            ismbapiloaded = result != null;
         }
 
         private void frmPluginManager_Load(object sender, EventArgs e)

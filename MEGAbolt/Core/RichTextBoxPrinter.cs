@@ -738,7 +738,7 @@ namespace MEGAbolt
 
         public void ClearText()
         {
-            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)delegate { ClearText(); });
+            if (rtb.InvokeRequired) rtb.BeginInvoke((MethodInvoker)ClearText);
             else
             {
                 rtb.Clear();

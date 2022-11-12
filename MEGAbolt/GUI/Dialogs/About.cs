@@ -101,7 +101,7 @@ namespace MEGAbolt
 
         private void ScrollLine(object sender, ElapsedEventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 if (stopscroll) return;
 

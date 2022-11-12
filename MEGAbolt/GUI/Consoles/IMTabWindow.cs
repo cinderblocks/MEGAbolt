@@ -710,15 +710,11 @@ namespace MEGAbolt
             if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
-                if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
-                {
-                    // Save the contents of the RichTextBox into the file.
-                    rtbIMText.SaveFile(saveFile1.FileName, RichTextBoxStreamType.RichText);
-                }
-                else
-                {
-                    rtbIMText.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
-                }
+                // Save the contents of the RichTextBox into the file.
+                rtbIMText.SaveFile(saveFile1.FileName,
+                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                        ? RichTextBoxStreamType.RichText
+                        : RichTextBoxStreamType.PlainText);
             }
 
             saveFile1.Dispose(); 

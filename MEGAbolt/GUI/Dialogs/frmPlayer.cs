@@ -840,14 +840,7 @@ namespace MEGAbolt
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0)
-            {
-                button2.Enabled = false;
-            }
-            else
-            {
-                button2.Enabled = true;
-            }
+            button2.Enabled = textBox1.Text.Length != 0;
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)

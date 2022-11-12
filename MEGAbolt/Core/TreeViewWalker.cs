@@ -78,7 +78,7 @@ namespace MEGAbolt
         public void ProcessBranch(TreeNode rootNode)
         {
             if (rootNode == null)
-                throw new ArgumentNullException("rootNode");
+                throw new ArgumentNullException(nameof(rootNode));
 
             // Reset the abort flag in case it was previously set.
             stopProcessing = false;
@@ -189,7 +189,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
+                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim =>
                     {
                         bool result;
                         try
@@ -310,7 +310,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim)
+                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim =>
                     {
                         bool result;
                         try

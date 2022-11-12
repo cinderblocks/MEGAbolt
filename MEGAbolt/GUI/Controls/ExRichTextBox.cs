@@ -131,8 +131,7 @@ namespace MEGAbolt.Controls
       TextColor = RtfColor.Black;
       HiglightColor = RtfColor.White;
       DetectUrls = false;
-      if (rtfColor == null)
-        rtfColor = new HybridDictionary();
+      rtfColor ??= new HybridDictionary();
       ArgumentException argumentException;
       try
       {
@@ -173,8 +172,7 @@ namespace MEGAbolt.Controls
       {
         argumentException = ex;
       }
-      if (rtfFontFamily == null)
-        rtfFontFamily = new HybridDictionary();
+      rtfFontFamily ??= new HybridDictionary();
       try
       {
         if (!rtfFontFamily.Contains(FontFamily.GenericMonospace.Name))
@@ -348,7 +346,7 @@ namespace MEGAbolt.Controls
         byte[] _buffer = new byte[wmfBits];
         GdipEmfToWmfBits(henhmetafile, wmfBits, _buffer, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
         foreach (var t in _buffer)
-            stringBuilder.Append(string.Format("{0:X2}", t));
+            stringBuilder.Append($"{t:X2}");
 
         return stringBuilder.ToString();
       }
@@ -430,10 +428,9 @@ namespace MEGAbolt.Controls
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.Append("{\\fonttbl{\\f0");
       stringBuilder.Append("\\");
-      if (rtfFontFamily.Contains(_font.FontFamily.Name))
-        stringBuilder.Append(rtfFontFamily[_font.FontFamily.Name]);
-      else
-        stringBuilder.Append(rtfFontFamily["UNKNOWN"]);
+      stringBuilder.Append(rtfFontFamily.Contains(_font.FontFamily.Name)
+          ? rtfFontFamily[_font.FontFamily.Name]
+          : rtfFontFamily["UNKNOWN"]);
       stringBuilder.Append("\\fcharset0 ");
       stringBuilder.Append(_font.Name);
       stringBuilder.Append(";}}");

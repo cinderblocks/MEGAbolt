@@ -179,15 +179,15 @@ namespace MEGAbolt
 
             Group selgrp = e.Group;
 
-            BeginInvoke(new MethodInvoker(delegate()
-                {
-                    picBusy.Visible = false;
-                    gbQuickInfo.Visible = true;
-                    label7.Text = "Ttl members: " + selgrp.GroupMembershipCount.ToString(CultureInfo.CurrentCulture);
-                    label8.Text = "Ttl roles: " + selgrp.GroupRolesCount.ToString(CultureInfo.CurrentCulture);
-                    label9.Text = "Joining fee: L$" + selgrp.MembershipFee.ToString(CultureInfo.CurrentCulture);
-                    label10.Text = "Open enrolment: " + selgrp.OpenEnrollment.ToString(CultureInfo.CurrentCulture);
-                }));
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                picBusy.Visible = false;
+                gbQuickInfo.Visible = true;
+                label7.Text = "Ttl members: " + selgrp.GroupMembershipCount.ToString(CultureInfo.CurrentCulture);
+                label8.Text = "Ttl roles: " + selgrp.GroupRolesCount.ToString(CultureInfo.CurrentCulture);
+                label9.Text = "Joining fee: L$" + selgrp.MembershipFee.ToString(CultureInfo.CurrentCulture);
+                label10.Text = "Open enrolment: " + selgrp.OpenEnrollment.ToString(CultureInfo.CurrentCulture);
+            }));
         }
 
 
@@ -199,7 +199,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Groups_OnCurrentGroups(sender, e);
                 }));
@@ -229,10 +229,7 @@ namespace MEGAbolt
                 }
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
-            {
-                UpdateGroups();
-            }));            
+            BeginInvoke(new MethodInvoker(UpdateGroups));            
         }
 
         #endregion     

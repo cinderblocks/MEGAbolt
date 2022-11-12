@@ -145,26 +145,12 @@ namespace MEGAbolt
 
         private void textBox2_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void textBox2_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) ? DragDropEffects.Copy : DragDropEffects.None;
         }
     }
 }

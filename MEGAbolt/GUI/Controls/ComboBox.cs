@@ -43,11 +43,9 @@ namespace MEGAbolt.Controls
     {
       get
       {
-        if (_modalMenuFilter == null)
-          _modalMenuFilter = Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
-        if (_modalMenuFilter == null)
-          _modalMenuFilter = new List<Type>(typeof (ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>) (type => type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
-        return _modalMenuFilter;
+          _modalMenuFilter ??= Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
+          return _modalMenuFilter ??= new List<Type>(typeof(ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>)(type =>
+              type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
       }
     }
 

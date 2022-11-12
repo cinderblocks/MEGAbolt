@@ -145,10 +145,10 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                    {
-                        Assets_OnAssetReceived(transfer, asset);
-                    }
+                BeginInvoke(new MethodInvoker(() =>
+                {
+                    Assets_OnAssetReceived(transfer, asset);
+                }
                 ));
 
                 return;
@@ -173,7 +173,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     SetNotecardText(text, readOnly);
                 }
@@ -453,15 +453,11 @@ namespace MEGAbolt
             if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
-                if (saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf")
-                {
-                    // Save the contents of the RichTextBox into the file.
-                    rtbNotecard.SaveFile(saveFile1.FileName, RichTextBoxStreamType.RichText);
-                }
-                else
-                {
-                    rtbNotecard.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
-                }
+                // Save the contents of the RichTextBox into the file.
+                rtbNotecard.SaveFile(saveFile1.FileName,
+                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                        ? RichTextBoxStreamType.RichText
+                        : RichTextBoxStreamType.PlainText);
             }
 
             saveFile1.Dispose(); 
@@ -535,57 +531,16 @@ namespace MEGAbolt
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(tsFindText.Text)) return;
-  
-            if (tsChkCase.Checked)
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, true, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, true, false);
-                }
-            }
-            else
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, false, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, false, false);
-                }
-            }
+
+            rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, tsChkCase.Checked,
+                tsChkWord.Checked);
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(tsFindText.Text)) return;
 
-            if (tsChkCase.Checked)
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, true, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, true, false);
-                }
-            }
-            else
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, false, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, false, false);
-                }
-            }
+            rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, tsChkCase.Checked, tsChkWord.Checked);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)

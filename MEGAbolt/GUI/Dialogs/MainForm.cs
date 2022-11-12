@@ -166,7 +166,7 @@ namespace MEGAbolt
 
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Parcels_OnParcelProperties(sender, e);
                 }));
@@ -184,7 +184,7 @@ namespace MEGAbolt
 
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     UpdateLand(parceln);
                 }));
@@ -391,7 +391,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Avatars_OnAvatarNames(sender, e);
                 }));
@@ -399,7 +399,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 NameReceived(e.Names);
             }));
@@ -809,10 +809,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke((MethodInvoker)delegate
-                {
-                    RefreshStatusBar();
-                });
+                BeginInvoke((MethodInvoker)RefreshStatusBar);
 
                 return;
             }
@@ -849,10 +846,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke((MethodInvoker)delegate
-                {
-                    RefreshWindowTitle();
-                });
+                BeginInvoke((MethodInvoker)RefreshWindowTitle);
 
                 return;
             }
@@ -917,10 +911,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke((MethodInvoker)delegate
-                {
-                    InitializeTabsConsole();
-                });
+                BeginInvoke((MethodInvoker)InitializeTabsConsole);
 
                 return;
             }
@@ -934,10 +925,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke((MethodInvoker)delegate
-                {
-                    InitializeDebugLogForm();
-                });
+                BeginInvoke((MethodInvoker)InitializeDebugLogForm);
 
                 return;
             }
@@ -1503,7 +1491,7 @@ namespace MEGAbolt
 
             client.Inventory.RequestCreateItem(client.Inventory.FindFolderForType(AssetType.Landmark),
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,
-                    delegate(bool success, InventoryItem item)
+                    (success, item) =>
                     {
                         if (!success)
                         {
@@ -1739,7 +1727,7 @@ namespace MEGAbolt
                 RefreshStatusBar();
                 RefreshWindowTitle();
 
-                if (debugLogForm != null && !debugLogForm.Disposing)
+                if (debugLogForm is { Disposing: false })
                 {
                     debugLogForm.Dispose();
                     debugLogForm.Close();
@@ -1829,7 +1817,7 @@ namespace MEGAbolt
                 RefreshStatusBar();
                 RefreshWindowTitle();
 
-                if (debugLogForm != null && !debugLogForm.Disposing)
+                if (debugLogForm is { Disposing: false })
                 {
                     debugLogForm.Dispose();
                     debugLogForm.Close();
@@ -2033,7 +2021,7 @@ namespace MEGAbolt
 
             client.Inventory.RequestCreateItem(instance.FavsFolder,
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,
-                    delegate(bool success, InventoryItem item)
+                    (success, item) =>
                     {
                         if (!success)
                         {

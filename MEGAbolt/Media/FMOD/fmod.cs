@@ -10,6 +10,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FMOD
 {
@@ -3905,16 +3906,9 @@ namespace FMOD
         {
             lock (encoders)
             {
-                ThreadSafeEncoding helper = null;
                 // Search for not in use helper
-                for (int i = 0; i < encoders.Count; i++)
-                {
-                    if (!encoders[i].InUse())
-                    {
-                        helper = encoders[i];
-                        break;
-                    }
-                }
+                ThreadSafeEncoding helper = encoders.FirstOrDefault(enc => !enc.InUse());
+                
                 // Otherwise create another helper
                 if (helper == null)
                 {

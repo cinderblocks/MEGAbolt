@@ -84,7 +84,7 @@ namespace MEGAbolt
 
                         foreach (InventoryItem item in contents)
                         {
-                            client.Inventory.RequestCopyItem(item.UUID, destfolder, item.Name, item.OwnerID, (InventoryBase _) => { });
+                            client.Inventory.RequestCopyItem(item.UUID, destfolder, item.Name, item.OwnerID, _ => { });
                         }
                     }
                     else if (pasteio is InventoryItem)
@@ -95,7 +95,7 @@ namespace MEGAbolt
 
                         foreach (InventoryItem pitem in contents)
                         {
-                            client.Inventory.RequestCopyItem(pitem.UUID, destfolder, pitem.Name, pitem.OwnerID, (InventoryBase _) => { });
+                            client.Inventory.RequestCopyItem(pitem.UUID, destfolder, pitem.Name, pitem.OwnerID, _ => { });
                         }
                     }
                 }
@@ -123,11 +123,11 @@ namespace MEGAbolt
                 {
                     if (pasteio is InventoryFolder)
                     {
-                        client.Inventory.RequestCopyItem(item.UUID, pasteio.UUID, item.Name, item.OwnerID, (InventoryBase _) => { });
+                        client.Inventory.RequestCopyItem(item.UUID, pasteio.UUID, item.Name, item.OwnerID, _ => { });
                     }
                     else if (pasteio is InventoryItem)
                     {
-                        client.Inventory.RequestCopyItem(item.UUID, pasteio.ParentUUID, item.Name, item.OwnerID, (InventoryBase _) => { });
+                        client.Inventory.RequestCopyItem(item.UUID, pasteio.ParentUUID, item.Name, item.OwnerID, _ => { });
                     }
                 }
 

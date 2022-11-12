@@ -117,14 +117,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    if (!config.HideMeta)
-                    {
-                        notifyIcon1.Visible = false;
-                    }
-                    else
-                    {
-                        notifyIcon1.Visible = true;
-                    }
+                    notifyIcon1.Visible = config.HideMeta;
                 }
             }
             else
@@ -471,7 +464,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     DisplayOnChat(e);
                 }));
@@ -483,7 +476,7 @@ namespace MEGAbolt
             if (e.IM.Message.Contains(instance.Config.CurrentConfig.CommandInID)) return;
             if (e.IM.Message.Contains(instance.Config.CurrentConfig.IgnoreUID)) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 ChatBufferItem ready = new ChatBufferItem(DateTime.Now,
                            e.IM.FromAgentName + " (" + e.IM.FromAgentID + "): " + e.IM.Message,
@@ -499,7 +492,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     DisplayChatScreen(msg);
                 }));
@@ -507,7 +500,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 ChatBufferItem ready = new ChatBufferItem(DateTime.Now,
                            msg,
@@ -667,7 +660,7 @@ namespace MEGAbolt
 
             try
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     //chatConsole.ChatManager.PrintMsg("\n" + msg + "\n");
                     chatConsole.ChatManager.PrintMsg(Environment.NewLine + getTimeStamp() + msg);
@@ -696,7 +689,7 @@ namespace MEGAbolt
 
             notifyIcon1.Text = UpdateIconTitle();
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 ////chatConsole.ChatManager.PrintMsg("\n" + msg + "\n");
                 ////chatConsole.ChatManager.PrintMsg(Environment.NewLine + getTimeStamp() + msg);
@@ -1111,14 +1104,7 @@ namespace MEGAbolt
 
             UUID invfolder = UUID.Zero;
 
-            if (type == AssetType.Folder)
-            {
-                invfolder = client.Inventory.Store.RootFolder.UUID;
-            }
-            else
-            {
-                invfolder = client.Inventory.FindFolderForType(type);
-            }
+            invfolder = type == AssetType.Folder ? client.Inventory.Store.RootFolder.UUID : client.Inventory.FindFolderForType(type);
 
             if (!instance.Config.CurrentConfig.DeclineInv)
             {
@@ -1238,11 +1224,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    InitializeMainTab();
-                    //client.Self.RetrieveInstantMessages();
-                }));
+                BeginInvoke(new MethodInvoker(InitializeMainTab));
 
                 return;
             }
@@ -1619,7 +1601,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     DisplayOnIM(imTab, e);
                 }));
@@ -1634,7 +1616,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     DisplayOnIMGroup(imTab, e);
                 }));

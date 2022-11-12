@@ -66,11 +66,11 @@ namespace MEGAbolt
             {
                 timer_int = 2500;
             }
-            else if ((counter > 10) && (counter < 31))
+            else if (counter is > 10 and < 31)
             {
                 timer_int = 3000;
             }
-            else if ((counter > 30) && (counter < 61))
+            else if (counter is > 30 and < 61)
             {
                 timer_int = 4000;
             }

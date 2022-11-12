@@ -617,7 +617,7 @@ namespace MEGAbolt
 
             Boolean fFound = true;
 
-            client.Friends.FriendList.ForEach(delegate(FriendInfo friend)
+            client.Friends.FriendList.ForEach(friend =>
             {
                 if (friend.Name == sAvName)
                 {
@@ -728,7 +728,7 @@ namespace MEGAbolt
         {
             if (e.Group.ID != requestedgroupid) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 client.Groups.GroupProfile -= GroupProfileHandler;
 

@@ -146,7 +146,7 @@ namespace System.Windows.Forms
                 throw new NotSupportedException("multiple calls are not supported");
 
             hookTimeout = uTimeout;
-            hookCaption = caption != null ? caption : "";
+            hookCaption = caption ?? "";
             hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
             //hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, hookProc, IntPtr.Zero, System.Threading.Thread.CurrentThread.ManagedThreadId);
         }

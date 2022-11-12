@@ -95,10 +95,7 @@ namespace MEGAbolt
                 InventoryBase ibX = (InventoryBase)nodeX.Tag;
                 InventoryBase ibY = (InventoryBase)nodeY.Tag;
 
-                if (currentMethod == null)
-                {
-                    currentMethod = sortMethods[currentMethodName];
-                }
+                currentMethod ??= sortMethods[currentMethodName];
 
                 try
                 {

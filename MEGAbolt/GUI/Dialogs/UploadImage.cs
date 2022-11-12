@@ -183,14 +183,7 @@ namespace MEGAbolt
                 return;
             }
 
-            if (success)
-            {
-                label3.Text = "Image uploaded successfully";
-            }
-            else
-            {
-                label3.Text = "Upload failed";
-            }
+            label3.Text = success ? "Image uploaded successfully" : "Upload failed";
 
             img.Dispose();
         }

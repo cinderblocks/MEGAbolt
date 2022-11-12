@@ -112,7 +112,7 @@ namespace MEGAbolt
         // separate thread
         private void Avatars_OnAvatarNames(object sender, UUIDNameReplyEventArgs names)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 OwnerReceived(sender, names);
             }));
@@ -209,7 +209,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     SIM_OnSimChanged(sender, e);
                 }));
@@ -217,11 +217,11 @@ namespace MEGAbolt
 
             if (!IsHandleCreated) return;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 ClearLists();
                 ResetFields();
-                lbxPrims.Items.Clear();  
+                lbxPrims.Items.Clear();
 
                 //AddAllObjects();
 
@@ -383,63 +383,63 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
+                    {
+                        lock (listItems)
+                        {
+                            ObjectsListItem item = new ObjectsListItem(e.Prim, client, lbxPrims);
+
+                            Vector3 location = new Vector3(Vector3.Zero);
+                            location = instance.SIMsittingPos();
+                            Vector3 pos = new Vector3(Vector3.Zero);
+                            pos = item.Prim.Position;
+
+                            float dist = Vector3.Distance(location, pos);
+
+                            if (dist < range)
                             {
-                                lock (listItems)
+                                try
                                 {
-                                    ObjectsListItem item = new ObjectsListItem(e.Prim, client, lbxPrims);
-
-                                    Vector3 location = new Vector3(Vector3.Zero);
-                                    location = instance.SIMsittingPos();
-                                    Vector3 pos = new Vector3(Vector3.Zero);
-                                    pos = item.Prim.Position;
-
-                                    float dist = Vector3.Distance(location, pos);
-
-                                    if (dist < range)
+                                    if (!listItems.ContainsKey(e.Prim.LocalID))
                                     {
-                                        try
-                                        {
-                                            if (!listItems.ContainsKey(e.Prim.LocalID))
-                                            {
-                                                listItems.Add(e.Prim.LocalID, item);
+                                        listItems.Add(e.Prim.LocalID, item);
 
-                                                item.PropertiesReceived += iitem_PropertiesReceived;
-                                                item.RequestProperties();
-                                            }
-                                            //else
-                                            //{
-                                            //    listItems.Remove(e.Prim.LocalID);
-                                            //    listItems.Add(e.Prim.LocalID, item);
-
-                                            //    lock (lbxPrims.Items)
-                                            //    {
-                                            //        lbxPrims.BeginUpdate();
-
-                                            //        if (lbxPrims.Items.Contains(item))
-                                            //        {
-                                            //            lbxPrims.Items.Remove(item);
-                                            //        }
-
-                                            //        lbxPrims.Items.Add(item);
-                                            //        lbxPrims.EndUpdate();
-                                            //    }
-
-                                            //    lbxPrims.SortList();
-                                            //}
-                                        }
-                                        catch
-                                        {
-                                            ;
-                                        }
-
-                                        //BeginInvoke(new MethodInvoker(delegate()
-                                        //{
-                                        //    pB1.Maximum += 1;
-                                        //}));
+                                        item.PropertiesReceived += iitem_PropertiesReceived;
+                                        item.RequestProperties();
                                     }
+                                    //else
+                                    //{
+                                    //    listItems.Remove(e.Prim.LocalID);
+                                    //    listItems.Add(e.Prim.LocalID, item);
+
+                                    //    lock (lbxPrims.Items)
+                                    //    {
+                                    //        lbxPrims.BeginUpdate();
+
+                                    //        if (lbxPrims.Items.Contains(item))
+                                    //        {
+                                    //            lbxPrims.Items.Remove(item);
+                                    //        }
+
+                                    //        lbxPrims.Items.Add(item);
+                                    //        lbxPrims.EndUpdate();
+                                    //    }
+
+                                    //    lbxPrims.SortList();
+                                    //}
                                 }
-                            }));
+                                catch
+                                {
+                                    ;
+                                }
+
+                                //BeginInvoke(new MethodInvoker(delegate()
+                                //{
+                                //    pB1.Maximum += 1;
+                                //}));
+                            }
+                        }
+                    }));
                 }
             }
             catch
@@ -478,7 +478,7 @@ namespace MEGAbolt
 
                         try
                         {
-                            BeginInvoke(new MethodInvoker(delegate()
+                            BeginInvoke(new MethodInvoker(() =>
                             {
                                 item = childItems[objectID];
 
@@ -511,7 +511,7 @@ namespace MEGAbolt
 
                         try
                         {
-                            BeginInvoke(new MethodInvoker(delegate()
+                            BeginInvoke(new MethodInvoker(() =>
                             {
                                 item = listItems[objectID];
 
@@ -563,7 +563,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     item_PropertiesReceived(sender, e);
 
@@ -573,11 +573,11 @@ namespace MEGAbolt
 
             ObjectsListItem item = (ObjectsListItem)sender;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
-                Vector3 location = new Vector3(Vector3.Zero); 
+                Vector3 location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
-                Vector3 pos = new Vector3(Vector3.Zero); 
+                Vector3 pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
 
                 if (Vector3.Distance(location, pos) < range)
@@ -626,7 +626,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     iitem_PropertiesReceived(sender, e);
 
@@ -636,9 +636,9 @@ namespace MEGAbolt
 
             ObjectsListItem item = (ObjectsListItem)sender;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
-                Vector3 location = new Vector3(Vector3.Zero); 
+                Vector3 location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 Vector3 pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
@@ -648,7 +648,7 @@ namespace MEGAbolt
                     lock (lbxPrims.Items)
                     {
                         lbxPrims.BeginUpdate();
-                        lbxPrims.Items.Remove(item); 
+                        lbxPrims.Items.Remove(item);
                         lbxPrims.Items.Add(item);
                         lbxPrims.EndUpdate();
                     }
@@ -700,10 +700,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    AddAllObjects();
-                }));
+                BeginInvoke(new MethodInvoker(AddAllObjects));
             }
 
             //pB1.Maximum = 0;
@@ -731,12 +728,12 @@ namespace MEGAbolt
                     location = instance.SIMsittingPos();
 
                 client.Network.CurrentSim.ObjectsPrimitives.ForEach(
-                delegate(Primitive prim)
+                prim =>
                 {
-                    Vector3 pos = new Vector3(Vector3.Zero); 
+                    Vector3 pos = new Vector3(Vector3.Zero);
                     pos = prim.Position;
 
-                                    
+
 
                     float dist = Vector3.Distance(location, pos);
 
@@ -783,7 +780,7 @@ namespace MEGAbolt
                                     lock (lbxPrims.Items)
                                     {
                                         lbxPrims.BeginUpdate();
-                                        lbxPrims.Items.Remove(item); 
+                                        lbxPrims.Items.Remove(item);
                                         lbxPrims.Items.Add(item);
                                         lbxPrims.EndUpdate();
                                     }
@@ -920,7 +917,7 @@ namespace MEGAbolt
 
             List<Primitive> results =
                 client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                delegate(Primitive prim)
+                prim =>
                 {
                     try
                     {
@@ -1507,14 +1504,7 @@ namespace MEGAbolt
 
                 if (instance.State.SitPrim != UUID.Zero)
                 {
-                    if (sPr.ID == instance.State.SitPrim)
-                    {
-                        btnSitOn.Text = "&Stand";
-                    }
-                    else
-                    {
-                        btnSitOn.Text = "&Sit";
-                    }
+                    btnSitOn.Text = sPr.ID == instance.State.SitPrim ? "&Stand" : "&Sit";
                 }
                 else
                 {
@@ -1614,60 +1604,14 @@ namespace MEGAbolt
                 //label3.Text = sPr.Properties.SaleType.ToString(); 
 
                 // Owner perms
-                if (sOEp.Contains("Modify"))
-                {
-                    chkModify.Checked = true;
-                }
-                else
-                {
-                    chkModify.Checked = false;
-                }
-
-                if (sOEp.Contains("Copy"))
-                {
-                    chkCopy.Checked = true;
-                }
-                else
-                {
-                    chkCopy.Checked = false;
-                }
-
-                if (sOEp.Contains("Transfer"))
-                {
-                    chkResell.Checked = true;
-                }
-                else
-                {
-                    chkResell.Checked = false;
-                }
+                chkModify.Checked = sOEp.Contains("Modify");
+                chkCopy.Checked = sOEp.Contains("Copy");
+                chkResell.Checked = sOEp.Contains("Transfer");
 
                 // Next Owner perms
-                if (sEp.Contains("Modify"))
-                {
-                    chkNextOwnerModify.Checked = true;
-                }
-                else
-                {
-                    chkNextOwnerModify.Checked = false;
-                }
-
-                if (sEp.Contains("Copy"))
-                {
-                    chkNextOwnerCopy.Checked = true;
-                }
-                else
-                {
-                    chkNextOwnerCopy.Checked = false;
-                }
-
-                if (sEp.Contains("Transfer"))
-                {
-                    chkNextOwnerResell.Checked = true;
-                }
-                else
-                {
-                    chkNextOwnerResell.Checked = false;
-                }
+                chkNextOwnerModify.Checked = sEp.Contains("Modify");
+                chkNextOwnerCopy.Checked = sEp.Contains("Copy");
+                chkNextOwnerResell.Checked = sEp.Contains("Transfer");
 
                 //if (btnTP.Enabled)
                 //    btnTP.Enabled = false; 
@@ -1690,13 +1634,9 @@ namespace MEGAbolt
                 button3.Visible = button7.Visible = false;
 
                 List<Primitive> results = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    delegate(Primitive prim)
-                    {
-                        return (prim.ParentID == sPr.LocalID);
-                    }
-                );
+                    prim => (prim.ParentID == sPr.LocalID));
 
-                if (results != null && results.Count > 0)
+                if (results is { Count: > 0 })
                 {
                     foreach (var prim in results)
                     {
@@ -1813,11 +1753,7 @@ namespace MEGAbolt
 
             Primitive rootPrim = new Primitive();
             rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(
-             delegate(Primitive prim)
-             {
-                 return prim.ID == oPrm.ID;
-             }
-             );
+             prim => prim.ID == oPrm.ID);
 
             if (chkNextOwnerModify.Checked)
             {
@@ -1835,7 +1771,7 @@ namespace MEGAbolt
             }
 
 
-            rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(delegate(Primitive prim) { return prim.ID == rootID; });
+            rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(prim => prim.ID == rootID);
 
             if (rootPrim == null)
                 return;
@@ -1854,34 +1790,27 @@ namespace MEGAbolt
             //client.Objects.SetName(client.Network.CurrentSim, rootPrim.LocalID, textBox2.Text );         
 
             // Find all of the child objects linked to this root
-            childPrims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(delegate(Primitive prim) { return prim.ParentID == rootPrim.LocalID; });
+            childPrims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim => prim.ParentID == rootPrim.LocalID);
 
             // Build a dictionary of primitives for referencing later
             Objects[rootPrim.ID] = rootPrim;
-            for (int i = 0; i < childPrims.Count; i++)
-                Objects[childPrims[i].ID] = childPrims[i];
+            foreach (var p in childPrims)
+                Objects[p.ID] = p;
 
             // Build a list of all the localIDs to set permissions for
             localIDs.Add(rootPrim.LocalID);
-            for (int i = 0; i < childPrims.Count; i++)
-                localIDs.Add(childPrims[i].LocalID);
+            localIDs.AddRange(childPrims.Select(p => p.LocalID));
 
-            if ((Perms & PermissionMask.Modify) == PermissionMask.Modify)
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Modify, true);
-            else
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Modify, false);
+            client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner,
+                PermissionMask.Modify, (Perms & PermissionMask.Modify) == PermissionMask.Modify);
 
-            if ((Perms & PermissionMask.Copy) == PermissionMask.Copy)
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Copy, true);
-            else
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Copy, false);
+            client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner,
+                PermissionMask.Copy, (Perms & PermissionMask.Copy) == PermissionMask.Copy);
 
-            if ((Perms & PermissionMask.Transfer) == PermissionMask.Transfer)
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Transfer, true);
-            else
-                client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner, PermissionMask.Transfer, false);
+            client.Objects.SetPermissions(client.Network.CurrentSim, localIDs, PermissionWho.NextOwner,
+                PermissionMask.Transfer, (Perms & PermissionMask.Transfer) == PermissionMask.Transfer);
 
-        
+
             //// Check each prim for task inventory and set permissions on the task inventory
             //int taskItems = 0;
             //foreach (Primitive prim in Objects.Values)
@@ -1937,7 +1866,7 @@ namespace MEGAbolt
             instance.State.SitPrim = e.ObjectID;
             instance.State.IsSitting = true;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 btnSitOn.Text = "&Stand";
             }));
@@ -2501,16 +2430,16 @@ namespace MEGAbolt
 
             if (items != null)
             {
-                for (int i = 0; i < items.Count; i++)
+                foreach (var i in items)
                 {
-                    if (items[i] is InventoryFolder)
+                    if (i is InventoryFolder)
                     {
                         //ListViewItem fitem = lbxTask.Items.Add(items[i].Name, "- " + items[i].Name + " folder", string.Empty);
                         //fitem.Tag = fitem;
                     }
                     else
                     {
-                        InventoryItem sitem = (InventoryItem)items[i];
+                        InventoryItem sitem = (InventoryItem)i;
                         string perms = string.Empty;
 
                         if (sitem.OwnerID == client.Self.AgentID)
@@ -3103,7 +3032,7 @@ namespace MEGAbolt
         private void button8_Click(object sender, EventArgs e)
         {
             Avatar sav = new Avatar();
-            sav = client.Network.CurrentSim.ObjectsAvatars.Find((Avatar av) => { return av.ID == client.Self.AgentID; });
+            sav = client.Network.CurrentSim.ObjectsAvatars.Find(av => av.ID == client.Self.AgentID);
 
             (new WornAttachments(instance, sav)).Show(this);
         }

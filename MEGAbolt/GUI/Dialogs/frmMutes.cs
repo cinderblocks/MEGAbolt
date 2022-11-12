@@ -70,7 +70,7 @@ namespace MEGAbolt
 
             int cnt = 0;
 
-            instance.Client.Self.MuteList.ForEach((MuteEntry entry) =>
+            instance.Client.Self.MuteList.ForEach(entry =>
             {
                 //string mutetype = string.Empty;
 
@@ -111,14 +111,7 @@ namespace MEGAbolt
 
         private void lvMutes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvMutes.SelectedItems.Count == 0)
-            {
-                button2.Enabled = false;
-            }
-            else
-            {
-                button2.Enabled = true;
-            }
+            button2.Enabled = lvMutes.SelectedItems.Count != 0;
         }
 
         private void frmMutes_FormClosing(object sender, FormClosingEventArgs e)

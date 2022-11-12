@@ -42,14 +42,9 @@ namespace MEGAbolt
         {
             try
             {
-                if (format == null)
-                {
-                    _ContainsText = Clipboard.ContainsText();
-                }
-                else
-                {
-                    _ContainsText = Clipboard.ContainsText((TextDataFormat)format);
-                }
+                _ContainsText = format == null 
+                    ? Clipboard.ContainsText() 
+                    : Clipboard.ContainsText((TextDataFormat)format);
             }
             catch
             {

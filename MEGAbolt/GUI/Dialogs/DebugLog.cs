@@ -387,7 +387,7 @@ namespace MEGAbolt
 
         private void ping_Change(object sender, PingEventArgs pa)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 rtBox1.Text += "\n" + pa.Message();
             }));
@@ -454,7 +454,7 @@ namespace MEGAbolt
 
             IPEndPoint simip = client.Network.CurrentSim.IPEndPoint;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 label10.Text = "SIM: " + client.Network.CurrentSim.Name + " (" + client.Network.CurrentSim.IPEndPoint + ")";
             }));
@@ -471,7 +471,7 @@ namespace MEGAbolt
         {
             //if (this.IsHandleCreated)
             //{
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     if (pa.Message().Contains("Approximate round trip times in milli-seconds"))
                     {
@@ -491,7 +491,7 @@ namespace MEGAbolt
                                 dataChart3.UpdateChart(dvalg);
                             }
                         }
-                        catch { ; }
+                        catch {; }
                     }
                 }));
             //}
@@ -510,38 +510,38 @@ namespace MEGAbolt
             lastAmountOfBytesReceived = currentAmountOfBytesReceived;
             lastAmountOfBytesSent = currentAmountOfBytesSent;
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                label3.Text = string.Format(CultureInfo.CurrentCulture, "Current (In): {0} KB/Sec", busedr.ToString("0.00", CultureInfo.CurrentCulture));
+                label5.Text = string.Format(CultureInfo.CurrentCulture, "Current (Out): {0} KB/Sec", buseds.ToString("0.00", CultureInfo.CurrentCulture));
+
+                float cgb = lastAmountOfBytesReceived / 1073741824;
+                label6.Text = string.Format(CultureInfo.CurrentCulture, "Total (In): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
+                cgb = lastAmountOfBytesSent / 1073741824;
+                label7.Text = string.Format(CultureInfo.CurrentCulture, "Total (Out): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
+
+                //if (Convert.ToInt32(lastAmountOfBytesReceived) > iniheight)
+                //{
+                //    iniheight = Convert.ToInt32(lastAmountOfBytesReceived);this.dataChart1.
+                //}
+
+                //this.dataChart1.InitialHeight = iniheight;
+
+                if (cmod < 4)
                 {
-                    label3.Text = string.Format(CultureInfo.CurrentCulture, "Current (In): {0} KB/Sec", busedr.ToString("0.00", CultureInfo.CurrentCulture));
-                    label5.Text = string.Format(CultureInfo.CurrentCulture, "Current (Out): {0} KB/Sec", buseds.ToString("0.00", CultureInfo.CurrentCulture));
+                    cmod += 1;
+                }
+                else
+                {
+                    dataChart1.UpdateChart(Convert.ToDouble(busedr));
 
-                    float cgb = lastAmountOfBytesReceived / 1073741824;
-                    label6.Text = string.Format(CultureInfo.CurrentCulture, "Total (In): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
-                    cgb = lastAmountOfBytesSent / 1073741824;
-                    label7.Text = string.Format(CultureInfo.CurrentCulture, "Total (Out): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
+                    TimeSpan ts = TimeSpan.FromSeconds(Convert.ToInt32(tcntr));
 
-                    //if (Convert.ToInt32(lastAmountOfBytesReceived) > iniheight)
-                    //{
-                    //    iniheight = Convert.ToInt32(lastAmountOfBytesReceived);this.dataChart1.
-                    //}
+                    label14.Text = Convert.ToInt32(ts.Hours).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Minutes).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Seconds).ToString("00", CultureInfo.CurrentCulture);
+                }
 
-                    //this.dataChart1.InitialHeight = iniheight;
-
-                    if (cmod < 4)
-                    {
-                        cmod += 1;
-                    }
-                    else
-                    {
-                        dataChart1.UpdateChart(Convert.ToDouble(busedr));
-
-                        TimeSpan ts = TimeSpan.FromSeconds(Convert.ToInt32(tcntr));
-
-                        label14.Text = Convert.ToInt32(ts.Hours).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Minutes).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Seconds).ToString("00", CultureInfo.CurrentCulture);
-                    }
-
-                    tcntr += 1;
-                }));
+                tcntr += 1;
+            }));
         }
     }
 }

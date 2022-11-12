@@ -117,24 +117,24 @@ namespace MEGAbolt
             { 
                 WaitForSessionStart.Set();
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     try
                     {
                         label1.Visible = false;
                     }
-                    catch { ; }
+                    catch {; }
                 }));
             }
             else
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     try
                     {
                         label1.Text = "Failed to join the requested group chat";
                     }
-                    catch { ; }
+                    catch {; }
                 }));
             }
         }
@@ -147,7 +147,7 @@ namespace MEGAbolt
             {
                 if (people == null)
                 {
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
                     {
                         if (!lvwList.Items.ContainsKey(e.AgentID.ToString()))
                         {
@@ -171,7 +171,7 @@ namespace MEGAbolt
 
                 if (!people.ContainsKey(e.AgentID))
                 {
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
                     {
                         if (!lvwList.Items.ContainsKey(e.AgentID.ToString()))
                         {
@@ -192,7 +192,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
                     {
                         if (!lvwList.Items.ContainsKey(people[e.AgentID]))
                         {
@@ -210,7 +210,7 @@ namespace MEGAbolt
         {
             if (e.SessionID == SessionId)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     try
                     {
@@ -221,7 +221,7 @@ namespace MEGAbolt
                             lvwList.Items.Remove(foundItem);
                         }
                     }
-                    catch { ; }
+                    catch {; }
 
                     try
                     {
@@ -241,7 +241,7 @@ namespace MEGAbolt
                             }
                         }
                     }
-                    catch { ; }
+                    catch {; }
                 }));
             }
         }
@@ -250,7 +250,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Avatars_OnAvatarNames(sender, names);
                 }));
@@ -258,7 +258,7 @@ namespace MEGAbolt
                 return;
             }
                 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 UpdateChatList(names.Names);
             }));
@@ -268,7 +268,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     UpdateChatList(names);
                 }));

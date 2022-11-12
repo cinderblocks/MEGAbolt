@@ -121,7 +121,7 @@ namespace MEGAbolt
         {
             //GetMap();
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 if (chkForSale.Checked)
                 {
@@ -133,17 +133,14 @@ namespace MEGAbolt
             //_MapLayer = null;
             //client.Grid.RequestMapRegion(client.Network.CurrentSim.Name, GridLayerType.Objects);
 
-            BeginInvoke((MethodInvoker)delegate { GetMap(); });
+            BeginInvoke((MethodInvoker)GetMap);
         }
 
         private void GetMap()
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    GetMap();
-                }));
+                BeginInvoke(new MethodInvoker(GetMap));
 
                 //BeginInvoke((MethodInvoker)delegate { GetMap(); });
                 return;
@@ -309,7 +306,7 @@ namespace MEGAbolt
 
                     try
                     {
-                        CurrentLoc = instance.avlocations.Find(delegate(MEGAboltInstance.AvLocation gck) { return gck.Rectangle.Contains(mouse) == true; });
+                        CurrentLoc = instance.avlocations.Find(gck => gck.Rectangle.Contains(mouse) == true);
                     }
                     catch { ; }
 
@@ -332,7 +329,7 @@ namespace MEGAbolt
                     }
 
                     client.Network.CurrentSim.AvatarPositions.ForEach(
-                        delegate(KeyValuePair<UUID, Vector3> pos)
+                        pos =>
                         {
                             int x = (int)pos.Value.X - 2;
                             int y = 255 - (int)pos.Value.Y - 2;
@@ -477,7 +474,7 @@ namespace MEGAbolt
 
             try
             {
-                CurrentLoc = instance.avlocations.Find(delegate(MEGAboltInstance.AvLocation g) { return g.Rectangle.Contains(mouse) == true; });
+                CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
             catch { ; }
 
@@ -582,7 +579,7 @@ namespace MEGAbolt
 
             try
             {
-                CurrentLoc = instance.avlocations.Find(delegate(MEGAboltInstance.AvLocation g) { return g.Rectangle.Contains(mouse) == true; });
+                CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
             catch { ; }
 
@@ -704,7 +701,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 RegionSearchResult(e.Region);
             }));
@@ -774,7 +771,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     RefreshControls();
                     return;
@@ -883,10 +880,9 @@ namespace MEGAbolt
             RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-            else
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+                : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             Font newFont = new Font(e.Font, FontStyle.Bold);
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);

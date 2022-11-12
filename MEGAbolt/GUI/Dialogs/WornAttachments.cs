@@ -61,13 +61,13 @@ namespace MEGAbolt
                 listItems.Clear();
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 pBar3.Visible = true;
                 lbxPrims.Items.Clear();
                 lbxPrimGroup.Items.Clear();
 
-                ThreadPool.QueueUserWorkItem(delegate(object sync)
+                ThreadPool.QueueUserWorkItem(delegate (object sync)
                 {
                     Cursor.Current = Cursors.WaitCursor;
                     Thread.Sleep(5000);
@@ -108,16 +108,12 @@ namespace MEGAbolt
         {
             try
             {
-                Avatar sav = client.Network.CurrentSim.ObjectsAvatars.Find(delegate(Avatar fa)
-                {
-                    return fa.ID == av.ID;
-                }
-                );
+                Avatar sav = client.Network.CurrentSim.ObjectsAvatars.Find(fa => fa.ID == av.ID);
 
                 if (sav != null)
                 {
                     List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                            delegate(Primitive prim)
+                            prim =>
                             {
                                 try
                                 {
@@ -126,10 +122,10 @@ namespace MEGAbolt
                                 catch { return false; }
                             });
 
-                    BeginInvoke(new MethodInvoker(delegate()
+                    BeginInvoke(new MethodInvoker(() =>
                     {
                         lbxPrims.BeginUpdate();
-                        lbxPrims.Items.Clear();  
+                        lbxPrims.Items.Clear();
 
                         foreach (Primitive prim in prims)
                         {
@@ -193,7 +189,7 @@ namespace MEGAbolt
                 listItems.Clear();
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 pBar3.Visible = true;
                 lbxPrims.Items.Clear();
@@ -218,7 +214,7 @@ namespace MEGAbolt
                     listItems.Clear();
                 }
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     pBar3.Visible = true;
                     lbxPrims.Items.Clear();
@@ -233,16 +229,13 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
-                {
-                    GetAttachments();
-                }));
+                BeginInvoke(new MethodInvoker(GetAttachments));
 
                 return;
             }
 
             List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                delegate(Primitive prim)
+                prim =>
                 {
                     try
                     {
@@ -291,14 +284,9 @@ namespace MEGAbolt
             Font boldFont = new Font(e.Font, FontStyle.Bold);
             Font regularFont = new Font(e.Font, FontStyle.Regular);
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-            }
-            else
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
-            }
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+                : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             string name = string.Empty;
             string wornat = string.Empty;
@@ -317,14 +305,7 @@ namespace MEGAbolt
                     name = itemToDraw.Prim.Properties.Name;
                     wornat = "worn on: " + itemToDraw.Prim.PrimData.AttachmentPoint;
 
-                    if ((itemToDraw.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
-                    {
-                        stas = " (Touch)";
-                    }
-                    else
-                    {
-                        stas = string.Empty;
-                    }
+                    stas = (itemToDraw.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch ? " (Touch)" : string.Empty;
                 }
             }
             catch (Exception ex)
@@ -357,7 +338,7 @@ namespace MEGAbolt
 
         private void item_PropertiesReceived(object sender, EventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 AttachmentsListItem item = (AttachmentsListItem)sender;
 
@@ -428,14 +409,9 @@ namespace MEGAbolt
             Font boldFont = new Font(e.Font, FontStyle.Bold);
             Font regularFont = new Font(e.Font, FontStyle.Regular);
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-            }
-            else
-            {
-                textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
-            }
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+                : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             string name = string.Empty;
             string wornat = string.Empty;
@@ -451,14 +427,7 @@ namespace MEGAbolt
                 {
                     name = itemToDraw.Prim.Properties.Name;
 
-                    if ((itemToDraw.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
-                    {
-                        wornat = "(Touch)";
-                    }
-                    else
-                    {
-                        wornat = string.Empty;
-                    }
+                    wornat = (itemToDraw.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch ? "(Touch)" : string.Empty;
                 }
             }
             catch
@@ -514,24 +483,13 @@ namespace MEGAbolt
 
             AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
-            if ((item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
-            {
-                btnTouch.Enabled = true;
-            }
-            else
-            {
-                btnTouch.Enabled = false;
-            }
+            btnTouch.Enabled = (item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
             txtUUID.Text = item.Prim.ID.ToString();
             txtPoint.Text = item.Prim.PrimData.AttachmentPoint.ToString(); 
 
             List<Primitive> group = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                delegate(Primitive prim)
-                {
-                    return (prim.ParentID == item.Prim.LocalID);
-                }
-            );
+                prim => (prim.ParentID == item.Prim.LocalID));
 
             label5.Text = item.Prim.Text;
 
@@ -555,7 +513,7 @@ namespace MEGAbolt
 
         private void gitem_PropertiesReceived(object sender, EventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 AttachmentsListItem item = (AttachmentsListItem)sender;
 
@@ -584,14 +542,7 @@ namespace MEGAbolt
 
             AttachmentsListItem item = (AttachmentsListItem)lbxPrimGroup.Items[iDx];
 
-            if ((item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch)
-            {
-                btnTouch.Enabled = true;
-            }
-            else
-            {
-                btnTouch.Enabled = false;
-            }
+            btnTouch.Enabled = (item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
             label5.Text = item.Prim.Text;
         }

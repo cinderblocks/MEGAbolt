@@ -39,45 +39,19 @@ namespace SamplePlugin
         // with METAbolt
         // You obviously need to change the below information to suite your development
 
-        IHost host = null;
-        string title = "MB Combat Controller";
-        string description = "This is a plugin to control land combat settings on combat enabled SIMs";
-        string author = "Legolas Luke";
-        string version = "V1.0";
-         
 
-		#region IExtension Members
-		public IHost Host
-		{
-			get { return host; }
-			set { host = value; }
-		}
+        #region IExtension Members
+		public IHost Host { get; set; } = null;
 
-		public string Title
-		{
-			get { return title; }
-			set { title = value; }
-		}
+        public string Title { get; set; } = "MB Combat Controller";
 
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        public string Description { get; set; } = "This is a plugin to control land combat settings on combat enabled SIMs";
 
-        public string Author
-        {
-            get { return author; }
-            set { author = value; }
-        }
+        public string Author { get; set; } = "Legolas Luke";
 
-        public string Version
-        {
-            get { return version; }
-            set { version = value; }
-        }
+        public string Version { get; set; } = "V1.0";
 
-		public void Process(METAboltInstance instance)
+        public void Process(METAboltInstance instance)
 		{ 
 			// Show the form to get user input or whatever
             // If you are not using forms then do whatever below

@@ -184,7 +184,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Avatars_OnAvatarNames(sender, names);
                 }));
@@ -216,7 +216,7 @@ namespace MEGAbolt
 
                         break;
                     case TeleportStatus.Progress:
-                        BeginInvoke(new MethodInvoker(delegate()
+                        BeginInvoke(new MethodInvoker(() =>
                         {
                             pTP.Visible = true;
                             label13.Text = e.Message;
@@ -226,13 +226,13 @@ namespace MEGAbolt
                         break;
 
                     case TeleportStatus.Failed:
-                        BeginInvoke(new MethodInvoker(delegate()
+                        BeginInvoke(new MethodInvoker(() =>
                         {
                             label13.Text = "Teleport Failed";
                             pTP.Visible = true;
 
                             TPtimer.Enabled = true;
-                            TPtimer.Start();  
+                            TPtimer.Start();
                         }));
 
                         break;
@@ -249,13 +249,13 @@ namespace MEGAbolt
                             sitTimer.Start();
                         }
 
-                        BeginInvoke(new MethodInvoker(delegate()
+                        BeginInvoke(new MethodInvoker(() =>
                         {
                             label13.Text = "Teleport Succeeded";
                             pTP.Visible = true;
 
                             TPtimer.Enabled = true;
-                            TPtimer.Start(); 
+                            TPtimer.Start();
                         }));
 
                         break;
@@ -290,7 +290,7 @@ namespace MEGAbolt
 
             try
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     ChatManager.PrintAlertMessage(rmsg);
                 }));
@@ -313,7 +313,7 @@ namespace MEGAbolt
 
             try
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     //CheckWearables();
                     //CheckLocation();
@@ -556,9 +556,9 @@ namespace MEGAbolt
 
             // *** find all objects in radius ***
             List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                delegate(Primitive prim)
+                prim =>
                 {
-                    Vector3 pos = new Vector3(Vector3.Zero); 
+                    Vector3 pos = new Vector3(Vector3.Zero);
                     pos = prim.Position;
                     return ((prim.ParentID == 0) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < radius));
                 }
@@ -815,10 +815,10 @@ namespace MEGAbolt
 
         private void Config_ConfigApplied(object sender, ConfigAppliedEventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
-                {
-                    ApplyConfig(e.AppliedConfig);
-                }));
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                ApplyConfig(e.AppliedConfig);
+            }));
         }
 
         private void ApplyConfig(Config config)
@@ -999,7 +999,7 @@ namespace MEGAbolt
 
             try
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     cty = e.Type switch
                     {
@@ -1032,7 +1032,7 @@ namespace MEGAbolt
             {
                 instance.State.ResetCamera();
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     try
                     {
@@ -1048,7 +1048,7 @@ namespace MEGAbolt
                             //item.SubItems.Add(string.Empty);
                         }
                     }
-                    catch { ; }
+                    catch {; }
                 }));
 
                 return;
@@ -1061,7 +1061,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     AddSIMAvatar(av, key, avpos, clr, state);
                 }));
@@ -1324,7 +1324,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     netcom_ChatReceived(sender, e);
                 }));
@@ -1642,7 +1642,7 @@ namespace MEGAbolt
 
             bool fFound = true;
 
-            client.Friends.FriendList.ForEach(delegate(FriendInfo friend)
+            client.Friends.FriendList.ForEach(friend =>
             {
                 if (friend.Name == name)
                 {
@@ -2160,13 +2160,13 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     try
                     {
                         Grid_OnCoarseLocationUpdate(sender, e);
                     }
-                    catch { ; }
+                    catch {; }
                 }));
                 
                 return;
@@ -2202,13 +2202,13 @@ namespace MEGAbolt
                 }
             }
 
-            e.Simulator.AvatarPositions.ForEach(delegate(KeyValuePair<UUID, Vector3> favpos)
-                    {
-                        if (!instance.avnames.ContainsKey(favpos.Key))
-                        {
-                            client.Avatars.RequestAvatarName(favpos.Key);
-                        }
-                    });
+            e.Simulator.AvatarPositions.ForEach(favpos =>
+            {
+                if (!instance.avnames.ContainsKey(favpos.Key))
+                {
+                    client.Avatars.RequestAvatarName(favpos.Key);
+                }
+            });
 
             try
             {
@@ -2240,7 +2240,7 @@ namespace MEGAbolt
                 sfavatar.Clear();
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 lvwRadar.Items.Clear();
             }));
@@ -2427,7 +2427,7 @@ namespace MEGAbolt
                     }
 
                     ssim.AvatarPositions.ForEach(
-                    delegate(KeyValuePair<UUID, Vector3> pos)
+                    pos =>
                     {
                         if (pos.Key != client.Self.AgentID)
                         {
@@ -2451,7 +2451,7 @@ namespace MEGAbolt
                             }
 
                             Avatar fav = new Avatar();
-                            fav = ssim.ObjectsAvatars.Find((Avatar av) => av.ID == pos.Key);
+                            fav = ssim.ObjectsAvatars.Find(av => av.ID == pos.Key);
 
                             string st = string.Empty;
 
@@ -2525,7 +2525,7 @@ namespace MEGAbolt
 
                                 try
                                 {
-                                    Color aclr = Color.Black;                                    
+                                    Color aclr = Color.Black;
 
                                     if (fav == null)
                                     {
@@ -2695,7 +2695,7 @@ namespace MEGAbolt
 
             try
             {
-                CurrentLoc = instance.avlocations.Find(delegate(MEGAboltInstance.AvLocation g) { return g.Rectangle.Contains(mouse) == true; });
+                CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse));
             }
             catch { ; }
 
@@ -2791,7 +2791,7 @@ namespace MEGAbolt
         {
             Avatar nav = new Avatar();
             UUID avid = (UUID)lvwRadar.SelectedItems[0].Tag;
-            nav = CurrentSIM.ObjectsAvatars.Find((Avatar av) => av.ID == avid);
+            nav = CurrentSIM.ObjectsAvatars.Find(av => av.ID == avid);
 
             return nav;
         }
@@ -3058,7 +3058,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     vgate_OnVoiceConnectionChange(state);
                 }));
@@ -3100,7 +3100,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     vgate_OnSessionCreate(sender, e);
                 }));
@@ -3136,7 +3136,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     LoadMics(list);
                 }));
@@ -3178,7 +3178,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     LoadSpeakers(list);
                 }));

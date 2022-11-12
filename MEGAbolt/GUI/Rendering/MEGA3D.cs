@@ -248,11 +248,11 @@ namespace MEGAbolt
 
         private void ReLoadObject()
         {
-            ThreadPool.QueueUserWorkItem(delegate(object sync)
+            ThreadPool.QueueUserWorkItem(sync =>
             {
                 // Search for the new local id of the object
                 List<Primitive> results = Client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    delegate(Primitive prim)
+                    delegate (Primitive prim)
                     {
                         try
                         {
@@ -276,11 +276,11 @@ namespace MEGAbolt
                         {
                             UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
                             var children = Client.Network.CurrentSim.ObjectsPrimitives
-                                .FindAll((Primitive p) => p.ParentID == RootPrimLocalID);
+                                .FindAll(p => p.ParentID == RootPrimLocalID);
                             children.ForEach(UpdatePrimBlocking);
                         }
                     }
-                    catch { ; }
+                    catch {; }
                 }
                 else
                 {
@@ -352,7 +352,7 @@ namespace MEGAbolt
                     return;
 
                 case TeleportStatus.Finished:
-                    ThreadPool.QueueUserWorkItem(delegate(object sync)
+                    ThreadPool.QueueUserWorkItem(sync =>
                     {
                         Cursor.Current = Cursors.WaitCursor;
                         Thread.Sleep(6000);
@@ -542,7 +542,7 @@ namespace MEGAbolt
             GL.ClearColor(clearcolour);
 
             if (glControl.ClientSize.Height == 0)
-                glControl.ClientSize = new Size(glControl.ClientSize.Width, 1);
+                glControl.ClientSize = glControl.ClientSize with { Height = 1 };
 
             GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
 
@@ -740,9 +740,9 @@ namespace MEGAbolt
                 if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
                 {
                     UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                    var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll((Primitive p) => { return p.ParentID == RootPrimLocalID; });
+                    var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll(p => p.ParentID == RootPrimLocalID);
                     Logger.Log($"Loading {children.Count} primitives", Helpers.LogLevel.Debug);
-                    children.ForEach(p => UpdatePrimBlocking(p));
+                    children.ForEach(UpdatePrimBlocking);
                 }
             }
             );
@@ -840,8 +840,7 @@ namespace MEGAbolt
                         Face face = mesh.Faces[j];
                         FaceData data = (FaceData)face.UserData;
 
-                        if (teFace == null)
-                            teFace = mesh.Prim.Textures.DefaultTexture;
+                        teFace ??= mesh.Prim.Textures.DefaultTexture;
 
                         if (pass == RenderPass.Picking)
                         {
@@ -1232,7 +1231,7 @@ namespace MEGAbolt
             {
                 if (IsHandleCreated)
                 {
-                    BeginInvoke(new MethodInvoker(() => GLInvalidate()));
+                    BeginInvoke(new MethodInvoker(GLInvalidate));
                 }
                 return;
             }

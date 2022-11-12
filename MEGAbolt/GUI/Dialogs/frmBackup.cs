@@ -100,10 +100,10 @@ namespace MEGAbolt
             string filename = string.Empty;
             string destFile = string.Empty; 
 
-            for (int a = 0; a < listBox1.Items.Count; a++)
+            foreach (var item in listBox1.Items)
             {
-                filename = currentDirectory + listBox1.Items[a];
-                destFile = @textBox1.Text + listBox1.Items[a];
+                filename = currentDirectory + item;
+                destFile = @textBox1.Text + item;
 
                 try
                 {

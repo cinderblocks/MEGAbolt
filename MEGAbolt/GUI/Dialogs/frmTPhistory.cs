@@ -125,7 +125,7 @@ namespace MEGAbolt
 
             client.Inventory.RequestCreateItem(client.Inventory.FindFolderForType(AssetType.Landmark),
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,
-                    delegate(bool success, InventoryItem item)
+                    (success, item) =>
                     {
                         if (!success)
                         {

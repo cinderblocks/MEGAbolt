@@ -77,14 +77,7 @@ namespace MEGAbolt
                 label22.Text = "Version: " + sim.SimVersion;
                 label23.Text = "Location: " + sim.ColoLocation;
 
-                if (client.Appearance.ServerBakingRegion())
-                {
-                    label45.Text = "SSA Enabled";
-                }
-                else
-                {
-                    label45.Text = "SSA Disabled";
-                }
+                label45.Text = client.Appearance.ServerBakingRegion() ? "SSA Enabled" : "SSA Disabled";
 
                 label2.Text = "Dilation: " + sim.Stats.Dilation.ToString(CultureInfo.CurrentCulture);
                 progressBar1.Value = (int)(sim.Stats.Dilation * 10);
@@ -170,7 +163,7 @@ namespace MEGAbolt
                     lblScore.ForeColor = Color.Green;
                     score = 5;
                 }
-                else if (fm > 14 && fm < 30)
+                else if (fm is > 14 and < 30)
                 {
                     // Good
                     //lblScore.Text = "Good";
@@ -198,7 +191,7 @@ namespace MEGAbolt
                     lblScore.ForeColor = Color.RoyalBlue;
                     score = 3;
                 }
-                else if (fm > 14 && fm < 30)
+                else if (fm is > 14 and < 30)
                 {
                     lbIssues.Items.Add("Script running speed is reduced due to low dilation.");
                     // Good

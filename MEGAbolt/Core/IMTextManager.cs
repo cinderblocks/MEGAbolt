@@ -428,14 +428,9 @@ namespace MEGAbolt
             }
             else
             {
-                if (message.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    sb.Append(message.Substring(3));
-                }
-                else
-                {
-                    sb.Append(message);
-                }
+                sb.Append(message.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase)
+                    ? message.Substring(3)
+                    : message);
 
                 TextPrinter.SetSelectionForeColor(Color.Black);
 

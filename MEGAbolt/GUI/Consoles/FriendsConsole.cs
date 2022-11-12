@@ -83,7 +83,7 @@ namespace MEGAbolt
                 return;
             }
 
-            List<FriendInfo> friendslist = client.Friends.FriendList.FindAll(delegate(FriendInfo friend) { return true; });
+            List<FriendInfo> friendslist = client.Friends.FriendList.FindAll((FriendInfo friend) => true);
 
             instance.State.AvatarFriends = friendslist;
 
@@ -157,9 +157,9 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
-                RemoveFriendFromAllGroups(e.AgentID.ToString()); 
+                RemoveFriendFromAllGroups(e.AgentID.ToString());
                 RefreshFriendsList();
             }));
         }
@@ -236,7 +236,7 @@ namespace MEGAbolt
                 return;
             }
 
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 try
                 {
@@ -245,7 +245,7 @@ namespace MEGAbolt
                         RefreshFriendsList();
                     }
                 }
-                catch { ; }
+                catch {; }
             }));
         }
 
@@ -316,15 +316,10 @@ namespace MEGAbolt
             float stringX = e.Bounds.Left + 4 + Properties.Resources.green_orb.Width;
             float stringY = e.Bounds.Top + 2 + ((Properties.Resources.green_orb.Height / 2) - (stringSize.Height / 2));
 
-            if (itemToDraw.Friend.IsOnline)
-            {
-                e.Graphics.DrawImage(Properties.Resources.green_orb, e.Bounds.Left + 2, e.Bounds.Top + 2);
-            }
-            else
-            {
-                e.Graphics.DrawImage(Properties.Resources.green_orb_off, e.Bounds.Left + 2, e.Bounds.Top + 2);
-            }
-            
+            e.Graphics.DrawImage(
+                itemToDraw.Friend.IsOnline ? Properties.Resources.green_orb : Properties.Resources.green_orb_off,
+                e.Bounds.Left + 2, e.Bounds.Top + 2);
+
             e.Graphics.DrawString(" " + itemToDraw.Friend.Name, textFont, textBrush, stringX, stringY);
 
             e.DrawFocusRectangle();
@@ -465,14 +460,7 @@ namespace MEGAbolt
         {
             lblGroupName.Text = lbGroups.SelectedItem.ToString();
 
-            if (lbGroups.SelectedIndex != -1)
-            {
-                textBox2.Visible = true;
-            }
-            else
-            {
-                textBox2.Visible = false;
-            }
+            textBox2.Visible = lbGroups.SelectedIndex != -1;
         }
 
         private void button1_Click_1(object sender, EventArgs e)

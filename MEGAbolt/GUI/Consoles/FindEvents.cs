@@ -82,7 +82,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     EventInf(matchedEvent);
                 }));
@@ -121,14 +121,7 @@ namespace MEGAbolt
 
             textBox8.Text = matchedEvent.SimName.ToString(CultureInfo.CurrentCulture) + "/" + fX.ToString(CultureInfo.CurrentCulture) + "/" + fY.ToString(CultureInfo.CurrentCulture) + "/" + fZ.ToString(CultureInfo.CurrentCulture);
 
-            if (matchedEvent.Cover == 0)
-            {
-                textBox9.Text = "none";
-            }
-            else
-            {
-                textBox9.Text = $"L${matchedEvent.Cover.ToString(CultureInfo.CurrentCulture)}";
-            }
+            textBox9.Text = matchedEvent.Cover == 0 ? "none" : $"L${matchedEvent.Cover.ToString(CultureInfo.CurrentCulture)}";
 
             textBox1.Text = matchedEvent.Desc;
         }
@@ -138,7 +131,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     EventsReply(qqueryID, matchedEvents);
                 }));

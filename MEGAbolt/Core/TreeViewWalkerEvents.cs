@@ -34,8 +34,7 @@ namespace MEGAbolt
         /// <param name="node">The node to be exposed by the event argument.</param>
         internal static ProcessNodeEventArgs CreateInstance(TreeNode node)
         {
-            if (instance == null)
-                instance = new ProcessNodeEventArgs();
+            instance ??= new ProcessNodeEventArgs();
 
             instance.Node = node;
             instance.ProcessDescendants = true;

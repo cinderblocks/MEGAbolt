@@ -125,7 +125,7 @@ namespace MEGAbolt.Controls
     public Popup(Control content)
     {
       Popup popup = this;
-      Content = content != null ? content : throw new ArgumentNullException(nameof (content));
+      Content = content ?? throw new ArgumentNullException(nameof (content));
       showingAnimation = PopupAnimations.SystemDefault;
       hidingAnimation = PopupAnimations.None;
       animationDuration = 100;
@@ -240,22 +240,24 @@ namespace MEGAbolt.Controls
 
     private void SetOwnerItem(Control control)
     {
-      if (control == null)
-        return;
-      if (control is Popup popup)
-      {
-          ownerPopup = popup;
-        ownerPopup.childPopup = this;
-        OwnerItem = popup.Items[0];
-      }
-      else
-      {
-        if (opener == null)
-          opener = control;
-        if (control.Parent == null)
-          return;
-        SetOwnerItem(control.Parent);
-      }
+        switch (control)
+        {
+            case null:
+                return;
+            case Popup popup:
+                ownerPopup = popup;
+                ownerPopup.childPopup = this;
+                OwnerItem = popup.Items[0];
+                break;
+            default:
+            {
+                opener ??= control;
+                if (control.Parent == null)
+                    return;
+                SetOwnerItem(control.Parent);
+                break;
+            }
+        }
     }
 
     protected override void OnSizeChanged(EventArgs e)
@@ -311,7 +313,7 @@ namespace MEGAbolt.Controls
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     private bool InternalProcessResizing(ref Message m, bool contentControl)
     {
-      if (m.Msg == 134 && m.WParam != IntPtr.Zero && childPopup != null && childPopup.Visible)
+      if (m.Msg == 134 && m.WParam != IntPtr.Zero && childPopup is { Visible: true })
         childPopup.Hide();
       if (!Resizable)
         return false;
@@ -388,42 +390,39 @@ namespace MEGAbolt.Controls
       if (e == null || e.Graphics == null || !resizable)
         return;
       Size clientSize = Content.ClientSize;
-      using (Bitmap bitmap = new Bitmap(16, 16))
+      using Bitmap bitmap = new Bitmap(16, 16);
+      using (Graphics graphics = Graphics.FromImage(bitmap))
       {
-        using (Graphics graphics = Graphics.FromImage(bitmap))
-        {
           if (Application.RenderWithVisualStyles)
           {
-            if (sizeGripRenderer == null)
-              sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
-            sizeGripRenderer.DrawBackground(graphics, new Rectangle(0, 0, 16, 16));
+              sizeGripRenderer ??= new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
+              sizeGripRenderer.DrawBackground(graphics, new Rectangle(0, 0, 16, 16));
           }
           else
-            ControlPaint.DrawSizeGrip(graphics, Content.BackColor, 0, 0, 16, 16);
-        }
-        GraphicsState gstate = e.Graphics.Save();
-        e.Graphics.ResetTransform();
-        if (resizableTop)
-        {
+              ControlPaint.DrawSizeGrip(graphics, Content.BackColor, 0, 0, 16, 16);
+      }
+      GraphicsState gstate = e.Graphics.Save();
+      e.Graphics.ResetTransform();
+      if (resizableTop)
+      {
           if (resizableLeft)
           {
-            e.Graphics.RotateTransform(180f);
-            e.Graphics.TranslateTransform(-clientSize.Width, -clientSize.Height);
+              e.Graphics.RotateTransform(180f);
+              e.Graphics.TranslateTransform(-clientSize.Width, -clientSize.Height);
           }
           else
           {
-            e.Graphics.ScaleTransform(1f, -1f);
-            e.Graphics.TranslateTransform(0.0f, -clientSize.Height);
+              e.Graphics.ScaleTransform(1f, -1f);
+              e.Graphics.TranslateTransform(0.0f, -clientSize.Height);
           }
-        }
-        else if (resizableLeft)
-        {
+      }
+      else if (resizableLeft)
+      {
           e.Graphics.ScaleTransform(-1f, 1f);
           e.Graphics.TranslateTransform(-clientSize.Width, 0.0f);
-        }
-        e.Graphics.DrawImage(bitmap, clientSize.Width - 16, clientSize.Height - 16 + 1, 16, 16);
-        e.Graphics.Restore(gstate);
       }
+      e.Graphics.DrawImage(bitmap, clientSize.Width - 16, clientSize.Height - 16 + 1, 16, 16);
+      e.Graphics.Restore(gstate);
     }
   }
 }

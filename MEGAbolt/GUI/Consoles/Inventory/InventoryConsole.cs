@@ -131,7 +131,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Inventory_OnItemReceived(sender, e);
                 }));
@@ -154,7 +154,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     ReceivedInventoryItem(item);
                 }));
@@ -215,7 +215,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
 
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Inventory_OnAppearanceSet(sender, e);
                 }));
@@ -317,7 +317,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Inventory_OnFolderUpdated(sender, e);
                 }));
@@ -879,7 +879,7 @@ namespace MEGAbolt
 
             client.Inventory.RequestCreateItem(folder.UUID,
                     notecardName, notecardDescription, AssetType.Notecard, UUID.Random(), InventoryType.Notecard, PermissionMask.All,
-                    delegate(bool success, InventoryItem nitem)
+                    (success, nitem) =>
                     {
                         if (success) // upload the asset
                         {
@@ -984,7 +984,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     FindRecursive(treeNode);
                 }));
@@ -1577,7 +1577,7 @@ namespace MEGAbolt
 
             client.Inventory.RequestCreateItem(folder.UUID,
                     scriptName, scriptDescription, AssetType.LSLText, UUID.Random(), InventoryType.LSL, PermissionMask.All,
-                    delegate(bool success, InventoryItem nitem)
+                    (success, nitem) =>
                     {
                         if (success) // upload the asset
                         {

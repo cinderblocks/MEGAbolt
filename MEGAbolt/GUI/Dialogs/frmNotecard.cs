@@ -74,54 +74,13 @@ namespace MEGAbolt
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            if (tsChkCase.Checked)
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, true, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, true, false);
-                }
-            }
-            else
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, false, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, false, false);
-                }
-            }
+            rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, false, tsChkCase.Checked,
+                tsChkWord.Checked);
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            if (tsChkCase.Checked)
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, true, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, true, false);
-                }
-            }
-            else
-            {
-                if (tsChkWord.Checked)
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, false, true);
-                }
-                else
-                {
-                    rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, false, false);
-                }
-            }
+            rtbNotecard.FindAndReplace(tsFindText.Text, tsReplaceText.Text, true, tsChkCase.Checked, tsChkWord.Checked);
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)

@@ -217,7 +217,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     Assets_OnAssetReceived(transfer, asset);
                 }
@@ -260,7 +260,7 @@ namespace MEGAbolt
 
         private void Inventory_ScriptRunningReply(object sender, ScriptRunningReplyEventArgs e)
         {
-            BeginInvoke(new MethodInvoker(delegate()
+            BeginInvoke(new MethodInvoker(() =>
             {
                 checkBox1.Checked = e.IsMono;
                 checkBox2.Checked = e.IsRunning;
@@ -275,7 +275,7 @@ namespace MEGAbolt
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate()
+                BeginInvoke(new MethodInvoker(() =>
                 {
                     SetScriptText(text, readOnly);
                 }));

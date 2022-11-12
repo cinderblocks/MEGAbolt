@@ -140,7 +140,7 @@ namespace MEGAbolt
 
             if (item.CreatorID == client.Self.AgentID)
             {
-                btnSave.Click += delegate(object sender, EventArgs e)
+                btnSave.Click += (sender, e) =>
                 {
                     if (sfdImage.ShowDialog() == DialogResult.OK)
                     {
