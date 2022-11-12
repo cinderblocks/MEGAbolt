@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MEGAbolt", "MEGAbolt\MEGAbolt.csproj", "{A6D955CD-1F55-459F-A7AD-01E591404989}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SamplePluginApp", "SamplePl
 		{C8B40AE0-71AE-4F96-90DE-705D23F1857D} = {C8B40AE0-71AE-4F96-90DE-705D23F1857D}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MD5library", "MD5library\MD5library.csproj", "{C8B40AE0-71AE-4F96-90DE-705D23F1857D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MEGAcrypto", "MD5library\MEGAcrypto.csproj", "{C8B40AE0-71AE-4F96-90DE-705D23F1857D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MEGAx", "MEGAx\MEGAx.csproj", "{8915D4B9-62BA-4C56-BA79-4A07FB938F8C}"
 EndProject

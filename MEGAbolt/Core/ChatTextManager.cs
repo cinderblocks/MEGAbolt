@@ -27,7 +27,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenMetaverse;
-using MD5library;
+using MEGAcrypto;
 using System.Timers;
 using System.Globalization;
 using System.Reflection;

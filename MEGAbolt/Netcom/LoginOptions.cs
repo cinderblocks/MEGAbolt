@@ -34,8 +34,8 @@ namespace MEGAbolt.NetworkComm
     public class LoginOptions
     {
         /// <summary>
-        /// Method for generating a stupid Second Life password hash. 
-        /// That is to say MD5 hash with input truncated at 16 characters.
+        /// Method for generating a stupid Second Life password hash.
+        /// That is to say a password truncated to 16 char hashed with MD5 and in hexadecimal format prefixed with '$1$'
         /// </summary>
         /// <param name="password">Password to hash</param>
         /// <returns>MD5 sum of password</returns>

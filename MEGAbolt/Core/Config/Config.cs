@@ -23,7 +23,7 @@ using OpenMetaverse;
 using Nini.Config;
 using System.Windows.Forms;
 using System.Drawing;
-using MD5library;
+using MEGAcrypto;
 using System.IO;
 using System.Globalization;
 

@@ -1,7 +1,7 @@
 /*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2022, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
 using MEGAbolt.NetworkComm;
-using MD5library;
+using MEGAcrypto;
 using System.Linq;
 using System.Threading;
 using System.Globalization;
@@ -41,8 +41,6 @@ namespace MEGAbolt
         private readonly MEGAboltInstance instance;
         private readonly MEGAboltNetcom netcom;
         private readonly GridClient client;
-        private string murl;
-        private string clickedurl = string.Empty;
         private Dictionary<string, string> MGrids = new();
         private readonly List<string> usernlist = new List<string>();
 
@@ -71,20 +69,10 @@ namespace MEGAbolt
             client = this.instance.Client;
             AddNetcomEvents();
 
-            //while (!IsHandleCreated)
-            //{
-            //    // Force handle creation
-            //    IntPtr temp = Handle;
-            //}
-
-            ////btnInfo_Click();
-            //if (webBrowser == null)
-            //    this.InitializeWebBrowser();
-
             WebView_Initialize();
             
             //btnInfo.Text = "Hide Grid Status";
-            label7.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version}"; 
+            labelVersion.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version}";
 
             Disposed += MainConsole_Disposed;
 
@@ -143,7 +131,7 @@ namespace MEGAbolt
 
             foreach (KeyValuePair<string, string> entry in MGrids)
             {
-                cbxGrid.Items.Add(entry.Key);  
+                cbxGrid.Items.Add(entry.Key);
             } 
 
             cbxGrid.Items.Add("Other...");
@@ -164,10 +152,10 @@ namespace MEGAbolt
 
             if (ulist.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
             {
-                ulist = ulist.Substring(0, ulist.Length - 1);   
+                ulist = ulist.Substring(0, ulist.Length - 1);
             }
 
-            instance.Config.CurrentConfig.UserNameList = ulist; 
+            instance.Config.CurrentConfig.UserNameList = ulist;
 
             instance.Config.CurrentConfig.iRemPWD = chkPWD.Checked;
 
@@ -180,7 +168,7 @@ namespace MEGAbolt
             instance.Config.CurrentConfig.LoginGrid = cbxGrid.SelectedIndex;
             instance.Config.CurrentConfig.LoginUri = txtCustomLoginUri.Text;
 
-            instance.Config.SaveCurrentConfig();  
+            instance.Config.SaveCurrentConfig();
         }
 
         private void AddNetcomEvents()
@@ -229,9 +217,8 @@ namespace MEGAbolt
                 {
                     string[] llist1 = s.Split('\\');
                     usernlist.Add(s);
-                    //cboUserList.Items.Add(s);
 
-                    string epwd = string.Empty;  
+                    string epwd = string.Empty;
 
                     if (llist1.Length == 2)
                     {
@@ -247,7 +234,7 @@ namespace MEGAbolt
                             }
                             catch
                             {
-                                epwd = string.Empty;  
+                                epwd = string.Empty;
                             }
                         }
 
@@ -280,9 +267,8 @@ namespace MEGAbolt
             if (instance.ReBooted)
             {
                 BeginLogin();
-                //btnLogin.PerformClick();
                 timer2.Enabled = true;
-                timer2.Start(); 
+                timer2.Start();
             }
         }
 
@@ -315,7 +301,7 @@ namespace MEGAbolt
                     case LoginStatus.Success:
                         //SetLang();
 
-                        lblLoginStatus.Text = "Logged in as " + netcom.LoginOptions.FullName;
+                        lblLoginStatus.Text = $"Logged in as {netcom.LoginOptions.FullName}";
                         lblLoginStatus.ForeColor = Color.Blue;
      
                         string uname = client.Self.Name + "\\";
@@ -503,7 +489,8 @@ namespace MEGAbolt
                             if (txtCustomLoginUri.TextLength == 0 ||
                                 txtCustomLoginUri.Text.Trim().Length == 0)
                             {
-                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.", 
+                                    "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
 

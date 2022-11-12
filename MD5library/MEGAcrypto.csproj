@@ -2,8 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
 	<OutputType>Library</OutputType>
-	<AssemblyTitle>MD5library</AssemblyTitle>
-    <Product>MD5library</Product>
+	<AssemblyTitle>MEGAcrypto</AssemblyTitle>
     <Platforms>AnyCPU;x64;x86</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<OutputPath>..\bin\$(Configuration)\</OutputPath>

@@ -715,7 +715,7 @@
     <EmbeddedResource Include="Spelling\tr-TR.dic" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MD5library\MD5library.csproj" />
+    <ProjectReference Include="..\MD5library\MEGAcrypto.csproj" />
     <ProjectReference Include="..\MEGAx\MEGAx.csproj" />
   </ItemGroup>
   <Import Project="AutogenerateFiles.targets" />

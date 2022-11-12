@@ -31,7 +31,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MD5library
+namespace MEGAcrypto
 {
     public class Crypto
     {

@@ -32,7 +32,7 @@ using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MD5library
+namespace MEGAcrypto
 {
     public class MEGAMD5
     {

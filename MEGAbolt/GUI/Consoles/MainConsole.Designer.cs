@@ -51,7 +51,7 @@ namespace MEGAbolt
             this.cbxLocation = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelVersion = new System.Windows.Forms.Label();
             this.WebView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.pnlLoggingIn.SuspendLayout();
             this.pnlLoginPrompt.SuspendLayout();
@@ -154,10 +154,11 @@ namespace MEGAbolt
             // 
             // txtFirstName
             // 
-            this.txtFirstName.AccessibleDescription = "Enter your SL login first name";
+            this.txtFirstName.AccessibleDescription = "Enter your account\'s first name";
             this.txtFirstName.AccessibleName = "First Name";
             this.txtFirstName.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtFirstName.Location = new System.Drawing.Point(6, 16);
+            this.txtFirstName.MaxLength = 64;
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.txtFirstName.Size = new System.Drawing.Size(174, 21);
@@ -176,8 +177,11 @@ namespace MEGAbolt
             this.cboUserList.Size = new System.Drawing.Size(191, 21);
             this.cboUserList.TabIndex = 15;
             this.cboUserList.SelectedIndexChanged += new System.EventHandler(this.cboUserList_SelectedIndexChanged);
+            // 
+            // chkCmd
+            // 
             this.chkCmd.AccessibleDescription = "Option to create a BAT file for the avatar you are logging in with next time you " +
-                                                "start MEGAbolt";
+    "start MEGAbolt";
             this.chkCmd.AccessibleName = "Create BAT file";
             this.chkCmd.AutoSize = true;
             this.chkCmd.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
@@ -224,6 +228,7 @@ namespace MEGAbolt
             this.txtCustomLoginUri.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtCustomLoginUri.Enabled = false;
             this.txtCustomLoginUri.Location = new System.Drawing.Point(326, 70);
+            this.txtCustomLoginUri.MaxLength = 256;
             this.txtCustomLoginUri.Name = "txtCustomLoginUri";
             this.txtCustomLoginUri.Size = new System.Drawing.Size(224, 21);
             this.txtCustomLoginUri.TabIndex = 8;
@@ -276,10 +281,11 @@ namespace MEGAbolt
             // 
             // txtLastName
             // 
-            this.txtLastName.AccessibleDescription = "Enter your SL login last name";
+            this.txtLastName.AccessibleDescription = "Enter your account\'s last name";
             this.txtLastName.AccessibleName = "Last name";
             this.txtLastName.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtLastName.Location = new System.Drawing.Point(203, 16);
+            this.txtLastName.MaxLength = 64;
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(164, 21);
             this.txtLastName.TabIndex = 2;
@@ -298,10 +304,11 @@ namespace MEGAbolt
             // 
             // txtPassword
             // 
-            this.txtPassword.AccessibleDescription = "Ebter your SL password";
+            this.txtPassword.AccessibleDescription = "Enter your account password";
             this.txtPassword.AccessibleName = "Password";
             this.txtPassword.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtPassword.Location = new System.Drawing.Point(373, 16);
+            this.txtPassword.MaxLength = 128;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(177, 21);
             this.txtPassword.TabIndex = 3;
@@ -339,20 +346,21 @@ namespace MEGAbolt
             this.timer2.Interval = 305000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // label7
+            // labelVersion
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Tahoma", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label7.Location = new System.Drawing.Point(4, 365);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(42, 12);
-            this.label7.TabIndex = 18;
-            this.label7.Text = "version";
+            this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelVersion.AutoSize = true;
+            this.labelVersion.Font = new System.Drawing.Font("Tahoma", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelVersion.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.labelVersion.Location = new System.Drawing.Point(4, 365);
+            this.labelVersion.Name = "labelVersion";
+            this.labelVersion.Size = new System.Drawing.Size(42, 12);
+            this.labelVersion.TabIndex = 18;
+            this.labelVersion.Text = "version";
             // 
             // WebView
             // 
+            this.WebView.AllowExternalDrop = true;
             this.WebView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -364,7 +372,6 @@ namespace MEGAbolt
             this.WebView.Size = new System.Drawing.Size(676, 368);
             this.WebView.TabIndex = 0;
             this.WebView.ZoomFactor = 1D;
-            this.WebView.NavigationCompleted += this.WebView_NavigationCompleted;
             // 
             // MainConsole
             // 
@@ -375,7 +382,7 @@ namespace MEGAbolt
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Controls.Add(this.WebView);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.pnlLoginPrompt);
             this.Controls.Add(this.pnlLoggingIn);
             this.Controls.Add(this.btnLogin);
@@ -417,7 +424,7 @@ namespace MEGAbolt
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelVersion;
         private Microsoft.Web.WebView2.WinForms.WebView2 WebView;
     }
 }
