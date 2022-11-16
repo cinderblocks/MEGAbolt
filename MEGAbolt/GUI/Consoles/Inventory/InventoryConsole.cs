@@ -168,11 +168,7 @@ namespace MEGAbolt
 
                 InventoryBase io = item;
 
-                if (io is InventoryFolder)
-                {
-                    // do nothing
-                }
-                else
+                if (io is not InventoryFolder)
                 {
                     if (item.ParentUUID != UUID.Zero)
                     {
@@ -193,11 +189,7 @@ namespace MEGAbolt
 
             var io = e.Obj;
 
-            if (io is InventoryFolder)
-            {
-                // do nothing
-            }
-            else
+            if (io is not InventoryFolder)
             {
                 if (e.Obj.ParentUUID != UUID.Zero)
                 {
@@ -250,9 +242,7 @@ namespace MEGAbolt
 
         private void GetRoots()
         {
-            var invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
-
-            foreach (var o in invroot)
+            foreach (var o in client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID))
             {
                 if (o.Name.ToLower(CultureInfo.CurrentCulture) == "current outfit")
                 {
@@ -352,10 +342,13 @@ namespace MEGAbolt
 
         public void UpdateFolder(UUID folderID)
         {
-            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { UpdateFolder(folderID); });
+            if (InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)delegate { UpdateFolder(folderID); });
+            }
             else
             {
-                if (searching) return;
+                if (searching) { return; }
 
                 if (folderID == UUID.Zero)
                 {
@@ -814,7 +807,8 @@ namespace MEGAbolt
                         }
                     }
 
-                    if (io.ParentUUID == instance.CoF.UUID)
+                    if (io != null && instance.CoF != null 
+                                   && io.ParentUUID == instance.CoF.UUID)
                     {
                         tbtnNew.Enabled = false;
                         tbtnOrganize.Enabled = false;
@@ -1144,7 +1138,10 @@ namespace MEGAbolt
 
         public void RefreshInventory()
         {
-            if (InvokeRequired) BeginInvoke((MethodInvoker)RefreshInventory);
+            if (InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)RefreshInventory);
+            }
             else
             {
                 var node = treeView1.SelectedNode;
@@ -1170,10 +1167,13 @@ namespace MEGAbolt
 
                 //client.Inventory.RequestFolderContents(folder.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate);
 
-                UpdateFolder(folder.UUID);
-                treeView1.SelectedNode = node;
-                treeView1.HideSelection = false;
-                treeView1.SelectedNode.EnsureVisible();
+                if (folder != null)
+                {
+                    UpdateFolder(folder.UUID);
+                    treeView1.SelectedNode = node;
+                    treeView1.HideSelection = false;
+                    treeView1.SelectedNode?.EnsureVisible();
+                }
             }
         }
 
@@ -1935,7 +1935,9 @@ namespace MEGAbolt
 
         private void treeViewWalker_ProcessNode_HighlightMatchingNodes(object sender, ProcessNodeEventArgs e)
         {
-            if (e.Node.Text.ToLower(CultureInfo.CurrentCulture).IndexOf(textBox1.Text.ToLower(CultureInfo.CurrentCulture), StringComparison.CurrentCultureIgnoreCase) > -1)
+            if (e.Node.Text.ToLower(CultureInfo.CurrentCulture).IndexOf(
+                    textBox1.Text.ToLower(CultureInfo.CurrentCulture),
+                    StringComparison.CurrentCultureIgnoreCase) > -1)
             {
                 e.Node.BackColor = Color.Yellow;
                 e.Node.ForeColor = Color.Red;

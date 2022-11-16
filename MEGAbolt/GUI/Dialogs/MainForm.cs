@@ -34,6 +34,7 @@ using System.IO;
 using MEGAx;
 using MEGAxCommon;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using NetSparkleUpdater;
@@ -2033,15 +2034,12 @@ namespace MEGAbolt
                         {
                             List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
-                            foreach (InventoryBase o in invroot)
+                            foreach (var o in invroot.Where(
+                                         o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites" 
+                                              || o.Name.ToLower(CultureInfo.CurrentCulture) == "my favorites")
+                                         .OfType<InventoryFolder>())
                             {
-                                if (o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites" || o.Name.ToLower(CultureInfo.CurrentCulture) == "my favorites")
-                                {
-                                    if (o is InventoryFolder)
-                                    {
-                                        client.Inventory.RequestFolderContents(o.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate);
-                                    }
-                                }
+                                client.Inventory.RequestFolderContents(o.UUID, client.Self.AgentID, true, true, InventorySortOrder.ByDate);
                             }
                         }
                     }

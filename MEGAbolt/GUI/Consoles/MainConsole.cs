@@ -114,12 +114,12 @@ namespace MEGAbolt
 
         static void CreateGridFile()
         {
-            StreamWriter SW;
+            StreamWriter stream;
 
-            SW = File.CreateText(DataFolder.GetDataFolder() + "\\Grids.txt");
-            SW.WriteLine("OSGrid,http://login.osgrid.org");
+            stream = File.CreateText(DataFolder.GetDataFolder() + "\\Grids.txt");
+            stream.WriteLine("OSGrid,http://login.osgrid.org");
 
-            SW.Dispose();
+            stream.Dispose();
         }
 
         private void InitGridCombo()
