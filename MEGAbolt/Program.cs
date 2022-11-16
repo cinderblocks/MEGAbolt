@@ -40,7 +40,7 @@ namespace MEGAbolt
             {
                 if (args.Length != 3)
                 {
-                    MessageBox.Show("Command line usage: metabolt.exe [firstname] [lastname] [password]","MEGAbolt",
+                    MessageBox.Show("Command line usage: megabolt.exe [firstname] [lastname] [password]","MEGAbolt",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     return;
