@@ -205,13 +205,6 @@ namespace MEGAbolt
                     config.DisableMipmaps = conf.Configs["MEGA3D"].GetBoolean("DisableMipmaps", false);
                 }
                 catch { ; }
-                                   
-                //config.TweeterName = conf.Configs["Twitter"].GetString("TweeterName", string.Empty);
-                //config.TweeterPwd = conf.Configs["Twitter"].GetString("TweeterPwd", string.Empty);
-                //config.EnableTweeter = conf.Configs["Twitter"].GetBoolean("EnableTweeter", false);
-                //config.EnableChatTweets = conf.Configs["Twitter"].GetBoolean("EnableChatTweets", false);
-                //config.Tweet = conf.Configs["Twitter"].GetBoolean("Tweet", false);
-                //config.TweeterUser = conf.Configs["Twitter"].GetString("TweeterUser", string.Empty);
 
                 config.PluginsToLoad = conf.Configs["LoadedPlugIns"].GetString("PluginsToLoad", string.Empty);
 
@@ -220,7 +213,6 @@ namespace MEGAbolt
                     if (!string.IsNullOrEmpty(epwd))
                     {
                         Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                        //string cpwd = cryp.Decrypting(epwd);
                         string cpwd = cryp.Decrypt(epwd);
 
                         config.PasswordMD5 = cpwd;
@@ -379,7 +371,6 @@ namespace MEGAbolt
                 if (!string.IsNullOrEmpty(epwd))
                 {
                     Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                    //string cpwd = cryp.Encrypting(epwd);
                     string cpwd = cryp.Encrypt(epwd);
 
                     config.Set("Password", cpwd);
