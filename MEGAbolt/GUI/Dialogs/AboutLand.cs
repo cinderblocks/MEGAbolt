@@ -50,13 +50,16 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
-                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    User = "cinder@cinderblocks.biz",
-                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
-                };
-                crashReporter.Post(e.Exception);
+                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                        Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                    {
+                        User = Generated.BugsplatUser,
+                        ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                    };
+                    crashReporter.Post(e.Exception);
+                }
             }
         }
 
@@ -1183,7 +1186,7 @@ namespace MEGAbolt
                     catch (Exception ex)
                     {
                         //MessageBox.Show(ex.Message);
-                        instance.CrashReporter.Post(ex);
+                        instance.CrashReporter?.Post(ex);
                     }
                 }
             }

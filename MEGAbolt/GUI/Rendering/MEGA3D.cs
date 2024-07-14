@@ -152,7 +152,7 @@ namespace MEGAbolt
             catch (Exception ex)
             {
                 //string exp = ex.Message;
-                Instance.CrashReporter.Post(ex);
+                Instance.CrashReporter?.Post(ex);
             }
 
             if (cancellationTokenSource != null)
@@ -1619,7 +1619,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Instance.CrashReporter.Post(ex);
+                Instance.CrashReporter?.Post(ex);
             }
         }
 

@@ -98,13 +98,16 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
-                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    User = "cinder@cinderblocks.biz",
-                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
-                };
-                crashReporter.Post(e.Exception);
+                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                        Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                    {
+                        User = Generated.BugsplatUser,
+                        ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                    };
+                    crashReporter.Post(e.Exception);
+                }
             }
         }
 
@@ -263,7 +266,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                instance.CrashReporter.Post(ex);
+                instance.CrashReporter?.Post(ex);
             }
         }
 
@@ -524,7 +527,7 @@ namespace MEGAbolt
             catch (Exception ex)
             {
                 //Logger.Log(ex.Message, Helpers.LogLevel.Error);
-                instance.CrashReporter.Post(ex);
+                instance.CrashReporter?.Post(ex);
             }
 
             client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
@@ -581,7 +584,7 @@ namespace MEGAbolt
                 }
                 catch (Exception ex)
                 {
-                    instance.CrashReporter.Post(ex);
+                    instance.CrashReporter?.Post(ex);
                 }
             }
         }

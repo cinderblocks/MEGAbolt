@@ -9,8 +9,10 @@
 	  <Using Namespace="System.IO" />
 	  <Code Type="Fragment" Language="cs">
 <![CDATA[
-var value = "$(BugsplatDatabase)";
-if (string.IsNullOrEmpty(value)) { value = ""; }
+var bsdatabase = "$(BugsplatDatabase)";
+if (string.IsNullOrEmpty(bsdatabase)) { bsdatabase = ""; }
+var bsuser = "$(BugsplatUser)";
+if (string.IsNullOrEmpty(bsuser)) { bsuser = ""; }
 
 string context = File.Exists(Filename) ? File.ReadAllText(Filename) : "";
 
@@ -23,7 +25,8 @@ sb.AppendLine("namespace MEGAbolt");
 sb.AppendLine("{");
 sb.AppendLine("    public static partial class Generated");
 sb.AppendLine("    {");
-sb.AppendLine($"       public static readonly string BugsplatDatabase = \"{value}\";");
+sb.AppendLine($"       public static readonly string BugsplatDatabase = \"{bsdatabase}\";");
+sb.AppendLine($"       public static readonly string BugsplatUser = \"{bsuser}\";");
 sb.AppendLine("    }");
 sb.AppendLine("} // namespace METAbolt");
 string output = sb.ToString();

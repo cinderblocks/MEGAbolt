@@ -12,6 +12,7 @@ environment:
     configuration: Release
 
   BugsplatDatabase: RadegastLife
+  BugsplatUser: cinder@cinderblocks.biz
   PfxDownloadUrl:
     secure: T8uKu+tTR2G7LDE1zPGNOi+prl4YaKXP6DOC5eU6A14FEQkd8PFR3nQ1WMwryphJ
   PfxDownloadPasswd:

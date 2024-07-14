@@ -73,7 +73,7 @@ namespace MEGAbolt
         public SafeDictionary<UUID, string> avnames = new SafeDictionary<UUID, string>();
         public SafeDictionary<UUID, string> avtags = new SafeDictionary<UUID, string>();
         public List<AvLocation> avlocations = new List<AvLocation>();
-        public BugSplat CrashReporter;
+        public BugSplat CrashReporter = null;
         public string appdir = DataFolder.GetDataFolder();
         public bool startfrombat = false;
         public InventoryConsole insconsole;
@@ -85,24 +85,30 @@ namespace MEGAbolt
         {
             public void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
             {
-                BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
-                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    User = "cinder@cinderblocks.biz",
-                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
-                };
-                crashReporter.Post(e.Exception);
+                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                        Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                    {
+                        User = Generated.BugsplatUser,
+                        ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                    };
+                    crashReporter.Post(e.Exception);
+                }
             }
         }
 
         public MEGAboltInstance(bool firstInstance)
         {
-            CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
-                Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+            if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
             {
-                User = "cinder@cinderblocks.biz",
-                ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
-            };
+                CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                {
+                    User = Generated.BugsplatUser,
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+            }
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Application.ApplicationExit += Application_ApplicationExit;
@@ -152,12 +158,15 @@ namespace MEGAbolt
 
         public MEGAboltInstance(bool firstInstance, string[] args)
         {
-            CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
-                Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+            if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
             {
-                User = "cinder@cinderblocks.biz",
-                ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
-            };
+                CrashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    Assembly.GetExecutingAssembly().GetName().Version?.ToString())
+                {
+                    User = Generated.BugsplatUser,
+                    ExceptionType = BugSplat.ExceptionTypeId.DotNetStandard
+                };
+            }
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Application.ApplicationExit += Application_ApplicationExit;

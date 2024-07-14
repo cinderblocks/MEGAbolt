@@ -46,7 +46,7 @@
 	<DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-	<BugsplatDatabase Condition="'$(BugsplatDatabase)' == ''"></BugsplatDatabase>
+	<BugsplatDatabase Condition="'$(BugsplatDatabase)' == ''">MEGAbolt</BugsplatDatabase>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CbtHook">
