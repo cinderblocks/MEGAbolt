@@ -22,9 +22,10 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using System.Globalization;
-using OpenJpegDotNet.IO;
+using SkiaSharp.Views.Desktop;
+using SkiaSharp;
+using CSJ2K;
 
 namespace MEGAbolt
 {
@@ -69,7 +70,6 @@ namespace MEGAbolt
         private byte[] LoadImage(string fileName)
         {
             string lowfilename = fileName.ToLower(CultureInfo.CurrentCulture);
-            Bitmap bitmap = null;
 
             try
             {
@@ -78,31 +78,26 @@ namespace MEGAbolt
 
                     // Upload JPEG2000 images untouched
                     ImgUp = System.IO.File.ReadAllBytes(fileName);
-
-                    using var reader = new Reader(ImgUp);
-                    reader.ReadHeader();
-                    reader.DecodeToBitmap();
                 }
                 else
                 {
+                    SKBitmap bitmap;
                     if (lowfilename.EndsWith(".tga", StringComparison.CurrentCultureIgnoreCase))
-                        bitmap = LoadTGAClass.LoadTGA(fileName);
+                    {
+                        bitmap = OpenMetaverse.Imaging.Targa.Decode(fileName);
+                    }
                     else
-                        bitmap = (Bitmap)Image.FromFile(fileName);
-
+                    {
+                        bitmap = SKBitmap.Decode(fileName);
+                    }
                     int oldwidth = bitmap.Width;
                     int oldheight = bitmap.Height;
 
                     if (!IsPowerOfTwo((uint)oldwidth) || !IsPowerOfTwo((uint)oldheight))
                     {
-                        Bitmap resized = new Bitmap(256, 256, bitmap.PixelFormat);
-                        Graphics graphics = Graphics.FromImage(resized);
-
-                        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                        graphics.InterpolationMode =
-                           System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                        graphics.DrawImage(bitmap, 0, 0, 256, 256);
-
+                        var info = new SKImageInfo(256, 256);
+                        var resized = new SKBitmap(info);
+                        bitmap.ScalePixels(resized, SKFilterQuality.High);
                         bitmap.Dispose();
                         bitmap = resized;
 
@@ -116,19 +111,13 @@ namespace MEGAbolt
                         int newwidth = (oldwidth > 1024) ? 1024 : oldwidth;
                         int newheight = (oldheight > 1024) ? 1024 : oldheight;
 
-                        Bitmap resized = new Bitmap(newwidth, newheight, bitmap.PixelFormat);
-                        Graphics graphics = Graphics.FromImage(resized);
-
-                        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                        graphics.DrawImage(bitmap, 0, 0, newwidth, newheight);
-
+                        var info = new SKImageInfo(newwidth, newheight);
+                        var resized = new SKBitmap(info);
+                        bitmap.ScalePixels(resized, SKFilterQuality.High);
                         bitmap.Dispose();
                         bitmap = resized;
                     }
-
-                    using var writer = new Writer(bitmap);
-                    ImgUp = writer.Encode();
+                    ImgUp = J2kImage.ToBytes(J2kImage.CreateEncodableSource(bitmap));
                 }
             }
             catch (Exception ex)

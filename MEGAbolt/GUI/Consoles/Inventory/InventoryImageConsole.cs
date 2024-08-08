@@ -22,9 +22,13 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using CSJ2K;
+
 //using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt
 {
@@ -73,10 +77,9 @@ namespace MEGAbolt
 
             Image sImage = null;
 
-            using (OpenJpegDotNet.IO.Reader reader = new(texture.AssetData))
+            using (var img = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
             {
-                reader.ReadHeader();
-                sImage = reader.DecodeToBitmap();
+                sImage = img.ToBitmap();
             }
 
             if (sImage == null)

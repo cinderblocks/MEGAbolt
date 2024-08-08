@@ -26,7 +26,9 @@ using OpenMetaverse;
 using OpenMetaverse.Assets;
 using System.Web;
 using System.Globalization;
-using OpenJpegDotNet.IO;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt
 {
@@ -190,14 +192,11 @@ namespace MEGAbolt
 
             try
             {
-                using var reader = new Reader(texture.AssetData);
-                reader.ReadHeader();
-                Image bitmap = reader.DecodeToBitmap();
-
-                BeginInvoke(new MethodInvoker(() =>
+                using (var skmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
                 {
-                    picInsignia.Image = bitmap;
-                }));
+                    var bitmap = skmap.ToBitmap();
+                    BeginInvoke(new MethodInvoker(() => { picInsignia.Image = bitmap; }));
+                }
             }
             catch (Exception ex)
             {

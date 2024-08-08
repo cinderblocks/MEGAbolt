@@ -37,6 +37,9 @@ using BugSplatDotNetStandard;
 using OpenTK.WinForms;
 
 using Matrix4 = OpenTK.Mathematics.Matrix4;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt
 {
@@ -697,9 +700,9 @@ namespace MEGAbolt
 
                     if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
                     {
-                        Bitmap bitmap = (Bitmap)item.Data.TextureInfo.Texture;
+                        Bitmap bitmap = item.Data.TextureInfo.Texture.ToBitmap();
 
-                        bool hasAlpha = item.Data.TextureInfo.Texture.PixelFormat 
+                        bool hasAlpha = bitmap.PixelFormat 
                             is System.Drawing.Imaging.PixelFormat.Format32bppArgb 
                             or System.Drawing.Imaging.PixelFormat.Format32bppPArgb 
                             or System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
@@ -1051,10 +1054,10 @@ namespace MEGAbolt
                     if (prim.Sculpt.Type != SculptType.Mesh)
                     {
                         // Regular sculptie
-                        Image img = null;
+                        SKBitmap img = null;
                         if (!LoadTexture(prim.Sculpt.SculptTexture, ref img, true))
                             return;
-                        mesh = renderer.GenerateFacetedSculptMesh(prim, (Bitmap)img, DetailLevel.Highest);
+                        mesh = renderer.GenerateFacetedSculptMesh(prim, img, DetailLevel.Highest);
                     }
                     else
                     {
@@ -1163,12 +1166,12 @@ namespace MEGAbolt
             GLInvalidate();
         }
 
-        private bool LoadTexture(UUID textureID, ref Image texture, bool removeAlpha)
+        private bool LoadTexture(UUID textureID, ref SKBitmap texture, bool removeAlpha)
         {
             if (textureID == UUID.Zero) return false;
 
             ManualResetEvent gotImage = new(false);
-            Image img = null;
+            SKBitmap img = null;
 
             try
             {
@@ -1179,23 +1182,7 @@ namespace MEGAbolt
                         {
                             if (state == TextureRequestState.Finished)
                             {
-                                // what the fk is going on here? lol
-                                using (var reader = new OpenJpegDotNet.IO.Reader(assetTexture.AssetData))
-                                {
-                                    if (!reader.ReadHeader())
-                                    {
-                                        throw new Exception("Failed to decode texture header " + assetTexture.AssetID);
-                                    }
-
-                                    try
-                                    {
-                                        img = reader.Decode().ToBitmap(!removeAlpha);
-                                    }
-                                    catch (NotSupportedException)
-                                    {
-                                        img = null;
-                                    }
-                                }    
+                                img = J2kImage.FromBytes(assetTexture.AssetData).As<SKBitmap>();
                             }
                         }
                         finally

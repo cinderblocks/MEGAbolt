@@ -32,7 +32,9 @@ using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.WinForms;
-using OpenJpegDotNet.IO;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 
 namespace MEGAbolt
@@ -341,26 +343,28 @@ namespace MEGAbolt
             {
                 if (texture.AssetID != PickImageID) return;
 
-                using var reader = new Reader(texture.AssetData);
-                reader.ReadHeader();
-                Image decodedImage = reader.DecodeToBitmap();
-
-                if (decodedImage != null)
+                using (var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
                 {
-                    BeginInvoke(new MethodInvoker(() =>
+                    var decodedImage = bitmap.ToBitmap();
+                    if (decodedImage != null)
                     {
-                        pictureBox1.Image = decodedImage;
-                        loadwait2.Visible = false;
-                    }));
+                        BeginInvoke(new MethodInvoker(() =>
+                        {
+                            pictureBox1.Image = decodedImage;
+                            loadwait2.Visible = false;
+                        }));
 
-                    instance.ImageCache.AddImage(texture.AssetID, decodedImage);
-                }
+                        instance.ImageCache.AddImage(texture.AssetID, decodedImage);
+                    }
+                }                
             }
             else
             {
-                using var reader = new Reader(texture.AssetData);
-                reader.ReadHeader();
-                Image decodedImage = reader.DecodeToBitmap();
+                Image decodedImage = null;
+                using (var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
+                {
+                   decodedImage = bitmap.ToBitmap();
+                }
 
                 if (decodedImage == null)
                 {

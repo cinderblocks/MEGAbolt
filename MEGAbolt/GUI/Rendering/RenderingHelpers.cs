@@ -22,13 +22,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.IO.Compression;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
+using SkiaSharp;
 
 namespace MEGAbolt.Rendering
 {
@@ -53,7 +53,7 @@ namespace MEGAbolt.Rendering
 
     public class TextureInfo
     {
-        public Image Texture;
+        public SKBitmap Texture;
         public int TexturePointer;
         public bool HasAlpha;
         public bool FullAlpha;

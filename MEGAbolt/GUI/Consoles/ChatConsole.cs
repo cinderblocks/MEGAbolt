@@ -37,8 +37,10 @@ using MEGAbolt.Controls;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
-using OpenJpegDotNet.IO;
 using WeCantSpell.Hunspell;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt
 {
@@ -2226,11 +2228,8 @@ namespace MEGAbolt
         {
             if (texture.AssetID != _MapImageID) return;
 
-            using (Reader reader = new(texture.AssetData))
-            {
-                reader.ReadHeader();
-                _MapLayer = reader.Decode().ToBitmap();
-            }
+            var img = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>();
+            _MapLayer = img.ToBitmap();
 
             BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(sim); });
         }

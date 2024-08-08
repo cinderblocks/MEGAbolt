@@ -32,7 +32,9 @@ using System.Globalization;
 using System.Reflection;
 using System.Web;
 using BugSplatDotNetStandard;
-using OpenJpegDotNet.IO;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 
 namespace MEGAbolt
@@ -540,9 +542,10 @@ namespace MEGAbolt
                         {
                             if (state is not (TextureRequestState.Timeout or TextureRequestState.NotFound))
                             {
-                                using var reader = new Reader(assetTexture.AssetData);
-                                reader.ReadHeader();
-                                picInsignia.Image = reader.DecodeToBitmap();
+                                using (var image = J2kImage.FromBytes(assetTexture.AssetData).As<SKBitmap>())
+                                {
+                                    picInsignia.Image = image.ToBitmap();
+                                }
                                 UpdateInsigniaProgressText("Progress...");
                             }
                             if (state == TextureRequestState.Finished)

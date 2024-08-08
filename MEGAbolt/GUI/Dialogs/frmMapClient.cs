@@ -30,7 +30,9 @@ using System.Threading;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
-using OpenJpegDotNet.IO;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 /* Some of this code has been borrowed from the libsecondlife GUI */
 
@@ -113,9 +115,10 @@ namespace MEGAbolt
         {
             if (texture.AssetID != _MapImageID) { return; }
 
-            using var reader = new Reader(texture.AssetData);
-            reader.ReadHeader();
-            _MapLayer = reader.DecodeToBitmap();
+            using (var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
+            {
+                _MapLayer = bitmap.ToBitmap();
+            }
                 
             BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(sim); });
         }

@@ -23,7 +23,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
+using CSJ2K;
 using OpenMetaverse;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt.Rendering
 {
@@ -298,16 +301,9 @@ namespace MEGAbolt.Rendering
             {
                 if (state == TextureRequestState.Finished && assetTexture?.AssetData != null)
                 {
-                    using (var reader = new OpenJpegDotNet.IO.Reader(assetTexture.AssetData))
+                    using (var image = J2kImage.FromBytes(assetTexture.AssetData).As<SKBitmap>())
                     {
-                        if (reader.ReadHeader())
-                        {
-                            detailTexture[i] = reader.DecodeToBitmap();
-                        }
-                        else
-                        {
-                            throw new Exception("Cannot read J2K header");
-                        }
+                        detailTexture[i] = image.ToBitmap();
                     }
                 }
                 textureDone.Set();

@@ -19,7 +19,9 @@
  */
 
 using System.Drawing;
-using OpenJpegDotNet.IO;
+using CSJ2K;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt
 {
@@ -27,9 +29,10 @@ namespace MEGAbolt
     {
         public static Image Decode(byte[] j2cdata)
         {
-            using Reader reader = new Reader(j2cdata);
-            reader.ReadHeader();
-            return reader.DecodeToBitmap();
+            using (var bitmap = J2kImage.FromBytes(j2cdata).As<SKBitmap>())
+            {
+                return bitmap.ToBitmap();
+            }
         }
     }
 }
