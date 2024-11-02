@@ -32,7 +32,7 @@ using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.WinForms;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 

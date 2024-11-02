@@ -32,7 +32,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Web;
 using BugSplatDotNetStandard;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 

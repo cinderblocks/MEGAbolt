@@ -19,7 +19,7 @@
  */
 
 using System.Drawing;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 

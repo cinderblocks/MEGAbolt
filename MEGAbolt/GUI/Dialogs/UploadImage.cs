@@ -25,7 +25,7 @@ using OpenMetaverse;
 using System.Globalization;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp;
-using CSJ2K;
+using CoreJ2K;
 
 namespace MEGAbolt
 {
@@ -117,7 +117,7 @@ namespace MEGAbolt
                         bitmap.Dispose();
                         bitmap = resized;
                     }
-                    ImgUp = J2kImage.ToBytes(J2kImage.CreateEncodableSource(bitmap));
+                    ImgUp = J2kImage.ToBytes(bitmap);
                 }
             }
             catch (Exception ex)

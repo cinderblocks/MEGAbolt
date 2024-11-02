@@ -37,7 +37,7 @@ using BugSplatDotNetStandard;
 using OpenTK.WinForms;
 
 using Matrix4 = OpenTK.Mathematics.Matrix4;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 

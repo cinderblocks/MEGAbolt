@@ -23,7 +23,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-using CSJ2K;
+using CoreJ2K;
 using OpenMetaverse;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
