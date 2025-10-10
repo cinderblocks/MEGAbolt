@@ -18,6 +18,7 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using CoreJ2K.Util;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -35,6 +36,7 @@ namespace MEGAbolt
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MEGAbolt.Core.NativeMethods.Init();
+            SKBitmapImageCreator.Register();
 
             if (args.Length > 0)
             {
