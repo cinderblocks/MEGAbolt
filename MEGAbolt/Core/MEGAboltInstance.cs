@@ -1,7 +1,7 @@
 /*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2025, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -266,8 +266,8 @@ namespace MEGAbolt
 
         public void InitAI()
         {
-            var aimlDirectory = $"{Directory.GetCurrentDirectory()}\\aiml\\";
-            var configDirectory = $"{Directory.GetCurrentDirectory()}\\Config\\";
+            var aimlDirectory = Path.Combine(Directory.GetCurrentDirectory(), "aiml");
+            var configDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config");
             if (!DirExists(aimlDirectory) || !DirExists(configDirectory))
             {
                 Logger.Log("AI is enabled but AI libraries are not installed.", Helpers.LogLevel.Warning);

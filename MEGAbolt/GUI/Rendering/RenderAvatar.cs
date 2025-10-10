@@ -520,7 +520,7 @@ namespace MEGAbolt.Rendering
             attachment_points.Clear();
 
 
-            var basedir = Path.Combine(Directory.GetCurrentDirectory(), "character");
+            var basedir = Path.Combine(Settings.RESOURCE_DIR, "character");
 
             var lad = new XmlDocument();
             lad.Load(Path.Combine(basedir, LODfilename));
@@ -530,7 +530,7 @@ namespace MEGAbolt.Rendering
 
             var skeleton = lad.GetElementsByTagName("skeleton");
             var skeletonfilename = skeleton[0].Attributes?.GetNamedItem("file_name").Value;
-            Bone.loadbones(skeletonfilename);
+            Bone.loadBones(skeletonfilename);
 
             // Next read all the skeleton child nodes, we have attachment points and bone deform params
             // attachment points are an offset and rotation from a bone location
@@ -840,13 +840,13 @@ namespace MEGAbolt.Rendering
         }
     }
 
-    public class joint
+    public class Joint
     {
         public Vector3 offset;
         public Quaternion rotation;
     }
 
-    public class animationwrapper
+    public class AnimationWrapper
     {
         public BinBVHAnimationReader anim;
         public float mRunTime;
@@ -864,21 +864,21 @@ namespace MEGAbolt.Rendering
 
         public animstate playstate;
 
-        public animationwrapper(BinBVHAnimationReader anim)
+        public AnimationWrapper(BinBVHAnimationReader anim)
         {
             this.anim = anim;
             playstate = animstate.STATE_EASEIN;
             mRunTime = 0;
         }
 
-        public animationwrapper(UUID key)
+        public AnimationWrapper(UUID key)
         {
             mAnimation = key;
             playstate = animstate.STATE_WAITINGASSET;
             mRunTime = 0;
         }
 
-        public void stopanim()
+        public void stopAnim()
         {
             //Logger.Log(string.Format("Animation {0} marked as stopped",mAnimation),Helpers.LogLevel.Info);
             playstate = animstate.STATE_STOP;
@@ -889,14 +889,14 @@ namespace MEGAbolt.Rendering
     {
         public Dictionary<string, Bone> mBones;
         private readonly Dictionary<string, int> mPriority = new Dictionary<string, int>();
-        private readonly Dictionary<string, joint> jointdeforms = new Dictionary<string, joint>();
+        private readonly Dictionary<string, Joint> jointdeforms = new Dictionary<string, Joint>();
 
         public static Dictionary<int, string> mUpperMeshMapping = new Dictionary<int, string>();
         public static Dictionary<int, string> mLowerMeshMapping = new Dictionary<int, string>();
         public static Dictionary<int, string> mHeadMeshMapping = new Dictionary<int, string>();
 
         // public List<BinBVHAnimationReader> mAnimations = new List<BinBVHAnimationReader>();
-        public Dictionary<UUID, animationwrapper> mAnimationsWrapper = new Dictionary<UUID, animationwrapper>();
+        public Dictionary<UUID, AnimationWrapper> mAnimationsWrapper = new Dictionary<UUID, AnimationWrapper>();
 
         public static Dictionary<UUID, RenderAvatar> mAnimationTransactions = new Dictionary<UUID, RenderAvatar>();
 
@@ -992,13 +992,13 @@ namespace MEGAbolt.Rendering
             {
                 // Its an existing animation, we may need to do a seq update but we don't yet
                 // support that
-                mAnimationsWrapper[mAnimID].playstate = animationwrapper.animstate.STATE_WAITINGASSET;
+                mAnimationsWrapper[mAnimID].playstate = AnimationWrapper.animstate.STATE_WAITINGASSET;
                 mAnimationsWrapper[mAnimID].mPotentialyDead = false;
             }
             else
             {
                 // Its a new animation do the decode dance
-                var aw = new animationwrapper(mAnimID);
+                var aw = new AnimationWrapper(mAnimID);
                 mAnimationsWrapper.Add(mAnimID, aw);
 
             }
@@ -1017,7 +1017,7 @@ namespace MEGAbolt.Rendering
         {
             if (mBones.TryGetValue(name, out var bone))
             {
-                bone.deformbone(pos, rotation);
+                bone.deformBone(pos, rotation);
             }
         }
 
@@ -1026,7 +1026,7 @@ namespace MEGAbolt.Rendering
             if (mBones.TryGetValue(name, out var bone))
             {
                 // Logger.Log(String.Format("scalebone() {0} {1}", name, scale.ToString()),Helpers.LogLevel.Info);
-                bone.scalebone(scale);
+                bone.scaleBone(scale);
             }
         }
 
@@ -1034,7 +1034,7 @@ namespace MEGAbolt.Rendering
         {
             if (mBones.TryGetValue(name, out var bone))
             {
-                bone.offsetbone(offset);
+                bone.offsetBone(offset);
             }
         }
 
@@ -1058,7 +1058,7 @@ namespace MEGAbolt.Rendering
                 var kills = new List<UUID>();
                 foreach (var ar in mAnimationsWrapper.Values)
                 {
-                    if (ar.playstate == animationwrapper.animstate.STATE_STOP)
+                    if (ar.playstate == AnimationWrapper.animstate.STATE_STOP)
                     {
                         kills.Add(ar.mAnimation);
                     }
@@ -1084,7 +1084,7 @@ namespace MEGAbolt.Rendering
                     {
                         // Logger.Log(string.Format("Animation {0} is being marked for easeout (dead)",ar.mAnimation.ToString()),Helpers.LogLevel.Info);
                         // Should we just stop dead? i think not it may get jerky
-                        ar.playstate = animationwrapper.animstate.STATE_EASEOUT;
+                        ar.playstate = AnimationWrapper.animstate.STATE_EASEOUT;
                         ar.mRunTime = 0; //fix me nasty hack
                     }
                 }
@@ -1181,7 +1181,7 @@ namespace MEGAbolt.Rendering
                 pos++;
             }
 
-            av.glavatar.skel.mAnimationsWrapper[animKey].playstate = animationwrapper.animstate.STATE_EASEIN;
+            av.glavatar.skel.mAnimationsWrapper[animKey].playstate = AnimationWrapper.animstate.STATE_EASEIN;
             recalcpriorities(av);
 
         }
@@ -1211,7 +1211,7 @@ namespace MEGAbolt.Rendering
                         //warning struct copy non reference
                         var state = (binBVHJointState)ar.anim.joints[jpos].Tag;
 
-                        if (ar.playstate is animationwrapper.animstate.STATE_STOP or animationwrapper.animstate.STATE_EASEOUT)
+                        if (ar.playstate is AnimationWrapper.animstate.STATE_STOP or AnimationWrapper.animstate.STATE_EASEOUT)
                             continue;
 
                         //FIX ME need to consider ease out here on priorities somehow
@@ -1248,7 +1248,7 @@ namespace MEGAbolt.Rendering
                 foreach (var ar in mAnimationsWrapper.Values)
                 {
 
-                    if (ar.playstate == animationwrapper.animstate.STATE_WAITINGASSET)
+                    if (ar.playstate == AnimationWrapper.animstate.STATE_WAITINGASSET)
                         continue;
 
                     if (ar.anim == null)
@@ -1260,11 +1260,11 @@ namespace MEGAbolt.Rendering
                     // Caclulate ease factors now they are common to all joints in a given animation
                     var factor = 1.0f;
 
-                    if (ar.playstate == animationwrapper.animstate.STATE_EASEIN)
+                    if (ar.playstate == AnimationWrapper.animstate.STATE_EASEIN)
                     {
                         if (ar.mRunTime >= ar.anim.EaseInTime)
                         {
-                            ar.playstate = animationwrapper.animstate.STATE_PLAY;
+                            ar.playstate = AnimationWrapper.animstate.STATE_PLAY;
                             //Console.WriteLine(String.Format("{0} Now in STATE_PLAY", ar.mAnimation));
                         }
                         else
@@ -1275,12 +1275,12 @@ namespace MEGAbolt.Rendering
                         //Console.WriteLine(String.Format("EASE IN {0} {1}",factor.ToString(),ar.mAnimation));
                     }
 
-                    if (ar.playstate == animationwrapper.animstate.STATE_EASEOUT)
+                    if (ar.playstate == AnimationWrapper.animstate.STATE_EASEOUT)
                     {
 
                         if (ar.mRunTime >= ar.anim.EaseOutTime)
                         {
-                            ar.stopanim();
+                            ar.stopAnim();
                             factor = 0;
                             //Console.WriteLine(String.Format("{0} Now in STATE_STOP", ar.mAnimation));
 
@@ -1310,7 +1310,7 @@ namespace MEGAbolt.Rendering
                         //warning struct copy non reference
                         var state = (binBVHJointState)ar.anim.joints[jpos].Tag;
 
-                        if (ar.playstate == animationwrapper.animstate.STATE_STOP)
+                        if (ar.playstate == AnimationWrapper.animstate.STATE_STOP)
                             continue;
 
                         var prio = 0;
@@ -1380,7 +1380,7 @@ namespace MEGAbolt.Rendering
                                     {
                                         state.lastkeyframe_pos = ar.anim.joints[jpos].positionkeys.Length - 1;
 
-                                        ar.playstate = animationwrapper.animstate.STATE_EASEOUT;
+                                        ar.playstate = AnimationWrapper.animstate.STATE_EASEOUT;
                                         //animation over
                                     }
                                 }
@@ -1456,7 +1456,7 @@ namespace MEGAbolt.Rendering
                                     {
                                         state.lastkeyframe_rot = ar.anim.joints[jpos].rotationkeys.Length - 1;
 
-                                        ar.playstate = animationwrapper.animstate.STATE_EASEOUT;
+                                        ar.playstate = AnimationWrapper.animstate.STATE_EASEOUT;
                                         //animation over
                                     }
                                 }
@@ -1475,7 +1475,7 @@ namespace MEGAbolt.Rendering
                             var rotlerpv = Vector3.Lerp(rot_last.key_element, rot_next.key_element, delta);
                             // rotlerp = Quaternion.Slerp(Quaternion.Identity,new Quaternion(rotlerpv.X, rotlerpv.Y, rotlerpv.Z), factor);
 
-                            if (easeoutset == false && ar.playstate == animationwrapper.animstate.STATE_EASEOUT)
+                            if (easeoutset == false && ar.playstate == AnimationWrapper.animstate.STATE_EASEOUT)
                             {
                                 easeoutset = true;
                                 state.easeoutrot = new Quaternion(rotlerpv.X, rotlerpv.Y, rotlerpv.Z);
@@ -1493,7 +1493,7 @@ namespace MEGAbolt.Rendering
                         {
                             jointstate.offset += (poslerp);
 
-                            if (ar.playstate != animationwrapper.animstate.STATE_EASEOUT)
+                            if (ar.playstate != AnimationWrapper.animstate.STATE_EASEOUT)
                             {
                                 jointstate.rotation = easeoutset
                                     ? Quaternion.Slerp(jointstate.rotation, state.easeoutrot, state.easeoutfactor)
@@ -1504,7 +1504,7 @@ namespace MEGAbolt.Rendering
                         }
                         else
                         {
-                            jointstate = new joint
+                            jointstate = new Joint
                             {
                                 rotation = rotlerp,
                                 offset = poslerp
@@ -1591,17 +1591,17 @@ namespace MEGAbolt.Rendering
             mDeformMatrix = new Matrix4(source.mDeformMatrix);
         }
 
-        public static void loadbones(string skeletonfilename)
+        public static void loadBones(string skeletonfilename)
         {
             lock (mBones) mBones.Clear();
-            var basedir = Path.Combine(Directory.GetCurrentDirectory(), "character");
+            var basedir = Path.Combine(Settings.RESOURCE_DIR, "character");
             var skeleton = new XmlDocument();
             skeleton.Load(Path.Combine(basedir, skeletonfilename));
             var boneslist = skeleton.GetElementsByTagName("linden_skeleton")[0];
-            addbone(boneslist.ChildNodes[0], null);
+            addBone(boneslist.ChildNodes[0], null);
         }
 
-        public static void addbone(XmlNode bone, Bone parent)
+        public static void addBone(XmlNode bone, Bone parent)
         {
 
             if (bone.Name != "bone")
@@ -1629,7 +1629,7 @@ namespace MEGAbolt.Rendering
             var deform = Math3D.CreateSRTMatrix(new Vector3(1, 1, 1), b.rot, b.orig_pos);
             b.mDeformMatrix = new Matrix4(deform[0], deform[1], deform[2], deform[3], deform[4], deform[5], deform[6], deform[7], deform[8], deform[9], deform[10], deform[11], deform[12], deform[13], deform[14], deform[15]);
 
-            //TODO piviot
+            //TODO pivot
 
             b.parent = parent;
             if (parent != null)
@@ -1645,12 +1645,12 @@ namespace MEGAbolt.Rendering
 
             foreach (XmlNode childbone in bone.ChildNodes)
             {
-                addbone(childbone, b);
+                addBone(childbone, b);
             }
 
         }
 
-        public void deformbone(Vector3 dpos, Quaternion rot)
+        public void deformBone(Vector3 dpos, Quaternion rot)
         {
             //float[] deform = Math3D.CreateSRTMatrix(scale, rot, this.orig_pos);
             //mDeformMatrix = new Matrix4(deform[0], deform[1], deform[2], deform[3], deform[4], deform[5], deform[6], deform[7], deform[8], deform[9], deform[10], deform[11], deform[12], deform[13], deform[14], deform[15]);
@@ -1664,37 +1664,37 @@ namespace MEGAbolt.Rendering
             //this.pos = Bone.mBones[name].offset_pos + dpos;
             lock (mBones) this.rot = mBones[name].orig_rot * rot;
 
-            markdirty();
+            markDirty();
         }
 
-        public void scalebone(Vector3 scale)
+        public void scaleBone(Vector3 scale)
         {
             this.scale *= scale;
-            markdirty();
+            markDirty();
         }
 
-        public void offsetbone(Vector3 offset)
+        public void offsetBone(Vector3 offset)
         {
             offset_pos += offset;
-            markdirty();
+            markDirty();
         }
 
         // If we deform a bone mark this bone and all its children as dirty.  
-        public void markdirty()
+        public void markDirty()
         {
             rotdirty = true;
             posdirty = true;
             foreach (var childbone in children)
             {
-                childbone.markdirty();
+                childbone.markDirty();
             }
         }
 
-        public Matrix4 getdeform()
+        public Matrix4 getDeform()
         {
             if (parent != null)
             {
-                return mDeformMatrix * parent.getdeform();
+                return mDeformMatrix * parent.getDeform();
             }
             else
             {
