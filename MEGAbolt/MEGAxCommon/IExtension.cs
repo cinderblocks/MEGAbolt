@@ -30,18 +30,18 @@ using MEGAbolt;
 
 namespace MEGAxCommon
 {
-  public interface IExtension
-  {
-    IHost Host { get; set; }
+    public interface IExtension
+    {
+        IHost Host { get; set; }
 
-    string Title { get; set; }
+        string Title { get; set; }
 
-    string Description { get; set; }
+        string Description { get; set; }
 
-    string Author { get; set; }
+        string Author { get; set; }
 
-    string Version { get; set; }
+        string Version { get; set; }
 
-    void Process(MEGAboltInstance instance);
-  }
+        void Process(MEGAboltInstance instance);
+    }
 }

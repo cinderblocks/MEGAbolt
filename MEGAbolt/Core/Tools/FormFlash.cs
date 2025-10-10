@@ -43,7 +43,7 @@ public static class FormFlash
         };
 
         FlashWindowEx(ref fw);
-        
+
     }
 
     /// <summary>
@@ -77,10 +77,10 @@ public struct FLASHWINFO
 
 public enum FLASHWINFOFLAGS
 {
-    FLASHW_STOP      = 0,
-    FLASHW_CAPTION   = 0x00000001,
-    FLASHW_TRAY      = 0x00000002,
-    FLASHW_ALL       = (FLASHW_CAPTION | FLASHW_TRAY),
-    FLASHW_TIMER     = 0x00000004,
+    FLASHW_STOP = 0,
+    FLASHW_CAPTION = 0x00000001,
+    FLASHW_TRAY = 0x00000002,
+    FLASHW_ALL = (FLASHW_CAPTION | FLASHW_TRAY),
+    FLASHW_TIMER = 0x00000004,
     FLASHW_TIMERNOFG = 0x0000000C
 }

@@ -1,5 +1,5 @@
-﻿using System.Windows.Forms;
-using System.Threading;
+﻿using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -12,8 +12,8 @@ namespace MEGAbolt
         {
             try
             {
-                _GetText = format == null 
-                    ? Clipboard.GetText() 
+                _GetText = format == null
+                    ? Clipboard.GetText()
                     : Clipboard.GetText((TextDataFormat)format);
             }
             catch { _GetText = string.Empty; }
@@ -42,8 +42,8 @@ namespace MEGAbolt
         {
             try
             {
-                _ContainsText = format == null 
-                    ? Clipboard.ContainsText() 
+                _ContainsText = format == null
+                    ? Clipboard.ContainsText()
                     : Clipboard.ContainsText((TextDataFormat)format);
             }
             catch

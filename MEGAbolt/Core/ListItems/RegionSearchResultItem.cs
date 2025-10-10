@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
+using OpenMetaverse.Assets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using OpenMetaverse;
-using OpenMetaverse.Assets;
 
 namespace MEGAbolt
 {
@@ -65,7 +65,7 @@ namespace MEGAbolt
             if (items != null)
             {
                 e.Result = (byte)items.Count;
-                AgentLocations = items; 
+                AgentLocations = items;
             }
         }
 

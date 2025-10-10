@@ -18,14 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using OpenMetaverse;
 //using MEGAbolt.NetworkComm;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -44,7 +43,7 @@ namespace MEGAbolt
 
         private string lastQuery = string.Empty;
         private int startResult = 0;
-        private UUID requestedgroupid = UUID.Zero;  
+        private UUID requestedgroupid = UUID.Zero;
 
         private int totalResults = 0;
         private string clickedurl;
@@ -124,7 +123,7 @@ namespace MEGAbolt
             if (console.SelectedName == client.Self.Name)
             {
                 btnNewIM.Enabled = btnNewIM.Enabled = button10.Enabled = btnFriend.Enabled = false;
-                btnProfile.Enabled = true; 
+                btnProfile.Enabled = true;
             }
             else
             {
@@ -460,7 +459,7 @@ namespace MEGAbolt
         private void StartFindingEvents()
         {
             eventsconsole.Controls["pEvents"].Visible = true;
-   
+
             totalResults = 0;
             lblEventsCount.Text = $"Searching for {lastQuery}";
 
@@ -505,8 +504,8 @@ namespace MEGAbolt
                 //    UUID.Zero,
                 //    UUID.Random());
 
-                placesconsole.QueryID = client.Directory.StartDirPlacesSearch(lastQuery, 
-                    DirectoryManager.DirFindFlags.NameSort, 
+                placesconsole.QueryID = client.Directory.StartDirPlacesSearch(lastQuery,
+                    DirectoryManager.DirFindFlags.NameSort,
                     ParcelCategory.Any,
                     startResult);
             }
@@ -634,7 +633,7 @@ namespace MEGAbolt
         {
             if (e.KeyCode == Keys.Enter) e.SuppressKeyPress = true;
         }
- 
+
         private void txtPlaces_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter) return;
@@ -772,7 +771,7 @@ namespace MEGAbolt
 
                 DirectoryManager.SearchTypeFlags sflag = (DirectoryManager.SearchTypeFlags)cboCategory.SelectedItem;
 
-                DirectoryManager.DirFindFlags  dflag = DirectoryManager.DirFindFlags.SortAsc | DirectoryManager.DirFindFlags.ForSale | DirectoryManager.DirFindFlags.PerMeterSort;
+                DirectoryManager.DirFindFlags dflag = DirectoryManager.DirFindFlags.SortAsc | DirectoryManager.DirFindFlags.ForSale | DirectoryManager.DirFindFlags.PerMeterSort;
 
                 if (checkBox1.Checked)
                 {
@@ -825,7 +824,7 @@ namespace MEGAbolt
 
                     case 7:
                         area = 32000;
-                        break; 
+                        break;
                 }
 
                 switch (cboPrice.SelectedIndex)

@@ -32,7 +32,7 @@ namespace MEGAbolt
         public ConfigManager()
         {
             configPath = Path.Combine(DataFolder.GetDataFolder(), "MEGAbolt.ini");
-		}
+        }
 
         //named constructor
         public ConfigManager(string name)
@@ -59,7 +59,7 @@ namespace MEGAbolt
                 if (newFileInfo.Exists)
                 {
                     configPath = Path.Combine(DataFolder.GetDataFolder(), fileName);
-           
+
                     //SaveCurrentConfig();
 
                     Config config;

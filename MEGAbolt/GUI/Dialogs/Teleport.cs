@@ -18,15 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
-using MEGAbolt.NetworkComm;
 using System.Globalization;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
@@ -61,10 +61,10 @@ namespace MEGAbolt
             }
         }
 
-        public frmTeleport(MEGAboltInstance instance, string sSIM, float sX,float sY,float sZ, bool ismaps)
+        public frmTeleport(MEGAboltInstance instance, string sSIM, float sX, float sY, float sZ, bool ismaps)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -74,7 +74,7 @@ namespace MEGAbolt
             AddNetcomEvents();
             AddClientEvents();
 
-            this.ismaps = ismaps; 
+            this.ismaps = ismaps;
 
             if (string.IsNullOrEmpty(sSIM))
             {
@@ -91,7 +91,7 @@ namespace MEGAbolt
                 nudY.Value = y;
                 nudZ.Value = z;
 
-                StartRegionSearch(); 
+                StartRegionSearch();
             }
         }
 
@@ -123,7 +123,7 @@ namespace MEGAbolt
                 BeginInvoke(new MethodInvoker(() => Grid_OnGridRegion(sender, e)));
                 return;
             }
-            
+
             BeginInvoke(new MethodInvoker(() =>
             {
                 RegionSearchResult(e.Region);
@@ -198,7 +198,7 @@ namespace MEGAbolt
                         break;
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void netcom_ClientDisconnected(object sender, DisconnectedEventArgs e)
@@ -307,7 +307,7 @@ namespace MEGAbolt
             if (lbxRegionSearch.SelectedItem == null) return;
             RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
 
-            selregion = item.Region;  
+            selregion = item.Region;
             txtRegion.Text = item.Region.Name;
             nudX.Value = 128;
             nudY.Value = 128;
@@ -331,7 +331,7 @@ namespace MEGAbolt
             if (e.KeyCode != Keys.Enter) return;
             if (!btnFind.Enabled) return;
             e.SuppressKeyPress = true;
-            
+
             StartRegionSearch();
         }
 
@@ -344,17 +344,17 @@ namespace MEGAbolt
             RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
-            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
-                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
-            
+
             Font newFont = new Font(e.Font, FontStyle.Bold);
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
-            
+
             float iconSize = trkIconSize.Value;
             float leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
             float topTextMargin = e.Bounds.Top + 4.0f;
-         
+
             if (itemToDraw.IsImageDownloaded)
             {
                 if (itemToDraw.MapImage != null)
@@ -369,8 +369,8 @@ namespace MEGAbolt
                 if (!itemToDraw.IsImageDownloading)
                     itemToDraw.RequestMapImage(125000.0f);
             }
-          
-            
+
+
             e.Graphics.DrawString(itemToDraw.Region.Name, newFont, textBrush, new PointF(leftTextMargin, topTextMargin));
 
             if (itemToDraw.GotAgentCount)
@@ -395,7 +395,7 @@ namespace MEGAbolt
             }
 
             switch (itemToDraw.Region.Access)
-            { 
+            {
                 case SimAccess.PG:
                     e.Graphics.DrawString("PG", e.Font, textBrush, new PointF(leftTextMargin, topTextMargin + stringSize.Height));
                     break;

@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
+using MEGAbolt.Controls;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using MEGAbolt.Controls;
+using System;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -62,7 +62,7 @@ namespace MEGAbolt
 
                 if (cnt > 0)
                 {
-                    int ind = dataGridView1.SelectedRows[0].Index; 
+                    int ind = dataGridView1.SelectedRows[0].Index;
 
                     button2.Enabled = true;
                     button4.Enabled = true;
@@ -79,7 +79,7 @@ namespace MEGAbolt
             }
             catch
             {
-                ; 
+                ;
             }
         }
 
@@ -90,7 +90,7 @@ namespace MEGAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();   
+            dataGridView1.Rows.Clear();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -136,7 +136,7 @@ namespace MEGAbolt
                             MessageBox.Show("The location has been successfully saved as a \nLandmark in your 'Landmarks' folder.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
-                );  
+                );
         }
 
         private void frmTPhistory_Load(object sender, EventArgs e)

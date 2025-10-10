@@ -139,7 +139,7 @@ namespace MEGAcrypto
             byte[] bytes2 = Encoding.ASCII.GetBytes(saltValue);
             byte[] buffer = Convert.FromBase64String(cipherText);
             byte[] bytes3 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
-            Aes rijndaelManaged =Aes.Create();
+            Aes rijndaelManaged = Aes.Create();
             rijndaelManaged.Mode = CipherMode.CBC;
             ICryptoTransform decryptor = rijndaelManaged.CreateDecryptor(bytes3, bytes1);
             MemoryStream memoryStream = new MemoryStream(buffer);

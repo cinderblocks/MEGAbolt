@@ -18,18 +18,17 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Text;
-using System.Threading;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using System.Windows.Forms;
-using MEGAbrain;
-using System.IO;
+using System;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -230,7 +229,7 @@ namespace MEGAbolt
 
         private void ProcessOutgoingIM(InstantMessageSentEventArgs e)
         {
-            PrintIM(DateTime.Now , e.TargetID.ToString(), netcom.LoginOptions.FullName, e.Message, e.SessionID);
+            PrintIM(DateTime.Now, e.TargetID.ToString(), netcom.LoginOptions.FullName, e.Message, e.SessionID);
         }
 
         private void ProcessIncomingIM(InstantMessageEventArgs e)
@@ -255,7 +254,7 @@ namespace MEGAbolt
                 if (instance.Config.CurrentConfig.DisableGroupIMs)
                     return;
             }
-            
+
             PrintIM(DateTime.Now, e.IM.FromAgentID.ToString(), e.IM.FromAgentName, e.IM.Message, e.IM.IMSessionID);
 
             if (!isgroup)
@@ -263,7 +262,7 @@ namespace MEGAbolt
                 if (instance.State.IsBusy)
                 {
                     string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                    client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); 
+                    client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 }
                 else
                 {
@@ -275,7 +274,7 @@ namespace MEGAbolt
                         if (e.IM.FromAgentName == "Second Life") return;
                         if (e.IM.FromAgentName.Contains("Linden")) return;
                         if (e.IM.Dialog == InstantMessageDialog.SessionSend) return;
-                        
+
                         brain = new MEGAbrain(instance, myBot);
                         brain.StartProcess(e);
                     }
@@ -294,7 +293,7 @@ namespace MEGAbolt
             {
                 folder += "\\";
             }
-    
+
             // Log the message
             string filename = string.Empty;
 
@@ -318,7 +317,7 @@ namespace MEGAbolt
             filename = instance.CleanReplace(":", "-", filename);    //filename.Replace(":", "-");
 
             string path = folder + filename;
-            string line = "[" + timestamp.ToShortTimeString() + "] " + fromName + ": " + msg; 
+            string line = "[" + timestamp.ToShortTimeString() + "] " + fromName + ": " + msg;
 
             bool exists = false;
 
@@ -329,7 +328,7 @@ namespace MEGAbolt
             }
             catch
             {
-                ; 
+                ;
             }
 
             if (exists)
@@ -339,7 +338,7 @@ namespace MEGAbolt
                 try
                 {
                     SW.WriteLine(@line);
-                    SW.Dispose(); 
+                    SW.Dispose();
                 }
                 catch
                 {

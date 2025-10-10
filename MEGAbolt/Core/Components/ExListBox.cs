@@ -18,14 +18,14 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 
 namespace MEGAbolt.Core.Components
 {
-    public class ExListBox : ListBox 
+    public class ExListBox : ListBox
     {
         public ExListBox() : base()
         {
@@ -86,6 +86,6 @@ namespace MEGAbolt.Core.Components
         public void SortList()
         {
             Sort();
-        } 
+        }
     }
 }

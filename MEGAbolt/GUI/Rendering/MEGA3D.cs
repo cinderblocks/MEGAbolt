@@ -2,7 +2,7 @@
  * MEGAbolt Metaverse Client
  * Copyright(c) 2009-2014, Radegast Development Team
  * Copyright(c) 2010-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2016-2021, Sjofn, LLC
+ * Copyright(c) 2016-2025, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -19,28 +19,27 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using CoreJ2K;
+using MEGAbolt.Controls;
+using MEGAbolt.Rendering;
+using OpenMetaverse;
+using OpenMetaverse.Rendering;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Windowing.Common;
+using OpenTK.WinForms;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
-using OpenMetaverse;
-using OpenMetaverse.Rendering;
-using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using System.Threading.Tasks;
-using MEGAbolt.Controls;
-using MEGAbolt.Rendering;
-using BugSplatDotNetStandard;
-using OpenTK.WinForms;
-using OpenTK.Windowing.Common;
-
-using CoreJ2K;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
+using System.Windows.Forms;
 using Matrix4 = OpenTK.Mathematics.Matrix4;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
@@ -172,7 +171,7 @@ namespace MEGAbolt
         public MEGA3D(MEGAboltInstance instance, uint rootLocalID, Primitive item)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Disposed += MEGA3D_Disposed;
@@ -214,7 +213,7 @@ namespace MEGAbolt
         public MEGA3D(MEGAboltInstance instance, ObjectsListItem obtectitem)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             Disposed += MEGA3D_Disposed;
@@ -275,7 +274,7 @@ namespace MEGAbolt
                         children.ForEach(UpdatePrimBlocking);
                     }
                 }
-                catch { ; }
+                catch {; }
             });
         }
 
@@ -672,7 +671,8 @@ namespace MEGAbolt
         {
             Logger.Log("Started MEGA3D Texture Thread", Helpers.LogLevel.Debug);
 
-            try {
+            try
+            {
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
                     TextureLoadItem item = null;
@@ -689,9 +689,9 @@ namespace MEGAbolt
                     {
                         Bitmap bitmap = item.Data.TextureInfo.Texture.ToBitmap();
 
-                        bool hasAlpha = bitmap.PixelFormat 
-                            is System.Drawing.Imaging.PixelFormat.Format32bppArgb 
-                            or System.Drawing.Imaging.PixelFormat.Format32bppPArgb 
+                        bool hasAlpha = bitmap.PixelFormat
+                            is System.Drawing.Imaging.PixelFormat.Format32bppArgb
+                            or System.Drawing.Imaging.PixelFormat.Format32bppPArgb
                             or System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
                         item.Data.TextureInfo.HasAlpha = hasAlpha;
 
@@ -987,7 +987,7 @@ namespace MEGAbolt
             Render(true);
 
             byte[] color = new byte[4];
-            GL.ReadPixels(x, glControl.Height - y, 1, 1, 
+            GL.ReadPixels(x, glControl.Height - y, 1, 1,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, color);
 
             GL.PopAttrib();
@@ -1087,7 +1087,7 @@ namespace MEGAbolt
                 Face face = mesh.Faces[j];
                 FaceData data = new()
                 {
-                    Vertices = new float[face.Vertices.Count * 3], 
+                    Vertices = new float[face.Vertices.Count * 3],
                     Normals = new float[face.Vertices.Count * 3]
                 };
 
@@ -1175,7 +1175,7 @@ namespace MEGAbolt
                         }
                         finally
                         {
-                            gotImage.Set();                            
+                            gotImage.Set();
                         }
                     }
                 );
@@ -1246,7 +1246,7 @@ namespace MEGAbolt
 
         private void oBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new() { Filter = "OBJ files (*.obj)|*.obj"};
+            SaveFileDialog dialog = new() { Filter = "OBJ files (*.obj)|*.obj" };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -1380,7 +1380,7 @@ namespace MEGAbolt
             else
             {
                 Client.Inventory.RequestDeRezToInventory(RightclickedPrim.Prim.LocalID,
-                    DeRezDestination.AgentInventoryTake, 
+                    DeRezDestination.AgentInventoryTake,
                     Client.Inventory.FindFolderForType(FolderType.Trash), UUID.Random());
                 Instance.MediaManager.PlayUISound(UISounds.ObjectDelete);
             }
@@ -1419,7 +1419,7 @@ namespace MEGAbolt
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            string path = DataFolder.GetDataFolder() ;
+            string path = DataFolder.GetDataFolder();
             string filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");
@@ -1443,7 +1443,7 @@ namespace MEGAbolt
             Bitmap newbmp = new(glControl.Width, glControl.Height);
             Bitmap bmp = newbmp;
 
-            BitmapData data = data = bmp.LockBits(glControl.ClientRectangle, 
+            BitmapData data = data = bmp.LockBits(glControl.ClientRectangle,
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.ReadPixels(0, 0, glControl.Width, glControl.Height,
@@ -1454,7 +1454,7 @@ namespace MEGAbolt
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            string path = DataFolder.GetDataFolder() ;
+            string path = DataFolder.GetDataFolder();
             string filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");

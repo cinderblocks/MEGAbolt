@@ -178,7 +178,7 @@ namespace MEGAbolt
 
             Owner = new frmDetachedTab(instance, this);
             Detached = true;
-            OnTabDetached(EventArgs.Empty);            
+            OnTabDetached(EventArgs.Empty);
         }
 
         public void MergeWith(MEGAboltTab tab)
@@ -198,14 +198,14 @@ namespace MEGAbolt
 
             Control = container;
             tab.Control = container;
-            
+
             MergedTab = tab;
             tab.MergedTab = this;
 
             originalLabel = label;
             tab.originalLabel = tab.label;
             Label = label + "+" + tab.Label;
-            
+
             Merged = tab.Merged = true;
 
             OnTabMerged(EventArgs.Empty);

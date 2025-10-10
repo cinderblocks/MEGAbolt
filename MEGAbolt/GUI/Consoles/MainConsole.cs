@@ -18,21 +18,21 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 using MEGAcrypto;
-using System.Linq;
-using System.Threading;
-using System.Globalization;
-using System.Reflection;
-using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -64,7 +64,7 @@ namespace MEGAbolt
         public MainConsole(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -73,7 +73,7 @@ namespace MEGAbolt
             AddNetcomEvents();
 
             WebView_Initialize();
-            
+
             //btnInfo.Text = "Hide Grid Status";
             labelVersion.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version}";
 
@@ -90,7 +90,7 @@ namespace MEGAbolt
             try
             {
                 MGrids.Clear();
- 
+
                 bool fext = File.Exists(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                 if (fext)
@@ -112,7 +112,7 @@ namespace MEGAbolt
                               select x).ToDictionary(a => a[0], a => a[1]);
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         static void CreateGridFile()
@@ -135,14 +135,14 @@ namespace MEGAbolt
             foreach (KeyValuePair<string, string> entry in MGrids)
             {
                 cbxGrid.Items.Add(entry.Key);
-            } 
+            }
 
             cbxGrid.Items.Add("Other...");
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+
         }
 
         private void SaveUserSettings()
@@ -162,7 +162,7 @@ namespace MEGAbolt
 
             instance.Config.CurrentConfig.iRemPWD = chkPWD.Checked;
 
-            instance.Config.CurrentConfig.PasswordMD5 = 
+            instance.Config.CurrentConfig.PasswordMD5 =
                 LoginOptions.SecondLifePassHashIfNecessary(txtPassword.Text);
 
             instance.Config.CurrentConfig.LoginLocationType = cbxLocation.SelectedIndex;
@@ -306,7 +306,7 @@ namespace MEGAbolt
 
                         lblLoginStatus.Text = $"Logged in as {netcom.LoginOptions.FullName}";
                         lblLoginStatus.ForeColor = Color.Blue;
-     
+
                         string uname = client.Self.Name + "\\";
 
                         Wildcard wildcard = new Wildcard(client.Self.Name + "*", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
@@ -356,7 +356,7 @@ namespace MEGAbolt
                                     instance.Config.CurrentConfig.Save(path);
                                 }
                             }
-                            
+
                             instance.ReapplyConfig(fname);
 
                             if (instance.Config.CurrentConfig.AIon)
@@ -492,7 +492,7 @@ namespace MEGAbolt
                             if (txtCustomLoginUri.TextLength == 0 ||
                                 txtCustomLoginUri.Text.Trim().Length == 0)
                             {
-                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.", 
+                                MessageBox.Show("You must specify the Login Uri to connect to a custom grid.",
                                     "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
@@ -526,7 +526,7 @@ namespace MEGAbolt
                 pnlLoginPrompt.Visible = false;
 
                 btnLogin.Enabled = false;
-                
+
                 client.Settings.USE_LLSD_LOGIN = instance.Config.CurrentConfig.UseLLSD;
                 //instance.SetSettings();  
 
@@ -553,12 +553,12 @@ namespace MEGAbolt
 
                 //case "Logout": this.instance.MainForm.Close(); break;
                 case "Exit":
-                    instance.LogOffClicked = true;  
-                    instance.LoggedIn = false; 
+                    instance.LogOffClicked = true;
+                    instance.LoggedIn = false;
                     pnlLoggingIn.Visible = false;
                     pnlLoginPrompt.Visible = true;
                     btnLogin.Enabled = true;
-                    
+
                     //netcom.Logout();
                     try
                     {
@@ -567,7 +567,7 @@ namespace MEGAbolt
                     catch (Exception ex)
                     {
                         string exp = ex.Message.ToString(CultureInfo.CurrentCulture);
-                        MessageBox.Show(exp);  
+                        MessageBox.Show(exp);
                     }
 
                     break;
@@ -593,10 +593,10 @@ namespace MEGAbolt
                 sr.WriteLine(line);
                 sr.WriteLine("");
                 sr.WriteLine("");
-                
+
                 line = $"START \"\" /D \"{Application.StartupPath}\\\" \"{Application.ExecutablePath}\" {cuser.Replace("_", " ")} {txtPassword.Text}";
                 sr.WriteLine(line);
-                
+
                 sr.Dispose();
             }
             catch (Exception ex)
@@ -616,7 +616,7 @@ namespace MEGAbolt
 
         private void MainConsole_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void chkPWD_CheckedChanged(object sender, EventArgs e)
@@ -634,7 +634,7 @@ namespace MEGAbolt
 
                 cbxGrid.Width = 157;
                 button1.Visible = true;
-                button2.Visible = true; 
+                button2.Visible = true;
             }
             else
             {
@@ -643,7 +643,7 @@ namespace MEGAbolt
 
                 cbxGrid.Width = 210;
                 button1.Visible = false;
-                button2.Visible = false; 
+                button2.Visible = false;
             }
         }
 
@@ -705,7 +705,7 @@ namespace MEGAbolt
 
                 txtPassword.Focus();
             }
-            catch { ; }
+            catch {; }
         }
 
         private void txtLastName_TextChanged(object sender, EventArgs e)
@@ -728,7 +728,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "MEGAbolt");  
+                MessageBox.Show(ex.Message, "MEGAbolt");
             }
         }
 
@@ -736,7 +736,7 @@ namespace MEGAbolt
         {
             LoadGrids();
             InitGridCombo();
-            cbxGrid.SelectedIndex = 0; 
+            cbxGrid.SelectedIndex = 0;
         }
     }
 }

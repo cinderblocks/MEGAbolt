@@ -27,9 +27,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using FMOD;
 using OpenMetaverse;
+using System;
 
 namespace MEGAbolt.Media
 {

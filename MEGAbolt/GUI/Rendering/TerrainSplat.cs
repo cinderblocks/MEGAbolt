@@ -18,15 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using CoreJ2K;
+using OpenMetaverse;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-using CoreJ2K;
-using OpenMetaverse;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
 
 namespace MEGAbolt.Rendering
 {
@@ -72,7 +72,7 @@ namespace MEGAbolt.Rendering
         /// <returns>A composited 256x256 RGB texture ready for rendering</returns>
         /// <remarks>Based on the algorithm described at http://opensimulator.org/wiki/Terrain_Splatting
         /// </remarks>
-        public static Bitmap Splat(MEGAboltInstance instance, float[,] heightmap, 
+        public static Bitmap Splat(MEGAboltInstance instance, float[,] heightmap,
             UUID[] textureIDs, float[] startHeights, float[] heightRanges)
         {
             Debug.Assert(textureIDs.Length == 4);
@@ -258,20 +258,20 @@ namespace MEGAbolt.Rendering
                         float ylayerDiff = layery - layer;
                         float yylayerDiff = layeryy - layer;
                         // Interpolate between the two selected textures
-                        *(ptrO + 0) = (byte)Math.Floor(aB + layerDiff * (bB - aB) + 
-                            xlayerDiff * (*ptrX - aB) + 
-                            xxlayerDiff * (*(ptrXX) - aB) + 
-                            ylayerDiff * (*ptrY - aB) + 
+                        *(ptrO + 0) = (byte)Math.Floor(aB + layerDiff * (bB - aB) +
+                            xlayerDiff * (*ptrX - aB) +
+                            xxlayerDiff * (*(ptrXX) - aB) +
+                            ylayerDiff * (*ptrY - aB) +
                             yylayerDiff * (*(ptrYY) - aB));
-                        *(ptrO + 1) = (byte)Math.Floor(aG + layerDiff * (bG - aG) + 
+                        *(ptrO + 1) = (byte)Math.Floor(aG + layerDiff * (bG - aG) +
                             xlayerDiff * (*(ptrX + 1) - aG) +
-                            xxlayerDiff * (*(ptrXX + 1) - aG) + 
+                            xxlayerDiff * (*(ptrXX + 1) - aG) +
                             ylayerDiff * (*(ptrY + 1) - aG) +
                             yylayerDiff * (*(ptrYY + 1) - aG));
                         *(ptrO + 2) = (byte)Math.Floor(aR + layerDiff * (bR - aR) +
-                            xlayerDiff * (*(ptrX + 2) - aR) + 
+                            xlayerDiff * (*(ptrX + 2) - aR) +
                             xxlayerDiff * (*(ptrXX + 2) - aR) +
-                            ylayerDiff * (*(ptrY + 2) - aR) + 
+                            ylayerDiff * (*(ptrY + 2) - aR) +
                             yylayerDiff * (*(ptrYY + 2) - aR));
                     }
                 }

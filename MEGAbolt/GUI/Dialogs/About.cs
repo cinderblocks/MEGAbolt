@@ -21,10 +21,9 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -43,8 +42,8 @@ namespace MEGAbolt
             InitializeComponent();
 
             lblVersion.Text = $"{Assembly.GetExecutingAssembly().GetName().Name} " +
-                              $"v{Assembly.GetExecutingAssembly().GetName().Version}";   
-            txtDir.Text =  Application.StartupPath;
+                              $"v{Assembly.GetExecutingAssembly().GetName().Version}";
+            txtDir.Text = Application.StartupPath;
             textBox1.Text = DataFolder.GetDataFolder();
         }
 
@@ -97,7 +96,7 @@ namespace MEGAbolt
             scrollTimer.Enabled = true;
             //scrollTimer.SynchronizingObject = this;
             scrollTimer.Elapsed += ScrollLine;
-            scrollTimer.Start(); 
+            scrollTimer.Start();
         }
 
         private void ScrollLine(object sender, ElapsedEventArgs e)
@@ -128,7 +127,7 @@ namespace MEGAbolt
         {
             scrollTimer.Stop();
             scrollTimer.Enabled = false;
-            scrollTimer.Dispose(); 
+            scrollTimer.Dispose();
         }
 
         private void richTextBox1_MouseEnter(object sender, EventArgs e)

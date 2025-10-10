@@ -21,18 +21,18 @@ using System;
 
 namespace MEGAbolt.Controls
 {
-  [Flags]
-  public enum PopupAnimations
-  {
-    None = 0,
-    LeftToRight = 1,
-    RightToLeft = 2,
-    TopToBottom = 4,
-    BottomToTop = 8,
-    Center = 16, // 0x00000010
-    Slide = 262144, // 0x00040000
-    Blend = 524288, // 0x00080000
-    Roll = 1048576, // 0x00100000
-    SystemDefault = 2097152, // 0x00200000
-  }
+    [Flags]
+    public enum PopupAnimations
+    {
+        None = 0,
+        LeftToRight = 1,
+        RightToLeft = 2,
+        TopToBottom = 4,
+        BottomToTop = 8,
+        Center = 16, // 0x00000010
+        Slide = 262144, // 0x00040000
+        Blend = 524288, // 0x00080000
+        Roll = 1048576, // 0x00100000
+        SystemDefault = 2097152, // 0x00200000
+    }
 }

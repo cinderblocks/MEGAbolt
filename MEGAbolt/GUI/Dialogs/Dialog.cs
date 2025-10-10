@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 
 namespace MEGAbolt
@@ -70,7 +70,7 @@ namespace MEGAbolt
             if (btns.Count == 1 && btns[0] == "!!llTextBox!!")
             {
                 txtMessage.ReadOnly = false;
-                button1.Visible = true; 
+                button1.Visible = true;
             }
             else
             {
@@ -96,12 +96,12 @@ namespace MEGAbolt
             if (instance.DialogCount == 7)
             {
                 button3.Visible = true;
-                BackColor = Color.Red;  
+                BackColor = Color.Red;
             }
             else
             {
                 button3.Visible = false;
-                BackColor = ColorTranslator.FromHtml(ColorTranslator.ToHtml(Color.FromArgb(64,64,64)));   //  Color.White;
+                BackColor = ColorTranslator.FromHtml(ColorTranslator.ToHtml(Color.FromArgb(64, 64, 64)));   //  Color.White;
             }
         }
 
@@ -155,7 +155,7 @@ namespace MEGAbolt
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            button2.PerformClick();  
+            button2.PerformClick();
         }
 
         private void txtMessage_TextChanged(object sender, EventArgs e)

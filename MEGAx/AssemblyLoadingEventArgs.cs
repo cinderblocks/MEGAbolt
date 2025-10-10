@@ -30,16 +30,16 @@ using System;
 
 namespace MEGAx
 {
-  public class AssemblyLoadingEventArgs : EventArgs
-  {
-      public AssemblyLoadingEventArgs()
+    public class AssemblyLoadingEventArgs : EventArgs
     {
+        public AssemblyLoadingEventArgs()
+        {
+        }
+
+        public AssemblyLoadingEventArgs(string filename) => Filename = filename;
+
+        public bool Cancel { get; set; } = false;
+
+        public string Filename { get; set; } = "";
     }
-
-    public AssemblyLoadingEventArgs(string filename) => Filename = filename;
-
-    public bool Cancel { get; set; } = false;
-
-    public string Filename { get; set; } = "";
-  }
 }

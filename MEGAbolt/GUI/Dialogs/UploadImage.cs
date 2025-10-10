@@ -18,14 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using CoreJ2K;
+using OpenMetaverse;
+using SkiaSharp;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
 using System.Globalization;
-using SkiaSharp.Views.Desktop;
-using SkiaSharp;
-using CoreJ2K;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -59,7 +58,7 @@ namespace MEGAbolt
 
             if (jpeg2k == null)
             {
-                label3.Text = "Failed to compress image"; 
+                label3.Text = "Failed to compress image";
                 return;
             }
 
@@ -136,16 +135,16 @@ namespace MEGAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            img.Dispose(); 
+            img.Dispose();
             Close();
-        }        
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text += " uploaded by MEGAbolt " + DateTime.Now.ToLongDateString(); 
+            textBox2.Text += " uploaded by MEGAbolt " + DateTime.Now.ToLongDateString();
 
             label3.Text = "Uploading image...";
-            UploadImg(textBox1.Text, textBox2.Text);    
+            UploadImg(textBox1.Text, textBox2.Text);
         }
 
         private void UploadImg(string fname, string desc)

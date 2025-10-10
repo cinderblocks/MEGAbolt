@@ -19,15 +19,15 @@
  */
 
 using System;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
     public partial class frmDisconnected : Form
     {
         private MEGAboltInstance instance;
-        private string rea = string.Empty;  
+        private string rea = string.Empty;
 
         public frmDisconnected(MEGAboltInstance instance, string reason)
         {
@@ -47,7 +47,7 @@ namespace MEGAbolt
 
         private void frmDisconnected_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+
         }
 
         private void frmDisconnected_Load(object sender, EventArgs e)
@@ -67,8 +67,8 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            instance.ReadIMs = true; 
-            Close(); 
+            instance.ReadIMs = true;
+            Close();
         }
 
         private void frmDisconnected_MouseEnter(object sender, EventArgs e)

@@ -18,15 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
-using OpenMetaverse;
-using MEGAbolt.NetworkComm;
-using System.Threading;
+using BugSplatDotNetStandard;
 using MEGAbolt.Controls;
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
+using System;
 using System.Globalization;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -59,7 +59,7 @@ namespace MEGAbolt
         public IMbox(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -220,7 +220,7 @@ namespace MEGAbolt
                         lbxIMs.Items[s] = fullName;
                         lbxIMs.EndUpdate();
                     }
-                    catch { ; }
+                    catch {; }
                 }
 
             }
@@ -308,7 +308,7 @@ namespace MEGAbolt
                 return;
             }
 
-            btnView.Enabled = true; 
+            btnView.Enabled = true;
         }
 
         private void btnView_Click(object sender, EventArgs e)

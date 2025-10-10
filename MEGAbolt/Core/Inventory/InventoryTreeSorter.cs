@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -35,7 +35,7 @@ namespace MEGAbolt
         public InventoryTreeSorter()
         {
             RegisterSortMethods();
-            
+
             //because the Values property is gay and doesn't have an indexer
             foreach (ITreeSortMethod method in sortMethods.Values)
             {
@@ -107,7 +107,7 @@ namespace MEGAbolt
                     return 0;
                 }
             }
-            catch 
+            catch
             {
                 return 0;
             }

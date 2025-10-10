@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using MEGAbolt.Controls;
+using System;
 using System.Drawing;
-using System.Globalization;
-using MEGAbolt.Controls;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 
@@ -21,7 +17,7 @@ namespace MEGAbolt
         {
             InitializeComponent();
 
-            this.instance = instance; 
+            this.instance = instance;
 
             GetDictionaries();
 
@@ -82,7 +78,7 @@ namespace MEGAbolt
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-             groupBox1.Enabled = checkBox1.Checked;
+            groupBox1.Enabled = checkBox1.Checked;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

@@ -18,9 +18,9 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -56,7 +56,7 @@ namespace MEGAbolt
             }
             else
             {
-                MessageBox.Show("You do not have permissions to view this notecard", "MEGAbolt");  
+                MessageBox.Show("You do not have permissions to view this notecard", "MEGAbolt");
             }
         }
     }

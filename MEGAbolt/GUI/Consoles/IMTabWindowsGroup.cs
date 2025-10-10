@@ -18,21 +18,21 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using System.Threading;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Web;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web;
+using System.Windows.Forms;
 using WeCantSpell.Hunspell;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
-using System.ComponentModel;
 
 
 namespace MEGAbolt
@@ -70,11 +70,11 @@ namespace MEGAbolt
                 }
             }
         }
-         
+
         public IMTabWindowGroup(MEGAboltInstance instance, UUID session, UUID target, string toName, OpenMetaverse.Group grp)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             label1.Text = $"Starting session with {grp.Name}. Please wait...";
@@ -117,9 +117,9 @@ namespace MEGAbolt
         private void Self_OnGroupChatJoin(object sender, GroupChatJoinedEventArgs e)
         {
             if (e.SessionID != SessionId && e.TmpSessionID != SessionId) return;
- 
+
             if (e.Success)
-            { 
+            {
                 WaitForSessionStart.Set();
 
                 BeginInvoke(new MethodInvoker(() =>
@@ -208,7 +208,7 @@ namespace MEGAbolt
                     }));
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void Self_OnChatSessionMemberLeft(object sender, ChatSessionMemberLeftEventArgs e)
@@ -262,7 +262,7 @@ namespace MEGAbolt
 
                 return;
             }
-                
+
             BeginInvoke(new MethodInvoker(() =>
             {
                 UpdateChatList(names.Names);
@@ -483,7 +483,7 @@ namespace MEGAbolt
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[29].Tag = "zzzzz";
 
-            _menuItem.Dispose(); 
+            _menuItem.Dispose();
         }
 
         // When an emoticon is clicked, insert its image into to RTF
@@ -736,7 +736,7 @@ namespace MEGAbolt
             }
             catch
             {
-                ; 
+                ;
             }
         }
 
@@ -826,7 +826,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, false)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
@@ -844,7 +844,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, true)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
@@ -866,7 +866,7 @@ namespace MEGAbolt
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
-                catch { ; }
+                catch {; }
             }
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
@@ -917,7 +917,7 @@ namespace MEGAbolt
             string logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
-            saveFile1.InitialDirectory = logdir; 
+            saveFile1.InitialDirectory = logdir;
 
             // Initialize the SaveFileDialog to specify the RTF extension for the file.
             saveFile1.DefaultExt = "*.rtf";
@@ -932,7 +932,7 @@ namespace MEGAbolt
                 rtbIMText.SaveFile(saveFile1.FileName, RichTextBoxStreamType.RichText);
             }
 
-            saveFile1.Dispose(); 
+            saveFile1.Dispose();
         }
 
         private void tsbClear_Click(object sender, EventArgs e)
@@ -964,7 +964,7 @@ namespace MEGAbolt
 
         private void lvwList_MouseEnter(object sender, EventArgs e)
         {
-            lvwList.Cursor = Cursors.Hand;  
+            lvwList.Cursor = Cursors.Hand;
         }
 
         private void lvwList_MouseLeave(object sender, EventArgs e)

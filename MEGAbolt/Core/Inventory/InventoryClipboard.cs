@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {

@@ -18,14 +18,14 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using OpenMetaverse;
-using Nini.Config;
-using System.Windows.Forms;
-using System.Drawing;
 using MEGAcrypto;
-using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using System;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -148,7 +148,7 @@ namespace MEGAbolt
 
                 if (string.IsNullOrEmpty(config.MasterAvatar))
                 {
-                    config.MasterAvatar = UUID.Zero.ToString();   
+                    config.MasterAvatar = UUID.Zero.ToString();
                 }
 
                 config.MasterObject = conf.Configs["General"].GetString("MasterObject", UUID.Zero.ToString());
@@ -169,7 +169,7 @@ namespace MEGAbolt
                 config.UseLLSD = conf.Configs["General"].GetBoolean("UseLLSD", false);
                 config.ChatBufferLimit = conf.Configs["General"].GetInt("ChatBufferLimit", 20);
                 config.ScriptUrlBufferLimit = conf.Configs["General"].GetInt("ScriptUrlBufferLimit", 5);
-                
+
                 // AI    
                 config.AIon = conf.Configs["AI"].GetBoolean("AIon", false);
                 config.ReplyAI = conf.Configs["AI"].GetBoolean("ReplyAI", false);
@@ -193,7 +193,7 @@ namespace MEGAbolt
                 config.InitialIMReply = conf.Configs["Text"].GetString("InitialIMReply", "");
 
                 // Proxy
-                config.UseProxy =  conf.Configs["Proxy"].GetBoolean("UseProxy", false);
+                config.UseProxy = conf.Configs["Proxy"].GetBoolean("UseProxy", false);
                 config.ProxyURL = conf.Configs["Proxy"].GetString("ProxyURL", string.Empty);
                 config.ProxyPort = conf.Configs["Proxy"].GetString("ProxyPort", string.Empty);
                 config.ProxyUser = conf.Configs["Proxy"].GetString("ProxyUser", string.Empty);
@@ -204,7 +204,7 @@ namespace MEGAbolt
                 {
                     config.DisableMipmaps = conf.Configs["MEGA3D"].GetBoolean("DisableMipmaps", false);
                 }
-                catch { ; }
+                catch {; }
 
                 config.PluginsToLoad = conf.Configs["LoadedPlugIns"].GetString("PluginsToLoad", string.Empty);
 
@@ -254,7 +254,7 @@ namespace MEGAbolt
                     config.EnableSpelling = conf.Configs["Spelling"].GetBoolean("EnableSpelling", false);
                     config.SpellLanguage = conf.Configs["Spelling"].GetString("SpellLanguage", "en-US");
                 }
-                catch { ; }
+                catch {; }
             }
             catch (Exception exp)
             {
@@ -264,7 +264,7 @@ namespace MEGAbolt
                     //Logger.Log("ERROR while loading config file'" + filename + "'. Your settings may not have fully loaded. Message: " + exp.Message, Helpers.LogLevel.Error);
                     MessageBox.Show("The was an error when loading your Config (MEGAbolt.ini) file.\nNot all of your settings may have been loaded.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                catch { ; }
+                catch {; }
             }
 
             return config;
@@ -333,7 +333,7 @@ namespace MEGAbolt
             config.Set("MasterAvatar", MasterAvatar);
             config.Set("MasterObject", MasterObject);
             config.Set("EnforceLSLsecurity", EnforceLSLsecurity.ToString(CultureInfo.CurrentCulture));
-            config.Set("DisplayLSLcommands", DisplayLSLcommands.ToString(CultureInfo.CurrentCulture));  
+            config.Set("DisplayLSLcommands", DisplayLSLcommands.ToString(CultureInfo.CurrentCulture));
             config.Set("AutoTransfer", AutoTransfer.ToString(CultureInfo.CurrentCulture));
             config.Set("DisableTrayIcon", DisableTrayIcon.ToString(CultureInfo.CurrentCulture));
             config.Set("DisableFriendsNotifications", DisableFriendsNotifications.ToString(CultureInfo.CurrentCulture));
@@ -353,7 +353,7 @@ namespace MEGAbolt
 
             config.Set("ChatBufferLimit", ChatBufferLimit.ToString(CultureInfo.CurrentCulture));
             config.Set("ScriptUrlBufferLimit", ScriptUrlBufferLimit.ToString(CultureInfo.CurrentCulture));
-            
+
             // Interface
             config = source.AddConfig("Interface");
             config.Set("MainWindowState", MainWindowState.ToString(CultureInfo.CurrentCulture));
@@ -436,7 +436,7 @@ namespace MEGAbolt
 
             // Plugins Loaded
             config = source.AddConfig("LoadedPlugIns");
-            config.Set("PluginsToLoad", PluginsToLoad);   
+            config.Set("PluginsToLoad", PluginsToLoad);
 
             // Plugins
             //added by GM on 2-JUL-2009

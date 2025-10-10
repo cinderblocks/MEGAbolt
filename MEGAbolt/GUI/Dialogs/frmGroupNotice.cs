@@ -18,17 +18,17 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using CoreJ2K;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using OpenMetaverse.Assets;
-using System.Web;
 using System.Globalization;
-using CoreJ2K;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
+using System.Web;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -56,7 +56,7 @@ namespace MEGAbolt
 
         private void GroupNotice_Disposed(object sender, EventArgs e)
         {
-            
+
         }
 
         private void frmGroupNotice_Load(object sender, EventArgs e)
@@ -130,8 +130,8 @@ namespace MEGAbolt
 
                     assetfolder = client.Inventory.FindFolderForType(assettype);
 
-                    filename = imsg.BinaryBucket.Length > 18 
-                        ? Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19) 
+                    filename = imsg.BinaryBucket.Length > 18
+                        ? Utils.BytesToString(imsg.BinaryBucket, 18, imsg.BinaryBucket.Length - 19)
                         : string.Empty;
 
                     panel1.Visible = true;
@@ -171,7 +171,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Group notice attachment error: " + ex.Message, Helpers.LogLevel.Error);     
+                Logger.Log("Group notice attachment error: " + ex.Message, Helpers.LogLevel.Error);
             }
         }
 
@@ -198,7 +198,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "MEGAbolt");   
+                MessageBox.Show(ex.Message, "MEGAbolt");
             }
         }
 
@@ -297,7 +297,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
@@ -315,7 +315,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
@@ -337,7 +337,7 @@ namespace MEGAbolt
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
-                catch { ; }
+                catch {; }
             }
             else if (e.LinkText.Contains("http://secondlife:///"))
             {

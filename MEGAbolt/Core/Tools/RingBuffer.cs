@@ -63,7 +63,7 @@ namespace MEGAbolt
                             ringbuffer.Clear();
                         }
                     }
-                    catch { ; }
+                    catch {; }
                 }
             }
 

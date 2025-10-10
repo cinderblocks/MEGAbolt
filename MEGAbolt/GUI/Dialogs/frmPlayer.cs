@@ -18,19 +18,19 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.IO;
-using System.Net;
-using System.Xml;
-using MEGAbolt.NetworkComm;
-using WMPLib;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Windows.Forms;
+using System.Xml;
+using WMPLib;
 
 namespace MEGAbolt
 {
@@ -218,7 +218,7 @@ namespace MEGAbolt
             {
                 //Thread.Sleep(8000);
 
-                BeginInvoke((MethodInvoker)delegate 
+                BeginInvoke((MethodInvoker)delegate
                 {
                     //axWindowsMediaPlayer1.Ctlcontrols.stop();
                     axWindowsMediaPlayer1.URL = instance.Config.CurrentConfig.pURL;
@@ -232,7 +232,7 @@ namespace MEGAbolt
         private void frmPlayer_Load(object sender, EventArgs e)
         {
             CenterToParent();
-            
+
             axWindowsMediaPlayer1.PlayStateChange += player_PlayStateChange;
             axWindowsMediaPlayer1.CurrentItemChange += player_CurrentItemChange;
             //axWindowsMediaPlayer1.CurrentPlaylistChange += new AxWMPLib._WMPOCXEvents_CurrentPlaylistChangeEventHandler(player_CurrentPlaylistChange);
@@ -260,7 +260,7 @@ namespace MEGAbolt
             // In case pMediaObject is not an IWMPMedia item.
             {
                 MessageBox.Show("Error.");
-            } 
+            }
         }
 
         private void Player_Disposed(object sender, EventArgs e)
@@ -309,7 +309,7 @@ namespace MEGAbolt
                     currenttrack = @words[1].Trim().Replace("&", "and");
                 }
 
-                currentartist = currentartist.Replace("f/", "feat"); 
+                currentartist = currentartist.Replace("f/", "feat");
 
                 if (currenttrack.Contains("("))
                 {
@@ -353,7 +353,7 @@ namespace MEGAbolt
                         getAlbumArt(false);
                         GetLyrics();
                     }
-                    catch { ; }
+                    catch {; }
 
                     ListViewItem list = new ListViewItem
                     {
@@ -508,7 +508,7 @@ namespace MEGAbolt
 
             label2.Text = @currenttrack.Replace("&", "&&");
             label3.Text = @currentartist.Replace("&", "&&");
-            
+
             dets = string.Empty;
 
             pictureBox1.Image = Properties.Resources.not_found;

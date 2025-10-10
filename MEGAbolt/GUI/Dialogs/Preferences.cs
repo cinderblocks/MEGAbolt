@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using MEGAbolt.Controls;
 using System.Globalization;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -48,7 +48,7 @@ namespace MEGAbolt
 
             this.instance = instance;
             panes = new Dictionary<string, IPreferencePane>();
-            
+
             AddPreferencePane(new PrefGeneralConsole(instance));
             AddPreferencePane(new PrefTextConsole(instance));
             AddPreferencePane(new PrefAI(instance));
@@ -76,7 +76,7 @@ namespace MEGAbolt
         {
             IPreferencePane pane = panes[name];
             if (pane == selectedPane) return;
-            
+
             Control paneControl = (Control)pane;
             Control selectedPaneControl = selectedPane as Control;
 
@@ -99,7 +99,7 @@ namespace MEGAbolt
             e.DrawBackground();
 
             if (e.Index < 0) return;
-            
+
             PreferencePaneListItem itemToDraw = (PreferencePaneListItem)lbxPanes.Items[e.Index];
             Brush textBrush = null;
             Font textFont = null;
@@ -114,7 +114,7 @@ namespace MEGAbolt
                 textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
                 textFont = new Font(e.Font, FontStyle.Regular);
             }
-            
+
             SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Name, textFont);
             float stringX = e.Bounds.Left + 4 + itemToDraw.Icon.Width;
             float stringY = e.Bounds.Top + 2 + ((itemToDraw.Icon.Height / 2) - (stringSize.Height / 2));

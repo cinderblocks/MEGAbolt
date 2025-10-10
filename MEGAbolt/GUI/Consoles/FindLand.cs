@@ -18,13 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Linq;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -117,7 +117,7 @@ namespace MEGAbolt
                     //ListViewItem item = lvwFindLand.Items.Add(fullName);
                     //item.SubItems.Add(places.ActualArea.ToString());
                     //item.SubItems.Add(places.SalePrice.ToString());
-                      
+
                     //double pricesqm = (Convert.ToDouble(places.SalePrice) / Convert.ToDouble(places.ActualArea));
                     //item.SubItems.Add(pricesqm.ToString("N2"));
                 }
@@ -145,7 +145,7 @@ namespace MEGAbolt
 
             //lvwFindLand.Sort();
             lvwFindLand.EndUpdate();
-            pLand.Visible = false; 
+            pLand.Visible = false;
         }
 
         // UI thread
@@ -164,14 +164,14 @@ namespace MEGAbolt
 
             if (place.SalePrice > 0)
             {
-                sForSale = "For Sale for L$" + place.SalePrice.ToString(CultureInfo.CurrentCulture);   
+                sForSale = "For Sale for L$" + place.SalePrice.ToString(CultureInfo.CurrentCulture);
             }
 
             txtName.Text = place.Name;
 
             txtDescription.Text = place.Description;
             txtInformation.Text = $"Traffic: {place.Dwell} Area: {place.ActualArea.ToString(CultureInfo.CurrentCulture)} sq. m. {sForSale}";
-            chkMature.Checked = place.Mature;   
+            chkMature.Checked = place.Mature;
 
             // Convert Global pos to local
             float locX = place.GlobalX; ;
@@ -244,7 +244,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending
                     ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
@@ -283,7 +283,7 @@ namespace MEGAbolt
             char[] deli = " ".ToCharArray();
             string[] iDets = sLoc.Split(deli);
 
-            (new frmTeleport(instance, iDets[0], fX, fY, fZ, false)).Show();   
+            (new frmTeleport(instance, iDets[0], fX, fY, fZ, false)).Show();
         }
     }
 }

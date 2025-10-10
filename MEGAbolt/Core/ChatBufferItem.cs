@@ -18,8 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
 using OpenMetaverse;
+using System;
 
 namespace MEGAbolt
 {
@@ -42,7 +42,7 @@ namespace MEGAbolt
             Timestamp = timestamp;
             Text = text;
             Style = style;
-            FromName = fromname; 
+            FromName = fromname;
         }
 
         public ChatBufferItem(DateTime timestamp, string text, string link, ChatBufferTextStyle style, string fromname)
@@ -70,7 +70,7 @@ namespace MEGAbolt
             FromName = name;
             FromUUID = uuid;
         }
-        
+
         public DateTime Timestamp { get; set; }
 
         public string Text { get; set; }

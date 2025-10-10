@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.Controls;
+using OpenMetaverse;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using MEGAbolt.Controls;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -62,7 +62,7 @@ namespace MEGAbolt
         private void frmStats_Load(object sender, EventArgs e)
         {
             CenterToParent();
-            
+
             GetStats();
         }
 
@@ -203,7 +203,7 @@ namespace MEGAbolt
                 {
                     // Poor
                     //lblScore.Text = "Very Poor";
-                    
+
                     lblScore.ForeColor = Color.Red;
                     score = 1;
                 }
@@ -233,7 +233,7 @@ namespace MEGAbolt
             }
             else if (ft > 22.1 && ft < 22.5)
             {
-                lbIssues.Items.Add("Healthy SIM but too many scripts/agents is causing script execution slow-down.");   
+                lbIssues.Items.Add("Healthy SIM but too many scripts/agents is causing script execution slow-down.");
                 return 3;
             }
             else
@@ -245,7 +245,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

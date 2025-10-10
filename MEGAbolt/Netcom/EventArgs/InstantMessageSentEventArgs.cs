@@ -18,10 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenMetaverse;
+using System;
 
 namespace MEGAbolt.NetworkComm
 {
@@ -41,7 +39,7 @@ namespace MEGAbolt.NetworkComm
             TargetID = targetID;
             SessionID = sessionID;
             Timestamp = timestamp;
-            GroupIM = isGrp; 
+            GroupIM = isGrp;
         }
 
         public Boolean GroupIM { get; }

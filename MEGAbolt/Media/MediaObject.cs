@@ -27,12 +27,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Runtime.InteropServices;
 using FMOD;
 using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace MEGAbolt.Media
 {
@@ -53,7 +53,7 @@ namespace MEGAbolt.Media
         ///
         protected static Queue<SoundDelegate> queue;
         protected static MediaManager manager;
-        protected static Dictionary<UUID,BufferSound> allBuffers;
+        protected static Dictionary<UUID, BufferSound> allBuffers;
 
 
         // A SOUND represents the data (buffer or stream)
@@ -114,7 +114,7 @@ namespace MEGAbolt.Media
             // Put that on the queue and wake up the background thread.
             lock (queue)
             {
-                queue.Enqueue( action );
+                queue.Enqueue(action);
                 Monitor.Pulse(queue);
             }
 
@@ -208,7 +208,7 @@ namespace MEGAbolt.Media
             return v;
         }
 
-        protected static Dictionary<IntPtr,MediaObject> allSounds;
+        protected static Dictionary<IntPtr, MediaObject> allSounds;
         protected static Dictionary<IntPtr, MediaObject> allChannels;
         protected void RegisterSound(Sound sound)
         {
@@ -227,9 +227,9 @@ namespace MEGAbolt.Media
         protected void UnRegisterSound()
         {
             IntPtr raw = sound.handle;
-            if (allSounds.ContainsKey( raw ))
+            if (allSounds.ContainsKey(raw))
             {
-                allSounds.Remove( raw );
+                allSounds.Remove(raw);
             }
         }
         protected void UnRegisterChannel()
@@ -295,6 +295,6 @@ namespace MEGAbolt.Media
             }
         }
 
- 
+
     }
 }

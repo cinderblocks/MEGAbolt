@@ -18,15 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
+using OpenMetaverse.Rendering;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Xml;
-using OpenMetaverse;
-using OpenMetaverse.Rendering;
 using Path = System.IO.Path;
 
 namespace MEGAbolt.Rendering
@@ -349,7 +349,7 @@ namespace MEGAbolt.Rendering
                     }
 
                     ba = av.skel.mBones[jointname];
-                    
+
                     bb = jointname2 == "" ? null : av.skel.mBones[jointname2];
                 }
 
@@ -494,11 +494,11 @@ namespace MEGAbolt.Rendering
         public GLAvatar()
         {
             lock (_defaultmeshes) foreach (var kvp in _defaultmeshes)
-            {
-                GLMesh mesh = new GLMesh(kvp.Value, this); // Instance our meshes
-                _meshes.Add(kvp.Key, mesh);
+                {
+                    GLMesh mesh = new GLMesh(kvp.Value, this); // Instance our meshes
+                    _meshes.Add(kvp.Key, mesh);
 
-            }
+                }
         }
 
         public static void dumptweaks()
@@ -741,8 +741,8 @@ namespace MEGAbolt.Rendering
                     {
                         if (input_weight <= child.max1)
                         {
-                            float t = (input_weight - child.min1)/(child.max1 - child.min1);
-                            driven_weight = driven_min + t*(driven_max - driven_min);
+                            float t = (input_weight - child.min1) / (child.max1 - child.min1);
+                            driven_weight = driven_min + t * (driven_max - driven_min);
                         }
                         else if (input_weight <= child.max2)
                         {
@@ -750,8 +750,8 @@ namespace MEGAbolt.Rendering
                         }
                         else if (input_weight <= child.min2)
                         {
-                            float t = (input_weight - child.max2)/(child.min2 - child.max2);
-                            driven_weight = driven_max + t*(driven_min - driven_max);
+                            float t = (input_weight - child.max2) / (child.min2 - child.max2);
+                            driven_weight = driven_max + t * (driven_min - driven_max);
                         }
                         else
                         {
@@ -937,10 +937,10 @@ namespace MEGAbolt.Rendering
             mBones = new Dictionary<string, Bone>();
 
             lock (Bone.mBones) foreach (Bone src in Bone.mBones.Values)
-            {
-                Bone newbone = new Bone(src);
-                mBones.Add(newbone.name, newbone);
-            }
+                {
+                    Bone newbone = new Bone(src);
+                    mBones.Add(newbone.name, newbone);
+                }
 
             //rebuild the skeleton structure on the new copy
             foreach (Bone src in mBones.Values)
@@ -1508,8 +1508,8 @@ namespace MEGAbolt.Rendering
 
                             if (ar.playstate != animationwrapper.animstate.STATE_EASEOUT)
                             {
-                                jointstate.rotation = easeoutset 
-                                    ? Quaternion.Slerp(jointstate.rotation, state.easeoutrot, state.easeoutfactor) 
+                                jointstate.rotation = easeoutset
+                                    ? Quaternion.Slerp(jointstate.rotation, state.easeoutrot, state.easeoutfactor)
                                     : rotlerp;
                             }
 
@@ -1620,7 +1620,7 @@ namespace MEGAbolt.Rendering
             if (bone.Name != "bone")
                 return;
 
-            Bone b = new Bone {name = bone.Attributes.GetNamedItem("name").Value};
+            Bone b = new Bone { name = bone.Attributes.GetNamedItem("name").Value };
 
             string pos = bone.Attributes.GetNamedItem("pos").Value;
             string[] posparts = pos.Split(' ');
@@ -2145,7 +2145,7 @@ namespace MEGAbolt.Rendering
             {
                 if (node.Name == "driven")
                 {
-                    driven d = new driven {id = Int32.Parse(node.Attributes.GetNamedItem("id").Value)};
+                    driven d = new driven { id = Int32.Parse(node.Attributes.GetNamedItem("id").Value) };
 
                     XmlNode param = node.Attributes.GetNamedItem("max1");
                     if (param != null)
@@ -2276,8 +2276,8 @@ namespace MEGAbolt.Rendering
 
             Vector3 new_body_size;
             new_body_size.Z = mPelvisToFoot +
-                // the sqrt(2) correction below is an approximate
-                // correction to get to the top of the head
+                               // the sqrt(2) correction below is an approximate
+                               // correction to get to the top of the head
                                F_SQRT2 * (skull.Z * head_scale.Z) +
                                head.Z * neck_scale.Z +
                                neck.Z * chest_scale.Z +

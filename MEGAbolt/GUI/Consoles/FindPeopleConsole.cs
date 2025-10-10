@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -57,8 +57,9 @@ namespace MEGAbolt
         //Separate thread
         private void Directory_OnDirPeopleReply(object sender, DirPeopleReplyEventArgs e)
         {
-            BeginInvoke((MethodInvoker)delegate {
-                PeopleReply(e.QueryID, e.MatchedPeople); 
+            BeginInvoke((MethodInvoker)delegate
+            {
+                PeopleReply(e.QueryID, e.MatchedPeople);
             });
         }
 
@@ -94,7 +95,7 @@ namespace MEGAbolt
 
             lvwFindPeople.Sort();
             lvwFindPeople.EndUpdate();
-            pPeople.Visible = false;  
+            pPeople.Visible = false;
         }
 
         public void ClearResults()
@@ -129,7 +130,7 @@ namespace MEGAbolt
         }
 
         public string SelectedName =>
-            lvwFindPeople.SelectedItems.Count == 0 
+            lvwFindPeople.SelectedItems.Count == 0
                 ? string.Empty : lvwFindPeople.SelectedItems[0].Text;
 
         public bool SelectedOnlineStatus
@@ -170,7 +171,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending
                     ? SortOrder.Descending : SortOrder.Ascending;
             }
             else

@@ -18,21 +18,20 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using MEGAbolt.NetworkComm;
-using MEGAbolt.Controls;
-using OpenMetaverse.Assets;
-using System.Threading;
-using System.Globalization;
-using System.Reflection;
 using BugSplatDotNetStandard;
 using CoreJ2K;
+using MEGAbolt.Controls;
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System;
+using System.Drawing;
+using System.Globalization;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 /* Some of this code has been borrowed from the libsecondlife GUI */
@@ -84,7 +83,7 @@ namespace MEGAbolt
         public frmMapClient(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -120,7 +119,7 @@ namespace MEGAbolt
             {
                 _MapLayer = bitmap.ToBitmap();
             }
-                
+
             BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(sim); });
         }
 
@@ -315,7 +314,7 @@ namespace MEGAbolt
                     {
                         CurrentLoc = instance.avlocations.Find(gck => gck.Rectangle.Contains(mouse) == true);
                     }
-                    catch { ; }
+                    catch {; }
 
                     if (CurrentLoc == null)
                     {
@@ -335,7 +334,7 @@ namespace MEGAbolt
                         myPos.Z = 1020f;   // Convert.ToSingle(client.Self.GlobalPosition.Z);    //1024f;
                     }
 
-                    foreach (var pos in client.Network.CurrentSim.AvatarPositions) 
+                    foreach (var pos in client.Network.CurrentSim.AvatarPositions)
                     {
                         int x = (int)pos.Value.X - 2;
                         int y = 255 - (int)pos.Value.Y - 2;
@@ -377,11 +376,11 @@ namespace MEGAbolt
                     }
                 }
 
-                g.DrawImage(bmp, 0, 0);                
+                g.DrawImage(bmp, 0, 0);
 
                 world.Image = bmp;
 
-                strFormat.Dispose(); 
+                strFormat.Dispose();
                 g.Dispose();
 
                 string strInfo = string.Format(CultureInfo.CurrentCulture, "Total Avatars: {0}", client.Network.CurrentSim.AvatarPositions.Count);
@@ -402,7 +401,7 @@ namespace MEGAbolt
                 //UpdateMiniMap(sim);
                 BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(e.Simulator); });
             }
-            catch { ; }
+            catch {; }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -475,13 +474,13 @@ namespace MEGAbolt
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
-            btnClearMarker.Enabled = true; 
+            btnClearMarker.Enabled = true;
 
             try
             {
                 CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
-            catch { ; }
+            catch {; }
 
             if (CurrentLoc != null)
             {
@@ -544,7 +543,7 @@ namespace MEGAbolt
 
         private void frmMapClient_Enter(object sender, EventArgs e)
         {
-            
+
         }
 
         private void pictureBox1_MouseHover(object sender, EventArgs e)
@@ -570,7 +569,7 @@ namespace MEGAbolt
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
 
-            btnClearMarker.Enabled = true; 
+            btnClearMarker.Enabled = true;
         }
 
         private void world_MouseMove(object sender, MouseEventArgs e)
@@ -586,7 +585,7 @@ namespace MEGAbolt
             {
                 CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
-            catch { ; }
+            catch {; }
 
             if (CurrentLoc != null)
             {
@@ -641,7 +640,7 @@ namespace MEGAbolt
             clickedx = 0;
             clickedy = 0;
 
-            btnClearMarker.Enabled = false; 
+            btnClearMarker.Enabled = false;
         }
 
         private void chkForSale_CheckedChanged(object sender, EventArgs e)
@@ -659,7 +658,7 @@ namespace MEGAbolt
                 client.Grid.RequestMapRegion(client.Network.CurrentSim.Name, GridLayerType.Objects);
             }
 
-            GetMap(); 
+            GetMap();
         }
 
         private void TabCont_SelectedIndexChanged(object sender, EventArgs e)
@@ -674,7 +673,7 @@ namespace MEGAbolt
             if (TabCont.SelectedIndex == 1)
             {
                 Width = 592;
-                txtSearchFor.Focus(); 
+                txtSearchFor.Focus();
                 return;
             }
         }
@@ -769,7 +768,7 @@ namespace MEGAbolt
                         break;
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void RefreshControls()
@@ -857,7 +856,7 @@ namespace MEGAbolt
         {
             //if (lbxRegionSearch.SelectedItem == null) return;
             //RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
-            
+
             //selregion = item.Region;
             //txtRegion.Text = item.Region.Name;
             //nudX.Value = 128;
@@ -885,8 +884,8 @@ namespace MEGAbolt
             RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
-            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
-                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             Font newFont = new Font(e.Font, FontStyle.Bold);
@@ -988,7 +987,7 @@ namespace MEGAbolt
 
                 RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
 
-                button4.Enabled = true; 
+                button4.Enabled = true;
 
                 selregion = item.Region;
                 txtRegion.Text = item.Region.Name;
@@ -1023,7 +1022,7 @@ namespace MEGAbolt
 
                 g.Dispose();
             }
-            catch { ; }
+            catch {; }
         }
 
         private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
@@ -1067,7 +1066,7 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            btnClearMarker.Enabled = true; 
+            btnClearMarker.Enabled = true;
         }
 
         private void nuX_ValueChanged(object sender, EventArgs e)
@@ -1077,7 +1076,7 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            btnClearMarker.Enabled = true; 
+            btnClearMarker.Enabled = true;
         }
 
         private void nuY_MouseUp(object sender, MouseEventArgs e)
@@ -1087,7 +1086,7 @@ namespace MEGAbolt
             clickedx = (int)nuX.Value;
             clickedy = (int)nuY.Value;
             PlotSelected(clickedx, clickedy);
-            btnClearMarker.Enabled = true; 
+            btnClearMarker.Enabled = true;
         }
 
         private void btnBrowser_Click(object sender, EventArgs e)
@@ -1110,7 +1109,7 @@ namespace MEGAbolt
 
         private void frmMapClient_SizeChanged(object sender, EventArgs e)
         {
-            world.Height = world.Width; 
+            world.Height = world.Width;
         }
     }
 }

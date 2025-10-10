@@ -29,12 +29,12 @@
 
 // Uncomment this to get lots more logging
 //#define TRACE_SOUND
-using System;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using FMOD;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace MEGAbolt.Media

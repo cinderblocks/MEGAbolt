@@ -18,8 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
 using OpenMetaverse;
+using System;
 
 namespace MEGAbolt
 {
@@ -29,7 +29,7 @@ namespace MEGAbolt
         {
             Message = message;
             Level = level;
-            TimeStamp = tstamp; 
+            TimeStamp = tstamp;
         }
 
         public string Message { get; }

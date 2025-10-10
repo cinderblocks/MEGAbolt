@@ -18,19 +18,19 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using OpenMetaverse;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
-using System.Runtime.InteropServices;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 using File = System.IO.File;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
@@ -80,7 +80,7 @@ namespace MEGAbolt
         public InventoryConsole(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -184,7 +184,7 @@ namespace MEGAbolt
                 UpdateFolder(fldr);
                 client.Inventory.FolderUpdated += Inventory_OnFolderUpdated;
             }
-            catch { ; }
+            catch {; }
         }
 
         private void Store_OnInventoryObjectRemoved(object sender, InventoryObjectRemovedEventArgs e)
@@ -227,7 +227,7 @@ namespace MEGAbolt
                     instance.MainForm.UpdateFavourites(foundfolders);
                 }
             }
-            catch { ; }
+            catch {; }
 
             if (managerBusy)
             {
@@ -336,7 +336,7 @@ namespace MEGAbolt
                     }
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void CleanUp()
@@ -373,7 +373,7 @@ namespace MEGAbolt
                         treeView1.SelectedNode.EnsureVisible();
                     }
                 }
-                catch { ; }
+                catch {; }
 
                 if (folderID == favFolder)
                 {
@@ -465,7 +465,7 @@ namespace MEGAbolt
             if (io is InventoryItem item)
             {
                 panel2.Visible = false;
-                
+
                 var console = new InventoryItemConsole(instance, item);
                 console.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(console);
@@ -553,20 +553,20 @@ namespace MEGAbolt
                     {
                         return;
                     }
-                
+
                     client.Inventory.MoveFolder(inventoryFolder.UUID, client.Inventory.FindFolderForType(FolderType.Trash));
                     inventoryFolder = null;
                     break;
                 case InventoryItem item:
-                {
-                    if (client.Inventory.Store.TryGetValue(client.Inventory.FindFolderForType(FolderType.Trash),
-                            out InventoryFolder trash))
                     {
-                        client.Inventory.MoveItem(item.UUID, trash.UUID, item.Name);
-                        item = null;
+                        if (client.Inventory.Store.TryGetValue(client.Inventory.FindFolderForType(FolderType.Trash),
+                                out InventoryFolder trash))
+                        {
+                            client.Inventory.MoveItem(item.UUID, trash.UUID, item.Name);
+                            item = null;
+                        }
+                        break;
                     }
-                    break;
-                }
             }
 
             io = null;
@@ -616,7 +616,7 @@ namespace MEGAbolt
 
                 clip.PasteTo(treeView1.SelectedNode);
                 tmnuPaste.Enabled = false;
-                
+
                 tmnuPaste.Enabled = false;
                 pasteMenu.Enabled = false;
 
@@ -720,119 +720,119 @@ namespace MEGAbolt
             switch (e.Node.Tag)
             {
                 case InventoryFolder:
-                {
-                    replaceOutfitToolStripMenuItem.Visible = true;
-                    wearToolStripMenuItem.Visible = false;
-                    attachToToolStripMenuItem.Visible = false;
-                    toolStripButton2.Enabled = true;
-
-                    var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
-
-                    switch (aitem.PreferredType)
                     {
-                        case FolderType.Trash:
+                        replaceOutfitToolStripMenuItem.Visible = true;
+                        wearToolStripMenuItem.Visible = false;
+                        attachToToolStripMenuItem.Visible = false;
+                        toolStripButton2.Enabled = true;
+
+                        var aitem = (InventoryFolder)treeView1.SelectedNode.Tag;   // (InventoryItem)node.Tag;
+
+                        switch (aitem.PreferredType)
                         {
-                            for (var i = 0; i < smM1.Items.Count; i++)
-                            {
-                                smM1.Items[i].Visible = false;
-                            }
-
-                            emptyMenu.Visible = true;
-                            emptyTrashToolStripMenuItem.Visible = true;
-                            break;
-                        }
-                        case FolderType.CurrentOutfit:
-                            tbtnNew.Enabled = false;
-                            tbtnOrganize.Enabled = false;
-                            break;
-                        default:
-                        {
-                            for (var i = 0; i < smM1.Items.Count; i++)
-                            {
-                                smM1.Items[i].Visible = true;
-                            }
-
-                            emptyMenu.Visible = false;
-                            emptyTrashToolStripMenuItem.Visible = false;
-                            cutMenu.Enabled = true;
-                            copyMenu.Enabled = true;
-                            renameToolStripMenuItem.Enabled = true;
-                            deleteToolStripMenuItem.Enabled = true;
-                            tmnuCut.Enabled = true;
-                            tmnuRename.Enabled = true;
-                            tmnuDelete.Enabled = true;
-                            tmnuCopy.Enabled = true;
-
-                            var io = (InventoryBase)treeView1.SelectedNode.Tag;
-
-                            if (io is InventoryFolder)
-                            {
-                                if (aitem.PreferredType != FolderType.None)
+                            case FolderType.Trash:
                                 {
-                                    cutMenu.Enabled = false;
-                                    copyMenu.Enabled = false;
-                                    renameToolStripMenuItem.Enabled = false;
-                                    deleteToolStripMenuItem.Enabled = false;
-                                    tmnuCut.Enabled = false;
-                                    tmnuRename.Enabled = false;
-                                    tmnuDelete.Enabled = false;
-                                    tmnuCopy.Enabled = false;
+                                    for (var i = 0; i < smM1.Items.Count; i++)
+                                    {
+                                        smM1.Items[i].Visible = false;
+                                    }
+
+                                    emptyMenu.Visible = true;
+                                    emptyTrashToolStripMenuItem.Visible = true;
+                                    break;
                                 }
-                            }
+                            case FolderType.CurrentOutfit:
+                                tbtnNew.Enabled = false;
+                                tbtnOrganize.Enabled = false;
+                                break;
+                            default:
+                                {
+                                    for (var i = 0; i < smM1.Items.Count; i++)
+                                    {
+                                        smM1.Items[i].Visible = true;
+                                    }
 
-                            break;
+                                    emptyMenu.Visible = false;
+                                    emptyTrashToolStripMenuItem.Visible = false;
+                                    cutMenu.Enabled = true;
+                                    copyMenu.Enabled = true;
+                                    renameToolStripMenuItem.Enabled = true;
+                                    deleteToolStripMenuItem.Enabled = true;
+                                    tmnuCut.Enabled = true;
+                                    tmnuRename.Enabled = true;
+                                    tmnuDelete.Enabled = true;
+                                    tmnuCopy.Enabled = true;
+
+                                    var io = (InventoryBase)treeView1.SelectedNode.Tag;
+
+                                    if (io is InventoryFolder)
+                                    {
+                                        if (aitem.PreferredType != FolderType.None)
+                                        {
+                                            cutMenu.Enabled = false;
+                                            copyMenu.Enabled = false;
+                                            renameToolStripMenuItem.Enabled = false;
+                                            deleteToolStripMenuItem.Enabled = false;
+                                            tmnuCut.Enabled = false;
+                                            tmnuRename.Enabled = false;
+                                            tmnuDelete.Enabled = false;
+                                            tmnuCopy.Enabled = false;
+                                        }
+                                    }
+
+                                    break;
+                                }
                         }
+
+                        break;
                     }
-
-                    break;
-                }
                 case InventoryItem:
-                {
-                    replaceOutfitToolStripMenuItem.Visible = false;
-                        
-                    var io = (InventoryBase)treeView1.SelectedNode?.Tag;
-
-                    if (io is InventoryObject or InventoryAttachment)
                     {
-                        try
+                        replaceOutfitToolStripMenuItem.Visible = false;
+
+                        var io = (InventoryBase)treeView1.SelectedNode?.Tag;
+
+                        if (io is InventoryObject or InventoryAttachment)
                         {
-                            if (gotCoF)
+                            try
                             {
-                                if (io.ParentUUID != instance.CoF.UUID)
+                                if (gotCoF)
+                                {
+                                    if (io.ParentUUID != instance.CoF.UUID)
+                                    {
+                                        attachToToolStripMenuItem.Visible = true;
+                                    }
+                                }
+                                else
                                 {
                                     attachToToolStripMenuItem.Visible = true;
                                 }
                             }
-                            else
+                            catch
                             {
                                 attachToToolStripMenuItem.Visible = true;
                             }
                         }
-                        catch
+
+                        if (io != null && instance.CoF != null
+                                       && io.ParentUUID == instance.CoF.UUID)
                         {
-                            attachToToolStripMenuItem.Visible = true;
+                            tbtnNew.Enabled = false;
+                            tbtnOrganize.Enabled = false;
                         }
+
+                        wearToolStripMenuItem.Visible = io is InventoryWearable or InventoryObject or InventoryAttachment;
+
+                        cutMenu.Enabled = true;
+                        copyMenu.Enabled = true;
+                        renameToolStripMenuItem.Enabled = true;
+                        deleteToolStripMenuItem.Enabled = true;
+                        tmnuCut.Enabled = true;
+                        tmnuRename.Enabled = true;
+                        tmnuDelete.Enabled = true;
+                        tmnuCopy.Enabled = true;
+                        break;
                     }
-
-                    if (io != null && instance.CoF != null 
-                                   && io.ParentUUID == instance.CoF.UUID)
-                    {
-                        tbtnNew.Enabled = false;
-                        tbtnOrganize.Enabled = false;
-                    }
-
-                    wearToolStripMenuItem.Visible = io is InventoryWearable or InventoryObject or InventoryAttachment;
-
-                    cutMenu.Enabled = true;
-                    copyMenu.Enabled = true;
-                    renameToolStripMenuItem.Enabled = true;
-                    deleteToolStripMenuItem.Enabled = true;
-                    tmnuCut.Enabled = true;
-                    tmnuRename.Enabled = true;
-                    tmnuDelete.Enabled = true;
-                    tmnuCopy.Enabled = true;
-                    break;
-                }
             }
 
             RefreshPropertiesPane();
@@ -1096,40 +1096,40 @@ namespace MEGAbolt
             {
                 e.CancelEdit = true;
                 return;
-            }           
+            }
 
             switch (e.Node.Tag)
             {
                 case InventoryFolder:
-                {
-                    var aitem = (InventoryFolder)io;
-
-                    if (aitem.PreferredType != FolderType.None)
                     {
-                        e.CancelEdit = true;
-                        return;
-                    }
+                        var aitem = (InventoryFolder)io;
 
-                    client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
-                    break;
-                }
+                        if (aitem.PreferredType != FolderType.None)
+                        {
+                            e.CancelEdit = true;
+                            return;
+                        }
+
+                        client.Inventory.MoveFolder(aitem.UUID, aitem.ParentUUID);
+                        break;
+                    }
                 case InventoryItem inventoryItem:
-                {
-                    inventoryItem.Name = e.Label;
-                    var item = (InventoryItem)io;
-
-                    if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
                     {
-                        client.Inventory.RequestUpdateItem(item);
-                    }
-                    else
-                    {
-                        e.CancelEdit = true;
-                        return;
-                    }
+                        inventoryItem.Name = e.Label;
+                        var item = (InventoryItem)io;
 
-                    break;
-                }
+                        if ((item.Permissions.OwnerMask & PermissionMask.Modify) == PermissionMask.Modify)
+                        {
+                            client.Inventory.RequestUpdateItem(item);
+                        }
+                        else
+                        {
+                            e.CancelEdit = true;
+                            return;
+                        }
+
+                        break;
+                    }
             }
 
             e.Node.Text = e.Label;
@@ -1238,7 +1238,7 @@ namespace MEGAbolt
                 {
                     treeView1.Sort();
                 }
-                catch { ; }
+                catch {; }
 
                 treeView1.SelectedNode = node;
             }
@@ -1251,7 +1251,7 @@ namespace MEGAbolt
 
             try
             {
-                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, 
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID,
                     client.Self.AgentID, clth, TimeSpan.FromSeconds(30));
 
                 if (cfolder == UUID.Zero)
@@ -1260,7 +1260,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, 
+                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID,
                     true, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(20));
 
                 if (contents == null)
@@ -1280,7 +1280,7 @@ namespace MEGAbolt
 
                 foreach (var item in items)
                 {
-                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, 
+                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name,
                         string.Empty, item.InventoryType, UUID.Random(), (success, newItem) =>
                     {
                         if (success)
@@ -1428,7 +1428,7 @@ namespace MEGAbolt
                 {
                     MessageBox.Show("Auto clothing changer is running and functional\n" +
                                     "but the details have failed to save into\n" +
-                                    "a text file for the following reason: " + ex.Message, "MEGAbolt");  
+                                    "a text file for the following reason: " + ex.Message, "MEGAbolt");
                 }
             }
             else
@@ -1495,7 +1495,7 @@ namespace MEGAbolt
             try
             {
                 clth = "Clothing/" + listBox1.SelectedItem;
-                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, 
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID,
                     client.Self.AgentID, clth, TimeSpan.FromSeconds(20));
 
                 if (cfolder == UUID.Zero)
@@ -1523,7 +1523,7 @@ namespace MEGAbolt
 
                 foreach (var item in items)
                 {
-                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty,
                         item.InventoryType, UUID.Random(), (success, newItem) =>
                     {
                         if (success)
@@ -1691,7 +1691,7 @@ namespace MEGAbolt
                     clothing.Add(inventoryItem);
                 }
             }
-            
+
             foreach (var item in cofcontents)
             {
                 client.Inventory.RemoveItem(item.UUID);
@@ -1915,7 +1915,7 @@ namespace MEGAbolt
             }
 
             selectednode = e.Node;
-            
+
             treeView1.HideSelection = false;
             treeView1.SelectedNode = selectednode;
             treeView1.SelectedNode.EnsureVisible();
@@ -1932,7 +1932,7 @@ namespace MEGAbolt
             {
                 treeView1.ExpandAll();
                 ClearBackColor();
-                
+
                 var treeViewWalker = new TreeViewWalker(treeView1);
 
                 treeViewWalker.ProcessNode += treeViewWalker_ProcessNode_HighlightMatchingNodes;
@@ -2008,7 +2008,7 @@ namespace MEGAbolt
                 ProcessWearItem(item);
 
                 WearTakeoff(true, selectednode);
-            }  
+            }
         }
 
         private void ProcessWearItem(InventoryItem item)
@@ -2018,7 +2018,9 @@ namespace MEGAbolt
             if (item is InventoryWearable)
             {
                 foreach (var link in from InventoryItem link in cofcontents
-                         let wItem = LinkInventoryItem(link) where link.AssetUUID == item.UUID select link)
+                                     let wItem = LinkInventoryItem(link)
+                                     where link.AssetUUID == item.UUID
+                                     select link)
                 {
                     client.Inventory.RemoveItem(link.UUID);
                     worn = true;
@@ -2050,7 +2052,7 @@ namespace MEGAbolt
                     break;
             }
 
-            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty,
                 item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
@@ -2064,7 +2066,7 @@ namespace MEGAbolt
         {
             client.Appearance.Attach(item, pnt, false);
 
-            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
+            client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty,
                 item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
@@ -2142,32 +2144,32 @@ namespace MEGAbolt
             switch (item.AssetType)
             {
                 case AssetType.Clothing or AssetType.Bodypart:
-                {
-                    var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-
-                    foreach (var ritem in contents.Cast<InventoryItem>().Where(
-                                 ritem => ritem.AssetUUID == item.UUID))
                     {
-                        client.Inventory.RemoveItem(ritem.UUID);
-                    }
-                    client.Appearance.RemoveFromOutfit(item);
+                        var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
 
-                    break;
-                }
+                        foreach (var ritem in contents.Cast<InventoryItem>().Where(
+                                     ritem => ritem.AssetUUID == item.UUID))
+                        {
+                            client.Inventory.RemoveItem(ritem.UUID);
+                        }
+                        client.Appearance.RemoveFromOutfit(item);
+
+                        break;
+                    }
                 case AssetType.Object:
-                {
-                    var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-
-                    foreach (var ritem in contents.Cast<InventoryItem>().Where(
-                                 ritem => ritem.AssetUUID == item.UUID))
                     {
-                        client.Inventory.RemoveItem(ritem.UUID);
+                        var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+
+                        foreach (var ritem in contents.Cast<InventoryItem>().Where(
+                                     ritem => ritem.AssetUUID == item.UUID))
+                        {
+                            client.Inventory.RemoveItem(ritem.UUID);
+                        }
+
+                        client.Appearance.Detach(item);
+
+                        break;
                     }
-
-                    client.Appearance.Detach(item);
-
-                    break;
-                }
             }
 
             WearTakeoff(false, selectednode);
@@ -2203,7 +2205,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Default); 
+            AttachTo(item, AttachmentPoint.Default);
         }
 
         private void chestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2214,7 +2216,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Chest); 
+            AttachTo(item, AttachmentPoint.Chest);
         }
 
         private void chinToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2225,7 +2227,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Chin); 
+            AttachTo(item, AttachmentPoint.Chin);
         }
 
         private void mouthToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2236,7 +2238,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Mouth); 
+            AttachTo(item, AttachmentPoint.Mouth);
         }
 
         private void neckToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2247,7 +2249,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Neck); 
+            AttachTo(item, AttachmentPoint.Neck);
         }
 
         private void noseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2258,7 +2260,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Nose); 
+            AttachTo(item, AttachmentPoint.Nose);
         }
 
         private void pelvisToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2269,7 +2271,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Pelvis); 
+            AttachTo(item, AttachmentPoint.Pelvis);
         }
 
         private void earToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2280,7 +2282,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftEar); 
+            AttachTo(item, AttachmentPoint.LeftEar);
         }
 
         private void eyeBallToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2291,7 +2293,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftEyeball); 
+            AttachTo(item, AttachmentPoint.LeftEyeball);
         }
 
         private void footToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2302,7 +2304,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftFoot); 
+            AttachTo(item, AttachmentPoint.LeftFoot);
         }
 
         private void foreArmToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2313,7 +2315,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftForearm); 
+            AttachTo(item, AttachmentPoint.LeftForearm);
         }
 
         private void handToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2324,7 +2326,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftHand); 
+            AttachTo(item, AttachmentPoint.LeftHand);
         }
 
         private void hipToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2335,7 +2337,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftHip); 
+            AttachTo(item, AttachmentPoint.LeftHip);
         }
 
         private void lowerLegToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2346,7 +2348,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftLowerLeg); 
+            AttachTo(item, AttachmentPoint.LeftLowerLeg);
         }
 
         private void pecToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2357,7 +2359,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftPec); 
+            AttachTo(item, AttachmentPoint.LeftPec);
         }
 
         private void shoulderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2368,7 +2370,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftShoulder); 
+            AttachTo(item, AttachmentPoint.LeftShoulder);
         }
 
         private void upperArmToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2379,7 +2381,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftUpperArm); 
+            AttachTo(item, AttachmentPoint.LeftUpperArm);
         }
 
         private void upperLegToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2390,7 +2392,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.LeftUpperLeg); 
+            AttachTo(item, AttachmentPoint.LeftUpperLeg);
         }
 
         private void earToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2401,7 +2403,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightEar); 
+            AttachTo(item, AttachmentPoint.RightEar);
         }
 
         private void eyeBallToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2412,7 +2414,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightEyeball); 
+            AttachTo(item, AttachmentPoint.RightEyeball);
         }
 
         private void footToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2423,7 +2425,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightFoot); 
+            AttachTo(item, AttachmentPoint.RightFoot);
         }
 
         private void foreArmToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2434,7 +2436,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightForearm); 
+            AttachTo(item, AttachmentPoint.RightForearm);
         }
 
         private void handToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2445,7 +2447,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightHand); 
+            AttachTo(item, AttachmentPoint.RightHand);
         }
 
         private void hipToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2456,7 +2458,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightHip); 
+            AttachTo(item, AttachmentPoint.RightHip);
         }
 
         private void lowerLegToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2467,7 +2469,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightLowerLeg); 
+            AttachTo(item, AttachmentPoint.RightLowerLeg);
         }
 
         private void pecToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2478,7 +2480,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightPec); 
+            AttachTo(item, AttachmentPoint.RightPec);
         }
 
         private void shoulderToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2489,7 +2491,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightShoulder); 
+            AttachTo(item, AttachmentPoint.RightShoulder);
         }
 
         private void upperArmToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2500,7 +2502,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightUpperArm); 
+            AttachTo(item, AttachmentPoint.RightUpperArm);
         }
 
         private void upperLegToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2511,7 +2513,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.RightUpperLeg); 
+            AttachTo(item, AttachmentPoint.RightUpperLeg);
         }
 
         private void skullToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2522,7 +2524,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Skull); 
+            AttachTo(item, AttachmentPoint.Skull);
         }
 
         private void spineToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2533,7 +2535,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Spine); 
+            AttachTo(item, AttachmentPoint.Spine);
         }
 
         private void stomachToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2544,7 +2546,7 @@ namespace MEGAbolt
 
             var item = (InventoryItem)io;
 
-            AttachTo(item, AttachmentPoint.Stomach); 
+            AttachTo(item, AttachmentPoint.Stomach);
         }
 
         private void attachToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2566,13 +2568,13 @@ namespace MEGAbolt
 
     internal static class NativeWinAPI
     {
-       internal static readonly int GWL_EXSTYLE = -20;
-       internal static readonly int WS_EX_COMPOSITE = 0x02000000;
-
-       [DllImport("user32")]
-       internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        internal static readonly int GWL_EXSTYLE = -20;
+        internal static readonly int WS_EX_COMPOSITE = 0x02000000;
 
         [DllImport("user32")]
-       internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, long dwNewLong);
+        internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32")]
+        internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, long dwNewLong);
     }
 }

@@ -24,8 +24,8 @@
  *
  */
 
-using System;
 using OpenMetaverse;
+using System;
 //using OpenTK.Graphics.OpenGL;
 //using OpenTK;
 

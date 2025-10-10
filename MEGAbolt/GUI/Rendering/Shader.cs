@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.IO;
 using OpenMetaverse;
 using OpenTK.Graphics.OpenGL;
+using System;
+using System.IO;
 
 namespace MEGAbolt.Rendering
 {
@@ -130,7 +130,7 @@ namespace MEGAbolt.Rendering
         public static void Stop()
         {
             if (!RenderSettings.HasShaders) return;
-            
+
             if (CurrentProgram != 0)
             {
                 GL.UseProgram(0);

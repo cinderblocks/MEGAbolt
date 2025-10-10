@@ -18,18 +18,18 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
 using IWshRuntimeLibrary;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
 {
     public partial class frmBackup : Form
     {
-        string currentDirectory =string.Empty;
+        string currentDirectory = string.Empty;
         //string destinationDirectory = string.Empty;
 
         public frmBackup()
@@ -47,13 +47,13 @@ namespace MEGAbolt
             currentDirectory = @label2.Text;
             currentDirectory += "\\";
 
-            DirectoryInfo dir = new  DirectoryInfo(currentDirectory);
+            DirectoryInfo dir = new DirectoryInfo(currentDirectory);
 
             FileInfo[] rgFiles = dir.GetFiles("*.cmd");
 
             foreach (FileInfo fi in rgFiles)
             {
-                listBox1.Items.Add(fi.Name);  
+                listBox1.Items.Add(fi.Name);
             }
 
             rgFiles = dir.GetFiles("*.bat");
@@ -79,9 +79,9 @@ namespace MEGAbolt
             if (result == DialogResult.OK)
             {
                 textBox1.Text = folderBrowser.SelectedPath;
-                textBox1.Text += @"\"; 
+                textBox1.Text += @"\";
                 button2.Enabled = true;
-                button4.Enabled = true;   
+                button4.Enabled = true;
             }
             else
             {
@@ -94,11 +94,11 @@ namespace MEGAbolt
             if (string.IsNullOrEmpty(textBox1.Text))
             {
                 MessageBox.Show("You must select a destination folder first", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return; 
+                return;
             }
 
             string filename = string.Empty;
-            string destFile = string.Empty; 
+            string destFile = string.Empty;
 
             foreach (var item in listBox1.Items)
             {
@@ -112,12 +112,12 @@ namespace MEGAbolt
                 catch (Exception ex)
                 {
                     string nexp = ex.InnerException.ToString();
-                    label5.Text = nexp; 
-                    return; 
+                    label5.Text = nexp;
+                    return;
                 }
             }
 
-            listBox1.Items.Clear();   
+            listBox1.Items.Clear();
             label5.Text = "Backup/s completed to destination folder.";
             //button4.Enabled = true;  
         }
@@ -205,25 +205,25 @@ namespace MEGAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Close();  
+            Close();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", textBox1.Text); 
+            Process.Start("explorer.exe", textBox1.Text);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             label5.Text = string.Empty;
-  
+
             DialogResult result = folderBrowser.ShowDialog();
             if (result == DialogResult.OK)
             {
                 textBox2.Text = folderBrowser.SelectedPath;
                 textBox2.Text += "\\";
                 button6.Enabled = true;
-                button5.Enabled = true;  
+                button5.Enabled = true;
 
                 SetRestoreDirectory();
             }
@@ -345,8 +345,8 @@ namespace MEGAbolt
 
         private void SetRestoreDirectory()
         {
-            listBox2.Items.Clear();  
-            
+            listBox2.Items.Clear();
+
             string restoreDirectory = @textBox2.Text;
 
             DirectoryInfo dir = new DirectoryInfo(restoreDirectory);

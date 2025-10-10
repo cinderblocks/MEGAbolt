@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAxCommon;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MEGAxCommon;
 
 namespace MEGAbolt
 {
@@ -30,7 +30,7 @@ namespace MEGAbolt
         private MEGAboltInstance instance;
         private ConfigManager config;
         private bool pluginschanged = false;
-        private string plugins = string.Empty;  
+        private string plugins = string.Empty;
 
         public PrefPlugin(MEGAboltInstance instance)
         {
@@ -77,17 +77,17 @@ namespace MEGAbolt
         void IPreferencePane.SetPreferences()
         {
             plugins = string.Empty;
- 
+
             foreach (string item in listBox2.Items)
             {
-                plugins += item  + "|";
+                plugins += item + "|";
             }
 
             if (pluginschanged)
             {
                 if (plugins.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    plugins = plugins.Substring(0, plugins.Length - 1);    
+                    plugins = plugins.Substring(0, plugins.Length - 1);
                 }
 
                 config.CurrentConfig.PluginsToLoad = plugins;
@@ -120,6 +120,6 @@ namespace MEGAbolt
             pluginschanged = true;
         }
 
-        
+
     }
 }

@@ -18,13 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 //using MEGAbolt.NetworkComm;
 using OpenMetaverse;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -36,7 +36,7 @@ namespace MEGAbolt
         private InventoryItem item;
         private UUID queryID;
         bool alreadyFocused;
-        Dictionary<UUID, Group> Groups = new Dictionary<UUID,Group>();
+        Dictionary<UUID, Group> Groups = new Dictionary<UUID, Group>();
         Dictionary<UUID, GroupMember> Members = new Dictionary<UUID, GroupMember>();
         SafeDictionary<UUID, GroupMemberData> MemberData = new SafeDictionary<UUID, GroupMemberData>();
         SafeDictionary<UUID, string> Names = new SafeDictionary<UUID, string>();
@@ -55,8 +55,8 @@ namespace MEGAbolt
             client = this.instance.Client;
             this.item = item;
 
-            textBox1.GotFocus += textBox1_GotFocus; 
-            textBox1.MouseUp += textBox1_MouseUp; 
+            textBox1.GotFocus += textBox1_GotFocus;
+            textBox1.MouseUp += textBox1_MouseUp;
             textBox1.Leave += textBox1_Leave;
 
             client.Directory.DirPeopleReply += Directory_OnDirPeopleReply;
@@ -67,7 +67,7 @@ namespace MEGAbolt
 
             client.Groups.RequestCurrentGroups();
 
-            label2.Text = "Give item: " + item.Name;  
+            label2.Text = "Give item: " + item.Name;
 
             lvwColumnSorter = new NumericStringComparer();
             lvwFindFriends.ListViewItemSorter = lvwColumnSorter;
@@ -83,14 +83,14 @@ namespace MEGAbolt
             //tabControl1.TabPages[1].Hide();
             tabControl1.TabPages.RemoveAt(1);
 
-            inventorymode = false; 
+            inventorymode = false;
 
             this.instance = instance;
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
-            
+
             grp = group;
-            rle = role; 
+            rle = role;
 
             textBox1.GotFocus += textBox1_GotFocus;
             textBox1.MouseUp += textBox1_MouseUp;
@@ -134,8 +134,9 @@ namespace MEGAbolt
         //Separate thread
         private void Directory_OnDirPeopleReply(object sender, DirPeopleReplyEventArgs e)
         {
-            BeginInvoke((MethodInvoker)delegate { 
-                PeopleReply(queryID, e.MatchedPeople); 
+            BeginInvoke((MethodInvoker)delegate
+            {
+                PeopleReply(queryID, e.MatchedPeople);
             });
         }
 
@@ -173,7 +174,7 @@ namespace MEGAbolt
                 comboBox1.Items.Clear();
                 comboBox1.Text = "Select group...";
 
-                Groups = instance.State.Groups;   
+                Groups = instance.State.Groups;
 
                 foreach (Group group in Groups.Values)
                 {
@@ -224,7 +225,7 @@ namespace MEGAbolt
         {
             Members = e.Members;
 
-            BeginInvoke((MethodInvoker)UpdateMembers); 
+            BeginInvoke((MethodInvoker)UpdateMembers);
         }
 
         private void UpdateMembers()
@@ -271,7 +272,7 @@ namespace MEGAbolt
         private void frmGive_Load(object sender, EventArgs e)
         {
             CenterToParent();
-            textBox1.Focus();  
+            textBox1.Focus();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -318,7 +319,7 @@ namespace MEGAbolt
                         pb1.Visible = false;
                         return;
                     }
-                } 
+                }
             }
             else
             {
@@ -335,7 +336,7 @@ namespace MEGAbolt
 
             pb1.Visible = false;
             label1.Visible = true;
-            label1.Text = "SEND/GIVE COMPLETED TO " + c.ToString(CultureInfo.CurrentCulture) + " AVATARS.";  
+            label1.Text = "SEND/GIVE COMPLETED TO " + c.ToString(CultureInfo.CurrentCulture) + " AVATARS.";
         }
 
         private void StartFindingGroups()
@@ -379,7 +380,7 @@ namespace MEGAbolt
                 return;
             }
 
-            label1.Visible = false;  
+            label1.Visible = false;
 
             lvwSelected.BeginUpdate();
             ListView.SelectedListViewItemCollection vs = lvwFindFriends.SelectedItems;
@@ -404,7 +405,7 @@ namespace MEGAbolt
         private void btnFind_Click(object sender, EventArgs e)
         {
             StartFindingGroups();
-            btnGive.Enabled = false; 
+            btnGive.Enabled = false;
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -435,7 +436,7 @@ namespace MEGAbolt
                 Item.Tag = (UUID)lvwFindFriends.Items[i].Tag;
             }
 
-            label1.Visible = false; 
+            label1.Visible = false;
 
             lvwSelected.Sort();
             lvwSelected.EndUpdate();
@@ -449,20 +450,20 @@ namespace MEGAbolt
         }
 
         private void textBox1_GotFocus(object sender, EventArgs e)
-        {   
+        {
             // Select all text only if the mouse isn't down.    
-            if (MouseButtons == MouseButtons.None)    
-            {        
+            if (MouseButtons == MouseButtons.None)
+            {
                 textBox1.SelectAll();
             }
         }
 
         private void textBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!alreadyFocused && textBox1.SelectionLength == 0) 
-            { 
-                alreadyFocused = true; 
-                textBox1.SelectAll(); 
+            if (!alreadyFocused && textBox1.SelectionLength == 0)
+            {
+                alreadyFocused = true;
+                textBox1.SelectAll();
             }
         }
 
@@ -585,7 +586,7 @@ namespace MEGAbolt
                 //lvwFindFriends.Sort();
                 lvwFindFriends.EndUpdate();
 
-                pic1.Visible = false; 
+                pic1.Visible = false;
             }
         }
 

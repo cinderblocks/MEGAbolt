@@ -20,7 +20,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 
 namespace MEGAbolt
 {
@@ -35,7 +34,7 @@ namespace MEGAbolt
 
             for (var i = 0; i < pathParts.Length; ++i)
             {
-                if (i > 0) { pathParts[i] = Path.Combine(pathParts[i - 1]+"/", pathParts[i]); }
+                if (i > 0) { pathParts[i] = Path.Combine(pathParts[i - 1] + "/", pathParts[i]); }
 
                 if (!Directory.Exists(pathParts[i]))
                 {

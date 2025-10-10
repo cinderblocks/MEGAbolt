@@ -18,9 +18,9 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Net;
-using OpenMetaverse;
 using System.Windows.Forms;
 
 namespace MEGAbolt
@@ -38,7 +38,7 @@ namespace MEGAbolt
             if (string.IsNullOrEmpty(proxy_url))
             {
                 UseProxy = false;
-                Logger.Log("Proxy Error: A proxy URI has not been specified", Helpers.LogLevel.Warning);   
+                Logger.Log("Proxy Error: A proxy URI has not been specified", Helpers.LogLevel.Warning);
             }
 
             if (UseProxy)
@@ -47,7 +47,7 @@ namespace MEGAbolt
 
                 if (!purl.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    purl = @"http://" + purl; 
+                    purl = @"http://" + purl;
                 }
 
                 try
@@ -57,7 +57,7 @@ namespace MEGAbolt
                         purl = purl + ":" + port.Trim() + @"/";
                     }
 
-                    WebProxy proxy = new WebProxy(purl,true)
+                    WebProxy proxy = new WebProxy(purl, true)
                     {
                         Credentials = new NetworkCredential(username.Trim(), password.Trim())
                     };
@@ -66,7 +66,7 @@ namespace MEGAbolt
                 catch (Exception ex)
                 {
                     Logger.Log("Proxy: " + ex.Message, Helpers.LogLevel.Error);
-                    MessageBox.Show(ex.Message); 
+                    MessageBox.Show(ex.Message);
                 }
             }
             else
@@ -78,7 +78,7 @@ namespace MEGAbolt
                 catch (Exception ex)
                 {
                     Logger.Log("Proxy: " + ex.Message, Helpers.LogLevel.Error);
-                    MessageBox.Show(ex.Message); 
+                    MessageBox.Show(ex.Message);
                 }
             }
         }

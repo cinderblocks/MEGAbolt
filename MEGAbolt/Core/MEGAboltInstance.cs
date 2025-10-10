@@ -18,22 +18,22 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Data;
-using System.IO;
-using MEGAxCommon;
-using System.Drawing;
-using System.Threading;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using BugSplatDotNetStandard;
 using MEGAbolt.Media;
 using MEGAbolt.NetworkComm;
+using MEGAxCommon;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -64,7 +64,7 @@ namespace MEGAbolt
             {
                 LocationName = name;
                 Position = pos;
-                Tag = tag; 
+                Tag = tag;
                 Rectangle = new Rectangle(location, size);
             }
         }
@@ -114,7 +114,7 @@ namespace MEGAbolt
             Application.ApplicationExit += Application_ApplicationExit;
 
             IsFirstInstance = firstInstance;
-            
+
             LoadGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             MakeTPTable();
@@ -172,7 +172,7 @@ namespace MEGAbolt
             Application.ApplicationExit += Application_ApplicationExit;
 
             IsFirstInstance = firstInstance;
-            
+
             LoadGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             MakeTPTable();
@@ -188,7 +188,7 @@ namespace MEGAbolt
             {
                 string full_name = args[0] + "_" + args[1];
                 Config = new ConfigManager(full_name);
-                
+
             }
             else
             {
@@ -326,7 +326,7 @@ namespace MEGAbolt
                 if (fsize > 1000)
                 {
                     TabConsole.DisplayChatScreen("Your chat log folder is over 1GB in size.");
-                    
+
                 }
             }
 
@@ -367,7 +367,7 @@ namespace MEGAbolt
         public bool IsAvatarMuted(UUID avatar, string name)
         {
             ////if (avatar == UUID.Zero) return false;
-  
+
             ////try
             ////{
             ////    DataRow dr = mutelist.Rows.Find(avatar.ToString());
@@ -410,8 +410,8 @@ namespace MEGAbolt
 
             if (avatar == Client.Self.AgentID || name == Client.Self.Name) return false;
 
-            return null != Client.Self.MuteList.Find(mle => (mle.ID == avatar) 
-                                                            || (mle.Type == MuteType.ByName && mle.Name == name) 
+            return null != Client.Self.MuteList.Find(mle => (mle.ID == avatar)
+                                                            || (mle.Type == MuteType.ByName && mle.Name == name)
                                                             || (mle.Type == MuteType.Object && mle.Name == name)
                                                             || (mle.Type == MuteType.Resident && mle.Name == name));
         }
@@ -542,7 +542,7 @@ namespace MEGAbolt
         //        mutelist.PrimaryKey = new DataColumn[] { mutelist.Columns["uuid"] };
         //        return;
         //    }
- 
+
         //    DataSet dset = new DataSet();
         //    FileStream fstr = null;
 
@@ -622,7 +622,7 @@ namespace MEGAbolt
                 return;
             }
 
-            DataSet dset = new DataSet(); 
+            DataSet dset = new DataSet();
             dset.Locale = CultureInfo.CurrentCulture;
 
             FileStream fstr = null;
@@ -684,7 +684,7 @@ namespace MEGAbolt
         //    //dtbl.PrimaryKey = new DataColumn[] { dtbl.Columns["uuid"] };
 
         //    myColumn.Dispose();
- 
+
         //    return dtbl;
         //}
 
@@ -733,7 +733,7 @@ namespace MEGAbolt
         {
             DataColumn myColumn = new DataColumn();
             DataTable dtbl = new DataTable("history");
-            dtbl.Locale = CultureInfo.CurrentCulture; 
+            dtbl.Locale = CultureInfo.CurrentCulture;
 
             myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "time";
@@ -754,7 +754,7 @@ namespace MEGAbolt
             TP = dtbl;
 
             myColumn.Dispose();
-            dtbl.Dispose(); 
+            dtbl.Dispose();
         }
 
         public void SetSettings()
@@ -792,7 +792,7 @@ namespace MEGAbolt
 
             // Configuration options (mostly booleans)
 
-            
+
 
             /// <summary>Enable to process packets synchronously, where all of the
             /// callbacks for each packet must return before the next packet is
@@ -803,7 +803,7 @@ namespace MEGAbolt
             /// would need to be rewritten as asynchronous code before this is
             /// feasible</remarks>
             ///
- 
+
             // For smoother bot movement
             //client.Settings.DISABLE_AGENT_UPDATE_DUPLICATE_CHECK = true;
 
@@ -951,7 +951,7 @@ namespace MEGAbolt
             SaveGiverItems(appdir + "\\MEGAgiverItems.xml");
 
             Client = null;
-            Environment.Exit(0); 
+            Environment.Exit(0);
         }
 
         public static int Distance3D(int x1, int y1, int z1, int x2, int y2, int z2)
@@ -987,7 +987,8 @@ namespace MEGAbolt
             {
                 return Client.Self.SimPosition;   // ppos;
             }
-            catch {
+            catch
+            {
 
                 ppos = new Vector3(0, 0, 0);
                 return ppos;
@@ -1004,7 +1005,7 @@ namespace MEGAbolt
 
                 if (!di.Exists)
                 {
-                    di.Create(); 
+                    di.Create();
                 }
 
                 int cnt = 0;
@@ -1143,7 +1144,7 @@ namespace MEGAbolt
 
         public void StartCrashRep()
         {
-            File.Create(appdir + "\\crashrep_" +  Netcom.LoginOptions.FullName).Dispose();
+            File.Create(appdir + "\\crashrep_" + Netcom.LoginOptions.FullName).Dispose();
         }
 
         public void EndCrashRep()

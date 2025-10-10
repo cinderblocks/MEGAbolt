@@ -19,9 +19,9 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.ComponentModel;
 
 namespace MEGAbolt
 {

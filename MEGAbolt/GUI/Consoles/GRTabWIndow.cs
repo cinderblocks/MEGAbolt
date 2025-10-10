@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
 using OpenMetaverse;
+using System;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -65,7 +65,7 @@ namespace MEGAbolt
 
                 textBox1.Text = @e.IM.Message.Replace("\n", "\r\n").Replace("Group:", "\r\n\r\nGroup: ");
             }
-            catch { ; }
+            catch {; }
         }
 
         public void CloseTab()
@@ -94,20 +94,20 @@ namespace MEGAbolt
             // There is a bug here which needs to be looked at some stage
             try
             {
-                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, 
-                    InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline, 
+                client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession,
+                    InstantMessageDialog.GroupInvitationAccept, InstantMessageOnline.Offline,
                     instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); // Accept Group Invitation (Join Group)
                 CloseTab();
             }
             catch
             {
-                ; 
+                ;
             }
         }
 
         private void btnDecline_Click(object sender, EventArgs e)
         {
-            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession, 
+            client.Self.InstantMessage(client.Self.Name, targetUUID, string.Empty, iSession,
                 InstantMessageDialog.GroupInvitationDecline, InstantMessageOnline.Offline,
                 instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); // Decline Group Invitation
             CloseTab();

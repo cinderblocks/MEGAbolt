@@ -41,7 +41,7 @@ namespace MEGAbolt
 
         private void ImageViewer_Load(object sender, EventArgs e)
         {
-            pbView.Image = img; 
+            pbView.Image = img;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace MEGAbolt
         private void button1_Click(object sender, EventArgs e)
         {
             pbView.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            pbView.Refresh();  
+            pbView.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -70,8 +70,8 @@ namespace MEGAbolt
         private void button3_Click(object sender, EventArgs e)
         {
             pbView.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            pbView.Refresh(); 
-              
+            pbView.Refresh();
+
         }
     }
 }

@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.Controls;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using MEGAbolt.Controls;
 //using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -302,7 +302,7 @@ namespace MEGAbolt
                 rtb.SelectionFont = new Font(rtb.SelectionFont.Name, textfontsize - 1, rtb.SelectionFont.Style);
                 rtb.SelectionCharOffset = 0;// 10;
                 AppendNStext(text);
-                
+
                 //rtb.AppendTextAsRtf(text, new Font(rtb.SelectionFont.Name, textfontsize - 2), RtfColor.Gray, RtfColor.White);
                 rtb.SelectionFont = new Font(config.CurrentConfig.TextFont, config.CurrentConfig.TextFontSize, fontst);
                 //rtb.SelectionFont = new Font(textfont, textfontsize, fontst);
@@ -508,7 +508,7 @@ namespace MEGAbolt
 
         private void CheckBufferSize()
         {
-            int lines = rtb.Lines.Length;   
+            int lines = rtb.Lines.Length;
             int maxlines = instance.Config.CurrentConfig.lineMax;
 
             if (maxlines == 0)
@@ -529,7 +529,7 @@ namespace MEGAbolt
 
                 //rtb.Text = rtb.Text.Remove(start_index, count);
 
-                int cpos = rtb.SelectionStart; 
+                int cpos = rtb.SelectionStart;
                 rtb.ReadOnly = false;
                 rtb.SelectionStart = 0;
                 rtb.SelectionLength = rtb.GetFirstCharIndexFromLine(1);
@@ -702,7 +702,7 @@ namespace MEGAbolt
                         ReplaceWithSmiley(_index, "yawn;", Smileys.yawn);
                     }
                 }
-                catch { ; }
+                catch {; }
             }
         }
 
@@ -714,10 +714,10 @@ namespace MEGAbolt
             {
                 rtb.InsertImage(smiley);
             }
-            catch 
+            catch
             {
-                smiley.Dispose(); 
-                return; 
+                smiley.Dispose();
+                return;
             }
 
             int newindex = (_index + text.Length) - 1;
@@ -729,7 +729,7 @@ namespace MEGAbolt
                     ReplaceWithSmiley(_index, text, smiley);
                 }
             }
-            catch { ; }
+            catch {; }
 
             smiley.Dispose();
 

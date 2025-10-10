@@ -18,15 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
-using System.IO;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -67,7 +67,7 @@ namespace MEGAbolt
         public frmAboutLand(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -99,7 +99,7 @@ namespace MEGAbolt
             else
             {
                 PopData();
-                MessageBox.Show("Could not retreive current parcel details from SL. Try again later.", "MEGAbolt");  
+                MessageBox.Show("Could not retreive current parcel details from SL. Try again later.", "MEGAbolt");
             }
         }
 
@@ -116,7 +116,7 @@ namespace MEGAbolt
             if (e.GroupID != parcel.GroupID) return;
 
             client.Groups.GroupMembersReply -= GroupMembersHandler;
- 
+
             // do the stuff here
             if (e.Members.ContainsKey(client.Self.AgentID))
             {
@@ -212,7 +212,7 @@ namespace MEGAbolt
                 cblandmark.Enabled = true;
                 cbTerrain.Enabled = true;
                 cbpush.Enabled = true;
-                cbVoice.Enabled = true; 
+                cbVoice.Enabled = true;
 
                 lvwPrimOwners.Visible = true;
                 hasauth = false;
@@ -269,7 +269,7 @@ namespace MEGAbolt
                     cblandmark.Enabled = false;
                     cbTerrain.Enabled = false;
                     cbpush.Enabled = false;
-                    cbVoice.Enabled = false; 
+                    cbVoice.Enabled = false;
 
                     //lvwPrimOwners.Clear();
                     //lvwPrimOwners.Enabled = false;
@@ -656,7 +656,7 @@ namespace MEGAbolt
             if (client.Self.AgentID == oitem)
             {
                 DialogResult res = MessageBox.Show("You are about to return ALL your prims.\n" +
-                                                   "Are you sure you want to continue?", 
+                                                   "Are you sure you want to continue?",
                     "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
@@ -667,7 +667,7 @@ namespace MEGAbolt
             else
             {
                 DialogResult res = MessageBox.Show($"You are about to return ALL prims owned by {lvwPrimOwners.SelectedItems[0].Text}.\n" +
-                                                   $"Are you sure you want to continue?", 
+                                                   $"Are you sure you want to continue?",
                     "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
@@ -707,7 +707,7 @@ namespace MEGAbolt
                 client.Avatars.UUIDNameReply -= Avatars_OnAvatarNames;
                 client.Groups.GroupMembersReply -= GroupMembersHandler;
             }
-            catch { ; }
+            catch {; }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -1116,7 +1116,7 @@ namespace MEGAbolt
 
                     button2.Enabled = false;
                 }
-                catch { ; }
+                catch {; }
             }
         }
 

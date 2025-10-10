@@ -18,9 +18,9 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -46,7 +46,7 @@ namespace MEGAbolt
 
         private void InventoryGestureConsol_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)

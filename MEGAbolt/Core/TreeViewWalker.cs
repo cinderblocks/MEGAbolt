@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Linq;
-using OpenMetaverse;
+using System.Windows.Forms;
 
 //Thanks to Josh Smith
 //http://www.codeproject.com/Articles/12952/TreeViewWalker-Simplifying-Recursion

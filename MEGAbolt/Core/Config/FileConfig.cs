@@ -18,8 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
 using MEGAbolt.FileINI;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace MEGAbolt
@@ -47,7 +47,7 @@ namespace MEGAbolt
             }
             catch
             {
-               ;
+                ;
             }
 
             return config;
@@ -72,13 +72,13 @@ namespace MEGAbolt
                 foreach (KeyValuePair<string, string> s in rec)
                 {
                     uuid = s.Key.ToString(CultureInfo.CurrentCulture);
-                    name = s.Value.ToString(CultureInfo.CurrentCulture);  
+                    name = s.Value.ToString(CultureInfo.CurrentCulture);
                 }
 
                 ini.SetValue(header, uuid, name);
             }
 
-            ini.Flush(); 
+            ini.Flush();
         }
 
         public void AddFriendToGroup(string groupname, string friendname, string frienduuid)

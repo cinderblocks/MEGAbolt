@@ -28,8 +28,8 @@
 
 namespace MEGAxCommon
 {
-  public interface IHost
-  {
-    void HostStatus(string statusMessage);
-  }
+    public interface IHost
+    {
+        void HostStatus(string statusMessage);
+    }
 }

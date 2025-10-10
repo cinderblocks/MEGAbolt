@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using MEGAxCommon;
-using System.Diagnostics;
+﻿using MEGAxCommon;
 using OpenMetaverse;
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -138,7 +138,7 @@ namespace MEGAbolt
                     if (extOn.Title == itm)
                     {
                         label5.Text = "Author: " + extOn.Author + Environment.NewLine + "Version: " + extOn.Version + Environment.NewLine + "Description: " + extOn.Description;
-                        break; 
+                        break;
                     }
                 }
             }

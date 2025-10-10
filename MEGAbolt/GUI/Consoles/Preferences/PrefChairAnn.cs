@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using MEGAbolt.Controls;
 using OpenMetaverse;
+using System;
+using System.Drawing;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -72,7 +72,7 @@ namespace MEGAbolt
 
         void IPreferencePane.SetPreferences()
         {
-            
+
             config.CurrentConfig.ChairAnnouncerUUID = UUID.Parse(textBox1.Text);
             config.CurrentConfig.ChairAnnouncerInterval = Convert.ToInt32(textBox2.Text, CultureInfo.CurrentCulture);
             config.CurrentConfig.ChairAnnouncerEnabled = checkBox1.Checked;
@@ -84,7 +84,7 @@ namespace MEGAbolt
             config.CurrentConfig.ChairAnnouncerGroup5 = UUID.Parse(textBox7.Text);
             config.CurrentConfig.ChairAnnouncerGroup6 = UUID.Parse(textBox8.Text);
             config.CurrentConfig.ChairAnnouncerAdvert = textBox9.Text;
-            
+
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace MEGAbolt
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            textBox1.Enabled = textBox2.Enabled = 
+            textBox1.Enabled = textBox2.Enabled =
             textBox3.Enabled = textBox4.Enabled =
             textBox5.Enabled = textBox6.Enabled =
             textBox7.Enabled = textBox8.Enabled =

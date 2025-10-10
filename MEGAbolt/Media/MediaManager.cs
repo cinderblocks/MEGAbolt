@@ -27,16 +27,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using FMOD;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using FMOD;
 using System.Threading;
-using OpenMetaverse;
-using MEGAbolt;
+using System.Threading.Tasks;
 
 namespace MEGAbolt.Media
 {
@@ -64,10 +63,10 @@ namespace MEGAbolt.Media
             soundCancelToken = new CancellationTokenSource();
 
             // Start the background thread that does the audio calls.
-            Task soundTask = Task.Factory.StartNew(CommandLoop, 
+            Task soundTask = Task.Factory.StartNew(CommandLoop,
                 soundCancelToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             // Start the background thread that updates listener position.
-            Task listenerTask = Task.Factory.StartNew(ListenerUpdate, 
+            Task listenerTask = Task.Factory.StartNew(ListenerUpdate,
                 soundCancelToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
             //Instance.ClientChanged += new EventHandler<ClientChangedEventArgs>(Instance_ClientChanged);
@@ -225,7 +224,7 @@ namespace MEGAbolt.Media
                 OUTPUTTYPE outputType = OUTPUTTYPE.UNKNOWN;
                 FMODExec(system.getOutput(out outputType));
 
-// *TODO: Investigate if this all is still needed under FMODStudio
+                // *TODO: Investigate if this all is still needed under FMODStudio
 #if false
                 // The user has the 'Acceleration' slider set to off, which
                 // is really bad for latency.  At 48khz, the latency between
@@ -262,7 +261,7 @@ namespace MEGAbolt.Media
                 RESULT result = system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
                 if (result != RESULT.OK)
                 {
-                    throw(new Exception(result.ToString()));
+                    throw (new Exception(result.ToString()));
                 }
 
                 // Set real-world effect scales.
@@ -371,9 +370,9 @@ namespace MEGAbolt.Media
                 // Z is East, X is South, Y is up.
                 VECTOR forward = new VECTOR
                 {
-                    x = (float) Math.Sin(angle),
+                    x = (float)Math.Sin(angle),
                     y = 0.0f,
-                    z = (float) Math.Cos(angle)
+                    z = (float)Math.Cos(angle)
                 };
                 // South
                 // East
@@ -411,7 +410,7 @@ namespace MEGAbolt.Media
         {
             if (e.SoundID == UUID.Zero) return;
 
-            Logger.Log("Trigger sound " + e.SoundID +" in object " + e.ObjectID,
+            Logger.Log("Trigger sound " + e.SoundID + " in object " + e.ObjectID,
                 Helpers.LogLevel.Debug);
 
             new BufferSound(
@@ -512,7 +511,7 @@ namespace MEGAbolt.Media
         void Objects_KillObject(object sender, KillObjectEventArgs e)
         {
             Primitive p = null;
-            if (!e.Simulator.ObjectsPrimitives.TryGetValue(e.ObjectLocalID, out  p)) return;
+            if (!e.Simulator.ObjectsPrimitives.TryGetValue(e.ObjectLocalID, out p)) return;
 
             // Objects without sounds are not interesting.
             if (p.Sound == UUID.Zero) return;

@@ -18,17 +18,17 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using OpenTK.Graphics.OpenGL;
-using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Drawing.Imaging;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
+using OpenTK.Graphics.OpenGL;
 using SkiaSharp;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MEGAbolt.Rendering
 {
@@ -774,7 +774,7 @@ namespace MEGAbolt.Rendering
                             #region Vertex Normal
 
                             // HACK: Sometimes normals are getting set to <NaN,NaN,NaN>
-                            if (!Single.IsNaN(vertex.Normal.X) && 
+                            if (!Single.IsNaN(vertex.Normal.X) &&
                                 !Single.IsNaN(vertex.Normal.Y) &&
                                 !Single.IsNaN(vertex.Normal.Z))
                             {
@@ -968,7 +968,7 @@ namespace MEGAbolt.Rendering
         }
 
 
-        public static bool GluProject(OpenTK.Mathematics.Vector3 objPos, OpenTK.Mathematics.Matrix4 modelMatrix, 
+        public static bool GluProject(OpenTK.Mathematics.Vector3 objPos, OpenTK.Mathematics.Matrix4 modelMatrix,
             OpenTK.Mathematics.Matrix4 projMatrix, int[] viewport, out OpenTK.Mathematics.Vector3 screenPos)
         {
             OpenTK.Mathematics.Vector4 _in;
@@ -1007,8 +1007,8 @@ namespace MEGAbolt.Rendering
             return true;
         }
 
-        public static bool GluUnProject(float winx, float winy, float winz, 
-            OpenTK.Mathematics.Matrix4 modelMatrix, OpenTK.Mathematics.Matrix4 projMatrix, 
+        public static bool GluUnProject(float winx, float winy, float winz,
+            OpenTK.Mathematics.Matrix4 modelMatrix, OpenTK.Mathematics.Matrix4 projMatrix,
             int[] viewport, out OpenTK.Mathematics.Vector3 pos)
         {
             OpenTK.Mathematics.Matrix4 finalMatrix;

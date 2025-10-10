@@ -18,9 +18,9 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -104,7 +104,7 @@ namespace MEGAbolt
             this.target = target;
             //this.name = txtPerson.Text = name;
             textBox1.Text = prim.Properties.Name;
-            btnPay.Text = "&Buy"; 
+            btnPay.Text = "&Buy";
 
             nudAmount.Value = sprice;
             oprice = sprice;
@@ -118,7 +118,7 @@ namespace MEGAbolt
         {
             client.Objects.PayPriceReply += PayPrice;
 
-            client.Objects.RequestPayPrice(client.Network.CurrentSim, target);    
+            client.Objects.RequestPayPrice(client.Network.CurrentSim, target);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -222,7 +222,7 @@ namespace MEGAbolt
                 nudAmount.Value = e.DefaultPrice;
                 //SetNud(e.DefaultPrice);
                 buyprice = e.DefaultPrice;
-                btnPay.Text = "&Pay"; 
+                btnPay.Text = "&Pay";
             }
             else if (e.DefaultPrice == -1)
             {

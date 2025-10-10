@@ -18,14 +18,14 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
 using System.Globalization;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -61,7 +61,7 @@ namespace MEGAbolt
         public GroupsConsole(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -125,7 +125,7 @@ namespace MEGAbolt
                 lstGroups.Sorted = false;
 
                 //lstGroups.Items.Add("None");
-                lstGroups.Items.Insert(0, "None"); 
+                lstGroups.Items.Insert(0, "None");
 
                 if (lstGroups.Items.Count > 0)
                 {
@@ -139,11 +139,11 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Groups Console error", Helpers.LogLevel.Error, ex); 
+                Logger.Log("Groups Console error", Helpers.LogLevel.Error, ex);
             }
         }
 
-   
+
 
         #region GUI Callbacks
 
@@ -233,7 +233,7 @@ namespace MEGAbolt
                 }
             }
 
-            BeginInvoke(new MethodInvoker(UpdateGroups));            
+            BeginInvoke(new MethodInvoker(UpdateGroups));
         }
 
         #endregion     
@@ -247,7 +247,7 @@ namespace MEGAbolt
         {
             if (lstGroups.SelectedIndex >= 0 && lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
             {
-                if (lstGroups.Items[lstGroups.SelectedIndex].ToString()  != "None")
+                if (lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
                 {
                     Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
@@ -329,7 +329,7 @@ namespace MEGAbolt
         private void button1_Click(object sender, EventArgs e)
         {
             cmdIM.Enabled = cmdActivate.Enabled = cmdInfo.Enabled = button4.Enabled = cmdLeave.Enabled = button1.Enabled = label5.Visible = false;
-            panel1.Visible = true; 
+            panel1.Visible = true;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -353,7 +353,7 @@ namespace MEGAbolt
         private void EnableNew()
         {
             panel1.Visible = false;
-            cmdIM.Enabled = cmdActivate.Enabled = cmdInfo.Enabled = button4.Enabled = cmdLeave.Enabled = button1.Enabled = label5.Visible = true; 
+            cmdIM.Enabled = cmdActivate.Enabled = cmdInfo.Enabled = button4.Enabled = cmdLeave.Enabled = button1.Enabled = label5.Visible = true;
         }
 
         private void button4_Click(object sender, EventArgs e)

@@ -40,7 +40,7 @@ namespace MEGAbolt
             textBox1.Text = config.CurrentConfig.ProxyURL;
             textBox4.Text = config.CurrentConfig.ProxyPort;
             textBox2.Text = config.CurrentConfig.ProxyUser;
-            textBox3.Text = config.CurrentConfig.ProxyPWD; 
+            textBox3.Text = config.CurrentConfig.ProxyPWD;
         }
 
         #region IPreferencePane Members
@@ -72,7 +72,7 @@ namespace MEGAbolt
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            groupBox2.Enabled = checkBox1.Checked; 
+            groupBox2.Enabled = checkBox1.Checked;
         }
     }
 }

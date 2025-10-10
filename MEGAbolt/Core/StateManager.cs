@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Timers;
-using OpenMetaverse;
-using MEGAbolt.NetworkComm;
 
 namespace MEGAbolt
 {
@@ -58,8 +58,8 @@ namespace MEGAbolt
         //private ManualResetEvent PrimEvent = new ManualResetEvent(false);
 
         private Timer pointtimer;
-        
-        private Vector3d offset = new Vector3d(Vector3d.Zero); 
+
+        private Vector3d offset = new Vector3d(Vector3d.Zero);
         private Vector3d beamoffset1 = new Vector3d(0, 0, 0.1);
         private Vector3d beamoffset2 = new Vector3d(0, 0.1, 0);
         private Primitive prim = new Primitive();
@@ -101,7 +101,7 @@ namespace MEGAbolt
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
-            TidyUp();            
+            TidyUp();
         }
 
         private void netcom_ClientDisconnected(object sender, DisconnectedEventArgs e)
@@ -147,7 +147,7 @@ namespace MEGAbolt
 
         public void ResetCamera()
         {
-            client.Self.Movement.Camera.LookAt(instance.SIMsittingPos() + new Vector3(-5,0,0)  * client.Self.Movement.BodyRotation, instance.SIMsittingPos());
+            client.Self.Movement.Camera.LookAt(instance.SIMsittingPos() + new Vector3(-5, 0, 0) * client.Self.Movement.BodyRotation, instance.SIMsittingPos());
         }
 
         private void Self_TeleportProgress(object sender, TeleportEventArgs e)
@@ -204,7 +204,7 @@ namespace MEGAbolt
         }
 
         private void Objects_OnObjectUpdated(object sender, TerseObjectUpdateEventArgs e)
-        { 
+        {
             if (!e.Update.Avatar) return;
 
             //if (e.Prim.LocalID == client.Self.LocalID) ResetCamera();
@@ -434,7 +434,7 @@ namespace MEGAbolt
             client.Self.AutoPilotCancel();
 
             //this.alwaysrun = aalwaysrun;
-            client.Self.Movement.AlwaysRun = aalwaysrun;            
+            client.Self.Movement.AlwaysRun = aalwaysrun;
         }
 
         public void SetSitting(bool ssitting, UUID target)
@@ -451,7 +451,7 @@ namespace MEGAbolt
                 client.Self.AvatarSitResponse += Self_AvatarSitResponse;
 
                 client.Self.RequestSit(target, Vector3.Zero);
-                client.Self.Sit();  
+                client.Self.Sit();
             }
             else
             {
@@ -480,7 +480,7 @@ namespace MEGAbolt
                 //instance.TabConsole.DisplayChatScreen("Failed to sit on object " + requestedsitprim.ToString());
             }
 
-            requestedsitprim = UUID.Zero;  
+            requestedsitprim = UUID.Zero;
         }
 
         public void SetGroundSit(bool sit)
@@ -531,7 +531,7 @@ namespace MEGAbolt
             if (ppointing)
             {
                 offset = ooffset;
- 
+
                 pointID = UUID.Random();
                 beamID = UUID.Random();
                 effectID = UUID.Random();
@@ -540,7 +540,7 @@ namespace MEGAbolt
 
                 client.Self.PointAtEffect(client.Self.AgentID, target, Vector3d.Zero, PointAtType.Select, pointID);
 
-                beamID1 = UUID.Random();                
+                beamID1 = UUID.Random();
                 beamID2 = UUID.Random();
 
                 client.Self.BeamEffect(client.Self.AgentID, UUID.Zero, ooffset, mncolour, 1.0f, beamID);
@@ -600,7 +600,7 @@ namespace MEGAbolt
                     break;
             }
 
-            
+
         }
 
         public void SetPointingTouch(bool ppointing, UUID target, Vector3d ooffset, Vector3 primposition)
@@ -659,7 +659,7 @@ namespace MEGAbolt
                     lookID = UUID.Random();
                 }
 
-                client.Self.LookAtEffect(client.Self.AgentID, target, new Vector3d(0,0,0), LookAtType.Idle, lookID);
+                client.Self.LookAtEffect(client.Self.AgentID, target, new Vector3d(0, 0, 0), LookAtType.Idle, lookID);
                 //lookattarget = target;
             }
             else

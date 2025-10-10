@@ -18,32 +18,31 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using MEGAbolt.NetworkComm;
-using OpenMetaverse;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Web;
-using System.Drawing.Drawing2D;
-using OpenMetaverse.Assets;
-using System.Timers;
-using System.Threading;
-using System.Linq;
+using BugSplatDotNetStandard;
+using CoreJ2K;
 using LibreMetaverse.Voice;
 using MEGAbolt.Controls;
-using System.Globalization;
-using System.Reflection;
-using BugSplatDotNetStandard;
-using WeCantSpell.Hunspell;
-using CoreJ2K;
+using MEGAbolt.NetworkComm;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using FMOD;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Timers;
+using System.Web;
+using System.Windows.Forms;
+using WeCantSpell.Hunspell;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 using Thread = System.Threading.Thread;
 
 namespace MEGAbolt
@@ -62,7 +61,7 @@ namespace MEGAbolt
         private UUID _MapImageID;
         private Image _MapLayer;
         private int px = 0;
-        private int py =0;
+        private int py = 0;
         public Simulator sim;
         private Rectangle rect;
         private bool move = false;
@@ -123,7 +122,7 @@ namespace MEGAbolt
             {
                 InitializeComponent();
             }
-            catch { ; }
+            catch {; }
 
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
@@ -304,7 +303,7 @@ namespace MEGAbolt
                     ChatManager.PrintAlertMessage(rmsg);
                 }));
             }
-            catch { ; }
+            catch {; }
 
             if (instance.Config.CurrentConfig.AutoSit)
             {
@@ -328,12 +327,12 @@ namespace MEGAbolt
                     //CheckLocation();
                 }));
             }
-            catch { ; }
+            catch {; }
 
             checkBox5.Enabled = instance.AllowVoice;
 
-            label18.Text = checkBox5.Enabled 
-                ? "Check 'Voice ON' box below. Then on 'Session start' unmute MIC to talk" 
+            label18.Text = checkBox5.Enabled
+                ? "Check 'Voice ON' box below. Then on 'Session start' unmute MIC to talk"
                 : "Voice is disabled on this parcel";
 
             client.Appearance.AppearanceSet -= Appearance_OnAppearanceSet;
@@ -377,7 +376,7 @@ namespace MEGAbolt
                     return;
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
@@ -392,7 +391,7 @@ namespace MEGAbolt
                 if (instance.MainForm.parcel.LocalID != e.LocalID) return;
             }
 
-            BeginInvoke(new MethodInvoker(UpdateMedia));           
+            BeginInvoke(new MethodInvoker(UpdateMedia));
         }
 
         private void UpdateMedia()
@@ -406,7 +405,7 @@ namespace MEGAbolt
             try
             {
                 Parcel parcel;
-                Vector3 apos = new Vector3(Vector3.Zero); 
+                Vector3 apos = new Vector3(Vector3.Zero);
                 apos = instance.SIMsittingPos();
 
                 float f1 = 64.0f * (apos.Y / 256.0f);
@@ -418,7 +417,7 @@ namespace MEGAbolt
 
                 if (parcelid == 0)
                 {
-                    Logger.Log("Chat Console: land media could not be updated ", Helpers.LogLevel.Info); 
+                    Logger.Log("Chat Console: land media could not be updated ", Helpers.LogLevel.Info);
                     return;
                 }
 
@@ -430,7 +429,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Chat Console Error updating Land Media: " + ex.Message, Helpers.LogLevel.Error);   
+                Logger.Log("Chat Console Error updating Land Media: " + ex.Message, Helpers.LogLevel.Error);
             }
 
             tsMovie.Enabled = !string.IsNullOrEmpty(instance.Config.CurrentConfig.mURL);
@@ -442,7 +441,7 @@ namespace MEGAbolt
             if (InvokeRequired)
             {
                 BeginInvoke(new MethodInvoker(CheckWearables));
-                
+
                 //BeginInvoke(new MethodInvoker(() => CheckWearables()));
                 return;
             }
@@ -468,9 +467,9 @@ namespace MEGAbolt
                 var undershirts = client.Appearance.GetWearableAssets(WearableType.Undershirt).ToArray();
                 var universals = client.Appearance.GetWearableAssets(WearableType.Universal).ToArray();
 
-                if ( !shapes.Any() || !skins.Any() || !hairs.Any() || !shirts.Any()
-                     || !pants.Any() || !skirts.Any() || !jackets.Any() 
-                     || !eyes.Any() )
+                if (!shapes.Any() || !skins.Any() || !hairs.Any() || !shirts.Any()
+                     || !pants.Any() || !skirts.Any() || !jackets.Any()
+                     || !eyes.Any())
                 {
                     string missing = string.Empty;
 
@@ -523,7 +522,7 @@ namespace MEGAbolt
                     {
                         if (missing.EndsWith(", ", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            missing = missing.Remove(missing.Length - 2);   
+                            missing = missing.Remove(missing.Length - 2);
                         }
 
                         ChatManager.PrintAlertMessage($"Wearables missing: {missing}");
@@ -550,7 +549,7 @@ namespace MEGAbolt
 
             if (!sitTimer.Enabled) return;
 
-            instance.State.ResetCamera();   
+            instance.State.ResetCamera();
 
             sitTimer.Stop();
             sitTimer.Enabled = false;
@@ -559,7 +558,7 @@ namespace MEGAbolt
 
             Logger.Log("AUTOSIT: Searching for sit object", Helpers.LogLevel.Info);
 
-            Vector3 location = new Vector3(Vector3.Zero); 
+            Vector3 location = new Vector3(Vector3.Zero);
             location = instance.SIMsittingPos();
             float radius = 21;
 
@@ -793,7 +792,7 @@ namespace MEGAbolt
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[29].Tag = "zzz";
 
-            _menuItem.Dispose(); 
+            _menuItem.Dispose();
         }
 
         // When an emoticon is clicked, insert its image into RTF
@@ -945,7 +944,7 @@ namespace MEGAbolt
                 tabControl1.Visible = true;
             }
 
-            textBox1.Text = "Range: " + instance.Config.CurrentConfig.RadarRange.ToString(CultureInfo.CurrentCulture) + "m"; 
+            textBox1.Text = "Range: " + instance.Config.CurrentConfig.RadarRange.ToString(CultureInfo.CurrentCulture) + "m";
         }
 
         public void RemoveEvents()
@@ -982,7 +981,7 @@ namespace MEGAbolt
 
             client.Self.MeanCollision += Self_Collision;
             client.Objects.TerseObjectUpdate += Objects_OnObjectUpdated;
-            
+
             client.Appearance.AppearanceSet += Appearance_OnAppearanceSet;
             client.Parcels.ParcelDwellReply += Parcels_OnParcelDwell;
 
@@ -1016,7 +1015,7 @@ namespace MEGAbolt
             }
             catch
             {
-               ;
+                ;
             }
         }
 
@@ -1078,7 +1077,7 @@ namespace MEGAbolt
             lvwRadar.BeginUpdate();
             if (lvwRadar.Items.ContainsKey(name))
             {
-                lvwRadar.Items.RemoveByKey(name);  
+                lvwRadar.Items.RemoveByKey(name);
             }
             lvwRadar.EndUpdate();
 
@@ -1086,7 +1085,7 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 selfpos = new Vector3(Vector3.Zero); 
+                Vector3 selfpos = new Vector3(Vector3.Zero);
                 selfpos = instance.SIMsittingPos();
 
                 if (selfpos.Z < 0.1f)
@@ -1155,8 +1154,8 @@ namespace MEGAbolt
                     item.Font = new Font(item.Font, FontStyle.Bold);
                     item.Tag = client.Self.AgentID;
                     item.BackColor = Color.WhiteSmoke;
-                    item.ForeColor = Color.Black;  
-                    
+                    item.ForeColor = Color.Black;
+
                     item.SubItems.Add(string.Empty);
                 }
 
@@ -1188,7 +1187,7 @@ namespace MEGAbolt
             objpos.Y = pos.Y + (double)regionY;
             objpos.Z = pos.Z;   // -2f;
 
-            return objpos; 
+            return objpos;
         }
 
         private void GetCompass()
@@ -1199,7 +1198,7 @@ namespace MEGAbolt
 
                 return;
             }
-            
+
             Quaternion avRot = client.Self.RelativeRotation;
 
             Matrix4 m = Matrix4.CreateFromQuaternion(avRot);
@@ -1258,7 +1257,7 @@ namespace MEGAbolt
 
         public static Vector3 QuaternionToEuler(Quaternion q)
         {
-            Vector3 v = new Vector3(Vector3.Zero); 
+            Vector3 v = new Vector3(Vector3.Zero);
             v = Vector3.Zero;
 
             v.X = (float)Math.Atan2
@@ -1371,56 +1370,56 @@ namespace MEGAbolt
 
                 instance.State.LookAt(false, e.OwnerID);
             }
-        }        
+        }
 
         public void ProcessChatInput(string input, ChatType type)
         {
             input = instance.CleanReplace("http://secondlife:///", "secondlife:///", input);
             input = instance.CleanReplace("http://secondlife://", "secondlife:///", input);
- 
-                if (instance.Config.CurrentConfig.EnableSpelling && spellChecker != null)
+
+            if (instance.Config.CurrentConfig.EnableSpelling && spellChecker != null)
+            {
+                // put preference check here
+                //string cword = Regex.Replace(cbxInput.Text, @"[^a-zA-Z0-9]", "");
+                //string[] swords = cword.Split(' ');
+                string[] swords = input.Split(' ');
+                bool hasmistake = false;
+                bool correct = true;
+
+                foreach (string word in swords)
                 {
-                    // put preference check here
-                    //string cword = Regex.Replace(cbxInput.Text, @"[^a-zA-Z0-9]", "");
-                    //string[] swords = cword.Split(' ');
-                    string[] swords = input.Split(' ');
-                    bool hasmistake = false;
-                    bool correct = true;
+                    string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
 
-                    foreach (string word in swords)
+                    try
                     {
-                        string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
-
-                        try
+                        correct = spellChecker.Check(cword);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.Message == "Dictionary is not loaded")
                         {
+                            instance.Config.ApplyCurrentConfig();
                             correct = spellChecker.Check(cword);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            if (ex.Message == "Dictionary is not loaded")
-                            {
-                                instance.Config.ApplyCurrentConfig();
-                                correct = spellChecker.Check(cword);
-                            }
-                            else
-                            {
-                                Logger.Log("Spellcheck error chat: " + ex.Message, Helpers.LogLevel.Error);
-                            }
-                        }
-
-                        if (!correct)
-                        {
-                            hasmistake = true;
+                            Logger.Log("Spellcheck error chat: " + ex.Message, Helpers.LogLevel.Error);
                         }
                     }
 
-                    if (hasmistake)
+                    if (!correct)
                     {
-                        (new frmSpelling(instance, cbxInput.Text, swords, type)).Show();
-                        hasmistake = false;
-                        return;
+                        hasmistake = true;
                     }
                 }
+
+                if (hasmistake)
+                {
+                    (new frmSpelling(instance, cbxInput.Text, swords, type)).Show();
+                    hasmistake = false;
+                    return;
+                }
+            }
             //}
 
             SendChat(input, type);
@@ -1486,7 +1485,7 @@ namespace MEGAbolt
 
             //return tres;
 
-            return string.Empty;  
+            return string.Empty;
         }
 
         private static string GetLangPair(string sPair)
@@ -1557,7 +1556,7 @@ namespace MEGAbolt
 
             if (sav == null)
             {
-                MessageBox.Show("Avatar is out of range for this operation.", "MEGAbolt", 
+                MessageBox.Show("Avatar is out of range for this operation.", "MEGAbolt",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -1772,7 +1771,7 @@ namespace MEGAbolt
             {
                 client.Self.AnimationStart(Animations.TURNLEFT, false);
 
-                Vector3 pos = new Vector3(Vector3.Zero); 
+                Vector3 pos = new Vector3(Vector3.Zero);
                 pos = sav.Position;
 
                 client.Self.Movement.TurnToward(pos);
@@ -1805,7 +1804,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, false)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
@@ -1823,7 +1822,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, true)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
@@ -1845,7 +1844,7 @@ namespace MEGAbolt
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
-                catch { ; }
+                catch {; }
             }
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
@@ -1952,8 +1951,8 @@ namespace MEGAbolt
                     bck(m.Msg is WM_KEYDOWN or WM_SYSKEYDOWN);
                     break;
                 case 114: // <--- F3 Key
-                    if (!checkBox5.Checked) return false; 
-  
+                    if (!checkBox5.Checked) return false;
+
                     if (m.Msg == WM_KEYDOWN)
                     {
                         if (!checkBox3.Checked) break;
@@ -2110,7 +2109,7 @@ namespace MEGAbolt
                         : RichTextBoxStreamType.PlainText);
             }
 
-            saveFile1.Dispose(); 
+            saveFile1.Dispose();
         }
 
         private void saveChatToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2156,7 +2155,7 @@ namespace MEGAbolt
                     }
                     catch {; }
                 }));
-                
+
                 return;
             }
 
@@ -2202,7 +2201,7 @@ namespace MEGAbolt
                 BeginInvoke((MethodInvoker)delegate { UpdateMiniMap(e.Simulator); });
                 BeginInvoke((MethodInvoker)GetCompass);
             }
-            catch { ; } 
+            catch {; }
         }
 
         // Separate thread
@@ -2251,7 +2250,7 @@ namespace MEGAbolt
 
             if (_MapLayer == null || sim != client.Network.CurrentSim)
             {
-                world.Image = null; 
+                world.Image = null;
                 sim = client.Network.CurrentSim;
                 label8.Text = client.Network.CurrentSim.Name;
 
@@ -2273,7 +2272,7 @@ namespace MEGAbolt
                             }
                             else
                             {
-                                label11.Text = "Map unavailable"; 
+                                label11.Text = "Map unavailable";
                             }
                         }
                     }
@@ -2297,7 +2296,7 @@ namespace MEGAbolt
                     if (instance.Config.CurrentConfig.DisableRadar) return;
 
                     if (ssim != client.Network.CurrentSim) return;
-                    
+
                     Bitmap bmp = _MapLayer == null ? new Bitmap(256, 256) : (Bitmap)_MapLayer.Clone();
                     Graphics g = Graphics.FromImage(bmp);
 
@@ -2346,7 +2345,7 @@ namespace MEGAbolt
                     }
 
                     // V0.9.8.0 changes for OpenSIM compatibility
-                    Vector3 myPos = new Vector3(0,0,0);
+                    Vector3 myPos = new Vector3(0, 0, 0);
                     string strInfo = string.Empty;
 
                     myPos = instance.SIMsittingPos();
@@ -2567,12 +2566,12 @@ namespace MEGAbolt
                     world.Image = bmp;
                     //world.Cursor = Cursors.NoMove2D;
 
-                    strFormat.Dispose(); 
+                    strFormat.Dispose();
                     g.Dispose();
 
                     if (lastPos != myPos)
                     {
-                        lastPos = myPos; 
+                        lastPos = myPos;
                         GetCompass();
                     }
                 }
@@ -2618,7 +2617,7 @@ namespace MEGAbolt
                 List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
                 foreach (var o in invroot.Where(
-                             o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites" 
+                             o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites"
                                   || o.Name.ToLower(CultureInfo.CurrentCulture) == "my favorites")
                              .OfType<InventoryFolder>())
                 {
@@ -2633,14 +2632,14 @@ namespace MEGAbolt
         private void world_MouseDown(object sender, MouseEventArgs e)
         {
             if (instance.MainForm.WindowState == FormWindowState.Maximized) return;
-           
+
             if (e.Button != MouseButtons.Left)
                 return;
             px = world.Top;
             py = world.Left;
 
             world.Width = newsize * 2;
-            world.Height = newsize * 2; 
+            world.Height = newsize * 2;
 
             move = true;
             rect.X = e.X;
@@ -2671,7 +2670,7 @@ namespace MEGAbolt
             {
                 CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse));
             }
-            catch { ; }
+            catch {; }
 
             if (CurrentLoc != null)
             {
@@ -2702,7 +2701,7 @@ namespace MEGAbolt
             {
                 CurrentLoc = instance.avlocations.Find(g => g.Rectangle.Contains(mouse) == true);
             }
-            catch { ; }
+            catch {; }
 
             if (CurrentLoc != null)
             {
@@ -2710,13 +2709,13 @@ namespace MEGAbolt
                 {
                     UUID akey = (UUID)CurrentLoc.LocationName;
 
-                    string apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture) 
-                                                 + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture) 
+                    string apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture)
+                                                 + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture)
                                                  + "/" + Math.Round(CurrentLoc.Position.Z).ToString(CultureInfo.CurrentCulture);
 
                     world.Cursor = Cursors.Hand;
 
-                    string anme = string.Empty;  
+                    string anme = string.Empty;
 
                     lock (instance.avnames)
                     {
@@ -2730,7 +2729,7 @@ namespace MEGAbolt
                             }
 
                             toolTip1.SetToolTip(world, avname + anme + apstn);
-                            avuuid = akey;                            
+                            avuuid = akey;
                         }
                         else
                         {
@@ -2785,7 +2784,7 @@ namespace MEGAbolt
             else
             {
                 MessageBox.Show("Avatar is out of range for this function.", "MEGAbolt",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);  
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -2856,7 +2855,7 @@ namespace MEGAbolt
         private void lvwRadar_KeyUp(object sender, KeyEventArgs e)
         {
             if (lvwRadar.SelectedItems.Count < 1) return;
- 
+
             if (e.Control && e.Alt && e.KeyCode == Keys.I)
             {
                 tbtnStartIM.PerformClick();
@@ -3009,7 +3008,7 @@ namespace MEGAbolt
             {
                 panel7.Visible = false;
                 tsbSearch.ToolTipText = "Show chat search";
-                rtbChat.Height += 28; 
+                rtbChat.Height += 28;
             }
             else
             {
@@ -3115,13 +3114,13 @@ namespace MEGAbolt
                 return;
             }
 
-            try 
+            try
             {
                 cboCapture.Items.Clear();
 
                 foreach (string dev in list)
                 {
-                    cboCapture.Items.Add(dev);  
+                    cboCapture.Items.Add(dev);
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
@@ -3160,10 +3159,10 @@ namespace MEGAbolt
             try
             {
                 cboRender.Items.Clear();
-   
+
                 foreach (string dev in list)
                 {
-                    cboRender.Items.Add(dev);   
+                    cboRender.Items.Add(dev);
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "MEGAbolt"); }
@@ -3254,7 +3253,7 @@ namespace MEGAbolt
 
                     EnableVoice(false);
                     cboRender.Items.Clear();
-                    cboCapture.Items.Clear();   
+                    cboCapture.Items.Clear();
 
                     vgate.OnVoiceConnectionChange -= vgate_OnVoiceConnectionChange;
                     vgate.OnAuxGetCaptureDevicesResponse -= vgate_OnAuxGetCaptureDevicesResponse;
@@ -3283,23 +3282,23 @@ namespace MEGAbolt
             trackBar1.Enabled = ebl;
             trackBar2.Enabled = ebl;
             checkBox3.Enabled = ebl;
-            checkBox4.Enabled = ebl; 
+            checkBox4.Enabled = ebl;
         }
 
         private void cboCapture_SelectedIndexChanged(object sender, EventArgs e)
         {
-            vgate.CurrentCaptureDevice = cboCapture.SelectedItem.ToString();  
+            vgate.CurrentCaptureDevice = cboCapture.SelectedItem.ToString();
         }
 
         private void cboRender_SelectedIndexChanged(object sender, EventArgs e)
         {
-            vgate.PlaybackDevice = cboRender.SelectedItem.ToString(); 
+            vgate.PlaybackDevice = cboRender.SelectedItem.ToString();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             vgate.MicLevel = trackBar1.Value;
-            toolTip1.SetToolTip(trackBar1, "Volume: " + trackBar1.Value.ToString(CultureInfo.CurrentCulture)); 
+            toolTip1.SetToolTip(trackBar1, "Volume: " + trackBar1.Value.ToString(CultureInfo.CurrentCulture));
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -3315,7 +3314,7 @@ namespace MEGAbolt
                 client.Appearance.RequestSetAppearance(true);
                 timer2.Enabled = false;
                 timer2.Stop();
-            }  
+            }
         }
 
         private void world_Click(object sender, EventArgs e)
@@ -3416,7 +3415,7 @@ namespace MEGAbolt
 
         private void picVoice_MouseLeave(object sender, EventArgs e)
         {
-            tTip.Close(); 
+            tTip.Close();
         }
 
         private void picMap_MouseHover(object sender, EventArgs e)
@@ -3426,7 +3425,7 @@ namespace MEGAbolt
 
         private void picMap_MouseLeave(object sender, EventArgs e)
         {
-            tTip1.Close(); 
+            tTip1.Close();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -3549,7 +3548,7 @@ namespace MEGAbolt
                     tooltiptext = string.Empty;
                     toolTip.SetToolTip(lvwRadar, null);
                 }
-                catch { ; }
+                catch {; }
             }
         }
 
@@ -3581,7 +3580,7 @@ namespace MEGAbolt
             TPtimer.Stop();
             TPtimer.Enabled = false;
 
-            pTP.Visible = false; 
+            pTP.Visible = false;
         }
 
         private void TPtimer_Tick(object sender, EventArgs e)
@@ -3604,7 +3603,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("MB ERROR", Helpers.LogLevel.Error, ex);  
+                Logger.Log("MB ERROR", Helpers.LogLevel.Error, ex);
             }
         }
 

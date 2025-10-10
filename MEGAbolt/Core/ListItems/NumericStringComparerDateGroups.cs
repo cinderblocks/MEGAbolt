@@ -19,9 +19,9 @@
  */
 
 using System.Collections;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -30,7 +30,7 @@ namespace MEGAbolt
     {
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
         public static extern int StrCmpLogicalW(string psz1, string psz2);
-    } 
+    }
 
     /// <summary>
     /// This class is an implementation of the 'IComparer' interface.

@@ -19,8 +19,8 @@
  */
 
 using System;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -40,7 +40,7 @@ namespace MEGAbolt
             {
                 if (args.Length != 3)
                 {
-                    MessageBox.Show("Command line usage: megabolt.exe [firstname] [lastname] [password]","MEGAbolt",
+                    MessageBox.Show("Command line usage: megabolt.exe [firstname] [lastname] [password]", "MEGAbolt",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     return;
@@ -65,11 +65,11 @@ namespace MEGAbolt
                     //messagebox of last resort
                     DialogResult res = MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
                         "Message: {0}, From: {1}, Stack: {2}", ex.Message, ex.Source, ex.StackTrace),
-                        "MEGAbolt has encountered an unrecovarable error", MessageBoxButtons.RetryCancel, 
+                        "MEGAbolt has encountered an unrecovarable error", MessageBoxButtons.RetryCancel,
                         MessageBoxIcon.Exclamation);
                     if (res != DialogResult.Retry) { throw ex; }
                 }
-            } 
+            }
         }
     }
 }

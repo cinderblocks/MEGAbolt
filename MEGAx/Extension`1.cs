@@ -31,29 +31,29 @@ using System.Reflection;
 
 namespace MEGAx
 {
-  public class Extension<ClientInterface>
-  {
-      public Extension()
+    public class Extension<ClientInterface>
     {
+        public Extension()
+        {
+        }
+
+        public Extension(string filename, ExtensionType extensionType, ClientInterface instance)
+        {
+            ExtensionType = extensionType;
+            Instance = instance;
+            Filename = filename;
+        }
+
+        public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
+
+        public string Filename { get; set; } = "";
+
+        public SourceFileLanguage Language { get; set; } = SourceFileLanguage.Unknown;
+
+        public ClientInterface Instance { get; set; } = default(ClientInterface);
+
+        public Assembly InstanceAssembly { get; set; } = null;
+
+        public Type GetType(string name) => InstanceAssembly.GetType(name, false, true);
     }
-
-    public Extension(string filename, ExtensionType extensionType, ClientInterface instance)
-    {
-      ExtensionType = extensionType;
-      Instance = instance;
-      Filename = filename;
-    }
-
-    public ExtensionType ExtensionType { get; set; } = ExtensionType.Unknown;
-
-    public string Filename { get; set; } = "";
-
-    public SourceFileLanguage Language { get; set; } = SourceFileLanguage.Unknown;
-
-    public ClientInterface Instance { get; set; } = default (ClientInterface);
-
-    public Assembly InstanceAssembly { get; set; } = null;
-
-    public Type GetType(string name) => InstanceAssembly.GetType(name, false, true);
-  }
 }

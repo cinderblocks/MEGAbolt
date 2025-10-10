@@ -18,17 +18,17 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 using ScintillaNET;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -38,13 +38,13 @@ namespace MEGAbolt
         private MEGAboltNetcom netcom;
         private GridClient client;
         private InventoryItem item;
-        
+
         private bool closePending = false;
         private bool saving = false;
         private bool ointernal = false;
         private bool istaskobj = false;
-        private UUID objectid = UUID.Zero;  
-        
+        private UUID objectid = UUID.Zero;
+
         private const int LINE_NUMBERS_MARGIN_WIDTH = 35;
         private UUID assetUUID = UUID.Zero;
         private UUID itemUUID = UUID.Zero;
@@ -67,7 +67,7 @@ namespace MEGAbolt
             //checkBox2.Visible = false;
 
             AddNetcomEvents();
-            
+
             Text = item.Name + " (script) - MEGAbolt";
 
             SetScintilla();
@@ -75,7 +75,7 @@ namespace MEGAbolt
 
             assetUUID = item.AssetUUID;
             var transferID = UUID.Random();
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, 
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero,
                 item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
@@ -104,7 +104,7 @@ namespace MEGAbolt
             itemUUID = item.UUID;
 
             var transferID = UUID.Random();
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, 
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID,
                 obj.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
@@ -136,7 +136,7 @@ namespace MEGAbolt
 
                 rtbScript.Margins[0].Width = LINE_NUMBERS_MARGIN_WIDTH;
                 rtbScript.CaretForeColor = Color.Red;
-                
+
                 rtbScript.CaretLineBackColor = Color.Linen;
             }
             catch (Exception ex)
@@ -235,7 +235,7 @@ namespace MEGAbolt
                     SetScriptText(scriptContent, false);
                     return;
                 }
-                
+
                 scriptContent = Utils.BytesToString(transfer.AssetData);
                 SetScriptText(scriptContent, false);
 
@@ -262,8 +262,8 @@ namespace MEGAbolt
                 checkBox1.Checked = e.IsMono;
                 checkBox2.Checked = e.IsRunning;
             }));
-             
-            client.Inventory.ScriptRunningReply -= Inventory_ScriptRunningReply;  
+
+            client.Inventory.ScriptRunningReply -= Inventory_ScriptRunningReply;
         }
 
         //UI thread
@@ -296,7 +296,7 @@ namespace MEGAbolt
                     rtbScript.ReadOnly = false;
                     rtbScript.BackColor = Color.White;
                 }
-                
+
                 PB1.Visible = false;
                 tsStatus.Text = "Ready.";
 
@@ -305,7 +305,7 @@ namespace MEGAbolt
                     if (!ointernal)
                     {
                         tsSave.Enabled = true;
-                        tsbSave.Enabled = true; 
+                        tsbSave.Enabled = true;
                     }
 
                     ointernal = false;
@@ -440,7 +440,7 @@ namespace MEGAbolt
 
                     int posx = Convert.ToInt32(posxy[0].Trim(), CultureInfo.CurrentCulture);
 
-                    rtbScript.GotoPosition(rtbScript.Lines[posx-1].Position);
+                    rtbScript.GotoPosition(rtbScript.Lines[posx - 1].Position);
 
                     label1.Text = $"Compile {errs[1].Trim()}: {errs[2].Trim().Replace("\n", "")} @ line: {posxy[0].Trim()}";
                 });
@@ -521,8 +521,8 @@ namespace MEGAbolt
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.SelectAll(); 
-        }       
+            rtbScript.SelectAll();
+        }
 
         private void SaveToDisk()
         {
@@ -550,7 +550,7 @@ namespace MEGAbolt
                 tsSaveDisk.Enabled = false;
             }
 
-            saveFile1.Dispose(); 
+            saveFile1.Dispose();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -560,7 +560,7 @@ namespace MEGAbolt
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbScript.Redo(); 
+            rtbScript.Redo();
         }
 
         private void GetCurrentLine()
@@ -576,12 +576,12 @@ namespace MEGAbolt
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            toolStrip2.Visible = false; 
+            toolStrip2.Visible = false;
         }
 
         private void tsSaveDisk_Click(object sender, EventArgs e)
@@ -654,10 +654,10 @@ namespace MEGAbolt
             {
                 currentLine.MarkerAdd(0);
             }
-			else
-			{
-				currentLine.MarkerDelete(0);
-			}
+            else
+            {
+                currentLine.MarkerDelete(0);
+            }
         }
 
         private void nextBookmarkToolStripMenuItem_Click(object sender, EventArgs e)

@@ -24,18 +24,10 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 //  POSSIBILITY OF SUCH DAMAGE.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MEGAxCommon;
-using OpenMetaverse;
 using MEGAbolt;
-using System.Data.OleDb;   
+using OpenMetaverse;
+using System;
+using System.Windows.Forms;
 
 
 namespace SamplePlugin
@@ -62,15 +54,15 @@ namespace SamplePlugin
             // on if it has been loaded or not
             if (ext.Host != null)
                 ext.Host.HostStatus("MB Combat Controller");
-        }        
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
-        { 
+        {
             client.Self.GoHome();
         }
     }

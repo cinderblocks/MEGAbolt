@@ -32,7 +32,7 @@ namespace MEGAbolt
 
             //this.instance = instance; 
 
-            label1.Text = text;  
+            label1.Text = text;
         }
 
         private void CustomToolTip_Load(object sender, EventArgs e)

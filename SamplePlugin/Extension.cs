@@ -24,13 +24,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 //  POSSIBILITY OF SUCH DAMAGE.
 
-using MEGAxCommon;
 using MEGAbolt;
+using MEGAxCommon;
 
 
 namespace SamplePlugin
 {
-    public class Extension: IExtension
+    public class Extension : IExtension
     {
         // This whole class needs to be implemented in your project to interface
         // with MEGAbolt
@@ -38,7 +38,7 @@ namespace SamplePlugin
 
 
         #region IExtension Members
-		public IHost Host { get; set; } = null;
+        public IHost Host { get; set; } = null;
 
         public string Title { get; set; } = "MB Combat Controller";
 
@@ -49,15 +49,15 @@ namespace SamplePlugin
         public string Version { get; set; } = "V1.0";
 
         public void Process(MEGAboltInstance instance)
-		{ 
-			// Show the form to get user input or whatever
+        {
+            // Show the form to get user input or whatever
             // If you are not using forms then do whatever below
             // or call a process or class etc
 
             Form1 fi = new Form1(instance);
             fi.Show();
-		}
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

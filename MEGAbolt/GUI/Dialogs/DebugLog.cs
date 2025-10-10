@@ -18,18 +18,18 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Net;
-using System.Threading;
-using System.Timers;
 using System.Diagnostics;
 using System.Globalization;
+using System.Net;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Text;
+using System.Threading;
+using System.Timers;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -86,7 +86,7 @@ namespace MEGAbolt
             InitializeComponent();
 
             Disposed += frmDebugLog_Disposed;
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -188,7 +188,7 @@ namespace MEGAbolt
                 else
                     initQueue.Add(new DebugLogMessage((string)message, level, DateTime.Now));
             }
-            catch { ; }
+            catch {; }
         }
 
         //called on GUI thread
@@ -270,7 +270,7 @@ namespace MEGAbolt
             {
                 ReceivedLogMessage(logMessage.Message, logMessage.Level, logMessage.TimeStamp);
             }
-            catch { ; }
+            catch {; }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -290,7 +290,7 @@ namespace MEGAbolt
                 if (initQueue.Count > 0)
                     foreach (DebugLogMessage msg in initQueue) ProcessLogMessage(msg);
             }
-            catch { ; }
+            catch {; }
         }
 
         private void frmDebugLog_Load(object sender, EventArgs e)
@@ -444,7 +444,7 @@ namespace MEGAbolt
                     button4.Enabled = true;
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void tpgMonitor_Click(object sender, EventArgs e)
@@ -475,29 +475,29 @@ namespace MEGAbolt
         {
             //if (this.IsHandleCreated)
             //{
-                BeginInvoke(new MethodInvoker(() =>
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                if (pa.Message().Contains("Approximate round trip times in milli-seconds"))
                 {
-                    if (pa.Message().Contains("Approximate round trip times in milli-seconds"))
+                    string[] ltimes = pa.Message().Split(new Char[] { '=' });
+                    int enrs = ltimes.Length;
+
+                    string lval = ltimes[enrs - 1].Trim();
+                    label12.Text = "Latency: " + lval;
+
+                    try
                     {
-                        string[] ltimes = pa.Message().Split(new Char[] { '=' });
-                        int enrs = ltimes.Length;
-
-                        string lval = ltimes[enrs - 1].Trim();
-                        label12.Text = "Latency: " + lval;
-
-                        try
+                        if (lval.Contains("ms"))
                         {
-                            if (lval.Contains("ms"))
-                            {
-                                string valg = lval.Substring(0, lval.Length - 2);
-                                double dvalg = Convert.ToDouble(valg, CultureInfo.CurrentCulture);
+                            string valg = lval.Substring(0, lval.Length - 2);
+                            double dvalg = Convert.ToDouble(valg, CultureInfo.CurrentCulture);
 
-                                dataChart3.UpdateChart(dvalg);
-                            }
+                            dataChart3.UpdateChart(dvalg);
                         }
-                        catch {; }
                     }
-                }));
+                    catch {; }
+                }
+            }));
             //}
         }
 

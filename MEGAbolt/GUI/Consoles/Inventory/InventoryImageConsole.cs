@@ -18,17 +18,16 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
 using CoreJ2K;
-
 //using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -47,7 +46,7 @@ namespace MEGAbolt
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
             this.item = item;
-            
+
             if (instance.ImageCache.ContainsImage(item.AssetUUID))
                 SetFinalImage(instance.ImageCache.GetImage(item.AssetUUID));
             else
@@ -101,7 +100,7 @@ namespace MEGAbolt
 
             pnlOptions.Visible = true;
             pnlStatus.Visible = false;
-            
+
             // TPV change to allow only the creator to save the image. 31 Mar 2010
 
             //if ((item.Permissions.OwnerMask & PermissionMask.Copy) == PermissionMask.Copy)

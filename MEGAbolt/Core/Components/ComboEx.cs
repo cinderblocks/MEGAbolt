@@ -18,19 +18,19 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace MEGAbolt
 {
     public partial class ComboEx : ComboBox
     {
         public ComboEx()
-		{
-			//Set DrawMode
-			DrawMode = DrawMode.OwnerDrawFixed;	
-		}
+        {
+            //Set DrawMode
+            DrawMode = DrawMode.OwnerDrawFixed;
+        }
 
         /// <summary>
         /// ImageList Property
@@ -46,26 +46,26 @@ namespace MEGAbolt
 		/// </summary>
 		/// <param name="e"></param>
 		protected override void OnDrawItem(DrawItemEventArgs e)
-		{
-			e.DrawBackground(); //Draw Background Of Item
-			e.DrawFocusRectangle(); //Draw Its rectangle
+        {
+            e.DrawBackground(); //Draw Background Of Item
+            e.DrawFocusRectangle(); //Draw Its rectangle
 
-			if (e.Index < 0) //Do We Have A Valid List ¿
+            if (e.Index < 0) //Do We Have A Valid List ¿
 
-				//Just Draw Indented Text
-				e.Graphics.DrawString(Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
+                //Just Draw Indented Text
+                e.Graphics.DrawString(Text, e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 
-			else //We Have A List
-			{
-				
-				if (Items[e.Index].GetType() == typeof(ICItem))  //Is It A ImageCombo Item ¿
-				{															
-					ICItem ICCurrItem = (ICItem)Items[e.Index]; //Get Current Item
+            else //We Have A List
+            {
 
-					//Obtain Current Item's ForeColour
+                if (Items[e.Index].GetType() == typeof(ICItem))  //Is It A ImageCombo Item ¿
+                {
+                    ICItem ICCurrItem = (ICItem)Items[e.Index]; //Get Current Item
+
+                    //Obtain Current Item's ForeColour
                     Color ICCurrForeColour = (ICCurrItem.ICForeColour != Color.FromKnownColor(KnownColor.Transparent)) ? ICCurrItem.ICForeColour : e.ForeColor;
 
-					//Obtain Current Item's Font
+                    //Obtain Current Item's Font
                     Font ICCurrFont = ICCurrItem.ICHighLight ? new Font(e.Font, FontStyle.Bold) : e.Font;
 
                     if (ICCurrItem.ICImageIndex != -1) //If In Actual List ( Which Needs Images )
@@ -83,18 +83,18 @@ namespace MEGAbolt
                     }
 
                     ICCurrFont.Dispose();
-				}
-				else //Not An ImageCombo Box Item
-				
-					//Just Draw The Text
-					e.Graphics.DrawString(Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
-				
-			}
+                }
+                else //Not An ImageCombo Box Item
 
-			base.OnDrawItem (e);
-		}
+                    //Just Draw The Text
+                    e.Graphics.DrawString(Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + ICImageList.ImageSize.Width, e.Bounds.Top);
 
-       public class ICItem : object
+            }
+
+            base.OnDrawItem(e);
+        }
+
+        public class ICItem : object
         {
             public ICItem()
             {

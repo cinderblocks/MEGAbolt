@@ -18,14 +18,14 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -150,7 +150,7 @@ namespace MEGAbolt
                     Dispose();
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         private void WornAssets_Load(object sender, EventArgs e)
@@ -195,7 +195,7 @@ namespace MEGAbolt
             if (e.Simulator.Handle != client.Network.CurrentSim.Handle) return;
 
             //if (!e.Prim.IsAttachment) return;
-            
+
             //if (e.Prim.ParentID != av.LocalID) return;
 
             if (listItems.ContainsKey(e.ObjectLocalID))
@@ -266,8 +266,8 @@ namespace MEGAbolt
             Font boldFont = new Font(e.Font, FontStyle.Bold);
             Font regularFont = new Font(e.Font, FontStyle.Regular);
 
-            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
-                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             string name = string.Empty;
@@ -391,8 +391,8 @@ namespace MEGAbolt
             Font boldFont = new Font(e.Font, FontStyle.Bold);
             Font regularFont = new Font(e.Font, FontStyle.Regular);
 
-            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected 
-                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText)) 
+            textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
+                ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
             string name = string.Empty;
@@ -439,8 +439,8 @@ namespace MEGAbolt
         private void lbxPrims_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtUUID.Text = string.Empty;
-            txtPoint.Text = string.Empty;  
-   
+            txtPoint.Text = string.Empty;
+
             label4.Text = string.Empty;
 
             lbxPrimGroup.BeginUpdate();
@@ -454,13 +454,13 @@ namespace MEGAbolt
                 btnTouch.Enabled = false;
                 button2.Enabled = false;
 
-                if (av.ID == client.Self.AgentID) button1.Enabled = false; 
+                if (av.ID == client.Self.AgentID) button1.Enabled = false;
                 return;
             }
             else
             {
                 button2.Enabled = true;
-                if (av.ID == client.Self.AgentID) button1.Enabled = true; 
+                if (av.ID == client.Self.AgentID) button1.Enabled = true;
             }
 
             AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];

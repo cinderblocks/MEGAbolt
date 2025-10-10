@@ -18,12 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
+using OpenMetaverse;
+using OpenMetaverse.Rendering;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using System.Threading;
-using OpenMetaverse;
-using OpenMetaverse.Rendering;
 
 namespace MEGAbolt.Rendering
 {

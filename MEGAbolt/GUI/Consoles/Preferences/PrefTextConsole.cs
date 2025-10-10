@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.Controls;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using MEGAbolt.Controls;
-using System.Diagnostics;
 
 namespace MEGAbolt
 {
@@ -55,7 +55,7 @@ namespace MEGAbolt
             chkChat.Checked = config.CurrentConfig.SaveChat;
             txtDir.Text = config.CurrentConfig.LogDir;
             chkGroupNotices.Checked = config.CurrentConfig.DisableGroupNotices;
-            chkGIMs.Checked = config.CurrentConfig.DisableGroupIMs;    
+            chkGIMs.Checked = config.CurrentConfig.DisableGroupIMs;
 
             //if (config.CurrentConfig.BusyReply != string.Empty && config.CurrentConfig.BusyReply != null)
             //{
@@ -64,9 +64,9 @@ namespace MEGAbolt
 
             // Initial IM feature thx to Elmo Clarity 20/12/2010
             textBox2.Text = config.CurrentConfig.InitialIMReply;
-            
+
             chkSLT.Checked = config.CurrentConfig.UseSLT;
-            chkSound.Checked = config.CurrentConfig.PlaySound; 
+            chkSound.Checked = config.CurrentConfig.PlaySound;
         }
 
         #region IPreferencePane Members
@@ -89,7 +89,7 @@ namespace MEGAbolt
             config.CurrentConfig.SaveChat = chkChat.Checked;
             config.CurrentConfig.LogDir = txtDir.Text;
             config.CurrentConfig.DisableGroupIMs = chkGIMs.Checked;
-            config.CurrentConfig.DisableGroupNotices = chkGroupNotices.Checked;  
+            config.CurrentConfig.DisableGroupNotices = chkGroupNotices.Checked;
         }
 
         #endregion
@@ -146,7 +146,7 @@ namespace MEGAbolt
         private void button1_Click(object sender, EventArgs e)
         {
             folderBrowser.SelectedPath = txtDir.Text;
-   
+
             DialogResult result = folderBrowser.ShowDialog();
 
             if (result == DialogResult.OK)

@@ -43,7 +43,7 @@ namespace MEGAbolt
         protected override void OnNotifyMessage(Message m)
         {
             //Filter out the WM_ERASEBKGND message
-            if(m.Msg != 0x14)
+            if (m.Msg != 0x14)
             {
                 base.OnNotifyMessage(m);
             }

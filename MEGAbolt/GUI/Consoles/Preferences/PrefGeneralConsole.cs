@@ -18,17 +18,17 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using MEGAbolt.Controls;
 using OpenMetaverse;
+using System;
 using System.Diagnostics;
-using System.IO;
+using System.Drawing;
 //using System.Web;
 //using System.Web.UI;
 //using System.IO;
 using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -40,7 +40,7 @@ namespace MEGAbolt
         private Popup toolTip;
         //private Popup toolTip1;
         private Popup toolTip2;
-        
+
         private Popup toolTip4;
         private Popup toolTip5;
         private Popup toolTip6;
@@ -111,7 +111,7 @@ namespace MEGAbolt
             toolTip9.AutoClose = false;
             toolTip9.FocusOnOpen = false;
             toolTip9.ShowingAnimation = toolTip9.HidingAnimation = PopupAnimations.Blend;
-  
+
             this.instance = instance;
             client = this.instance.Client;
             config = this.instance.Config;
@@ -122,9 +122,9 @@ namespace MEGAbolt
                 rdoOfficeStyle.Checked = true;
 
             //chkRadar.Checked = config.CurrentConfig.iRadar;
-            chkConnect4.Checked = config.CurrentConfig.Connect4;    
+            chkConnect4.Checked = config.CurrentConfig.Connect4;
             chkNotifications.Checked = config.CurrentConfig.DisableNotifications;
-            chkFriends.Checked = config.CurrentConfig.DisableFriendsNotifications; 
+            chkFriends.Checked = config.CurrentConfig.DisableFriendsNotifications;
             chkAutoSit.Checked = config.CurrentConfig.AutoSit;
 
             try
@@ -134,7 +134,7 @@ namespace MEGAbolt
             catch
             {
                 tBar1.Value = config.CurrentConfig.RadarRange = tBar1.Maximum;
-                MessageBox.Show("Your radar setting was greater than the maximum allowed.\nIt has been changed to " + tBar1.Maximum.ToString(CultureInfo.CurrentCulture), "MEGAbolt"); 
+                MessageBox.Show("Your radar setting was greater than the maximum allowed.\nIt has been changed to " + tBar1.Maximum.ToString(CultureInfo.CurrentCulture), "MEGAbolt");
             }
 
             textBox1.Text = tBar1.Value.ToString(CultureInfo.CurrentCulture);
@@ -291,7 +291,7 @@ namespace MEGAbolt
 
             if (config.CurrentConfig.DeclineInv)
             {
-                comboBox1.SelectedIndex = 1; 
+                comboBox1.SelectedIndex = 1;
             }
 
             if (config.CurrentConfig.AutoAcceptItems)
@@ -320,7 +320,7 @@ namespace MEGAbolt
             //instance.Config.CurrentConfig.iRadar = chkRadar.Checked;
             instance.Config.CurrentConfig.Connect4 = chkConnect4.Checked;
             instance.Config.CurrentConfig.DisableNotifications = chkNotifications.Checked;
-            config.CurrentConfig.DisableFriendsNotifications = chkFriends.Checked;  
+            config.CurrentConfig.DisableFriendsNotifications = chkFriends.Checked;
             instance.Config.CurrentConfig.AutoSit = chkAutoSit.Checked;
             instance.Config.CurrentConfig.RadarRange = tBar1.Value;
             instance.Config.CurrentConfig.ObjectRange = tbar2.Value;
@@ -336,7 +336,7 @@ namespace MEGAbolt
             instance.Config.CurrentConfig.HideDisconnectPrompt = checkBox13.Checked;
             instance.Config.CurrentConfig.DisableRadar = chkDisableRadar.Checked;
             instance.Config.CurrentConfig.RestrictRadar = chkRestrictRadar.Checked;
-            instance.Config.CurrentConfig.DisableVoice = chkVoice.Checked;  
+            instance.Config.CurrentConfig.DisableVoice = chkVoice.Checked;
             instance.Config.CurrentConfig.DisableFavs = chkFavs.Checked;
             instance.Config.CurrentConfig.DisableRadarImageMiniMap = chkRadarMiniMap.Checked;
             instance.Config.CurrentConfig.ChatBufferLimit = Convert.ToInt32(numChatBuff.Value);
@@ -366,7 +366,7 @@ namespace MEGAbolt
             config.CurrentConfig.StartMinimised = chkMinimised.Checked;
             config.CurrentConfig.AdRemove = txtAdRemove.Text.Trim();
             config.CurrentConfig.MasterAvatar = txtMavatar.Text.Trim();
-            config.CurrentConfig.MasterObject = txtMObject.Text.Trim(); 
+            config.CurrentConfig.MasterObject = txtMObject.Text.Trim();
             config.CurrentConfig.AutoTransfer = chkAutoTransfer.Checked;
             config.CurrentConfig.DisableTrayIcon = chkTray.Checked;
             config.CurrentConfig.DisableTyping = chkTyping.Checked;
@@ -743,7 +743,7 @@ namespace MEGAbolt
 
         private void tBar1_ValueChanged(object sender, EventArgs e)
         {
-            textBox1.Text = tBar1.Value.ToString(CultureInfo.CurrentCulture);    
+            textBox1.Text = tBar1.Value.ToString(CultureInfo.CurrentCulture);
         }
 
         private void tbar2_ValueChanged(object sender, EventArgs e)
@@ -759,7 +759,7 @@ namespace MEGAbolt
         private void button4_Click(object sender, EventArgs e)
         {
             colorDialog1.ShowDialog();
-            textBox7.BackColor =  textBox6.BackColor = colorDialog1.Color;
+            textBox7.BackColor = textBox6.BackColor = colorDialog1.Color;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -772,11 +772,11 @@ namespace MEGAbolt
 
                 headerfont = fontDialog1.Font.FontFamily.Name.ToString(CultureInfo.CurrentCulture);
                 headerfontstyle = fontDialog1.Font.Style.ToString();
-                headerfontsize = fontDialog1.Font.Size;  
+                headerfontsize = fontDialog1.Font.Size;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);   
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -886,7 +886,7 @@ namespace MEGAbolt
         {
             if (radioButton1.Checked) trackBar1.Enabled = false;
 
-            trackBar1.Value = 500; 
+            trackBar1.Value = 500;
             label19.Text = "500";
         }
 
@@ -897,7 +897,7 @@ namespace MEGAbolt
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label19.Text = trackBar1.Value.ToString(CultureInfo.CurrentCulture);    
+            label19.Text = trackBar1.Value.ToString(CultureInfo.CurrentCulture);
         }
 
         private void chkDisableRadar_CheckedChanged(object sender, EventArgs e)

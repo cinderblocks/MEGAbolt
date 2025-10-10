@@ -21,103 +21,103 @@ using System.Drawing;
 
 namespace MEGAbolt.Controls
 {
-  internal readonly struct GripBounds
-  {
-    private const int GripSize = 6;
-    private const int CornerGripSize = 12;
-
-    public GripBounds(Rectangle clientRectangle) => ClientRectangle = clientRectangle;
-
-    public Rectangle ClientRectangle { get; }
-
-    public Rectangle Bottom
+    internal readonly struct GripBounds
     {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Y = clientRectangle.Bottom - 6 + 1;
-        clientRectangle.Height = 6;
-        return clientRectangle;
-      }
-    }
+        private const int GripSize = 6;
+        private const int CornerGripSize = 12;
 
-    public Rectangle BottomRight
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Y = clientRectangle.Bottom - 12 + 1;
-        clientRectangle.Height = 12;
-        clientRectangle.X = clientRectangle.Width - 12 + 1;
-        clientRectangle.Width = 12;
-        return clientRectangle;
-      }
-    }
+        public GripBounds(Rectangle clientRectangle) => ClientRectangle = clientRectangle;
 
-    public Rectangle Top
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Height = 6;
-        return clientRectangle;
-      }
-    }
+        public Rectangle ClientRectangle { get; }
 
-    public Rectangle TopRight
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Height = 12;
-        clientRectangle.X = clientRectangle.Width - 12 + 1;
-        clientRectangle.Width = 12;
-        return clientRectangle;
-      }
-    }
+        public Rectangle Bottom
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Y = clientRectangle.Bottom - 6 + 1;
+                clientRectangle.Height = 6;
+                return clientRectangle;
+            }
+        }
 
-    public Rectangle Left
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Width = 6;
-        return clientRectangle;
-      }
-    }
+        public Rectangle BottomRight
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Y = clientRectangle.Bottom - 12 + 1;
+                clientRectangle.Height = 12;
+                clientRectangle.X = clientRectangle.Width - 12 + 1;
+                clientRectangle.Width = 12;
+                return clientRectangle;
+            }
+        }
 
-    public Rectangle BottomLeft
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Width = 12;
-        clientRectangle.Y = clientRectangle.Height - 12 + 1;
-        clientRectangle.Height = 12;
-        return clientRectangle;
-      }
-    }
+        public Rectangle Top
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Height = 6;
+                return clientRectangle;
+            }
+        }
 
-    public Rectangle Right
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.X = clientRectangle.Right - 6 + 1;
-        clientRectangle.Width = 6;
-        return clientRectangle;
-      }
-    }
+        public Rectangle TopRight
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Height = 12;
+                clientRectangle.X = clientRectangle.Width - 12 + 1;
+                clientRectangle.Width = 12;
+                return clientRectangle;
+            }
+        }
 
-    public Rectangle TopLeft
-    {
-      get
-      {
-        Rectangle clientRectangle = ClientRectangle;
-        clientRectangle.Width = 12;
-        clientRectangle.Height = 12;
-        return clientRectangle;
-      }
+        public Rectangle Left
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Width = 6;
+                return clientRectangle;
+            }
+        }
+
+        public Rectangle BottomLeft
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Width = 12;
+                clientRectangle.Y = clientRectangle.Height - 12 + 1;
+                clientRectangle.Height = 12;
+                return clientRectangle;
+            }
+        }
+
+        public Rectangle Right
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.X = clientRectangle.Right - 6 + 1;
+                clientRectangle.Width = 6;
+                return clientRectangle;
+            }
+        }
+
+        public Rectangle TopLeft
+        {
+            get
+            {
+                Rectangle clientRectangle = ClientRectangle;
+                clientRectangle.Width = 12;
+                clientRectangle.Height = 12;
+                return clientRectangle;
+            }
+        }
     }
-  }
 }

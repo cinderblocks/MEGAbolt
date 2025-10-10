@@ -17,17 +17,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
+using BugSplatDotNetStandard;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Drawing;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Threading;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
@@ -63,7 +62,7 @@ namespace MEGAbolt
         {
             InitializeComponent();
             Disposed += FriendsConsole_Disposed;
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -104,7 +103,7 @@ namespace MEGAbolt
                 //lbxFriends.Sort();
                 lbxFriends.EndUpdate();
 
-                lblFriendName.Text = string.Empty;  
+                lblFriendName.Text = string.Empty;
             }
         }
 
@@ -122,7 +121,7 @@ namespace MEGAbolt
             {
                 fconfig?.Save();
             }
-            catch { ; }
+            catch {; }
         }
 
         private void RefreshFriendsList()
@@ -185,7 +184,7 @@ namespace MEGAbolt
                 {
                     if (s.Key == uuid)
                     {
-                        fconfig.removeFriendFromGroup(header,uuid);
+                        fconfig.removeFriendFromGroup(header, uuid);
                     }
                 }
             }
@@ -273,7 +272,7 @@ namespace MEGAbolt
                 else
                 {
                     button2.Visible = false;
-                    button2.Enabled = false; 
+                    button2.Enabled = false;
                 }
 
                 selectedFriend = friend;
@@ -290,7 +289,7 @@ namespace MEGAbolt
                 chkModifyMyObjects.Checked = friend.CanModifyMyObjects;
                 settingFriend = false;
             }
-            catch { ; }
+            catch {; }
 
         }
 
@@ -304,7 +303,7 @@ namespace MEGAbolt
 
             Brush textBrush = null;
             Font textFont = null;
-            
+
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
                 textBrush = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
@@ -423,7 +422,7 @@ namespace MEGAbolt
             cbofgroups.SelectedIndex = 0;
 
             string fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID + "_fr_groups.ini";
-// maybe use "Path.Combine(MEGAbolt.DataFolder.GetDataFolder(),client.Self.AgentID.ToString() + "_fr_groups.ini");" ?
+            // maybe use "Path.Combine(MEGAbolt.DataFolder.GetDataFolder(),client.Self.AgentID.ToString() + "_fr_groups.ini");" ?
 
             if (!System.IO.File.Exists(fconffile))
             {
@@ -444,7 +443,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show($"Are you sure you want to terminate\nyour friendship with {selectedFriend.Name}?", 
+            DialogResult res = MessageBox.Show($"Are you sure you want to terminate\nyour friendship with {selectedFriend.Name}?",
                 "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.No)
@@ -491,7 +490,7 @@ namespace MEGAbolt
             cbofgroups.Items.Clear();
             lbGroups.Items.Clear();
 
-            cbofgroups.Items.Add("...All friends"); 
+            cbofgroups.Items.Add("...All friends");
 
             foreach (KeyValuePair<string, Dictionary<string, string>> fr in fgrps)
             {
@@ -499,7 +498,7 @@ namespace MEGAbolt
                 //Dictionary<string, string> rec = fr.Value;
 
                 cbofgroups.Items.Add(header);
-                lbGroups.Items.Add(header);   
+                lbGroups.Items.Add(header);
             }
 
             cbofgroups.Sorted = true;
@@ -594,7 +593,7 @@ namespace MEGAbolt
             if (e.Data.GetDataPresent(typeof(FriendsListItem)))
             {
                 fconfig.AddFriendToGroup(lbGroups.SelectedItem.ToString(), node.Friend.Name, node.Friend.UUID.ToString());
-                MessageBox.Show($"{node.Friend.Name} has been added to your '{lbGroups.SelectedItem}' group.", "MEGAbolt", 
+                MessageBox.Show($"{node.Friend.Name} has been added to your '{lbGroups.SelectedItem}' group.", "MEGAbolt",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -607,6 +606,6 @@ namespace MEGAbolt
         private void button2_Click(object sender, EventArgs e)
         {
             fconfig.removeFriendFromGroup(lbGroups.SelectedItem.ToString(), selectedFriend.UUID.ToString());
-        }        
+        }
     }
 }

@@ -18,16 +18,16 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Diagnostics;
-using System.Threading;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -60,7 +60,7 @@ namespace MEGAbolt
         public frmLogSearch(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -109,39 +109,39 @@ namespace MEGAbolt
                 }
             }
 
-            label3.Text = "Total " + listBox1.Items.Count.ToString(CultureInfo.CurrentCulture) + " files.";   
+            label3.Text = "Total " + listBox1.Items.Count.ToString(CultureInfo.CurrentCulture) + " files.";
         }
 
         private static int CompareFileByDate(FileSystemInfo f1, FileSystemInfo f2)
         {
-            return -1 *  DateTime.Compare(f1.CreationTimeUtc, f2.CreationTimeUtc);
+            return -1 * DateTime.Compare(f1.CreationTimeUtc, f2.CreationTimeUtc);
             //return f1.CreationTime.CompareTo(f2.CreationTime); 
         }
 
         private void FindText(string fName)
         {
             string[] s_arr = Regex.Split(fName, @"(\\)");
-            string name = s_arr[^1];   
+            string name = s_arr[^1];
 
             StreamReader testTxt = new StreamReader(fName);
             string allRead = testTxt.ReadToEnd().ToLower(CultureInfo.CurrentCulture);
             //testTxt.Close();
 
-            string regMatch = textBox1.Text.ToLower(CultureInfo.CurrentCulture); 
+            string regMatch = textBox1.Text.ToLower(CultureInfo.CurrentCulture);
 
             if (Regex.IsMatch(allRead, regMatch))
             {
-                FoundFiles.Add(name); 
+                FoundFiles.Add(name);
             }
 
-            testTxt.Dispose(); 
+            testTxt.Dispose();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("You must enter a search term first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);  
+                MessageBox.Show("You must enter a search term first.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -159,10 +159,10 @@ namespace MEGAbolt
             {
                 foreach (string term in FoundFiles)
                 {
-                    listBox2.Items.Add(term);  
+                    listBox2.Items.Add(term);
                 }
 
-                label4.Text = "Search term found in " + FoundFiles.Count.ToString(CultureInfo.CurrentCulture) + " files:";  
+                label4.Text = "Search term found in " + FoundFiles.Count.ToString(CultureInfo.CurrentCulture) + " files:";
                 //button2.Enabled = button3.Enabled = true;
 
                 if (FoundFiles.Count > 1)
@@ -172,14 +172,14 @@ namespace MEGAbolt
             }
             else
             {
-                label4.Text = "Zero results found";  
+                label4.Text = "Zero results found";
                 button2.Enabled = button3.Enabled = false;
-            }   
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -259,7 +259,7 @@ namespace MEGAbolt
         {
             textBox1.SelectionStart = 0;
             textBox1.SelectionLength = textBox1.Text.Length;
-            textBox1.SelectAll(); 
+            textBox1.SelectAll();
         }
 
         private void button5_Click(object sender, EventArgs e)

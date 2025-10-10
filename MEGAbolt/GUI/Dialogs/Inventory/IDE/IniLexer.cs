@@ -20,9 +20,8 @@
 
 #region Using Directives
 
-using System;
-
 using ScintillaNET;
+using System;
 using System.Drawing;
 
 #endregion Using Directives

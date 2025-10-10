@@ -1,12 +1,12 @@
-﻿using System;
+﻿using MEGAbolt.NetworkComm;
+using OpenMetaverse;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
-using OpenMetaverse;
 using System.Text.RegularExpressions;
-using MEGAbolt.NetworkComm;
+using System.Windows.Forms;
 using WeCantSpell.Hunspell;
 
 namespace MEGAbolt
@@ -105,14 +105,14 @@ namespace MEGAbolt
             isgroup = type;
             ischat = false;
             this.target = target;
-            this.session = session; 
+            this.session = session;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             //instance.TabConsole.chatConsole._textBox = richTextBox1.Text;
 
-            Close(); 
+            Close();
         }
 
         private void frmSpelling_Load(object sender, EventArgs e)
@@ -123,8 +123,8 @@ namespace MEGAbolt
         private void CheckSpellings()
         {
             mistakes.Clear();
-            listBox1.Items.Clear();  
- 
+            listBox1.Items.Clear();
+
             foreach (string word in swords)
             {
                 string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
@@ -160,7 +160,7 @@ namespace MEGAbolt
         private void ContSearch()
         {
             listBox1.Items.Clear();
-            button4.Enabled = false; 
+            button4.Enabled = false;
 
             if (currentword.Contains(currentword))
             {
@@ -202,7 +202,7 @@ namespace MEGAbolt
             {
                 // Set the highlight color as red
                 richTextBox1.SelectionColor = Color.Red;
-                richTextBox1.SelectionBackColor = Color.Yellow;   
+                richTextBox1.SelectionBackColor = Color.Yellow;
                 // Find the end index. End Index = number of characters in textbox
                 int endindex = word.Length;
                 // Highlight the search string
@@ -225,7 +225,7 @@ namespace MEGAbolt
                 richTextBox1.SelectionStart = start;
                 richTextBox1.SelectionLength = endindex;
 
-                richTextBox1.SelectedText = word;  
+                richTextBox1.SelectedText = word;
 
                 endindex = word.Length;
 
@@ -264,7 +264,7 @@ namespace MEGAbolt
             {
                 //richTextBox1.Undo();
                 richTextBox1.ForeColor = Color.Black;
-                richTextBox1.SelectionBackColor = Color.White; 
+                richTextBox1.SelectionBackColor = Color.White;
             }
 
             // Set the return value to -1 by default.
@@ -325,7 +325,7 @@ namespace MEGAbolt
                 ReplaceWord(listBox1.SelectedItem.ToString());
 
                 listBox1.SelectedIndex = -1;
-                button4.Enabled = false; 
+                button4.Enabled = false;
             }
         }
 
@@ -396,7 +396,7 @@ namespace MEGAbolt
             richTextBox1.ForeColor = Color.Black;
             richTextBox1.SelectionBackColor = Color.White;
 
-            instance.Config.ApplyCurrentConfig(); 
+            instance.Config.ApplyCurrentConfig();
 
             CheckSpellings();
         }

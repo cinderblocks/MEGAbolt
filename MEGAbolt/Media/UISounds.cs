@@ -54,7 +54,7 @@ namespace MEGAbolt
 
         /// <summary>Sound of incoming IM</summary>
         public static UUID IM = new UUID("67cc2844-00f3-2b3c-b991-6418d01e1bb7");
-        
+
         /// <summary>When user opens new IM window</summary>
         public static UUID IMWindow = new UUID("c825dfbc-9827-7e02-6507-3713d18916c1");
 
@@ -66,7 +66,7 @@ namespace MEGAbolt
 
         /// <summary>Keyboard Loop</summary>
         public static UUID KeyboardLoop = new UUID("5e191c7b-8996-9ced-a177-b2ac32bfea06");
-        
+
         /// <summary>Pie Appear</summary>
         public static UUID PieAppear = new UUID("8eaed61f-92ff-6485-de83-4dcc938a478e");
 

@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
 
 namespace MEGAbolt.Rendering
 {
@@ -161,14 +161,14 @@ namespace MEGAbolt.Rendering
             }
 
             Size s;
-            
+
             try
             {
-                 s = TextRenderer.MeasureText(
-                    item.Text,
-                    item.Font,
-                    MaxSize,
-                    item.Flags);
+                s = TextRenderer.MeasureText(
+                   item.Text,
+                   item.Font,
+                   MaxSize,
+                   item.Flags);
             }
             catch
             {

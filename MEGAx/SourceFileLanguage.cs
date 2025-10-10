@@ -28,11 +28,11 @@
 
 namespace MEGAx
 {
-  public enum SourceFileLanguage
-  {
-    Unknown,
-    CSharp,
-    Vb,
-    Javascript,
-  }
+    public enum SourceFileLanguage
+    {
+        Unknown,
+        CSharp,
+        Vb,
+        Javascript,
+    }
 }

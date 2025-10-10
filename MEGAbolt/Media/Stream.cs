@@ -27,11 +27,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using FMOD;
+using OpenMetaverse;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using FMOD;
-using OpenMetaverse;
 
 namespace MEGAbolt.Media
 {
@@ -160,7 +160,7 @@ namespace MEGAbolt.Media
                     var res = sound.getNumTags(out numTags, out numTagsUpdated);
 
                     if (res != RESULT.OK || numTagsUpdated <= 0) return;
-                    for (var i=0; i < numTags; i++)
+                    for (var i = 0; i < numTags; i++)
                     {
                         if (sound.getTag(null, i, out tag) != RESULT.OK)
                         {

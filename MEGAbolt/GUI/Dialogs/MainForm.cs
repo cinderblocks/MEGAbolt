@@ -18,29 +18,29 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Diagnostics;
-using System.Text;
-using System.Timers;
-using System.Threading;
-using System.Windows.Forms;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
-using OpenMetaverse;
-using Microsoft.Win32;
-using System.IO;
 using MEGAx;
 using MEGAxCommon;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using BugSplatDotNetStandard;
+using Microsoft.Win32;
 using NetSparkleUpdater;
 using NetSparkleUpdater.SignatureVerifiers;
-using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Timers;
+using System.Windows.Forms;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
 {
@@ -49,7 +49,7 @@ namespace MEGAbolt
         private MEGAboltInstance instance;
         private MEGAboltNetcom netcom;
         private GridClient client;
-        
+
         private frmDebugLog debugLogForm;
         private System.Timers.Timer statusTimer;
         public Parcel parcel;
@@ -67,7 +67,7 @@ namespace MEGAbolt
         // since ParcelPropertiesCallBack is first called here and can't recall in about Land dialog
         //public Parcel Aboutlandparcelinfo;
         public string AboutlandOwneridname, AboutlandGroupidname;
-        public bool Aboutlandforsale, AboutlandAllowFly, AboutlandCreateObj, AboutMature,  AboutShow, AllowOtherScripts, AboutlandRestrictPush, AboutlandAllowDamage = false;
+        public bool Aboutlandforsale, AboutlandAllowFly, AboutlandCreateObj, AboutMature, AboutShow, AllowOtherScripts, AboutlandRestrictPush, AboutlandAllowDamage = false;
         public bool AboutAllowGroupObjectEntry, AboutAllowAllObjectEntry, AboutlandGroupCreateObj, AllowGroupScripts, Allowcreatelm, AllowTerraform = false;
         // end Alexs
 
@@ -99,7 +99,7 @@ namespace MEGAbolt
         public frmMain(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -112,7 +112,7 @@ namespace MEGAbolt
             client.Parcels.ParcelProperties += Parcels_OnParcelProperties;
             this.instance.Config.ConfigApplied += Config_ConfigApplied;
             client.Objects.TerseObjectUpdate += Objects_OnObjectUpdated;
-            netcom.MoneyBalanceUpdated +=netcom_MoneyBalanceUpdated;
+            netcom.MoneyBalanceUpdated += netcom_MoneyBalanceUpdated;
             //client.Self.MoneyBalanceReply += new EventHandler<MoneyBalanceReplyEventArgs>(Self_MoneyBalanceReply);
 
             AddNetcomEvents();
@@ -163,7 +163,7 @@ namespace MEGAbolt
             {
                 BeginInvoke(new MethodInvoker(RefreshStatusBar));
             }
-            catch { ; }
+            catch {; }
         }
 
         private void Parcels_OnParcelProperties(object sender, ParcelPropertiesEventArgs e)
@@ -224,7 +224,7 @@ namespace MEGAbolt
                 instance.Config.CurrentConfig.pURL = @parcel.MusicURL;
                 tlblParcel.Text = parcel.Name;
 
-               // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
+                // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
 
                 List<UUID> avIDs = new List<UUID>
                 {
@@ -515,7 +515,7 @@ namespace MEGAbolt
 
             if (topofscreen) toolStrip1.Location = new Point(0, 0);
             topofscreen = false;
-            
+
 
             switch (instance.Config.CurrentConfig.LandMenuPos)
             {
@@ -713,7 +713,7 @@ namespace MEGAbolt
             //    disconnectedDialog.ShowDialog();
             //}
 
-            disconnectreason = e.Reason.ToString(); 
+            disconnectreason = e.Reason.ToString();
             Disconnect(true);
         }
 
@@ -773,9 +773,9 @@ namespace MEGAbolt
                     if (!logoff)
                     {
                         MEGAbolt.Controls.MsgBoxCheck.MessageBox dlg = new();
-                        DialogResult dr = dlg.Show(@"Software\MEGAbolt\CloseMBCheck", 
-                            "DontShowAgain", DialogResult.Yes, 
-                            "Don't ask me this again", 
+                        DialogResult dr = dlg.Show(@"Software\MEGAbolt\CloseMBCheck",
+                            "DontShowAgain", DialogResult.Yes,
+                            "Don't ask me this again",
                             "You are about to close MEGAbolt. Are you sure you want to continue?", "MEGAbolt",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -954,13 +954,13 @@ namespace MEGAbolt
 
         private void tbtnTeleport_Click(object sender, EventArgs e)
         {
-            (new frmTeleport(instance,"",0,0,0,false)).Show();
+            (new frmTeleport(instance, "", 0, 0, 0, false)).Show();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             CenterToScreen();
-            
+
             TabConsole.SelectTab("Main");
 
             // The extension stuff followeth :)
@@ -989,7 +989,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-               MessageBox.Show("Invalid files in 'Extensions' folder caused Windows errors: " + ex.Message);   
+                MessageBox.Show("Invalid files in 'Extensions' folder caused Windows errors: " + ex.Message);
             }
 
             //List<Extension<IExtension>> tounload = new List<Extension<IExtension>>();
@@ -1110,7 +1110,7 @@ namespace MEGAbolt
 
             //Show the user
             //MessageBox.Show(this, msg.ToString(), "Extension Compilation Error", MessageBoxButtons.OK);
-            Logger.Log("Plugin Error: " + msg, Helpers.LogLevel.Error); 
+            Logger.Log("Plugin Error: " + msg, Helpers.LogLevel.Error);
         }
         #endregion
 
@@ -1137,7 +1137,7 @@ namespace MEGAbolt
 
         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1150,7 +1150,7 @@ namespace MEGAbolt
             try
             {
                 //client.Appearance.RequestCachedBakes();
-                client.Appearance.RequestSetAppearance(true);  
+                client.Appearance.RequestSetAppearance(true);
                 //client.Appearance.SetPreviousAppearance(false);
             }
             catch (Exception exp)
@@ -1161,7 +1161,7 @@ namespace MEGAbolt
 
         private void setHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-               
+
         }
 
         private void setHomeToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1171,7 +1171,7 @@ namespace MEGAbolt
             if (res == DialogResult.Yes)
             {
                 client.Self.SetHome();
-            }            
+            }
         }
 
         private void tPHomeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1181,7 +1181,7 @@ namespace MEGAbolt
 
         private void standToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void standToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1203,7 +1203,7 @@ namespace MEGAbolt
         private void tb1_MouseEnter(object sender, EventArgs e)
         {
             toolTip1.SetToolTip(statusStrip1, "No Fly");
-            tb1.BackColor = Color.LightSteelBlue;  
+            tb1.BackColor = Color.LightSteelBlue;
         }
 
         private void tb2_MouseEnter(object sender, EventArgs e)
@@ -1250,7 +1250,7 @@ namespace MEGAbolt
 
         private void tlblMoneyBalance_Click(object sender, EventArgs e)
         {
-           Utilities.OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
+            Utilities.OpenBrowser(@"https://secondlife.com/my/account/history.php?lang=en");
         }
 
         private void tlblMoneyBalance_MouseEnter(object sender, EventArgs e)
@@ -1268,7 +1268,7 @@ namespace MEGAbolt
 
         private void tlblLoginName_MouseEnter(object sender, EventArgs e)
         {
-            tlblLoginName.BackColor = Color.LightSteelBlue; 
+            tlblLoginName.BackColor = Color.LightSteelBlue;
             toolTip1.SetToolTip(statusStrip1, "Go Home");
         }
 
@@ -1296,7 +1296,7 @@ namespace MEGAbolt
         {
             instance.State.SetAlwaysRun(alwaysRunToolStripMenuItem.Checked);
         }
-       
+
         private void tlblParcel_Click(object sender, EventArgs e)
         {
             //if (netcom.IsLoggedIn && tbtnDebug.Visible == true) // only allow to open About land when logged in and for now only as a Debug Future
@@ -1429,7 +1429,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message,"MEGAbolt");
+                MessageBox.Show("Oops something went wrong!\n\n" + ex.Message, "MEGAbolt");
                 return string.Empty;
             }
         }
@@ -1481,7 +1481,7 @@ namespace MEGAbolt
 
         private void tmnuBackup_Click(object sender, EventArgs e)
         {
-            (new frmBackup()).Show(this); 
+            (new frmBackup()).Show(this);
         }
 
         private void createLandmarkHereToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1490,11 +1490,11 @@ namespace MEGAbolt
 
             if (file.Length > 32)
             {
-                file = file.Substring(0, 32); 
+                file = file.Substring(0, 32);
             }
 
             string pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
-               
+
             string desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
 
             client.Inventory.RequestCreateItem(client.Inventory.FindFolderForType(AssetType.Landmark),
@@ -1506,13 +1506,13 @@ namespace MEGAbolt
                             MessageBox.Show("Landmark could not be created", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                     }
-                );  
+                );
         }
 
         private void addToPicksToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //client.Parcels.InfoRequest()
-  
+
             // I couldn't find a way to get a land's UUID using the
             // parcel object. I also couldn't find a function that will
             // return a parcel's UUID by passing the LocalID. There is probably
@@ -1547,7 +1547,7 @@ namespace MEGAbolt
         public void SetFlag(Image img, string lang)
         {
             tsFlag.Image = img;
-            tsFlag.ToolTipText = "Detectected language: " + lang; 
+            tsFlag.ToolTipText = "Detectected language: " + lang;
         }
 
         private void mETAplayerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1582,12 +1582,12 @@ namespace MEGAbolt
             catch
             {
                 //Logger.Log(String.Format("Debug Form Display Error: {0}", exp), Helpers.LogLevel.Error);
-                debugLogForm.Dispose(); 
+                debugLogForm.Dispose();
                 debugLogForm = new frmDebugLog(instance);
             }
         }
 
-        private void chatLogsToolStripMenuItem_Click(object sender, EventArgs e)                                       
+        private void chatLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("explorer.exe", instance.Config.CurrentConfig.LogDir);
         }
@@ -1622,7 +1622,7 @@ namespace MEGAbolt
         private void groundSitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             client.Self.SitOnGround();
-            instance.State.SetGroundSit(true);  
+            instance.State.SetGroundSit(true);
         }
 
         private void searchLogsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1632,7 +1632,7 @@ namespace MEGAbolt
 
         private void frmMain_LocationChanged(object sender, EventArgs e)
         {
-              
+
         }
 
         private void tlblRegionInfo_Click(object sender, EventArgs e)
@@ -1645,7 +1645,7 @@ namespace MEGAbolt
 
         private void reloadAIMLLibrariesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            instance.InitAI(); 
+            instance.InitAI();
         }
 
         /// <summary>
@@ -1801,7 +1801,7 @@ namespace MEGAbolt
                         restartinterval = ReconnectWaitMinutes * 60; // convert to seconds
                     }
 
-                    
+
                     disconnectreason = Reason;
 
                     Process p = new Process();
@@ -1869,7 +1869,7 @@ namespace MEGAbolt
                     (new UploadImage(instance, bitmap, open.FileName, ext)).Show(this);
                 }
 
-                open.Dispose(); 
+                open.Dispose();
             }
             catch (Exception)
             {
@@ -1894,7 +1894,7 @@ namespace MEGAbolt
 
         public void UpdateFavourites(List<InventoryBase> foundfolders)
         {
-            TabConsole.chatConsole.UpdateFavourites(foundfolders);  
+            TabConsole.chatConsole.UpdateFavourites(foundfolders);
 
             //foreach (InventoryBase oitem in foundfolders)
             //{
@@ -1916,7 +1916,7 @@ namespace MEGAbolt
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
-            tlblParcel.PerformClick(); 
+            tlblParcel.PerformClick();
         }
 
         private void toolStripStatusLabel1_MouseEnter(object sender, EventArgs e)
@@ -1927,12 +1927,12 @@ namespace MEGAbolt
 
         private void tlblLoginName_MouseHover(object sender, EventArgs e)
         {
-            
+
         }
 
         private void toolStripStatusLabel1_MouseHover(object sender, EventArgs e)
         {
-            
+
         }
 
         private void tlblLoginName_MouseLeave(object sender, EventArgs e)
@@ -2015,7 +2015,7 @@ namespace MEGAbolt
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
             if (!netcom.IsLoggedIn) return;
-            
+
             string file = parcel.Name;
 
             if (file.Length > 32)
@@ -2040,7 +2040,7 @@ namespace MEGAbolt
                             List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
                             foreach (var o in invroot.Where(
-                                         o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites" 
+                                         o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites"
                                               || o.Name.ToLower(CultureInfo.CurrentCulture) == "my favorites")
                                          .OfType<InventoryFolder>())
                             {

@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
 using OpenMetaverse;
+using System;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -70,7 +70,7 @@ namespace MEGAbolt
         private void btnAccept_Click(object sender, EventArgs e)
         {
             client.Friends.AcceptFriendship(targetUUID, iSession);
-            
+
             CloseTab();
         }
 

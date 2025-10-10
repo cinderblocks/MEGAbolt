@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -110,7 +110,7 @@ namespace MEGAbolt
                     }
                     else
                     {
-                        fullName += $" ({icnt.ToString(CultureInfo.CurrentCulture)})"; 
+                        fullName += $" ({icnt.ToString(CultureInfo.CurrentCulture)})";
                         findPlacesResults.Add(fullName, places);
                     }
 
@@ -127,7 +127,7 @@ namespace MEGAbolt
 
             lvwFindPlaces.Sort();
             lvwFindPlaces.EndUpdate();
-            pPlaces.Visible = false; 
+            pPlaces.Visible = false;
         }
 
         // UI thread
@@ -146,7 +146,7 @@ namespace MEGAbolt
 
             if (place.SalePrice > 0)
             {
-                sForSale = $"For Sale for L${place.SalePrice.ToString(CultureInfo.CurrentCulture)}";   
+                sForSale = $"For Sale for L${place.SalePrice.ToString(CultureInfo.CurrentCulture)}";
             }
 
             txtName.Text = place.Name;

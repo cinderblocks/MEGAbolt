@@ -19,20 +19,20 @@
  */
 
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.IO;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using OpenMetaverse;
-using MEGAcrypto;
-using System.Timers;
-using System.Globalization;
-using System.Reflection;
 using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
+using MEGAcrypto;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Timers;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -417,7 +417,7 @@ namespace MEGAbolt
                     scriptMsg = "Wants permission to TELEPORT.";
                     break;
             }
-            
+
             DialogResult sret = MessageBoxEx.Show(
                 $"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}\nowned by {e.ObjectOwnerName}:\n\n{scriptMsg}",
                 "Script permission...", MessageBoxButtons.OKCancel, 15000);
@@ -460,7 +460,7 @@ namespace MEGAbolt
         {
             ChatBufferItem title = new ChatBufferItem(
                 DateTime.Now, $"{Assembly.GetExecutingAssembly().GetName().Name} " +
-                              $"v{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine, 
+                              $"v{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine,
                 ChatBufferTextStyle.StartupTitle);
 
             ChatBufferItem ready = new ChatBufferItem(
@@ -1182,7 +1182,7 @@ namespace MEGAbolt
                 {
                     if (o is InventoryFolder)
                     {
-                        List<InventoryBase> founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID, 
+                        List<InventoryBase> founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID,
                             false, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(3));
                         int icount = founditems.Count;
                         Random random = new Random();

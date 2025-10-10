@@ -30,14 +30,14 @@ using System;
 
 namespace MEGAx
 {
-  public class AssemblyLoadedEventArgs : EventArgs
-  {
-      public AssemblyLoadedEventArgs()
+    public class AssemblyLoadedEventArgs : EventArgs
     {
+        public AssemblyLoadedEventArgs()
+        {
+        }
+
+        public AssemblyLoadedEventArgs(string filename) => Filename = filename;
+
+        public string Filename { get; set; } = "";
     }
-
-    public AssemblyLoadedEventArgs(string filename) => Filename = filename;
-
-    public string Filename { get; set; } = "";
-  }
 }

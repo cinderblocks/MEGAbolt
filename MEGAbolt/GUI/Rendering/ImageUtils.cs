@@ -18,8 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System.Drawing;
 using OpenMetaverse;
+using System.Drawing;
 
 namespace MEGAbolt.Rendering
 {

@@ -39,7 +39,7 @@ namespace MEGAbolt.Core
 
         private const string DllDirectory = "dll";
 
-        private readonly Dictionary<string, int> _ProcessorArchitectureAddressWidthPlatforms = 
+        private readonly Dictionary<string, int> _ProcessorArchitectureAddressWidthPlatforms =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", 4},
@@ -48,7 +48,7 @@ namespace MEGAbolt.Core
                     {"ARM", 4}
                 };
 
-        private readonly Dictionary<string, string> _ProcessorArchitecturePlatforms = 
+        private readonly Dictionary<string, string> _ProcessorArchitecturePlatforms =
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", "x86"},
@@ -61,7 +61,7 @@ namespace MEGAbolt.Core
 
         private static readonly IDictionary<string, IntPtr> LoadedLibraries = new Dictionary<string, IntPtr>();
 
-        [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi, 
+        [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi,
             SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private static extern IntPtr Win32LoadLibrary(string dllPath);
 

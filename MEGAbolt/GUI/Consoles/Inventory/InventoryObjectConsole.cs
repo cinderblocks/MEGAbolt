@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -39,7 +39,7 @@ namespace MEGAbolt
             this.instance = instance;
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
-            this.item = item; 
+            this.item = item;
         }
 
         private void btnRezObject_Click(object sender, EventArgs e)

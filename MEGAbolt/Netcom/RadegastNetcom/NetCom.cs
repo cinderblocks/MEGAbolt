@@ -27,12 +27,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using OpenMetaverse;
 using System;
 using System.ComponentModel;
-using OpenMetaverse;
-using System.Net.NetworkInformation;
-using MEGAbolt;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace MEGAbolt.NetworkComm
 {
@@ -48,7 +47,7 @@ namespace MEGAbolt.NetworkComm
         private const string MainGridLogin = @"https://login.agni.lindenlab.com/cgi-bin/login.cgi";
         private const string BetaGridLogin = @"https://login.aditi.lindenlab.com/cgi-bin/login.cgi";
 
-        
+
 
         public MEGAboltNetcom(MEGAboltInstance instance)
         {

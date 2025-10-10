@@ -38,7 +38,7 @@ namespace MEGAbolt
                     d.Add(key, value);
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         public bool ContainsKey(TKey key)
@@ -123,7 +123,7 @@ namespace MEGAbolt
                     ((ICollection<KeyValuePair<TKey, TValue>>)d).Add(item);
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         public void Clear()
@@ -135,7 +135,7 @@ namespace MEGAbolt
                     d.Clear();
                 }
             }
-            catch { ; }
+            catch {; }
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)

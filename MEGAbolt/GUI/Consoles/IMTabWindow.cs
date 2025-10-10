@@ -18,19 +18,19 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
+using BugSplatDotNetStandard;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
-using WeCantSpell.Hunspell;
-using System.Threading;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Globalization;
-using System.Reflection;
-using BugSplatDotNetStandard;
+using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web;
+using System.Windows.Forms;
+using WeCantSpell.Hunspell;
 
 
 namespace MEGAbolt
@@ -70,7 +70,7 @@ namespace MEGAbolt
         public IMTabWindow(MEGAboltInstance instance, UUID target, UUID session, string toName)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -95,7 +95,7 @@ namespace MEGAbolt
 
             if (this.instance.IMHistyoryExists(TargetName, false))
             {
-                toolStripButton2.Enabled = true; 
+                toolStripButton2.Enabled = true;
             }
 
             tbtnProfile.ToolTipText = $"{toName} 's Profile";
@@ -261,7 +261,7 @@ namespace MEGAbolt
             cmenu_Emoticons.Items.Add(_menuItem);
             cmenu_Emoticons.Items[29].Tag = "zzzzz";
 
-            _menuItem.Dispose(); 
+            _menuItem.Dispose();
         }
 
         // When an emoticon is clicked, insert its image into to RTF
@@ -372,11 +372,11 @@ namespace MEGAbolt
 
         public void CleanUp()
         {
-            cbxInput.Text = string.Empty;  
+            cbxInput.Text = string.Empty;
             instance.TabConsole.RemoveTabEntry(SessionId.ToString());
             TextManager.CleanUp();
             TextManager = null;
-            TargetId = UUID.Zero;  
+            TargetId = UUID.Zero;
             RemoveNetcomEvents();
         }
 
@@ -399,7 +399,7 @@ namespace MEGAbolt
                 cbxInput.Enabled = false;
                 btnSend.Enabled = false;
                 //this.cbxInput.Text = string.Empty;
-                TargetId = UUID.Zero;  
+                TargetId = UUID.Zero;
                 return;
             }
 
@@ -621,7 +621,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, false)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
@@ -639,7 +639,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, true)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
@@ -661,7 +661,7 @@ namespace MEGAbolt
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
-                catch { ; }
+                catch {; }
             }
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
@@ -707,7 +707,7 @@ namespace MEGAbolt
             string logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
-            saveFile1.InitialDirectory = logdir; 
+            saveFile1.InitialDirectory = logdir;
 
             // Initialize the SaveFileDialog to specify the RTF extension for the file.
             saveFile1.DefaultExt = "*.rtf";
@@ -725,7 +725,7 @@ namespace MEGAbolt
                         : RichTextBoxStreamType.PlainText);
             }
 
-            saveFile1.Dispose(); 
+            saveFile1.Dispose();
         }
 
         private void tsbClear_Click(object sender, EventArgs e)
@@ -748,7 +748,7 @@ namespace MEGAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, TargetId, instance.avnames[TargetId]);
 
-            MessageBox.Show($"{TargetName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show($"{TargetName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void cbxInput_SelectedIndexChanged(object sender, EventArgs e)
@@ -778,7 +778,7 @@ namespace MEGAbolt
                 {
                     tab.tabs["chat"].Select();
                     MEGAboltTab stab = tab.GetTab(TargetName);
-                    stab.Close(); 
+                    stab.Close();
                 }
 
                 if (e.Handled)
@@ -792,7 +792,7 @@ namespace MEGAbolt
 
         private void TrappedKeyDown(KeyEventArgs e)
         {
-            if (e.Alt && e.KeyCode == Keys.X) 
+            if (e.Alt && e.KeyCode == Keys.X)
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -820,7 +820,7 @@ namespace MEGAbolt
 
                 (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
             }
-            catch { ; }
+            catch {; }
         }
 
         //private void rtbIMText_Leave(object sender, EventArgs e)

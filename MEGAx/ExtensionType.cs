@@ -28,10 +28,10 @@
 
 namespace MEGAx
 {
-  public enum ExtensionType
-  {
-    Unknown,
-    Compiled,
-    SourceFile,
-  }
+    public enum ExtensionType
+    {
+        Unknown,
+        Compiled,
+        SourceFile,
+    }
 }

@@ -26,84 +26,84 @@ using System.Windows.Forms;
 
 namespace MEGAbolt.Controls
 {
-  [Description("Displays an editable text box with a drop-down list of permitted values.")]
-  [ToolboxItemFilter("System.Windows.Forms")]
-  [ToolboxBitmap(typeof (System.Windows.Forms.ComboBox))]
-  [ToolboxItem(true)]
-  public class ComboBox : System.Windows.Forms.ComboBox
-  {
-    private static Type _modalMenuFilter;
-    private static MethodInfo _suspendMenuMode;
-    private static MethodInfo _resumeMenuMode;
-    private IContainer components;
-
-    public ComboBox() => InitializeComponent();
-
-    private static Type modalMenuFilter
+    [Description("Displays an editable text box with a drop-down list of permitted values.")]
+    [ToolboxItemFilter("System.Windows.Forms")]
+    [ToolboxBitmap(typeof(System.Windows.Forms.ComboBox))]
+    [ToolboxItem(true)]
+    public class ComboBox : System.Windows.Forms.ComboBox
     {
-      get
-      {
-          _modalMenuFilter ??= Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
-          return _modalMenuFilter ??= new List<Type>(typeof(ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>)(type =>
-              type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
-      }
-    }
+        private static Type _modalMenuFilter;
+        private static MethodInfo _suspendMenuMode;
+        private static MethodInfo _resumeMenuMode;
+        private IContainer components;
 
-    private static MethodInfo suspendMenuMode
-    {
-      get
-      {
-        if (_suspendMenuMode == null)
+        public ComboBox() => InitializeComponent();
+
+        private static Type modalMenuFilter
         {
-          Type modalMenuFilter = ComboBox.modalMenuFilter;
-          if (modalMenuFilter != null)
-            _suspendMenuMode = modalMenuFilter.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            get
+            {
+                _modalMenuFilter ??= Type.GetType("System.Windows.Forms.ToolStripManager+ModalMenuFilter");
+                return _modalMenuFilter ??= new List<Type>(typeof(ToolStripManager).Assembly.GetTypes()).Find((Predicate<Type>)(type =>
+                    type.FullName == "System.Windows.Forms.ToolStripManager+ModalMenuFilter"));
+            }
         }
-        return _suspendMenuMode;
-      }
-    }
 
-    private static void SuspendMenuMode() => suspendMenuMode?.Invoke(null, null);
-
-    private static MethodInfo resumeMenuMode
-    {
-      get
-      {
-        if (_resumeMenuMode == null)
+        private static MethodInfo suspendMenuMode
         {
-          Type modalMenuFilter = ComboBox.modalMenuFilter;
-          if (modalMenuFilter != null)
-            _resumeMenuMode = modalMenuFilter.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            get
+            {
+                if (_suspendMenuMode == null)
+                {
+                    Type modalMenuFilter = ComboBox.modalMenuFilter;
+                    if (modalMenuFilter != null)
+                        _suspendMenuMode = modalMenuFilter.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                }
+                return _suspendMenuMode;
+            }
         }
-        return _resumeMenuMode;
-      }
-    }
 
-    private static void ResumeMenuMode() => resumeMenuMode?.Invoke(null, null);
+        private static void SuspendMenuMode() => suspendMenuMode?.Invoke(null, null);
 
-    protected override void OnDropDown(EventArgs e)
-    {
-      base.OnDropDown(e);
-      SuspendMenuMode();
-    }
+        private static MethodInfo resumeMenuMode
+        {
+            get
+            {
+                if (_resumeMenuMode == null)
+                {
+                    Type modalMenuFilter = ComboBox.modalMenuFilter;
+                    if (modalMenuFilter != null)
+                        _resumeMenuMode = modalMenuFilter.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                }
+                return _resumeMenuMode;
+            }
+        }
 
-    protected override void OnDropDownClosed(EventArgs e)
-    {
-      ResumeMenuMode();
-      base.OnDropDownClosed(e);
-    }
+        private static void ResumeMenuMode() => resumeMenuMode?.Invoke(null, null);
 
-    protected override void Dispose(bool disposing)
-    {
-      if (disposing && components != null)
-        components.Dispose();
-      base.Dispose(disposing);
-    }
+        protected override void OnDropDown(EventArgs e)
+        {
+            base.OnDropDown(e);
+            SuspendMenuMode();
+        }
 
-    private void InitializeComponent()
-    {
-      SuspendLayout();
-      ResumeLayout(false);
+        protected override void OnDropDownClosed(EventArgs e)
+        {
+            ResumeMenuMode();
+            base.OnDropDownClosed(e);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+                components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            SuspendLayout();
+            ResumeLayout(false);
+        }
     }
-  }
 }

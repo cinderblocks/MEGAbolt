@@ -20,19 +20,19 @@
 
 namespace MEGAbolt
 {
-    public class PingEventArgs: System.EventArgs 
-    { 
-         
+    public class PingEventArgs : System.EventArgs
+    {
+
         private string message;
 
         public PingEventArgs(string m)
-        { 
-            message = m; 
-        } 
+        {
+            message = m;
+        }
 
-        public string Message() 
-        { 
-            return message; 
-        } 
-    } 
+        public string Message()
+        {
+            return message;
+        }
+    }
 }

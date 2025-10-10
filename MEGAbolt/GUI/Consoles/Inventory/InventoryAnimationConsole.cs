@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+//using MEGAbolt.NetworkComm;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 //using System.Linq;
 using System.Windows.Forms;
-//using MEGAbolt.NetworkComm;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -48,12 +48,12 @@ namespace MEGAbolt
 
         private void InventoryAnimation_Disposed(object sender, EventArgs e)
         {
-            
+
         }
 
         private void AddClientEvents()
         {
-            
+
         }
 
         private void btnAnimate_Click(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace MEGAbolt
 
             Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool> { { AnimationID, false } };
 
-            client.Self.Animate(bAnim, true);      
+            client.Self.Animate(bAnim, true);
         }
 
         private void InventoryAnimationConsole_Load(object sender, EventArgs e)

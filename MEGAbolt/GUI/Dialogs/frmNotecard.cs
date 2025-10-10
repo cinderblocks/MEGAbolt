@@ -20,8 +20,8 @@
 
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -34,7 +34,7 @@ namespace MEGAbolt
         int indexOfSearchText = 0;
         string prevsearchtxt = string.Empty;
         private bool nreadonly = false;
-        private string searchfor = string.Empty;  
+        private string searchfor = string.Empty;
 
         public frmNotecard(MEGAboltInstance instance, string file, string searchfor)
         {
@@ -44,12 +44,12 @@ namespace MEGAbolt
             Text = $"{file} - MEGAbolt";
 
             rtbNotecard.LoadFile(file, RichTextBoxStreamType.PlainText);
-            this.searchfor = searchfor; 
+            this.searchfor = searchfor;
         }
 
         private void frmNotecardEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,12 +64,12 @@ namespace MEGAbolt
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Copy(); 
+            rtbNotecard.Copy();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.SelectAll(); 
+            rtbNotecard.SelectAll();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
@@ -208,13 +208,13 @@ namespace MEGAbolt
             GetCurrentLine();
             GetCurrentCol();
         }
-       
+
         private void frmNotecardEditor_Load(object sender, EventArgs e)
         {
             CenterToParent();
-            
+
             //rtbNotecard.ReadOnly = true;
-            rtbNotecard.Focus(); 
+            rtbNotecard.Focus();
             tsFindText.Text = searchfor;
             rtbNotecard.Focus();
             Find();
@@ -244,7 +244,7 @@ namespace MEGAbolt
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
     }
 }

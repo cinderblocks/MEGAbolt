@@ -18,8 +18,8 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
 using OpenMetaverse;
+using System;
 
 namespace MEGAbolt
 {
@@ -46,7 +46,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Image cache: " + ex.Message, Helpers.LogLevel.Error);    
+                Logger.Log("Image cache: " + ex.Message, Helpers.LogLevel.Error);
             }
         }
 
@@ -59,7 +59,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                Logger.Log("Image cache: " + ex.Message, Helpers.LogLevel.Error);    
+                Logger.Log("Image cache: " + ex.Message, Helpers.LogLevel.Error);
             }
         }
 

@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -57,7 +57,7 @@ namespace MEGAbolt
         {
             client.Directory.DirEventsReply += Directory_OnEventsReply;
             client.Directory.EventInfoReply += eventsconsole_OnEventInfo;
-            
+
         }
 
         //Separate thread
@@ -97,8 +97,8 @@ namespace MEGAbolt
 
             if (matchedEvent.Duration > 59)
             {
-                uint dur = matchedEvent.Duration/60;
-                textBox5.Text = $"{dur.ToString(CultureInfo.CurrentCulture)} hours"; 
+                uint dur = matchedEvent.Duration / 60;
+                textBox5.Text = $"{dur.ToString(CultureInfo.CurrentCulture)} hours";
             }
             else
             {
@@ -108,13 +108,13 @@ namespace MEGAbolt
 
             // Get region handle
             //ulong regionhand =Helpers.UIntsToLong((uint)(matchedEvent.GlobalPos.X - (matchedEvent.GlobalPos.X % 256)), (uint)(matchedEvent.GlobalPos.Y - (matchedEvent.GlobalPos.Y % 256)));
-            
+
             // Convert Global pos to local
             float locX = (float)matchedEvent.GlobalPos.X; ;
             float locY = (float)matchedEvent.GlobalPos.Y;
             float locX1;
             float locY1;
-            Helpers.GlobalPosToRegionHandle(locX, locY, out locX1, out locY1); 
+            Helpers.GlobalPosToRegionHandle(locX, locY, out locX1, out locY1);
 
             fX = locX1;
             fY = locY1;
@@ -146,7 +146,7 @@ namespace MEGAbolt
 
             int icnt = 0;
 
-            foreach (DirectoryManager.EventsSearchData  events in matchedEvents)
+            foreach (DirectoryManager.EventsSearchData events in matchedEvents)
             {
                 try
                 {
@@ -168,15 +168,15 @@ namespace MEGAbolt
                 }
                 catch
                 {
-                    ; 
+                    ;
                 }
 
                 icnt += 1;
             }
- 
+
             lvwFindEvents.Sort();
             lvwFindEvents.EndUpdate();
-            pEvents.Visible = false; 
+            pEvents.Visible = false;
         }
 
         public void ClearResults()
@@ -192,7 +192,7 @@ namespace MEGAbolt
             OnSelectedIndexChanged(e);
 
             button1.Enabled = true;
-            button2.Enabled = true;  
+            button2.Enabled = true;
         }
 
         protected virtual void OnSelectedIndexChanged(EventArgs e)
@@ -215,7 +215,7 @@ namespace MEGAbolt
             }
         }
 
-        public string SelectedName => lvwFindEvents.SelectedItems.Count == 0 
+        public string SelectedName => lvwFindEvents.SelectedItems.Count == 0
             ? string.Empty : lvwFindEvents.SelectedItems[0].Text;
 
         public string SelectedTime
@@ -269,7 +269,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending
                     ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
@@ -280,6 +280,6 @@ namespace MEGAbolt
             }
 
             lvwFindEvents.Sort();
-        }    
+        }
     }
 }

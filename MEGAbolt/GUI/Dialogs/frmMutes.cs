@@ -18,10 +18,10 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -81,11 +81,11 @@ namespace MEGAbolt
 
                 if (cnt == 1)
                 {
-                    item.BackColor = Color.GhostWhite; 
+                    item.BackColor = Color.GhostWhite;
                     cnt = 0;
                 }
 
-                item.SubItems.Add(entry.Type.ToString());  
+                item.SubItems.Add(entry.Type.ToString());
 
                 lvMutes.Items.Add(item);
 

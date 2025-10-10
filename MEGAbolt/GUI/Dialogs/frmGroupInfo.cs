@@ -18,23 +18,23 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
+using BugSplatDotNetStandard;
+using CoreJ2K;
+using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 using OpenMetaverse.Packets;
-using MEGAbolt.NetworkComm;
-using System.Threading;
-using System.Globalization;
-using System.Reflection;
-using System.Web;
-using BugSplatDotNetStandard;
-using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Web;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -100,7 +100,7 @@ namespace MEGAbolt
         public frmGroupInfo(Group group, MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -131,7 +131,7 @@ namespace MEGAbolt
         public frmGroupInfo(AvatarGroup group, MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -160,7 +160,7 @@ namespace MEGAbolt
         public frmGroupInfo(UUID groupid, MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -222,12 +222,12 @@ namespace MEGAbolt
             grouptitles = Client.Groups.RequestGroupTitles(Group.ID);
             // and the notices
             Client.Groups.RequestGroupNoticesList(Group.ID);
-            Client.Groups.RequestGroupRoles(Group.ID); 
+            Client.Groups.RequestGroupRoles(Group.ID);
         }
 
         ~frmGroupInfo()
         {
-            form_dispose(); 
+            form_dispose();
         }
 
         private void Groups_GroupMemberJoined(object sender, GroupOperationEventArgs e)
@@ -316,7 +316,7 @@ namespace MEGAbolt
             {
                 grouproles = e.Roles;
             }
-            catch { ; }
+            catch {; }
 
             groupmembersrequest = Client.Groups.RequestGroupRolesMembers(grpid);
 
@@ -439,7 +439,7 @@ namespace MEGAbolt
             }
 
             imsg = e.IM;
- 
+
             if (e.IM.IMSessionID == UUID.Zero) return;
 
             try
@@ -528,9 +528,9 @@ namespace MEGAbolt
                 return;
             }
 
-            if (grpid != e.Group.ID) return;  
+            if (grpid != e.Group.ID) return;
 
-            Group = e.Group; 
+            Group = e.Group;
             Profile = e.Group;
 
             BeginInvoke(new MethodInvoker(() =>
@@ -612,7 +612,7 @@ namespace MEGAbolt
             }
 
             lblGroupName.Text = Profile.Name;
-            txtCharter.Text = Profile.Charter;            
+            txtCharter.Text = Profile.Charter;
 
             if (instance.State.Groups.ContainsKey(Profile.ID))
             {
@@ -641,7 +641,7 @@ namespace MEGAbolt
 
                 numFee.Value = Profile.MembershipFee;
             }
-            catch { ; }
+            catch {; }
 
             textBox2.Text = "Group UUID: " + Profile.ID;
 
@@ -659,7 +659,7 @@ namespace MEGAbolt
 
                 return;
             }
-               
+
             BeginInvoke(new MethodInvoker(() =>
             {
                 List<UUID> memkeys = new List<UUID>();
@@ -771,7 +771,7 @@ namespace MEGAbolt
                 {
                     MemberData.Add(member.ID, memberData);
                     SortedMembers.Add(memberData);
-                }                
+                }
             }
 
             BeginInvoke(new MethodInvoker(() =>
@@ -784,7 +784,7 @@ namespace MEGAbolt
             {
                 if (requestids.Count > 80)
                 {
-                    SendNameRequsts(requestids);               
+                    SendNameRequsts(requestids);
                 }
                 else
                 {
@@ -825,7 +825,7 @@ namespace MEGAbolt
         {
             DateTime date = new DateTime();
 
-            if (String.IsNullOrEmpty(Date)) return date; 
+            if (String.IsNullOrEmpty(Date)) return date;
 
             try
             {
@@ -974,7 +974,7 @@ namespace MEGAbolt
                     //this.Refresh();
 
                     //SortMeberData();
-                    
+
 
                     //MemberData = sortedDictionary1;
 
@@ -1034,7 +1034,7 @@ namespace MEGAbolt
             }
 
             return list;
-        } 
+        }
 
         private bool HasGroupPower(GroupPowers pwr)
         {
@@ -1097,7 +1097,7 @@ namespace MEGAbolt
 
         private void GroupTitlesHandler(object sender, GroupTitlesReplyEventArgs e)
         {
-            if (grouptitles  != e.RequestID)
+            if (grouptitles != e.RequestID)
             {
                 return;
             }
@@ -1217,7 +1217,7 @@ namespace MEGAbolt
             grouprolesavs.Clear();
 
             Client.Groups.RequestGroupNoticesList(Group.ID);
-            Client.Groups.RequestGroupRoles(Group.ID); 
+            Client.Groups.RequestGroupRoles(Group.ID);
         }
 
         private void cmdApply_Click(object sender, EventArgs e)
@@ -1255,7 +1255,7 @@ namespace MEGAbolt
                     if (ctr == sel)
                     {
                         avid = entry.ID;
-                        break; 
+                        break;
                     }
 
                     ctr += 1;
@@ -1325,7 +1325,7 @@ namespace MEGAbolt
         private void lstRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
             string li = UUID.Zero.ToString();
-   
+
             if (lstRoles.SelectedItems.Count > 0)
             {
                 for (int i = lstRoles.SelectedItems.Count - 1; i >= 0; i--)
@@ -1383,7 +1383,7 @@ namespace MEGAbolt
 
         private void textBox3_Click(object sender, EventArgs e)
         {
-            textBox3.SelectAll();  
+            textBox3.SelectAll();
         }
 
         private void textBox3_Enter(object sender, EventArgs e)
@@ -1438,7 +1438,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (lstMembers2.Items.Count  > 0)   // && lstMembers2.Columns[0].ToString != "none")
+            if (lstMembers2.Items.Count > 0)   // && lstMembers2.Columns[0].ToString != "none")
             {
                 Stream tstream;
                 saveFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
@@ -1475,7 +1475,7 @@ namespace MEGAbolt
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);   
+                        MessageBox.Show(ex.Message);
                     }
                 }
             }
@@ -1490,7 +1490,7 @@ namespace MEGAbolt
         {
             if (textBox1.Text.Length == 0)
             {
-                MessageBox.Show("You must enter a 'subject' first");  
+                MessageBox.Show("You must enter a 'subject' first");
                 return;
             }
 
@@ -1524,7 +1524,7 @@ namespace MEGAbolt
             label3.Text = "Create a Notice";
             panel1.Visible = false;
             panel2.Visible = true;
-            button2.Enabled = true; 
+            button2.Enabled = true;
         }
 
         private void tabNotices_Click(object sender, EventArgs e)
@@ -1552,7 +1552,7 @@ namespace MEGAbolt
                 textBox5.Text = string.Empty;
 
                 GroupNoticesListEntry gnotice = (GroupNoticesListEntry)lstNotices.SelectedItems[0].Tag;
-                Client.Groups.RequestGroupNotice(gnotice.NoticeID);   
+                Client.Groups.RequestGroupNotice(gnotice.NoticeID);
             }
         }
 
@@ -1595,7 +1595,7 @@ namespace MEGAbolt
             if (floading) return;
 
             Profile.AllowPublish = chkPublish.Checked;
-            Client.Groups.UpdateGroup(Profile.ID, Profile);      
+            Client.Groups.UpdateGroup(Profile.ID, Profile);
         }
 
         private void chkOpenEnrollment_CheckedChanged(object sender, EventArgs e)
@@ -1676,8 +1676,8 @@ namespace MEGAbolt
 
         private void lstMembers_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending 
-                ? MemberSorter.SortOrder.Descending 
+            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending
+                ? MemberSorter.SortOrder.Descending
                 : MemberSorter.SortOrder.Ascending;
 
             if (e.Column == 0)
@@ -1700,8 +1700,8 @@ namespace MEGAbolt
 
         private void lstMembers2_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending 
-                ? MemberSorter.SortOrder.Descending 
+            sortedlist.CurrentOrder = sortedlist.CurrentOrder == MemberSorter.SortOrder.Ascending
+                ? MemberSorter.SortOrder.Descending
                 : MemberSorter.SortOrder.Ascending;
 
             if (e.Column == 0)
@@ -1878,7 +1878,7 @@ namespace MEGAbolt
             if (checkignore) return;
 
             ListViewItem item = e.Item as ListViewItem;
-            
+
             if (!HasGroupPower(GroupPowers.AssignMember))
             {
                 //if (item.Checked)
@@ -1942,7 +1942,7 @@ namespace MEGAbolt
                     }
                 }
             }
-            catch { ; }
+            catch {; }
 
             // The section below has been borrowed from Radegast (c) 2009-2011 Radegast Development Team
             List<GroupRoleChangesPacket.RoleChangeBlock> changes = new List<GroupRoleChangesPacket.RoleChangeBlock>();
@@ -2029,7 +2029,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.StartsWith("http://maps.secondlife"))
@@ -2047,7 +2047,7 @@ namespace MEGAbolt
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
                 }
-                catch { ; }
+                catch {; }
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
@@ -2069,7 +2069,7 @@ namespace MEGAbolt
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
-                catch { ; }
+                catch {; }
             }
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
@@ -2270,7 +2270,7 @@ namespace MEGAbolt
                         {
                             if (el.Value == selectedmember && el.Key == roleid)
                             {
-                                 GroupPowers power = role.Powers;
+                                GroupPowers power = role.Powers;
 
                                 foreach (GroupPowers p in Enum.GetValues(typeof(GroupPowers)))
                                 {
@@ -2380,7 +2380,7 @@ namespace MEGAbolt
                 return 0;
             }
             catch { return 0; }
-        }        
+        }
     }
 
     public class GroupMemberData

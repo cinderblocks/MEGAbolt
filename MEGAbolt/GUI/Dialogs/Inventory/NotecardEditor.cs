@@ -18,13 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
+using System;
+using System.Drawing;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -44,7 +44,7 @@ namespace MEGAbolt
         //private UUID aid = UUID.Zero;
         private string lheader = string.Empty;
         private UUID assetUUID = UUID.Zero;
-        private string notecardContent = string.Empty;  
+        private string notecardContent = string.Empty;
 
         int start = 0;
         int indexOfSearchText = 0;
@@ -67,8 +67,8 @@ namespace MEGAbolt
             AddNetcomEvents();
 
             objectid = UUID.Zero;
-            istaskobj = false; 
-            
+            istaskobj = false;
+
             Text = $"{item.Name} (notecard) - MEGAbolt";
 
             assetUUID = item.AssetUUID;
@@ -104,7 +104,7 @@ namespace MEGAbolt
             rtbNotecard.TextChanged += rtbNotecard_TextChanged;
 
             var transferID = UUID.Random();
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero, 
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, UUID.Zero,
                 item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
 
             if (nreadonly)
@@ -127,7 +127,7 @@ namespace MEGAbolt
             this.item = item;
             AddNetcomEvents();
             objectid = obj.ID;
-            istaskobj = true; 
+            istaskobj = true;
 
             Text = $"{item.Name} (notecard) - MEGAbolt";
 
@@ -136,7 +136,7 @@ namespace MEGAbolt
             rtbNotecard.TextChanged += rtbNotecard_TextChanged;
 
             var transferID = UUID.Random();
-            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID, 
+            client.Assets.RequestInventoryAsset(assetUUID, item.UUID, obj.ID,
                 item.OwnerID, item.AssetType, true, transferID, Assets_OnAssetReceived);
         }
 
@@ -186,7 +186,7 @@ namespace MEGAbolt
 
             if (readOnly)
             {
-                rtbNotecard.Text = notecardContent; 
+                rtbNotecard.Text = notecardContent;
                 rtbNotecard.ReadOnly = true;
                 rtbNotecard.BackColor = Color.FromKnownColor(KnownColor.Control);
             }
@@ -222,7 +222,7 @@ namespace MEGAbolt
         private string GetBody(string body)
         {
             string text = string.Empty;
-  
+
             try
             {
                 text = body.Trim();
@@ -308,7 +308,7 @@ namespace MEGAbolt
                     client.Inventory.RequestUploadNotecardAsset(receivedAsset.AssetData, item.UUID, OnNoteUpdate);
                 }
             }
-            catch { ; }
+            catch {; }
 
             changed = false;
         }
@@ -319,7 +319,7 @@ namespace MEGAbolt
         public byte[] CreateNotecardAsset(string body)
         {
             body = body.Trim();
- 
+
             //// Format the string body into Linden text
             //string lindenText = "Linden text version 1\n";
             //lindenText += "{\n";
@@ -331,7 +331,7 @@ namespace MEGAbolt
             //lindenText += body;
             //lindenText += "}\n";
 
-            string lindenText = lheader; 
+            string lindenText = lheader;
             lindenText += " " + body.Length + "\n";
             lindenText += body;
             lindenText += "}\n";
@@ -383,7 +383,7 @@ namespace MEGAbolt
                 }
 
                 BeginInvoke(new MethodInvoker(SaveComplete));
-            }    
+            }
         }
 
         private void SaveComplete()
@@ -460,7 +460,7 @@ namespace MEGAbolt
                         : RichTextBoxStreamType.PlainText);
             }
 
-            saveFile1.Dispose(); 
+            saveFile1.Dispose();
         }
 
         private void tsSave_Click(object sender, EventArgs e)
@@ -480,32 +480,32 @@ namespace MEGAbolt
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Undo(); 
+            rtbNotecard.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Redo(); 
+            rtbNotecard.Redo();
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Cut(); 
+            rtbNotecard.Cut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Copy(); 
+            rtbNotecard.Copy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.Paste(); 
+            rtbNotecard.Paste();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbNotecard.SelectAll(); 
+            rtbNotecard.SelectAll();
         }
 
         private void indentRightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -677,25 +677,25 @@ namespace MEGAbolt
         {
             if (nreadonly)
             {
-                rtbNotecard.Select(0, 0); 
+                rtbNotecard.Select(0, 0);
                 return;
             }
 
             GetCurrentLine();
             GetCurrentCol();
         }
-       
+
         private void frmNotecardEditor_Load(object sender, EventArgs e)
         {
             CenterToParent();
-            
+
             if (nreadonly)
             {
                 rtbNotecard.ReadOnly = true;
                 btnSave.Enabled = false;
                 toolStripDropDownButton1.Enabled = false;
                 toolStripDropDownButton2.Enabled = false;
-                rtbNotecard.BackColor = Color.AliceBlue; 
+                rtbNotecard.BackColor = Color.AliceBlue;
             }
         }
 

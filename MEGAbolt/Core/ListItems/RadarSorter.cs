@@ -19,8 +19,8 @@
  */
 
 using System.Collections;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -30,9 +30,9 @@ namespace MEGAbolt
 
         public RadarSorter()
         {
-            
+
         }
-        
+
         public int Compare(object x, object y)
         {
             ListViewItem item1 = (ListViewItem)x;
@@ -49,14 +49,14 @@ namespace MEGAbolt
             {
                 return -1;
             }
-            else            
+            else
             {
                 return 1;
             }
         }
 
         private static string ExtractNumbers(string expr)
-        { 
+        {
             string number = System.Text.RegularExpressions.Regex.Match(expr, @"\[(?<r>\d+)m").Groups[1].Value;
 
             if (string.IsNullOrEmpty(number)) number = "0";

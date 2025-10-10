@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using MEGAbolt.Controls;
 using OpenMetaverse;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -136,7 +136,7 @@ namespace MEGAbolt
 
                     instance.GiverItems.Rows.Add(dr);
 
-                    textBox1.Text = string.Empty;   
+                    textBox1.Text = string.Empty;
 
                     GW.Refresh();
                 }

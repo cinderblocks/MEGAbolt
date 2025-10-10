@@ -1,8 +1,8 @@
-﻿using System;
+﻿using OpenMetaverse;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.IO;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -23,7 +23,7 @@ namespace MEGAbolt
             client = this.instance.Client;
 
             this.filename = filename;
-            this.isgroup = isgroup; 
+            this.isgroup = isgroup;
 
             GetHistory();
 
@@ -95,7 +95,7 @@ namespace MEGAbolt
 
             if (!ffiles.Any())
             {
-                label1.Text = "History for " + filename + " doesn't exist"; 
+                label1.Text = "History for " + filename + " doesn't exist";
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace MEGAbolt
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void lvwList_Click(object sender, EventArgs e)

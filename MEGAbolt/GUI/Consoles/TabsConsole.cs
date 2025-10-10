@@ -19,9 +19,7 @@
  */
 
 using BugSplatDotNetStandard;
-using MEGAbolt;
 using MEGAbolt.NetworkComm;
-using Nini.Ini;
 using OpenMetaverse;
 using System;
 using System.Collections.Generic;
@@ -71,7 +69,7 @@ namespace MEGAbolt
         public TabsConsole(MEGAboltInstance instance)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -174,7 +172,7 @@ namespace MEGAbolt
             netcom.AlertMessageReceived += netcom_AlertMessageReceived;
             netcom.InstantMessageReceived += netcom_InstantMessageReceived;
             client.Groups.CurrentGroups += Groups_OnCurrentGroups;
-            client.Self.MoneyBalanceReply +=Self_MoneyBalanceReply;
+            client.Self.MoneyBalanceReply += Self_MoneyBalanceReply;
             client.Friends.FriendOffline += Friends_OnFriendOffline;
             client.Friends.FriendOnline += Friends_OnFriendOnline;
         }
@@ -267,16 +265,16 @@ namespace MEGAbolt
 
                             body = e.Description + pfrm;
 
-                            body = body.Replace(".", string.Empty);   
+                            body = body.Replace(".", string.Empty);
                         }
                         else
                         {
-                            body = !string.IsNullOrEmpty(ti.ItemDescription) 
-                                ? $"You have received a payment of L${ti.Amount.ToString(CultureInfo.CurrentCulture)} from {ti.ItemDescription}" 
+                            body = !string.IsNullOrEmpty(ti.ItemDescription)
+                                ? $"You have received a payment of L${ti.Amount.ToString(CultureInfo.CurrentCulture)} from {ti.ItemDescription}"
                                 : $"You have received a payment of L${ti.Amount.ToString(CultureInfo.CurrentCulture)}";
                         }
                     }
-                }                
+                }
 
                 TrayNotifiy(ttl, body, false);
             }
@@ -364,7 +362,7 @@ namespace MEGAbolt
         private void GetGroupsName()
         {
             //this.instance.State.GroupStore.Clear();
-            
+
             foreach (Group group in instance.State.Groups.Values)
             {
                 lock (instance.State.GroupStore)
@@ -559,17 +557,17 @@ namespace MEGAbolt
                         HandleIM(e);
                     }
                     //}
-                    
+
                     break;
                 case InstantMessageDialog.SessionSend:
-                //case InstantMessageDialog.SessionGroupStart:
+                    //case InstantMessageDialog.SessionGroupStart:
                     HandleIM(e);
                     break;
                 case InstantMessageDialog.MessageFromObject:
                     if (instance.IsObjectMuted(e.IM.FromAgentID, e.IM.FromAgentName)) return;
                     if (instance.State.IsBusy) return;
                     DisplayOnChat(e);
-                    
+
                     break;
 
                 case InstantMessageDialog.StartTyping:
@@ -671,7 +669,7 @@ namespace MEGAbolt
                     chatConsole.ChatManager.PrintMsg(Environment.NewLine + getTimeStamp() + msg);
                 }));
             }
-            catch { ; }
+            catch {; }
 
             if (!stopnotify)
             {
@@ -726,7 +724,7 @@ namespace MEGAbolt
                 return dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
             }
 
-            return string.Empty;  
+            return string.Empty;
         }
 
         private string UpdateIconTitle()
@@ -743,7 +741,7 @@ namespace MEGAbolt
                 sb.Append(avname + " [Logged out]");
             }
 
-            string title =  sb.ToString();
+            string title = sb.ToString();
             sb = null;
 
             return title;
@@ -757,7 +755,7 @@ namespace MEGAbolt
 
             string ttl = "Friendship offered";
             string body = fromAgent + " has accepted your friendship offer";
-            TrayNotifiy(ttl, body); 
+            TrayNotifiy(ttl, body);
         }
 
         private void HandleFriendshipDeclined(InstantMessageEventArgs e)
@@ -1018,9 +1016,9 @@ namespace MEGAbolt
             if (instance.State.IsBusy)
             {
                 string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, 
-                    e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, 
-                    instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>()); 
+                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg,
+                    e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline,
+                    instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 return;
             }
 
@@ -1045,7 +1043,7 @@ namespace MEGAbolt
             if (instance.State.IsBusy)
             {
                 string responsemsg = instance.Config.CurrentConfig.BusyReply;
-                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, 
+                client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg,
                     e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline,
                     instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 return;
@@ -1467,7 +1465,7 @@ namespace MEGAbolt
 
         public MEGAboltTab AddTab(string name, string label, Control control)
         {
-            ToolStripButton button = (ToolStripButton)tstTabs.Items.Add("&"+label);
+            ToolStripButton button = (ToolStripButton)tstTabs.Items.Add("&" + label);
             button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             button.Image = null;
             button.AutoToolTip = false;
@@ -1514,7 +1512,7 @@ namespace MEGAbolt
             if (selectedTab != null &&
                 selectedTab != tab)
             { selectedTab.Deselect(); }
-            
+
             selectedTab = tab;
 
             tbtnCloseTab.Enabled = tab.AllowClose;
@@ -1629,12 +1627,13 @@ namespace MEGAbolt
 
         public List<MEGAboltTab> GetOtherTabs()
         {
-            return (from ToolStripItem item in tstTabs.Items 
-                where item.Tag != null 
-                where (ToolStripButton)item != selectedTab.Button 
-                select tabs[item.Tag.ToString()] into tab 
-                where tab.AllowMerge where !tab.Merged 
-                select tab).ToList();
+            return (from ToolStripItem item in tstTabs.Items
+                    where item.Tag != null
+                    where (ToolStripButton)item != selectedTab.Button
+                    select tabs[item.Tag.ToString()] into tab
+                    where tab.AllowMerge
+                    where !tab.Merged
+                    select tab).ToList();
         }
 
         public IMTabWindow AddIMTab(InstantMessageEventArgs e)
@@ -1642,7 +1641,7 @@ namespace MEGAbolt
             TabAgentName = e.IM.FromAgentName;
             IMTabWindow imTab = AddIMTab(e.IM.FromAgentID, e.IM.IMSessionID, TabAgentName);
 
-            DisplayOnIM(imTab, e); 
+            DisplayOnIM(imTab, e);
 
             return imTab;
         }
@@ -1657,9 +1656,9 @@ namespace MEGAbolt
 
             if (tname.Length > 9)
             {
-                tname = tname.Substring(0, 7) + "..."; 
+                tname = tname.Substring(0, 7) + "...";
             }
-            
+
             AddTab(targetName, "IM: " + tname, imTab);
             imTab.SelectIMInput();
 
@@ -1693,7 +1692,7 @@ namespace MEGAbolt
             {
                 tname = tname.Substring(0, 7) + "...";
             }
-            
+
             AddTab(targetName, $"GIM: {targetName}", imTab);
             imTab.SelectIMInput();
 
@@ -1832,7 +1831,7 @@ namespace MEGAbolt
 
             tabs["chat"].Select();
             tab.Close();
-            
+
             tab = null;
         }
 
@@ -1855,7 +1854,7 @@ namespace MEGAbolt
         {
             if (instance.MainForm.WindowState == FormWindowState.Normal)
             {
-                
+
                 instance.MainForm.Hide();
                 instance.MainForm.WindowState = FormWindowState.Minimized;
             }
@@ -1869,12 +1868,12 @@ namespace MEGAbolt
         private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             instance.MainForm.Show();
-            instance.MainForm.WindowState = FormWindowState.Normal;  
+            instance.MainForm.WindowState = FormWindowState.Normal;
         }
 
         private void closeMEGAboltToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            instance.MainForm.Close(); 
+            instance.MainForm.Close();
         }
 
         private void TabsConsole_SizeChanged(object sender, EventArgs e)
@@ -1884,7 +1883,7 @@ namespace MEGAbolt
 
         private void TabsConsole_KeyUp(object sender, KeyEventArgs e)
         {
-            
+
         }
     }
 }

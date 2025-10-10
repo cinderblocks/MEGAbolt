@@ -34,221 +34,221 @@ using System.Reflection;
 
 namespace MEGAx
 {
-  public class ExtensionManager<ClientInterface, HostInterface>
-  {
-      public event AssemblyLoadingEventHandler AssemblyLoading;
-
-    private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
+    public class ExtensionManager<ClientInterface, HostInterface>
     {
-        AssemblyLoading?.Invoke(this, e);
-    }
+        public event AssemblyLoadingEventHandler AssemblyLoading;
 
-    public event AssemblyLoadedEventHandler AssemblyLoaded;
-
-    private void OnAssemblyLoaded(AssemblyLoadedEventArgs e)
-    {
-        AssemblyLoaded?.Invoke(this, e);
-    }
-
-    public event AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
-
-    private void OnAssemblyFailedLoading(AssemblyFailedLoadingEventArgs e)
-    {
-        AssemblyFailedLoading?.Invoke(this, e);
-    }
-
-    public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();
-
-    public List<Extension<ClientInterface>> Extensions { get; set; } = new List<Extension<ClientInterface>>();
-
-    public List<string> CompiledFileExtensions { get; set; } = new List<string>();
-
-    public List<string> SourceFileReferencedAssemblies { get; set; } = new List<string>();
-
-    public void UnloadExtension(Extension<ClientInterface> extension)
-    {
-      Extension<ClientInterface> extension1 = null;
-      foreach (Extension<ClientInterface> extension2 in Extensions)
-      {
-        if (extension2.Filename.ToLower().Trim() == extension.Filename.ToLower().Trim())
+        private void OnAssemblyLoading(AssemblyLoadingEventArgs e)
         {
-          extension1 = extension2;
-          break;
+            AssemblyLoading?.Invoke(this, e);
         }
-      }
-      Extensions.Remove(extension1);
-    }
 
-    public void LoadDefaultFileExtensions()
-    {
-      SourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
-      SourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
-      SourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
-      CompiledFileExtensions.Add(".dll");
-      CompiledFileExtensions.Add(".exe");
-    }
+        public event AssemblyLoadedEventHandler AssemblyLoaded;
 
-    public void LoadExtensions(string folderPath)
-    {
-      if (!Directory.Exists(folderPath))
-        return;
-      foreach (string file in Directory.GetFiles(folderPath))
-        LoadExtension(file);
-    }
-
-    public void LoadExtension(string filename)
-    {
-      AssemblyLoadingEventArgs e = new AssemblyLoadingEventArgs(filename);
-      OnAssemblyLoading(e);
-      if (e.Cancel)
-        return;
-      string lower = new FileInfo(filename).Extension.TrimStart('.').Trim().ToLower();
-      if (SourceFileExtensionMappings.ContainsKey(lower) || SourceFileExtensionMappings.ContainsKey("." + lower))
-      {
-        SourceFileLanguage language = !SourceFileExtensionMappings.ContainsKey(lower) ? SourceFileExtensionMappings["." + lower] : SourceFileExtensionMappings[lower];
-        loadSourceFile(filename, language);
-      }
-      else if (CompiledFileExtensions.Contains(lower) || CompiledFileExtensions.Contains("." + lower))
-        loadCompiledFile(filename);
-      else
-        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+        private void OnAssemblyLoaded(AssemblyLoadedEventArgs e)
         {
-          ExtensionType = ExtensionType.Unknown,
-          ErrorMessage = "File (" + filename + ") does not match any SourceFileExtensionMappings or CompiledFileExtensions and cannot be loaded."
-        });
-    }
+            AssemblyLoaded?.Invoke(this, e);
+        }
 
-    private void loadSourceFile(string filename, SourceFileLanguage language)
-    {
-      bool flag = false;
-      string str = "";
-      CompilerResults compilerResults = compileScript(filename, SourceFileReferencedAssemblies, getCodeDomLanguage(language));
-      if (compilerResults.Errors.Count <= 0)
-      {
-        foreach (Type type in compilerResults.CompiledAssembly.GetTypes())
+        public event AssemblyFailedLoadingEventHandler AssemblyFailedLoading;
+
+        private void OnAssemblyFailedLoading(AssemblyFailedLoadingEventArgs e)
         {
-          string name = typeof (ClientInterface).ToString();
-          if (type.GetInterface(name, true) != null)
-          {
+            AssemblyFailedLoading?.Invoke(this, e);
+        }
+
+        public Dictionary<string, SourceFileLanguage> SourceFileExtensionMappings { get; set; } = new Dictionary<string, SourceFileLanguage>();
+
+        public List<Extension<ClientInterface>> Extensions { get; set; } = new List<Extension<ClientInterface>>();
+
+        public List<string> CompiledFileExtensions { get; set; } = new List<string>();
+
+        public List<string> SourceFileReferencedAssemblies { get; set; } = new List<string>();
+
+        public void UnloadExtension(Extension<ClientInterface> extension)
+        {
+            Extension<ClientInterface> extension1 = null;
+            foreach (Extension<ClientInterface> extension2 in Extensions)
+            {
+                if (extension2.Filename.ToLower().Trim() == extension.Filename.ToLower().Trim())
+                {
+                    extension1 = extension2;
+                    break;
+                }
+            }
+            Extensions.Remove(extension1);
+        }
+
+        public void LoadDefaultFileExtensions()
+        {
+            SourceFileExtensionMappings.Add(".cs", SourceFileLanguage.CSharp);
+            SourceFileExtensionMappings.Add(".vb", SourceFileLanguage.Vb);
+            SourceFileExtensionMappings.Add(".js", SourceFileLanguage.Javascript);
+            CompiledFileExtensions.Add(".dll");
+            CompiledFileExtensions.Add(".exe");
+        }
+
+        public void LoadExtensions(string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+                return;
+            foreach (string file in Directory.GetFiles(folderPath))
+                LoadExtension(file);
+        }
+
+        public void LoadExtension(string filename)
+        {
+            AssemblyLoadingEventArgs e = new AssemblyLoadingEventArgs(filename);
+            OnAssemblyLoading(e);
+            if (e.Cancel)
+                return;
+            string lower = new FileInfo(filename).Extension.TrimStart('.').Trim().ToLower();
+            if (SourceFileExtensionMappings.ContainsKey(lower) || SourceFileExtensionMappings.ContainsKey("." + lower))
+            {
+                SourceFileLanguage language = !SourceFileExtensionMappings.ContainsKey(lower) ? SourceFileExtensionMappings["." + lower] : SourceFileExtensionMappings[lower];
+                loadSourceFile(filename, language);
+            }
+            else if (CompiledFileExtensions.Contains(lower) || CompiledFileExtensions.Contains("." + lower))
+                loadCompiledFile(filename);
+            else
+                OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+                {
+                    ExtensionType = ExtensionType.Unknown,
+                    ErrorMessage = "File (" + filename + ") does not match any SourceFileExtensionMappings or CompiledFileExtensions and cannot be loaded."
+                });
+        }
+
+        private void loadSourceFile(string filename, SourceFileLanguage language)
+        {
+            bool flag = false;
+            string str = "";
+            CompilerResults compilerResults = compileScript(filename, SourceFileReferencedAssemblies, getCodeDomLanguage(language));
+            if (compilerResults.Errors.Count <= 0)
+            {
+                foreach (Type type in compilerResults.CompiledAssembly.GetTypes())
+                {
+                    string name = typeof(ClientInterface).ToString();
+                    if (type.GetInterface(name, true) != null)
+                    {
+                        try
+                        {
+                            Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface)compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
+                            {
+                                InstanceAssembly = compilerResults.CompiledAssembly
+                            });
+                            flag = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            str = "Error Creating Instance of Compiled Source File (" + filename + "): " + ex.Message;
+                        }
+                    }
+                }
+                if (!flag && string.IsNullOrEmpty(str))
+                    str = "Expected interface (" + typeof(ClientInterface) + ") was not found in any types in the compiled Source File";
+            }
+            else
+                str = "Source File Compilation Errors were Detected";
+            if (!flag)
+                OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+                {
+                    ExtensionType = ExtensionType.SourceFile,
+                    SourceFileCompilerErrors = compilerResults.Errors,
+                    ErrorMessage = str
+                });
+            else
+                OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
+        }
+
+        private void loadCompiledFile(string filename)
+        {
+            bool flag = false;
+            string str = "";
+            Assembly assembly = null;
+            byte[] rawAssembly = File.ReadAllBytes(filename);
             try
             {
-              Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.SourceFile, (ClientInterface) compilerResults.CompiledAssembly.CreateInstance(type.FullName, true))
-              {
-                InstanceAssembly = compilerResults.CompiledAssembly
-              });
-              flag = true;
+                assembly = Assembly.Load(rawAssembly);
             }
-            catch (Exception ex)
+            catch
             {
-              str = "Error Creating Instance of Compiled Source File (" + filename + "): " + ex.Message;
+                str = "Compiled Assembly (" + filename + ") is not a valid Assembly File to be Loaded.";
             }
-          }
+            if (assembly != null)
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    string name = typeof(ClientInterface).ToString();
+                    if (type.GetInterface(name, true) != null)
+                    {
+                        try
+                        {
+                            Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface)assembly.CreateInstance(type.FullName, true))
+                            {
+                                InstanceAssembly = assembly
+                            });
+                            flag = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            str = "Error Creating Instance of Compiled Assembly (" + filename + "): " + ex.Message;
+                        }
+                    }
+                }
+                if (!flag && string.IsNullOrEmpty(str))
+                    str = "Expected interface (" + typeof(ClientInterface) + ") was not found in Compiled Assembly (" + filename + ")";
+            }
+            if (!flag)
+                OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+                {
+                    ExtensionType = ExtensionType.Compiled,
+                    ErrorMessage = str
+                });
+            else
+                OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
         }
-        if (!flag && string.IsNullOrEmpty(str))
-          str = "Expected interface (" + typeof (ClientInterface) + ") was not found in any types in the compiled Source File";
-      }
-      else
-        str = "Source File Compilation Errors were Detected";
-      if (!flag)
-        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
-        {
-          ExtensionType = ExtensionType.SourceFile,
-          SourceFileCompilerErrors = compilerResults.Errors,
-          ErrorMessage = str
-        });
-      else
-        OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
-    }
 
-    private void loadCompiledFile(string filename)
-    {
-      bool flag = false;
-      string str = "";
-      Assembly assembly = null;
-      byte[] rawAssembly = File.ReadAllBytes(filename);
-      try
-      {
-        assembly = Assembly.Load(rawAssembly);
-      }
-      catch
-      {
-        str = "Compiled Assembly (" + filename + ") is not a valid Assembly File to be Loaded.";
-      }
-      if (assembly != null)
-      {
-        foreach (Type type in assembly.GetTypes())
+        private CompilerResults compileScript(
+          string filename,
+          List<string> references,
+          string language)
         {
-          string name = typeof (ClientInterface).ToString();
-          if (type.GetInterface(name, true) != null)
-          {
-            try
+            CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
+            CompilerParameters options = new CompilerParameters
             {
-              Extensions.Add(new Extension<ClientInterface>(filename, ExtensionType.Compiled, (ClientInterface) assembly.CreateInstance(type.FullName, true))
-              {
-                InstanceAssembly = assembly
-              });
-              flag = true;
-            }
-            catch (Exception ex)
-            {
-              str = "Error Creating Instance of Compiled Assembly (" + filename + "): " + ex.Message;
-            }
-          }
+                GenerateExecutable = false,
+                GenerateInMemory = true,
+                IncludeDebugInformation = false
+            };
+            if (references != null)
+                options.ReferencedAssemblies.AddRange(references.ToArray());
+            return provider.CompileAssemblyFromFile(options, filename);
         }
-        if (!flag && string.IsNullOrEmpty(str))
-          str = "Expected interface (" + typeof (ClientInterface) + ") was not found in Compiled Assembly (" + filename + ")";
-      }
-      if (!flag)
-        OnAssemblyFailedLoading(new AssemblyFailedLoadingEventArgs(filename)
+
+        private string getCodeDomLanguage(SourceFileLanguage language)
         {
-          ExtensionType = ExtensionType.Compiled,
-          ErrorMessage = str
-        });
-      else
-        OnAssemblyLoaded(new AssemblyLoadedEventArgs(filename));
+            string str = "C#";
+            switch (language)
+            {
+                case SourceFileLanguage.CSharp:
+                    str = "C#";
+                    break;
+                case SourceFileLanguage.Vb:
+                    str = "VB";
+                    break;
+                case SourceFileLanguage.Javascript:
+                    str = "JS";
+                    break;
+            }
+            return str;
+        }
+
+        public delegate void AssemblyLoadingEventHandler(object sender, AssemblyLoadingEventArgs e);
+
+        public delegate void AssemblyLoadedEventHandler(object sender, AssemblyLoadedEventArgs e);
+
+        public delegate void AssemblyFailedLoadingEventHandler(
+          object sender,
+          AssemblyFailedLoadingEventArgs e);
     }
-
-    private CompilerResults compileScript(
-      string filename,
-      List<string> references,
-      string language)
-    {
-      CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
-      CompilerParameters options = new CompilerParameters
-      {
-          GenerateExecutable = false,
-          GenerateInMemory = true,
-          IncludeDebugInformation = false
-      };
-      if (references != null)
-        options.ReferencedAssemblies.AddRange(references.ToArray());
-      return provider.CompileAssemblyFromFile(options, filename);
-    }
-
-    private string getCodeDomLanguage(SourceFileLanguage language)
-    {
-      string str = "C#";
-      switch (language)
-      {
-        case SourceFileLanguage.CSharp:
-          str = "C#";
-          break;
-        case SourceFileLanguage.Vb:
-          str = "VB";
-          break;
-        case SourceFileLanguage.Javascript:
-          str = "JS";
-          break;
-      }
-      return str;
-    }
-
-    public delegate void AssemblyLoadingEventHandler(object sender, AssemblyLoadingEventArgs e);
-
-    public delegate void AssemblyLoadedEventHandler(object sender, AssemblyLoadedEventArgs e);
-
-    public delegate void AssemblyFailedLoadingEventHandler(
-      object sender,
-      AssemblyFailedLoadingEventArgs e);
-  }
 }

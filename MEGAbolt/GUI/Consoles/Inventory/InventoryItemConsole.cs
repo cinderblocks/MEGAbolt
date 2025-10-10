@@ -18,11 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -46,7 +46,7 @@ namespace MEGAbolt
             //netcom = this.instance.Netcom;
             client = this.instance.Client;
             this.item = item;
-            
+
             Disposed += InventoryItemConsole_Disposed;
 
             //iconsole = new InventoryConsole(instance); 
@@ -166,12 +166,12 @@ namespace MEGAbolt
             if ((item.Permissions.OwnerMask & PermissionMask.Transfer) == PermissionMask.Transfer)
             {
                 checkBox3.Enabled = true;
-                btnGive.Enabled = true; 
+                btnGive.Enabled = true;
             }
             else
             {
                 checkBox3.Enabled = false;
-                btnGive.Enabled = false; 
+                btnGive.Enabled = false;
             }
 
             label11.Visible = true;
@@ -271,7 +271,7 @@ namespace MEGAbolt
 
             if ((item.Permissions.OwnerMask & PermissionMask.Modify) != PermissionMask.Modify)
             {
-                checkBox1.Enabled = checkBox2.Enabled = checkBox3.Enabled = false;   
+                checkBox1.Enabled = checkBox2.Enabled = checkBox3.Enabled = false;
             }
 
             fLoading = false;
@@ -428,7 +428,7 @@ namespace MEGAbolt
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            SetPerm();    
+            SetPerm();
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -462,7 +462,7 @@ namespace MEGAbolt
                 Perms |= PermissionMask.Transfer;
             }
 
-            item.Permissions.NextOwnerMask = Perms;  
+            item.Permissions.NextOwnerMask = Perms;
             client.Inventory.RequestUpdateItem(item);
         }
 

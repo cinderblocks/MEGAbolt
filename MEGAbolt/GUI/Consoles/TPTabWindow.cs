@@ -18,13 +18,13 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
-using OpenMetaverse;
 using MEGAbolt.NetworkComm;
-using System.Threading;
-using System.Globalization;
+using OpenMetaverse;
+using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -35,7 +35,7 @@ namespace MEGAbolt
         private GridClient client;
         private UUID targetUUID = UUID.Zero;
         private ManualResetEvent TPEvent = new ManualResetEvent(false);
-        private UUID targetSession = UUID.Zero;  
+        private UUID targetSession = UUID.Zero;
 
         public TPTabWindow(MEGAboltInstance instance, InstantMessageEventArgs e)
         {
@@ -58,7 +58,7 @@ namespace MEGAbolt
         }
 
         private void netcom_TeleportStatusChanged(object sender, TeleportEventArgs e)
-        { 
+        {
             switch (e.Status)
             {
                 case TeleportStatus.Failed:
@@ -81,7 +81,7 @@ namespace MEGAbolt
         {
             TargetName = e.IM.FromAgentName;
             targetUUID = e.IM.FromAgentID;
-            targetSession = e.IM.IMSessionID; 
+            targetSession = e.IM.IMSessionID;
 
             lblSubheading.Text =
                 $"Received teleport offer from {TargetName} with message:";

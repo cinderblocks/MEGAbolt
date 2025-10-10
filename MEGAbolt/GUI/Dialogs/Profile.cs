@@ -18,23 +18,23 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using CoreJ2K;
+using MEGAbolt.NetworkComm;
+using Microsoft.Web.WebView2.WinForms;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using MEGAbolt.NetworkComm;
-using OpenMetaverse;
-using OpenMetaverse.Assets;
-using System.Threading;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using BugSplatDotNetStandard;
-using Microsoft.Web.WebView2.WinForms;
-using CoreJ2K;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
+using System.Threading;
+using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
@@ -89,21 +89,21 @@ namespace MEGAbolt
             }
         }
 
-        protected override void WndProc(ref Message m) 
-        { 
+        protected override void WndProc(ref Message m)
+        {
             base.WndProc(ref m);
 
-            if (m.Msg == WM_NCHITTEST) 
-            { 
-                if (m.Result.ToInt32() == HTTRANSPARENT)            
-                    m.Result = new IntPtr(HTCLIENT); 
-            } 
+            if (m.Msg == WM_NCHITTEST)
+            {
+                if (m.Result.ToInt32() == HTTRANSPARENT)
+                    m.Result = new IntPtr(HTCLIENT);
+            }
         }
 
         public frmProfile(MEGAboltInstance instance, string fullName, UUID agentID)
         {
             InitializeComponent();
-            
+
             Application.ThreadException += new ThreadExceptionHandler().ApplicationThreadException;
 
             this.instance = instance;
@@ -160,7 +160,7 @@ namespace MEGAbolt
             client.Avatars.PickInfoReply -= Avatars_OnPicksInfoReply;
             client.Avatars.AvatarPicksReply -= Avatars_OnPicksReply;
             client.Parcels.ParcelInfoReply -= Parcels_OnParcelInfoReply;
-            client.Avatars.DisplayNameUpdate -= Avatar_DisplayNameUpdated;    
+            client.Avatars.DisplayNameUpdate -= Avatar_DisplayNameUpdated;
         }
 
         private void Avatar_DisplayNameUpdated(object sender, DisplayNameUpdateEventArgs e)
@@ -224,7 +224,7 @@ namespace MEGAbolt
                 return;
             }
 
-            lvwPicks.Items.Clear(); 
+            lvwPicks.Items.Clear();
 
             foreach (KeyValuePair<UUID, string> pick in picks)
             {
@@ -300,7 +300,7 @@ namespace MEGAbolt
                 }
                 catch
                 {
-                    ; 
+                    ;
                 }
             }
         }
@@ -318,10 +318,10 @@ namespace MEGAbolt
             //lvGroups.Items.Clear();  
 
             foreach (var lvi in e.Groups.Select(@group => new ListViewItem
-                     {
-                         Text = @group.GroupName,
-                         Tag = @group
-                     }).Where(lvi => !lvGroups.Items.Contains(lvi)))
+            {
+                Text = @group.GroupName,
+                Tag = @group
+            }).Where(lvi => !lvGroups.Items.Contains(lvi)))
             {
                 lvGroups.Items.Add(lvi);
             }
@@ -362,7 +362,7 @@ namespace MEGAbolt
                 Image decodedImage = null;
                 using (var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
                 {
-                   decodedImage = bitmap.ToBitmap();
+                    decodedImage = bitmap.ToBitmap();
                 }
 
                 if (decodedImage == null)
@@ -379,7 +379,7 @@ namespace MEGAbolt
                 {
                     BeginInvoke(new OnSetProfileImage(SetProfileImage), texture.AssetID, decodedImage);
                 }
-                catch { ; }
+                catch {; }
 
                 //if (image.Success)
                 //    picInsignia.Image = OpenJPEGNet.OpenJPEG.DecodeToImage(image.AssetData);
@@ -447,7 +447,7 @@ namespace MEGAbolt
                     string atag = instance.avtags[e.AvatarID];
                     txtTag.Text = atag;
                 }
-                catch { ; }
+                catch {; }
             }
             else
             {
@@ -510,7 +510,7 @@ namespace MEGAbolt
                         ? "Linden Lab Employee\n"
                         : "Resident\n");
                 }
-                catch { ; }
+                catch {; }
 
                 if (properties.Identified && !properties.Transacted) rtbAccountInfo.AppendText("Payment Info On File\n");
                 else if (properties.Transacted) rtbAccountInfo.AppendText("Payment Info Used\n");
@@ -588,17 +588,19 @@ namespace MEGAbolt
             web.Dock = DockStyle.Fill;
 
             string url = txtWebURL.Text;
-            if (!url.StartsWith("http", StringComparison.CurrentCulture) 
+            if (!url.StartsWith("http", StringComparison.CurrentCulture)
                 && !url.StartsWith("https", StringComparison.CurrentCulture))
             {
 
                 url = "http://" + url;
             }
 
-            try {
+            try
+            {
                 web.Source = new Uri(url);
-            } catch (UriFormatException)
-            { return; } 
+            }
+            catch (UriFormatException)
+            { return; }
 
             pnlWeb.Controls.Add(web);
         }
@@ -673,7 +675,7 @@ namespace MEGAbolt
 
         private void textBox1_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
                 ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
@@ -763,7 +765,7 @@ namespace MEGAbolt
 
         private void textBox1_DragOver(object sender, DragEventArgs e)
         {
-            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
                 ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
@@ -772,17 +774,17 @@ namespace MEGAbolt
             if (!aboutchanged) return;
 
             if (agentID != client.Self.AgentID) return;
-        
+
             props.AboutText = rtbAbout.Text;
 
-            client.Self.UpdateProfile(props); 
+            client.Self.UpdateProfile(props);
         }
 
         private void txtWebURL_Leave(object sender, EventArgs e)
         {
-           if (!urlchanged) return;
+            if (!urlchanged) return;
 
-           if (agentID != client.Self.AgentID) return;
+            if (agentID != client.Self.AgentID) return;
 
             props.ProfileURL = txtWebURL.Text;
 
@@ -794,7 +796,7 @@ namespace MEGAbolt
             if (!lifeaboutchanged) return;
 
             if (agentID != client.Self.AgentID) return;
-      
+
             props.FirstLifeText = rtbAboutFL.Text;
 
             client.Self.UpdateProfile(props);
@@ -951,7 +953,7 @@ namespace MEGAbolt
             //    e.Effect = DragDropEffects.None;
             //}
 
-            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
                 ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
@@ -967,7 +969,7 @@ namespace MEGAbolt
         {
             if (agentID != client.Self.AgentID) return;
 
-            e.Effect = e.Data.GetDataPresent(typeof(TreeNode)) 
+            e.Effect = e.Data.GetDataPresent(typeof(TreeNode))
                 ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
@@ -1029,7 +1031,7 @@ namespace MEGAbolt
 
             instance.Client.Self.UpdateMuteListEntry(MuteType.Resident, agentID, fullName);
 
-            MessageBox.Show($"{fullName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);      
+            MessageBox.Show($"{fullName} is now muted.", "MEGAbolt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1051,7 +1053,7 @@ namespace MEGAbolt
             }
             catch
             {
-                ; 
+                ;
             }
         }
 
@@ -1062,7 +1064,7 @@ namespace MEGAbolt
 
         private void lvGroups_MouseLeave(object sender, EventArgs e)
         {
-            lvGroups.Cursor = Cursors.Default;  
+            lvGroups.Cursor = Cursors.Default;
         }
 
         private void button3_Click(object sender, EventArgs e)

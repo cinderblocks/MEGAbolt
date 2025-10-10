@@ -20,10 +20,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
+using System.Text;
 //using System.Net.Sockets;
 
 
@@ -33,7 +33,7 @@ namespace MEGAbolt
     {
         public PingHost()
         {
-           
+
         }
 
         // delegate declaration 
@@ -61,7 +61,7 @@ namespace MEGAbolt
             int received = 0;
             List<long> responseTimes = new List<long>();
 
-            string resp = string.Empty;  
+            string resp = string.Empty;
 
             //ping 4 times
             for (int i = 0; i < 4; i++)
@@ -75,7 +75,7 @@ namespace MEGAbolt
                         case IPStatus.Success:
                             resp = "Reply from " + reply.Address + ": bytes=" + reply.Buffer.Length + " time=" + reply.RoundtripTime + "ms TTL=" + reply.Options.Ttl;
                             PingEventArgs pe = new PingEventArgs(resp);
-                            Change(this, pe); 
+                            Change(this, pe);
                             received++;
                             responseTimes.Add(reply.RoundtripTime);
                             break;
@@ -95,10 +95,10 @@ namespace MEGAbolt
                     Change(this, pe);
                 }
 
-                reply = null; 
+                reply = null;
             }
 
-            ping.Dispose();            
+            ping.Dispose();
 
             //statistics calculations
             long averageTime = -1;
@@ -207,7 +207,7 @@ namespace MEGAbolt
         {
             ConnectionState flags = 0;
             InternetGetConnectedState(ref flags, 0);
-            
+
             if (((int)ConnectionState.INTERNET_CONNECTION_PROXY & (int)flags) != 0)
             {
                 return false;

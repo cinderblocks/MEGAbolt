@@ -18,9 +18,9 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Windows.Forms;
-using OpenMetaverse;
 
 namespace MEGAbolt
 {
@@ -40,23 +40,23 @@ namespace MEGAbolt
         {
             try
             {
-                    //if (string.IsNullOrEmpty(prim.Properties.Name))
-                    //if (prim.Properties == null) // Rollback ).9.2.1
-                        if (Prim.Properties == null)   // || string.IsNullOrEmpty(prim.Properties.Name)) //GM changed it to BOTH!
-                        {
-                            GettingProperties = true;
-                            client.Objects.ObjectPropertiesFamily += Objects_OnObjectPropertiesFamily;
-                            client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, Prim.ID);
-                        }
-                        else
-                        {
-                            GotProperties = true;
-                            OnPropertiesReceived(EventArgs.Empty);
-                        }
+                //if (string.IsNullOrEmpty(prim.Properties.Name))
+                //if (prim.Properties == null) // Rollback ).9.2.1
+                if (Prim.Properties == null)   // || string.IsNullOrEmpty(prim.Properties.Name)) //GM changed it to BOTH!
+                {
+                    GettingProperties = true;
+                    client.Objects.ObjectPropertiesFamily += Objects_OnObjectPropertiesFamily;
+                    client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, Prim.ID);
+                }
+                else
+                {
+                    GotProperties = true;
+                    OnPropertiesReceived(EventArgs.Empty);
+                }
 
-                        //gettingProperties = true;
-                        //client.Objects.ObjectPropertiesFamily += new EventHandler<ObjectPropertiesFamilyEventArgs>(Objects_OnObjectPropertiesFamily);
-                        //client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, prim.ID);
+                //gettingProperties = true;
+                //client.Objects.ObjectPropertiesFamily += new EventHandler<ObjectPropertiesFamilyEventArgs>(Objects_OnObjectPropertiesFamily);
+                //client.Objects.RequestObjectPropertiesFamily(client.Network.CurrentSim, prim.ID);
             }
             catch
             {

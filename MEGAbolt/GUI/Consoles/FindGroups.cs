@@ -18,12 +18,12 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenMetaverse;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
+using System.Windows.Forms;
 
 
 namespace MEGAbolt
@@ -53,7 +53,7 @@ namespace MEGAbolt
 
         private void AddClientEvents()
         {
-            client.Directory.DirGroupsReply += Directory_OnDirGroupsReply;   
+            client.Directory.DirGroupsReply += Directory_OnDirGroupsReply;
         }
 
         private void Directory_OnDirGroupsReply(object sender, DirGroupsReplyEventArgs e)
@@ -128,7 +128,7 @@ namespace MEGAbolt
             }
         }
 
-        public string SelectedName => lvwFindGroups.SelectedItems.Count == 0 
+        public string SelectedName => lvwFindGroups.SelectedItems.Count == 0
             ? string.Empty : lvwFindGroups.SelectedItems[0].Text;
 
         public UUID SelectedGroupUUID
@@ -151,7 +151,7 @@ namespace MEGAbolt
             if (e.Column == lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending 
+                lvwColumnSorter.Order = lvwColumnSorter.Order == SortOrder.Ascending
                     ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
@@ -161,7 +161,7 @@ namespace MEGAbolt
                 lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
-            lvwFindGroups.Sort(); 
+            lvwFindGroups.Sort();
         }
     }
 }

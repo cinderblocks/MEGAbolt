@@ -18,12 +18,11 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using MEGAbolt.Controls;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using MEGAbolt.Controls;
-using System.Diagnostics;
-using System.Net;
 
 namespace MEGAbolt
 {
@@ -119,11 +118,11 @@ namespace MEGAbolt
 
             if (System.IO.File.Exists(dir))
             {
-                Process.Start("notepad.exe", dir); 
+                Process.Start("notepad.exe", dir);
             }
             else
             {
-                MessageBox.Show("File: \n" + dir + "\n\n could not be found", "MEGAbolt");  
+                MessageBox.Show("File: \n" + dir + "\n\n could not be found", "MEGAbolt");
             }
         }
 
@@ -144,7 +143,7 @@ namespace MEGAbolt
             }
             else
             {
-                MessageBox.Show("AIML libraries could not be found!\nAre you sure they are installed?","MEGAbolt");  
+                MessageBox.Show("AIML libraries could not be found!\nAre you sure they are installed?", "MEGAbolt");
             }
         }
     }
