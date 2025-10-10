@@ -20,6 +20,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -35,6 +36,7 @@ namespace MEGAbolt
         private const int ICON_MARGIN = 4;
         private Color backgroundColor, selectionColor, selectionBorderColor;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image Image { get; set; }
 
         public EmoticonMenuItem()

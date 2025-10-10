@@ -38,9 +38,13 @@ using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using WeCantSpell.Hunspell;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using System.ComponentModel;
+using FMOD;
+using Thread = System.Threading.Thread;
 
 namespace MEGAbolt
 {
@@ -560,16 +564,8 @@ namespace MEGAbolt
             float radius = 21;
 
             // *** find all objects in radius ***
-            List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                prim =>
-                {
-                    Vector3 pos = new Vector3(Vector3.Zero);
-                    pos = prim.Position;
-                    return ((prim.ParentID == 0) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < radius));
-                }
-            );
-
-            int i = 0;
+            var prims = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(prim =>
+                prim.ParentID == 0 && prim.Position != Vector3.Zero && Vector3.Distance(location, prim.Position) < radius);
 
             client.Objects.ObjectProperties += Objects_OnObjectProperties;
 
@@ -580,8 +576,6 @@ namespace MEGAbolt
                     if (prim.ParentID == 0) //root prims only
                     {
                         client.Objects.SelectObject(client.Network.CurrentSim, prim.LocalID, true);
-
-                        i += 1;
                     }
                 }
                 catch (Exception ex)
@@ -1527,6 +1521,7 @@ namespace MEGAbolt
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ChatTextManager ChatManager { get; private set; }
 
         private void tbtnStartIM_Click(object sender, EventArgs e)
@@ -1558,7 +1553,7 @@ namespace MEGAbolt
             string name = instance.avnames[av];
 
             Avatar sav = new Avatar();
-            sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
+            sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav == null)
             {
@@ -1641,21 +1636,9 @@ namespace MEGAbolt
         {
             UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
-            if (av == UUID.Zero) return;
+            if (av == UUID.Zero) { return; }
 
-            string name = instance.avnames[av];
-
-            bool fFound = true;
-
-            client.Friends.FriendList.ForEach(friend =>
-            {
-                if (friend.Name == name)
-                {
-                    fFound = false;
-                }
-            });
-
-            if (fFound)
+            if (client.Friends.FriendList.Values.All(friend => friend.Name != instance.avnames[av]))
             {
                 client.Friends.OfferFriendship(av);
             }
@@ -1705,6 +1688,7 @@ namespace MEGAbolt
 
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string _textBox
         {
             set => cbxInput.Text = value;
@@ -1719,7 +1703,7 @@ namespace MEGAbolt
             if (av == UUID.Zero) return;
 
             Avatar sav = new Avatar();
-            sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
+            sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav == null)
             {
@@ -1782,8 +1766,7 @@ namespace MEGAbolt
 
             if (av == UUID.Zero) return;
 
-            Avatar sav = new Avatar();
-            sav = CurrentSIM.ObjectsAvatars.Find(fa => fa.ID == av);
+            Avatar sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav != null)
             {
@@ -2177,8 +2160,7 @@ namespace MEGAbolt
                 return;
             }
 
-            List<UUID> tremove = new List<UUID>();
-            tremove = e.RemovedEntries;
+            var tremove = e.RemovedEntries;
 
             foreach (UUID id in tremove)
             {
@@ -2207,13 +2189,13 @@ namespace MEGAbolt
                 }
             }
 
-            e.Simulator.AvatarPositions.ForEach(favpos =>
+            foreach (var favpos in e.Simulator.AvatarPositions)
             {
                 if (!instance.avnames.ContainsKey(favpos.Key))
                 {
                     client.Avatars.RequestAvatarName(favpos.Key);
                 }
-            });
+            }
 
             try
             {
@@ -2223,7 +2205,7 @@ namespace MEGAbolt
             catch { ; } 
         }
 
-        // Seperate thread
+        // Separate thread
         void Assets_OnImageReceived(TextureRequestState image, AssetTexture texture)
         {
             if (texture.AssetID != _MapImageID) return;
@@ -2428,8 +2410,7 @@ namespace MEGAbolt
                         }
                     }
 
-                    ssim.AvatarPositions.ForEach(
-                    pos =>
+                    foreach (var pos in ssim.AvatarPositions)
                     {
                         if (pos.Key != client.Self.AgentID)
                         {
@@ -2452,8 +2433,7 @@ namespace MEGAbolt
                                 oavPos.Z = 1020f;
                             }
 
-                            Avatar fav = new Avatar();
-                            fav = ssim.ObjectsAvatars.Find(av => av.ID == pos.Key);
+                            Avatar fav = ssim.ObjectsAvatars.Values.FirstOrDefault(av => av.ID == pos.Key);
 
                             string st = string.Empty;
 
@@ -2466,8 +2446,7 @@ namespace MEGAbolt
                                 {
                                     st = "*";
 
-                                    Primitive prim;
-                                    client.Network.CurrentSim.ObjectsPrimitives.TryGetValue(sobj, out prim);
+                                    client.Network.CurrentSim.ObjectsPrimitives.TryGetValue(sobj, out var prim);
 
                                     if (prim != null)
                                     {
@@ -2484,10 +2463,8 @@ namespace MEGAbolt
                                 {
                                     restrict = true;
 
-                                    if (instance.avnames.ContainsKey(pos.Key))
+                                    if (instance.avnames.TryGetValue(pos.Key, out var name))
                                     {
-                                        string name = instance.avnames[pos.Key];
-
                                         lvwRadar.BeginUpdate();
                                         if (lvwRadar.Items.ContainsKey(name))
                                         {
@@ -2541,9 +2518,8 @@ namespace MEGAbolt
                                         }
                                     }
 
-                                    if (instance.avnames.ContainsKey(pos.Key))
+                                    if (instance.avnames.TryGetValue(pos.Key, out var name))
                                     {
-                                        string name = instance.avnames[pos.Key];
                                         BeginInvoke(new OnAddSIMAvatar(AddSIMAvatar), new object[] { name, pos.Key, oavPos, aclr, st });
                                     }
                                 }
@@ -2556,7 +2532,6 @@ namespace MEGAbolt
 
                         i++;
                     }
-                    );
 
                     g.DrawImage(bmp, 0, 0);
 
@@ -2788,11 +2763,8 @@ namespace MEGAbolt
 
         private Avatar GetAvID()
         {
-            Avatar nav = new Avatar();
             UUID avid = (UUID)lvwRadar.SelectedItems[0].Tag;
-            nav = CurrentSIM.ObjectsAvatars.Find(av => av.ID == avid);
-
-            return nav;
+            return CurrentSIM.ObjectsAvatars.FirstOrDefault(av => av.Value.ID == avid).Value;
         }
 
         private void tbtnAttachments_Click(object sender, EventArgs e)

@@ -31,6 +31,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 namespace MEGAbolt
@@ -730,88 +731,87 @@ namespace MEGAbolt
                     Vector3 location = new Vector3(Vector3.Zero); 
                     location = instance.SIMsittingPos();
 
-                client.Network.CurrentSim.ObjectsPrimitives.ForEach(
-                prim =>
-                {
-                    Vector3 pos = new Vector3(Vector3.Zero);
-                    pos = prim.Position;
-
-
-
-                    float dist = Vector3.Distance(location, pos);
-
-                    //// Work around for the Magnum problem
-                    //if (ocnt < 4)
-                    //{
-                    //    //instance.State.SetPointing(true, prim.ID);
-                    //    //instance.State.SetPointing(false, prim.ID);
-
-                    //    Vector3 target = new Vector3(Vector3.Zero);
-                    //    target = prim.Position; // the object to look at
-
-                    //    client.Self.Movement.TurnToward(target);
-
-                    //    ocnt += 1;
-                    //}
-
-                    if (((int)dist < (int)range) && (prim.Position != Vector3.Zero))
+                    foreach (var prim in client.Network.CurrentSim.ObjectsPrimitives.Values)
                     {
-                        ObjectsListItem item = new ObjectsListItem(prim, client, lbxPrims);
+                        Vector3 pos = new Vector3(Vector3.Zero);
+                        pos = prim.Position;
 
-                        if (prim.ParentID == 0) //root prims only
+
+
+                        float dist = Vector3.Distance(location, pos);
+
+                        //// Work around for the Magnum problem
+                        //if (ocnt < 4)
+                        //{
+                        //    //instance.State.SetPointing(true, prim.ID);
+                        //    //instance.State.SetPointing(false, prim.ID);
+
+                        //    Vector3 target = new Vector3(Vector3.Zero);
+                        //    target = prim.Position; // the object to look at
+
+                        //    client.Self.Movement.TurnToward(target);
+
+                        //    ocnt += 1;
+                        //}
+
+                        if (((int)dist < (int)range) && (prim.Position != Vector3.Zero))
                         {
-                            if (!listItems.ContainsKey(prim.LocalID))
+                            ObjectsListItem item = new ObjectsListItem(prim, client, lbxPrims);
+
+                            if (prim.ParentID == 0) //root prims only
                             {
-                                lock (listItems)
+                                if (!listItems.ContainsKey(prim.LocalID))
                                 {
-                                    listItems.Add(prim.LocalID, item);
+                                    lock (listItems)
+                                    {
+                                        listItems.Add(prim.LocalID, item);
 
-                                    item.PropertiesReceived += iitem_PropertiesReceived;
-                                    item.RequestProperties();
-                                    //inmem = true;
+                                        item.PropertiesReceived += iitem_PropertiesReceived;
+                                        item.RequestProperties();
+                                        //inmem = true;
+                                    }
+
+                                    //pB1.Maximum += 1;
                                 }
+                                else
+                                {
+                                    lock (listItems)
+                                    {
+                                        listItems.Remove(prim.LocalID);
+                                        listItems.Add(prim.LocalID, item);
 
-                                //pB1.Maximum += 1;
+                                        lock (lbxPrims.Items)
+                                        {
+                                            lbxPrims.BeginUpdate();
+                                            lbxPrims.Items.Remove(item);
+                                            lbxPrims.Items.Add(item);
+                                            lbxPrims.EndUpdate();
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                lock (listItems)
-                                {
-                                    listItems.Remove(prim.LocalID);
-                                    listItems.Add(prim.LocalID, item);
+                                ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
 
-                                    lock (lbxPrims.Items)
+                                if (!childItems.ContainsKey(prim.LocalID))
+                                {
+                                    lock (childItems)
                                     {
-                                        lbxPrims.BeginUpdate();
-                                        lbxPrims.Items.Remove(item);
-                                        lbxPrims.Items.Add(item);
-                                        lbxPrims.EndUpdate();
+                                        childItems.Add(prim.LocalID, citem);
+                                    }
+                                }
+                                else
+                                {
+                                    lock (childItems)
+                                    {
+                                        childItems.Remove(prim.LocalID);
+                                        childItems.Add(prim.LocalID, citem);
                                     }
                                 }
                             }
                         }
-                        else
-                        {
-                            ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
-
-                            if (!childItems.ContainsKey(prim.LocalID))
-                            {
-                                lock (childItems)
-                                {
-                                    childItems.Add(prim.LocalID, citem);
-                                }
-                            }
-                            else
-                            {
-                                lock (childItems)
-                                {
-                                    childItems.Remove(prim.LocalID);
-                                    childItems.Add(prim.LocalID, citem);
-                                }
-                            }
-                        }
                     }
-                });
                 }
 
 
@@ -918,8 +918,8 @@ namespace MEGAbolt
             string query = text.ToLower(CultureInfo.CurrentCulture);
             //bool inmem = false;
 
-            List<Primitive> results =
-                client.Network.CurrentSim.ObjectsPrimitives.FindAll(
+            var results =
+                client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
                 prim =>
                 {
                     try
@@ -937,7 +937,7 @@ namespace MEGAbolt
                     {
                         return false;
                     }
-                });
+                }).ToList();
 
             pB1.Maximum = results.Count;
 
@@ -949,10 +949,8 @@ namespace MEGAbolt
                     {
                         ObjectsListItem item = new ObjectsListItem(prim, client, lbxPrims);
 
-                        if (!listItems.ContainsKey(prim.LocalID))
+                        if (listItems.TryAdd(prim.LocalID, item))
                         {
-                            listItems.Add(prim.LocalID, item);
-
                             item.PropertiesReceived += item_PropertiesReceived;
                             item.RequestProperties();
                             //inmem = true;
@@ -1636,20 +1634,15 @@ namespace MEGAbolt
 
                 button3.Visible = button7.Visible = false;
 
-                List<Primitive> results = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    prim => (prim.ParentID == sPr.LocalID));
+                var results = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
+                    prim => prim.ParentID == sPr.LocalID);
 
-                if (results is { Count: > 0 })
+
+                foreach (var prim in results)
                 {
-                    foreach (var prim in results)
-                    {
-                        ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
+                    ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
 
-                        if (!childItems.ContainsKey(prim.LocalID))
-                        {
-                            childItems.Add(prim.LocalID, citem);
-                        }
-                    }
+                    childItems.TryAdd(prim.LocalID, citem);
                 }
 
                 foreach (KeyValuePair<uint, ObjectsListItem> kvp in childItems)
@@ -1754,9 +1747,7 @@ namespace MEGAbolt
             List<uint> localIDs = new List<uint>();
             UUID rootID = oPrm.ID;
 
-            Primitive rootPrim = new Primitive();
-            rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(
-             prim => prim.ID == oPrm.ID);
+            Primitive rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Values.FirstOrDefault(prim => prim.ID == oPrm.ID);
 
             if (chkNextOwnerModify.Checked)
             {
@@ -1774,13 +1765,16 @@ namespace MEGAbolt
             }
 
 
-            rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(prim => prim.ID == rootID);
+            rootPrim = client.Network.CurrentSim.ObjectsPrimitives.FirstOrDefault(prim => prim.Value.ID == rootID).Value;
 
             if (rootPrim == null)
+            {
                 return;
+            }
             else
+            {
                 Logger.DebugLog("Found requested prim " + rootPrim.ID, client);
-
+            }
             if (rootPrim.ParentID != 0)
             {
                 // This is not actually a root prim, find the root
@@ -1792,8 +1786,8 @@ namespace MEGAbolt
             //client.Objects.SetDescription(client.Network.CurrentSim, rootPrim.LocalID , label15.Text);
             //client.Objects.SetName(client.Network.CurrentSim, rootPrim.LocalID, textBox2.Text );         
 
-            // Find all of the child objects linked to this root
-            childPrims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim => prim.ParentID == rootPrim.LocalID);
+            // Find all the child objects linked to this root
+            childPrims = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(prim => prim.ParentID == rootPrim.LocalID).ToList();
 
             // Build a dictionary of primitives for referencing later
             Objects[rootPrim.ID] = rootPrim;
@@ -2429,7 +2423,7 @@ namespace MEGAbolt
         {
             lbxTask.Items.Clear();
 
-            List<InventoryBase> items = client.Inventory.GetTaskInventory(objID, localID, 1000 * 30);
+            List<InventoryBase> items = client.Inventory.GetTaskInventory(objID, localID, TimeSpan.FromSeconds(30));
 
             if (items != null)
             {
@@ -3034,8 +3028,8 @@ namespace MEGAbolt
 
         private void button8_Click(object sender, EventArgs e)
         {
-            Avatar sav = new Avatar();
-            sav = client.Network.CurrentSim.ObjectsAvatars.Find(av => av.ID == client.Self.AgentID);
+            Avatar sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
+                av => av.Value.ID == client.Self.AgentID).Value;
 
             (new WornAttachments(instance, sav)).Show(this);
         }
@@ -3047,7 +3041,8 @@ namespace MEGAbolt
             int iDx = lbxPrims.SelectedIndex;
             ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            (new frmTeleport(instance, client.Network.CurrentSim.Name, item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();
+            (new frmTeleport(instance, client.Network.CurrentSim.Name, 
+                item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();
         }
     }
 }

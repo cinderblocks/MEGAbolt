@@ -32,6 +32,7 @@ using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using File = System.IO.File;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 namespace MEGAbolt
@@ -330,7 +331,8 @@ namespace MEGAbolt
                 {
                     if (e.FolderID == instance.CoF.UUID)
                     {
-                        instance.CoF = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.CurrentOutfit)].Data;
+                        client.Inventory.Store.TryGetValue(
+                            client.Inventory.FindFolderForType(FolderType.CurrentOutfit), out instance.CoF);
                     }
                 }
             }
@@ -557,10 +559,12 @@ namespace MEGAbolt
                     break;
                 case InventoryItem item:
                 {
-                    var folder = (InventoryFolder)client.Inventory.Store.Items[client.Inventory.FindFolderForType(FolderType.Trash)].Data;
-
-                    client.Inventory.MoveItem(item.UUID, folder.UUID, item.Name);
-                    item = null;
+                    if (client.Inventory.Store.TryGetValue(client.Inventory.FindFolderForType(FolderType.Trash),
+                            out InventoryFolder trash))
+                    {
+                        client.Inventory.MoveItem(item.UUID, trash.UUID, item.Name);
+                        item = null;
+                    }
                     break;
                 }
             }
@@ -1247,7 +1251,8 @@ namespace MEGAbolt
 
             try
             {
-                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 30 * 1000);
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, 
+                    client.Self.AgentID, clth, TimeSpan.FromSeconds(30));
 
                 if (cfolder == UUID.Zero)
                 {
@@ -1255,7 +1260,8 @@ namespace MEGAbolt
                     return;
                 }
 
-                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
+                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, 
+                    true, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(20));
 
                 if (contents == null)
                 {
@@ -1274,7 +1280,8 @@ namespace MEGAbolt
 
                 foreach (var item in items)
                 {
-                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                    client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, 
+                        string.Empty, item.InventoryType, UUID.Random(), (success, newItem) =>
                     {
                         if (success)
                         {
@@ -1488,7 +1495,8 @@ namespace MEGAbolt
             try
             {
                 clth = "Clothing/" + listBox1.SelectedItem;
-                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, client.Self.AgentID, clth, 20 * 1000);
+                var cfolder = client.Inventory.FindObjectByPath(client.Inventory.Store.RootFolder.UUID, 
+                    client.Self.AgentID, clth, TimeSpan.FromSeconds(20));
 
                 if (cfolder == UUID.Zero)
                 {
@@ -1496,7 +1504,8 @@ namespace MEGAbolt
                     return;
                 }
 
-                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID, true, true, InventorySortOrder.ByName, 20 * 1000);
+                var contents = client.Inventory.FolderContents(cfolder, client.Self.AgentID,
+                    true, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(20));
 
                 if (contents == null)
                 {
@@ -1515,7 +1524,7 @@ namespace MEGAbolt
                 foreach (var item in items)
                 {
                     client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
-                        AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                        item.InventoryType, UUID.Random(), (success, newItem) =>
                     {
                         if (success)
                         {
@@ -1691,7 +1700,7 @@ namespace MEGAbolt
             foreach (var item in clothing)
             {
                 client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty,
-                    AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                    item.InventoryType, UUID.Random(), (success, newItem) =>
                 {
                     if (success)
                     {
@@ -2042,7 +2051,7 @@ namespace MEGAbolt
             }
 
             client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
-                AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
                 {
@@ -2056,7 +2065,7 @@ namespace MEGAbolt
             client.Appearance.Attach(item, pnt, false);
 
             client.Inventory.CreateLink(instance.CoF.UUID, item.UUID, item.Name, string.Empty, 
-                AssetType.Link, item.InventoryType, UUID.Random(), (success, newItem) =>
+                item.InventoryType, UUID.Random(), (success, newItem) =>
             {
                 if (success)
                 {

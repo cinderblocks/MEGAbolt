@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 	<OutputType>Library</OutputType>
     <AssemblyTitle>MEGAx</AssemblyTitle>
     <Company>Sjofn LLC</Company>
@@ -35,6 +35,6 @@
 	<DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    <PackageReference Include="System.CodeDom" Version="9.0.9" />
   </ItemGroup>
 </Project>

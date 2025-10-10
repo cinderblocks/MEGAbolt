@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using OpenMetaverse;
 //using MEGAbolt.NetworkComm;
 using System.Globalization;
+using System.Linq;
 
 namespace MEGAbolt
 {
@@ -610,22 +611,9 @@ namespace MEGAbolt
 
         private void btnFriend_Click(object sender, EventArgs e)
         {
-            if (console.SelectedName == client.Self.Name)
-                return;
+            if (console.SelectedName == client.Self.Name) { return; }
 
-            string  sAvName = console.SelectedName;
-
-            Boolean fFound = true;
-
-            client.Friends.FriendList.ForEach(friend =>
-            {
-                if (friend.Name == sAvName)
-                {
-                    fFound = false;
-                }
-            });
-
-            if (fFound)
+            if (client.Friends.FriendList.All(friend => friend.Value.Name != console.SelectedName))
             {
                 client.Friends.OfferFriendship(console.SelectedAgentUUID);
             }

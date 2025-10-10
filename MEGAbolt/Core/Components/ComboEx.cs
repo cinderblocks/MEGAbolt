@@ -20,6 +20,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -31,10 +32,14 @@ namespace MEGAbolt
 			DrawMode = DrawMode.OwnerDrawFixed;	
 		}
 
-		/// <summary>
+        /// <summary>
         /// ImageList Property
-		/// </summary>
-		public ImageList ICImageList { get; set; } = new ImageList();
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        /// <summary>
+        /// ImageList Property
+        /// </summary>
+        public ImageList ICImageList { get; set; } = new ImageList();
 
         /// <summary>
 		/// Override OnDrawItem, To Be able To Draw Images, Text, And Font Formatting

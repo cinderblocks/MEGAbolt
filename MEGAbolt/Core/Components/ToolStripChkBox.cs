@@ -21,6 +21,7 @@
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -61,12 +62,16 @@ namespace MEGAbolt
         }
 
         //expose checkbox.enabled as property
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
+        //expose checkbox.enabled as property
         public bool ToolStripCheckBoxEnabled
         {
             get => ToolStripCheckBoxControl.Enabled;
             set => ToolStripCheckBoxControl.Enabled = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Checked
         {
             get => ToolStripCheckBoxControl.Checked;

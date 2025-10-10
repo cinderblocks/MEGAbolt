@@ -39,6 +39,8 @@ using System.Reflection;
 using BugSplatDotNetStandard;
 using NetSparkleUpdater;
 using NetSparkleUpdater.SignatureVerifiers;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -1111,8 +1113,8 @@ namespace MEGAbolt
             Logger.Log("Plugin Error: " + msg, Helpers.LogLevel.Error); 
         }
         #endregion
-        
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TabsConsole TabConsole { get; private set; }
 
         private void tmnuNewWindow_Click(object sender, EventArgs e)
@@ -2059,8 +2061,7 @@ namespace MEGAbolt
             {
                 UIFactory = new NetSparkleUpdater.UI.WinForms.UIFactory(icon),
                 RelaunchAfterUpdate = true,
-                UseNotificationToast = true,
-                SecurityProtocolType = System.Net.SecurityProtocolType.Tls12
+                UseNotificationToast = true
             };
             sparkleUpdater.StartLoop(true);
         }

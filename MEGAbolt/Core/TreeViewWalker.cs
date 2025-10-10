@@ -189,7 +189,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim =>
+                    var list = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(prim =>
                     {
                         bool result;
                         try
@@ -310,7 +310,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    var list = client.Network.CurrentSim.ObjectsPrimitives.FindAll(prim =>
+                    var list = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(prim =>
                     {
                         bool result;
                         try

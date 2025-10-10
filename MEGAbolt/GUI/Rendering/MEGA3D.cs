@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Reflection;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
@@ -35,11 +36,13 @@ using MEGAbolt.Controls;
 using MEGAbolt.Rendering;
 using BugSplatDotNetStandard;
 using OpenTK.WinForms;
+using OpenTK.Windowing.Common;
 
-using Matrix4 = OpenTK.Mathematics.Matrix4;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using Matrix4 = OpenTK.Mathematics.Matrix4;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
 {
@@ -254,41 +257,25 @@ namespace MEGAbolt
             ThreadPool.QueueUserWorkItem(sync =>
             {
                 // Search for the new local id of the object
-                List<Primitive> results = Client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                    delegate (Primitive prim)
-                    {
-                        try
-                        {
-                            return (prim.ID == selitem.ID);
-                        }
-                        catch
-                        {
-                            return false;
-                        }
-                    });
+                var result = Client.Network.CurrentSim.ObjectsPrimitives.Values.FirstOrDefault(
+                    prim => prim.ID == selitem.ID);
+                if (result == null) { return; }
 
-                if (results != null)
+                try
                 {
-                    try
+                    selitem = result;
+
+                    RootPrimLocalID = selitem.LocalID;
+
+                    if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
                     {
-                        selitem = results[0];
-
-                        RootPrimLocalID = selitem.LocalID;
-
-                        if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
-                        {
-                            UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                            var children = Client.Network.CurrentSim.ObjectsPrimitives
-                                .FindAll(p => p.ParentID == RootPrimLocalID);
-                            children.ForEach(UpdatePrimBlocking);
-                        }
+                        UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
+                        var children = Client.Network.CurrentSim.ObjectsPrimitives.Values
+                            .Where(p => p.ParentID == RootPrimLocalID).ToList();
+                        children.ForEach(UpdatePrimBlocking);
                     }
-                    catch {; }
                 }
-                else
-                {
-                    Dispose();
-                }
+                catch { ; }
             });
         }
 
@@ -383,8 +370,8 @@ namespace MEGAbolt
                 GLMode = GLControlSettings.Default;
                 GLMode.AutoLoadBindings = true;
                 GLMode.IsEventDriven = false;
-                GLMode.API = OpenTK.Windowing.Common.ContextAPI.OpenGL;
-                GLMode.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
+                GLMode.API = ContextAPI.OpenGL;
+                GLMode.Profile = ContextProfile.Compatability;
                 GLMode.NumberOfSamples = UseMultiSampling ? 4 : 0;
             }
             catch
@@ -743,7 +730,8 @@ namespace MEGAbolt
                 if (Client.Network.CurrentSim.ObjectsPrimitives.ContainsKey(RootPrimLocalID))
                 {
                     UpdatePrimBlocking(Client.Network.CurrentSim.ObjectsPrimitives[RootPrimLocalID]);
-                    var children = Client.Network.CurrentSim.ObjectsPrimitives.FindAll(p => p.ParentID == RootPrimLocalID);
+                    var children = Client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
+                        p => p.ParentID == RootPrimLocalID).ToList();
                     Logger.Log($"Loading {children.Count} primitives", Helpers.LogLevel.Debug);
                     children.ForEach(UpdatePrimBlocking);
                 }

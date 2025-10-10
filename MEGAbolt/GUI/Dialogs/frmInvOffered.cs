@@ -18,13 +18,15 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Windows.Forms;
+using BugSplatDotNetStandard;
+using IWshRuntimeLibrary;
 using OpenMetaverse;
-using System.Threading;
+using System;
 using System.Globalization;
 using System.Reflection;
-using BugSplatDotNetStandard;
+using System.Reflection.Metadata;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MEGAbolt
 {
@@ -206,23 +208,22 @@ namespace MEGAbolt
                         InstantMessageDialog.InventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), 
                         client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
 
-                    try
+
+                    if (client.Inventory.Store.TryGetValue(objectID, out var item))
                     {
-                        InventoryBase item = client.Inventory.Store.Items[objectID].Data;
-                        UUID content = client.Inventory.FindFolderForType(FolderType.Trash);
-
-                        InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[content].Data;
-
-                        if (invtype != AssetType.Folder)
+                        UUID trashId = client.Inventory.FindFolderForType(FolderType.Trash);
+                        if (client.Inventory.Store.TryGetValue(trashId, out InventoryFolder trash))
                         {
-                            client.Inventory.Move(item, folder);
-                        }
-                        else
-                        {
-                            client.Inventory.MoveFolder(objectID, content);
+                            if (invtype != AssetType.Folder)
+                            {
+                                client.Inventory.Move(item, trash);
+                            }
+                            else
+                            {
+                                client.Inventory.MoveFolder(objectID, trashId);
+                            }
                         }
                     }
-                    catch { ; }
                 }
                 else if (diag == InstantMessageDialog.TaskInventoryOffered)
                 {

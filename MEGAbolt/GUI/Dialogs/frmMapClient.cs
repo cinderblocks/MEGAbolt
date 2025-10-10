@@ -30,9 +30,10 @@ using System.Threading;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 /* Some of this code has been borrowed from the libsecondlife GUI */
 
@@ -334,48 +335,46 @@ namespace MEGAbolt
                         myPos.Z = 1020f;   // Convert.ToSingle(client.Self.GlobalPosition.Z);    //1024f;
                     }
 
-                    client.Network.CurrentSim.AvatarPositions.ForEach(
-                        pos =>
+                    foreach (var pos in client.Network.CurrentSim.AvatarPositions) 
+                    {
+                        int x = (int)pos.Value.X - 2;
+                        int y = 255 - (int)pos.Value.Y - 2;
+
+                        rect = new Rectangle(x, y, 7, 7);
+
+                        Vector3 oavPos = new Vector3(0, 0, 0)
                         {
-                            int x = (int)pos.Value.X - 2;
-                            int y = 255 - (int)pos.Value.Y - 2;
+                            X = pos.Value.X,
+                            Y = pos.Value.Y,
+                            Z = pos.Value.Z
+                        };
 
-                            rect = new Rectangle(x, y, 7, 7);
-
-                            Vector3 oavPos = new Vector3(0, 0, 0)
-                            {
-                                X = pos.Value.X,
-                                Y = pos.Value.Y,
-                                Z = pos.Value.Z
-                            };
-
-                            if (oavPos.Z < 0.1f)
-                            {
-                                oavPos.Z = 1020f;
-                            }
-
-                            if (pos.Key != client.Self.AgentID)
-                            {
-                                if (myPos.Z - oavPos.Z > 20)
-                                {
-                                    g.FillRectangle(Brushes.DarkRed, rect);
-                                    g.DrawRectangle(new Pen(Brushes.Red, 1), rect);
-                                }
-                                else if (myPos.Z - oavPos.Z > -11 && myPos.Z - oavPos.Z < 11)
-                                {
-                                    g.FillEllipse(Brushes.LightGreen, rect);
-                                    g.DrawEllipse(new Pen(Brushes.Green, 1), rect);
-                                }
-                                else
-                                {
-                                    g.FillRectangle(Brushes.MediumBlue, rect);
-                                    g.DrawRectangle(new Pen(Brushes.Red, 1), rect);
-                                }
-                            }
-
-                            i++;
+                        if (oavPos.Z < 0.1f)
+                        {
+                            oavPos.Z = 1020f;
                         }
-                    );
+
+                        if (pos.Key != client.Self.AgentID)
+                        {
+                            if (myPos.Z - oavPos.Z > 20)
+                            {
+                                g.FillRectangle(Brushes.DarkRed, rect);
+                                g.DrawRectangle(new Pen(Brushes.Red, 1), rect);
+                            }
+                            else if (myPos.Z - oavPos.Z > -11 && myPos.Z - oavPos.Z < 11)
+                            {
+                                g.FillEllipse(Brushes.LightGreen, rect);
+                                g.DrawEllipse(new Pen(Brushes.Green, 1), rect);
+                            }
+                            else
+                            {
+                                g.FillRectangle(Brushes.MediumBlue, rect);
+                                g.DrawRectangle(new Pen(Brushes.Red, 1), rect);
+                            }
+                        }
+
+                        i++;
+                    }
                 }
 
                 g.DrawImage(bmp, 0, 0);                

@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Timers;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 namespace MEGAbolt

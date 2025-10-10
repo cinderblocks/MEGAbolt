@@ -24,6 +24,7 @@ using OpenMetaverse;
 using MEGAbolt.NetworkComm;
 using System.Threading;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -113,6 +114,7 @@ namespace MEGAbolt
             CloseTab();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TargetName { get; private set; }
 
         public UUID TargetUUID => targetUUID;

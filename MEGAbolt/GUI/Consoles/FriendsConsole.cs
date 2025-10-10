@@ -19,13 +19,16 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Threading;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
 {
@@ -86,16 +89,14 @@ namespace MEGAbolt
                 return;
             }
 
-            List<FriendInfo> friendslist = client.Friends.FriendList.FindAll((FriendInfo friend) => true);
+            instance.State.AvatarFriends = client.Friends.FriendList.Values.ToList();
 
-            instance.State.AvatarFriends = friendslist;
-
-            if (friendslist.Count > 0)
+            if (instance.State.AvatarFriends.Count > 0)
             {
                 lbxFriends.BeginUpdate();
                 lbxFriends.Items.Clear();
 
-                foreach (FriendInfo friend in friendslist)
+                foreach (FriendInfo friend in instance.State.AvatarFriends)
                 {
                     lbxFriends.Items.Add(new FriendsListItem(friend));
                 }

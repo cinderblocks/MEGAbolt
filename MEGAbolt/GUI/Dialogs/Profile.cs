@@ -32,9 +32,10 @@ using System.Linq;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using Microsoft.Web.WebView2.WinForms;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 namespace MEGAbolt
@@ -343,20 +344,18 @@ namespace MEGAbolt
             {
                 if (texture.AssetID != PickImageID) return;
 
-                using (var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>())
+                using var bitmap = J2kImage.FromBytes(texture.AssetData).As<SKBitmap>();
+                var decodedImage = bitmap.ToBitmap();
+                if (decodedImage != null)
                 {
-                    var decodedImage = bitmap.ToBitmap();
-                    if (decodedImage != null)
+                    BeginInvoke(new MethodInvoker(() =>
                     {
-                        BeginInvoke(new MethodInvoker(() =>
-                        {
-                            pictureBox1.Image = decodedImage;
-                            loadwait2.Visible = false;
-                        }));
+                        pictureBox1.Image = decodedImage;
+                        loadwait2.Visible = false;
+                    }));
 
-                        instance.ImageCache.AddImage(texture.AssetID, decodedImage);
-                    }
-                }                
+                    instance.ImageCache.AddImage(texture.AssetID, decodedImage);
+                }
             }
             else
             {
@@ -1035,17 +1034,7 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Boolean fFound = true;
-
-            client.Friends.FriendList.ForEach(friend =>
-            {
-                if (friend.Name == fullName)
-                {
-                    fFound = false;
-                }
-            });
-
-            if (fFound)
+            if (client.Friends.FriendList.All(friend => friend.Value.Name != fullName))
             {
                 client.Friends.OfferFriendship(agentID);
             }

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenMetaverse;
 using System.Globalization;
+using System.ComponentModel;
 
 
 namespace MEGAbolt
@@ -114,6 +115,7 @@ namespace MEGAbolt
 
         public SafeDictionary<string, UUID> LLUUIDs { get; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID QueryID { get; set; }
 
         public int SelectedIndex

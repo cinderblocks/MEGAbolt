@@ -152,15 +152,13 @@ namespace MEGAbolt
         private void GetCallTips()
         {
             string fileContent = Properties.Resources.LSL_Functions;
-            using (var reader = new StringReader(fileContent))
+            using var reader = new StringReader(fileContent);
+            while (reader.ReadLine() is { } line)
             {
-                while (reader.ReadLine() is { } line)
-                {
-                    calltip.Add(line);
+                calltip.Add(line);
 
-                    string[] split = line.Split('|');
-                    calltipheader.Add(split[0]);
-                }
+                string[] split = line.Split('|');
+                calltipheader.Add(split[0]);
             }
         }
 

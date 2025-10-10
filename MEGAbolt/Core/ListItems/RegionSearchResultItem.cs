@@ -60,7 +60,7 @@ namespace MEGAbolt
                 client.Grid.MapItems(
                     region.RegionHandle,
                     OpenMetaverse.GridItemType.AgentLocations,
-                    GridLayerType.Terrain, 500);
+                    GridLayerType.Terrain, TimeSpan.FromMilliseconds(500));
 
             if (items != null)
             {

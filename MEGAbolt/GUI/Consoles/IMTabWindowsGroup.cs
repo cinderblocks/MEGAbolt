@@ -31,6 +31,8 @@ using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
 using WeCantSpell.Hunspell;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using System.ComponentModel;
 
 
 namespace MEGAbolt
@@ -713,12 +715,16 @@ namespace MEGAbolt
             cbxInput.Select();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID TargetId { get; set; } = UUID.Zero;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TargetName { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID SessionId { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IMTextManager TextManager { get; set; }
 
         private void tbtnProfile_Click(object sender, EventArgs e)

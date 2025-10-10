@@ -30,6 +30,7 @@ using System.Web;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
+using System.ComponentModel;
 
 
 namespace MEGAbolt
@@ -581,12 +582,16 @@ namespace MEGAbolt
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID TargetId { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TargetName { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID SessionId { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IMTextManager TextManager { get; set; }
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

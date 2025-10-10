@@ -18,18 +18,20 @@
  * along with this program.If not, see<https://www.gnu.org/licenses/>.
  */
 
+using BugSplatDotNetStandard;
+using MEGAbolt;
+using MEGAbolt.NetworkComm;
+using Nini.Ini;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using MEGAbolt.NetworkComm;
-using OpenMetaverse;
-using System.Threading;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using BugSplatDotNetStandard;
-using MEGAbolt;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace MEGAbolt
 {
@@ -1154,26 +1156,21 @@ namespace MEGAbolt
                     {
                         client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, string.Empty, e.IM.IMSessionID, InstantMessageDialog.InventoryDeclined, InstantMessageOnline.Offline, instance.SIMsittingPos(), client.Network.CurrentSim.RegionID, invfolder.GetBytes()); // Decline Inventory Offer
 
-                        try
+                        if (client.Inventory.Store.TryGetValue(oID, out var item))
                         {
-                            //client.Inventory.RemoveItem(objectID);
-                            //client.Inventory.RequestFetchInventory(oID, client.Self.AgentID);
-
-                            InventoryBase item = client.Inventory.Store.Items[oID].Data;
-                            UUID content = client.Inventory.FindFolderForType(FolderType.Trash);
-
-                            InventoryFolder folder = (InventoryFolder)client.Inventory.Store.Items[content].Data;
-
-                            if (type != AssetType.Folder)
+                            UUID trashId = client.Inventory.FindFolderForType(FolderType.Trash);
+                            if (client.Inventory.Store.TryGetValue(trashId, out InventoryFolder trash))
                             {
-                                client.Inventory.Move(item, folder);
-                            }
-                            else
-                            {
-                                client.Inventory.MoveFolder(oID, content);
+                                if (type != AssetType.Folder)
+                                {
+                                    client.Inventory.Move(item, trash);
+                                }
+                                else
+                                {
+                                    client.Inventory.MoveFolder(oID, trashId);
+                                }
                             }
                         }
-                        catch { ; }
                     }
                     else if (e.IM.Dialog == InstantMessageDialog.TaskInventoryOffered)
                     {

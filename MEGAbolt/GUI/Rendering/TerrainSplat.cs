@@ -23,7 +23,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-using CSJ2K;
+using CoreJ2K;
 using OpenMetaverse;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
@@ -109,11 +109,9 @@ namespace MEGAbolt.Rendering
                 {
                     // Create a solid color texture for this layer
                     detailTexture[i] = new Bitmap(outputSize, outputSize, PixelFormat.Format24bppRgb);
-                    using (Graphics gfx = Graphics.FromImage(detailTexture[i]))
-                    {
-                        using (SolidBrush brush = new SolidBrush(DEFAULT_TERRAIN_COLOR[i]))
-                            gfx.FillRectangle(brush, 0, 0, outputSize, outputSize);
-                    }
+                    using Graphics gfx = Graphics.FromImage(detailTexture[i]);
+                    using SolidBrush brush = new SolidBrush(DEFAULT_TERRAIN_COLOR[i]);
+                    gfx.FillRectangle(brush, 0, 0, outputSize, outputSize);
                 }
                 else if (detailTexture[i].Width != outputSize || detailTexture[i].Height != outputSize)
                 {
@@ -301,10 +299,8 @@ namespace MEGAbolt.Rendering
             {
                 if (state == TextureRequestState.Finished && assetTexture?.AssetData != null)
                 {
-                    using (var image = J2kImage.FromBytes(assetTexture.AssetData).As<SKBitmap>())
-                    {
-                        detailTexture[i] = image.ToBitmap();
-                    }
+                    using var image = J2kImage.FromBytes(assetTexture.AssetData).As<SKBitmap>();
+                    detailTexture[i] = image.ToBitmap();
                 }
                 textureDone.Set();
             };

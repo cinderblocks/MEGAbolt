@@ -84,19 +84,24 @@ namespace SystemMonitor
 		#region "Properties"
 
 		[Description("Gets or sets the current Line Color in chart"), Category("DataChart")]
-		public Color LineColor { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Color LineColor { get; set; }
 
         [Description("Gets or sets the current Grid Color in chart"), Category("DataChart")]
-		public Color GridColor { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Color GridColor { get; set; }
 
         [Description("Gets or sets the initial maximum Height for sticks in chart"), Category("DataChart")]
-		public int InitialHeight { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int InitialHeight { get; set; }
 
         [Description("Gets or sets the current chart Type for stick or Line"), Category("DataChart")]
-		public ChartType ChartType { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ChartType ChartType { get; set; }
 
         [Description("Enables grid drawing with spacing of the Pixel number"), Category("DataChart")]
-		public int GridPixels { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int GridPixels { get; set; }
 
         #endregion
 

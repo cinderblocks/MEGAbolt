@@ -63,9 +63,11 @@ namespace MEGAbolt.Controls
 
     private void InitializeComponent() => components = new Container();
 
-    public Control Content { get; private set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Control Content { get; private set; }
 
-    public PopupAnimations ShowingAnimation
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public PopupAnimations ShowingAnimation
     {
       get => showingAnimation;
       set
@@ -76,7 +78,8 @@ namespace MEGAbolt.Controls
       }
     }
 
-    public PopupAnimations HidingAnimation
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public PopupAnimations HidingAnimation
     {
       get => hidingAnimation;
       set
@@ -87,7 +90,8 @@ namespace MEGAbolt.Controls
       }
     }
 
-    public int AnimationDuration
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int AnimationDuration
     {
       get => animationDuration;
       set
@@ -98,19 +102,24 @@ namespace MEGAbolt.Controls
       }
     }
 
-    public bool FocusOnOpen { get; set; } = true;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool FocusOnOpen { get; set; } = true;
 
-    public bool AcceptAlt { get; set; } = true;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool AcceptAlt { get; set; } = true;
 
-    public bool Resizable
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool Resizable
     {
       get => resizable && !isChildPopupOpened;
       set => resizable = value;
     }
 
-    public new Size MinimumSize { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new Size MinimumSize { get; set; }
 
-    public new Size MaximumSize { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new Size MaximumSize { get; set; }
 
     protected override CreateParams CreateParams
     {

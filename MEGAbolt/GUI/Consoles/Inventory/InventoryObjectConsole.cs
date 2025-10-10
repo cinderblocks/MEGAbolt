@@ -1,7 +1,7 @@
 /*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2025, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using OpenMetaverse;
 
@@ -64,9 +65,8 @@ namespace MEGAbolt
 
         private void btnTouch_Click(object sender, EventArgs e)
         {
-            Primitive targetPrim = client.Network.CurrentSim.ObjectsPrimitives.Find(
-                prim => prim.ID == item.UUID
-            );
+            Primitive targetPrim = client.Network.CurrentSim.ObjectsPrimitives.FirstOrDefault(
+                prim => prim.Value.ID == item.UUID).Value;
 
             if (targetPrim != null)
             {

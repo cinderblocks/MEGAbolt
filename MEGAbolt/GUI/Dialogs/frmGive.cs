@@ -24,6 +24,7 @@ using System.Windows.Forms;
 //using MEGAbolt.NetworkComm;
 using OpenMetaverse;
 using System.Globalization;
+using System.Linq;
 
 namespace MEGAbolt
 {
@@ -189,7 +190,7 @@ namespace MEGAbolt
 
             if (instance.State.AvatarFriends == null || instance.State.AvatarFriends.Count == 0)
             {
-                friendslist = client.Friends.FriendList.FindAll((FriendInfo friend) => true);
+                friendslist = client.Friends.FriendList.Values.ToList();
 
                 instance.State.AvatarFriends = friendslist;
 

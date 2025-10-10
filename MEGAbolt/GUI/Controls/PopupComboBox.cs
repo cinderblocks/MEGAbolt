@@ -60,7 +60,8 @@ namespace MEGAbolt.Controls
       base.IntegralHeight = false;
     }
 
-    public Control DropDownControl
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Control DropDownControl
     {
       get => dropDownControl;
       set
@@ -80,7 +81,8 @@ namespace MEGAbolt.Controls
 
     private void dropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e) => dropDownHideTime = DateTime.UtcNow;
 
-    public new bool DroppedDown
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new bool DroppedDown
     {
       get => dropDown.Visible;
       set

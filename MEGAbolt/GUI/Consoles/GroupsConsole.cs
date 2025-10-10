@@ -26,6 +26,7 @@ using System.Threading;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 // Group List user control

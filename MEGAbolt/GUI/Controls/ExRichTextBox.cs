@@ -116,15 +116,18 @@ namespace MEGAbolt.Controls
       IntPtr wParam,
       IntPtr lParam);
 
-    public new string Rtf
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new string Rtf
     {
       get => RemoveBadChars(base.Rtf);
       set => base.Rtf = value;
     }
 
-    public RtfColor TextColor { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RtfColor TextColor { get; set; }
 
-    public RtfColor HiglightColor { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RtfColor HiglightColor { get; set; }
 
     public ExRichTextBox()
     {
@@ -188,11 +191,10 @@ namespace MEGAbolt.Controls
       {
         argumentException = ex;
       }
-      using (Graphics graphics = CreateGraphics())
-      {
-        xDpi = graphics.DpiX;
-        yDpi = graphics.DpiY;
-      }
+
+      using Graphics graphics = CreateGraphics();
+      xDpi = graphics.DpiX;
+      yDpi = graphics.DpiY;
     }
 
     public ExRichTextBox(RtfColor _textColor)

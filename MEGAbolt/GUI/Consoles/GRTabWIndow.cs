@@ -21,6 +21,7 @@
 using System;
 using System.Windows.Forms;
 using OpenMetaverse;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -80,10 +81,12 @@ namespace MEGAbolt
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TargetName { get; private set; }
 
         public UUID TargetUUID => targetUUID;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID iSession { get; private set; }
 
         private void btnAccept_Click(object sender, EventArgs e)

@@ -1182,7 +1182,8 @@ namespace MEGAbolt
                 {
                     if (o is InventoryFolder)
                     {
-                        List<InventoryBase> founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID, false, true, InventorySortOrder.ByName, 3000);
+                        List<InventoryBase> founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID, 
+                            false, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(3));
                         int icount = founditems.Count;
                         Random random = new Random();
                         int num = random.Next(icount);

@@ -1,7 +1,7 @@
 ﻿/*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2025, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -108,19 +108,12 @@ namespace MEGAbolt
         {
             try
             {
-                Avatar sav = client.Network.CurrentSim.ObjectsAvatars.Find(fa => fa.ID == av.ID);
-
+                Avatar sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
+                    fa => fa.Value.ID == av.ID).Value;
                 if (sav != null)
                 {
-                    List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                            prim =>
-                            {
-                                try
-                                {
-                                    return (prim.ParentID == sav.LocalID);
-                                }
-                                catch { return false; }
-                            });
+                    var prims = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
+                        prim => prim.ParentID == sav.LocalID);
 
                     BeginInvoke(new MethodInvoker(() =>
                     {
@@ -133,10 +126,8 @@ namespace MEGAbolt
                             {
                                 AttachmentsListItem item = new AttachmentsListItem(prim, client, lbxPrims);
 
-                                if (!listItems.ContainsKey(prim.LocalID))
+                                if (listItems.TryAdd(prim.LocalID, item))
                                 {
-                                    listItems.Add(prim.LocalID, item);
-
                                     item.PropertiesReceived += item_PropertiesReceived;
                                     item.RequestProperties();
                                 }
@@ -234,15 +225,8 @@ namespace MEGAbolt
                 return;
             }
 
-            List<Primitive> prims = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                prim =>
-                {
-                    try
-                    {
-                        return (prim.ParentID == av.LocalID);
-                    }
-                    catch { return false; }
-                });
+            var prims = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
+                prim => prim.ParentID == av.LocalID);
 
             lbxPrims.BeginUpdate();
             lbxPrims.Items.Clear();
@@ -253,10 +237,8 @@ namespace MEGAbolt
                 {
                     AttachmentsListItem item = new AttachmentsListItem(prim, client, lbxPrims);
 
-                    if (!listItems.ContainsKey(prim.LocalID))
+                    if (listItems.TryAdd(prim.LocalID, item))
                     {
-                        listItems.Add(prim.LocalID, item);
-
                         item.PropertiesReceived += item_PropertiesReceived;
                         item.RequestProperties();
                     }
@@ -486,10 +468,11 @@ namespace MEGAbolt
             btnTouch.Enabled = (item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
             txtUUID.Text = item.Prim.ID.ToString();
-            txtPoint.Text = item.Prim.PrimData.AttachmentPoint.ToString(); 
+            txtPoint.Text = item.Prim.PrimData.AttachmentPoint.ToString();
 
-            List<Primitive> group = client.Network.CurrentSim.ObjectsPrimitives.FindAll(
-                prim => (prim.ParentID == item.Prim.LocalID));
+
+            var group = client.Network.CurrentSim.ObjectsPrimitives.Values.Where(
+                prim => prim.ParentID == item.Prim.LocalID).ToList();
 
             label5.Text = item.Prim.Text;
 
@@ -601,12 +584,7 @@ namespace MEGAbolt
 
                 if (itmid == UUID.Zero) return;
 
-                InventoryItem attid = client.Inventory.Store[itmid] as InventoryItem;
-
-                //client.Appearance.Detach(attid);
-
-                //List<UUID> remclothing = new List<UUID>();
-                //remclothing.Add(attid.UUID);
+                if (!client.Inventory.Store.TryGetValue(itmid, out InventoryItem attid)) { return; }
 
                 List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
 
@@ -614,7 +592,7 @@ namespace MEGAbolt
                 {
                     client.Inventory.RemoveItem(ritem.UUID);
                 }
-                
+
                 client.Appearance.Detach(attid);
 
                 lock (listItems)

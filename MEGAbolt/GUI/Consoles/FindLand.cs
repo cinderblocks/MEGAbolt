@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using OpenMetaverse;
 using System.Linq;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -207,6 +208,7 @@ namespace MEGAbolt
         }
 
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UUID QueryID { get; set; }
 
         public int SelectedIndex

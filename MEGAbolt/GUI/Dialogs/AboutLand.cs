@@ -27,6 +27,7 @@ using System.IO;
 using System.Globalization;
 using System.Reflection;
 using BugSplatDotNetStandard;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 
 namespace MEGAbolt

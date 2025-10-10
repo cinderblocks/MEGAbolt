@@ -20,6 +20,7 @@
 
 using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -92,8 +93,10 @@ namespace MEGAbolt
             Close();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ToolStrip ReattachStrip { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Panel ReattachContainer { get; set; }
 
         private void frmDetachedTab_Load(object sender, EventArgs e)

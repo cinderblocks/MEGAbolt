@@ -20,6 +20,7 @@
 
 using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace MEGAbolt
 {
@@ -57,8 +58,16 @@ namespace MEGAbolt
         //    //this.msg = msg;
         //}
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
+        //public void ShowMessage(string msg)
+        //{
+        //    //this.msg = msg;
+        //}
+
         public string Message { get; set; } = string.Empty;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title { get; set; } = string.Empty;
 
         //public void NotifTitle(string title)

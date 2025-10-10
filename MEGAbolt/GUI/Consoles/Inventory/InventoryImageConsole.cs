@@ -22,7 +22,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using CSJ2K;
+using CoreJ2K;
 
 //using MEGAbolt.NetworkComm;
 using OpenMetaverse;

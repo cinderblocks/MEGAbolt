@@ -1,7 +1,7 @@
 /*
  * MEGAbolt Metaverse Client
  * Copyright(c) 2008-2014, www.metabolt.net (METAbolt)
- * Copyright(c) 2021, Sjofn, LLC
+ * Copyright(c) 2021-2025, Sjofn, LLC
  * All rights reserved.
  *  
  * Radegast is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  */
 
 using System.Drawing;
-using CSJ2K;
+using CoreJ2K;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 
@@ -29,10 +29,8 @@ namespace MEGAbolt
     {
         public static Image Decode(byte[] j2cdata)
         {
-            using (var bitmap = J2kImage.FromBytes(j2cdata).As<SKBitmap>())
-            {
-                return bitmap.ToBitmap();
-            }
+            using var bitmap = J2kImage.FromBytes(j2cdata).As<SKBitmap>();
+            return bitmap.ToBitmap();
         }
     }
 }

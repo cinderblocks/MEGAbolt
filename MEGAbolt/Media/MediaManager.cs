@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FMOD;
@@ -432,8 +433,8 @@ namespace MEGAbolt.Media
             // This event tells us the Object ID, but not the Prim info directly.
             // So we look it up in our internal Object memory.
             Simulator sim = e.Simulator;
-            Primitive p = sim.ObjectsPrimitives.Find(p2 => p2.ID == e.ObjectID);
-            if (p == null) return;
+            var p = sim.ObjectsPrimitives.FirstOrDefault(p2 => p2.Value.ID == e.ObjectID).Value;
+            if (p == null) { return; }
 
             // Only one attached sound per prim, so we kill any previous
             BufferSound.Kill(p.ID);
