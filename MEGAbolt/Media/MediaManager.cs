@@ -63,10 +63,10 @@ namespace MEGAbolt.Media
             soundCancelToken = new CancellationTokenSource();
 
             // Start the background thread that does the audio calls.
-            Task soundTask = Task.Factory.StartNew(CommandLoop,
+            var soundTask = Task.Factory.StartNew(CommandLoop,
                 soundCancelToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             // Start the background thread that updates listener position.
-            Task listenerTask = Task.Factory.StartNew(ListenerUpdate,
+            var listenerTask = Task.Factory.StartNew(ListenerUpdate,
                 soundCancelToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
             //Instance.ClientChanged += new EventHandler<ClientChangedEventArgs>(Instance_ClientChanged);
@@ -173,8 +173,7 @@ namespace MEGAbolt.Media
             try
             {
                 FMODExec(Factory.System_Create(out system));
-                uint version = 0;
-                FMODExec(system.getVersion(out version));
+                FMODExec(system.getVersion(out var version));
 
                 if (version < VERSION.number)
                     throw new MediaException("You are using an old version of FMOD " +
@@ -185,7 +184,7 @@ namespace MEGAbolt.Media
                 // Try to detect sound system used
                 if (Environment.OSVersion.Platform is PlatformID.Unix or PlatformID.MacOSX)
                 {
-                    bool audioOK = false;
+                    var audioOK = false;
                     var res = system.setOutput(OUTPUTTYPE.COREAUDIO);
                     if (res == RESULT.OK)
                     {
@@ -221,8 +220,7 @@ namespace MEGAbolt.Media
 
                 }
 
-                OUTPUTTYPE outputType = OUTPUTTYPE.UNKNOWN;
-                FMODExec(system.getOutput(out outputType));
+                FMODExec(system.getOutput(out var outputType));
 
                 // *TODO: Investigate if this all is still needed under FMODStudio
 #if false
@@ -258,7 +256,7 @@ namespace MEGAbolt.Media
                 // FMODExec(system.setDSPBufferSize(1024, 10));
 
                 // Try to initialize with all those settings, and Max 32 channels.
-                RESULT result = system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
+                var result = system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
                 if (result != RESULT.OK)
                 {
                     throw (new Exception(result.ToString()));
@@ -317,8 +315,8 @@ namespace MEGAbolt.Media
         private void ListenerUpdate()
         {
             // Notice changes in position or direction.
-            Vector3 lastpos = new Vector3(0.0f, 0.0f, 0.0f);
-            float lastface = 0.0f;
+            var lastpos = new Vector3(0.0f, 0.0f, 0.0f);
+            var lastface = 0.0f;
 
             while (true)
             {
@@ -332,8 +330,8 @@ namespace MEGAbolt.Media
                 if (!system.hasHandle()) continue;
 
                 var my = Instance.Client.Self;
-                Vector3 newPosition = new Vector3(my.SimPosition);
-                float newFace = my.SimRotation.W;
+                var newPosition = new Vector3(my.SimPosition);
+                var newFace = my.SimRotation.W;
 
                 // If we are standing still, nothing to update now, but
                 // FMOD needs a 'tick' anyway for callbacks, etc.  In looping
@@ -357,18 +355,18 @@ namespace MEGAbolt.Media
                 lastface = newFace;
 
                 // Convert coordinate spaces.
-                VECTOR listenerpos = FromOMVSpace(newPosition);
+                var listenerpos = FromOMVSpace(newPosition);
 
                 // Get azimuth from the facing Quaternion.  Note we assume the
                 // avatar is standing upright.  Avatars in unusual positions
                 // hear things from unpredictable directions.
                 // By definition, facing.W = Cos( angle/2 )
                 // With angle=0 meaning East.
-                double angle = 2.0 * Math.Acos(newFace);
+                var angle = 2.0 * Math.Acos(newFace);
 
                 // Construct facing unit vector in FMOD coordinates.
                 // Z is East, X is South, Y is up.
-                VECTOR forward = new VECTOR
+                var forward = new VECTOR
                 {
                     x = (float)Math.Sin(angle),
                     y = 0.0f,
@@ -431,7 +429,7 @@ namespace MEGAbolt.Media
         {
             // This event tells us the Object ID, but not the Prim info directly.
             // So we look it up in our internal Object memory.
-            Simulator sim = e.Simulator;
+            var sim = e.Simulator;
             var p = sim.ObjectsPrimitives.FirstOrDefault(p2 => p2.Value.ID == e.ObjectID).Value;
             if (p == null) { return; }
 
@@ -448,12 +446,11 @@ namespace MEGAbolt.Media
             if (e.SoundID == UUID.Zero) return;
 
             // If this is a child prim, its position is relative to the root.
-            Vector3 fullPosition = p.Position;
+            var fullPosition = p.Position;
 
             while (p != null && p.ParentID != 0)
             {
-                Avatar av;
-                if (sim.ObjectsAvatars.TryGetValue(p.ParentID, out av))
+                if (sim.ObjectsAvatars.TryGetValue(p.ParentID, out var av))
                 {
                     p = av;
                     fullPosition += p.Position;
@@ -510,8 +507,7 @@ namespace MEGAbolt.Media
         /// <param name="e"></param>
         void Objects_KillObject(object sender, KillObjectEventArgs e)
         {
-            Primitive p = null;
-            if (!e.Simulator.ObjectsPrimitives.TryGetValue(e.ObjectLocalID, out p)) return;
+            if (!e.Simulator.ObjectsPrimitives.TryGetValue(e.ObjectLocalID, out var p)) return;
 
             // Objects without sounds are not interesting.
             if (p.Sound == UUID.Zero) return;
@@ -536,19 +532,17 @@ namespace MEGAbolt.Media
             }
 
             // If this is a child prim, its position is relative to the root prim.
-            Vector3 fullPosition = p.Position;
+            var fullPosition = p.Position;
             if (p.ParentID != 0)
             {
-                Primitive parentP;
-                if (!s.ObjectsPrimitives.TryGetValue(p.ParentID, out parentP)) return;
+                if (!s.ObjectsPrimitives.TryGetValue(p.ParentID, out var parentP)) return;
                 fullPosition += parentP.Position;
             }
 
             // See if this is an update to  something we already know about.
-            if (allBuffers.ContainsKey(p.ID))
+            if (allBuffers.TryGetValue(p.ID, out var snd))
             {
                 // Exists already, so modify existing sound.
-                BufferSound snd = allBuffers[p.ID];
                 snd.Volume = p.SoundGain * ObjectVolume;
                 snd.Position = fullPosition;
             }
@@ -658,7 +652,7 @@ namespace MEGAbolt.Media
 
             try
             {
-                byte[] data = new byte[stream.Length];
+                var data = new byte[stream.Length];
                 stream.Read(data, 0, data.Length);
                 CREATESOUNDEXINFO exinfo = new()
                 {

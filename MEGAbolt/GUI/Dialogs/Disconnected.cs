@@ -26,8 +26,8 @@ namespace MEGAbolt
 {
     public partial class frmDisconnected : Form
     {
-        private MEGAboltInstance instance;
-        private string rea = string.Empty;
+        private readonly MEGAboltInstance instance;
+        private readonly string rea = string.Empty;
 
         public frmDisconnected(MEGAboltInstance instance, string reason)
         {

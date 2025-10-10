@@ -87,7 +87,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -186,7 +186,7 @@ namespace MEGAbolt
             //so args[0] and args[1] have the necessary name parts
             if (args.Length > 1)
             {
-                string full_name = args[0] + "_" + args[1];
+                var full_name = args[0] + "_" + args[1];
                 Config = new ConfigManager(full_name);
 
             }
@@ -247,13 +247,13 @@ namespace MEGAbolt
 
         public static string GetRandomPassword(int length)
         {
-            char[] chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&".ToCharArray();
-            string password = string.Empty;
-            Random random = new Random();
+            var chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&".ToCharArray();
+            var password = string.Empty;
+            var random = new Random();
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                int x = random.Next(1, chars.Length);
+                var x = random.Next(1, chars.Length);
                 //Don't Allow Repetition of Characters
                 if (!password.Contains(chars.GetValue(x).ToString()))
                     password += chars.GetValue(x);
@@ -289,7 +289,7 @@ namespace MEGAbolt
 
         private void CreateNotesDir()
         {
-            string notesdir = appdir + "\\Notes\\";
+            var notesdir = appdir + "\\Notes\\";
 
             if (!DirExists(notesdir))
             {
@@ -300,7 +300,7 @@ namespace MEGAbolt
 
         private void CreateSpellingDir()
         {
-            string spellingdir = appdir + "\\Spelling\\";
+            var spellingdir = appdir + "\\Spelling\\";
 
             if (!DirExists(spellingdir))
             {
@@ -311,7 +311,7 @@ namespace MEGAbolt
 
         private void CreateLogDir()
         {
-            string logdir = appdir + "\\Logs\\";
+            var logdir = appdir + "\\Logs\\";
 
             if (!DirExists(logdir))
             {
@@ -320,8 +320,8 @@ namespace MEGAbolt
             }
             else
             {
-                long size = GetDirectorySize(logdir);
-                double fsize = ConvertBytesToMegabytes(size);
+                var size = GetDirectorySize(logdir);
+                var fsize = ConvertBytesToMegabytes(size);
 
                 if (fsize > 1000)
                 {
@@ -354,7 +354,7 @@ namespace MEGAbolt
 
         private static long GetDirectorySize(string p)
         {
-            string[] a = Directory.GetFiles(p, "*.*");
+            var a = Directory.GetFiles(p, "*.*");
 
             return a.Select(name => new FileInfo(name)).Select(info => info.Length).Sum();
         }
@@ -450,14 +450,14 @@ namespace MEGAbolt
 
             try
             {
-                DataRow dr = GiverItems.Rows.Find(item.ToString(CultureInfo.CurrentCulture));
+                var dr = GiverItems.Rows.Find(item.ToString(CultureInfo.CurrentCulture));
 
                 if (dr != null)
                 {
-                    UUID iid = (UUID)dr.ItemArray[1].ToString();
-                    string name = dr.ItemArray[2].ToString().ToString(CultureInfo.CurrentCulture);
+                    var iid = (UUID)dr.ItemArray[1].ToString();
+                    var name = dr.ItemArray[2].ToString().ToString(CultureInfo.CurrentCulture);
 
-                    string astype = dr.ItemArray[3].ToString();
+                    var astype = dr.ItemArray[3].ToString();
 
                     AssetType type;
 
@@ -615,14 +615,14 @@ namespace MEGAbolt
         {
             if (!File.Exists(XmlFile))
             {
-                DataTable tbl = MakeGiverDataTable();
+                var tbl = MakeGiverDataTable();
 
                 GiverItems = tbl;
                 GiverItems.PrimaryKey = new DataColumn[] { GiverItems.Columns["Command"] };
                 return;
             }
 
-            DataSet dset = new DataSet();
+            var dset = new DataSet();
             dset.Locale = CultureInfo.CurrentCulture;
 
             FileStream fstr = null;
@@ -641,7 +641,7 @@ namespace MEGAbolt
             {
                 if (dset.Tables.Count > 0)
                 {
-                    DataTable dtbl = dset.Tables[0];
+                    var dtbl = dset.Tables[0];
 
                     fstr.Dispose();
                     dset.Dispose();
@@ -654,7 +654,7 @@ namespace MEGAbolt
                     fstr.Dispose();
                     dset.Dispose();
 
-                    DataTable tbl = MakeGiverDataTable();
+                    var tbl = MakeGiverDataTable();
 
                     GiverItems = tbl;
                     GiverItems.PrimaryKey = new DataColumn[] { GiverItems.Columns["Command"] };
@@ -690,9 +690,9 @@ namespace MEGAbolt
 
         private static DataTable MakeGiverDataTable()
         {
-            DataTable dtbl = new DataTable("list");
+            var dtbl = new DataTable("list");
             dtbl.Locale = CultureInfo.CurrentCulture;
-            DataColumn myColumn = new DataColumn();
+            var myColumn = new DataColumn();
 
             myColumn.DataType = Type.GetType("System.String");
             myColumn.ColumnName = "Command";
@@ -700,23 +700,23 @@ namespace MEGAbolt
 
             //client.Inventory.GiveItem(iitem.UUID, iitem.Name, iitem.AssetType, avid, false);
 
-            DataColumn myColumn1 = new DataColumn();
+            var myColumn1 = new DataColumn();
             myColumn1.DataType = Type.GetType("System.String");
             myColumn1.ColumnName = "UUID";
             dtbl.Columns.Add(myColumn1);
 
-            DataColumn myColumn2 = new DataColumn();
+            var myColumn2 = new DataColumn();
             myColumn2 = new DataColumn();
             myColumn2.DataType = Type.GetType("System.String");
             myColumn2.ColumnName = "Name";
             dtbl.Columns.Add(myColumn2);
 
-            DataColumn myColumn3 = new DataColumn();
+            var myColumn3 = new DataColumn();
             myColumn3.DataType = Type.GetType("System.String");
             myColumn3.ColumnName = "AssetType";
             dtbl.Columns.Add(myColumn3);
 
-            DataColumn[] keys = new DataColumn[1];
+            var keys = new DataColumn[1];
             keys[0] = myColumn;
 
             dtbl.PrimaryKey = keys;
@@ -731,8 +731,8 @@ namespace MEGAbolt
 
         private void MakeTPTable()
         {
-            DataColumn myColumn = new DataColumn();
-            DataTable dtbl = new DataTable("history");
+            var myColumn = new DataColumn();
+            var dtbl = new DataTable("history");
             dtbl.Locale = CultureInfo.CurrentCulture;
 
             myColumn.DataType = Type.GetType("System.String");
@@ -869,7 +869,7 @@ namespace MEGAbolt
                 Config.CurrentConfig.BandwidthThrottle = 500.0f;
             }
 
-            float throttle = Config.CurrentConfig.BandwidthThrottle * 10000f;
+            var throttle = Config.CurrentConfig.BandwidthThrottle * 10000f;
 
             if (Config.CurrentConfig.BandwidthThrottle == 500.0f)
             {
@@ -916,9 +916,9 @@ namespace MEGAbolt
         {
             //char[] ReservedChars = { '/', ':', '*', '?', '"', '<', '>', '|', '.', ',', '!', ';', '\\', '\'' };
 
-            char[] invalidFileChars = Path.GetInvalidFileNameChars();
+            var invalidFileChars = Path.GetInvalidFileNameChars();
 
-            foreach (char strChar in invalidFileChars)
+            foreach (var strChar in invalidFileChars)
             {
                 //strValue = strValue.Replace(strChar.ToString(CultureInfo.CurrentCulture), "");
                 strValue = CleanReplace(strChar.ToString(CultureInfo.CurrentCulture), "", strValue);
@@ -960,11 +960,11 @@ namespace MEGAbolt
             //d = &#8730; (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2
             //
 
-            int result = 0;
-            double part1 = Math.Pow((x2 - x1), 2);
-            double part2 = Math.Pow((y2 - y1), 2);
-            double part3 = Math.Pow((z2 - z1), 2);
-            double underRadical = part1 + part2 + part3;
+            var result = 0;
+            var part1 = Math.Pow((x2 - x1), 2);
+            var part2 = Math.Pow((y2 - y1), 2);
+            var part3 = Math.Pow((z2 - z1), 2);
+            var underRadical = part1 + part2 + part3;
             result = (int)Math.Sqrt(underRadical);
 
             return result;
@@ -972,7 +972,7 @@ namespace MEGAbolt
 
         public Vector3 SIMsittingPos()
         {
-            Vector3 ppos = new Vector3();
+            var ppos = new Vector3();
             ppos = Client.Self.SimPosition;
 
             if (State.IsSitting)
@@ -999,21 +999,21 @@ namespace MEGAbolt
         {
             try
             {
-                string folder = Config.CurrentConfig.LogDir;
+                var folder = Config.CurrentConfig.LogDir;
 
-                DirectoryInfo di = new DirectoryInfo(folder);
+                var di = new DirectoryInfo(folder);
 
                 if (!di.Exists)
                 {
                     di.Create();
                 }
 
-                int cnt = 0;
+                var cnt = 0;
 
-                foreach (FileInfo fi in di.GetFiles())
+                foreach (var fi in di.GetFiles())
                 {
                     //string inFile = fi.FullName;
-                    string finname = fi.Name;
+                    var finname = fi.Name;
 
                     if (finname.Contains(filename))
                     {
@@ -1062,26 +1062,26 @@ namespace MEGAbolt
 
         public string SetTime()
         {
-            DateTime dte = DateTime.Now;
+            var dte = DateTime.Now;
 
             dte = State.GetTimeStamp(dte);
 
             if (Config.CurrentConfig.UseSLT)
             {
-                string _timeZoneId = "Pacific Standard Time";
-                DateTime startTime = DateTime.UtcNow;
-                TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+                var _timeZoneId = "Pacific Standard Time";
+                var startTime = DateTime.UtcNow;
+                var tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
                 dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
             }
 
-            string prefix = dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
+            var prefix = dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
 
             return prefix;
         }
 
         public string CleanReplace(string rep, string repwith, string inputString)
         {
-            StringBuilder b = new StringBuilder(inputString);
+            var b = new StringBuilder(inputString);
 
             b.Replace(rep, repwith);
 

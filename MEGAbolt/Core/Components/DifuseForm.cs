@@ -31,7 +31,7 @@ namespace MEGAbolt
         private bool m_bShowing = true;
         private bool m_bForceClose = false;
         private DialogResult m_origDialogResult;
-        private bool m_bDisposeAtEnd = false;
+        private readonly bool m_bDisposeAtEnd = false;
 
         #region Constructor
         public DifuseForm()

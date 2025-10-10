@@ -279,7 +279,7 @@ namespace FMOD
             {
                 var buffer = new float[numchannels][];
 
-                for (int i = 0; i < numchannels; ++i)
+                for (var i = 0; i < numchannels; ++i)
                 {
                     buffer[i] = new float[length];
                     Marshal.Copy(spectrum_internal[i], buffer[i], 0, length);
@@ -291,8 +291,8 @@ namespace FMOD
 
         public void getSpectrum(ref float[][] buffer)
         {
-            int bufferLength = Math.Min(buffer.Length, numchannels);
-            for (int i = 0; i < bufferLength; ++i)
+            var bufferLength = Math.Min(buffer.Length, numchannels);
+            for (var i = 0; i < bufferLength; ++i)
             {
                 getSpectrum(i, ref buffer[i]);
             }
@@ -300,7 +300,7 @@ namespace FMOD
 
         public void getSpectrum(int channel, ref float[] buffer)
         {
-            int bufferLength = Math.Min(buffer.Length, length);
+            var bufferLength = Math.Min(buffer.Length, length);
             Marshal.Copy(spectrum_internal[channel], buffer, 0, bufferLength);
         }
     }

@@ -30,17 +30,17 @@ namespace MEGAbolt
 {
     public partial class frmPreferences : Form
     {
-        private MEGAboltInstance instance;
-        private Dictionary<string, IPreferencePane> panes;
+        private readonly MEGAboltInstance instance;
+        private readonly Dictionary<string, IPreferencePane> panes;
         private IPreferencePane selectedPane;
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
 
         public frmPreferences(MEGAboltInstance instance)
         {
             InitializeComponent();
 
-            string msg1 = "Click for help on how to use Application/Preferences";
+            var msg1 = "Click for help on how to use Application/Preferences";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -64,7 +64,7 @@ namespace MEGAbolt
         {
             lbxPanes.Items.Add(new PreferencePaneListItem(pane.Name, pane.Icon));
 
-            Control paneControl = (Control)pane;
+            var paneControl = (Control)pane;
             paneControl.Dock = DockStyle.Fill;
             paneControl.Visible = false;
             pnlPanes.Controls.Add(paneControl);
@@ -74,11 +74,11 @@ namespace MEGAbolt
 
         private void SelectPreferencePane(string name)
         {
-            IPreferencePane pane = panes[name];
+            var pane = panes[name];
             if (pane == selectedPane) return;
 
-            Control paneControl = (Control)pane;
-            Control selectedPaneControl = selectedPane as Control;
+            var paneControl = (Control)pane;
+            var selectedPaneControl = selectedPane as Control;
 
             paneControl.Visible = true;
             if (selectedPaneControl != null) selectedPaneControl.Visible = false;
@@ -88,7 +88,7 @@ namespace MEGAbolt
 
         private void Apply()
         {
-            foreach (KeyValuePair<string, IPreferencePane> kvp in panes)
+            foreach (var kvp in panes)
                 kvp.Value.SetPreferences();
 
             instance.Config.ApplyCurrentConfig();
@@ -100,7 +100,7 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            PreferencePaneListItem itemToDraw = (PreferencePaneListItem)lbxPanes.Items[e.Index];
+            var itemToDraw = (PreferencePaneListItem)lbxPanes.Items[e.Index];
             Brush textBrush = null;
             Font textFont = null;
 
@@ -115,9 +115,9 @@ namespace MEGAbolt
                 textFont = new Font(e.Font, FontStyle.Regular);
             }
 
-            SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Name, textFont);
+            var stringSize = e.Graphics.MeasureString(itemToDraw.Name, textFont);
             float stringX = e.Bounds.Left + 4 + itemToDraw.Icon.Width;
-            float stringY = e.Bounds.Top + 2 + ((itemToDraw.Icon.Height / 2) - (stringSize.Height / 2));
+            var stringY = e.Bounds.Top + 2 + ((itemToDraw.Icon.Height / 2) - (stringSize.Height / 2));
 
             e.Graphics.DrawImage(itemToDraw.Icon, e.Bounds.Left + 2, e.Bounds.Top + 2);
             e.Graphics.DrawString(itemToDraw.Name, textFont, textBrush, stringX, stringY);
@@ -149,7 +149,7 @@ namespace MEGAbolt
         private void lbxPanes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lbxPanes.SelectedItem == null) return;
-            PreferencePaneListItem item = (PreferencePaneListItem)lbxPanes.SelectedItem;
+            var item = (PreferencePaneListItem)lbxPanes.SelectedItem;
 
             // Screen size change to accomodate initial IM feature thx to Elmo Clarity 20/12/2010
 

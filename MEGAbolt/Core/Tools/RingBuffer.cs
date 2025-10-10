@@ -38,9 +38,9 @@ namespace MEGAbolt
 
             if (ringbuffer.Count > 0)
             {
-                DateTime ltry = ringbuffer[0];
+                var ltry = ringbuffer[0];
 
-                TimeSpan tspn = DateTime.Now - ltry;
+                var tspn = DateTime.Now - ltry;
 
                 if (tspn.TotalSeconds < 1.1)
                 {

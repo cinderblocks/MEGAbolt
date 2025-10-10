@@ -62,7 +62,7 @@ namespace MEGAbolt.Media
         public event StreamInfoCallback OnStreamInfo;
 
         Timer updateTimer = null;
-        uint updateIntervl = 500;
+        readonly uint updateIntervl = 500;
 
         /// <summary>
         /// Releases resources of this sound object
@@ -82,7 +82,7 @@ namespace MEGAbolt.Media
             }
 
             if (!channel.hasHandle()) return;
-            ManualResetEvent stopped = new ManualResetEvent(false);
+            var stopped = new ManualResetEvent(false);
             invoke(delegate
             {
                 try
@@ -126,8 +126,7 @@ namespace MEGAbolt.Media
                     RegisterSound(sound);
 
                     // Allocate a channel and set initial volume.
-                    ChannelGroup masterChannelGroup;
-                    system.getMasterChannelGroup(out masterChannelGroup);
+                    system.getMasterChannelGroup(out var masterChannelGroup);
                     FMODExec(system.playSound(sound, masterChannelGroup, false,
                         out channel), "Stream channel");
                     FMODExec(channel.setVolume(volume), "Stream volume");
@@ -153,23 +152,19 @@ namespace MEGAbolt.Media
                 {
                     FMODExec(system.update());
 
-                    TAG tag = new TAG();
-                    var numTags = 0;
-                    var numTagsUpdated = 0;
-
-                    var res = sound.getNumTags(out numTags, out numTagsUpdated);
+                    var res = sound.getNumTags(out var numTags, out var numTagsUpdated);
 
                     if (res != RESULT.OK || numTagsUpdated <= 0) return;
                     for (var i = 0; i < numTags; i++)
                     {
-                        if (sound.getTag(null, i, out tag) != RESULT.OK)
+                        if (sound.getTag(null, i, out var tag) != RESULT.OK)
                         {
                             continue;
                         }
 
                         if (tag.type == TAGTYPE.FMOD && tag.name == "Sample Rate Change")
                         {
-                            float newfreq = (float)Marshal.PtrToStructure(tag.data, typeof(float));
+                            var newfreq = (float)Marshal.PtrToStructure(tag.data, typeof(float));
                             Logger.DebugLog("New stream frequency: " + newfreq.ToString("F" + 0));
                             channel.setFrequency(newfreq);
                         }

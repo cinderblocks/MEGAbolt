@@ -19,13 +19,14 @@
  */
 
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MEGAbolt
 {
     public class SafeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly object syncRoot = new object();
-        private Dictionary<TKey, TValue> d = new Dictionary<TKey, TValue>();
+        private readonly Lock syncRoot = new Lock();
+        private readonly Dictionary<TKey, TValue> d = new Dictionary<TKey, TValue>();
 
         #region IDictionary<TKey,TValue> Members
 

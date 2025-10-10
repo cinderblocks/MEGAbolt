@@ -199,7 +199,7 @@ namespace MEGAbolt.Media
         {
             // OMV  X is forward/East, Y is left/North, Z is up.
             // FMOD Z is forward/East, X is right/South, Y is up.
-            VECTOR v = new VECTOR
+            var v = new VECTOR
             {
                 x = -omvV.Y,
                 y = omvV.Z,
@@ -212,33 +212,25 @@ namespace MEGAbolt.Media
         protected static Dictionary<IntPtr, MediaObject> allChannels;
         protected void RegisterSound(Sound sound)
         {
-            IntPtr raw = sound.handle;
-            if (allSounds.ContainsKey(raw))
-                allSounds.Remove(raw);
+            var raw = sound.handle;
+            allSounds.Remove(raw);
             allSounds.Add(raw, this);
         }
         protected void RegisterChannel(Channel channel)
         {
-            IntPtr raw = channel.handle;
-            if (allChannels.ContainsKey(raw))
-                allChannels.Remove(raw);
+            var raw = channel.handle;
+            allChannels.Remove(raw);
             allChannels.Add(raw, this);
         }
         protected void UnRegisterSound()
         {
-            IntPtr raw = sound.handle;
-            if (allSounds.ContainsKey(raw))
-            {
-                allSounds.Remove(raw);
-            }
+            var raw = sound.handle;
+            allSounds.Remove(raw);
         }
         protected void UnRegisterChannel()
         {
-            IntPtr raw = channel.handle;
-            if (allChannels.ContainsKey(raw))
-            {
-                allChannels.Remove(raw);
-            }
+            var raw = channel.handle;
+            allChannels.Remove(raw);
         }
 
         /// <summary>
@@ -268,9 +260,8 @@ namespace MEGAbolt.Media
             // There are several callback types
             if (type == CHANNELCONTROL_CALLBACK_TYPE.END)
             {
-                if (allChannels.ContainsKey(channelraw))
+                if (allChannels.TryGetValue(channelraw, out var sndobj))
                 {
-                    MediaObject sndobj = allChannels[channelraw];
                     return sndobj.EndCallbackHandler();
                 }
             }

@@ -34,13 +34,13 @@ namespace MEGAbolt
 {
     public partial class frmAboutLand : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         //private SLNetCom netcom;
         //private bool parcelowner = false;
         //private bool detsloading = true;
         //private bool detschanged = false;
-        private Parcel parcel;
+        private readonly Parcel parcel;
         private bool formloading = true;
         private List<ParcelManager.ParcelAccessEntry> blacklist;
         //private List<ParcelManager.ParcelAccessEntry> whitelist;
@@ -53,7 +53,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -77,7 +77,7 @@ namespace MEGAbolt
             while (!IsHandleCreated)
             {
                 // Force handle creation
-                IntPtr temp = Handle;
+                var temp = Handle;
             }
 
             Disposed += AboutLand_Disposed;
@@ -134,9 +134,9 @@ namespace MEGAbolt
 
         private bool HasGroupPower(GroupPowers power, UUID groupID)
         {
-            if (!instance.State.Groups.ContainsKey(groupID)) return false;
+            if (!instance.State.Groups.TryGetValue(groupID, out var group)) return false;
 
-            return (instance.State.Groups[groupID].Powers & power) != 0;
+            return (group.Powers & power) != 0;
         }
 
         private void Parcels_OnParcelDwell(object sender, ParcelDwellReplyEventArgs ea)
@@ -168,7 +168,7 @@ namespace MEGAbolt
                 return;
             }
 
-            bool hasauth = false;
+            var hasauth = false;
 
             if (grpID != UUID.Zero)
             {
@@ -411,24 +411,24 @@ namespace MEGAbolt
                 lvwBlackList.BeginUpdate();
                 lvwBlackList.Items.Clear();
 
-                foreach (ParcelManager.ParcelAccessEntry pe in blacklist)
+                foreach (var pe in blacklist)
                 {
                     if (pe.AgentID != UUID.Zero)
                     {
-                        ListViewItem item = lvwBlackList.Items.Add(pe.AgentID.ToString());
+                        var item = lvwBlackList.Items.Add(pe.AgentID.ToString());
                         item.Tag = pe;
 
-                        if (!instance.avnames.ContainsKey(pe.AgentID))
+                        if (!instance.avnames.TryGetValue(pe.AgentID, out var avname))
                         {
                             client.Avatars.RequestAvatarName(pe.AgentID);
                         }
                         else
                         {
-                            ListViewItem foundItem = lvwBlackList.FindItemWithText(pe.AgentID.ToString());
+                            var foundItem = lvwBlackList.FindItemWithText(pe.AgentID.ToString());
 
                             if (foundItem != null)
                             {
-                                foundItem.Text = instance.avnames[pe.AgentID];
+                                foundItem.Text = avname;
                             }
                         }
                     }
@@ -450,15 +450,15 @@ namespace MEGAbolt
                 lvwPrimOwners.Items.Clear();
                 lvwPrimOwners.Enabled = true;
 
-                List<ParcelManager.ParcelPrimOwners> primOwners = ea.PrimOwners;
+                var primOwners = ea.PrimOwners;
 
-                for (int i = 0; i < primOwners.Count; i++)
+                for (var i = 0; i < primOwners.Count; i++)
                 {
                     if (primOwners[i].OwnerID != UUID.Zero)
                     {
                         try
                         {
-                            ListViewItem item = lvwPrimOwners.Items.Add(primOwners[i].OwnerID.ToString());
+                            var item = lvwPrimOwners.Items.Add(primOwners[i].OwnerID.ToString());
                             item.Tag = primOwners[i].OwnerID;
                             item.SubItems.Add(primOwners[i].Count.ToString(CultureInfo.CurrentCulture));
 
@@ -521,14 +521,14 @@ namespace MEGAbolt
 
             lvwPrimOwners.BeginUpdate();
 
-            foreach (KeyValuePair<UUID, string> av in names)
+            foreach (var av in names)
             {
                 if (!instance.avnames.ContainsKey(av.Key))
                 {
                     instance.avnames.Add(av.Key, av.Value);
                 }
 
-                ListViewItem foundItem = lvwPrimOwners.FindItemWithText(av.Key.ToString());
+                var foundItem = lvwPrimOwners.FindItemWithText(av.Key.ToString());
                 //ListViewItem foundItem = lvwPrimOwners.FindItemWithText(instance.avnames[primOwners[i].OwnerID].ToString());
 
                 try
@@ -548,9 +548,9 @@ namespace MEGAbolt
 
             lvwBlackList.BeginUpdate();
 
-            foreach (KeyValuePair<UUID, string> av in names)
+            foreach (var av in names)
             {
-                ListViewItem foundItem = lvwBlackList.FindItemWithText(av.Key.ToString());
+                var foundItem = lvwBlackList.FindItemWithText(av.Key.ToString());
 
                 try
                 {
@@ -649,14 +649,14 @@ namespace MEGAbolt
 
         private void btnReturn_Click(object sender, EventArgs e)
         {
-            List<UUID> ownersID = new List<UUID>();
+            var ownersID = new List<UUID>();
 
-            UUID oitem = (UUID)lvwPrimOwners.SelectedItems[0].Tag;
+            var oitem = (UUID)lvwPrimOwners.SelectedItems[0].Tag;
 
             if (client.Self.AgentID == oitem)
             {
-                DialogResult res = MessageBox.Show("You are about to return ALL your prims.\n" +
-                                                   "Are you sure you want to continue?",
+                var res = MessageBox.Show("You are about to return ALL your prims.\n" +
+                                          "Are you sure you want to continue?",
                     "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
@@ -666,8 +666,8 @@ namespace MEGAbolt
             }
             else
             {
-                DialogResult res = MessageBox.Show($"You are about to return ALL prims owned by {lvwPrimOwners.SelectedItems[0].Text}.\n" +
-                                                   $"Are you sure you want to continue?",
+                var res = MessageBox.Show($"You are about to return ALL prims owned by {lvwPrimOwners.SelectedItems[0].Text}.\n" +
+                                          $"Are you sure you want to continue?",
                     "MEGAbolt Object Return", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (DialogResult.No == res)
@@ -1102,7 +1102,7 @@ namespace MEGAbolt
                     //p1.AgentID = (UUID)lvwBlackList.SelectedItems[0].Tag;
                     //p1.Flags = AccessList.Ban;
 
-                    ParcelManager.ParcelAccessEntry person = new ParcelManager.ParcelAccessEntry();
+                    var person = new ParcelManager.ParcelAccessEntry();
 
                     person = (ParcelManager.ParcelAccessEntry)lvwBlackList.SelectedItems[0].Tag;
                     //person.Flags = AccessList.Access;
@@ -1143,7 +1143,7 @@ namespace MEGAbolt
         {
             if (lvwBlackList.SelectedItems.Count > 0)
             {
-                ParcelManager.ParcelAccessEntry person = (ParcelManager.ParcelAccessEntry)lvwBlackList.SelectedItems[0].Tag;
+                var person = (ParcelManager.ParcelAccessEntry)lvwBlackList.SelectedItems[0].Tag;
 
                 (new frmProfile(instance, lvwBlackList.SelectedItems[0].Text, person.AgentID)).Show();
             }
@@ -1164,20 +1164,20 @@ namespace MEGAbolt
                     {
                         if ((tstream = saveFileDialog1.OpenFile()) != null)
                         {
-                            StreamWriter SW = new StreamWriter(tstream);
+                            var SW = new StreamWriter(tstream);
 
-                            string parcelname = client.Network.CurrentSim + "/" + txtParcelname.Text.Replace(",", " ");
+                            var parcelname = client.Network.CurrentSim + "/" + txtParcelname.Text.Replace(",", " ");
 
                             SW.WriteLine("Land: " + parcelname + ",List Type: Blacklist,Ttl avatars: " + lvwBlackList.Items.Count.ToString(CultureInfo.CurrentCulture));
                             SW.WriteLine(",,");
                             SW.WriteLine("Name,UUID,");
 
-                            for (int i = 0; i < lvwBlackList.Items.Count; i++)
+                            for (var i = 0; i < lvwBlackList.Items.Count; i++)
                             {
-                                ParcelManager.ParcelAccessEntry person = (ParcelManager.ParcelAccessEntry)lvwBlackList.Items[i].Tag;
-                                string personame = lvwBlackList.Items[i].Text;
+                                var person = (ParcelManager.ParcelAccessEntry)lvwBlackList.Items[i].Tag;
+                                var personame = lvwBlackList.Items[i].Text;
 
-                                string line = personame + "," + person.AgentID + ",";
+                                var line = personame + "," + person.AgentID + ",";
                                 SW.WriteLine(line);
                             }
 
@@ -1197,11 +1197,11 @@ namespace MEGAbolt
         {
             if (parcel != null)
             {
-                int localid = parcel.LocalID;
-                int saleprice = parcel.SalePrice;
-                int parcelarea = parcel.Area;
-                Simulator simulator = client.Network.CurrentSim;
-                UUID buyerid = parcel.AuthBuyerID;
+                var localid = parcel.LocalID;
+                var saleprice = parcel.SalePrice;
+                var parcelarea = parcel.Area;
+                var simulator = client.Network.CurrentSim;
+                var buyerid = parcel.AuthBuyerID;
 
                 if ((((buyerid == UUID.Zero) || (buyerid == client.Self.AgentID))) && ((parcel.Flags & ParcelFlags.ForSale) == ParcelFlags.ForSale))
                 {

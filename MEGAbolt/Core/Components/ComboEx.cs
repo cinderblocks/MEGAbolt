@@ -60,13 +60,13 @@ namespace MEGAbolt
 
                 if (Items[e.Index].GetType() == typeof(ICItem))  //Is It A ImageCombo Item ¿
                 {
-                    ICItem ICCurrItem = (ICItem)Items[e.Index]; //Get Current Item
+                    var ICCurrItem = (ICItem)Items[e.Index]; //Get Current Item
 
                     //Obtain Current Item's ForeColour
-                    Color ICCurrForeColour = (ICCurrItem.ICForeColour != Color.FromKnownColor(KnownColor.Transparent)) ? ICCurrItem.ICForeColour : e.ForeColor;
+                    var ICCurrForeColour = (ICCurrItem.ICForeColour != Color.FromKnownColor(KnownColor.Transparent)) ? ICCurrItem.ICForeColour : e.ForeColor;
 
                     //Obtain Current Item's Font
-                    Font ICCurrFont = ICCurrItem.ICHighLight ? new Font(e.Font, FontStyle.Bold) : e.Font;
+                    var ICCurrFont = ICCurrItem.ICHighLight ? new Font(e.Font, FontStyle.Bold) : e.Font;
 
                     if (ICCurrItem.ICImageIndex != -1) //If In Actual List ( Which Needs Images )
                     {

@@ -94,7 +94,7 @@ namespace MEGAbolt
 
         #region Private fields
 
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
 
         private readonly Dictionary<UUID, TextureInfo> TexturesPtrMap = new();
@@ -123,7 +123,7 @@ namespace MEGAbolt
         private TextRendering textRendering;
         private Matrix4 ModelMatrix;
         private Matrix4 ProjectionMatrix;
-        private int[] Viewport = new int[4];
+        private readonly int[] Viewport = new int[4];
 
         #endregion Private fields
 
@@ -180,11 +180,11 @@ namespace MEGAbolt
 
             selitem = item;
 
-            string msg1 = "Drag (left mouse down) to rotate object\n" +
-                            "ALT+Drag to Zoom\n" +
-                            "Ctrl+Drag to Pan\n" +
-                            "Wheel in/out to Zoom in/out\n\n" +
-                            "Click camera then object for snapshot";
+            var msg1 = "Drag (left mouse down) to rotate object\n" +
+                       "ALT+Drag to Zoom\n" +
+                       "Ctrl+Drag to Pan\n" +
+                       "Wheel in/out to Zoom in/out\n\n" +
+                       "Click camera then object for snapshot";
 
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1))
             {
@@ -222,11 +222,11 @@ namespace MEGAbolt
 
             selitem = obtectitem.Prim;
 
-            string msg1 = "Drag (left mouse down) to rotate object\n" +
-                            "ALT+Drag to Zoom\n" +
-                            "Ctrl+Drag to Pan\n" +
-                            "Wheel in/out to Zoom in/out\n\n" +
-                            "Click camera then object for snapshot";
+            var msg1 = "Drag (left mouse down) to rotate object\n" +
+                       "ALT+Drag to Zoom\n" +
+                       "Ctrl+Drag to Pan\n" +
+                       "Wheel in/out to Zoom in/out\n\n" +
+                       "Click camera then object for snapshot";
 
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
@@ -540,7 +540,7 @@ namespace MEGAbolt
             GL.LoadIdentity();
 
 
-            float dAspRat = glControl.Width / (float)glControl.Height;
+            var dAspRat = glControl.Width / (float)glControl.Height;
             GluPerspective(50f, dAspRat, 0.1f, 100.0f);
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -556,7 +556,7 @@ namespace MEGAbolt
 
         private void glControl_MouseWheel(object sender, MouseEventArgs e)
         {
-            int newVal = Utils.Clamp(scrollZoom.Value + e.Delta / 10, scrollZoom.Minimum, scrollZoom.Maximum);
+            var newVal = Utils.Clamp(scrollZoom.Value + e.Delta / 10, scrollZoom.Minimum, scrollZoom.Maximum);
 
             if (scrollZoom.Value != newVal)
             {
@@ -590,8 +590,8 @@ namespace MEGAbolt
         {
             if (dragging)
             {
-                int deltaX = e.X - dragX;
-                int deltaY = e.Y - dragY;
+                var deltaX = e.X - dragX;
+                var deltaY = e.Y - dragY;
 
                 if (e.Button == MouseButtons.Left)
                 {
@@ -605,7 +605,7 @@ namespace MEGAbolt
                     {
                         Center.Y -= deltaY / 25f;
 
-                        int newYaw = scrollYaw.Value + deltaX;
+                        var newYaw = scrollYaw.Value + deltaX;
                         if (newYaw < 0) newYaw += 360;
                         if (newYaw > 360) newYaw -= 360;
 
@@ -614,14 +614,14 @@ namespace MEGAbolt
 
                     if (ModifierKeys == Keys.None || ModifierKeys == (Keys.Alt | Keys.Control))
                     {
-                        int newRoll = scrollRoll.Value + deltaY;
+                        var newRoll = scrollRoll.Value + deltaY;
                         if (newRoll < 0) newRoll += 360;
                         if (newRoll > 360) newRoll -= 360;
 
                         scrollRoll.Value = newRoll;
 
 
-                        int newYaw = scrollYaw.Value + deltaX;
+                        var newYaw = scrollYaw.Value + deltaX;
                         if (newYaw < 0) newYaw += 360;
                         if (newYaw > 360) newYaw -= 360;
 
@@ -650,10 +650,7 @@ namespace MEGAbolt
 
                 if (e.X == downX && e.Y == downY) // click
                 {
-                    FacetedMesh picked;
-                    int faceID;
-
-                    if (TryPick(e.X, e.Y, out picked, out faceID))
+                    if (TryPick(e.X, e.Y, out var picked, out var faceID))
                     {
                         Client.Self.Grab(picked.Prim.LocalID, Vector3.Zero, Vector3.Zero, Vector3.Zero, faceID, Vector3.Zero, Vector3.Zero, Vector3.Zero);
                         Client.Self.DeGrab(picked.Prim.LocalID);
@@ -675,21 +672,19 @@ namespace MEGAbolt
             {
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    TextureLoadItem item = null;
+                    if (!PendingTextures.TryDequeue(out var item)) { continue; }
 
-                    if (!PendingTextures.TryDequeue(out item)) { continue; }
-
-                    if (TexturesPtrMap.ContainsKey(item.TeFace.TextureID))
+                    if (TexturesPtrMap.TryGetValue(item.TeFace.TextureID, out var value))
                     {
-                        item.Data.TextureInfo = TexturesPtrMap[item.TeFace.TextureID];
+                        item.Data.TextureInfo = value;
                         continue;
                     }
 
                     if (LoadTexture(item.TeFace.TextureID, ref item.Data.TextureInfo.Texture, false))
                     {
-                        Bitmap bitmap = item.Data.TextureInfo.Texture.ToBitmap();
+                        var bitmap = item.Data.TextureInfo.Texture.ToBitmap();
 
-                        bool hasAlpha = bitmap.PixelFormat
+                        var hasAlpha = bitmap.PixelFormat
                             is System.Drawing.Imaging.PixelFormat.Format32bppArgb
                             or System.Drawing.Imaging.PixelFormat.Format32bppPArgb
                             or System.Drawing.Imaging.PixelFormat.Format16bppArgb1555;
@@ -745,34 +740,32 @@ namespace MEGAbolt
         {
             lock (Prims)
             {
-                int primNr = 0;
+                var primNr = 0;
 
-                foreach (FacetedMesh mesh in Prims.Values)
+                foreach (var mesh in Prims.Values)
                 {
                     primNr++;
-                    Primitive prim = mesh.Prim;
+                    var prim = mesh.Prim;
                     if (string.IsNullOrEmpty(prim.Text)) continue;
 
-                    string text = System.Text.RegularExpressions.Regex.Replace(prim.Text, "(\r?\n)+", "\n");
-                    OpenTK.Mathematics.Vector3 screenPos = OpenTK.Mathematics.Vector3.Zero;
-                    OpenTK.Mathematics.Vector3 primPos = OpenTK.Mathematics.Vector3.Zero;
+                    var text = System.Text.RegularExpressions.Regex.Replace(prim.Text, "(\r?\n)+", "\n");
+                    var primPos = OpenTK.Mathematics.Vector3.Zero;
 
                     // Is it child prim
-                    FacetedMesh parent = null;
-                    if (Prims.TryGetValue(prim.ParentID, out parent))
+                    if (Prims.TryGetValue(prim.ParentID, out var parent))
                     {
                         var newPrimPos = prim.Position * OpenMetaverse.Matrix4.CreateFromQuaternion(parent.Prim.Rotation);
                         primPos = new OpenTK.Mathematics.Vector3(newPrimPos.X, newPrimPos.Y, newPrimPos.Z);
                     }
 
                     primPos.Z += prim.Scale.Z * 0.8f;
-                    if (!Math3D.GluProject(primPos, ModelMatrix, ProjectionMatrix, Viewport, out screenPos)) continue;
+                    if (!Math3D.GluProject(primPos, ModelMatrix, ProjectionMatrix, Viewport, out var screenPos)) continue;
                     screenPos.Y = glControl.Height - screenPos.Y;
 
                     textRendering.Begin();
 
-                    Color color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
-                    TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.Top;
+                    var color = Color.FromArgb((int)(prim.TextColor.A * 255), (int)(prim.TextColor.R * 255), (int)(prim.TextColor.G * 255), (int)(prim.TextColor.B * 255));
+                    var flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.Top;
 
                     using (Font f = new(FontFamily.GenericSansSerif, 10, FontStyle.Regular))
                     {
@@ -796,18 +789,17 @@ namespace MEGAbolt
         {
             lock (Prims)
             {
-                int primNr = 0;
-                foreach (FacetedMesh mesh in Prims.Values)
+                var primNr = 0;
+                foreach (var mesh in Prims.Values)
                 {
                     primNr++;
-                    Primitive prim = mesh.Prim;
+                    var prim = mesh.Prim;
                     // Individual prim matrix
                     GL.PushMatrix();
 
                     if (prim.ParentID == RootPrimLocalID)
                     {
-                        FacetedMesh parent = null;
-                        if (Prims.TryGetValue(prim.ParentID, out parent))
+                        if (Prims.TryGetValue(prim.ParentID, out var parent))
                         {
                             // Apply prim translation and rotation relative to the root prim
                             GL.MultMatrix(Math3D.CreateRotationMatrix(parent.Prim.Rotation));
@@ -825,11 +817,11 @@ namespace MEGAbolt
                     GL.Scale(prim.Scale.X, prim.Scale.Y, prim.Scale.Z);
 
                     // Draw the prim faces
-                    for (int j = 0; j < mesh.Faces.Count; j++)
+                    for (var j = 0; j < mesh.Faces.Count; j++)
                     {
-                        Primitive.TextureEntryFace teFace = mesh.Prim.Textures.FaceTextures[j];
-                        Face face = mesh.Faces[j];
-                        FaceData data = (FaceData)face.UserData;
+                        var teFace = mesh.Prim.Textures.FaceTextures[j];
+                        var face = mesh.Faces[j];
+                        var data = (FaceData)face.UserData;
 
                         teFace ??= mesh.Prim.Textures.DefaultTexture;
 
@@ -843,7 +835,7 @@ namespace MEGAbolt
                         }
                         else
                         {
-                            bool belongToAlphaPass = (teFace.RGBA.A < 0.99) || data.TextureInfo.HasAlpha;
+                            var belongToAlphaPass = (teFace.RGBA.A < 0.99) || data.TextureInfo.HasAlpha;
 
                             if (belongToAlphaPass && pass != RenderPass.Alpha) continue;
                             if (!belongToAlphaPass && pass == RenderPass.Alpha) continue;
@@ -963,8 +955,8 @@ namespace MEGAbolt
 
         private void GluPerspective(float fovy, float aspect, float zNear, float zFar)
         {
-            float fH = (float)Math.Tan(fovy / 360 * (float)Math.PI) * zNear;
-            float fW = fH * aspect;
+            var fH = (float)Math.Tan(fovy / 360 * (float)Math.PI) * zNear;
+            var fW = fH * aspect;
             GL.Frustum(-fW, fW, -fH, fH, zNear, zFar);
         }
 
@@ -986,7 +978,7 @@ namespace MEGAbolt
 
             Render(true);
 
-            byte[] color = new byte[4];
+            var color = new byte[4];
             GL.ReadPixels(x, glControl.Height - y, 1, 1,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, color);
 
@@ -1026,9 +1018,9 @@ namespace MEGAbolt
 
             lock (Prims)
             {
-                if (Prims.ContainsKey(prim.LocalID))
+                if (Prims.TryGetValue(prim.LocalID, out var prim1))
                 {
-                    existingMesh = Prims[prim.LocalID];
+                    existingMesh = prim1;
                 }
             }
 
@@ -1051,7 +1043,7 @@ namespace MEGAbolt
                     {
                         // Mesh
                         AutoResetEvent gotMesh = new(false);
-                        bool meshSuccess = false;
+                        var meshSuccess = false;
 
                         Client.Assets.RequestMesh(prim.Sculpt.SculptTexture, (success, meshAsset) =>
                             {
@@ -1082,9 +1074,9 @@ namespace MEGAbolt
 
             // Create a FaceData struct for each face that stores the 3D data
             // in a OpenGL friendly format
-            for (int j = 0; j < mesh.Faces.Count; j++)
+            for (var j = 0; j < mesh.Faces.Count; j++)
             {
-                Face face = mesh.Faces[j];
+                var face = mesh.Faces[j];
                 FaceData data = new()
                 {
                     Vertices = new float[face.Vertices.Count * 3],
@@ -1092,7 +1084,7 @@ namespace MEGAbolt
                 };
 
                 // Vertices for this face
-                for (int k = 0; k < face.Vertices.Count; k++)
+                for (var k = 0; k < face.Vertices.Count; k++)
                 {
                     data.Vertices[k * 3 + 0] = face.Vertices[k].Position.X;
                     data.Vertices[k * 3 + 1] = face.Vertices[k].Position.Y;
@@ -1107,12 +1099,12 @@ namespace MEGAbolt
                 data.Indices = face.Indices.ToArray();
 
                 // Texture transform for this face
-                Primitive.TextureEntryFace teFace = prim.Textures.GetFace((uint)j);
+                var teFace = prim.Textures.GetFace((uint)j);
                 renderer.TransformTexCoords(face.Vertices, face.Center, teFace, prim.Scale);
 
                 // Texcoords for this face
                 data.TexCoords = new float[face.Vertices.Count * 2];
-                for (int k = 0; k < face.Vertices.Count; k++)
+                for (var k = 0; k < face.Vertices.Count; k++)
                 {
                     data.TexCoords[k * 2 + 0] = face.Vertices[k].TexCoord.X;
                     data.TexCoords[k * 2 + 1] = face.Vertices[k].TexCoord.Y;
@@ -1129,7 +1121,7 @@ namespace MEGAbolt
                     ((FaceData)existingMesh.Faces[j].UserData).TextureInfo.TexturePointer != 0
                     )
                 {
-                    FaceData existingData = (FaceData)existingMesh.Faces[j].UserData;
+                    var existingData = (FaceData)existingMesh.Faces[j].UserData;
                     data.TextureInfo.TexturePointer = existingData.TextureInfo.TexturePointer;
                 }
                 else
@@ -1407,9 +1399,9 @@ namespace MEGAbolt
             TakeScreenShot = false;
 
             Bitmap newbmp = new(glControl.Width, glControl.Height);
-            Bitmap bmp = newbmp;
+            var bmp = newbmp;
 
-            BitmapData data = bmp.LockBits(glControl.ClientRectangle, ImageLockMode.WriteOnly,
+            var data = bmp.LockBits(glControl.ClientRectangle, ImageLockMode.WriteOnly,
                 System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             GL.ReadPixels(0, 0, glControl.Width, glControl.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
@@ -1419,8 +1411,8 @@ namespace MEGAbolt
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            string path = DataFolder.GetDataFolder();
-            string filename = $"Object_Snaphot_{DateTime.Now}.png";
+            var path = DataFolder.GetDataFolder();
+            var filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");
 
@@ -1441,7 +1433,7 @@ namespace MEGAbolt
         private void getScreehShot()
         {
             Bitmap newbmp = new(glControl.Width, glControl.Height);
-            Bitmap bmp = newbmp;
+            var bmp = newbmp;
 
             BitmapData data = data = bmp.LockBits(glControl.ClientRectangle,
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -1454,8 +1446,8 @@ namespace MEGAbolt
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            string path = DataFolder.GetDataFolder();
-            string filename = $"Object_Snaphot_{DateTime.Now}.png";
+            var path = DataFolder.GetDataFolder();
+            var filename = $"Object_Snaphot_{DateTime.Now}.png";
             filename = filename.Replace("/", "-");
             filename = filename.Replace(":", "-");
 
@@ -1545,13 +1537,13 @@ namespace MEGAbolt
                 }
             }
 
-            SaleType styp = sPr.Properties.SaleType;
+            var styp = sPr.Properties.SaleType;
 
             //if (sprice > 0)
             //{
             if (styp != SaleType.Not)
             {
-                int sprice = sPr.Properties.SalePrice;
+                var sprice = sPr.Properties.SalePrice;
 
                 (new frmPay(Instance, sPr.ID, sPr.Properties.Name, sprice, sPr)).Show(this);
             }

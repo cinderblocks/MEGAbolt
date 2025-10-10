@@ -34,9 +34,9 @@ namespace SamplePlugin
 {
     public partial class Form1 : Form
     {
-        Extension ext = new Extension();
-        private MEGAboltInstance instance;
-        private GridClient client;
+        readonly Extension ext = new Extension();
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
 
         public Form1(MEGAboltInstance instance)
         {

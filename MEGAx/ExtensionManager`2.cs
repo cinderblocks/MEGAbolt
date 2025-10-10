@@ -68,7 +68,7 @@ namespace MEGAx
         public void UnloadExtension(Extension<ClientInterface> extension)
         {
             Extension<ClientInterface> extension1 = null;
-            foreach (Extension<ClientInterface> extension2 in Extensions)
+            foreach (var extension2 in Extensions)
             {
                 if (extension2.Filename.ToLower().Trim() == extension.Filename.ToLower().Trim())
                 {
@@ -92,20 +92,20 @@ namespace MEGAx
         {
             if (!Directory.Exists(folderPath))
                 return;
-            foreach (string file in Directory.GetFiles(folderPath))
+            foreach (var file in Directory.GetFiles(folderPath))
                 LoadExtension(file);
         }
 
         public void LoadExtension(string filename)
         {
-            AssemblyLoadingEventArgs e = new AssemblyLoadingEventArgs(filename);
+            var e = new AssemblyLoadingEventArgs(filename);
             OnAssemblyLoading(e);
             if (e.Cancel)
                 return;
-            string lower = new FileInfo(filename).Extension.TrimStart('.').Trim().ToLower();
+            var lower = new FileInfo(filename).Extension.TrimStart('.').Trim().ToLower();
             if (SourceFileExtensionMappings.ContainsKey(lower) || SourceFileExtensionMappings.ContainsKey("." + lower))
             {
-                SourceFileLanguage language = !SourceFileExtensionMappings.ContainsKey(lower) ? SourceFileExtensionMappings["." + lower] : SourceFileExtensionMappings[lower];
+                var language = !SourceFileExtensionMappings.TryGetValue(lower, out var mapping) ? SourceFileExtensionMappings["." + lower] : mapping;
                 loadSourceFile(filename, language);
             }
             else if (CompiledFileExtensions.Contains(lower) || CompiledFileExtensions.Contains("." + lower))
@@ -120,14 +120,14 @@ namespace MEGAx
 
         private void loadSourceFile(string filename, SourceFileLanguage language)
         {
-            bool flag = false;
-            string str = "";
-            CompilerResults compilerResults = compileScript(filename, SourceFileReferencedAssemblies, getCodeDomLanguage(language));
+            var flag = false;
+            var str = "";
+            var compilerResults = compileScript(filename, SourceFileReferencedAssemblies, getCodeDomLanguage(language));
             if (compilerResults.Errors.Count <= 0)
             {
-                foreach (Type type in compilerResults.CompiledAssembly.GetTypes())
+                foreach (var type in compilerResults.CompiledAssembly.GetTypes())
                 {
-                    string name = typeof(ClientInterface).ToString();
+                    var name = typeof(ClientInterface).ToString();
                     if (type.GetInterface(name, true) != null)
                     {
                         try
@@ -162,10 +162,10 @@ namespace MEGAx
 
         private void loadCompiledFile(string filename)
         {
-            bool flag = false;
-            string str = "";
+            var flag = false;
+            var str = "";
             Assembly assembly = null;
-            byte[] rawAssembly = File.ReadAllBytes(filename);
+            var rawAssembly = File.ReadAllBytes(filename);
             try
             {
                 assembly = Assembly.Load(rawAssembly);
@@ -176,9 +176,9 @@ namespace MEGAx
             }
             if (assembly != null)
             {
-                foreach (Type type in assembly.GetTypes())
+                foreach (var type in assembly.GetTypes())
                 {
-                    string name = typeof(ClientInterface).ToString();
+                    var name = typeof(ClientInterface).ToString();
                     if (type.GetInterface(name, true) != null)
                     {
                         try
@@ -213,8 +213,8 @@ namespace MEGAx
           List<string> references,
           string language)
         {
-            CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
-            CompilerParameters options = new CompilerParameters
+            var provider = CodeDomProvider.CreateProvider(language);
+            var options = new CompilerParameters
             {
                 GenerateExecutable = false,
                 GenerateInMemory = true,
@@ -227,7 +227,7 @@ namespace MEGAx
 
         private string getCodeDomLanguage(SourceFileLanguage language)
         {
-            string str = "C#";
+            var str = "C#";
             switch (language)
             {
                 case SourceFileLanguage.CSharp:

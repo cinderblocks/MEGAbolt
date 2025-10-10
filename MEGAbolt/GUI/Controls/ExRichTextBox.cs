@@ -102,11 +102,11 @@ namespace MEGAbolt.Controls
         private const string RTF_HEADER = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033";
         private const string RTF_DOCUMENT_PRE = "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20";
         private const string RTF_DOCUMENT_POST = "\\cf0\\fs17}";
-        private HybridDictionary rtfColor;
-        private HybridDictionary rtfFontFamily;
-        private float xDpi;
-        private float yDpi;
-        private string RTF_IMAGE_POST = "}";
+        private readonly HybridDictionary rtfColor;
+        private readonly HybridDictionary rtfFontFamily;
+        private readonly float xDpi;
+        private readonly float yDpi;
+        private readonly string RTF_IMAGE_POST = "}";
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(
@@ -191,7 +191,7 @@ namespace MEGAbolt.Controls
                 argumentException = ex;
             }
 
-            using Graphics graphics = CreateGraphics();
+            using var graphics = CreateGraphics();
             xDpi = graphics.DpiX;
             yDpi = graphics.DpiY;
         }
@@ -245,7 +245,7 @@ namespace MEGAbolt.Controls
           RtfColor _textColor,
           RtfColor _backColor)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033");
             stringBuilder.Append(GetFontTable(_font));
             stringBuilder.Append(GetColorTable(_textColor, _backColor));
@@ -255,7 +255,7 @@ namespace MEGAbolt.Controls
 
         private string GetDocumentArea(string _text, Font _font)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20");
             stringBuilder.Append("\\highlight2");
             if (_font.Bold)
@@ -288,7 +288,7 @@ namespace MEGAbolt.Controls
 
         public void InsertImage(Image _image)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033");
             stringBuilder.Append(GetFontTable(Font));
             stringBuilder.Append(GetImagePrefix(_image));
@@ -299,11 +299,11 @@ namespace MEGAbolt.Controls
 
         private string GetImagePrefix(Image _image)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            int num1 = (int)Math.Round(_image.Width / (double)xDpi * 2540.0);
-            int num2 = (int)Math.Round(_image.Height / (double)yDpi * 2540.0);
-            int num3 = (int)Math.Round(_image.Width / (double)xDpi * 1440.0);
-            int num4 = (int)Math.Round(_image.Height / (double)yDpi * 1440.0);
+            var stringBuilder = new StringBuilder();
+            var num1 = (int)Math.Round(_image.Width / (double)xDpi * 2540.0);
+            var num2 = (int)Math.Round(_image.Height / (double)yDpi * 2540.0);
+            var num3 = (int)Math.Round(_image.Width / (double)xDpi * 1440.0);
+            var num4 = (int)Math.Round(_image.Height / (double)yDpi * 1440.0);
             stringBuilder.Append("{\\pict\\wmetafile8");
             stringBuilder.Append("\\picw");
             stringBuilder.Append(num1);
@@ -332,19 +332,19 @@ namespace MEGAbolt.Controls
             Metafile metafile = null;
             try
             {
-                StringBuilder stringBuilder = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 memoryStream = new MemoryStream();
                 using (graphics = CreateGraphics())
                 {
-                    IntPtr hdc = graphics.GetHdc();
+                    var hdc = graphics.GetHdc();
                     metafile = new Metafile(memoryStream, hdc);
                     graphics.ReleaseHdc(hdc);
                 }
                 using (graphics = Graphics.FromImage(metafile))
                     graphics.DrawImage(_image, new Rectangle(0, 0, _image.Width, _image.Height));
-                IntPtr henhmetafile = metafile.GetHenhmetafile();
-                uint wmfBits = GdipEmfToWmfBits(henhmetafile, 0U, null, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
-                byte[] _buffer = new byte[wmfBits];
+                var henhmetafile = metafile.GetHenhmetafile();
+                var wmfBits = GdipEmfToWmfBits(henhmetafile, 0U, null, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
+                var _buffer = new byte[wmfBits];
                 GdipEmfToWmfBits(henhmetafile, wmfBits, _buffer, 8, EmfToWmfBitsFlags.EmfToWmfBitsFlagsDefault);
                 foreach (var t in _buffer)
                     stringBuilder.Append($"{t:X2}");
@@ -398,12 +398,12 @@ namespace MEGAbolt.Controls
 
         private void SetSelectionStyle(uint mask, uint effect)
         {
-            CHARFORMAT2_STRUCT charformaT2Struct = new CHARFORMAT2_STRUCT();
+            var charformaT2Struct = new CHARFORMAT2_STRUCT();
             charformaT2Struct.cbSize = (uint)Marshal.SizeOf((object)charformaT2Struct);
             charformaT2Struct.dwMask = mask;
             charformaT2Struct.dwEffects = effect;
-            IntPtr wParam = new IntPtr(1);
-            IntPtr num = Marshal.AllocCoTaskMem(Marshal.SizeOf((object)charformaT2Struct));
+            var wParam = new IntPtr(1);
+            var num = Marshal.AllocCoTaskMem(Marshal.SizeOf((object)charformaT2Struct));
             Marshal.StructureToPtr((object)charformaT2Struct, num, false);
             SendMessage(Handle, 1092, wParam, num);
             Marshal.FreeCoTaskMem(num);
@@ -411,22 +411,22 @@ namespace MEGAbolt.Controls
 
         private int GetSelectionStyle(uint mask, uint effect)
         {
-            CHARFORMAT2_STRUCT charformaT2Struct = new CHARFORMAT2_STRUCT();
+            var charformaT2Struct = new CHARFORMAT2_STRUCT();
             charformaT2Struct.cbSize = (uint)Marshal.SizeOf((object)charformaT2Struct);
             charformaT2Struct.szFaceName = new char[32];
-            IntPtr wParam = new IntPtr(1);
-            IntPtr num1 = Marshal.AllocCoTaskMem(Marshal.SizeOf((object)charformaT2Struct));
+            var wParam = new IntPtr(1);
+            var num1 = Marshal.AllocCoTaskMem(Marshal.SizeOf((object)charformaT2Struct));
             Marshal.StructureToPtr((object)charformaT2Struct, num1, false);
             SendMessage(Handle, 1082, wParam, num1);
-            CHARFORMAT2_STRUCT structure = (CHARFORMAT2_STRUCT)Marshal.PtrToStructure(num1, typeof(CHARFORMAT2_STRUCT));
-            int num2 = ((int)structure.dwMask & (int)mask) != (int)mask ? -1 : (((int)structure.dwEffects & (int)effect) != (int)effect ? 0 : 1);
+            var structure = (CHARFORMAT2_STRUCT)Marshal.PtrToStructure(num1, typeof(CHARFORMAT2_STRUCT));
+            var num2 = ((int)structure.dwMask & (int)mask) != (int)mask ? -1 : (((int)structure.dwEffects & (int)effect) != (int)effect ? 0 : 1);
             Marshal.FreeCoTaskMem(num1);
             return num2;
         }
 
         private string GetFontTable(Font _font)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("{\\fonttbl{\\f0");
             stringBuilder.Append("\\");
             stringBuilder.Append(rtfFontFamily.Contains(_font.FontFamily.Name)
@@ -440,7 +440,7 @@ namespace MEGAbolt.Controls
 
         private string GetColorTable(RtfColor _textColor, RtfColor _backColor)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("{\\colortbl ;");
             stringBuilder.Append(rtfColor[_textColor]);
             stringBuilder.Append(";");

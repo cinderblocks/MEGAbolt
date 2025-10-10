@@ -95,14 +95,14 @@ namespace MEGAbolt
 
             lvwFindLand.BeginUpdate();
 
-            int icnt = 0;
+            var icnt = 0;
 
-            foreach (DirectoryManager.DirectoryParcel places in matchedPlaces)
+            foreach (var places in matchedPlaces)
             {
                 try
                 {
-                    string fullName = places.Name;
-                    bool fx = findLandResults.ContainsKey(fullName);
+                    var fullName = places.Name;
+                    var fx = findLandResults.ContainsKey(fullName);
 
                     if (!fx)
                     {
@@ -133,13 +133,13 @@ namespace MEGAbolt
                         orderby (Convert.ToDouble(findLandResults[k].SalePrice) / Convert.ToDouble(findLandResults[k].ActualArea)) ascending
                         select k;
 
-            foreach (string k in items)
+            foreach (var k in items)
             {
-                ListViewItem item = lvwFindLand.Items.Add(k);
+                var item = lvwFindLand.Items.Add(k);
                 item.SubItems.Add(findLandResults[k].ActualArea.ToString(CultureInfo.CurrentCulture));
                 item.SubItems.Add(findLandResults[k].SalePrice.ToString(CultureInfo.CurrentCulture));
 
-                double pricesqm = (Convert.ToDouble(findLandResults[k].SalePrice) / Convert.ToDouble(findLandResults[k].ActualArea));
+                var pricesqm = (Convert.ToDouble(findLandResults[k].SalePrice) / Convert.ToDouble(findLandResults[k].ActualArea));
                 item.SubItems.Add(pricesqm.ToString("N3", CultureInfo.CurrentCulture));
             }
 
@@ -160,7 +160,7 @@ namespace MEGAbolt
             if (place.Name == null)
                 return;
 
-            string sForSale = "";
+            var sForSale = "";
 
             if (place.SalePrice > 0)
             {
@@ -174,11 +174,9 @@ namespace MEGAbolt
             chkMature.Checked = place.Mature;
 
             // Convert Global pos to local
-            float locX = place.GlobalX; ;
-            float locY = place.GlobalY;
-            float locX1;
-            float locY1;
-            Helpers.GlobalPosToRegionHandle(locX, locY, out locX1, out locY1);
+            var locX = place.GlobalX; ;
+            var locY = place.GlobalY;
+            Helpers.GlobalPosToRegionHandle(locX, locY, out var locX1, out var locY1);
 
             fX = locX1;
             fY = locY1;
@@ -225,7 +223,7 @@ namespace MEGAbolt
         {
             get
             {
-                DirectoryManager.DirectoryParcel pcl = new DirectoryManager.DirectoryParcel
+                var pcl = new DirectoryManager.DirectoryParcel
                 {
                     ID = UUID.Zero,
                     Name = string.Empty
@@ -233,7 +231,7 @@ namespace MEGAbolt
 
                 if (lvwFindLand.SelectedItems.Count == 0) return pcl;
 
-                string name = lvwFindLand.SelectedItems[0].Text;
+                var name = lvwFindLand.SelectedItems[0].Text;
                 return findLandResults[name];
             }
         }
@@ -271,17 +269,17 @@ namespace MEGAbolt
                 instance.State.SetStanding();
             }
 
-            Vector3 posn = new Vector3
+            var posn = new Vector3
             {
                 X = fX,
                 Y = fY,
                 Z = fZ
             };
 
-            string sLoc = txtLocation.Text;
+            var sLoc = txtLocation.Text;
 
-            char[] deli = " ".ToCharArray();
-            string[] iDets = sLoc.Split(deli);
+            var deli = " ".ToCharArray();
+            var iDets = sLoc.Split(deli);
 
             (new frmTeleport(instance, iDets[0], fX, fY, fZ, false)).Show();
         }

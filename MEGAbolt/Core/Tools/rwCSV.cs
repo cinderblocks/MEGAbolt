@@ -32,8 +32,8 @@ namespace MEGAbolt
             if (String.IsNullOrEmpty(row.LineText))
                 return false;
 
-            int pos = 0;
-            int rows = 0;
+            var pos = 0;
+            var rows = 0;
 
             while (pos < row.LineText.Length)
             {
@@ -46,7 +46,7 @@ namespace MEGAbolt
                     pos++;
 
                     // Parse quoted value
-                    int start = pos;
+                    var start = pos;
                     while (pos < row.LineText.Length)
                     {
                         // Test for quote character
@@ -71,7 +71,7 @@ namespace MEGAbolt
                 else
                 {
                     // Parse unquoted value
-                    int start = pos;
+                    var start = pos;
                     while (pos < row.LineText.Length && row.LineText[pos] != ',')
                         pos++;
                     value = row.LineText.Substring(start, pos - start);

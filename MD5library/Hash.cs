@@ -38,36 +38,36 @@ namespace MEGAcrypto
     {
         public string MD5(string password)
         {
-            using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
+            using var cipher = System.Security.Cryptography.MD5.Create();
+            var hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
         }
 
         public string MD5(string password, int length)
         {
-            using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
+            using var cipher = System.Security.Cryptography.MD5.Create();
+            var hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + 4564467));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
         }
 
         public string MD5Special(string password, int nonce)
         {
-            using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
+            using var cipher = System.Security.Cryptography.MD5.Create();
+            var hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
         }
 
         public string MD5Special(string password, int nonce, int length)
         {
-            using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
+            using var cipher = System.Security.Cryptography.MD5.Create();
+            var hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + ":" + nonce));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, length).PadLeft(2, '0'));
         }
 
         public string MachineMD5(string password)
         {
-            using MD5 cipher = System.Security.Cryptography.MD5.Create();
-            byte[] hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + 93674681));
+            using var cipher = System.Security.Cryptography.MD5.Create();
+            var hash = cipher.ComputeHash(Encoding.UTF8.GetBytes(password + "1gen/passkey" + ":" + 93674681));
             return hash.Aggregate("", (current, t) => current + Convert.ToString(t, 16).PadLeft(2, '0'));
         }
 
@@ -75,14 +75,14 @@ namespace MEGAcrypto
 
         public string GetMachinePassKey()
         {
-            IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            var globalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
             if (networkInterfaces.Length < 1)
                 return string.Empty;
             foreach (var networkInterface in networkInterfaces)
             {
                 var physicalAddress = networkInterface.GetPhysicalAddress();
-                string password = globalProperties.HostName + physicalAddress;
+                var password = globalProperties.HostName + physicalAddress;
                 return MachineMD5(password);
             }
             return string.Empty;
@@ -90,11 +90,11 @@ namespace MEGAcrypto
 
         public bool ValidateMachinePasscode(string passcode)
         {
-            IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            var globalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
             if (networkInterfaces.Length < 1)
                 return false;
-            string password = string.Empty;
+            var password = string.Empty;
             foreach (var networkInterface in networkInterfaces)
             {
                 var physicalAddress = networkInterface.GetPhysicalAddress();

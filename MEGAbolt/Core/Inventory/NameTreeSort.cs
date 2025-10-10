@@ -30,7 +30,7 @@ namespace MEGAbolt
 
         public int CompareNodes(InventoryBase x, InventoryBase y, TreeNode nodeX, TreeNode nodeY)
         {
-            int returnVal = 0;
+            var returnVal = 0;
 
             if ((x is InventoryItem && y is InventoryItem) ||
                 (x is InventoryFolder && y is InventoryFolder))

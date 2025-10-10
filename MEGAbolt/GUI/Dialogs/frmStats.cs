@@ -29,18 +29,18 @@ namespace MEGAbolt
 {
     public partial class frmStats : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private Simulator sim;
         private int score = 10;
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
 
         public frmStats(MEGAboltInstance instance)
         {
             InitializeComponent();
 
-            string msg1 = "Click for online help/guidance";
+            var msg1 = "Click for online help/guidance";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -134,8 +134,8 @@ namespace MEGAbolt
 
         private void ScorePerformance()
         {
-            float dil = sim.Stats.Dilation;
-            int fm = sim.Stats.FPS;
+            var dil = sim.Stats.Dilation;
+            var fm = sim.Stats.FPS;
 
             if (sim.Stats.PendingDownloads > 1)
             {
@@ -225,7 +225,7 @@ namespace MEGAbolt
 
         private int CalcFT()
         {
-            float ft = sim.Stats.FrameTime;
+            var ft = sim.Stats.FrameTime;
 
             if (ft < 22.1)
             {

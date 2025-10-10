@@ -8,9 +8,9 @@ namespace MEGAbolt
 {
     public partial class PrefSpelling : System.Windows.Forms.UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         private string lang = string.Empty;
-        private Popup toolTip3;
+        private readonly Popup toolTip3;
         private CustomToolTip customToolTip;
 
         public PrefSpelling(MEGAboltInstance instance)
@@ -21,7 +21,7 @@ namespace MEGAbolt
 
             GetDictionaries();
 
-            string msg = "Enables spell checking in public chat and IMs.\n\nClick for online help";
+            var msg = "Enables spell checking in public chat and IMs.\n\nClick for online help";
             toolTip3 = new Popup(customToolTip = new CustomToolTip(instance, msg))
             {
                 AutoClose = false,
@@ -70,8 +70,8 @@ namespace MEGAbolt
             {
                 if (!entry.StartsWith("MEGAbolt.Spelling.") || !entry.EndsWith(".dic")) { continue; }
 
-                string chopped = entry.Substring("MEGAbolt.Spelling.".Length);
-                chopped = chopped.Substring(0, chopped.Length - ".dic".Length);
+                var chopped = entry["MEGAbolt.Spelling.".Length..];
+                chopped = chopped[..^".dic".Length];
                 listBoxLanguage.Items.Add(chopped);
             }
         }
@@ -90,15 +90,15 @@ namespace MEGAbolt
 
         private void SetFlag()
         {
-            string[] sfile = lang.Split('-');
+            var sfile = lang.Split('-');
 
             picFlag.Image = ilFlags.Images[sfile[1] + ".png"];
         }
 
         private void SetSelFlag()
         {
-            string sellang = listBoxLanguage.Items[listBoxLanguage.SelectedIndex].ToString();
-            string[] sfile = sellang.Split('-');
+            var sellang = listBoxLanguage.Items[listBoxLanguage.SelectedIndex].ToString();
+            var sfile = sellang.Split('-');
 
             sfile = sfile[1].Split('.');
 

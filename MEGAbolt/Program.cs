@@ -47,7 +47,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    MEGAboltInstance instance = new MEGAboltInstance(true, args);
+                    var instance = new MEGAboltInstance(true, args);
                     Application.Run(instance.MainForm);
                     instance = null;
                 }
@@ -56,18 +56,18 @@ namespace MEGAbolt
             {
                 try
                 {
-                    MEGAboltInstance instance = new MEGAboltInstance(true);
+                    var instance = new MEGAboltInstance(true);
                     Application.Run(instance.MainForm);
                     instance = null;
                 }
                 catch (Exception ex)
                 {
                     //messagebox of last resort
-                    DialogResult res = MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
+                    var res = MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
                         "Message: {0}, From: {1}, Stack: {2}", ex.Message, ex.Source, ex.StackTrace),
                         "MEGAbolt has encountered an unrecovarable error", MessageBoxButtons.RetryCancel,
                         MessageBoxIcon.Exclamation);
-                    if (res != DialogResult.Retry) { throw ex; }
+                    if (res != DialogResult.Retry) { throw; }
                 }
             }
         }

@@ -47,7 +47,7 @@ namespace MEGAbolt.NetworkComm
             }
             else
             {
-                return Utils.MD5(password.Length > 16 ? password.Substring(0, 16) : password);
+                return Utils.MD5(password.Length > 16 ? password[..16] : password);
             }
         }
 

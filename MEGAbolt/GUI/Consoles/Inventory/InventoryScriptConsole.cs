@@ -26,10 +26,10 @@ namespace MEGAbolt
 {
     public partial class InventoryScriptConsole : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
         //private GridClient client;
-        private InventoryItem item;
+        private readonly InventoryItem item;
 
         public InventoryScriptConsole(MEGAboltInstance instance, InventoryItem item)
         {

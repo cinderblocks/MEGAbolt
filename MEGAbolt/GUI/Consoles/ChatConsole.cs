@@ -72,8 +72,8 @@ namespace MEGAbolt
         private bool showing = false;
         private UUID avuuid = UUID.Zero;
         private string avname = string.Empty;
-        private SafeDictionary<uint, Avatar> sfavatar = new();
-        private List<string> avtyping = new();
+        private readonly SafeDictionary<uint, Avatar> sfavatar = new();
+        private readonly List<string> avtyping = new();
         private int start = 0;
         private int indexOfSearchText = 0;
         private string prevsearchtxt = string.Empty;
@@ -82,20 +82,20 @@ namespace MEGAbolt
         private const int WM_KEYUP = 0x101;
         private const int WM_KEYDOWN = 0x100;
 
-        private Popup tTip;
-        private Popup tTip1;
+        private readonly Popup tTip;
+        private readonly Popup tTip1;
         private CustomToolTip customToolTip;
 
         private WordList spellChecker = null;
 
-        private ToolTip toolTip = new();
+        private readonly ToolTip toolTip = new();
         private string tooltiptext = string.Empty;
         private Simulator CurrentSIM;
         private Vector3 lastPos = new(0, 0, 0);
-        private TabPage tp1;
-        private TabPage tp2;
-        private TabPage tp3;
-        private TabPage tp4;
+        private readonly TabPage tp1;
+        private readonly TabPage tp2;
+        private readonly TabPage tp3;
+        private readonly TabPage tp4;
         //private Form tpf;
 
 
@@ -105,7 +105,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -152,13 +152,13 @@ namespace MEGAbolt
             world.Cursor = Cursors.NoMove2D;
             //pictureBox1.Cursor = Cursors.Hand; 
 
-            string msg1 = "Click for help on how to use/setup the Voice feature.";
+            var msg1 = "Click for help on how to use/setup the Voice feature.";
             tTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             tTip.AutoClose = false;
             tTip.FocusOnOpen = false;
             tTip.ShowingAnimation = tTip.HidingAnimation = PopupAnimations.Blend;
 
-            string msg2 = ">Hover mouse on avatar icon for info\n>Click on avatar icon for Profile\n>Left click on map and drag to zoom\n>Double click on map to open large map";
+            var msg2 = ">Hover mouse on avatar icon for info\n>Click on avatar icon for Profile\n>Left click on map and drag to zoom\n>Double click on map to open large map";
             tTip1 = new Popup(customToolTip = new CustomToolTip(instance, msg2));
             tTip1.AutoClose = false;
             tTip1.FocusOnOpen = false;
@@ -289,7 +289,7 @@ namespace MEGAbolt
 
         private void Appearance_OnAppearanceSet(object sender, AppearanceSetEventArgs e)
         {
-            string rmsg = string.Empty;
+            var rmsg = string.Empty;
 
             if (avrezzed) return;
 
@@ -354,15 +354,15 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 apos = new Vector3(Vector3.Zero);
+                var apos = new Vector3(Vector3.Zero);
                 apos = instance.SIMsittingPos();
 
-                float f1 = 64.0f * (apos.Y / 256.0f);
-                float f2 = 64.0f * (apos.X / 256.0f);
-                int posY = Convert.ToInt32(f1);
-                int posX = Convert.ToInt32(f2);
+                var f1 = 64.0f * (apos.Y / 256.0f);
+                var f2 = 64.0f * (apos.X / 256.0f);
+                var posY = Convert.ToInt32(f1);
+                var posX = Convert.ToInt32(f2);
 
-                int parcelid = client.Network.CurrentSim.ParcelMap[posY, posX];
+                var parcelid = client.Network.CurrentSim.ParcelMap[posY, posX];
 
                 if (parcelid == 0)
                 {
@@ -404,16 +404,15 @@ namespace MEGAbolt
 
             try
             {
-                Parcel parcel;
-                Vector3 apos = new Vector3(Vector3.Zero);
+                var apos = new Vector3(Vector3.Zero);
                 apos = instance.SIMsittingPos();
 
-                float f1 = 64.0f * (apos.Y / 256.0f);
-                float f2 = 64.0f * (apos.X / 256.0f);
-                int posY = Convert.ToInt32(f1);
-                int posX = Convert.ToInt32(f2);
+                var f1 = 64.0f * (apos.Y / 256.0f);
+                var f2 = 64.0f * (apos.X / 256.0f);
+                var posY = Convert.ToInt32(f1);
+                var posX = Convert.ToInt32(f2);
 
-                int parcelid = client.Network.CurrentSim.ParcelMap[posY, posX];
+                var parcelid = client.Network.CurrentSim.ParcelMap[posY, posX];
 
                 if (parcelid == 0)
                 {
@@ -421,10 +420,10 @@ namespace MEGAbolt
                     return;
                 }
 
-                if (!client.Network.CurrentSim.Parcels.TryGetValue(parcelid, out parcel))
+                if (!client.Network.CurrentSim.Parcels.TryGetValue(parcelid, out var parcel))
                     return;
 
-                ParcelMedia med = parcel.Media;
+                var med = parcel.Media;
                 instance.Config.CurrentConfig.mURL = @med.MediaURL;
             }
             catch (Exception ex)
@@ -446,7 +445,7 @@ namespace MEGAbolt
                 return;
             }
 
-            int loopbreaker = 0;
+            var loopbreaker = 0;
 
             try
             {
@@ -471,7 +470,7 @@ namespace MEGAbolt
                      || !pants.Any() || !skirts.Any() || !jackets.Any()
                      || !eyes.Any())
                 {
-                    string missing = string.Empty;
+                    var missing = string.Empty;
 
                     if (!shapes.Any())
                     {
@@ -558,7 +557,7 @@ namespace MEGAbolt
 
             Logger.Log("AUTOSIT: Searching for sit object", Helpers.LogLevel.Info);
 
-            Vector3 location = new Vector3(Vector3.Zero);
+            var location = new Vector3(Vector3.Zero);
             location = instance.SIMsittingPos();
             float radius = 21;
 
@@ -568,7 +567,7 @@ namespace MEGAbolt
 
             client.Objects.ObjectProperties += Objects_OnObjectProperties;
 
-            foreach (Primitive prim in prims)
+            foreach (var prim in prims)
             {
                 try
                 {
@@ -799,7 +798,7 @@ namespace MEGAbolt
         private void cmenu_Emoticons_Click(object _sender, EventArgs _args)
         {
             // Write the code here
-            EmoticonMenuItem _item = (EmoticonMenuItem)_sender;
+            var _item = (EmoticonMenuItem)_sender;
 
             cbxInput.Text += _item.Tag.ToString();
             cbxInput.Select(cbxInput.Text.Length, 0);
@@ -848,8 +847,7 @@ namespace MEGAbolt
 
                     if (!File.Exists(csvFile))
                     {
-                        using StreamWriter sw = File.CreateText(csvFile);
-                        sw.Dispose();
+                        using var sw = File.CreateText(csvFile);
                     }
 
                     spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
@@ -993,7 +991,7 @@ namespace MEGAbolt
         {
             // The av has collided with an object or avatar
 
-            string cty = string.Empty;
+            var cty = string.Empty;
 
             try
             {
@@ -1036,7 +1034,7 @@ namespace MEGAbolt
                     {
                         if (!lvwRadar.Items.ContainsKey(client.Self.Name))
                         {
-                            ListViewItem item = lvwRadar.Items.Add(client.Self.Name, client.Self.Name, string.Empty);
+                            var item = lvwRadar.Items.Add(client.Self.Name, client.Self.Name, string.Empty);
                             item.Font = new Font(item.Font, FontStyle.Bold);
                             item.Tag = client.Self.AgentID;
                             item.BackColor = Color.WhiteSmoke;
@@ -1070,7 +1068,7 @@ namespace MEGAbolt
             if (!string.IsNullOrEmpty(selectedname)) return;
 
             if (av == null) return;
-            string name = av;
+            var name = av;
 
             if (string.IsNullOrEmpty(name)) return;
 
@@ -1081,11 +1079,11 @@ namespace MEGAbolt
             }
             lvwRadar.EndUpdate();
 
-            string sDist = string.Empty;
+            var sDist = string.Empty;
 
             try
             {
-                Vector3 selfpos = new Vector3(Vector3.Zero);
+                var selfpos = new Vector3(Vector3.Zero);
                 selfpos = instance.SIMsittingPos();
 
                 if (selfpos.Z < 0.1f)
@@ -1098,9 +1096,9 @@ namespace MEGAbolt
                     avpos.Z = 1020f;
                 }
 
-                double dist = Math.Round(Vector3d.Distance(ConverToGLobal(selfpos), ConverToGLobal(avpos)), MidpointRounding.ToEven);
+                var dist = Math.Round(Vector3d.Distance(ConverToGLobal(selfpos), ConverToGLobal(avpos)), MidpointRounding.ToEven);
 
-                string sym = string.Empty;
+                var sym = string.Empty;
 
                 sym = "(Alt.: " + avpos.Z.ToString("#0", CultureInfo.CurrentCulture) + "m)";
 
@@ -1121,13 +1119,13 @@ namespace MEGAbolt
                     sDist = "[" + Convert.ToInt32(dist).ToString(CultureInfo.CurrentCulture) + "m] ";
                 }
 
-                string rentry = " " + sym + state;
+                var rentry = " " + sym + state;
 
                 lvwRadar.BeginUpdate();
 
                 if (name != client.Self.Name)
                 {
-                    ListViewItem item = lvwRadar.Items.Add(name, sDist + name, string.Empty);
+                    var item = lvwRadar.Items.Add(name, sDist + name, string.Empty);
                     item.ForeColor = clr;
                     item.Tag = key;
 
@@ -1138,7 +1136,7 @@ namespace MEGAbolt
 
                     if (avtyping.Contains(name))
                     {
-                        int index = lvwRadar.Items.IndexOfKey(name);
+                        var index = lvwRadar.Items.IndexOfKey(name);
                         if (index != -1)
                         {
                             lvwRadar.Items[index].ForeColor = Color.Red;
@@ -1146,11 +1144,11 @@ namespace MEGAbolt
                     }
                 }
 
-                string avsnem = client.Self.Name;
+                var avsnem = client.Self.Name;
 
                 if (!lvwRadar.Items.ContainsKey(avsnem))
                 {
-                    ListViewItem item = lvwRadar.Items.Add(avsnem, avsnem, string.Empty);
+                    var item = lvwRadar.Items.Add(avsnem, avsnem, string.Empty);
                     item.Font = new Font(item.Font, FontStyle.Bold);
                     item.Tag = client.Self.AgentID;
                     item.BackColor = Color.WhiteSmoke;
@@ -1170,7 +1168,7 @@ namespace MEGAbolt
 
         private static void recolorListItems(ListView lv)
         {
-            for (int ix = 0; ix < lv.Items.Count; ++ix)
+            for (var ix = 0; ix < lv.Items.Count; ++ix)
             {
                 var item = lv.Items[ix];
                 item.BackColor = (ix % 2 == 0) ? Color.WhiteSmoke : Color.White;
@@ -1179,8 +1177,7 @@ namespace MEGAbolt
 
         private Vector3d ConverToGLobal(Vector3 pos)
         {
-            uint regionX, regionY;
-            Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
+            Utils.LongToUInts(client.Network.CurrentSim.Handle, out var regionX, out var regionY);
             Vector3d objpos;
 
             objpos.X = pos.X + (double)regionX;
@@ -1199,19 +1196,19 @@ namespace MEGAbolt
                 return;
             }
 
-            Quaternion avRot = client.Self.RelativeRotation;
+            var avRot = client.Self.RelativeRotation;
 
-            Matrix4 m = Matrix4.CreateFromQuaternion(avRot);
+            var m = Matrix4.CreateFromQuaternion(avRot);
 
-            Vector3 vDir = new Vector3(Vector3.Zero)
+            var vDir = new Vector3(Vector3.Zero)
             {
                 X = m.M11,
                 Y = m.M21,
                 Z = m.M31
             };
 
-            int x = Convert.ToInt32(vDir.X);
-            int y = Convert.ToInt32(vDir.Y);
+            var x = Convert.ToInt32(vDir.X);
+            var y = Convert.ToInt32(vDir.Y);
 
             if ((Math.Abs(x) > Math.Abs(y)) && (x > 0))
             {
@@ -1257,7 +1254,7 @@ namespace MEGAbolt
 
         public static Vector3 QuaternionToEuler(Quaternion q)
         {
-            Vector3 v = new Vector3(Vector3.Zero);
+            var v = new Vector3(Vector3.Zero);
             v = Vector3.Zero;
 
             v.X = (float)Math.Atan2
@@ -1345,7 +1342,7 @@ namespace MEGAbolt
             if (instance.IsAvatarMuted(e.OwnerID, e.FromName))
                 return;
 
-            int index = lvwRadar.Items.IndexOfKey(e.FromName);
+            var index = lvwRadar.Items.IndexOfKey(e.FromName);
             if (index == -1) return;
 
             if (e.Type == ChatType.StartTyping)
@@ -1382,13 +1379,13 @@ namespace MEGAbolt
                 // put preference check here
                 //string cword = Regex.Replace(cbxInput.Text, @"[^a-zA-Z0-9]", "");
                 //string[] swords = cword.Split(' ');
-                string[] swords = input.Split(' ');
-                bool hasmistake = false;
-                bool correct = true;
+                var swords = input.Split(' ');
+                var hasmistake = false;
+                var correct = true;
 
-                foreach (string word in swords)
+                foreach (var word in swords)
                 {
-                    string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
+                    var cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
 
                     try
                     {
@@ -1429,20 +1426,19 @@ namespace MEGAbolt
         {
             if (String.IsNullOrEmpty(input)) return;
 
-            string[] inputArgs = input.Split(' ');
+            var inputArgs = input.Split(' ');
 
             if (inputArgs[0].StartsWith("//", StringComparison.CurrentCultureIgnoreCase)) //Chat on previously used channel
             {
-                string message = string.Join(" ", inputArgs).Substring(2);
+                var message = string.Join(" ", inputArgs)[2..];
                 netcom.ChatOut(message, type, previousChannel);
             }
             else if (inputArgs[0].StartsWith("/", StringComparison.CurrentCultureIgnoreCase)) //Chat on specific channel
             {
-                string message = string.Empty;
-                string number = inputArgs[0].Substring(1);
+                var message = string.Empty;
+                var number = inputArgs[0][1..];
 
-                int channel = 0;
-                bool pres = int.TryParse(number, out channel);
+                var pres = int.TryParse(number, out var channel);
 
                 if (!pres) channel = 0;
 
@@ -1490,7 +1486,7 @@ namespace MEGAbolt
 
         private static string GetLangPair(string sPair)
         {
-            string[] inputArgs = sPair.Split(' ');
+            var inputArgs = sPair.Split(' ');
 
             return inputArgs[1];
         }
@@ -1525,11 +1521,11 @@ namespace MEGAbolt
 
         private void tbtnStartIM_Click(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            string name = instance.avnames[av];
+            var name = instance.avnames[av];
 
             if (tabConsole.TabExists(name))
             {
@@ -1545,13 +1541,13 @@ namespace MEGAbolt
         {
             client.Self.AutoPilotCancel();
 
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            string name = instance.avnames[av];
+            var name = instance.avnames[av];
 
-            Avatar sav = new Avatar();
+            var sav = new Avatar();
             sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav == null)
@@ -1581,11 +1577,11 @@ namespace MEGAbolt
             //Avatar av = ((ListViewItem)lvwRadar.SelectedItems[0]).Tag as Avatar;
             //if (av == null) return;
 
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            string name = instance.avnames[av];
+            var name = instance.avnames[av];
 
             (new frmProfile(instance, name, av)).Show(this);
         }
@@ -1598,10 +1594,10 @@ namespace MEGAbolt
             {
                 //e.Handled = true;
 
-                ClipboardAsync Clipboard2 = new ClipboardAsync();
+                var Clipboard2 = new ClipboardAsync();
 
-                string insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
-                int selectionIndex = textBox1.SelectionStart;
+                var insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
+                var selectionIndex = textBox1.SelectionStart;
                 cbxInput.Text = cbxInput.Text.Insert(selectionIndex, insertText);
                 cbxInput.SelectionStart = selectionIndex + insertText.Length;
             }
@@ -1633,7 +1629,7 @@ namespace MEGAbolt
 
         private void tbtnAddFriend_Click(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) { return; }
 
@@ -1645,21 +1641,21 @@ namespace MEGAbolt
 
         private void tbtnFreeze_Click(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.FreezeUser(av, true);
         }
 
         private void tbtnBan_Click(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.EjectUser(av, true);
         }
 
         private void tbtnEject_Click_1(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             client.Parcels.EjectUser(av, false);
         }
@@ -1697,11 +1693,11 @@ namespace MEGAbolt
         {
             client.Self.AutoPilotCancel();
 
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            Avatar sav = new Avatar();
+            var sav = new Avatar();
             sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav == null)
@@ -1711,20 +1707,20 @@ namespace MEGAbolt
                 return;
             }
 
-            Vector3 pos = new Vector3(Vector3.Zero);
+            var pos = new Vector3(Vector3.Zero);
             pos = sav.Position;
 
             // Is the avatar sitting
-            uint oID = sav.ParentID;
+            var oID = sav.ParentID;
 
             if (oID != 0)
             {
                 // the av is sitting
-                Primitive prim = new Primitive();
+                new Primitive();
 
                 try
                 {
-                    client.Network.CurrentSim.ObjectsPrimitives.TryGetValue(oID, out prim);
+                    client.Network.CurrentSim.ObjectsPrimitives.TryGetValue(oID, out var prim);
 
                     if (prim == null)
                     {
@@ -1746,14 +1742,14 @@ namespace MEGAbolt
                 }
             }
 
-            ulong regionHandle = client.Network.CurrentSim.Handle;
+            var regionHandle = client.Network.CurrentSim.Handle;
 
-            ulong followRegionX = regionHandle >> 32;
-            ulong followRegionY = regionHandle & 0xFFFFFFFF;
+            var followRegionX = regionHandle >> 32;
+            var followRegionY = regionHandle & 0xFFFFFFFF;
 
-            ulong x = (ulong)pos.X + followRegionX;
-            ulong y = (ulong)pos.Y + followRegionY;
-            float z = pos.Z - 1f;
+            var x = (ulong)pos.X + followRegionX;
+            var y = (ulong)pos.Y + followRegionY;
+            var z = pos.Z - 1f;
 
             client.Self.AutoPilot(x, y, z);
         }
@@ -1761,17 +1757,17 @@ namespace MEGAbolt
         private void tbtnTurn_Click(object sender, EventArgs e)
         {
 
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
-            Avatar sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
+            var sav = CurrentSIM.ObjectsAvatars.FirstOrDefault(fa => fa.Value.ID == av).Value;
 
             if (sav != null)
             {
                 client.Self.AnimationStart(Animations.TURNLEFT, false);
 
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = sav.Position;
 
                 client.Self.Movement.TurnToward(pos);
@@ -1794,13 +1790,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var simr = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, false)).Show();
                 }
@@ -1812,13 +1808,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var simr = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, true)).Show();
                 }
@@ -1829,18 +1825,18 @@ namespace MEGAbolt
             {
                 try
                 {
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0];
-                    string[] avnamesplit = aavname.Split(new Char[] { '#' });
+                    var aavname = split[0];
+                    var avnamesplit = aavname.Split(new Char[] { '#' });
                     aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
-                    string elink = split[2].ToString(CultureInfo.CurrentCulture);
+                    var elink = split[2].ToString(CultureInfo.CurrentCulture);
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0];
+                    var avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -1849,9 +1845,9 @@ namespace MEGAbolt
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
                 // Open up the Group Info form here
-                string encoded = HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
-                UUID uuid = UUID.Zero;
+                var encoded = HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
+                var uuid = UUID.Zero;
 
                 try
                 {
@@ -1864,7 +1860,7 @@ namespace MEGAbolt
 
                 if (uuid != UUID.Zero && split[6].ToString(CultureInfo.CurrentCulture).ToLower(CultureInfo.CurrentCulture) == "group")
                 {
-                    frmGroupInfo frm = new frmGroupInfo(uuid, instance);
+                    var frm = new frmGroupInfo(uuid, instance);
                     frm.Show();
                 }
                 else if (uuid != UUID.Zero && split[6].ToString(CultureInfo.CurrentCulture).ToLower(CultureInfo.CurrentCulture) == "agent")
@@ -1902,10 +1898,10 @@ namespace MEGAbolt
 
             if ((keyData == (Keys.Control | Keys.V)))
             {
-                ClipboardAsync Clipboard2 = new ClipboardAsync();
+                var Clipboard2 = new ClipboardAsync();
 
-                string insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
-                int selectionIndex = cbxInput.SelectionStart;
+                var insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
+                var selectionIndex = cbxInput.SelectionStart;
                 cbxInput.Text = cbxInput.Text.Insert(selectionIndex, insertText);
                 cbxInput.SelectionStart = selectionIndex + insertText.Length;
 
@@ -1919,7 +1915,7 @@ namespace MEGAbolt
 
         protected override bool ProcessKeyPreview(ref Message m)
         {
-            int key = m.WParam.ToInt32();
+            var key = m.WParam.ToInt32();
             const int WM_SYSKEYDOWN = 0x104;
 
             // Fix submitted by METAforums user Spirit 25/09/2009
@@ -2087,9 +2083,9 @@ namespace MEGAbolt
         private void SaveChat()
         {
             // Create a SaveFileDialog to request a path and file name to save to.
-            SaveFileDialog saveFile1 = new SaveFileDialog();
+            var saveFile1 = new SaveFileDialog();
 
-            string logdir = DataFolder.GetDataFolder();
+            var logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
             saveFile1.InitialDirectory = logdir;
@@ -2104,7 +2100,7 @@ namespace MEGAbolt
                saveFile1.FileName.Length > 0)
             {
                 rtbChat.SaveFile(saveFile1.FileName,
-                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                    saveFile1.FileName[^3..] == "rtf"
                         ? RichTextBoxStreamType.RichText
                         : RichTextBoxStreamType.PlainText);
             }
@@ -2124,7 +2120,7 @@ namespace MEGAbolt
 
         private void toolStripButton1_Click_1(object sender, EventArgs e)
         {
-            frmPlayer prForm = new frmPlayer(instance);
+            var prForm = new frmPlayer(instance);
 
             prForm.FormClosed += PrForm_FormClosed;
             tsMusic.Enabled = false;
@@ -2161,7 +2157,7 @@ namespace MEGAbolt
 
             var tremove = e.RemovedEntries;
 
-            foreach (UUID id in tremove)
+            foreach (var id in tremove)
             {
                 foreach (ListViewItem litem in lvwRadar.Items)
                 {
@@ -2244,8 +2240,6 @@ namespace MEGAbolt
                 return;
             }
 
-            GridRegion region;
-
             label11.Text = "Map downloading...";
 
             if (_MapLayer == null || sim != client.Network.CurrentSim)
@@ -2254,7 +2248,7 @@ namespace MEGAbolt
                 sim = client.Network.CurrentSim;
                 label8.Text = client.Network.CurrentSim.Name;
 
-                if (client.Grid.GetGridRegion(client.Network.CurrentSim.Name, GridLayerType.Objects, out region))
+                if (client.Grid.GetGridRegion(client.Network.CurrentSim.Name, GridLayerType.Objects, out var region))
                 {
                     if (region.MapImageID != UUID.Zero)
                     {
@@ -2297,8 +2291,8 @@ namespace MEGAbolt
 
                     if (ssim != client.Network.CurrentSim) return;
 
-                    Bitmap bmp = _MapLayer == null ? new Bitmap(256, 256) : (Bitmap)_MapLayer.Clone();
-                    Graphics g = Graphics.FromImage(bmp);
+                    var bmp = _MapLayer == null ? new Bitmap(256, 256) : (Bitmap)_MapLayer.Clone();
+                    var g = Graphics.FromImage(bmp);
 
                     if (_MapLayer == null)
                     {
@@ -2317,7 +2311,7 @@ namespace MEGAbolt
                         label5.Text = "Scripted objects: " + ssim.Stats.ScriptedObjects.ToString(CultureInfo.CurrentCulture);
                         label8.Text = client.Network.CurrentSim.Name;
 
-                        Simulator csim = client.Network.CurrentSim;
+                        var csim = client.Network.CurrentSim;
 
                         label9.Text = "FPS: " + csim.Stats.FPS.ToString(CultureInfo.CurrentCulture);
 
@@ -2345,18 +2339,18 @@ namespace MEGAbolt
                     }
 
                     // V0.9.8.0 changes for OpenSIM compatibility
-                    Vector3 myPos = new Vector3(0, 0, 0);
-                    string strInfo = string.Empty;
+                    var myPos = new Vector3(0, 0, 0);
+                    var strInfo = string.Empty;
 
                     myPos = instance.SIMsittingPos();
 
                     try
                     {
-                        string[] svers = ssim.SimVersion.Split(' ');
+                        var svers = ssim.SimVersion.Split(' ');
                         var e = from s in svers
                                 select s;
 
-                        int cnt = e.Count() - 1;
+                        var cnt = e.Count() - 1;
 
                         try
                         {
@@ -2376,7 +2370,7 @@ namespace MEGAbolt
                     strInfo = string.Format(CultureInfo.CurrentCulture, "Ttl Avatars: {0}", ssim.AvatarPositions.Count);
                     label6.Text = strInfo;
 
-                    int i = 0;
+                    var i = 0;
 
                     instance.avlocations.Clear();
 
@@ -2390,14 +2384,14 @@ namespace MEGAbolt
 
                     if (!instance.Config.CurrentConfig.DisableRadarImageMiniMap)
                     {
-                        int rg = instance.Config.CurrentConfig.RadarRange;
+                        var rg = instance.Config.CurrentConfig.RadarRange;
 
                         if (rg < 150)
                         {
                             rg *= 2;
 
                             myrect = new Rectangle(((int)Math.Round(myPos.X, 0)) - (rg / 2), (255 - ((int)Math.Round(myPos.Y, 0))) - (rg / 2 - 4), rg + 2, rg + 2);
-                            SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
+                            var semiTransBrush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
                             g.CompositingQuality = CompositingQuality.GammaCorrected;
                             g.FillEllipse(semiTransBrush, myrect);
 
@@ -2413,14 +2407,14 @@ namespace MEGAbolt
                     {
                         if (pos.Key != client.Self.AgentID)
                         {
-                            bool restrict = false;
+                            var restrict = false;
 
                             if (!instance.avnames.ContainsKey(pos.Key))
                             {
                                 client.Avatars.RequestAvatarName(pos.Key);
                             }
 
-                            Vector3 oavPos = new Vector3(0, 0, 0)
+                            var oavPos = new Vector3(0, 0, 0)
                             {
                                 X = pos.Value.X,
                                 Y = pos.Value.Y,
@@ -2432,14 +2426,14 @@ namespace MEGAbolt
                                 oavPos.Z = 1020f;
                             }
 
-                            Avatar fav = ssim.ObjectsAvatars.Values.FirstOrDefault(av => av.ID == pos.Key);
+                            var fav = ssim.ObjectsAvatars.Values.FirstOrDefault(av => av.ID == pos.Key);
 
-                            string st = string.Empty;
+                            var st = string.Empty;
 
                             if (fav != null)
                             {
                                 oavPos = fav.Position;
-                                uint sobj = fav.ParentID;
+                                var sobj = fav.ParentID;
 
                                 if (sobj != 0)
                                 {
@@ -2456,7 +2450,7 @@ namespace MEGAbolt
 
                             if (instance.Config.CurrentConfig.RestrictRadar)
                             {
-                                double dist = Math.Round(Vector3d.Distance(ConverToGLobal(myPos), ConverToGLobal(oavPos)), MidpointRounding.ToEven);
+                                var dist = Math.Round(Vector3d.Distance(ConverToGLobal(myPos), ConverToGLobal(oavPos)), MidpointRounding.ToEven);
 
                                 if (instance.Config.CurrentConfig.RadarRange < Convert.ToInt32(dist))
                                 {
@@ -2476,8 +2470,8 @@ namespace MEGAbolt
 
                             if (!restrict)
                             {
-                                int x = (int)oavPos.X - 2;
-                                int y = 255 - (int)oavPos.Y - 2;
+                                var x = (int)oavPos.X - 2;
+                                var y = 255 - (int)oavPos.Y - 2;
 
                                 rect = new Rectangle(x, y, 6, 6);
 
@@ -2497,13 +2491,13 @@ namespace MEGAbolt
                                     g.DrawRectangle(new Pen(Brushes.Red, 1), rect);
                                 }
 
-                                Point mouse = new Point(x, y);
+                                var mouse = new Point(x, y);
 
                                 instance.avlocations.Add(new MEGAboltInstance.AvLocation(mouse, rect.Size, pos.Key.ToString(), string.Empty, oavPos));
 
                                 try
                                 {
-                                    Color aclr = Color.Black;
+                                    var aclr = Color.Black;
 
                                     if (fav == null)
                                     {
@@ -2539,7 +2533,7 @@ namespace MEGAbolt
                     g.DrawEllipse(new Pen(Brushes.Red, 2), myrect);
 
                     // Draw compass points
-                    StringFormat strFormat = new StringFormat();
+                    var strFormat = new StringFormat();
                     strFormat.Alignment = StringAlignment.Center;
 
                     g.DrawString("N", new Font("Arial", 13), Brushes.Black, new RectangleF(0, 2, bmp.Width, bmp.Height), strFormat);
@@ -2614,7 +2608,7 @@ namespace MEGAbolt
             else
             {
                 toolStrip1.Visible = false;
-                List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
+                var invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
                 foreach (var o in invroot.Where(
                              o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites"
@@ -2648,9 +2642,9 @@ namespace MEGAbolt
 
         private int NormaliseSize(int number)
         {
-            decimal ssize = 256 / (decimal)panel6.Width;
+            var ssize = 256 / (decimal)panel6.Width;
 
-            int pos = Convert.ToInt32(Math.Round(number * ssize));
+            var pos = Convert.ToInt32(Math.Round(number * ssize));
 
             return pos;
         }
@@ -2659,10 +2653,10 @@ namespace MEGAbolt
         {
             //decimal ssize = (decimal)256 / (decimal)panel6.Width;
 
-            int posX = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
-            int posY = NormaliseSize(e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
+            var posX = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
+            var posY = NormaliseSize(e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
 
-            Point mouse = new Point(posX, posY);
+            var mouse = new Point(posX, posY);
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
@@ -2690,10 +2684,10 @@ namespace MEGAbolt
 
         private void world_MouseMove(object sender, MouseEventArgs e)
         {
-            int posX = NormaliseSize(e.X);
-            int posY = NormaliseSize(e.Y);
+            var posX = NormaliseSize(e.X);
+            var posY = NormaliseSize(e.Y);
 
-            Point mouse = new Point(posX, posY);
+            var mouse = new Point(posX, posY);
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
@@ -2707,25 +2701,25 @@ namespace MEGAbolt
             {
                 if (!showing)
                 {
-                    UUID akey = (UUID)CurrentLoc.LocationName;
+                    var akey = (UUID)CurrentLoc.LocationName;
 
-                    string apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture)
-                                                 + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture)
-                                                 + "/" + Math.Round(CurrentLoc.Position.Z).ToString(CultureInfo.CurrentCulture);
+                    var apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture)
+                                              + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture)
+                                              + "/" + Math.Round(CurrentLoc.Position.Z).ToString(CultureInfo.CurrentCulture);
 
                     world.Cursor = Cursors.Hand;
 
-                    string anme = string.Empty;
+                    var anme = string.Empty;
 
                     lock (instance.avnames)
                     {
-                        if (instance.avnames.ContainsKey(akey))
+                        if (instance.avnames.TryGetValue(akey, out var instanceAvname))
                         {
-                            avname = instance.avnames[akey];
+                            avname = instanceAvname;
 
-                            if (instance.avtags.ContainsKey(akey))
+                            if (instance.avtags.TryGetValue(akey, out var avtag))
                             {
-                                anme = "\nTag: " + instance.avtags[akey];
+                                anme = "\nTag: " + avtag;
                             }
 
                             toolTip1.SetToolTip(world, avname + anme + apstn);
@@ -2762,19 +2756,19 @@ namespace MEGAbolt
 
         private Avatar GetAvID()
         {
-            UUID avid = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var avid = (UUID)lvwRadar.SelectedItems[0].Tag;
             return CurrentSIM.ObjectsAvatars.FirstOrDefault(av => av.Value.ID == avid).Value;
         }
 
         private void tbtnAttachments_Click(object sender, EventArgs e)
         {
-            UUID av = (UUID)lvwRadar.SelectedItems[0].Tag;
+            var av = (UUID)lvwRadar.SelectedItems[0].Tag;
 
             if (av == UUID.Zero) return;
 
             //string name = instance.avnames[av];
 
-            Avatar sav = new Avatar();
+            var sav = new Avatar();
             sav = GetAvID();
 
             if (sav != null)
@@ -2911,7 +2905,7 @@ namespace MEGAbolt
         {
             // All this could go into the extended rtb component in the future
 
-            int startindex = 0;
+            var startindex = 0;
 
             if (!string.IsNullOrEmpty(prevsearchtxt))
             {
@@ -2934,7 +2928,7 @@ namespace MEGAbolt
                 // Set the highlight color as red
                 rtbChat.SelectionColor = Color.LightBlue;
                 // Find the end index. End Index = number of characters in textbox
-                int endindex = tsFindText.Text.Length;
+                var endindex = tsFindText.Text.Length;
                 // Highlight the search string
                 rtbChat.Select(startindex, endindex);
                 // mark the start position after the position of 
@@ -2965,7 +2959,7 @@ namespace MEGAbolt
             }
 
             // Set the return value to -1 by default.
-            int retVal = -1;
+            var retVal = -1;
 
             // A valid starting index should be specified.
             // if indexOfSearchText = -1, the end of search
@@ -2975,7 +2969,7 @@ namespace MEGAbolt
                 if (searchEnd > searchStart || searchEnd == -1)
                 {
                     // Determine if it's a match case or what
-                    RichTextBoxFinds mcase = RichTextBoxFinds.None;
+                    var mcase = RichTextBoxFinds.None;
 
                     if (checkBox1.Checked)
                     {
@@ -3038,7 +3032,7 @@ namespace MEGAbolt
 
             try
             {
-                string s = state switch
+                var s = state switch
                 {
                     VoiceGateway.ConnectionState.AccountLogin => "Logging In...",
                     VoiceGateway.ConnectionState.ConnectorConnected => "Connected...",
@@ -3118,7 +3112,7 @@ namespace MEGAbolt
             {
                 cboCapture.Items.Clear();
 
-                foreach (string dev in list)
+                foreach (var dev in list)
                 {
                     cboCapture.Items.Add(dev);
                 }
@@ -3127,7 +3121,7 @@ namespace MEGAbolt
 
             try
             {
-                string cmic = vgate.CurrentCaptureDevice;
+                var cmic = vgate.CurrentCaptureDevice;
 
                 if (string.IsNullOrEmpty(cmic))
                 {
@@ -3160,7 +3154,7 @@ namespace MEGAbolt
             {
                 cboRender.Items.Clear();
 
-                foreach (string dev in list)
+                foreach (var dev in list)
                 {
                     cboRender.Items.Add(dev);
                 }
@@ -3169,7 +3163,7 @@ namespace MEGAbolt
 
             try
             {
-                string cspk = vgate.PlaybackDevice;
+                var cspk = vgate.PlaybackDevice;
 
                 if (string.IsNullOrEmpty(cspk))
                 {
@@ -3450,23 +3444,23 @@ namespace MEGAbolt
             tsFavs.Visible = true;
             tsFavs.Items.Clear();
 
-            foreach (InventoryBase oitem in foundfolders)
+            foreach (var oitem in foundfolders)
             {
-                InventoryItem item = (InventoryItem)oitem;
+                var item = (InventoryItem)oitem;
 
                 if (item.InventoryType == InventoryType.Landmark)
                 {
-                    string iname = item.Name;
-                    string desc = item.Description;
+                    var iname = item.Name;
+                    var desc = item.Description;
 
                     //int twh = tabPage4.Width; 
 
                     if (iname.Length > 48)
                     {
-                        iname = iname.Substring(0, 48) + "...";
+                        iname = iname[..48] + "...";
                     }
 
-                    ToolStripButton btn = new ToolStripButton(iname, null,
+                    var btn = new ToolStripButton(iname, null,
                         FavsToolStripMenuItem_Click, item.AssetUUID.ToString())
                     {
 
@@ -3477,7 +3471,7 @@ namespace MEGAbolt
                     };
                     tsFavs.Items.Add(btn);
 
-                    ToolStripSeparator sep = new ToolStripSeparator();
+                    var sep = new ToolStripSeparator();
                     tsFavs.Items.Add(sep);
                     //}
 
@@ -3491,10 +3485,9 @@ namespace MEGAbolt
         {
             //string cbtn = sender.ToString();
 
-            ToolStripButton btn = (ToolStripButton)sender;
-            UUID landmark = new UUID();
+            var btn = (ToolStripButton)sender;
 
-            if (!UUID.TryParse(btn.Name, out landmark))
+            if (!UUID.TryParse(btn.Name, out var landmark))
             {
                 MessageBox.Show("Invalid Landmark", "Teleport");
                 return;
@@ -3524,8 +3517,8 @@ namespace MEGAbolt
         {
             try
             {
-                ListViewItem item = lvwRadar.GetItemAt(e.X, e.Y);
-                ListViewHitTestInfo info = lvwRadar.HitTest(e.X, e.Y);
+                var item = lvwRadar.GetItemAt(e.X, e.Y);
+                var info = lvwRadar.HitTest(e.X, e.Y);
 
                 if (item != null)
                 {
@@ -3564,7 +3557,7 @@ namespace MEGAbolt
             px = world.Top;
             py = world.Left;
 
-            Size sz = new Size
+            var sz = new Size
             {
                 Height = newsize,
                 Width = newsize
@@ -3614,43 +3607,43 @@ namespace MEGAbolt
 
         private void button3_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button3, "Turn right");
         }
 
         private void button2_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button2, "Turn left");
         }
 
         private void button7_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button7, "Hover");
         }
 
         private void button5_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button5, "Walk forward");
         }
 
         private void button8_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button8, "Walk left");
         }
 
         private void button4_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button4, "Walk back");
         }
 
         private void button6_MouseHover(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            var ToolTip1 = new ToolTip();
             ToolTip1.SetToolTip(button6, "Walk right");
         }
     }

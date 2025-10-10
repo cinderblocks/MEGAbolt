@@ -89,7 +89,7 @@ namespace MEGAbolt.Media
             filename = speakfile;
 
             // Set flags to determine how it will be played.
-            MODE mode = MODE.DEFAULT;
+            var mode = MODE.DEFAULT;
 
             if (Surround)
             {
@@ -103,7 +103,7 @@ namespace MEGAbolt.Media
             }
 
 
-            System.Threading.AutoResetEvent done = new System.Threading.AutoResetEvent(false);
+            var done = new System.Threading.AutoResetEvent(false);
 
             invoke(new SoundDelegate(
                 delegate
@@ -123,8 +123,7 @@ namespace MEGAbolt.Media
                         FMODExec(sound.getLength(out len, TIMEUNIT.MS));
 
                         // Allocate a channel, initially paused.
-                        ChannelGroup masterChannelGroup;
-                        system.getMasterChannelGroup(out masterChannelGroup);
+                        system.getMasterChannelGroup(out var masterChannelGroup);
                         FMODExec(system.playSound(sound, masterChannelGroup, true, out channel));
 
                         // Set general Speech volume.

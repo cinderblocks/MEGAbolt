@@ -45,7 +45,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -66,7 +66,7 @@ namespace MEGAbolt
             client = this.instance.Client;
             netcom = this.instance.Netcom;
 
-            string msg1 = "To view IMs, double click on an IM session from the list.\nWhen the IMbox tab turns BLUE it means there is a new IM.\nThis tab can be detached from the 'PC' icon on the right.";
+            var msg1 = "To view IMs, double click on an IM session from the list.\nWhen the IMbox tab turns BLUE it means there is a new IM.\nThis tab can be detached from the 'PC' icon on the right.";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -163,18 +163,18 @@ namespace MEGAbolt
             //    // new IM
             //}
 
-            string TabAgentName = string.Empty;
+            var TabAgentName = string.Empty;
 
             lock (instance.State.GroupStore)
             {
-                if (instance.State.GroupStore.ContainsKey(e.IM.IMSessionID))
+                if (instance.State.GroupStore.TryGetValue(e.IM.IMSessionID, out var value))
                 {
                     //if (null != client.Self.MuteList.Find(me => me.Type == MuteType.Group && (me.ID == e.IM.IMSessionID || me.ID == e.IM.FromAgentID))) return;
 
                     // Check to see if group IMs are disabled
                     if (instance.Config.CurrentConfig.DisableGroupIMs) return;
 
-                    TabAgentName = instance.State.GroupStore[e.IM.IMSessionID];
+                    TabAgentName = value;
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace MEGAbolt
                 }
             }
 
-            int s = lbxIMs.FindString(TabAgentName);
+            var s = lbxIMs.FindString(TabAgentName);
 
             if (s == -1)
             {
@@ -193,19 +193,19 @@ namespace MEGAbolt
             }
             else
             {
-                string fullName = Convert.ToString(lbxIMs.Items[s], CultureInfo.CurrentCulture);
-                string imcount = string.Empty;
-                int cnt = 0;
+                var fullName = Convert.ToString(lbxIMs.Items[s], CultureInfo.CurrentCulture);
+                var imcount = string.Empty;
+                var cnt = 0;
 
                 if (fullName.Contains("("))
                 {
                     try
                     {
-                        string[] splits = fullName.Split('(');
+                        var splits = fullName.Split('(');
 
                         fullName = splits[0].Trim();
                         imcount = splits[1].Trim();
-                        string[] splits1 = imcount.Split(')');
+                        var splits1 = imcount.Split(')');
 
                         try
                         {
@@ -255,10 +255,10 @@ namespace MEGAbolt
         {
             if (lbxIMs.SelectedItem == null) return;
 
-            string fullName = lbxIMs.SelectedItem.ToString();
-            int selinx = lbxIMs.SelectedIndex;
+            var fullName = lbxIMs.SelectedItem.ToString();
+            var selinx = lbxIMs.SelectedIndex;
 
-            string[] splits = fullName.Split('(');
+            var splits = fullName.Split('(');
 
             fullName = splits[0].Trim();
 
@@ -275,7 +275,7 @@ namespace MEGAbolt
 
         public void IMRead(string fullName)
         {
-            int s = lbxIMs.FindString(fullName);
+            var s = lbxIMs.FindString(fullName);
 
             if (s > -1)
             {
@@ -319,10 +319,10 @@ namespace MEGAbolt
                 return;
             }
 
-            string fullName = lbxIMs.SelectedItem.ToString();
-            int selinx = lbxIMs.SelectedIndex;
+            var fullName = lbxIMs.SelectedItem.ToString();
+            var selinx = lbxIMs.SelectedIndex;
 
-            string[] splits = fullName.Split('(');
+            var splits = fullName.Split('(');
 
             fullName = splits[0].Trim();
 

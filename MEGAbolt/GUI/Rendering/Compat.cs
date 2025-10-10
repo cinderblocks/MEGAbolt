@@ -67,7 +67,7 @@ namespace MEGAbolt.Rendering
 
         public static int BufferSize(BufferTarget target)
         {
-            int ret = 0;
+            var ret = 0;
             if (RenderSettings.CoreVBOPresent)
             {
                 GL.GetBufferParameter(target, BufferParameterName.BufferSize, out ret);

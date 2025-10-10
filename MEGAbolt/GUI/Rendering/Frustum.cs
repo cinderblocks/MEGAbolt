@@ -34,13 +34,13 @@ namespace MEGAbolt.Rendering
     public class Frustum
     {
         //static Matrix4 ProjMatrix, ModelMatrix;
-        static float[] ClipMatrix = new float[16];
-        static float[,] frustum = new float[6, 4];
+        static readonly float[] ClipMatrix = new float[16];
+        static readonly float[,] frustum = new float[6, 4];
         const int RIGHT = 0, LEFT = 1, BOTTOM = 2, TOP = 3, BACK = 4, FRONT = 5;
 
         static void NormalizePlane(float[,] frustum, int side)
         {
-            float magnitude = (float)Math.Sqrt((frustum[side, 0] * frustum[side, 0]) + (frustum[side, 1] * frustum[side, 1])
+            var magnitude = (float)Math.Sqrt((frustum[side, 0] * frustum[side, 0]) + (frustum[side, 1] * frustum[side, 1])
                                                 + (frustum[side, 2] * frustum[side, 2]));
 
             frustum[side, 0] /= magnitude;
@@ -125,7 +125,7 @@ namespace MEGAbolt.Rendering
             // =0 vertex on tasolla
             // <0 tason takana
             // >0 tason edessä
-            for (int a = 0; a < 6; a++)
+            for (var a = 0; a < 6; a++)
             {
                 // jos vertex jonkun tason takana, niin palauta false (ei rendata)
                 if (((frustum[a, 0] * x) + (frustum[a, 1] * y) + (frustum[a, 2] * z) + frustum[a, 3]) <= 0)
@@ -149,7 +149,7 @@ namespace MEGAbolt.Rendering
         public static float SphereInFrustum(float x, float y, float z, float radius)
         {
             float d = 0;
-            for (int p = 0; p < 6; p++)
+            for (var p = 0; p < 6; p++)
             {
                 d = frustum[p, 0] * x + frustum[p, 1] * y + frustum[p, 2] * z + frustum[p, 3];
                 if (d <= -radius) // jos pallo ei ole ruudulla
@@ -187,13 +187,13 @@ namespace MEGAbolt.Rendering
         {
             ScaledMin = Min * scale;
             ScaledMax = Max * scale;
-            Vector3 dist = ScaledMax - ScaledMin;
+            var dist = ScaledMax - ScaledMin;
             ScaledR = dist.Length();
         }
 
         public void CreateBoundingVolume(OpenMetaverse.Rendering.Face mesh, Vector3 scale)
         {
-            for (int q = 0; q < mesh.Vertices.Count; q++)
+            for (var q = 0; q < mesh.Vertices.Count; q++)
             {
                 if (mesh.Vertices[q].Position.X < Min.X) Min.X = mesh.Vertices[q].Position.X;
                 if (mesh.Vertices[q].Position.Y < Min.Y) Min.Y = mesh.Vertices[q].Position.Y;
@@ -204,7 +204,7 @@ namespace MEGAbolt.Rendering
                 if (mesh.Vertices[q].Position.Z > Max.Z) Max.Z = mesh.Vertices[q].Position.Z;
             }
 
-            Vector3 dist = Max - Min;
+            var dist = Max - Min;
             mesh.Center = Min + (dist / 2);
             CalcScaled(scale);
         }
@@ -213,7 +213,7 @@ namespace MEGAbolt.Rendering
         {
             ScaledMax = scale / 2f;
             ScaledMin = -ScaledMax;
-            Vector3 dist = ScaledMax - ScaledMin;
+            var dist = ScaledMax - ScaledMin;
             ScaledR = dist.Length();
         }
 
@@ -226,7 +226,7 @@ namespace MEGAbolt.Rendering
             if (vol.Max.X > Max.X) Max.X = vol.Max.X;
             if (vol.Max.Y > Max.Y) Max.Y = vol.Max.Y;
             if (vol.Max.Z > Max.Z) Max.Z = vol.Max.Z;
-            Vector3 dist = Max - Min;
+            var dist = Max - Min;
             CalcScaled(scale);
         }
 

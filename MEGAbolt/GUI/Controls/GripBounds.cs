@@ -34,7 +34,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Y = clientRectangle.Bottom - 6 + 1;
                 clientRectangle.Height = 6;
                 return clientRectangle;
@@ -45,7 +45,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Y = clientRectangle.Bottom - 12 + 1;
                 clientRectangle.Height = 12;
                 clientRectangle.X = clientRectangle.Width - 12 + 1;
@@ -58,7 +58,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Height = 6;
                 return clientRectangle;
             }
@@ -68,7 +68,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Height = 12;
                 clientRectangle.X = clientRectangle.Width - 12 + 1;
                 clientRectangle.Width = 12;
@@ -80,7 +80,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Width = 6;
                 return clientRectangle;
             }
@@ -90,7 +90,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Width = 12;
                 clientRectangle.Y = clientRectangle.Height - 12 + 1;
                 clientRectangle.Height = 12;
@@ -102,7 +102,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.X = clientRectangle.Right - 6 + 1;
                 clientRectangle.Width = 6;
                 return clientRectangle;
@@ -113,7 +113,7 @@ namespace MEGAbolt.Controls
         {
             get
             {
-                Rectangle clientRectangle = ClientRectangle;
+                var clientRectangle = ClientRectangle;
                 clientRectangle.Width = 12;
                 clientRectangle.Height = 12;
                 return clientRectangle;

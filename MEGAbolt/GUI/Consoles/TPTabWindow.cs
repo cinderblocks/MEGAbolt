@@ -30,11 +30,11 @@ namespace MEGAbolt
 {
     public partial class TPTabWindow : UserControl
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         private UUID targetUUID = UUID.Zero;
-        private ManualResetEvent TPEvent = new ManualResetEvent(false);
+        private readonly ManualResetEvent TPEvent = new ManualResetEvent(false);
         private UUID targetSession = UUID.Zero;
 
         public TPTabWindow(MEGAboltInstance instance, InstantMessageEventArgs e)
@@ -134,13 +134,13 @@ namespace MEGAbolt
             if (e.LinkText.StartsWith("http://slurl.", StringComparison.CurrentCultureIgnoreCase))
             {
                 // Open up the TP form here
-                string encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                string sim = split[4];
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var sim = split[4];
+                var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                 (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
 
@@ -148,31 +148,31 @@ namespace MEGAbolt
             else if (e.LinkText.StartsWith("http://maps.secondlife", StringComparison.CurrentCultureIgnoreCase))
             {
                 // Open up the TP form here
-                string encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                string sim = split[4];
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var sim = split[4];
+                var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                 (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
 
             }
             else if (e.LinkText.Contains("http://mbprofile:"))
             {
-                string encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = System.Web.HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '#' });
-                string aavname = split[0];
-                string[] avnamesplit = aavname.Split(new Char[] { '#' });
+                var aavname = split[0];
+                var avnamesplit = aavname.Split(new Char[] { '#' });
                 aavname = avnamesplit[0];
 
                 split = e.LinkText.Split(new Char[] { ':' });
-                string elink = split[2];
+                var elink = split[2];
                 split = elink.Split(new Char[] { '&' });
 
-                UUID avid = (UUID)split[0];
+                var avid = (UUID)split[0];
 
                 (new frmProfile(instance, aavname, avid)).Show();
             }

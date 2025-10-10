@@ -125,8 +125,8 @@ namespace System.Windows.Forms
         };
 
         private const int TimerID = 42;
-        private static HookProc hookProc;
-        private static TimerProc hookTimer;
+        private static readonly HookProc hookProc;
+        private static readonly TimerProc hookTimer;
         private static uint hookTimeout;
         private static string hookCaption;
         private static IntPtr hHook;
@@ -156,13 +156,13 @@ namespace System.Windows.Forms
             if (nCode < 0)
                 return CallNextHookEx(hHook, nCode, wParam, lParam);
 
-            CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
-            IntPtr hook = hHook;
+            var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+            var hook = hHook;
 
             if (hookCaption != null && msg.message == WM_INITDIALOG)
             {
-                int nLength = GetWindowTextLength(msg.hwnd);
-                StringBuilder text = new StringBuilder(nLength + 1);
+                var nLength = GetWindowTextLength(msg.hwnd);
+                var text = new StringBuilder(nLength + 1);
 
                 GetWindowText(msg.hwnd, text, text.Capacity);
 

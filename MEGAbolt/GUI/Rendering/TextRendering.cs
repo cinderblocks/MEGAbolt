@@ -38,11 +38,11 @@ namespace MEGAbolt.Rendering
 
         class TextItem
         {
-            public String Text;
-            public Font Font;
-            public Color Color;
-            public Rectangle Box;
-            public TextFormatFlags Flags;
+            public readonly String Text;
+            public readonly Font Font;
+            public readonly Color Color;
+            public readonly Rectangle Box;
+            public readonly TextFormatFlags Flags;
 
             public int ImgWidth;
             public int ImgHeight;
@@ -62,11 +62,11 @@ namespace MEGAbolt.Rendering
         public static Size MaxSize = new Size(8192, 8192);
 
         MEGAboltInstance Instance;
-        List<TextItem> textItems;
-        int[] Viewport = new int[4];
+        readonly List<TextItem> textItems;
+        readonly int[] Viewport = new int[4];
         int ScreenWidth { get; set; }
         int ScreenHeight { get; set; }
-        Dictionary<int, CachedInfo> Cache = new Dictionary<int, CachedInfo>();
+        readonly Dictionary<int, CachedInfo> Cache = new Dictionary<int, CachedInfo>();
 
         public TextRendering(MEGAboltInstance instance)
         {
@@ -97,18 +97,18 @@ namespace MEGAbolt.Rendering
             GL.GetInteger(GetPName.Viewport, Viewport);
             ScreenWidth = Viewport[2];
             ScreenHeight = Viewport[3];
-            int stamp = Environment.TickCount;
+            var stamp = Environment.TickCount;
 
             GL.Enable(EnableCap.Texture2D);
             GLHUDBegin();
             {
-                foreach (TextItem item in textItems)
+                foreach (var item in textItems)
                 {
-                    int hash = GetItemHash(item);
-                    CachedInfo tex = new CachedInfo() { TextureID = -1 };
-                    if (Cache.ContainsKey(hash))
+                    var hash = GetItemHash(item);
+                    var tex = new CachedInfo() { TextureID = -1 };
+                    if (Cache.TryGetValue(hash, out var value))
                     {
-                        tex = Cache[hash];
+                        tex = value;
                         tex.LastUsed = stamp;
                     }
                     else
@@ -142,7 +142,7 @@ namespace MEGAbolt.Rendering
 
         int GetItemHash(TextItem item)
         {
-            int ret = 17;
+            var ret = 17;
             ret = ret * 31 + item.Text.GetHashCode();
             ret = ret * 31 + item.Font.GetHashCode();
             ret = ret * 31 + (int)item.Flags;
@@ -184,12 +184,12 @@ namespace MEGAbolt.Rendering
                 item.ImgHeight = RHelp.NextPow2(s.Height);
             }
 
-            Bitmap img = new Bitmap(
+            var img = new Bitmap(
                 item.ImgWidth,
                 item.ImgHeight,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            Graphics g = Graphics.FromImage(img);
+            var g = Graphics.FromImage(img);
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
             TextRenderer.DrawText(

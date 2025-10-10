@@ -25,6 +25,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace MEGAbolt.Core
 {
@@ -57,7 +58,7 @@ namespace MEGAbolt.Core
                     {"ARM", "WinCE"}
                 };
 
-        private readonly object _SyncLock = new object();
+        private readonly Lock _SyncLock = new Lock();
 
         private static readonly IDictionary<string, IntPtr> LoadedLibraries = new Dictionary<string, IntPtr>();
 
@@ -143,13 +144,7 @@ namespace MEGAbolt.Core
             if (String.IsNullOrEmpty(processorArchitecture))
                 return null;
 
-            string platformName;
-            if (this._ProcessorArchitecturePlatforms.TryGetValue(processorArchitecture, out platformName))
-            {
-                return platformName;
-            }
-
-            return null;
+            return this._ProcessorArchitecturePlatforms.GetValueOrDefault(processorArchitecture);
         }
 
         public void LoadLibraries(IEnumerable<string> dlls)

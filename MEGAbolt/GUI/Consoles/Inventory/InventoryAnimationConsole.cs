@@ -29,10 +29,10 @@ namespace MEGAbolt
 {
     public partial class InventoryAnimationConsole : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
 
         public InventoryAnimationConsole(MEGAboltInstance instance, InventoryItem item)
         {
@@ -58,17 +58,17 @@ namespace MEGAbolt
 
         private void btnAnimate_Click(object sender, EventArgs e)
         {
-            UUID AnimationID = new UUID(item.AssetUUID.ToString());
+            var AnimationID = new UUID(item.AssetUUID.ToString());
 
-            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool> { { AnimationID, true } };
+            var bAnim = new Dictionary<UUID, bool> { { AnimationID, true } };
             client.Self.Animate(bAnim, true);
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            UUID AnimationID = new UUID(item.AssetUUID.ToString());
+            var AnimationID = new UUID(item.AssetUUID.ToString());
 
-            Dictionary<UUID, bool> bAnim = new Dictionary<UUID, bool> { { AnimationID, false } };
+            var bAnim = new Dictionary<UUID, bool> { { AnimationID, false } };
 
             client.Self.Animate(bAnim, true);
         }

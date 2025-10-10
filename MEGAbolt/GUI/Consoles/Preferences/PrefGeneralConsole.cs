@@ -35,20 +35,20 @@ namespace MEGAbolt
 {
     public partial class PrefGeneralConsole : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
-        private Popup toolTip;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
+        private readonly Popup toolTip;
         //private Popup toolTip1;
-        private Popup toolTip2;
+        private readonly Popup toolTip2;
 
-        private Popup toolTip4;
-        private Popup toolTip5;
-        private Popup toolTip6;
-        private Popup toolTip7;
-        private Popup toolTip8;
-        private Popup toolTip9;
+        private readonly Popup toolTip4;
+        private readonly Popup toolTip5;
+        private readonly Popup toolTip6;
+        private readonly Popup toolTip7;
+        private readonly Popup toolTip8;
+        private readonly Popup toolTip9;
         private CustomToolTip customToolTip;
-        private GridClient client;
+        private readonly GridClient client;
         private bool loadingtimer = true;
         private bool loadingtimer1 = true;
         private string headerfont = "Tahoma";
@@ -64,49 +64,49 @@ namespace MEGAbolt
         {
             InitializeComponent();
 
-            string msg1 = "Disables toolbar nofications that popup from the bottom right hand corner of your screen. Be warned that important system information will not be displayed if this is disabled.";
+            var msg1 = "Disables toolbar nofications that popup from the bottom right hand corner of your screen. Be warned that important system information will not be displayed if this is disabled.";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
             toolTip.ShowingAnimation = toolTip.HidingAnimation = PopupAnimations.Blend;
 
-            string msg3 = "If you will be crossing SIMs or will be near SIM borders and want to see the avatars in the next SIM listed on your radar then you must enable this option. This option requires a restart.";
+            var msg3 = "If you will be crossing SIMs or will be near SIM borders and want to see the avatars in the next SIM listed on your radar then you must enable this option. This option requires a restart.";
             toolTip2 = new Popup(customToolTip = new CustomToolTip(instance, msg3));
             toolTip2.AutoClose = false;
             toolTip2.FocusOnOpen = false;
             toolTip2.ShowingAnimation = toolTip2.HidingAnimation = PopupAnimations.Blend;
 
-            string msg5 = "Approximately 1 minute after login the avatar will autosit on an object that has its UUID in the object description. The object needs to be within 10 metre radius of the avatar.";
+            var msg5 = "Approximately 1 minute after login the avatar will autosit on an object that has its UUID in the object description. The object needs to be within 10 metre radius of the avatar.";
             toolTip4 = new Popup(customToolTip = new CustomToolTip(instance, msg5));
             toolTip4.AutoClose = false;
             toolTip4.FocusOnOpen = false;
             toolTip4.ShowingAnimation = toolTip4.HidingAnimation = PopupAnimations.Blend;
 
-            string msg6 = "Sets radar range (in metres) throughout the application for objects & avatars. Lower setting means using less bandwidth. Default is 64m. If set to 10, avatars & objects outside the 10m range will be ignored.";
+            var msg6 = "Sets radar range (in metres) throughout the application for objects & avatars. Lower setting means using less bandwidth. Default is 64m. If set to 10, avatars & objects outside the 10m range will be ignored.";
             toolTip5 = new Popup(customToolTip = new CustomToolTip(instance, msg6));
             toolTip5.AutoClose = false;
             toolTip5.FocusOnOpen = false;
             toolTip5.ShowingAnimation = toolTip5.HidingAnimation = PopupAnimations.Blend;
 
-            string msg7 = "Sets the default object range used on the 'Object Manager' screen. The maximum value of this setting can not be greater than the selected 'radar range' value above.";
+            var msg7 = "Sets the default object range used on the 'Object Manager' screen. The maximum value of this setting can not be greater than the selected 'radar range' value above.";
             toolTip6 = new Popup(customToolTip = new CustomToolTip(instance, msg7));
             toolTip6.AutoClose = false;
             toolTip6.FocusOnOpen = false;
             toolTip6.ShowingAnimation = toolTip6.HidingAnimation = PopupAnimations.Blend;
 
-            string msg8 = "Group Inviter users need to use the generated password or type your own in. Enter the same password into the Group Inviter in SL. Use 'reset' button to generate new one. For your security THIS FIELD MUST NOT BE BLANK.";
+            var msg8 = "Group Inviter users need to use the generated password or type your own in. Enter the same password into the Group Inviter in SL. Use 'reset' button to generate new one. For your security THIS FIELD MUST NOT BE BLANK.";
             toolTip7 = new Popup(customToolTip = new CustomToolTip(instance, msg8));
             toolTip7.AutoClose = false;
             toolTip7.FocusOnOpen = false;
             toolTip7.ShowingAnimation = toolTip7.HidingAnimation = PopupAnimations.Blend;
 
-            string msg9 = "For this to work you need to create a folder called 'GroupMan Items' under the root of your inventory and place your give away items in it.";
+            var msg9 = "For this to work you need to create a folder called 'GroupMan Items' under the root of your inventory and place your give away items in it.";
             toolTip8 = new Popup(customToolTip = new CustomToolTip(instance, msg9));
             toolTip8.AutoClose = false;
             toolTip8.FocusOnOpen = false;
             toolTip8.ShowingAnimation = toolTip8.HidingAnimation = PopupAnimations.Blend;
 
-            string msg10 = "If unchecked and a master avatar and/or object UUID is not specified, LSL commands from all avatars and objects (with MD5'ed MEGAbolt passwords in the command) will be accepted and processed.";
+            var msg10 = "If unchecked and a master avatar and/or object UUID is not specified, LSL commands from all avatars and objects (with MD5'ed MEGAbolt passwords in the command) will be accepted and processed.";
             toolTip9 = new Popup(customToolTip = new CustomToolTip(instance, msg10));
             toolTip9.AutoClose = false;
             toolTip9.FocusOnOpen = false;
@@ -584,13 +584,13 @@ namespace MEGAbolt
 
         public static string GetRandomPassword(int length)
         {
-            char[] chars = "$%@abcdefghijklmnopqrstuvwxyz1234567890?!*ABCDEFGHIJKLMNOPQRSTUVWXYZ#^&".ToCharArray();
-            string password = string.Empty;
-            Random random = new Random();
+            var chars = "$%@abcdefghijklmnopqrstuvwxyz1234567890?!*ABCDEFGHIJKLMNOPQRSTUVWXYZ#^&".ToCharArray();
+            var password = string.Empty;
+            var random = new Random();
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                int x = random.Next(1, chars.Length);
+                var x = random.Next(1, chars.Length);
 
                 // Don't allow repetition of characters
                 if (!password.Contains(chars.GetValue(x).ToString()))
@@ -613,18 +613,18 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string folder = client.Settings.ASSET_CACHE_DIR;
+            var folder = client.Settings.ASSET_CACHE_DIR;
 
             if (!Directory.Exists(folder))
             {
                 return;
             }
 
-            string[] files = Directory.GetFiles(@folder);
+            var files = Directory.GetFiles(@folder);
 
             try
             {
-                foreach (string file in files)
+                foreach (var file in files)
                     File.Delete(file);
             }
             catch (Exception ex)

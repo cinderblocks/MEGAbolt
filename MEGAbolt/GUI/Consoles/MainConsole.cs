@@ -50,7 +50,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -91,11 +91,11 @@ namespace MEGAbolt
             {
                 MGrids.Clear();
 
-                bool fext = File.Exists(DataFolder.GetDataFolder() + "\\Grids.txt");
+                var fext = File.Exists(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                 if (fext)
                 {
-                    string[] file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
+                    var file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                     MGrids = (from p in file
                               let x = p.Split(',')
@@ -105,7 +105,7 @@ namespace MEGAbolt
                 {
                     CreateGridFile();
 
-                    string[] file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
+                    var file = File.ReadAllLines(DataFolder.GetDataFolder() + "\\Grids.txt");
 
                     MGrids = (from p in file
                               let x = p.Split(',')
@@ -132,7 +132,7 @@ namespace MEGAbolt
             cbxGrid.Items.Add("SecondLife Main (Agni)");
             cbxGrid.Items.Add("SecondLife Beta (Aditi)");
 
-            foreach (KeyValuePair<string, string> entry in MGrids)
+            foreach (var entry in MGrids)
             {
                 cbxGrid.Items.Add(entry.Key);
             }
@@ -151,11 +151,11 @@ namespace MEGAbolt
             instance.Config.CurrentConfig.LastName = txtLastName.Text;
 
             // Save user list
-            string ulist = usernlist.Aggregate(string.Empty, (current, s) => current + (s + "|"));
+            var ulist = usernlist.Aggregate(string.Empty, (current, s) => current + (s + "|"));
 
             if (ulist.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
             {
-                ulist = ulist.Substring(0, ulist.Length - 1);
+                ulist = ulist[..^1];
             }
 
             instance.Config.CurrentConfig.UserNameList = ulist;
@@ -210,18 +210,18 @@ namespace MEGAbolt
         {
             // Populate usernames
             //usernlist
-            string ulist = instance.Config.CurrentConfig.UserNameList;
+            var ulist = instance.Config.CurrentConfig.UserNameList;
 
             if (!string.IsNullOrEmpty(ulist))
             {
-                string[] llist = ulist.Split('|');
+                var llist = ulist.Split('|');
 
-                foreach (string s in llist)
+                foreach (var s in llist)
                 {
-                    string[] llist1 = s.Split('\\');
+                    var llist1 = s.Split('\\');
                     usernlist.Add(s);
 
-                    string epwd = string.Empty;
+                    var epwd = string.Empty;
 
                     if (llist1.Length == 2)
                     {
@@ -231,8 +231,8 @@ namespace MEGAbolt
                         {
                             try
                             {
-                                Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                                string cpwd = cryp.Decrypt(epwd);
+                                var cryp = new Crypto(Crypto.SymmProvEnum.AES);
+                                var cpwd = cryp.Decrypt(epwd);
                                 epwd = cpwd;
                             }
                             catch
@@ -256,7 +256,7 @@ namespace MEGAbolt
 
             if (instance.Config.CurrentConfig.iRemPWD)
             {
-                string epwd = instance.Config.CurrentConfig.PasswordMD5;
+                var epwd = instance.Config.CurrentConfig.PasswordMD5;
 
                 txtPassword.Text = epwd;
             }
@@ -307,10 +307,10 @@ namespace MEGAbolt
                         lblLoginStatus.Text = $"Logged in as {netcom.LoginOptions.FullName}";
                         lblLoginStatus.ForeColor = Color.Blue;
 
-                        string uname = client.Self.Name + "\\";
+                        var uname = client.Self.Name + "\\";
 
-                        Wildcard wildcard = new Wildcard(client.Self.Name + "*", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        List<string> torem = usernlist.Where(s => wildcard.IsMatch(s)).ToList();
+                        var wildcard = new Wildcard(client.Self.Name + "*", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                        var torem = usernlist.Where(s => wildcard.IsMatch(s)).ToList();
 
                         foreach (var s in torem.Where(s => wildcard.IsMatch(s)))
                         {
@@ -321,9 +321,9 @@ namespace MEGAbolt
 
                         if (chkPWD.Checked)
                         {
-                            string epwd = txtPassword.Text;
-                            Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                            string cpwd = cryp.Encrypt(epwd);
+                            var epwd = txtPassword.Text;
+                            var cryp = new Crypto(Crypto.SymmProvEnum.AES);
+                            var cpwd = cryp.Encrypt(epwd);
 
                             uname += cpwd;
                         }
@@ -341,18 +341,18 @@ namespace MEGAbolt
                         {
                             SaveUserSettings();
 
-                            string fname = $"{client.Self.FirstName}_{client.Self.LastName}";
+                            var fname = $"{client.Self.FirstName}_{client.Self.LastName}";
 
                             if (chkCmd.Checked)
                             {
                                 // create the CMD file
                                 CreateCmdFile();
 
-                                FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini"));
+                                var newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini"));
 
                                 if (!newFileInfo.Exists)
                                 {
-                                    string path = Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini");
+                                    var path = Path.Combine(DataFolder.GetDataFolder(), $"{fname}_MEGAbolt.ini");
                                     instance.Config.CurrentConfig.Save(path);
                                 }
                             }
@@ -484,7 +484,7 @@ namespace MEGAbolt
                     default: //Custom or other
                         netcom.LoginOptions.Grid = LoginGrid.Custom;
 
-                        string selectedgrid = cbxGrid.SelectedItem.ToString();
+                        var selectedgrid = cbxGrid.SelectedItem.ToString();
 
                         if (selectedgrid == "Other...")
                         {
@@ -498,7 +498,7 @@ namespace MEGAbolt
                             }
 
                             // Check for http beginning
-                            string hhder = string.Empty;
+                            var hhder = string.Empty;
 
                             if (!txtCustomLoginUri.Text.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase)
                                 || !txtCustomLoginUri.Text.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
@@ -510,9 +510,9 @@ namespace MEGAbolt
                         }
                         else
                         {
-                            if (MGrids.ContainsKey(selectedgrid))
+                            if (MGrids.TryGetValue(selectedgrid, out var grid))
                             {
-                                netcom.LoginOptions.GridCustomLoginUri = MGrids[selectedgrid];
+                                netcom.LoginOptions.GridCustomLoginUri = grid;
                             }
                         }
 
@@ -566,7 +566,7 @@ namespace MEGAbolt
                     }
                     catch (Exception ex)
                     {
-                        string exp = ex.Message.ToString(CultureInfo.CurrentCulture);
+                        var exp = ex.Message.ToString(CultureInfo.CurrentCulture);
                         MessageBox.Show(exp);
                     }
 
@@ -578,26 +578,24 @@ namespace MEGAbolt
         {
             try
             {
-                string cuser = $"{txtFirstName.Text}_{txtLastName.Text}";
-                string textfile = $"{cuser}.bat";
-                string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
+                var cuser = $"{txtFirstName.Text}_{txtLastName.Text}";
+                var textfile = $"{cuser}.bat";
+                var path = Path.Combine(DataFolder.GetDataFolder(), textfile);
 
                 if (File.Exists(path))
                 {
                     File.Delete(path);
                 }
 
-                using StreamWriter sr = File.CreateText(path);
+                using var sr = File.CreateText(path);
 
-                string line = "@ECHO OFF";
+                var line = "@ECHO OFF";
                 sr.WriteLine(line);
                 sr.WriteLine("");
                 sr.WriteLine("");
 
                 line = $"START \"\" /D \"{Application.StartupPath}\\\" \"{Application.ExecutablePath}\" {cuser.Replace("_", " ")} {txtPassword.Text}";
                 sr.WriteLine(line);
-
-                sr.Dispose();
             }
             catch (Exception ex)
             {
@@ -695,9 +693,9 @@ namespace MEGAbolt
             {
                 if (cboUserList.SelectedIndex == -1) return;
 
-                Item itm = (Item)cboUserList.SelectedItem;
+                var itm = (Item)cboUserList.SelectedItem;
 
-                string[] name = itm.Name.ToString(CultureInfo.CurrentCulture).Split(' ');  // cboUserList.SelectedItem.ToString().Split(' ');
+                var name = itm.Name.ToString(CultureInfo.CurrentCulture).Split(' ');  // cboUserList.SelectedItem.ToString().Split(' ');
 
                 txtFirstName.Text = name[0];
                 txtLastName.Text = name[1];
@@ -720,7 +718,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string fullfile = DataFolder.GetDataFolder() + "\\Grids.txt"; ;
+            var fullfile = DataFolder.GetDataFolder() + "\\Grids.txt"; ;
 
             try
             {

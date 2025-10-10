@@ -33,7 +33,7 @@ public static class FormFlash
     /// <param name="form"></param>
     public static void Flash(Form form)
     {
-        FLASHWINFO fw = new FLASHWINFO()
+        var fw = new FLASHWINFO()
         {
             cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FLASHWINFO))),
             hwnd = form.Handle,
@@ -52,7 +52,7 @@ public static class FormFlash
     /// <param name="form"></param>
     public static void Unflash(Form form)
     {
-        FLASHWINFO fw = new FLASHWINFO()
+        var fw = new FLASHWINFO()
         {
             cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FLASHWINFO))),
             hwnd = form.Handle,

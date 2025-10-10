@@ -41,7 +41,7 @@ namespace MEGAbolt.Rendering
 
         static Perlin()
         {
-            Random rng = new Random(SEED);
+            var rng = new Random(SEED);
             int i, j, k;
 
             for (i = 0; i < B; i++)

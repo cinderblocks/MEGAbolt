@@ -27,15 +27,15 @@ namespace MEGArestart
     {
         private static void Main(string[] args)
         {
-            int millisecondsTimeout = 600000;
-            int num = millisecondsTimeout / 1000 / 60;
-            DateTime now = DateTime.Now;
+            var millisecondsTimeout = 600000;
+            var num = millisecondsTimeout / 1000 / 60;
+            var now = DateTime.Now;
             if (args.Length > 0)
             {
-                string str1 = args[0];
-                string str2 = args[1];
-                string str3 = args[2];
-                string str4 = "Unknown";
+                var str1 = args[0];
+                var str2 = args[1];
+                var str3 = args[2];
+                var str4 = "Unknown";
                 if (args.Length > 3)
                     str4 = args[3].Replace("|", " ");
                 if (args.Length > 4)

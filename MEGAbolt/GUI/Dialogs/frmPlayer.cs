@@ -36,8 +36,8 @@ namespace MEGAbolt
 {
     public partial class frmPlayer : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
         private string currentartist = string.Empty;
         private string currenttrack = string.Empty;
 
@@ -46,8 +46,8 @@ namespace MEGAbolt
         //private LyricWiki wiki = new LyricWiki();
         private string albumlink = string.Empty;
         private string lyrics = string.Empty;
-        private MEGAboltNetcom netcom;
-        private List<RadioObj> Stations = new List<RadioObj>();
+        private readonly MEGAboltNetcom netcom;
+        private readonly List<RadioObj> Stations = new List<RadioObj>();
 
 
         public frmPlayer(MEGAboltInstance instance)
@@ -70,7 +70,7 @@ namespace MEGAbolt
 
         private void PopulateStations()
         {
-            RadioObj robj = new RadioObj
+            var robj = new RadioObj
             {
                 genre = "80s",
                 radioname = "SKY.FM",
@@ -251,8 +251,8 @@ namespace MEGAbolt
             // If the Player encounters a corrupt or missing file, 
             // show the hexadecimal error code and URL.
             {
-                IWMPMedia2 errSource = e.pMediaObject as IWMPMedia2;
-                IWMPErrorItem errorItem = errSource.Error;
+                var errSource = e.pMediaObject as IWMPMedia2;
+                var errorItem = errSource.Error;
                 MessageBox.Show("Error " + errorItem.errorCode.ToString("X", CultureInfo.CurrentCulture)
                                 + " in " + errSource.sourceURL);
             }
@@ -295,8 +295,8 @@ namespace MEGAbolt
         {
             if (track.Contains(" - "))
             {
-                char[] delimiters = new char[] { '-' };
-                string[] words = track.Split(delimiters);
+                var delimiters = new char[] { '-' };
+                var words = track.Split(delimiters);
 
                 if (words.Length > 2)
                 {
@@ -314,22 +314,22 @@ namespace MEGAbolt
                 if (currenttrack.Contains("("))
                 {
                     // get them out
-                    int pos = currenttrack.IndexOf("(", StringComparison.CurrentCultureIgnoreCase);
-                    currenttrack = currenttrack.Substring(0, pos).Trim();
+                    var pos = currenttrack.IndexOf("(", StringComparison.CurrentCultureIgnoreCase);
+                    currenttrack = currenttrack[..pos].Trim();
                 }
 
                 if (currentartist.ToLower(CultureInfo.CurrentCulture).Contains("feat"))
                 {
                     // get them out
-                    int pos = currentartist.ToLower(CultureInfo.CurrentCulture).IndexOf("feat", 0, StringComparison.CurrentCultureIgnoreCase);
-                    currentartist = currentartist.Substring(0, pos).Trim();
+                    var pos = currentartist.ToLower(CultureInfo.CurrentCulture).IndexOf("feat", 0, StringComparison.CurrentCultureIgnoreCase);
+                    currentartist = currentartist[..pos].Trim();
                     //currentartist = currentartist.Substring(0, pos).Trim();
                 }
 
                 if (currentlyrics == currenttrack)
                     return;
 
-                DateTime timestamp = DateTime.Now;
+                var timestamp = DateTime.Now;
 
                 timestamp = instance.State.GetTimeStamp(timestamp);
 
@@ -341,9 +341,9 @@ namespace MEGAbolt
                 //    timestamp = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                 //}
 
-                string eval = timestamp.ToShortTimeString() + ": " + track;
+                var eval = timestamp.ToShortTimeString() + ": " + track;
 
-                ListViewItem finditem = listView1.FindItemWithText(eval);
+                var finditem = listView1.FindItemWithText(eval);
 
 
                 if (finditem == null)
@@ -355,7 +355,7 @@ namespace MEGAbolt
                     }
                     catch {; }
 
-                    ListViewItem list = new ListViewItem
+                    var list = new ListViewItem
                     {
                         Text = timestamp.ToShortTimeString() + ": " + track,
                         Tag = albumlink // dets;
@@ -515,27 +515,27 @@ namespace MEGAbolt
             pictureBox1.Refresh();
             pictureBox2.Visible = false;
 
-            string method = "album.getinfo";   // "track.getinfo";
-            string apiKey = "164c28853903f4ea97fe0104dbbcc0c2";
-            string artist = currentartist;
-            string track = currenttrack;
-            string theArtWorkUrl = string.Empty;
+            var method = "album.getinfo";   // "track.getinfo";
+            var apiKey = "164c28853903f4ea97fe0104dbbcc0c2";
+            var artist = currentartist;
+            var track = currenttrack;
+            var theArtWorkUrl = string.Empty;
 
             try
             {
-                string baseUrl = "http://ws.audioscrobbler.com/2.0/?method=" + method + "&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&album=" + track.Replace(" ", "%20");
+                var baseUrl = "http://ws.audioscrobbler.com/2.0/?method=" + method + "&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&album=" + track.Replace(" ", "%20");
 
-                XmlReaderSettings settings = new XmlReaderSettings
+                var settings = new XmlReaderSettings
                 {
                     IgnoreWhitespace = true,
                     IgnoreComments = true
                 };
 
-                int a = 0;
+                var a = 0;
 
                 albumlink = string.Empty;
 
-                using (XmlReader reader = XmlReader.Create(baseUrl, settings))
+                using (var reader = XmlReader.Create(baseUrl, settings))
                 {
                     while ((reader.Read()))
                     {
@@ -603,16 +603,16 @@ namespace MEGAbolt
 
         private string GetBuyLink()
         {
-            string apiKey = "164c28853903f4ea97fe0104dbbcc0c2";
-            string artist = currentartist;
-            string track = currenttrack;
-            string theArtWorkUrl = string.Empty;
+            var apiKey = "164c28853903f4ea97fe0104dbbcc0c2";
+            var artist = currentartist;
+            var track = currenttrack;
+            var theArtWorkUrl = string.Empty;
 
             try
             {
-                string baseUrl = "http://ws.audioscrobbler.com/2.0/?method=track.getbuylinks&country=united%20states&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&track=" + track.Replace(" ", "%20");
+                var baseUrl = "http://ws.audioscrobbler.com/2.0/?method=track.getbuylinks&country=united%20states&api_key=" + apiKey + "&artist=" + artist.Replace(" ", "%20") + "&track=" + track.Replace(" ", "%20");
 
-                XmlReaderSettings settings = new XmlReaderSettings
+                var settings = new XmlReaderSettings
                 {
                     IgnoreWhitespace = true,
                     IgnoreComments = true
@@ -620,9 +620,9 @@ namespace MEGAbolt
 
                 //int a = 0;
 
-                string supplier = string.Empty;
+                var supplier = string.Empty;
 
-                using (XmlReader reader = XmlReader.Create(baseUrl, settings))
+                using (var reader = XmlReader.Create(baseUrl, settings))
                 {
                     while ((reader.Read()))
                     {
@@ -767,8 +767,8 @@ namespace MEGAbolt
 
         private void listView1_Click(object sender, EventArgs e)
         {
-            ListViewItem idx = listView1.SelectedItems[0];
-            string track = idx.Tag.ToString();
+            var idx = listView1.SelectedItems[0];
+            var track = idx.Tag.ToString();
 
             if (!string.IsNullOrEmpty(track))
             {
@@ -778,7 +778,7 @@ namespace MEGAbolt
 
         private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            string mlink = e.LinkText.Replace("http//", string.Empty);
+            var mlink = e.LinkText.Replace("http//", string.Empty);
 
             if (!e.LinkText.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -813,7 +813,7 @@ namespace MEGAbolt
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            string ulink = "http://www.youtube.com/results?search_query=" + currentartist + ":" + currenttrack; ;
+            var ulink = "http://www.youtube.com/results?search_query=" + currentartist + ":" + currenttrack; ;
 
             Utilities.OpenBrowser(@ulink);
         }
@@ -832,7 +832,7 @@ namespace MEGAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Parcel parcel = instance.MainForm.parcel;
+            var parcel = instance.MainForm.parcel;
 
             parcel.MusicURL = textBox1.Text.Trim();
             parcel.Update(client, client.Network.CurrentSim, false);
@@ -847,7 +847,7 @@ namespace MEGAbolt
         {
             if (listBox2.SelectedIndex == -1) return;
 
-            string sgenre = listBox2.SelectedItem.ToString();
+            var sgenre = listBox2.SelectedItem.ToString();
 
             listBox3.Items.Clear();
             textBox1.Text = string.Empty;

@@ -28,11 +28,11 @@ namespace MEGAbolt.Rendering
 {
     public class RenderTerrain : SceneObject
     {
-        MEGAboltInstance Instance;
+        readonly MEGAboltInstance Instance;
         GridClient Client => Instance.Client;
 
         public bool Modified = true;
-        float[,] heightTable = new float[256, 256];
+        readonly float[,] heightTable = new float[256, 256];
         Face terrainFace;
         uint[] terrainIndices;
         ColorVertex[] terrainVertices;
@@ -45,7 +45,7 @@ namespace MEGAbolt.Rendering
         bool terrainInProgress = false;
         bool terrainTextureNeedsUpdate = false;
         float terrainTimeSinceUpdate = RenderSettings.MinimumTimeBetweenTerrainUpdated + 1f; // Update terrain om first run
-        MeshmerizerR renderer;
+        readonly MeshmerizerR renderer;
         Simulator sim => Instance.Client.Network.CurrentSim;
 
         public RenderTerrain(MEGAboltInstance instance)
@@ -98,18 +98,18 @@ namespace MEGAbolt.Rendering
 
             ThreadPool.QueueUserWorkItem(sync =>
             {
-                int step = 1;
+                var step = 1;
 
-                for (int x = 0; x < 256; x += step)
+                for (var x = 0; x < 256; x += step)
                 {
-                    for (int y = 0; y < 256; y += step)
+                    for (var y = 0; y < 256; y += step)
                     {
                         float z = 0;
-                        int patchNr = (x / 16) * 16 + y / 16;
+                        var patchNr = (x / 16) * 16 + y / 16;
                         if (sim.Terrain[patchNr] != null
                             && sim.Terrain[patchNr].Data != null)
                         {
-                            float[] data = sim.Terrain[patchNr].Data;
+                            var data = sim.Terrain[patchNr].Data;
                             z = data[x % 16 * 16 + y % 16];
                         }
                         heightTable[x, y] = z;
@@ -118,9 +118,9 @@ namespace MEGAbolt.Rendering
 
                 terrainFace = renderer.TerrainMesh(heightTable, 0f, 255f, 0f, 255f);
                 terrainVertices = new ColorVertex[terrainFace.Vertices.Count];
-                for (int i = 0; i < terrainFace.Vertices.Count; i++)
+                for (var i = 0; i < terrainFace.Vertices.Count; i++)
                 {
-                    byte[] part = Utils.IntToBytes(i);
+                    var part = Utils.IntToBytes(i);
                     terrainVertices[i] = new ColorVertex()
                     {
                         Vertex = terrainFace.Vertices[i],
@@ -134,7 +134,7 @@ namespace MEGAbolt.Rendering
                     };
                 }
                 terrainIndices = new uint[terrainFace.Indices.Count];
-                for (int i = 0; i < terrainIndices.Length; i++)
+                for (var i = 0; i < terrainIndices.Length; i++)
                 {
                     terrainIndices[i] = terrainFace.Indices[i];
                 }
@@ -152,7 +152,7 @@ namespace MEGAbolt.Rendering
                 fetchingTerrainTexture = true;
                 ThreadPool.QueueUserWorkItem(sync =>
                 {
-                    Simulator currentSim = Client.Network.CurrentSim;
+                    var currentSim = Client.Network.CurrentSim;
                     terrainImage = TerrainSplat.Splat(Instance, heightTable,
                         new UUID[] { currentSim.TerrainDetail0, currentSim.TerrainDetail1, currentSim.TerrainDetail2, currentSim.TerrainDetail3 },
                         new float[] { currentSim.TerrainStartHeight00, currentSim.TerrainStartHeight01, currentSim.TerrainStartHeight10, currentSim.TerrainStartHeight11 },

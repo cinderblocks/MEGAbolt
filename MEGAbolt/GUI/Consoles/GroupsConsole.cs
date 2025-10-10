@@ -47,7 +47,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -104,7 +104,7 @@ namespace MEGAbolt
                 lstGroups.Items.Clear();
                 lock (instance.State.Groups)
                 {
-                    foreach (Group group in instance.State.Groups.Values)
+                    foreach (var group in instance.State.Groups.Values)
                     {
                         lstGroups.Items.Add(group);
 
@@ -129,7 +129,7 @@ namespace MEGAbolt
 
                 if (lstGroups.Items.Count > 0)
                 {
-                    int cnt = lstGroups.Items.Count - 1;
+                    var cnt = lstGroups.Items.Count - 1;
                     label6.Text = "Total: " + cnt + " groups";
                 }
                 else
@@ -155,7 +155,7 @@ namespace MEGAbolt
                 {
                     picBusy.Visible = true;
                     Client.Groups.GroupProfile += GroupProfileHandler;
-                    Group selgrp = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                    var selgrp = (Group)lstGroups.Items[lstGroups.SelectedIndex];
                     Client.Groups.RequestGroupProfile(selgrp.ID);
 
                     cmdActivate.Enabled = cmdInfo.Enabled = cmdIM.Enabled = button4.Enabled = cmdLeave.Enabled = true;
@@ -181,7 +181,7 @@ namespace MEGAbolt
         {
             Client.Groups.GroupProfile -= GroupProfileHandler;
 
-            Group selgrp = e.Group;
+            var selgrp = e.Group;
 
             BeginInvoke(new MethodInvoker(() =>
             {
@@ -213,7 +213,7 @@ namespace MEGAbolt
 
             lock (instance.State.Groups)
             {
-                foreach (KeyValuePair<UUID, Group> g in e.Groups)
+                foreach (var g in e.Groups)
                 {
                     if (!instance.State.Groups.ContainsKey(g.Key))
                     {
@@ -224,7 +224,7 @@ namespace MEGAbolt
 
             lock (instance.State.GroupStore)
             {
-                foreach (Group group in instance.State.Groups.Values)
+                foreach (var group in instance.State.Groups.Values)
                 {
                     if (!instance.State.GroupStore.ContainsKey(group.ID))
                     {
@@ -249,7 +249,7 @@ namespace MEGAbolt
             {
                 if (lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
                 {
-                    Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                    var group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
                     //frmGroupInfo frm = new frmGroupInfo(group, instance);
                     //frm.ShowDialog();
@@ -270,7 +270,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                    var group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
                     Client.Groups.ActivateGroup(group.ID);
                 }
             }
@@ -282,9 +282,9 @@ namespace MEGAbolt
         {
             if (lstGroups.SelectedIndex >= 0 && lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
             {
-                Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                var group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
-                DialogResult res = MessageBox.Show($"Are you sure you want to LEAVE {group.Name}?", "MEGAbolt", MessageBoxButtons.YesNo);
+                var res = MessageBox.Show($"Are you sure you want to LEAVE {group.Name}?", "MEGAbolt", MessageBoxButtons.YesNo);
 
                 if (res == DialogResult.No)
                 {
@@ -312,7 +312,7 @@ namespace MEGAbolt
             {
                 if (lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
                 {
-                    Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                    var group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
                     if (tabConsole.TabExists(group.Name))
                     {
@@ -339,7 +339,7 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Group newgroup = new Group
+            var newgroup = new Group
             {
                 Name = textBox1.Text,
                 Charter = textBox2.Text,
@@ -360,7 +360,7 @@ namespace MEGAbolt
         {
             if (lstGroups.SelectedIndex >= 0 && lstGroups.Items[lstGroups.SelectedIndex].ToString() != "None")
             {
-                Group group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
+                var group = (Group)lstGroups.Items[lstGroups.SelectedIndex];
 
                 (new frmGive(instance, group.ID, UUID.Zero)).Show(this);
 

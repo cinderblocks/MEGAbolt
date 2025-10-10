@@ -35,14 +35,14 @@ namespace MEGAcrypto
 {
     public class Crypto
     {
-        private string pkey = "A9B2e3A4m5F6g7Z8";
-        private string initVector = "A9B2e3A4m5F6g7Z8";
-        private string saltValue = "s@1tMBValueCs";
-        private string hashAlgorithm = "SHA1";
-        private int passwordIterations = 2;
-        private string passPhrase = "MBGenPas5pr@se";
-        private int keySize = 256;
-        private SymmetricAlgorithm mobjCryptoService;
+        private readonly string pkey = "A9B2e3A4m5F6g7Z8";
+        private readonly string initVector = "A9B2e3A4m5F6g7Z8";
+        private readonly string saltValue = "s@1tMBValueCs";
+        private readonly string hashAlgorithm = "SHA1";
+        private readonly int passwordIterations = 2;
+        private readonly string passPhrase = "MBGenPas5pr@se";
+        private readonly int keySize = 256;
+        private readonly SymmetricAlgorithm mobjCryptoService;
 
         public Crypto(SymmProvEnum NetSelected)
         {
@@ -67,7 +67,7 @@ namespace MEGAcrypto
             string s;
             if (mobjCryptoService.LegalKeySizes.Length > 0)
             {
-                int num = 0;
+                var num = 0;
                 int minSize;
                 for (minSize = mobjCryptoService.LegalKeySizes[0].MinSize;
                      key.Length * 8 > minSize;
@@ -85,18 +85,18 @@ namespace MEGAcrypto
 
         public string Encrypting(string Source)
         {
-            string pkey = this.pkey;
-            byte[] bytes = Encoding.ASCII.GetBytes(Source);
-            MemoryStream memoryStream = new MemoryStream();
-            byte[] legalKey = GetLegalKey(pkey);
+            var pkey = this.pkey;
+            var bytes = Encoding.ASCII.GetBytes(Source);
+            var memoryStream = new MemoryStream();
+            var legalKey = GetLegalKey(pkey);
             mobjCryptoService.Key = legalKey;
             mobjCryptoService.IV = legalKey;
-            ICryptoTransform transform = mobjCryptoService.CreateEncryptor();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, transform, CryptoStreamMode.Write);
+            var transform = mobjCryptoService.CreateEncryptor();
+            var cryptoStream = new CryptoStream(memoryStream, transform, CryptoStreamMode.Write);
             cryptoStream.Write(bytes, 0, bytes.Length);
             cryptoStream.FlushFinalBlock();
-            byte[] buffer = memoryStream.GetBuffer();
-            int length = 0;
+            var buffer = memoryStream.GetBuffer();
+            var length = 0;
             while (length < buffer.Length && (length / 16 != 1 || buffer[length] != 0))
                 ++length;
             return Convert.ToBase64String(buffer, 0, length);
@@ -104,30 +104,30 @@ namespace MEGAcrypto
 
         public string Decrypting(string Source)
         {
-            string pkey = this.pkey;
-            byte[] buffer = Convert.FromBase64String(Source);
-            MemoryStream memoryStream = new MemoryStream(buffer, 0, buffer.Length);
-            byte[] legalKey = GetLegalKey(pkey);
+            var pkey = this.pkey;
+            var buffer = Convert.FromBase64String(Source);
+            var memoryStream = new MemoryStream(buffer, 0, buffer.Length);
+            var legalKey = GetLegalKey(pkey);
             mobjCryptoService.Key = legalKey;
             mobjCryptoService.IV = legalKey;
-            ICryptoTransform transform = mobjCryptoService.CreateDecryptor();
+            var transform = mobjCryptoService.CreateDecryptor();
             return new StreamReader(new CryptoStream(memoryStream, transform, CryptoStreamMode.Read)).ReadToEnd();
         }
 
         public string Encrypt(string plainText)
         {
-            byte[] bytes1 = Encoding.ASCII.GetBytes(initVector);
-            byte[] bytes2 = Encoding.ASCII.GetBytes(saltValue);
-            byte[] bytes3 = Encoding.UTF8.GetBytes(plainText);
-            byte[] bytes4 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
-            Aes rijndaelManaged = Aes.Create();
+            var bytes1 = Encoding.ASCII.GetBytes(initVector);
+            var bytes2 = Encoding.ASCII.GetBytes(saltValue);
+            var bytes3 = Encoding.UTF8.GetBytes(plainText);
+            var bytes4 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
+            var rijndaelManaged = Aes.Create();
             rijndaelManaged.Mode = CipherMode.CBC; // yuck
-            ICryptoTransform encryptor = rijndaelManaged.CreateEncryptor(bytes4, bytes1);
-            MemoryStream memoryStream = new MemoryStream();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            var encryptor = rijndaelManaged.CreateEncryptor(bytes4, bytes1);
+            var memoryStream = new MemoryStream();
+            var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
             cryptoStream.Write(bytes3, 0, bytes3.Length);
             cryptoStream.FlushFinalBlock();
-            byte[] array = memoryStream.ToArray();
+            var array = memoryStream.ToArray();
             memoryStream.Close();
             cryptoStream.Close();
             return Convert.ToBase64String(array);
@@ -135,17 +135,17 @@ namespace MEGAcrypto
 
         public string Decrypt(string cipherText)
         {
-            byte[] bytes1 = Encoding.ASCII.GetBytes(initVector);
-            byte[] bytes2 = Encoding.ASCII.GetBytes(saltValue);
-            byte[] buffer = Convert.FromBase64String(cipherText);
-            byte[] bytes3 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
-            Aes rijndaelManaged = Aes.Create();
+            var bytes1 = Encoding.ASCII.GetBytes(initVector);
+            var bytes2 = Encoding.ASCII.GetBytes(saltValue);
+            var buffer = Convert.FromBase64String(cipherText);
+            var bytes3 = new PasswordDeriveBytes(passPhrase, bytes2, hashAlgorithm, passwordIterations).GetBytes(keySize / 8);
+            var rijndaelManaged = Aes.Create();
             rijndaelManaged.Mode = CipherMode.CBC;
-            ICryptoTransform decryptor = rijndaelManaged.CreateDecryptor(bytes3, bytes1);
-            MemoryStream memoryStream = new MemoryStream(buffer);
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-            byte[] numArray = new byte[buffer.Length];
-            int count = cryptoStream.Read(numArray, 0, numArray.Length);
+            var decryptor = rijndaelManaged.CreateDecryptor(bytes3, bytes1);
+            var memoryStream = new MemoryStream(buffer);
+            var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            var numArray = new byte[buffer.Length];
+            var count = cryptoStream.Read(numArray, 0, numArray.Length);
             memoryStream.Close();
             cryptoStream.Close();
             return Encoding.UTF8.GetString(numArray, 0, count);

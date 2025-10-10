@@ -27,10 +27,10 @@ namespace MEGAbolt
 {
     public partial class InventoryObjectConsole : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
 
         public InventoryObjectConsole(MEGAboltInstance instance, InventoryItem item)
         {
@@ -49,7 +49,7 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 rezpos = new Vector3(1, 0, 0);
+                var rezpos = new Vector3(1, 0, 0);
                 rezpos = (instance.SIMsittingPos() + rezpos);
 
                 client.Inventory.RequestRezFromInventory(
@@ -65,7 +65,7 @@ namespace MEGAbolt
 
         private void btnTouch_Click(object sender, EventArgs e)
         {
-            Primitive targetPrim = client.Network.CurrentSim.ObjectsPrimitives.FirstOrDefault(
+            var targetPrim = client.Network.CurrentSim.ObjectsPrimitives.FirstOrDefault(
                 prim => prim.Value.ID == item.UUID).Value;
 
             if (targetPrim != null)

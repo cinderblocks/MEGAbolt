@@ -27,7 +27,7 @@ namespace MEGAbolt
 {
     public class InventoryClipboard
     {
-        private GridClient client;
+        private readonly GridClient client;
         private bool cut = false;
 
         public InventoryClipboard(GridClient client)
@@ -58,7 +58,7 @@ namespace MEGAbolt
         {
             if (CurrentClipNode == null) return;
 
-            InventoryBase pasteio = (InventoryBase)pasteNode.Tag;
+            var pasteio = (InventoryBase)pasteNode.Tag;
 
             if (CurrentClipItem is InventoryFolder folder)
             {
@@ -79,9 +79,9 @@ namespace MEGAbolt
                 {
                     if (pasteio is InventoryFolder)
                     {
-                        UUID destfolder = client.Inventory.CreateFolder(pasteio.UUID, folder.Name, FolderType.None);
+                        var destfolder = client.Inventory.CreateFolder(pasteio.UUID, folder.Name, FolderType.None);
 
-                        List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
+                        var contents = client.Inventory.Store.GetContents(folder.UUID);
 
                         foreach (var item in contents.Cast<InventoryItem>())
                         {
@@ -90,9 +90,9 @@ namespace MEGAbolt
                     }
                     else if (pasteio is InventoryItem)
                     {
-                        UUID destfolder = client.Inventory.CreateFolder(pasteio.ParentUUID, folder.Name, FolderType.None);
+                        var destfolder = client.Inventory.CreateFolder(pasteio.ParentUUID, folder.Name, FolderType.None);
 
-                        List<InventoryBase> contents = client.Inventory.Store.GetContents(folder.UUID);
+                        var contents = client.Inventory.Store.GetContents(folder.UUID);
 
                         foreach (var pitem in contents.Cast<InventoryItem>())
                         {

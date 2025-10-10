@@ -30,7 +30,7 @@ namespace MEGAbolt
         //This is necessary because System.IO.Directory.CreateDirectory fails with paths longer than 256 characters
         private static void CreateDirectoryRecursively(string path)
         {
-            string[] pathParts = path.Split('\\');
+            var pathParts = path.Split('\\');
 
             for (var i = 0; i < pathParts.Length; ++i)
             {
@@ -45,7 +45,7 @@ namespace MEGAbolt
 
         public static string GetDataFolder()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt";
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MEGAbolt";
             if (firstRun)
             {
                 firstRun = false;

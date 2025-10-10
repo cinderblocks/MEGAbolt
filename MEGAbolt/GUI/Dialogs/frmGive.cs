@@ -30,21 +30,21 @@ namespace MEGAbolt
 {
     public partial class frmGive : Form
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
         private UUID queryID;
         bool alreadyFocused;
         Dictionary<UUID, Group> Groups = new Dictionary<UUID, Group>();
         Dictionary<UUID, GroupMember> Members = new Dictionary<UUID, GroupMember>();
-        SafeDictionary<UUID, GroupMemberData> MemberData = new SafeDictionary<UUID, GroupMemberData>();
-        SafeDictionary<UUID, string> Names = new SafeDictionary<UUID, string>();
-        private UUID grp = UUID.Zero;
-        private UUID rle = UUID.Zero;
-        private bool inventorymode = true;
-        private bool groupmode = false;
-        private NumericStringComparer lvwColumnSorter;
+        readonly SafeDictionary<UUID, GroupMemberData> MemberData = new SafeDictionary<UUID, GroupMemberData>();
+        readonly SafeDictionary<UUID, string> Names = new SafeDictionary<UUID, string>();
+        private readonly UUID grp = UUID.Zero;
+        private readonly UUID rle = UUID.Zero;
+        private readonly bool inventorymode = true;
+        private readonly bool groupmode = false;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         public frmGive(MEGAboltInstance instance, InventoryItem item)
         {
@@ -147,13 +147,13 @@ namespace MEGAbolt
 
             lvwFindFriends.BeginUpdate();
 
-            foreach (DirectoryManager.AgentSearchData person in matchedPeople)
+            foreach (var person in matchedPeople)
             {
                 if (person.AgentID != UUID.Zero && person.FirstName.Length > 0)
                 {
-                    string fullName = person.FirstName + " " + person.LastName;
+                    var fullName = person.FirstName + " " + person.LastName;
 
-                    ListViewItem Item = lvwFindFriends.Items.Add(fullName);
+                    var Item = lvwFindFriends.Items.Add(fullName);
                     Item.Tag = person.AgentID;
                 }
             }
@@ -176,7 +176,7 @@ namespace MEGAbolt
 
                 Groups = instance.State.Groups;
 
-                foreach (Group group in Groups.Values)
+                foreach (var group in Groups.Values)
                 {
                     comboBox1.Items.Add(group);
                 }
@@ -206,10 +206,10 @@ namespace MEGAbolt
                 lvwFindFriends.BeginUpdate();
                 //lvwFindFriends.Items.Clear();
 
-                foreach (FriendInfo friend in friendslist)
+                foreach (var friend in friendslist)
                 {
                     //ListViewItem lvi = new ListViewItem();
-                    ListViewItem Item = lvwFindFriends.Items.Add(friend.Name);
+                    var Item = lvwFindFriends.Items.Add(friend.Name);
                     //Item.Text = friend.Name; 
                     Item.Tag = friend.UUID;
 
@@ -237,28 +237,28 @@ namespace MEGAbolt
             }
             else
             {
-                List<UUID> requestids = new List<UUID>();
+                var requestids = new List<UUID>();
 
                 lock (Members)
                 {
                     lock (MemberData)
                     {
-                        foreach (GroupMember member in Members.Values)
+                        foreach (var member in Members.Values)
                         {
-                            GroupMemberData memberData = new GroupMemberData
+                            var memberData = new GroupMemberData
                             {
                                 ID = member.ID
                             };
                             MemberData[member.ID] = memberData;
 
                             // Add this ID to the name request batch
-                            if (!instance.avnames.ContainsKey(member.ID))
+                            if (!instance.avnames.TryGetValue(member.ID, out var avname))
                             {
                                 requestids.Add(member.ID);
                             }
                             else
                             {
-                                Names[member.ID] = instance.avnames[member.ID];
+                                Names[member.ID] = avname;
                                 UpdateNames();
                             }
                         }
@@ -277,16 +277,16 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int c = lvwSelected.Items.Count;
+            var c = lvwSelected.Items.Count;
             pb1.Visible = true;
             pb1.Value = 0;
             pb1.Maximum = c;
 
-            UUID avid = UUID.Zero;
+            var avid = UUID.Zero;
 
             if (inventorymode)
             {
-                for (int i = 0; i < c; i++)
+                for (var i = 0; i < c; i++)
                 {
                     avid = (UUID)lvwSelected.Items[i].Tag;
 
@@ -294,7 +294,7 @@ namespace MEGAbolt
                     {
                         if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                         {
-                            DialogResult res = MessageBox.Show("This item is NO COPY!\nIf you give it away you will lose ownership.\n\nAre you sure you want to continue?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            var res = MessageBox.Show("This item is NO COPY!\nIf you give it away you will lose ownership.\n\nAre you sure you want to continue?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                             if (res == DialogResult.Yes)
                             {
@@ -323,9 +323,9 @@ namespace MEGAbolt
             }
             else
             {
-                List<UUID> roles = new List<UUID> { rle };
+                var roles = new List<UUID> { rle };
 
-                for (int i = 0; i < c; i++)
+                for (var i = 0; i < c; i++)
                 {
                     avid = (UUID)lvwSelected.Items[i].Tag;
                     client.Groups.Invite(grp, roles, avid);
@@ -383,11 +383,11 @@ namespace MEGAbolt
             label1.Visible = false;
 
             lvwSelected.BeginUpdate();
-            ListView.SelectedListViewItemCollection vs = lvwFindFriends.SelectedItems;
+            var vs = lvwFindFriends.SelectedItems;
 
-            for (int i = 0; i < vs.Count; i++)
+            for (var i = 0; i < vs.Count; i++)
             {
-                ListViewItem Item = lvwSelected.Items.Add(lvwFindFriends.Items[vs[i].Index].Text);
+                var Item = lvwSelected.Items.Add(lvwFindFriends.Items[vs[i].Index].Text);
                 Item.Tag = (UUID)lvwFindFriends.Items[vs[i].Index].Tag;
             }
 
@@ -430,9 +430,9 @@ namespace MEGAbolt
         {
             lvwSelected.BeginUpdate();
 
-            for (int i = 0; i < lvwFindFriends.Items.Count; i++)
+            for (var i = 0; i < lvwFindFriends.Items.Count; i++)
             {
-                ListViewItem Item = lvwSelected.Items.Add(lvwFindFriends.Items[i].Text);
+                var Item = lvwSelected.Items.Add(lvwFindFriends.Items[i].Text);
                 Item.Tag = (UUID)lvwFindFriends.Items[i].Tag;
             }
 
@@ -516,7 +516,7 @@ namespace MEGAbolt
         {
             lvwFindFriends.Items.Clear();
 
-            Group group = (Group)comboBox1.Items[comboBox1.SelectedIndex];
+            var group = (Group)comboBox1.Items[comboBox1.SelectedIndex];
             client.Groups.RequestGroupMembers(group.ID);
 
             pic1.Visible = true;
@@ -526,7 +526,7 @@ namespace MEGAbolt
         {
             lock (Names)
             {
-                foreach (KeyValuePair<UUID, string> av in e.Names)
+                foreach (var av in e.Names)
                 {
                     Names[av.Key] = av.Value;
                 }
@@ -548,7 +548,7 @@ namespace MEGAbolt
                 {
                     lock (MemberData)
                     {
-                        foreach (KeyValuePair<UUID, string> nname in Names)
+                        foreach (var nname in Names)
                         {
                             if (!MemberData.ContainsKey(nname.Key))
                             {
@@ -572,9 +572,9 @@ namespace MEGAbolt
                 lvwFindFriends.BeginUpdate();
                 lvwFindFriends.Items.Clear();
 
-                foreach (GroupMemberData entry in MemberData.Values)
+                foreach (var entry in MemberData.Values)
                 {
-                    ListViewItem lvi = new ListViewItem
+                    var lvi = new ListViewItem
                     {
                         Text = entry.Name,
                         Tag = entry.ID

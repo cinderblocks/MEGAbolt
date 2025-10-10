@@ -26,10 +26,10 @@ namespace MEGAbolt
 {
     public class FileConfig
     {
-        private INIFile ini;
+        private readonly INIFile ini;
         FileConfig config;
 
-        private string filename = string.Empty;
+        private readonly string filename = string.Empty;
 
         public FileConfig(string filename)
         {
@@ -61,15 +61,15 @@ namespace MEGAbolt
 
         public void Save()
         {
-            foreach (KeyValuePair<string, Dictionary<string, string>> fr in ini.m_Sections)
+            foreach (var fr in ini.m_Sections)
             {
-                string header = fr.Key.ToString(CultureInfo.CurrentCulture);
-                Dictionary<string, string> rec = fr.Value;
+                var header = fr.Key.ToString(CultureInfo.CurrentCulture);
+                var rec = fr.Value;
 
-                string uuid = string.Empty;
-                string name = string.Empty;
+                var uuid = string.Empty;
+                var name = string.Empty;
 
-                foreach (KeyValuePair<string, string> s in rec)
+                foreach (var s in rec)
                 {
                     uuid = s.Key.ToString(CultureInfo.CurrentCulture);
                     name = s.Value.ToString(CultureInfo.CurrentCulture);

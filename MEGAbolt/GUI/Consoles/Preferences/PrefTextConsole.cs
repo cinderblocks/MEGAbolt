@@ -28,9 +28,9 @@ namespace MEGAbolt
 {
     public partial class PrefTextConsole : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
-        private Popup toolTip;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
         private bool nudchanged = false;
 
@@ -41,7 +41,7 @@ namespace MEGAbolt
             this.instance = instance;
             config = this.instance.Config;
 
-            string msg1 = "Use this setting to limit the amount (lines) of text stored on your chat screen. Especially in busy areas we recommend using this feature so that your machine does not run out of memory. The recommended setting is 250.";
+            var msg1 = "Use this setting to limit the amount (lines) of text stored on your chat screen. Especially in busy areas we recommend using this feature so that your machine does not run out of memory. The recommended setting is 250.";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -147,7 +147,7 @@ namespace MEGAbolt
         {
             folderBrowser.SelectedPath = txtDir.Text;
 
-            DialogResult result = folderBrowser.ShowDialog();
+            var result = folderBrowser.ShowDialog();
 
             if (result == DialogResult.OK)
             {

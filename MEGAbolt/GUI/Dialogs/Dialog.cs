@@ -29,10 +29,10 @@ namespace MEGAbolt
 {
     public partial class frmDialogLoadURL : Form
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
-        private ScriptDialogEventArgs ed;
+        private readonly GridClient client;
+        private readonly ScriptDialogEventArgs ed;
 
 
         public frmDialogLoadURL(MEGAboltInstance instance, ScriptDialogEventArgs e)
@@ -55,17 +55,17 @@ namespace MEGAbolt
             CenterToParent();
 
             lblTitle.Text = ed.FirstName + "'s " + ed.ObjectName;
-            string smsg = ed.Message;
+            var smsg = ed.Message;
             //txtMessage.Text = smsg;
 
-            char[] deli = "\n".ToCharArray();
-            string[] sGrp = smsg.Split(deli);
+            var deli = "\n".ToCharArray();
+            var sGrp = smsg.Split(deli);
             txtMessage.Lines = sGrp;
             //label2.Text = smsg;  
 
-            List<string> btns = ed.ButtonLabels;
+            var btns = ed.ButtonLabels;
 
-            int count = btns.Count;
+            var count = btns.Count;
 
             if (btns.Count == 1 && btns[0] == "!!llTextBox!!")
             {
@@ -74,16 +74,16 @@ namespace MEGAbolt
             }
             else
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     //cboReply.Items.Add(i.ToString(CultureInfo.CurrentCulture) + "-" + btns[i]);
                     cboReply.Items.Add(btns[i]);
 
-                    ToolStripSeparator sep = new ToolStripSeparator();
+                    var sep = new ToolStripSeparator();
 
                     tsButtons.Items.Add(sep);
 
-                    ToolStripButton btn = new ToolStripButton();
+                    var btn = new ToolStripButton();
                     btn.Click += AnyMenuItem_Click;
                     btn.Text = btns[i];
 
@@ -107,12 +107,12 @@ namespace MEGAbolt
 
         private void AnyMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripItem mitem = (ToolStripItem)sender;
+            var mitem = (ToolStripItem)sender;
 
             //cboReply.Text = mitem.Text;
 
-            int butindex = cboReply.SelectedIndex = cboReply.FindStringExact(mitem.Text);   //(int)sGrp[2];
-            string butlabel = mitem.Text;   // sGrp[1];
+            var butindex = cboReply.SelectedIndex = cboReply.FindStringExact(mitem.Text);   //(int)sGrp[2];
+            var butlabel = mitem.Text;   // sGrp[1];
 
             client.Self.ReplyToScriptDialog(ed.Channel, butindex, butlabel, ed.ObjectID);
 

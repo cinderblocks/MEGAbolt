@@ -27,7 +27,7 @@ namespace MEGAbolt
     public partial class ImageViewer : Form
     {
         //private GridClient client;
-        private Image img;
+        private readonly Image img;
 
         public ImageViewer(MEGAboltInstance instance, Image img)
         {

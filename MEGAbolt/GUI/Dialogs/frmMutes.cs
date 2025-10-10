@@ -30,7 +30,7 @@ namespace MEGAbolt
         //private Popup toolTip;
         //private CustomToolTip customToolTip;
 
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
 
         public frmMutes(MEGAboltInstance instance)
         {
@@ -68,13 +68,13 @@ namespace MEGAbolt
             lvMutes.BeginUpdate();
             lvMutes.Items.Clear();
 
-            int cnt = 0;
+            var cnt = 0;
 
             instance.Client.Self.MuteList.ForEach(entry =>
             {
                 //string mutetype = string.Empty;
 
-                ListViewItem item = new ListViewItem(entry.Name)
+                var item = new ListViewItem(entry.Name)
                 {
                     Tag = entry
                 };
@@ -98,7 +98,7 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MuteEntry entry = (MuteEntry)lvMutes.SelectedItems[0].Tag;
+            var entry = (MuteEntry)lvMutes.SelectedItems[0].Tag;
 
             instance.Client.Self.RemoveMuteListEntry(entry.ID, entry.Name);
         }

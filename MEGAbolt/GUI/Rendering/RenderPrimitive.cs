@@ -65,7 +65,7 @@ namespace MEGAbolt.Rendering
         {
             if (VertexVBO == -1)
             {
-                Vertex[] vArray = face.Vertices.ToArray();
+                var vArray = face.Vertices.ToArray();
                 Compat.GenBuffers(out VertexVBO);
                 Compat.BindBuffer(BufferTarget.ArrayBuffer, VertexVBO);
                 Compat.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vArray.Length * VertexSize), vArray, BufferUsageHint.StaticDraw);
@@ -81,7 +81,7 @@ namespace MEGAbolt.Rendering
 
             if (IndexVBO == -1)
             {
-                ushort[] iArray = face.Indices.ToArray();
+                var iArray = face.Indices.ToArray();
                 Compat.GenBuffers(out IndexVBO);
                 Compat.BindBuffer(BufferTarget.ElementArrayBuffer, IndexVBO);
                 Compat.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(iArray.Length * sizeof(ushort)), iArray, BufferUsageHint.StaticDraw);
@@ -117,8 +117,8 @@ namespace MEGAbolt.Rendering
         /// <param name="lastFrameTime">Time passed since the last run (in seconds)</param>
         public void Step(float lastFrameTime)
         {
-            float numFrames = 1f;
-            float fullLength = 1f;
+            var numFrames = 1f;
+            var fullLength = 1f;
 
             numFrames = PrimAnimInfo.Length > 0 ? PrimAnimInfo.Length : Math.Max(1f, PrimAnimInfo.SizeX * PrimAnimInfo.SizeY);
 
@@ -220,8 +220,8 @@ namespace MEGAbolt.Rendering
             }
             else // Translate
             {
-                float sizeX = Math.Max(1f, PrimAnimInfo.SizeX);
-                float sizeY = Math.Max(1f, PrimAnimInfo.SizeY);
+                var sizeX = Math.Max(1f, PrimAnimInfo.SizeX);
+                var sizeY = Math.Max(1f, PrimAnimInfo.SizeY);
 
                 GL.Scale(1f / sizeX, 1f / sizeY, 0);
                 GL.Translate(frameCounter % sizeX, Math.Floor(frameCounter / sizeY), 0);
@@ -233,8 +233,8 @@ namespace MEGAbolt.Rendering
         [Obsolete("Use Step() instead")]
         public void ExperimentalStep(float time)
         {
-            int reverseFactor = 1;
-            float rate = PrimAnimInfo.Rate;
+            var reverseFactor = 1;
+            var rate = PrimAnimInfo.Rate;
 
             if (rate < 0)
             {
@@ -248,11 +248,11 @@ namespace MEGAbolt.Rendering
             }
 
             CurrentTime += time;
-            float totalTime = 1 / rate;
+            var totalTime = 1 / rate;
 
-            uint x = Math.Max(1, PrimAnimInfo.SizeX);
-            uint y = Math.Max(1, PrimAnimInfo.SizeY);
-            uint nrFrames = x * y;
+            var x = Math.Max(1, PrimAnimInfo.SizeX);
+            var y = Math.Max(1, PrimAnimInfo.SizeY);
+            var nrFrames = x * y;
 
             if (PrimAnimInfo.Length > 0 && PrimAnimInfo.Length < nrFrames)
             {
@@ -273,14 +273,14 @@ namespace MEGAbolt.Rendering
                 }
             }
 
-            float smoothOffset = 0f;
+            var smoothOffset = 0f;
 
             if ((PrimAnimInfo.Flags & Primitive.TextureAnimMode.SMOOTH) != 0)
             {
                 smoothOffset = (CurrentTime / totalTime) * reverseFactor;
             }
 
-            float f = CurrentFrame;
+            var f = CurrentFrame;
             if (reverseFactor < 0)
             {
                 f = nrFrames - CurrentFrame;
@@ -294,9 +294,9 @@ namespace MEGAbolt.Rendering
             else
             {
                 smoothOffset = (CurrentTime * PrimAnimInfo.Rate);
-                float startAngle = PrimAnimInfo.Start;
-                float endAngle = PrimAnimInfo.Length;
-                float angle = startAngle + (endAngle - startAngle) * smoothOffset;
+                var startAngle = PrimAnimInfo.Start;
+                var endAngle = PrimAnimInfo.Length;
+                var angle = startAngle + (endAngle - startAngle) * smoothOffset;
                 GL.Translate(0.5f, 0.5f, 0f);
                 GL.Rotate(Utils.RAD_TO_DEG * angle, OpenTK.Mathematics.Vector3d.UnitZ);
                 GL.Translate(-0.5f, -0.5f, 0f);
@@ -347,7 +347,7 @@ namespace MEGAbolt.Rendering
         {
             if (Faces != null)
             {
-                foreach (Face f in Faces)
+                foreach (var f in Faces)
                 {
                     if (f.UserData is FaceData data)
                     {
@@ -370,7 +370,7 @@ namespace MEGAbolt.Rendering
             {
                 Prim = value;
 
-                int TEHash = Prim.Textures?.GetHashCode() ?? 0;
+                var TEHash = Prim.Textures?.GetHashCode() ?? 0;
 
                 if (Meshed)
                 {
@@ -416,8 +416,8 @@ namespace MEGAbolt.Rendering
         /// <returns>String containing local ID of the object and it's distance from the camera</returns>
         public override string ToString()
         {
-            uint id = Prim == null ? 0 : Prim.LocalID;
-            float distance = (float)Math.Sqrt(DistanceSquared);
+            var id = Prim == null ? 0 : Prim.LocalID;
+            var distance = (float)Math.Sqrt(DistanceSquared);
             return $"LocalID: {id}, distance {distance:0.00}";
         }
     }

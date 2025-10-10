@@ -26,13 +26,13 @@ namespace MEGAbolt
 {
     public partial class frmPay : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private UUID target = UUID.Zero;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly UUID target = UUID.Zero;
         //private string name;
-        private Primitive Prim = new Primitive();
+        private readonly Primitive Prim = new Primitive();
         private int buyprice = -1;
-        private int oprice = -1;
+        private readonly int oprice = -1;
 
         public frmPay(MEGAboltInstance instance, UUID target, string name)
         {
@@ -128,11 +128,11 @@ namespace MEGAbolt
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            int iprice = (int)nudAmount.Value;
+            var iprice = (int)nudAmount.Value;
 
             if (Prim != null && Prim.ID != UUID.Zero)
             {
-                SaleType styp = Prim.Properties.SaleType;
+                var styp = Prim.Properties.SaleType;
 
                 if (styp != SaleType.Not)
                 {
@@ -146,7 +146,7 @@ namespace MEGAbolt
                             }
                             else
                             {
-                                UUID folderid = client.Inventory.FindFolderForType(AssetType.Object);   // instance.Config.CurrentConfig.ObjectsFolder;
+                                var folderid = client.Inventory.FindFolderForType(AssetType.Object);   // instance.Config.CurrentConfig.ObjectsFolder;
 
                                 client.Objects.BuyObject(client.Network.CurrentSim, Prim.LocalID, styp, iprice, client.Self.ActiveGroup, folderid);
                             }
@@ -164,7 +164,7 @@ namespace MEGAbolt
                         }
                         else
                         {
-                            UUID folderid = client.Inventory.FindFolderForType(AssetType.Object);   // instance.Config.CurrentConfig.ObjectsFolder;
+                            var folderid = client.Inventory.FindFolderForType(AssetType.Object);   // instance.Config.CurrentConfig.ObjectsFolder;
 
                             client.Objects.BuyObject(client.Network.CurrentSim, Prim.LocalID, styp, iprice, client.Self.ActiveGroup, folderid);
                         }

@@ -30,15 +30,15 @@ namespace MEGAbolt
 {
     public class RichTextBoxPrinter : ITextPrinter
     {
-        private MEGAboltInstance instance;
-        private ExRichTextBox rtb;
+        private readonly MEGAboltInstance instance;
+        private readonly ExRichTextBox rtb;
         private bool hideSmileys;
-        private ConfigManager config;
+        private readonly ConfigManager config;
         private string headerfont = "Tahoma";
         private string headerfontstyle = "Normal";
         private float headerfontsize = 8.5f;
-        private FontStyle fontsy;
-        private FontStyle fontst;
+        private readonly FontStyle fontsy;
+        private readonly FontStyle fontst;
         private Color bkcolour = Color.Lavender;
         private string textfont = "Tahoma";
         private string textfontstyle = "Normal";
@@ -191,10 +191,10 @@ namespace MEGAbolt
 
                 //CheckBufferSize();
 
-                int cwidth = rtb.Width - (text.Length);
-                string buff = string.Empty;
+                var cwidth = rtb.Width - (text.Length);
+                var buff = string.Empty;
 
-                for (int a = 0; a < cwidth; a++)
+                for (var a = 0; a < cwidth; a++)
                 {
                     buff += " ";
                 }
@@ -234,10 +234,10 @@ namespace MEGAbolt
                 rtb.SelectionFont = new Font(rtb.SelectionFont, FontStyle.Bold);
                 //rtb.InsertLink(" " + text, link);
 
-                int cwidth = rtb.Width - (text.Length);
-                string buff = string.Empty;
+                var cwidth = rtb.Width - (text.Length);
+                var buff = string.Empty;
 
-                for (int a = 0; a < cwidth; a++)
+                for (var a = 0; a < cwidth; a++)
                 {
                     buff += " ";
                 }
@@ -271,10 +271,10 @@ namespace MEGAbolt
                 rtb.SelectionFont = new Font(rtb.SelectionFont, FontStyle.Bold);
                 //rtb.InsertLink(" " + text, link);
 
-                int cwidth = rtb.Width - (text.Length);
-                string buff = string.Empty;
+                var cwidth = rtb.Width - (text.Length);
+                var buff = string.Empty;
 
-                for (int a = 0; a < cwidth; a++)
+                for (var a = 0; a < cwidth; a++)
                 {
                     buff += " ";
                 }
@@ -365,7 +365,7 @@ namespace MEGAbolt
 
                 CheckBufferSize();
 
-                int _findex = rtb.Text.Length - text.Length; // To be SAFE this has to be done after 'append' like this due to the buffer or we will get index out of range error when trying to replace
+                var _findex = rtb.Text.Length - text.Length; // To be SAFE this has to be done after 'append' like this due to the buffer or we will get index out of range error when trying to replace
 
                 PutSmiley(_findex);
             }
@@ -425,7 +425,7 @@ namespace MEGAbolt
 
                 CheckBufferSize();
 
-                int _findex = rtb.Text.Length - text.Length; // To be SAFE this has to be done after 'append' like this due to the buffer or we will get index out of range error when trying to replace
+                var _findex = rtb.Text.Length - text.Length; // To be SAFE this has to be done after 'append' like this due to the buffer or we will get index out of range error when trying to replace
 
                 PutSmiley(_findex);
             }
@@ -500,7 +500,7 @@ namespace MEGAbolt
 
                 CheckBufferSize();
 
-                int _findex = rtb.Text.Length - text.Length - Environment.NewLine.Length;
+                var _findex = rtb.Text.Length - text.Length - Environment.NewLine.Length;
                 if (_findex < 0) _findex = 0;
                 PutSmiley(_findex);
             }
@@ -508,8 +508,8 @@ namespace MEGAbolt
 
         private void CheckBufferSize()
         {
-            int lines = rtb.Lines.Length;
-            int maxlines = instance.Config.CurrentConfig.lineMax;
+            var lines = rtb.Lines.Length;
+            var maxlines = instance.Config.CurrentConfig.lineMax;
 
             if (maxlines == 0)
                 return;
@@ -529,7 +529,7 @@ namespace MEGAbolt
 
                 //rtb.Text = rtb.Text.Remove(start_index, count);
 
-                int cpos = rtb.SelectionStart;
+                var cpos = rtb.SelectionStart;
                 rtb.ReadOnly = false;
                 rtb.SelectionStart = 0;
                 rtb.SelectionLength = rtb.GetFirstCharIndexFromLine(1);
@@ -720,7 +720,7 @@ namespace MEGAbolt
                 return;
             }
 
-            int newindex = (_index + text.Length) - 1;
+            var newindex = (_index + text.Length) - 1;
 
             try
             {

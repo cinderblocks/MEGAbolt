@@ -35,11 +35,11 @@ namespace MEGAbolt
 
         public int Compare(object x, object y)
         {
-            ListViewItem item1 = (ListViewItem)x;
-            ListViewItem item2 = (ListViewItem)y;
+            var item1 = (ListViewItem)x;
+            var item2 = (ListViewItem)y;
 
-            int distx = int.Parse(ExtractNumbers(item1.Text), CultureInfo.CurrentCulture);
-            int disty = int.Parse(ExtractNumbers(item2.Text), CultureInfo.CurrentCulture);
+            var distx = int.Parse(ExtractNumbers(item1.Text), CultureInfo.CurrentCulture);
+            var disty = int.Parse(ExtractNumbers(item2.Text), CultureInfo.CurrentCulture);
 
             if (distx > disty)
             {
@@ -57,7 +57,7 @@ namespace MEGAbolt
 
         private static string ExtractNumbers(string expr)
         {
-            string number = System.Text.RegularExpressions.Regex.Match(expr, @"\[(?<r>\d+)m").Groups[1].Value;
+            var number = System.Text.RegularExpressions.Regex.Match(expr, @"\[(?<r>\d+)m").Groups[1].Value;
 
             if (string.IsNullOrEmpty(number)) number = "0";
 

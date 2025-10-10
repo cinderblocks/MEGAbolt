@@ -34,10 +34,10 @@ namespace MEGAbolt
     public partial class frmLogSearch : Form
     {
 
-        private MEGAboltInstance instance;
-        private List<string> LogFiles;
-        private List<string> FoundFiles;
-        private string LogPath = string.Empty;
+        private readonly MEGAboltInstance instance;
+        private readonly List<string> LogFiles;
+        private readonly List<string> FoundFiles;
+        private readonly string LogPath = string.Empty;
         private string filetype = "ALL";
 
         internal class ThreadExceptionHandler
@@ -46,7 +46,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -80,8 +80,8 @@ namespace MEGAbolt
         private void GetLogFiles(string type)
         {
 
-            DirectoryInfo di = new DirectoryInfo(LogPath);
-            FileInfo[] files = di.GetFiles();
+            var di = new DirectoryInfo(LogPath);
+            var files = di.GetFiles();
 
             Array.Sort(files, CompareFileByDate);
             //Array.Reverse(files);   // Descending
@@ -89,10 +89,10 @@ namespace MEGAbolt
             listBox1.Items.Clear();
             LogFiles.Clear();
 
-            foreach (FileInfo fi in files)
+            foreach (var fi in files)
             {
-                string inFile = fi.FullName;
-                string finname = fi.Name;
+                var inFile = fi.FullName;
+                var finname = fi.Name;
 
                 if (filetype != "ALL")
                 {
@@ -120,14 +120,14 @@ namespace MEGAbolt
 
         private void FindText(string fName)
         {
-            string[] s_arr = Regex.Split(fName, @"(\\)");
-            string name = s_arr[^1];
+            var s_arr = Regex.Split(fName, @"(\\)");
+            var name = s_arr[^1];
 
-            StreamReader testTxt = new StreamReader(fName);
-            string allRead = testTxt.ReadToEnd().ToLower(CultureInfo.CurrentCulture);
+            var testTxt = new StreamReader(fName);
+            var allRead = testTxt.ReadToEnd().ToLower(CultureInfo.CurrentCulture);
             //testTxt.Close();
 
-            string regMatch = textBox1.Text.ToLower(CultureInfo.CurrentCulture);
+            var regMatch = textBox1.Text.ToLower(CultureInfo.CurrentCulture);
 
             if (Regex.IsMatch(allRead, regMatch))
             {
@@ -150,14 +150,14 @@ namespace MEGAbolt
             label4.Text = string.Empty;
 
             // Iterate log files here
-            foreach (string term in LogFiles)
+            foreach (var term in LogFiles)
             {
                 FindText(term);
             }
 
             if (FoundFiles.Count > 0)
             {
-                foreach (string term in FoundFiles)
+                foreach (var term in FoundFiles)
                 {
                     listBox2.Items.Add(term);
                 }
@@ -186,7 +186,7 @@ namespace MEGAbolt
         {
             if (listBox1.SelectedIndex != -1)
             {
-                string fullfile = LogPath + listBox1.Items[listBox1.SelectedIndex];
+                var fullfile = LogPath + listBox1.Items[listBox1.SelectedIndex];
 
                 if (checkBox1.Checked)
                 {
@@ -203,7 +203,7 @@ namespace MEGAbolt
         {
             if (listBox2.SelectedIndex != -1)
             {
-                string fullfile = LogPath + listBox2.Items[listBox2.SelectedIndex];
+                var fullfile = LogPath + listBox2.Items[listBox2.SelectedIndex];
 
                 if (checkBox1.Checked)
                 {
@@ -220,7 +220,7 @@ namespace MEGAbolt
         {
             if (listBox2.SelectedIndex != -1)
             {
-                string fullfile = LogPath + listBox2.Items[listBox2.SelectedIndex];
+                var fullfile = LogPath + listBox2.Items[listBox2.SelectedIndex];
 
                 if (checkBox1.Checked)
                 {
@@ -235,9 +235,9 @@ namespace MEGAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            foreach (string fnd in FoundFiles)
+            foreach (var fnd in FoundFiles)
             {
-                string fullfile = LogPath + fnd;
+                var fullfile = LogPath + fnd;
 
                 if (checkBox1.Checked)
                 {

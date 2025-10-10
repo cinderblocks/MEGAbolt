@@ -82,8 +82,8 @@ namespace MEGAbolt
             listviewY = (ListViewItem)y;
 
             // Get the text to be compared
-            string a = listviewX.SubItems[ColumnToSort].Text;
-            string b = listviewY.SubItems[ColumnToSort].Text;
+            var a = listviewX.SubItems[ColumnToSort].Text;
+            var b = listviewY.SubItems[ColumnToSort].Text;
 
             // Sanity check
             if (a == null && b == null) return 0;

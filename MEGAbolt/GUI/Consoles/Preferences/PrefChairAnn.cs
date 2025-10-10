@@ -29,9 +29,9 @@ namespace MEGAbolt
 {
     public partial class PrefChairAnn : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
-        private Popup toolTip1;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
+        private readonly Popup toolTip1;
         private CustomToolTip customToolTip;
 
         public PrefChairAnn(MEGAboltInstance instance)
@@ -41,7 +41,7 @@ namespace MEGAbolt
             this.instance = instance;
             config = this.instance.Config;
 
-            string msg2 = "Send messages to the Group UUIDs entered below, blank for no group. You can copy the UUID for a group you belong to from the Group window.";
+            var msg2 = "Send messages to the Group UUIDs entered below, blank for no group. You can copy the UUID for a group you belong to from the Group window.";
             toolTip1 = new Popup(customToolTip = new CustomToolTip(instance, msg2));
             toolTip1.AutoClose = false;
             toolTip1.FocusOnOpen = false;

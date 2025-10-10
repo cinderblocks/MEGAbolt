@@ -44,7 +44,7 @@ namespace MEGAbolt.Media
     {
         private UUID Id;
         private UUID ContainerId;
-        private bool prefetchOnly = false;
+        private readonly bool prefetchOnly = false;
         private MODE mode;
         public Sound Sound => sound;
         private bool loopSound = false;
@@ -107,9 +107,8 @@ namespace MEGAbolt.Media
 
         public static void Kill(UUID id)
         {
-            if (allBuffers.ContainsKey(id))
+            if (allBuffers.TryGetValue(id, out var bs))
             {
-                BufferSound bs = allBuffers[id];
                 bs.StopSound(true);
             }
         }
@@ -214,15 +213,13 @@ namespace MEGAbolt.Media
                         // If looping is requested, loop the entire thing.
                         if (loopSound)
                         {
-                            uint soundlen = 0;
-                            FMODExec(sound.getLength(out soundlen, TIMEUNIT.PCM));
+                            FMODExec(sound.getLength(out var soundlen, TIMEUNIT.PCM));
                             FMODExec(sound.setLoopPoints(0, TIMEUNIT.PCM, soundlen - 1, TIMEUNIT.PCM));
                             FMODExec(sound.setLoopCount(-1));
                         }
 
                         // Allocate a channel and set initial volume.  Initially paused.
-                        ChannelGroup masterChannelGroup;
-                        system.getMasterChannelGroup(out masterChannelGroup);
+                        system.getMasterChannelGroup(out var masterChannelGroup);
                         FMODExec(system.playSound(sound, masterChannelGroup, true, out channel));
 #if TRACE_SOUND
                     Logger.Log(
@@ -288,8 +285,8 @@ namespace MEGAbolt.Media
 
             invoke(new SoundDelegate(delegate
             {
-                string chanStr = "none";
-                string soundStr = "none";
+                var chanStr = "none";
+                var soundStr = "none";
 
                 // Release the buffer to avoid a big memory leak.
                 if (channel.hasHandle())

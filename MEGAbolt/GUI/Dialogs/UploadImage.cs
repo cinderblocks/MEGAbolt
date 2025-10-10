@@ -30,11 +30,11 @@ namespace MEGAbolt
 {
     public partial class UploadImage : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private Bitmap img;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly Bitmap img;
         //private string ext;
-        private string file;
+        private readonly string file;
         private byte[] ImgUp;
 
         public UploadImage(MEGAboltInstance instance, Bitmap img, string file, string ext)
@@ -54,7 +54,7 @@ namespace MEGAbolt
             textBox1.Text = System.IO.Path.GetFileNameWithoutExtension(file);
 
             label3.Text = "Loading image " + file;
-            byte[] jpeg2k = LoadImage(file);
+            var jpeg2k = LoadImage(file);
 
             if (jpeg2k == null)
             {
@@ -68,7 +68,7 @@ namespace MEGAbolt
 
         private byte[] LoadImage(string fileName)
         {
-            string lowfilename = fileName.ToLower(CultureInfo.CurrentCulture);
+            var lowfilename = fileName.ToLower(CultureInfo.CurrentCulture);
 
             try
             {
@@ -89,8 +89,8 @@ namespace MEGAbolt
                     {
                         bitmap = SKBitmap.Decode(fileName);
                     }
-                    int oldwidth = bitmap.Width;
-                    int oldheight = bitmap.Height;
+                    var oldwidth = bitmap.Width;
+                    var oldheight = bitmap.Height;
 
                     if (!IsPowerOfTwo((uint)oldwidth) || !IsPowerOfTwo((uint)oldheight))
                     {
@@ -107,8 +107,8 @@ namespace MEGAbolt
                     // Handle resizing to prevent excessively large images
                     if (oldwidth > 1024 || oldheight > 1024)
                     {
-                        int newwidth = (oldwidth > 1024) ? 1024 : oldwidth;
-                        int newheight = (oldheight > 1024) ? 1024 : oldheight;
+                        var newwidth = (oldwidth > 1024) ? 1024 : oldwidth;
+                        var newheight = (oldheight > 1024) ? 1024 : oldheight;
 
                         var info = new SKImageInfo(newwidth, newheight);
                         var resized = new SKBitmap(info);
@@ -152,7 +152,7 @@ namespace MEGAbolt
             if (ImgUp != null)
             {
                 //string name = System.IO.Path.GetFileNameWithoutExtension(file);
-                UUID folder = client.Inventory.FindFolderForType(AssetType.Texture);
+                var folder = client.Inventory.FindFolderForType(AssetType.Texture);
 
                 client.Inventory.RequestCreateItemFromAsset(ImgUp, fname, desc, AssetType.Texture, InventoryType.Texture,
                 folder, Img_Upload);

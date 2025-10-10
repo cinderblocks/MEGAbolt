@@ -29,15 +29,15 @@ namespace MEGAbolt
 {
     public class RegionSearchResultItem
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
+        private readonly GridClient client;
 
         private GridRegion region;
 
-        private ListBox listBox;
+        private readonly ListBox listBox;
 
-        private BackgroundWorker agentCountWorker;
+        private readonly BackgroundWorker agentCountWorker;
 
         public RegionSearchResultItem(MEGAboltInstance instance, GridRegion region, ListBox listBox)
         {
@@ -56,7 +56,7 @@ namespace MEGAbolt
 
         private void agentCountWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<MapItem> items =
+            var items =
                 client.Grid.MapItems(
                     region.RegionHandle,
                     OpenMetaverse.GridItemType.AgentLocations,

@@ -179,9 +179,9 @@ namespace MEGAbolt.Rendering
             // Angular velocity (target omega)
             if (BasePrim.AngularVelocity != Vector3.Zero)
             {
-                Vector3 angVel = BasePrim.AngularVelocity;
-                float angle = time * angVel.Length();
-                Quaternion dQ = Quaternion.CreateFromAxisAngle(angVel, angle);
+                var angVel = BasePrim.AngularVelocity;
+                var angle = time * angVel.Length();
+                var dQ = Quaternion.CreateFromAxisAngle(angVel, angle);
                 InterpolatedRotation = dQ * InterpolatedRotation;
             }
             else if (InterpolatedRotation != BasePrim.Rotation && !(this is RenderAvatar))
@@ -204,7 +204,7 @@ namespace MEGAbolt.Rendering
         /// <returns>Result of the comparison</returns>
         public virtual int CompareTo(object other)
         {
-            SceneObject o = (SceneObject)other;
+            var o = (SceneObject)other;
             if (DistanceSquared < o.DistanceSquared)
                 return -1;
             if (DistanceSquared > o.DistanceSquared)
@@ -302,7 +302,7 @@ namespace MEGAbolt.Rendering
 
             if ((!HasAlphaFaces && !HasSimpleFaces)) return true;
 
-            int samples = 1;
+            var samples = 1;
             if (HasSimpleFaces && SimpleQueryID > 0)
             {
                 Compat.GetQueryObject(SimpleQueryID, GetQueryObjectParam.QueryResult, out samples);
@@ -335,7 +335,7 @@ namespace MEGAbolt.Rendering
 
         public static Vector3 Smoothed1stOrder(Vector3 curPos, Vector3 targetPos, float lastFrameTime)
         {
-            int numIterations = (int)(lastFrameTime * 100);
+            var numIterations = (int)(lastFrameTime * 100);
             do
             {
                 curPos += (targetPos - curPos) * t1;
@@ -351,7 +351,7 @@ namespace MEGAbolt.Rendering
 
         public static Vector3 Smoothed2ndOrder(Vector3 curPos, Vector3 targetPos, ref Vector3 accel, float lastFrameTime)
         {
-            int numIterations = (int)(lastFrameTime * 100);
+            var numIterations = (int)(lastFrameTime * 100);
             do
             {
                 accel += (targetPos - accel - curPos) * t1;
@@ -408,7 +408,7 @@ namespace MEGAbolt.Rendering
 
         public static int NextPow2(int start)
         {
-            int pow = 1;
+            var pow = 1;
             while (pow < start) pow *= 2;
             return pow;
         }
@@ -453,13 +453,12 @@ namespace MEGAbolt.Rendering
         public static int GLLoadImage(Bitmap bitmap, bool hasAlpha, bool useMipmap)
         {
             useMipmap = useMipmap && RenderSettings.HasMipmap;
-            int ret;
-            GL.GenTextures(1, out ret);
+            GL.GenTextures(1, out int ret);
             GL.BindTexture(TextureTarget.Texture2D, ret);
 
-            Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            var rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
 
-            BitmapData bitmapData =
+            var bitmapData =
                 bitmap.LockBits(
                 rectangle,
                 ImageLockMode.ReadOnly,
@@ -640,11 +639,11 @@ namespace MEGAbolt.Rendering
         public void Pan(float deltaX, float deltaY)
         {
             Manual = true;
-            Vector3 direction = Position - FocalPoint;
+            var direction = Position - FocalPoint;
             direction.Normalize();
-            Vector3 vy = direction % Vector3.UnitZ;
-            Vector3 vx = vy % direction;
-            Vector3 vxy = vx * deltaY + vy * deltaX;
+            var vy = direction % Vector3.UnitZ;
+            var vx = vy % direction;
+            var vxy = vx * deltaY + vy * deltaX;
             Position += vxy;
             FocalPoint += vxy;
         }
@@ -652,7 +651,7 @@ namespace MEGAbolt.Rendering
         public void Rotate(float delta, bool horizontal)
         {
             Manual = true;
-            Vector3 direction = Position - FocalPoint;
+            var direction = Position - FocalPoint;
             if (horizontal)
             {
                 Position = FocalPoint + direction * new Quaternion(0f, 0f, (float)Math.Sin(delta), (float)Math.Cos(delta));
@@ -674,7 +673,7 @@ namespace MEGAbolt.Rendering
         /// </summary>
         public void LookAt()
         {
-            OpenTK.Mathematics.Matrix4 lookAt = OpenTK.Mathematics.Matrix4.LookAt(
+            var lookAt = OpenTK.Mathematics.Matrix4.LookAt(
                 RenderPosition.X, RenderPosition.Y, RenderPosition.Z,
                 RenderFocalPoint.X, RenderFocalPoint.Y, RenderFocalPoint.Z,
                 0f, 0f, 1f);
@@ -686,12 +685,12 @@ namespace MEGAbolt.Rendering
     {
         public static bool MeshesToOBJ(Dictionary<uint, FacetedMesh> meshes, string filename)
         {
-            StringBuilder obj = new StringBuilder();
-            StringBuilder mtl = new StringBuilder();
+            var obj = new StringBuilder();
+            var mtl = new StringBuilder();
 
-            FileInfo objFileInfo = new FileInfo(filename);
+            var objFileInfo = new FileInfo(filename);
 
-            string mtlFilename = objFileInfo.FullName.Substring(objFileInfo.DirectoryName.Length + 1,
+            var mtlFilename = objFileInfo.FullName.Substring(objFileInfo.DirectoryName.Length + 1,
                 objFileInfo.FullName.Length - (objFileInfo.DirectoryName.Length + 1) - 4) + ".mtl";
 
             obj.AppendLine("# Created by libprimrender");
@@ -701,20 +700,20 @@ namespace MEGAbolt.Rendering
             mtl.AppendLine("# Created by libprimrender");
             mtl.AppendLine();
 
-            int primNr = 0;
-            foreach (FacetedMesh mesh in meshes.Values)
+            var primNr = 0;
+            foreach (var mesh in meshes.Values)
             {
                 foreach (var face in mesh.Faces)
                 {
                     if (face.Vertices.Count > 2)
                     {
-                        string mtlName = $"material{primNr}-{face.ID}";
-                        Primitive.TextureEntryFace tex = face.TextureFace;
-                        string texName = tex.TextureID + ".tga";
+                        var mtlName = $"material{primNr}-{face.ID}";
+                        var tex = face.TextureFace;
+                        var texName = tex.TextureID + ".tga";
 
                         // FIXME: Convert the source to TGA (if needed) and copy to the destination
 
-                        float shiny = 0.00f;
+                        var shiny = 0.00f;
                         switch (tex.Shiny)
                         {
                             case Shininess.High:
@@ -746,7 +745,7 @@ namespace MEGAbolt.Rendering
                         {
                             #region Vertex
 
-                            Vector3 pos = vertex.Position;
+                            var pos = vertex.Position;
 
                             // Apply scaling
                             pos *= mesh.Prim.Scale;
@@ -795,7 +794,7 @@ namespace MEGAbolt.Rendering
                         #region Elements
 
                         // Write all of the faces (triangles) for this side
-                        for (int k = 0; k < face.Indices.Count / 3; k++)
+                        for (var k = 0; k < face.Indices.Count / 3; k++)
                         {
                             obj.AppendFormat("f -{0}/-{0}/-{0} -{1}/-{1}/-{1} -{2}/-{2}/-{2}{3}",
                                 face.Vertices.Count - face.Indices[k * 3 + 0],
@@ -838,7 +837,7 @@ namespace MEGAbolt.Rendering
 
         public static float[] CreateTranslationMatrix(Vector3 v)
         {
-            float[] mat = new float[16];
+            var mat = new float[16];
 
             mat[12] = v.X;
             mat[13] = v.Y;
@@ -850,25 +849,25 @@ namespace MEGAbolt.Rendering
 
         public static float[] CreateRotationMatrix(Quaternion q)
         {
-            float[] mat = new float[16];
+            var mat = new float[16];
 
             // Transpose the quaternion (don't ask me why)
             q.X *= -1f;
             q.Y *= -1f;
             q.Z *= -1f;
 
-            float x2 = q.X + q.X;
-            float y2 = q.Y + q.Y;
-            float z2 = q.Z + q.Z;
-            float xx = q.X * x2;
-            float xy = q.X * y2;
-            float xz = q.X * z2;
-            float yy = q.Y * y2;
-            float yz = q.Y * z2;
-            float zz = q.Z * z2;
-            float wx = q.W * x2;
-            float wy = q.W * y2;
-            float wz = q.W * z2;
+            var x2 = q.X + q.X;
+            var y2 = q.Y + q.Y;
+            var z2 = q.Z + q.Z;
+            var xx = q.X * x2;
+            var xy = q.X * y2;
+            var xz = q.X * z2;
+            var yy = q.Y * y2;
+            var yz = q.Y * z2;
+            var zz = q.Z * z2;
+            var wx = q.W * x2;
+            var wy = q.W * y2;
+            var wz = q.W * z2;
 
             mat[0] = 1.0f - (yy + zz);
             mat[1] = xy - wz;
@@ -895,25 +894,25 @@ namespace MEGAbolt.Rendering
 
         public static float[] CreateSRTMatrix(Vector3 scale, Quaternion q, Vector3 pos)
         {
-            float[] mat = new float[16];
+            var mat = new float[16];
 
             // Transpose the quaternion (don't ask me why)
             q.X *= -1f;
             q.Y *= -1f;
             q.Z *= -1f;
 
-            float x2 = q.X + q.X;
-            float y2 = q.Y + q.Y;
-            float z2 = q.Z + q.Z;
-            float xx = q.X * x2;
-            float xy = q.X * y2;
-            float xz = q.X * z2;
-            float yy = q.Y * y2;
-            float yz = q.Y * z2;
-            float zz = q.Z * z2;
-            float wx = q.W * x2;
-            float wy = q.W * y2;
-            float wz = q.W * z2;
+            var x2 = q.X + q.X;
+            var y2 = q.Y + q.Y;
+            var z2 = q.Z + q.Z;
+            var xx = q.X * x2;
+            var xy = q.X * y2;
+            var xz = q.X * z2;
+            var yy = q.Y * y2;
+            var yz = q.Y * z2;
+            var zz = q.Z * z2;
+            var wx = q.W * x2;
+            var wy = q.W * y2;
+            var wz = q.W * z2;
 
             mat[0] = (1.0f - (yy + zz)) * scale.X;
             mat[1] = (xy - wz) * scale.X;
@@ -942,7 +941,7 @@ namespace MEGAbolt.Rendering
 
         public static float[] CreateScaleMatrix(Vector3 v)
         {
-            float[] mat = new float[16];
+            var mat = new float[16];
 
             mat[0] = v.X;
             mat[5] = v.Y;
@@ -955,11 +954,11 @@ namespace MEGAbolt.Rendering
         public static float[] Lerp(float[] matrix1, float[] matrix2, float amount)
         {
 
-            float[] lerp = new float[16];
+            var lerp = new float[16];
             //Probably not doing this as a loop is cheaper(unrolling)
             //also for performance we probably should not create new objects
             // but meh.
-            for (int x = 0; x < 16; x++)
+            for (var x = 0; x < 16; x++)
             {
                 lerp[x] = matrix1[x] + ((matrix2[x] - matrix1[x]) * amount);
             }
@@ -1080,7 +1079,7 @@ namespace MEGAbolt.Rendering
         public int Readblock(byte[] blockdata, int offset)
         {
 
-            BitPack input = new BitPack(blockdata, offset);
+            var input = new BitPack(blockdata, offset);
             mLocation = input.UnpackInt();
             mLength = input.UnpackInt();
             mAccessTime = input.UnpackInt();
@@ -1107,18 +1106,18 @@ namespace MEGAbolt.Rendering
             datastream = File.Open(datafile, FileMode.Open);
             indexstream = File.Open(indexfile, FileMode.Open);
 
-            int offset = 0;
+            var offset = 0;
 
-            byte[] blockdata = new byte[indexstream.Length];
+            var blockdata = new byte[indexstream.Length];
             indexstream.Read(blockdata, 0, (int)indexstream.Length);
 
             while (offset < indexstream.Length)
             {
-                VFSblock block = new VFSblock();
+                var block = new VFSblock();
                 offset = block.Readblock(blockdata, offset);
 
-                FileStream writer = File.Open(OpenMetaverse.Settings.RESOURCE_DIR + System.IO.Path.DirectorySeparatorChar + block.mFileID, FileMode.Create);
-                byte[] data = new byte[block.mSize];
+                var writer = File.Open(OpenMetaverse.Settings.RESOURCE_DIR + System.IO.Path.DirectorySeparatorChar + block.mFileID, FileMode.Create);
+                var data = new byte[block.mSize];
                 datastream.Seek(block.mLocation, SeekOrigin.Begin);
                 datastream.Read(data, 0, block.mSize);
                 writer.Write(data, 0, block.mSize);

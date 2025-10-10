@@ -43,7 +43,7 @@ namespace MEGAbolt.Controls
         private bool resizableLeft;
         private bool isChildPopupOpened;
         private bool resizable;
-        private ToolStripControlHost host;
+        private readonly ToolStripControlHost host;
         private VisualStyleRenderer sizeGripRenderer;
 
         protected override void Dispose(bool disposing)
@@ -53,7 +53,7 @@ namespace MEGAbolt.Controls
                 components?.Dispose();
                 if (Content != null)
                 {
-                    Control content = Content;
+                    var content = Content;
                     Content = null;
                     content.Dispose();
                 }
@@ -126,7 +126,7 @@ namespace MEGAbolt.Controls
             [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
             get
             {
-                CreateParams createParams = base.CreateParams;
+                var createParams = base.CreateParams;
                 createParams.ExStyle |= 134217728;
                 return createParams;
             }
@@ -134,7 +134,7 @@ namespace MEGAbolt.Controls
 
         public Popup(Control content)
         {
-            Popup popup = this;
+            var popup = this;
             Content = content ?? throw new ArgumentNullException(nameof(content));
             showingAnimation = PopupAnimations.SystemDefault;
             hidingAnimation = PopupAnimations.None;
@@ -169,8 +169,8 @@ namespace MEGAbolt.Controls
             base.OnVisibleChanged(e);
             if (Visible && ShowingAnimation == PopupAnimations.None || !Visible && HidingAnimation == PopupAnimations.None)
                 return;
-            NativeMethods.AnimationFlags animationFlags = Visible ? NativeMethods.AnimationFlags.Roll : NativeMethods.AnimationFlags.Hide;
-            PopupAnimations popupAnimations = Visible ? ShowingAnimation : HidingAnimation;
+            var animationFlags = Visible ? NativeMethods.AnimationFlags.Roll : NativeMethods.AnimationFlags.Hide;
+            var popupAnimations = Visible ? ShowingAnimation : HidingAnimation;
             if (popupAnimations == PopupAnimations.SystemDefault)
                 popupAnimations = !SystemInformation.IsMenuAnimationEnabled ? PopupAnimations.None : (!SystemInformation.IsMenuFadeEnabled ? (PopupAnimations)(262144 | (Visible ? 4 : 8)) : PopupAnimations.Blend);
             if ((popupAnimations & (PopupAnimations.Center | PopupAnimations.Slide | PopupAnimations.Blend | PopupAnimations.Roll)) == PopupAnimations.None)
@@ -201,7 +201,7 @@ namespace MEGAbolt.Controls
                     return false;
                 Close();
             }
-            bool flag = base.ProcessDialogKey(keyData);
+            var flag = base.ProcessDialogKey(keyData);
             if (!flag && (keyData == Keys.Tab || keyData == (Keys.Tab | Keys.Shift)))
                 Content.SelectNextControl(null, (keyData & Keys.Shift) != Keys.Shift, true, true, true);
             return flag;
@@ -232,8 +232,8 @@ namespace MEGAbolt.Controls
                 throw new ArgumentNullException(nameof(control));
             SetOwnerItem(control);
             resizableTop = resizableLeft = false;
-            Point point = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
-            Rectangle workingArea = Screen.FromControl(control).WorkingArea;
+            var point = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
+            var workingArea = Screen.FromControl(control).WorkingArea;
             if (point.X + Size.Width > workingArea.Left + workingArea.Width)
             {
                 resizableLeft = true;
@@ -335,7 +335,7 @@ namespace MEGAbolt.Controls
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         private bool OnGetMinMaxInfo(ref Message m)
         {
-            NativeMethods.MINMAXINFO structure = (NativeMethods.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.MINMAXINFO));
+            var structure = (NativeMethods.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.MINMAXINFO));
             if (!MaximumSize.IsEmpty)
                 structure.maxTrackSize = MaximumSize;
             structure.minTrackSize = MinimumSize;
@@ -345,9 +345,9 @@ namespace MEGAbolt.Controls
 
         private bool OnNcHitTest(ref Message m, bool contentControl)
         {
-            Point client = PointToClient(new Point(NativeMethods.LOWORD(m.LParam), NativeMethods.HIWORD(m.LParam)));
-            GripBounds gripBounds = new GripBounds(contentControl ? Content.ClientRectangle : ClientRectangle);
-            IntPtr num = new IntPtr(-1);
+            var client = PointToClient(new Point(NativeMethods.LOWORD(m.LParam), NativeMethods.HIWORD(m.LParam)));
+            var gripBounds = new GripBounds(contentControl ? Content.ClientRectangle : ClientRectangle);
+            var num = new IntPtr(-1);
             if (resizableTop)
             {
                 if (resizableLeft && gripBounds.TopLeft.Contains(client))
@@ -399,9 +399,9 @@ namespace MEGAbolt.Controls
         {
             if (e == null || e.Graphics == null || !resizable)
                 return;
-            Size clientSize = Content.ClientSize;
-            using Bitmap bitmap = new Bitmap(16, 16);
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            var clientSize = Content.ClientSize;
+            using var bitmap = new Bitmap(16, 16);
+            using (var graphics = Graphics.FromImage(bitmap))
             {
                 if (Application.RenderWithVisualStyles)
                 {
@@ -411,7 +411,7 @@ namespace MEGAbolt.Controls
                 else
                     ControlPaint.DrawSizeGrip(graphics, Content.BackColor, 0, 0, 16, 16);
             }
-            GraphicsState gstate = e.Graphics.Save();
+            var gstate = e.Graphics.Save();
             e.Graphics.ResetTransform();
             if (resizableTop)
             {

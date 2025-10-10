@@ -42,11 +42,11 @@ namespace MEGAbolt
 {
     public partial class frmProfile : Form
     {
-        private MEGAboltInstance instance;
-        private TabsConsole tabConsole;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
-        private string fullName;
+        private readonly MEGAboltInstance instance;
+        private readonly TabsConsole tabConsole;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
+        private readonly string fullName;
         private UUID agentID;
         Avatar.AvatarProperties props;
         private bool aboutchanged = false;
@@ -65,12 +65,12 @@ namespace MEGAbolt
         private int posZ = 0;
         //private bool displaynamechanged = false;
         //private string olddisplayname = string.Empty;
-        private List<UUID> displaynames = new List<UUID>();
+        private readonly List<UUID> displaynames = new List<UUID>();
         string newname = string.Empty;
         const int WM_NCHITTEST = 0x0084;
         const int HTTRANSPARENT = -1;
         const int HTCLIENT = 1;
-        private NumericStringComparer lvwColumnSorter;
+        private readonly NumericStringComparer lvwColumnSorter;
 
         internal class ThreadExceptionHandler
         {
@@ -78,7 +78,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -116,7 +116,7 @@ namespace MEGAbolt
             while (!IsHandleCreated)
             {
                 // Force handle creation
-                IntPtr temp = Handle;
+                var temp = Handle;
             }
 
             txtOnline.Text = "";
@@ -168,7 +168,7 @@ namespace MEGAbolt
             BeginInvoke(new MethodInvoker(() =>
             {
                 //string old = e.OldDisplayName;
-                string newname = e.DisplayName.DisplayName;
+                var newname = e.DisplayName.DisplayName;
 
                 if (!newname.ToLower(CultureInfo.CurrentCulture).Contains("resident")
                     && !newname.ToLower(CultureInfo.CurrentCulture).Contains(" "))
@@ -226,9 +226,9 @@ namespace MEGAbolt
 
             lvwPicks.Items.Clear();
 
-            foreach (KeyValuePair<UUID, string> pick in picks)
+            foreach (var pick in picks)
             {
-                ListViewItem item = lvwPicks.Items.Add(pick.Value);
+                var item = lvwPicks.Items.Add(pick.Value);
                 item.Tag = pick.Key;
             }
 
@@ -291,7 +291,7 @@ namespace MEGAbolt
 
         private void Avatars_OnAvatarNames(object sender, UUIDNameReplyEventArgs e)
         {
-            foreach (KeyValuePair<UUID, string> av in e.Names)
+            foreach (var av in e.Names)
             {
                 try
                 {
@@ -440,11 +440,10 @@ namespace MEGAbolt
             FLImageID = props.FirstLifeImage;
             SLImageID = props.ProfileImage;
 
-            if (instance.avtags.ContainsKey(e.AvatarID))
+            if (instance.avtags.TryGetValue(e.AvatarID, out var atag))
             {
                 try
                 {
-                    string atag = instance.avtags[e.AvatarID];
                     txtTag.Text = atag;
                 }
                 catch {; }
@@ -494,13 +493,13 @@ namespace MEGAbolt
                 partner = properties.Partner;
                 if (properties.Partner != UUID.Zero)
                 {
-                    if (!instance.avnames.ContainsKey(properties.Partner))
+                    if (!instance.avnames.TryGetValue(properties.Partner, out var avname))
                     {
                         client.Avatars.RequestAvatarName(properties.Partner);
                     }
                     else
                     {
-                        txtPartner.Text = instance.avnames[properties.Partner];
+                        txtPartner.Text = avname;
                     }
                 }
 
@@ -541,11 +540,11 @@ namespace MEGAbolt
             client.Avatars.RequestAvatarProperties(agentID);
             client.Avatars.RequestAvatarPicks(agentID);
 
-            bool dnavailable = client.Avatars.DisplayNamesAvailable();
+            var dnavailable = client.Avatars.DisplayNamesAvailable();
 
             if (dnavailable)
             {
-                List<UUID> avIDs = new List<UUID> { agentID };
+                var avIDs = new List<UUID> { agentID };
                 client.Avatars.GetDisplayNames(avIDs, DisplayNameReceived);
             }
 
@@ -584,10 +583,10 @@ namespace MEGAbolt
 
         private void btnWebView_Click(object sender, EventArgs e)
         {
-            WebView2 web = new WebView2();
+            var web = new WebView2();
             web.Dock = DockStyle.Fill;
 
-            string url = txtWebURL.Text;
+            var url = txtWebURL.Text;
             if (!url.StartsWith("http", StringComparison.CurrentCulture)
                 && !url.StartsWith("https", StringComparison.CurrentCulture))
             {
@@ -646,7 +645,7 @@ namespace MEGAbolt
             }
 
             // Load notes
-            string logdir = instance.appdir;
+            var logdir = instance.appdir;
             logdir += "\\Notes\\";
             LoadNotes(logdir);
 
@@ -655,13 +654,13 @@ namespace MEGAbolt
 
         private void LoadNotes(string LogPath)
         {
-            DirectoryInfo di = new DirectoryInfo(LogPath);
-            FileSystemInfo[] files = di.GetFileSystemInfos();
+            var di = new DirectoryInfo(LogPath);
+            var files = di.GetFileSystemInfos();
 
-            foreach (FileSystemInfo fi in files)
+            foreach (var fi in files)
             {
-                string inFile = fi.FullName;
-                string finname = fi.Name;
+                var inFile = fi.FullName;
+                var finname = fi.Name;
 
                 if (fullName != null)
                 {
@@ -681,13 +680,13 @@ namespace MEGAbolt
 
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
+            var node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
 
             if (node == null) return;
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                InventoryBase io = (InventoryBase)node.Tag;
+                var io = (InventoryBase)node.Tag;
 
                 if (node.Tag is InventoryFolder folder)
                 {
@@ -698,11 +697,11 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    InventoryItem item = (InventoryItem)io;
+                    var item = (InventoryItem)io;
 
                     if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                     {
-                        DialogResult res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
+                        var res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
 
                         if (res == DialogResult.Cancel) return;
                     }
@@ -880,13 +879,13 @@ namespace MEGAbolt
             //    }
             //}
 
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
+            var node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
 
             if (node == null) return;
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                InventoryBase io = (InventoryBase)node.Tag;
+                var io = (InventoryBase)node.Tag;
 
                 if (node.Tag is InventoryFolder folder)
                 {
@@ -895,13 +894,13 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    InventoryItem item = (InventoryItem)io;
+                    var item = (InventoryItem)io;
 
                     if (agentID != client.Self.AgentID)
                     {
                         if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                         {
-                            DialogResult res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
+                            var res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
 
                             if (res == DialogResult.Cancel) return;
                         }
@@ -981,11 +980,11 @@ namespace MEGAbolt
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                InventoryBase io = (InventoryBase)node.Tag;
+                var io = (InventoryBase)node.Tag;
 
                 if (node.Tag is InventoryFolder) { return; }
 
-                InventoryItem item = (InventoryItem)io;
+                var item = (InventoryItem)io;
 
                 // Change the picture
                 if (item.AssetType is AssetType.ImageJPEG or AssetType.ImageTGA or AssetType.Texture or AssetType.TextureTGA)
@@ -1046,9 +1045,9 @@ namespace MEGAbolt
         {
             try
             {
-                AvatarGroup group = (AvatarGroup)lvGroups.SelectedItems[0].Tag;
+                var group = (AvatarGroup)lvGroups.SelectedItems[0].Tag;
 
-                frmGroupInfo frm = new frmGroupInfo(group, instance);
+                var frm = new frmGroupInfo(group, instance);
                 frm.Show();
             }
             catch
@@ -1085,7 +1084,7 @@ namespace MEGAbolt
         {
             if (lvwPicks.SelectedItems.Count == 0) return;
 
-            UUID pick = (UUID)lvwPicks.SelectedItems[0].Tag;
+            var pick = (UUID)lvwPicks.SelectedItems[0].Tag;
 
             loadwait2.Visible = true;
 
@@ -1114,7 +1113,7 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(simname))
             {
-                Vector3 pos = new Vector3
+                var pos = new Vector3
                 {
                     X = posX,
                     Y = posY,
@@ -1135,7 +1134,7 @@ namespace MEGAbolt
                 return;
             }
 
-            UUID pick = (UUID)lvwPicks.SelectedItems[0].Tag;
+            var pick = (UUID)lvwPicks.SelectedItems[0].Tag;
 
             client.Self.PickDelete(pick);
 
@@ -1182,7 +1181,7 @@ namespace MEGAbolt
             }
             else
             {
-                string reason = e.Reason;
+                var reason = e.Reason;
 
                 if (reason.Trim().ToLower(CultureInfo.CurrentCulture) == "bad request")
                 {
@@ -1212,10 +1211,10 @@ namespace MEGAbolt
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string logdir = instance.appdir;   // Application.StartupPath.ToString();
+            var logdir = instance.appdir;   // Application.StartupPath.ToString();
             logdir += "\\Notes\\";
 
-            string filename = fullName;
+            var filename = fullName;
 
             rtbNotes.SaveFile(logdir + filename + ".rtf");
         }
@@ -1275,8 +1274,8 @@ namespace MEGAbolt
 
         private void button8_Click(object sender, EventArgs e)
         {
-            UUID pick = UUID.Random();
-            UUID pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
+            var pick = UUID.Random();
+            var pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
 
             client.Self.PickInfoUpdate(pick, false, pid, instance.MainForm.parcel.Name, client.Self.GlobalPosition, instance.MainForm.parcel.SnapshotID, instance.MainForm.parcel.Desc);
             client.Avatars.RequestAvatarPicks(agentID);
@@ -1286,8 +1285,8 @@ namespace MEGAbolt
 
         private void button11_Click(object sender, EventArgs e)
         {
-            UUID pick = (UUID)lvwPicks.SelectedItems[0].Tag;
-            UUID pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
+            var pick = (UUID)lvwPicks.SelectedItems[0].Tag;
+            var pid = client.Parcels.RequestRemoteParcelID(instance.SIMsittingPos(), client.Network.CurrentSim.Handle, client.Network.CurrentSim.ID);
 
             client.Self.PickInfoUpdate(pick, false, pid, txtTitle.Text.Trim(), client.Self.GlobalPosition, instance.MainForm.parcel.SnapshotID, txtDescription.Text.Trim());
             client.Avatars.RequestAvatarPicks(agentID);

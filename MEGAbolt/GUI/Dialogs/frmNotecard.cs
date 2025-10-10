@@ -33,8 +33,8 @@ namespace MEGAbolt
         int start = 0;
         int indexOfSearchText = 0;
         string prevsearchtxt = string.Empty;
-        private bool nreadonly = false;
-        private string searchfor = string.Empty;
+        private readonly bool nreadonly = false;
+        private readonly string searchfor = string.Empty;
 
         public frmNotecard(MEGAboltInstance instance, string file, string searchfor)
         {
@@ -92,7 +92,7 @@ namespace MEGAbolt
         {
             // All this could go into the extended rtb component in the future
 
-            int startindex = 0;
+            var startindex = 0;
 
             if (!string.IsNullOrEmpty(prevsearchtxt))
             {
@@ -118,7 +118,7 @@ namespace MEGAbolt
                 // Set the highlight color as red
                 rtbNotecard.SelectionColor = Color.LightBlue;
                 // Find the end index. End Index = number of characters in textbox
-                int endindex = tsFindText.Text.Length;
+                var endindex = tsFindText.Text.Length;
                 // Highlight the search string
                 rtbNotecard.Select(startindex, endindex);
                 // mark the start position after the position of 
@@ -149,7 +149,7 @@ namespace MEGAbolt
             }
 
             // Set the return value to -1 by default.
-            int retVal = -1;
+            var retVal = -1;
 
             // A valid starting index should be specified.
             // if indexOfSearchText = -1, the end of search
@@ -159,7 +159,7 @@ namespace MEGAbolt
                 if (searchEnd > searchStart || searchEnd == -1)
                 {
                     // Determine if it's a match case or what
-                    RichTextBoxFinds mcase = RichTextBoxFinds.None;
+                    var mcase = RichTextBoxFinds.None;
 
                     if (tsChkCase.Checked)
                     {
@@ -188,13 +188,13 @@ namespace MEGAbolt
 
         private void GetCurrentLine()
         {
-            int linenumber = rtbNotecard.GetLineFromCharIndex(rtbNotecard.SelectionStart) + 1;
+            var linenumber = rtbNotecard.GetLineFromCharIndex(rtbNotecard.SelectionStart) + 1;
             tsLn.Text = "Ln " + linenumber.ToString(CultureInfo.CurrentCulture);
         }
 
         private void GetCurrentCol()
         {
-            int colnumber = rtbNotecard.SelectionStart - rtbNotecard.GetFirstCharIndexOfCurrentLine() + 1;
+            var colnumber = rtbNotecard.SelectionStart - rtbNotecard.GetFirstCharIndexOfCurrentLine() + 1;
             tsCol.Text = "Ln " + colnumber.ToString(CultureInfo.CurrentCulture);
         }
 

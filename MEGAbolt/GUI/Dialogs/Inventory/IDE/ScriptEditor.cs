@@ -34,22 +34,22 @@ namespace MEGAbolt
 {
     public partial class frmScriptEditor : Form
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
 
         private bool closePending = false;
         private bool saving = false;
         private bool ointernal = false;
-        private bool istaskobj = false;
-        private UUID objectid = UUID.Zero;
+        private readonly bool istaskobj = false;
+        private readonly UUID objectid = UUID.Zero;
 
         private const int LINE_NUMBERS_MARGIN_WIDTH = 35;
-        private UUID assetUUID = UUID.Zero;
-        private UUID itemUUID = UUID.Zero;
-        private List<string> calltip = new();
-        private List<string> calltipheader = new();
+        private readonly UUID assetUUID = UUID.Zero;
+        private readonly UUID itemUUID = UUID.Zero;
+        private readonly List<string> calltip = new();
+        private readonly List<string> calltipheader = new();
         private bool showingcalltip = false;
 
 
@@ -151,13 +151,13 @@ namespace MEGAbolt
 
         private void GetCallTips()
         {
-            string fileContent = Properties.Resources.LSL_Functions;
+            var fileContent = Properties.Resources.LSL_Functions;
             using var reader = new StringReader(fileContent);
             while (reader.ReadLine() is { } line)
             {
                 calltip.Add(line);
 
-                string[] split = line.Split('|');
+                var split = line.Split('|');
                 calltipheader.Add(split[0]);
             }
         }
@@ -185,14 +185,14 @@ namespace MEGAbolt
                 return;
             }
 
-            Line ln = rtbScript.Lines[rtbScript.CurrentLine];
+            var ln = rtbScript.Lines[rtbScript.CurrentLine];
 
             if (ln.Text.Contains("//"))
             {
                 //int lng = ln.Length;
-                int idx = ln.Text.IndexOf("//", StringComparison.CurrentCultureIgnoreCase);
+                var idx = ln.Text.IndexOf("//", StringComparison.CurrentCultureIgnoreCase);
 
-                int cpos = rtbScript.GetColumn(rtbScript.CurrentPosition);
+                var cpos = rtbScript.GetColumn(rtbScript.CurrentPosition);
 
                 if (cpos > idx)
                 {
@@ -203,8 +203,8 @@ namespace MEGAbolt
             if (e.Char == ' ')
                 return;
 
-            int pos = rtbScript.CurrentPosition;
-            string word = rtbScript.GetWordFromPosition(pos);
+            var pos = rtbScript.CurrentPosition;
+            var word = rtbScript.GetWordFromPosition(pos);
 
             if (string.IsNullOrEmpty(word)) { return; }
         }
@@ -399,11 +399,11 @@ namespace MEGAbolt
                 body = body.Trim();
 
                 // Format the string body into Linden text
-                string lindenText = body;
+                var lindenText = body;
 
                 // Assume this is a string, add 1 for the null terminator
-                byte[] stringBytes = Encoding.UTF8.GetBytes(lindenText);
-                byte[] assetData = new byte[stringBytes.Length]; //+ 1];
+                var stringBytes = Encoding.UTF8.GetBytes(lindenText);
+                var assetData = new byte[stringBytes.Length]; //+ 1];
                 Array.Copy(stringBytes, 0, assetData, 0, stringBytes.Length);
                 return assetData;
             }
@@ -432,13 +432,13 @@ namespace MEGAbolt
             {
                 BeginInvoke((MethodInvoker)delegate
                 {
-                    string line = messages[0];
-                    string[] errs = line.Split(':');
-                    string pos = errs[0].Trim().Replace("(", "");
+                    var line = messages[0];
+                    var errs = line.Split(':');
+                    var pos = errs[0].Trim().Replace("(", "");
                     pos = pos.Trim().Replace(")", "");
-                    string[] posxy = pos.Split(',');
+                    var posxy = pos.Split(',');
 
-                    int posx = Convert.ToInt32(posxy[0].Trim(), CultureInfo.CurrentCulture);
+                    var posx = Convert.ToInt32(posxy[0].Trim(), CultureInfo.CurrentCulture);
 
                     rtbScript.GotoPosition(rtbScript.Lines[posx - 1].Position);
 
@@ -481,7 +481,7 @@ namespace MEGAbolt
             {
                 if (!ointernal)
                 {
-                    DialogResult result = AskForSave();
+                    var result = AskForSave();
 
                     switch (result)
                     {
@@ -527,9 +527,9 @@ namespace MEGAbolt
         private void SaveToDisk()
         {
             // Create a SaveFileDialog to request a path and file name to save to.
-            SaveFileDialog saveFile1 = new SaveFileDialog();
+            var saveFile1 = new SaveFileDialog();
 
-            string logdir = DataFolder.GetDataFolder();
+            var logdir = DataFolder.GetDataFolder();
 
             saveFile1.InitialDirectory = logdir;
 
@@ -542,8 +542,8 @@ namespace MEGAbolt
             if (saveFile1.ShowDialog() == DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
-                using (FileStream fs = File.Create(saveFile1.FileName))
-                using (BinaryWriter bw = new BinaryWriter(fs))
+                using (var fs = File.Create(saveFile1.FileName))
+                using (var bw = new BinaryWriter(fs))
                     bw.Write(rtbScript.Text.ToCharArray(), 0, rtbScript.Text.Length - 1); // Omit trailing NULL
 
                 rtbScript.SetSavePoint();
@@ -565,7 +565,7 @@ namespace MEGAbolt
 
         private void GetCurrentLine()
         {
-            int lnm = rtbScript.CurrentLine + 1;
+            var lnm = rtbScript.CurrentLine + 1;
             tsLn.Text = "Ln " + lnm.ToString(CultureInfo.CurrentCulture);
         }
 
@@ -640,7 +640,7 @@ namespace MEGAbolt
 
         private void previousBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerPrevious(1);
+            var markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerPrevious(1);
             if (markerPos != -1)
             {
                 rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
@@ -649,7 +649,7 @@ namespace MEGAbolt
 
         private void toggleBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Line currentLine = rtbScript.Lines[rtbScript.CurrentLine];
+            var currentLine = rtbScript.Lines[rtbScript.CurrentLine];
             if (currentLine.MarkerGet() == 0)
             {
                 currentLine.MarkerAdd(0);
@@ -662,7 +662,7 @@ namespace MEGAbolt
 
         private void nextBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerNext(1);
+            var markerPos = rtbScript.Lines[rtbScript.CurrentLine].MarkerNext(1);
             if (markerPos != -1)
             {
                 rtbScript.GotoPosition(rtbScript.Lines[markerPos].Position);
@@ -713,15 +713,15 @@ namespace MEGAbolt
         {
             if (tscboLanguage.SelectedItem.ToString()?.ToLower(CultureInfo.CurrentCulture) == "lsl")
             {
-                string hword = rtbScript.GetWordFromPosition(rtbScript.CurrentPosition);
-                string surl = "http://wiki.secondlife.com/wiki/" + hword;
+                var hword = rtbScript.GetWordFromPosition(rtbScript.CurrentPosition);
+                var surl = "http://wiki.secondlife.com/wiki/" + hword;
                 Utilities.OpenBrowser(@surl);
             }
         }
 
         private void tscboLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string lang = string.Empty;
+            var lang = string.Empty;
 
             switch (tscboLanguage.SelectedItem.ToString()?.ToLower(CultureInfo.CurrentCulture))
             {
@@ -914,7 +914,7 @@ namespace MEGAbolt
         {
             ointernal = true;
 
-            string lslb = @"
+            var lslb = @"
 default
 {
     state_entry()
@@ -932,7 +932,7 @@ default
         {
             tsSaveDisk.Enabled = true;
 
-            string csb = @"
+            var csb = @"
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -955,7 +955,7 @@ namespace MEGAbolt
         {
             tsSaveDisk.Enabled = true;
 
-            string xmlb = @"
+            var xmlb = @"
 <?xml version=""1.0""?>
     <Level1>
       <level2>
@@ -971,7 +971,7 @@ namespace MEGAbolt
         {
             tsSaveDisk.Enabled = true;
 
-            string htmlb = @"
+            var htmlb = @"
 <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
 <html xmlns=""http://www.w3.org/1999/xhtml"">
 
@@ -1009,7 +1009,7 @@ namespace MEGAbolt
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            int ind = openFileDialog.FilterIndex;
+            var ind = openFileDialog.FilterIndex;
             openFileDialog.FilterIndex = 1;
             openFileDialog.InitialDirectory = DataFolder.GetDataFolder();
 
@@ -1023,7 +1023,7 @@ namespace MEGAbolt
             rtbScript.SetSavePoint();
             Text = filePath;   //Path.GetFileName(filePath);
 
-            string ext = Path.GetExtension(filePath).ToLower(CultureInfo.CurrentCulture);
+            var ext = Path.GetExtension(filePath).ToLower(CultureInfo.CurrentCulture);
 
             switch (ext)
             {
@@ -1134,8 +1134,8 @@ namespace MEGAbolt
 
         private void rtbScript_MouseMove(object sender, MouseEventArgs e)
         {
-            int pos = rtbScript.CharPositionFromPoint(e.X, e.Y);
-            string word = rtbScript.GetWordFromPosition(pos);
+            var pos = rtbScript.CharPositionFromPoint(e.X, e.Y);
+            var word = rtbScript.GetWordFromPosition(pos);
 
             if (string.IsNullOrEmpty(word))
             {
@@ -1143,7 +1143,7 @@ namespace MEGAbolt
                 return;
             }
 
-            int idx = calltipheader.IndexOf(word);
+            var idx = calltipheader.IndexOf(word);
 
             if (idx == -1)
             {
@@ -1151,76 +1151,76 @@ namespace MEGAbolt
                 return;
             }
 
-            string tip = calltip[idx];
+            var tip = calltip[idx];
 
-            string[] split = tip.Split('|');
-            string function = @split[1];
-            string cti = @split[2];
+            var split = tip.Split('|');
+            var function = @split[1];
+            var cti = @split[2];
 
             if (function.Length > 50)
             {
-                string lo = function.Substring(0, 50);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = function[..50];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 function = function.Insert(ind + 1, "\n");
             }
 
             if (function.Length > 100)
             {
-                string lo = function.Substring(0, 100);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = function[..100];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 function = function.Insert(ind + 1, "\n");
             }
 
             if (function.Length > 150)
             {
-                string lo = function.Substring(0, 150);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = function[..150];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 function = function.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 50)
             {
-                string lo = cti.Substring(0, 50);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..50];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 100)
             {
-                string lo = cti.Substring(0, 100);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..100];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 150)
             {
-                string lo = cti.Substring(0, 150);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..150];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 200)
             {
-                string lo = cti.Substring(0, 200);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..200];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 250)
             {
-                string lo = cti.Substring(0, 250);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..250];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
             if (cti.Length > 300)
             {
-                string lo = cti.Substring(0, 300);
-                int ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
+                var lo = cti[..300];
+                var ind = lo.LastIndexOf(" ", StringComparison.CurrentCultureIgnoreCase);
                 cti = cti.Insert(ind + 1, "\n");
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine(function);
             sb.AppendLine(string.Empty);
             sb.AppendLine(cti);
@@ -1234,8 +1234,8 @@ namespace MEGAbolt
         {
             if (e.KeyCode is Keys.Back or Keys.Delete)
             {
-                Line lnt = rtbScript.Lines[rtbScript.CurrentLine];
-                int aind = lnt.Text.IndexOf("(", 0, StringComparison.CurrentCultureIgnoreCase);
+                var lnt = rtbScript.Lines[rtbScript.CurrentLine];
+                var aind = lnt.Text.IndexOf("(", 0, StringComparison.CurrentCultureIgnoreCase);
 
                 if (aind == -1)
                 {

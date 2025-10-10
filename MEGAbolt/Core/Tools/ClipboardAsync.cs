@@ -20,8 +20,8 @@ namespace MEGAbolt
         }
         public string GetText()
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thGetText);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thGetText);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
@@ -29,8 +29,8 @@ namespace MEGAbolt
         }
         public string GetText(TextDataFormat format)
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thGetText);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thGetText);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start(format);
             staThread.Join();
@@ -55,8 +55,8 @@ namespace MEGAbolt
 
         public bool ContainsText()
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thContainsFileDropList);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thContainsFileDropList);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
@@ -65,8 +65,8 @@ namespace MEGAbolt
 
         public bool ContainsText(object format)
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thContainsFileDropList);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thContainsFileDropList);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start(format);
             staThread.Join();
@@ -89,8 +89,8 @@ namespace MEGAbolt
 
         public bool ContainsFileDropList()
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thContainsFileDropList);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thContainsFileDropList);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
@@ -113,8 +113,8 @@ namespace MEGAbolt
 
         public System.Collections.Specialized.StringCollection GetFileDropList()
         {
-            ClipboardAsync instance = new ClipboardAsync();
-            Thread staThread = new Thread(instance._thGetFileDropList);
+            var instance = new ClipboardAsync();
+            var staThread = new Thread(instance._thGetFileDropList);
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();

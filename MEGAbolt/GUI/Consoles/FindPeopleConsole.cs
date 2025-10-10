@@ -80,16 +80,16 @@ namespace MEGAbolt
 
             lvwFindPeople.BeginUpdate();
 
-            foreach (DirectoryManager.AgentSearchData person in matchedPeople)
+            foreach (var person in matchedPeople)
             {
-                string fullName = person.FirstName + " " + person.LastName;
+                var fullName = person.FirstName + " " + person.LastName;
 
                 if (!LLUUIDs.ContainsKey(fullName))
                 {
                     LLUUIDs.Add(fullName, person.AgentID);
                 }
 
-                ListViewItem item = lvwFindPeople.Items.Add(fullName);
+                var item = lvwFindPeople.Items.Add(fullName);
                 item.SubItems.Add(person.Online ? "Yes" : "No");
             }
 
@@ -139,7 +139,7 @@ namespace MEGAbolt
             {
                 if (lvwFindPeople.SelectedItems.Count == 0) return false;
 
-                string yesNo = lvwFindPeople.SelectedItems[0].SubItems[0].Text;
+                var yesNo = lvwFindPeople.SelectedItems[0].SubItems[0].Text;
 
                 return yesNo switch
                 {
@@ -156,7 +156,7 @@ namespace MEGAbolt
             {
                 if (lvwFindPeople.SelectedItems.Count == 0) return UUID.Zero;
 
-                string name = lvwFindPeople.SelectedItems[0].Text;
+                var name = lvwFindPeople.SelectedItems[0].Text;
                 return LLUUIDs[name];
             }
         }

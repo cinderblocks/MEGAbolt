@@ -41,8 +41,8 @@ namespace MEGAbolt.NetworkComm
     /// </summary>
     public partial class MEGAboltNetcom
     {
-        private GridClient client;
-        private MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly MEGAboltInstance instance;
 
         private const string MainGridLogin = @"https://login.agni.lindenlab.com/cgi-bin/login.cgi";
         private const string BetaGridLogin = @"https://login.aditi.lindenlab.com/cgi-bin/login.cgi";
@@ -258,11 +258,11 @@ namespace MEGAbolt.NetworkComm
             {
                 IsLoggingIn = true;
 
-                LastExecStatus crashrep = instance.HadCrashed();
+                var crashrep = instance.HadCrashed();
 
                 instance.StartCrashRep();
 
-                OverrideEventArgs ea = new OverrideEventArgs();
+                var ea = new OverrideEventArgs();
                 OnClientLoggingIn(ea);
 
                 if (ea.Cancel)
@@ -279,7 +279,7 @@ namespace MEGAbolt.NetworkComm
                         new LoginProgressEventArgs(LoginStatus.Failed, "One or more fields are blank.", string.Empty));
                 }
 
-                string startLocation = string.Empty;
+                var startLocation = string.Empty;
 
                 switch (LoginOptions.StartLocation)
                 {
@@ -295,9 +295,9 @@ namespace MEGAbolt.NetworkComm
                         break;
                 }
 
-                string password = LoginOptions.SecondLifePassHashIfNecessary(LoginOptions.Password);
+                var password = LoginOptions.SecondLifePassHashIfNecessary(LoginOptions.Password);
 
-                LoginParams loginParams = client.Network.DefaultLoginParams(
+                var loginParams = client.Network.DefaultLoginParams(
                     LoginOptions.FirstName, LoginOptions.LastName, password,
                     LoginOptions.Channel, instance.MEGAbolt_Version);
 
@@ -330,14 +330,14 @@ namespace MEGAbolt.NetworkComm
 
             try
             {
-                System.Net.NetworkInformation.NetworkInterface[] nics =
+                var nics =
                     System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
 
                 if (nics.Length > 0)
                 {
-                    foreach (NetworkInterface t in nics)
+                    foreach (var t in nics)
                     {
-                        string adapterMac = t.GetPhysicalAddress().ToString().ToUpper();
+                        var adapterMac = t.GetPhysicalAddress().ToString().ToUpper();
                         if (adapterMac.Length == 12 && adapterMac != "000000000000")
                         {
                             mac = adapterMac;
@@ -358,7 +358,7 @@ namespace MEGAbolt.NetworkComm
             }
 
             return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
-                mac.Substring(0, 2),
+                mac[..2],
                 mac.Substring(2, 2),
                 mac.Substring(4, 2),
                 mac.Substring(6, 2),
@@ -369,8 +369,9 @@ namespace MEGAbolt.NetworkComm
         public static string GetId0()
         {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_PhysicalMedia");
-            foreach (ManagementObject wmi_HD in searcher.Get())
+            foreach (var o in searcher.Get())
             {
+                var wmi_HD = (ManagementObject)o;
                 // get the hardware serial no.
                 if (wmi_HD["SerialNumber"] != null)
                 {
@@ -388,7 +389,7 @@ namespace MEGAbolt.NetworkComm
                 return;
             }
 
-            OverrideEventArgs ea = new OverrideEventArgs();
+            var ea = new OverrideEventArgs();
             OnClientLoggingOut(ea);
             if (ea.Cancel) return;
 
@@ -449,7 +450,7 @@ namespace MEGAbolt.NetworkComm
             if (!IsLoggedIn) return;
             if (IsTeleporting) return;
 
-            TeleportingEventArgs ea = new TeleportingEventArgs(sim, coordinates);
+            var ea = new TeleportingEventArgs(sim, coordinates);
             OnTeleporting(ea);
             if (ea.Cancel) return;
 

@@ -34,9 +34,9 @@ namespace MEGAbolt
 {
     public partial class frmGroupNotice : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private InstantMessage imsg;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly InstantMessage imsg;
         private UUID assetfolder = UUID.Zero;
         private AssetType assettype;
         private string filename = string.Empty;
@@ -78,11 +78,11 @@ namespace MEGAbolt
         private void PrepareGroupNotice()
         {
             //UUID fromAgentID = imsg.FromAgentID;
-            UUID fromAgentID = new UUID(imsg.BinaryBucket, 2);
+            var fromAgentID = new UUID(imsg.BinaryBucket, 2);
 
-            if (instance.State.Groups.ContainsKey(fromAgentID))
+            if (instance.State.Groups.TryGetValue(fromAgentID, out var group))
             {
-                profile = instance.State.Groups[fromAgentID];
+                profile = group;
 
                 label2.Text = $"Sent by: {imsg.FromAgentName}, {profile.Name}";
 
@@ -97,28 +97,28 @@ namespace MEGAbolt
                 label2.Text = $"Sent by: {imsg.FromAgentName}";
             }
 
-            int rep = imsg.Message.IndexOf('|');
-            string msgtitle = imsg.Message.Substring(0, rep);
+            var rep = imsg.Message.IndexOf('|');
+            var msgtitle = imsg.Message[..rep];
             rtbTitle.Text = msgtitle;
             MakeBold(msgtitle, 0, FontStyle.Bold);
 
-            DateTime dte = DateTime.Now;
+            var dte = DateTime.Now;
 
             dte = instance.State.GetTimeStamp(dte);
 
             if (instance.Config.CurrentConfig.UseSLT)
             {
-                string _timeZoneId = "Pacific Standard Time";
-                DateTime startTime = DateTime.UtcNow;
-                TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+                var _timeZoneId = "Pacific Standard Time";
+                var startTime = DateTime.UtcNow;
+                var tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
                 dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
             }
 
-            string atext = "\n" + dte.DayOfWeek + "," + dte;
+            var atext = "\n" + dte.DayOfWeek + "," + dte;
             rtbTitle.AppendText(atext);
             MakeBold(atext, (msgtitle.Length + 1), FontStyle.Regular);
 
-            string msgbody = imsg.Message.Substring(rep + 1);
+            var msgbody = imsg.Message[(rep + 1)..];
             rtbBody.Text = msgbody;
 
             try
@@ -140,7 +140,7 @@ namespace MEGAbolt
 
                     if (filename.Length > label3.Size.Width)
                     {
-                        label3.Text = filename.Substring(0, label3.Size.Width - 3) + "...";
+                        label3.Text = filename[..(label3.Size.Width - 3)] + "...";
                     }
 
                     switch (assettype)
@@ -177,7 +177,7 @@ namespace MEGAbolt
 
         private void MakeBold(string otext, int start, FontStyle bold)
         {
-            Font nFont = new Font("Microsoft Sans Serif", 10, bold);
+            var nFont = new Font("Microsoft Sans Serif", 10, bold);
             rtbTitle.Select(start, otext.Length);
             rtbTitle.SelectionFont = nFont;
 
@@ -258,8 +258,8 @@ namespace MEGAbolt
 
         static IEnumerable<T> ReverseIterator<T>(IList<T> list)
         {
-            int count = list.Count;
-            for (int i = count - 1; i >= 0; --i)
+            var count = list.Count;
+            for (var i = count - 1; i >= 0; --i)
             {
                 yield return list[i];
             }
@@ -287,13 +287,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var sim = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
                 }
@@ -305,13 +305,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var sim = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
                 }
@@ -322,18 +322,18 @@ namespace MEGAbolt
             {
                 try
                 {
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0];
-                    string[] avnamesplit = aavname.Split(new Char[] { '#' });
+                    var aavname = split[0];
+                    var avnamesplit = aavname.Split(new Char[] { '#' });
                     aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
-                    string elink = split[2];
+                    var elink = split[2];
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0];
+                    var avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -342,14 +342,14 @@ namespace MEGAbolt
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
                 // Open up the Group Info form here
-                string encoded = HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                UUID uuid = (UUID)split[7];
+                var uuid = (UUID)split[7];
 
                 if (uuid != UUID.Zero && split[6].ToLower(CultureInfo.CurrentCulture) == "group")
                 {
-                    frmGroupInfo frm = new frmGroupInfo(uuid, instance);
+                    var frm = new frmGroupInfo(uuid, instance);
                     frm.Show();
                 }
             }

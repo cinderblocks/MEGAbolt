@@ -54,7 +54,7 @@ namespace SamplePlugin
             // If you are not using forms then do whatever below
             // or call a process or class etc
 
-            Form1 fi = new Form1(instance);
+            var fi = new Form1(instance);
             fi.Show();
         }
 

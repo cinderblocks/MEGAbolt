@@ -46,16 +46,16 @@ namespace MEGAbolt
 {
     public partial class frmMain : Form, IHost
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
 
         private frmDebugLog debugLogForm;
         private System.Timers.Timer statusTimer;
         public Parcel parcel;
         public string dwell;
         private const int WM_KEYUP = 0x101;
-        private System.Timers.Timer logOffTimer;
+        private readonly System.Timers.Timer logOffTimer;
         private DateTime offtime;
         private bool logoff = false;
         private bool disconnectHasExecuted = false;
@@ -72,7 +72,7 @@ namespace MEGAbolt
         // end Alexs
 
         // Extension manager stuff
-        private ExtensionManager<IExtension, IHost> manager = new ExtensionManager<IExtension, IHost>();
+        private readonly ExtensionManager<IExtension, IHost> manager = new ExtensionManager<IExtension, IHost>();
         //private List<IExtension> elist;
         private int plugintimer = 0;
         private bool pluginsloaded = false;
@@ -85,7 +85,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -226,7 +226,7 @@ namespace MEGAbolt
 
                 // client.Parcels.RequestDwell(client.Network.CurrentSim, parcel.LocalID);
 
-                List<UUID> avIDs = new List<UUID>
+                var avIDs = new List<UUID>
                 {
                     parcel.OwnerID,
                     parcel.GroupID
@@ -335,11 +335,11 @@ namespace MEGAbolt
                 }
 
                 // Log tp/lm location into history
-                DateTime timestamp = DateTime.Now;
+                var timestamp = DateTime.Now;
 
                 timestamp = instance.State.GetTimeStamp(timestamp);
 
-                string strInfo = string.Format(CultureInfo.CurrentCulture, "{0}/{1}/{2}/{3}", client.Network.CurrentSim.Name,
+                var strInfo = string.Format(CultureInfo.CurrentCulture, "{0}/{1}/{2}/{3}", client.Network.CurrentSim.Name,
                                                                             Math.Round(instance.SIMsittingPos().X, 0),
                                                                             Math.Round(instance.SIMsittingPos().Y, 0),
                                                                             Math.Round(instance.SIMsittingPos().Z, 0));
@@ -351,7 +351,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    DataRow dr = instance.TP.NewRow();
+                    var dr = instance.TP.NewRow();
                     dr["time"] = timestamp.ToString();
                     dr["name"] = parcel.Name;
                     dr["slurl"] = strInfo;
@@ -364,7 +364,7 @@ namespace MEGAbolt
             }
             catch (Exception ex)
             {
-                string serr = ex.Message;
+                var serr = ex.Message;
                 Logger.Log(String.Format(CultureInfo.CurrentCulture, "Land properties (main form) {0}", serr), Helpers.LogLevel.Error);
                 //reporter.Show(ex);
             }
@@ -374,7 +374,7 @@ namespace MEGAbolt
         {
             if (instance.Config.CurrentConfig.AutoTransfer)
             {
-                UUID mavatar = (UUID)instance.Config.CurrentConfig.MasterAvatar;
+                var mavatar = (UUID)instance.Config.CurrentConfig.MasterAvatar;
 
                 if (mavatar == client.Self.AgentID)
                 {
@@ -382,7 +382,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                int mamount = client.Self.Balance;
+                var mamount = client.Self.Balance;
 
                 if (mamount > 0 && mavatar != UUID.Zero)
                 {
@@ -416,7 +416,7 @@ namespace MEGAbolt
         //runs on the GUI thread
         private void NameReceived(Dictionary<UUID, string> names)
         {
-            foreach (KeyValuePair<UUID, string> kvp in names)
+            foreach (var kvp in names)
             {
                 if (kvp.Key == parcel.OwnerID)
                     AboutlandOwneridname = kvp.Value;
@@ -445,7 +445,7 @@ namespace MEGAbolt
             if (instance.Config.CurrentConfig.UseProxy)
             {
                 // Apply proxy settings if any
-                MEGAproxy proxy = new MEGAproxy();
+                var proxy = new MEGAproxy();
                 proxy.SetProxy(config.UseProxy, config.ProxyURL, config.ProxyPort, config.ProxyUser, config.ProxyPWD);
             }
 
@@ -464,7 +464,7 @@ namespace MEGAbolt
 
                 tsTimeOut.Visible = true;
 
-                TimeSpan ts = offtime - DateTime.Now;
+                var ts = offtime - DateTime.Now;
                 tsTimeOut.Text = ts.Hours.ToString("00", CultureInfo.CurrentCulture) + ":" + ts.Minutes.ToString("00", CultureInfo.CurrentCulture);
             }
             else
@@ -485,7 +485,7 @@ namespace MEGAbolt
 
             // Menu positions
             Control control;
-            bool topofscreen = false;
+            var topofscreen = false;
 
             switch (instance.Config.CurrentConfig.AppMenuPos)
             {
@@ -554,11 +554,11 @@ namespace MEGAbolt
                 // log off
                 logoff = true;
                 //BeginInvoke(new MethodInvoker(tmnuExit.PerformClick));
-                int itrvl = instance.Config.CurrentConfig.ReStartTime;
+                var itrvl = instance.Config.CurrentConfig.ReStartTime;
                 DisconnectClient(true, "AutoRestart", itrvl);
             }
 
-            TimeSpan ts = offtime - DateTime.Now;
+            var ts = offtime - DateTime.Now;
 
             BeginInvoke((MethodInvoker)delegate
                 {
@@ -596,9 +596,9 @@ namespace MEGAbolt
                             // Load plugins if any
                             if (instance.EList.Count > 0)
                             {
-                                string plugins = instance.Config.CurrentConfig.PluginsToLoad;
+                                var plugins = instance.Config.CurrentConfig.PluginsToLoad;
 
-                                foreach (IExtension extOn in instance.EList)
+                                foreach (var extOn in instance.EList)
                                 {
                                     if (plugins.Contains(extOn.Title))
                                     {
@@ -773,7 +773,7 @@ namespace MEGAbolt
                     if (!logoff)
                     {
                         MEGAbolt.Controls.MsgBoxCheck.MessageBox dlg = new();
-                        DialogResult dr = dlg.Show(@"Software\MEGAbolt\CloseMBCheck",
+                        var dr = dlg.Show(@"Software\MEGAbolt\CloseMBCheck",
                             "DontShowAgain", DialogResult.Yes,
                             "Don't ask me this again",
                             "You are about to close MEGAbolt. Are you sure you want to continue?", "MEGAbolt",
@@ -859,7 +859,7 @@ namespace MEGAbolt
                 return;
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append("MEGAbolt - ");
 
             if (netcom.IsLoggedIn)
@@ -997,7 +997,7 @@ namespace MEGAbolt
             if (manager.Extensions.Count > 0)
             {
                 //Loop through all the extensions
-                foreach (Extension<IExtension> extOn in manager.Extensions)
+                foreach (var extOn in manager.Extensions)
                 {
                     //It needs to know we're the host!
                     extOn.Instance.Host = this;
@@ -1005,7 +1005,7 @@ namespace MEGAbolt
                     ToolStripDropDownItem mitem;   // = tsPlugins.OwnerItem as ToolStripDropDownItem;
                     mitem = tsPlugins;
 
-                    ToolStripButton item = new ToolStripButton();
+                    var item = new ToolStripButton();
                     item.Tag = extOn.Instance;
                     item.Text = extOn.Instance.Title;
                     item.Width = extOn.Instance.Title.Length * 6;   // 200;
@@ -1026,10 +1026,10 @@ namespace MEGAbolt
                 ToolStripDropDownItem mmgr;
                 mmgr = tsPlugins;
 
-                ToolStripSeparator sep = new ToolStripSeparator();
+                var sep = new ToolStripSeparator();
                 mmgr.DropDownItems.Add(sep);
 
-                ToolStripButton itm = new ToolStripButton();
+                var itm = new ToolStripButton();
                 //itm.Tag = extOn.Instance;
                 itm.Text = "Plugin Manager";
                 itm.Width = 14 * 6;
@@ -1046,7 +1046,7 @@ namespace MEGAbolt
 
         private void AnyMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripItem mitem = (ToolStripItem)sender;
+            var mitem = (ToolStripItem)sender;
 
             if (mitem.Text.ToLower(CultureInfo.CurrentCulture) == "plugin manager")
             {
@@ -1054,7 +1054,7 @@ namespace MEGAbolt
                 return;
             }
 
-            IExtension extInstance = (IExtension)mitem.Tag;
+            var extInstance = (IExtension)mitem.Tag;
 
             //Extension<IExtension> extobj = (Extension<IExtension>)mitem.Tag;
             //IExtension extInstance = extobj.Instance; 
@@ -1087,8 +1087,8 @@ namespace MEGAbolt
 
         void manager_AssemblyLoaded(object sender, AssemblyLoadedEventArgs e)
         {
-            string file = (new FileInfo(e.Filename)).Name.Trim();
-            string ev = "Loaded plugin: " + file;
+            var file = (new FileInfo(e.Filename)).Name.Trim();
+            var ev = "Loaded plugin: " + file;
 
             Logger.Log(ev, Helpers.LogLevel.Info);
         }
@@ -1096,7 +1096,7 @@ namespace MEGAbolt
         void manager_AssemblyFailedLoading(object sender, AssemblyFailedLoadingEventArgs e)
         {
             //Build an error message with specific compiler errors
-            StringBuilder msg = new StringBuilder();
+            var msg = new StringBuilder();
             msg.AppendLine("Failed Loading Extension: " + e.Filename + " of Type: " + e.ExtensionType);
             msg.AppendLine("Error Message: ");
             msg.AppendLine(e.ErrorMessage);
@@ -1166,7 +1166,7 @@ namespace MEGAbolt
 
         private void setHomeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to SET HOME to here?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var res = MessageBox.Show("Are you sure you want to SET HOME to here?", "MEGAbolt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (res == DialogResult.Yes)
             {
@@ -1367,12 +1367,12 @@ namespace MEGAbolt
             {
                 // The following line was borrowed from Kitten Lulu's SLRun1CPU
                 // http://kittenlulu.wordpress.com/2006/11/08/secondlife-on-multi-core-systems/
-                string SecondLifeExe = GetSecondLifeExe();
+                var SecondLifeExe = GetSecondLifeExe();
 
                 if (string.IsNullOrEmpty(SecondLifeExe))
                     return;
 
-                Process thisProcess = new Process();
+                var thisProcess = new Process();
                 thisProcess.StartInfo.FileName = SecondLifeExe;
                 thisProcess.StartInfo.UseShellExecute = false;
                 thisProcess.StartInfo.RedirectStandardInput = true;
@@ -1391,7 +1391,7 @@ namespace MEGAbolt
                 // This routine was borrowed from Kitten Lulu's SLRun1CPU
                 // http://kittenlulu.wordpress.com/2006/11/08/secondlife-on-multi-core-systems/
 
-                RegistryKey SecondLifeReg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Linden Research, Inc.\\SecondLifeViewer2");
+                var SecondLifeReg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Linden Research, Inc.\\SecondLifeViewer2");
 
                 if (SecondLifeReg == null)
                 {
@@ -1414,8 +1414,8 @@ namespace MEGAbolt
                     }
                 }
 
-                Object path = SecondLifeReg.GetValue("");
-                Object exeName = SecondLifeReg.GetValue("Exe");
+                var path = SecondLifeReg.GetValue("");
+                var exeName = SecondLifeReg.GetValue("Exe");
 
                 if ((path != null) && (exeName != null))
                 {
@@ -1463,10 +1463,10 @@ namespace MEGAbolt
         {
             try
             {
-                string _timeZoneId = "Pacific Standard Time";
-                DateTime startTime = DateTime.UtcNow;
-                TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
-                DateTime _now = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
+                var _timeZoneId = "Pacific Standard Time";
+                var startTime = DateTime.UtcNow;
+                var tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+                var _now = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
 
                 //DateTime SLdate = DateTime.UtcNow.AddHours(-8);
                 //tsTime.Text = SLdate.ToString();
@@ -1486,16 +1486,16 @@ namespace MEGAbolt
 
         private void createLandmarkHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string file = parcel.Name;
+            var file = parcel.Name;
 
             if (file.Length > 32)
             {
-                file = file.Substring(0, 32);
+                file = file[..32];
             }
 
-            string pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
+            var pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
 
-            string desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
+            var desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
 
             client.Inventory.RequestCreateItem(client.Inventory.FindFolderForType(AssetType.Landmark),
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,
@@ -1674,7 +1674,7 @@ namespace MEGAbolt
             {
                 if (netcom.IsLoggedIn)
                 {
-                    string full_name = netcom.LoginOptions.FirstName + "_" + netcom.LoginOptions.LastName;
+                    var full_name = netcom.LoginOptions.FirstName + "_" + netcom.LoginOptions.LastName;
                     instance.Config.SetAvConfig(full_name);
                 }
             }
@@ -1692,9 +1692,9 @@ namespace MEGAbolt
                     // Auto-restart
                     try
                     {
-                        int restartinterval = instance.Config.CurrentConfig.ReStartTime * 60; // convert to seconds
+                        var restartinterval = instance.Config.CurrentConfig.ReStartTime * 60; // convert to seconds
 
-                        Process p = new Process();
+                        var p = new Process();
                         p.StartInfo.FileName = "MEGArestart.exe";
                         p.StartInfo.WorkingDirectory = Application.StartupPath;
                         p.StartInfo.Arguments = netcom.LoginOptions.FirstName + " " + netcom.LoginOptions.LastName + " " + netcom.LoginOptions.Password + " " + disconnectreason.Replace(" ", "|") + " " + restartinterval.ToString(CultureInfo.CurrentCulture);
@@ -1780,7 +1780,7 @@ namespace MEGAbolt
             {
                 if (netcom.IsLoggedIn)
                 {
-                    string full_name = netcom.LoginOptions.FirstName + "_" + netcom.LoginOptions.LastName;
+                    var full_name = netcom.LoginOptions.FirstName + "_" + netcom.LoginOptions.LastName;
                     instance.Config.SetAvConfig(full_name);
                 }
             }
@@ -1794,7 +1794,7 @@ namespace MEGAbolt
             {
                 try
                 {
-                    int restartinterval = 10;
+                    var restartinterval = 10;
 
                     checked
                     {
@@ -1804,7 +1804,7 @@ namespace MEGAbolt
 
                     disconnectreason = Reason;
 
-                    Process p = new Process();
+                    var p = new Process();
                     p.StartInfo.FileName = "MEGArestart.exe";
                     p.StartInfo.WorkingDirectory = Application.StartupPath;
                     p.StartInfo.Arguments = netcom.LoginOptions.FirstName + " " + netcom.LoginOptions.LastName + " " + netcom.LoginOptions.Password + " " + disconnectreason.Replace(" ", "|") + " " + restartinterval.ToString(CultureInfo.CurrentCulture);
@@ -1854,16 +1854,16 @@ namespace MEGAbolt
         {
             try
             {
-                OpenFileDialog open = new OpenFileDialog
+                var open = new OpenFileDialog
                 {
                     Filter = "Image Files(*.jpg; *.jpeg; *.tga; *.bmp; *.png)|*.jpg; *.jpeg; *.tga; *.bmp; *.png"
                 };
 
-                string ext = string.Empty;
+                var ext = string.Empty;
 
                 if (open.ShowDialog() == DialogResult.OK)
                 {
-                    Bitmap bitmap = new Bitmap(open.FileName);
+                    var bitmap = new Bitmap(open.FileName);
                     ext = Path.GetExtension(open.FileName).ToLower(CultureInfo.CurrentCulture);
 
                     (new UploadImage(instance, bitmap, open.FileName, ext)).Show(this);
@@ -2016,16 +2016,16 @@ namespace MEGAbolt
         {
             if (!netcom.IsLoggedIn) return;
 
-            string file = parcel.Name;
+            var file = parcel.Name;
 
             if (file.Length > 32)
             {
-                file = file.Substring(0, 32);
+                file = file[..32];
             }
 
-            string pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
+            var pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
 
-            string desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
+            var desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
 
             client.Inventory.RequestCreateItem(instance.FavsFolder,
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,
@@ -2037,7 +2037,7 @@ namespace MEGAbolt
                         }
                         else
                         {
-                            List<InventoryBase> invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
+                            var invroot = client.Inventory.Store.GetContents(client.Inventory.Store.RootFolder.UUID);
 
                             foreach (var o in invroot.Where(
                                          o => o.Name.ToLower(CultureInfo.CurrentCulture) == "favorites"

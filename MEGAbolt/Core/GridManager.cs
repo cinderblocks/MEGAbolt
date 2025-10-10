@@ -58,8 +58,8 @@ namespace MEGAbolt
         public static Grid FromOSD(OSD data)
         {
             if (data == null || data.Type != OSDType.Map) return null;
-            Grid grid = new Grid();
-            OSDMap map = (OSDMap)data;
+            var grid = new Grid();
+            var map = (OSDMap)data;
 
             grid.ID = map["gridnick"].AsString();
             grid.Name = map["gridname"].AsString();
@@ -98,8 +98,8 @@ namespace MEGAbolt
 
             try
             {
-                string sysGridsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "grids.xml");
-                OSDArray sysGrids = (OSDArray)OSDParser.DeserializeLLSDXml(File.ReadAllText(sysGridsFile));
+                var sysGridsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "grids.xml");
+                var sysGrids = (OSDArray)OSDParser.DeserializeLLSDXml(File.ReadAllText(sysGridsFile));
                 foreach (var grid in sysGrids)
                 {
                     RegisterGrid(Grid.FromOSD(grid));
@@ -113,7 +113,7 @@ namespace MEGAbolt
 
         public void RegisterGrid(Grid grid)
         {
-            int ix = Grids.FindIndex(g => g.ID == grid.ID);
+            var ix = Grids.FindIndex(g => g.ID == grid.ID);
             if (ix < 0)
             {
                 Grids.Add(grid);
@@ -130,7 +130,7 @@ namespace MEGAbolt
         {
             get
             {
-                foreach (Grid grid in Grids)
+                foreach (var grid in Grids)
                 {
                     if (grid.ID == gridID) return grid;
                 }
@@ -140,7 +140,7 @@ namespace MEGAbolt
 
         public bool KeyExists(string gridID)
         {
-            foreach (Grid grid in Grids)
+            foreach (var grid in Grids)
             {
                 if (grid.ID == gridID) return true;
             }

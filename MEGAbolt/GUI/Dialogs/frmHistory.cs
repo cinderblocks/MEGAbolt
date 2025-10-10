@@ -8,12 +8,12 @@ namespace MEGAbolt
 {
     public partial class frmHistory : Form
     {
-        private MEGAboltInstance instance;
-        private string filename = string.Empty;
-        private SafeDictionary<string, string> ffiles = new SafeDictionary<string, string>();
-        private bool isgroup = false;
-        private GridClient client;
-        private NumericStringComparerDateGroups lvwColumnSorter;
+        private readonly MEGAboltInstance instance;
+        private readonly string filename = string.Empty;
+        private readonly SafeDictionary<string, string> ffiles = new SafeDictionary<string, string>();
+        private readonly bool isgroup = false;
+        private readonly GridClient client;
+        private readonly NumericStringComparerDateGroups lvwColumnSorter;
 
         public frmHistory(MEGAboltInstance instance, string filename, bool isgroup)
         {
@@ -36,25 +36,25 @@ namespace MEGAbolt
 
         private void GetHistory()
         {
-            string folder = instance.Config.CurrentConfig.LogDir;
+            var folder = instance.Config.CurrentConfig.LogDir;
 
             if (!folder.EndsWith("\\", StringComparison.CurrentCultureIgnoreCase))
             {
                 folder += "\\";
             }
 
-            DirectoryInfo di = new DirectoryInfo(folder);
-            FileSystemInfo[] files = di.GetFileSystemInfos();
+            var di = new DirectoryInfo(folder);
+            var files = di.GetFileSystemInfos();
 
             Array.Sort(files, CompareFileByDate);
             Array.Reverse(files);   // Descending 
 
             lvwList.Items.Clear();
 
-            foreach (FileSystemInfo fi in files)
+            foreach (var fi in files)
             {
-                string inFile = fi.FullName;
-                string finname = fi.Name;
+                var inFile = fi.FullName;
+                var finname = fi.Name;
 
                 if (finname.Contains(filename))
                 {
@@ -64,10 +64,10 @@ namespace MEGAbolt
                         {
                             if (finname.Contains(client.Self.Name))
                             {
-                                string filedate = string.Empty;
-                                string[] file = finname.Split('-');
+                                var filedate = string.Empty;
+                                var file = finname.Split('-');
 
-                                filedate = file[1].Trim() + "/" + file[2].Trim() + "/" + file[3].Substring(0, 4).Trim();
+                                filedate = file[1].Trim() + "/" + file[2].Trim() + "/" + file[3][..4].Trim();
 
                                 ffiles.Add(filedate, inFile);
                                 lvwList.Items.Add(filedate);
@@ -80,10 +80,10 @@ namespace MEGAbolt
                         {
                             if (finname.Contains(client.Self.Name))
                             {
-                                string filedate = string.Empty;
-                                string[] file = finname.Split('-');
+                                var filedate = string.Empty;
+                                var file = finname.Split('-');
 
-                                filedate = file[1].Trim() + "/" + file[2].Trim() + "/" + file[3].Substring(0, 4).Trim();
+                                filedate = file[1].Trim() + "/" + file[2].Trim() + "/" + file[3][..4].Trim();
 
                                 ffiles.Add(filedate, inFile);
                                 lvwList.Items.Add(filedate);

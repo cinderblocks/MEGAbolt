@@ -61,7 +61,7 @@ namespace MEGAbolt.Controls.MsgBoxCheck
           MessageBoxButtons buttons,
           MessageBoxIcon icon)
         {
-            RegistryKey subKey = Registry.CurrentUser.CreateSubKey(strKey);
+            var subKey = Registry.CurrentUser.CreateSubKey(strKey);
             try
             {
                 if (Convert.ToBoolean(subKey.GetValue(strValue, false)))
@@ -134,16 +134,16 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             if (m_hwnd != e.Handle || m_bInit)
                 return;
             m_bInit = true;
-            IntPtr dlgItem1 = GetDlgItem(m_hwnd, ushort.MaxValue);
-            IntPtr num = !(dlgItem1 != IntPtr.Zero) ? SendMessage(m_hwnd, 49, IntPtr.Zero, IntPtr.Zero) : SendMessage(dlgItem1, 49, IntPtr.Zero, IntPtr.Zero);
-            Font font = Font.FromHfont(num);
-            IntPtr dlgItem2 = GetDlgItem(m_hwnd, 20);
+            var dlgItem1 = GetDlgItem(m_hwnd, ushort.MaxValue);
+            var num = !(dlgItem1 != IntPtr.Zero) ? SendMessage(m_hwnd, 49, IntPtr.Zero, IntPtr.Zero) : SendMessage(dlgItem1, 49, IntPtr.Zero, IntPtr.Zero);
+            var font = Font.FromHfont(num);
+            var dlgItem2 = GetDlgItem(m_hwnd, 20);
             int x;
             if (dlgItem2 != IntPtr.Zero)
             {
-                RECT rc = new RECT();
+                var rc = new RECT();
                 GetWindowRect(dlgItem2, rc);
-                POINT pt = new POINT
+                var pt = new POINT
                 {
                     x = rc.left,
                     y = rc.top
@@ -153,9 +153,9 @@ namespace MEGAbolt.Controls.MsgBoxCheck
             }
             else
                 x = (int)font.GetHeight();
-            RECT rc1 = new RECT();
+            var rc1 = new RECT();
             GetClientRect(m_hwnd, rc1);
-            int y = rc1.bottom - rc1.top;
+            var y = rc1.bottom - rc1.top;
             GetWindowRect(m_hwnd, rc1);
             MoveWindow(m_hwnd, rc1.left, rc1.top, rc1.right - rc1.left, rc1.bottom - rc1.top + (int)font.GetHeight() * 2, true);
             m_hwndBtn = CreateWindowEx(0, "button", m_strCheck, 1342242819, x, y, rc1.right - rc1.left - x, (int)font.GetHeight(), m_hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);

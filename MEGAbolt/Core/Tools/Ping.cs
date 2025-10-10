@@ -47,26 +47,26 @@ namespace MEGAbolt
             if (IsOffline())
                 return;
 
-            IPAddress ip = (IPAddress)argument;
+            var ip = (IPAddress)argument;
 
             //set options ttl=128 and no fragmentation
-            PingOptions options = new PingOptions(128, true);
+            var options = new PingOptions(128, true);
 
             //create a Ping object
-            Ping ping = new Ping();
+            var ping = new Ping();
 
             //32 empty bytes buffer
-            byte[] data = new byte[32];
+            var data = new byte[32];
 
-            int received = 0;
-            List<long> responseTimes = new List<long>();
+            var received = 0;
+            var responseTimes = new List<long>();
 
-            string resp = string.Empty;
+            var resp = string.Empty;
 
             //ping 4 times
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                PingReply reply = ping.Send(ip, 1000, data, options);
+                var reply = ping.Send(ip, 1000, data, options);
 
                 if (reply != null)
                 {
@@ -74,7 +74,7 @@ namespace MEGAbolt
                     {
                         case IPStatus.Success:
                             resp = "Reply from " + reply.Address + ": bytes=" + reply.Buffer.Length + " time=" + reply.RoundtripTime + "ms TTL=" + reply.Options.Ttl;
-                            PingEventArgs pe = new PingEventArgs(resp);
+                            var pe = new PingEventArgs(resp);
                             Change(this, pe);
                             received++;
                             responseTimes.Add(reply.RoundtripTime);
@@ -91,7 +91,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    PingEventArgs pe = new PingEventArgs("Ping failed for an unknown reason");
+                    var pe = new PingEventArgs("Ping failed for an unknown reason");
                     Change(this, pe);
                 }
 
@@ -105,7 +105,7 @@ namespace MEGAbolt
             long minimumTime = 0;
             long maximumTime = 0;
 
-            for (int i = 0; i < responseTimes.Count; i++)
+            for (var i = 0; i < responseTimes.Count; i++)
             {
                 if (i == 0)
                 {
@@ -126,7 +126,7 @@ namespace MEGAbolt
                 averageTime += responseTimes[i];
             }
 
-            StringBuilder statistics = new StringBuilder();
+            var statistics = new StringBuilder();
             statistics.AppendLine();
             statistics.AppendLine();
             statistics.AppendFormat("Ping statistics for {0}:", ip);
@@ -147,7 +147,7 @@ namespace MEGAbolt
                     minimumTime, maximumTime, averageTime / received);
             }
 
-            PingEventArgs pes = new PingEventArgs(statistics.ToString());
+            var pes = new PingEventArgs(statistics.ToString());
             Change(this, pes);
         }
 
@@ -182,7 +182,7 @@ namespace MEGAbolt
 
             if (((int)ConnectionState.INTERNET_CONNECTION_OFFLINE & (int)flags) != 0)
             {
-                PingEventArgs pes = new PingEventArgs("No internet connection detected.");
+                var pes = new PingEventArgs("No internet connection detected.");
                 Change(this, pes);
                 return true;
             }

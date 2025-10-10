@@ -49,9 +49,9 @@ namespace MEGAbolt.Rendering
         /// <returns>Resized image</returns>
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
-            Bitmap result = new Bitmap(width, height);
+            var result = new Bitmap(width, height);
 
-            using Graphics graphics = Graphics.FromImage(result);
+            using var graphics = Graphics.FromImage(result);
             graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;

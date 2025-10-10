@@ -23,7 +23,7 @@ namespace MEGAbolt
     public class PingEventArgs : System.EventArgs
     {
 
-        private string message;
+        private readonly string message;
 
         public PingEventArgs(string m)
         {

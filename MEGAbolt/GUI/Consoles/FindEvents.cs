@@ -97,7 +97,7 @@ namespace MEGAbolt
 
             if (matchedEvent.Duration > 59)
             {
-                uint dur = matchedEvent.Duration / 60;
+                var dur = matchedEvent.Duration / 60;
                 textBox5.Text = $"{dur.ToString(CultureInfo.CurrentCulture)} hours";
             }
             else
@@ -110,11 +110,9 @@ namespace MEGAbolt
             //ulong regionhand =Helpers.UIntsToLong((uint)(matchedEvent.GlobalPos.X - (matchedEvent.GlobalPos.X % 256)), (uint)(matchedEvent.GlobalPos.Y - (matchedEvent.GlobalPos.Y % 256)));
 
             // Convert Global pos to local
-            float locX = (float)matchedEvent.GlobalPos.X; ;
-            float locY = (float)matchedEvent.GlobalPos.Y;
-            float locX1;
-            float locY1;
-            Helpers.GlobalPosToRegionHandle(locX, locY, out locX1, out locY1);
+            var locX = (float)matchedEvent.GlobalPos.X; ;
+            var locY = (float)matchedEvent.GlobalPos.Y;
+            Helpers.GlobalPosToRegionHandle(locX, locY, out var locX1, out var locY1);
 
             fX = locX1;
             fY = locY1;
@@ -144,14 +142,14 @@ namespace MEGAbolt
 
             lvwFindEvents.BeginUpdate();
 
-            int icnt = 0;
+            var icnt = 0;
 
-            foreach (DirectoryManager.EventsSearchData events in matchedEvents)
+            foreach (var events in matchedEvents)
             {
                 try
                 {
-                    string fullName = events.Name;
-                    bool fx = LLUUIDs.ContainsKey(fullName);
+                    var fullName = events.Name;
+                    var fx = LLUUIDs.ContainsKey(fullName);
 
                     if (!fx)
                     {
@@ -163,7 +161,7 @@ namespace MEGAbolt
                         LLUUIDs.Add(fullName, events.ID);
                     }
 
-                    ListViewItem item = lvwFindEvents.Items.Add(fullName);
+                    var item = lvwFindEvents.Items.Add(fullName);
                     item.SubItems.Add(events.Date);   // + "-" + events.Time);
                 }
                 catch
@@ -224,7 +222,7 @@ namespace MEGAbolt
             {
                 if (lvwFindEvents.SelectedItems.Count == 0) return "";
 
-                string sTime = lvwFindEvents.SelectedItems[0].SubItems[0].Text;
+                var sTime = lvwFindEvents.SelectedItems[0].SubItems[0].Text;
 
                 return sTime;
             }
@@ -236,7 +234,7 @@ namespace MEGAbolt
             {
                 if (lvwFindEvents.SelectedItems.Count == 0) return 0;
 
-                string name = lvwFindEvents.SelectedItems[0].Text;
+                var name = lvwFindEvents.SelectedItems[0].Text;
                 return LLUUIDs[name];
             }
         }
@@ -253,10 +251,10 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string sLoc = textBox8.Text;
+            var sLoc = textBox8.Text;
 
-            char[] deli = "/".ToCharArray();
-            string[] iDets = sLoc.Split(deli);
+            var deli = "/".ToCharArray();
+            var iDets = sLoc.Split(deli);
 
             //netcom.Teleport(iDets[0],
             //client.Self.Teleport(   

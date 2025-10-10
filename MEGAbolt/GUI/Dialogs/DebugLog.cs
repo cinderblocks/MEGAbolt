@@ -37,17 +37,17 @@ namespace MEGAbolt
 {
     public partial class frmDebugLog : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
 
         private System.Timers.Timer aTimer1;
-        private NetworkTraffic networkTraffic = new NetworkTraffic();
+        private readonly NetworkTraffic networkTraffic = new NetworkTraffic();
         private float lastAmountOfBytesReceived = 0.0f;
         private float lastAmountOfBytesSent = 0.0f;
 
-        private PerformanceCounter bytesSentPerformanceCounter = new PerformanceCounter();
-        private PerformanceCounter bytesReceivedPerformanceCounter = new PerformanceCounter();
-        private int iniheight = 100;
+        private readonly PerformanceCounter bytesSentPerformanceCounter = new PerformanceCounter();
+        private readonly PerformanceCounter bytesReceivedPerformanceCounter = new PerformanceCounter();
+        private readonly int iniheight = 100;
         private int tcntr = 0;
         private int cmod = 1;
 
@@ -62,7 +62,7 @@ namespace MEGAbolt
         //private float pastval2 = 0f;
 
         //Workaround for window handle exception on login
-        private List<DebugLogMessage> initQueue = new();
+        private readonly List<DebugLogMessage> initQueue = new();
 
         internal class ThreadExceptionHandler
         {
@@ -70,7 +70,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -123,13 +123,13 @@ namespace MEGAbolt
         private static string GetInstanceName()
         {
             // Used Reflector to find the correct formatting:
-            string assemblyName = GetAssemblyName();
+            var assemblyName = GetAssemblyName();
             if ((assemblyName == null) || (assemblyName.Length == 0))
             {
                 assemblyName = AppDomain.CurrentDomain.FriendlyName;
             }
-            StringBuilder builder = new StringBuilder(assemblyName);
-            for (int i = 0; i < builder.Length; i++)
+            var builder = new StringBuilder(assemblyName);
+            for (var i = 0; i < builder.Length; i++)
             {
                 switch (builder[i])
                 {
@@ -156,10 +156,10 @@ namespace MEGAbolt
         private static string GetAssemblyName()
         {
             string str = null;
-            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            var entryAssembly = Assembly.GetEntryAssembly();
             if (entryAssembly != null)
             {
-                AssemblyName name = entryAssembly.GetName();
+                var name = entryAssembly.GetName();
                 if (name != null)
                 {
                     str = name.Name;
@@ -217,7 +217,7 @@ namespace MEGAbolt
                         break;
                 }
 
-                string msg = (string)message;
+                var msg = (string)message;
                 if (msg.Contains("ParticipantUpdatedEvent")) return;
 
                 rtb.AppendText("[" + DateTime.Now + "] " + msg + "\n");
@@ -253,7 +253,7 @@ namespace MEGAbolt
                         break;
                 }
 
-                string msg = (string)message;
+                var msg = (string)message;
                 if (msg.Contains("ParticipantUpdatedEvent")) return;
 
                 rtb.AppendText("[" + dte + "] " + msg + "\n");
@@ -288,7 +288,7 @@ namespace MEGAbolt
             try
             {
                 if (initQueue.Count > 0)
-                    foreach (DebugLogMessage msg in initQueue) ProcessLogMessage(msg);
+                    foreach (var msg in initQueue) ProcessLogMessage(msg);
             }
             catch {; }
         }
@@ -308,7 +308,7 @@ namespace MEGAbolt
             try
             {
                 rtBox1.Text = "Local Host" + "\n";
-                string localHostName = Dns.GetHostName();
+                var localHostName = Dns.GetHostName();
                 rtBox1.Text += "\tHost Name:          " + localHostName + "\n";
 
                 PrintHostInfo(localHostName);
@@ -338,7 +338,7 @@ namespace MEGAbolt
                 // Display list of IP addresses for the host
                 rtBox1.Text += "\tIP Adresses:   ";
 
-                foreach (IPAddress ipadr in hostinfo.AddressList)
+                foreach (var ipadr in hostinfo.AddressList)
                 {
                     rtBox1.Text += ipadr + "\n";
                 }
@@ -346,7 +346,7 @@ namespace MEGAbolt
                 // Display the list of alias names for the host
                 rtBox1.Text += "\tAliases:       ";
 
-                foreach (String alias in hostinfo.Aliases)
+                foreach (var alias in hostinfo.Aliases)
                 {
                     rtBox1.Text += alias + "  " + "\n";
                 }
@@ -384,7 +384,7 @@ namespace MEGAbolt
 
             rtBox1.Text += "Pinging " + textBox1.Text + " [" + ip + "] with 32 bytes of data:\n";
 
-            PingHost ping = new PingHost();
+            var ping = new PingHost();
             ping.Change += ping_Change;
             ping.StartPing(ip);
         }
@@ -456,7 +456,7 @@ namespace MEGAbolt
         {
             IPAddress ip = null;
 
-            IPEndPoint simip = client.Network.CurrentSim.IPEndPoint;
+            var simip = client.Network.CurrentSim.IPEndPoint;
 
             BeginInvoke(new MethodInvoker(() =>
             {
@@ -465,7 +465,7 @@ namespace MEGAbolt
 
             ip = simip.Address;
 
-            PingHost ping = new PingHost();
+            var ping = new PingHost();
             ping.Change += ping_ChangeTimer;
 
             ping.StartPing(ip);
@@ -479,18 +479,18 @@ namespace MEGAbolt
             {
                 if (pa.Message().Contains("Approximate round trip times in milli-seconds"))
                 {
-                    string[] ltimes = pa.Message().Split(new Char[] { '=' });
-                    int enrs = ltimes.Length;
+                    var ltimes = pa.Message().Split(new Char[] { '=' });
+                    var enrs = ltimes.Length;
 
-                    string lval = ltimes[enrs - 1].Trim();
+                    var lval = ltimes[enrs - 1].Trim();
                     label12.Text = "Latency: " + lval;
 
                     try
                     {
                         if (lval.Contains("ms"))
                         {
-                            string valg = lval.Substring(0, lval.Length - 2);
-                            double dvalg = Convert.ToDouble(valg, CultureInfo.CurrentCulture);
+                            var valg = lval[..^2];
+                            var dvalg = Convert.ToDouble(valg, CultureInfo.CurrentCulture);
 
                             dataChart3.UpdateChart(dvalg);
                         }
@@ -506,10 +506,10 @@ namespace MEGAbolt
             PingSIM();
 
             // Get traffic
-            float currentAmountOfBytesReceived = bytesReceivedPerformanceCounter.NextValue();   // networkTraffic.GetBytesReceived();
-            float currentAmountOfBytesSent = bytesSentPerformanceCounter.NextValue();
-            float busedr = (currentAmountOfBytesReceived - lastAmountOfBytesReceived) / 1024;
-            float buseds = (currentAmountOfBytesSent - lastAmountOfBytesSent) / 1024;
+            var currentAmountOfBytesReceived = bytesReceivedPerformanceCounter.NextValue();   // networkTraffic.GetBytesReceived();
+            var currentAmountOfBytesSent = bytesSentPerformanceCounter.NextValue();
+            var busedr = (currentAmountOfBytesReceived - lastAmountOfBytesReceived) / 1024;
+            var buseds = (currentAmountOfBytesSent - lastAmountOfBytesSent) / 1024;
 
             lastAmountOfBytesReceived = currentAmountOfBytesReceived;
             lastAmountOfBytesSent = currentAmountOfBytesSent;
@@ -519,7 +519,7 @@ namespace MEGAbolt
                 label3.Text = string.Format(CultureInfo.CurrentCulture, "Current (In): {0} KB/Sec", busedr.ToString("0.00", CultureInfo.CurrentCulture));
                 label5.Text = string.Format(CultureInfo.CurrentCulture, "Current (Out): {0} KB/Sec", buseds.ToString("0.00", CultureInfo.CurrentCulture));
 
-                float cgb = lastAmountOfBytesReceived / 1073741824;
+                var cgb = lastAmountOfBytesReceived / 1073741824;
                 label6.Text = string.Format(CultureInfo.CurrentCulture, "Total (In): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
                 cgb = lastAmountOfBytesSent / 1073741824;
                 label7.Text = string.Format(CultureInfo.CurrentCulture, "Total (Out): {0} GB", cgb.ToString("0.00", CultureInfo.CurrentCulture));
@@ -539,7 +539,7 @@ namespace MEGAbolt
                 {
                     dataChart1.UpdateChart(Convert.ToDouble(busedr));
 
-                    TimeSpan ts = TimeSpan.FromSeconds(Convert.ToInt32(tcntr));
+                    var ts = TimeSpan.FromSeconds(Convert.ToInt32(tcntr));
 
                     label14.Text = Convert.ToInt32(ts.Hours).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Minutes).ToString("00", CultureInfo.CurrentCulture) + ":" + Convert.ToInt32(ts.Seconds).ToString("00", CultureInfo.CurrentCulture);
                 }

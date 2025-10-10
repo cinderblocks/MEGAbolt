@@ -83,7 +83,7 @@ namespace MEGAbolt
             // Call the base method so the basic events are unsubscribed.
             base.OnSubscribeControlEvents(c);
 
-            CheckBox ToolStripCheckBoxControl = (CheckBox)c;
+            var ToolStripCheckBoxControl = (CheckBox)c;
             // Add the event.
             ToolStripCheckBoxControl.CheckedChanged += OnCheckChanged;
         }
@@ -94,7 +94,7 @@ namespace MEGAbolt
             base.OnUnsubscribeControlEvents(c);
 
 
-            CheckBox ToolStripCheckBoxControl = (CheckBox)c;
+            var ToolStripCheckBoxControl = (CheckBox)c;
             // Remove the event.
             ToolStripCheckBoxControl.CheckedChanged -= OnCheckChanged;
         }

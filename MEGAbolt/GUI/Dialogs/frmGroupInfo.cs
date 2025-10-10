@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Web;
@@ -42,18 +43,18 @@ namespace MEGAbolt
 {
     public partial class frmGroupInfo : Form
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private ITextPrinter textPrinter;
         //private List<ChatBufferItem> textBuffer;
         private Group Group;
-        private GridClient Client;
+        private readonly GridClient Client;
         private Group Profile = new Group();
         private Dictionary<UUID, GroupMember> Members = new Dictionary<UUID, GroupMember>();
         private Dictionary<UUID, GroupTitle> Titles = new Dictionary<UUID, GroupTitle>();
-        private Dictionary<UUID, GroupMemberData> MemberData = new Dictionary<UUID, GroupMemberData>();
-        private List<GroupMemberData> SortedMembers = new List<GroupMemberData>();
-        private Dictionary<UUID, string> GrupMemberNames = new Dictionary<UUID, string>();
-        private MEGAboltNetcom netcom;
+        private readonly Dictionary<UUID, GroupMemberData> MemberData = new Dictionary<UUID, GroupMemberData>();
+        private readonly List<GroupMemberData> SortedMembers = new List<GroupMemberData>();
+        private readonly Dictionary<UUID, string> GrupMemberNames = new Dictionary<UUID, string>();
+        private readonly MEGAboltNetcom netcom;
         private InstantMessage imsg;
         private UUID objID = UUID.Zero;
         private bool floading = true;
@@ -61,7 +62,7 @@ namespace MEGAbolt
         private UUID grouptitles = UUID.Zero;
         private UUID groupmembers = UUID.Zero;
         private bool ejectpower = false;
-        private UUID grpid = UUID.Zero;
+        private readonly UUID grpid = UUID.Zero;
         private Dictionary<UUID, GroupRole> grouproles;
         private List<KeyValuePair<UUID, UUID>> grouprolesavs;
         //private UUID grouprolesreply = UUID.Zero;
@@ -70,13 +71,13 @@ namespace MEGAbolt
         //private GroupMemberData currentmember = new GroupMemberData();
         private bool checkignore = false;
         //private NumericStringComparer lvwColumnSorter;
-        private NumericStringComparerDateGroups lvwDateColumnSorter;
+        private readonly NumericStringComparerDateGroups lvwDateColumnSorter;
         private AssetType assettype;
         private UUID assetfolder = UUID.Zero;
         private string filename = string.Empty;
         private string ejecttedgroupmember = string.Empty;
         private UUID ejectedmemberid = UUID.Zero;
-        private MemberSorter sortedlist = new MemberSorter();
+        private readonly MemberSorter sortedlist = new MemberSorter();
         private bool userisowner = false;
         private UUID groupmembersrequest = UUID.Zero;
 
@@ -86,7 +87,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -327,9 +328,9 @@ namespace MEGAbolt
         {
             lstRoles.Items.Clear();
 
-            foreach (GroupRole role in grouproles.Values)
+            foreach (var role in grouproles.Values)
             {
-                ListViewItem lvi = new ListViewItem
+                var lvi = new ListViewItem
                 {
                     Text = role.Name,
                     Tag = role
@@ -358,20 +359,20 @@ namespace MEGAbolt
 
             //lstNotices.Items.Clear();  
 
-            foreach (GroupNoticesListEntry notice in notices)
+            foreach (var notice in notices)
             {
-                ListViewItem lvi = new ListViewItem
+                var lvi = new ListViewItem
                 {
                     Text = notice.Subject
                 };
 
-                ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+                var lvsi = new ListViewItem.ListViewSubItem
                 {
                     Text = notice.FromName
                 };
                 lvi.SubItems.Add(lvsi);
 
-                DateTime ndte = Utils.UnixTimeToDateTime(notice.Timestamp);
+                var ndte = Utils.UnixTimeToDateTime(notice.Timestamp);
 
                 if (!instance.Config.CurrentConfig.UseSLT)
                 {
@@ -396,7 +397,7 @@ namespace MEGAbolt
 
         private static int GetAttachment(AssetType attype)
         {
-            int at = 0;
+            var at = 0;
 
             switch (attype)
             {
@@ -446,7 +447,7 @@ namespace MEGAbolt
             {
                 if (e.IM.Dialog == InstantMessageDialog.GroupNoticeRequested)
                 {
-                    UUID fromAgentID = new UUID(e.IM.BinaryBucket, 2);
+                    var fromAgentID = new UUID(e.IM.BinaryBucket, 2);
 
                     if (grpid == fromAgentID)
                     {
@@ -455,8 +456,8 @@ namespace MEGAbolt
                         panel1.Visible = true;
                         panel2.Visible = false;
 
-                        char[] deli = "|".ToCharArray();
-                        string[] Msg = imsg.Message.Split(deli);
+                        var deli = "|".ToCharArray();
+                        var Msg = imsg.Message.Split(deli);
                         textBox5.Text = instance.CleanReplace("\n", Environment.NewLine, Msg[1]);
 
                         label7.Text = string.Empty;
@@ -555,14 +556,14 @@ namespace MEGAbolt
                             }
                         }, true);
 
-                if (!instance.avnames.ContainsKey(e.Group.FounderID))
+                if (!instance.avnames.TryGetValue(e.Group.FounderID, out var avname))
                 {
                     founderid = e.Group.FounderID;
                     Client.Avatars.RequestAvatarName(founderid);
                 }
                 else
                 {
-                    lblFoundedBy.Text = "Founded by " + instance.avnames[e.Group.FounderID];
+                    lblFoundedBy.Text = "Founded by " + avname;
                 }
 
                 UpdateProfile();
@@ -662,11 +663,11 @@ namespace MEGAbolt
 
             BeginInvoke(new MethodInvoker(() =>
             {
-                List<UUID> memkeys = new List<UUID>();
+                var memkeys = new List<UUID>();
 
-                bool isgroupmembers = false;
+                var isgroupmembers = false;
 
-                foreach (KeyValuePair<UUID, string> av in e.Names)
+                foreach (var av in e.Names)
                 {
                     if (Members.ContainsKey(av.Key))
                     {
@@ -730,7 +731,7 @@ namespace MEGAbolt
                 lstMembers2.VirtualListSize = 0;
             }));
 
-            List<UUID> requestids = new List<UUID>();
+            var requestids = new List<UUID>();
 
             foreach (var member in e.Members)
             {
@@ -745,15 +746,15 @@ namespace MEGAbolt
                 }
             }
 
-            foreach (GroupMember member in Members.Values)
+            foreach (var member in Members.Values)
             {
-                GroupMemberData memberData = new GroupMemberData
+                var memberData = new GroupMemberData
                 {
                     ID = member.ID,
                     IsOwner = member.IsOwner
                 };
 
-                string lastonlinedate = member.OnlineStatus;
+                var lastonlinedate = member.OnlineStatus;
 
                 if (member.OnlineStatus.ToLower(CultureInfo.CurrentCulture) != "online")
                 {
@@ -765,11 +766,10 @@ namespace MEGAbolt
                 memberData.Title = member.Title;
                 memberData.Contribution = member.Contribution;
 
-                memberData.Name = GrupMemberNames.ContainsKey(member.ID) ? GrupMemberNames[member.ID] : "???";
+                memberData.Name = GrupMemberNames.GetValueOrDefault(member.ID, "???");
 
-                if (!MemberData.ContainsKey(member.ID))
+                if (MemberData.TryAdd(member.ID, memberData))
                 {
-                    MemberData.Add(member.ID, memberData);
                     SortedMembers.Add(memberData);
                 }
             }
@@ -804,12 +804,12 @@ namespace MEGAbolt
         {
             BeginInvoke(new MethodInvoker(() =>
             {
-                List<List<UUID>> chunks = splitList(namelist);
+                var chunks = splitList(namelist);
 
                 pBar1.Visible = true;
                 pBar1.Maximum = chunks.Count;
 
-                foreach (List<UUID> chunklist in chunks)
+                foreach (var chunklist in chunks)
                 {
                     pBar1.Value += 1;
 
@@ -823,17 +823,17 @@ namespace MEGAbolt
 
         public static DateTime ConvertDateTime(string Date)
         {
-            DateTime date = new DateTime();
+            var date = new DateTime();
 
             if (String.IsNullOrEmpty(Date)) return date;
 
             try
             {
-                string CurrentPattern = Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                string[] Split = new string[] { "-", "/", @"\", "." };
-                string[] Patternvalue = CurrentPattern.Split(Split, StringSplitOptions.None);
-                string[] DateSplit = Date.Split(Split, StringSplitOptions.None);
-                string NewDate = "";
+                var CurrentPattern = Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                var Split = new string[] { "-", "/", @"\", "." };
+                var Patternvalue = CurrentPattern.Split(Split, StringSplitOptions.None);
+                var DateSplit = Date.Split(Split, StringSplitOptions.None);
+                var NewDate = "";
 
                 if (Patternvalue[0].ToLower(CultureInfo.CurrentCulture).Contains("d") == true && Patternvalue[1].ToLower(CultureInfo.CurrentCulture).Contains("m") == true && Patternvalue[2].ToLower(CultureInfo.CurrentCulture).Contains("y") == true)
                 {
@@ -888,12 +888,10 @@ namespace MEGAbolt
 
                     //bool isgmember = false;
 
-                    foreach (UUID memid in lst)
+                    foreach (var memid in lst)
                     {
-                        if (Members.ContainsKey(memid))
+                        if (Members.TryGetValue(memid, out var member))
                         {
-                            GroupMember member = Members[memid];
-
                             if (member.ID == Client.Self.AgentID)
                             {
                                 //isgmember = true;
@@ -1026,9 +1024,9 @@ namespace MEGAbolt
 
         public static List<List<UUID>> splitList(List<UUID> locations, int nSize = 80)
         {
-            List<List<UUID>> list = new List<List<UUID>>();
+            var list = new List<List<UUID>>();
 
-            for (int i = 0; i < locations.Count; i += nSize)
+            for (var i = 0; i < locations.Count; i += nSize)
             {
                 list.Add(locations.GetRange(i, Math.Min(nSize, locations.Count - i)));
             }
@@ -1042,13 +1040,13 @@ namespace MEGAbolt
 
             //return (instance.State.Groups[groupID].Powers & power) != 0;
 
-            GroupPowers power = GroupPowers.None;
+            var power = GroupPowers.None;
 
-            foreach (GroupRole role in grouproles.Values)
+            foreach (var role in grouproles.Values)
             {
                 if (role.Name.ToLower(CultureInfo.CurrentCulture) != "everyone")
                 {
-                    UUID roleid = role.ID;
+                    var roleid = role.ID;
 
                     foreach (var el in grouprolesavs)
                     {
@@ -1076,11 +1074,11 @@ namespace MEGAbolt
 
         private bool IsGroupOwner()
         {
-            foreach (GroupRole role in grouproles.Values)
+            foreach (var role in grouproles.Values)
             {
                 if (role.Name.ToLower(CultureInfo.CurrentCulture) == "owners")
                 {
-                    UUID roleid = role.ID;
+                    var roleid = role.ID;
 
                     foreach (var el in grouprolesavs)
                     {
@@ -1155,12 +1153,12 @@ namespace MEGAbolt
             if (lstMembers2.SelectedIndices.Count > 0)   // && lstMembers2.Columns[0].ToString != "none")
             {
                 //string li = lstMembers2.SelectedIndices[0];
-                int sel = lstMembers2.SelectedIndices[0];
-                int ctr = 0;
+                var sel = lstMembers2.SelectedIndices[0];
+                var ctr = 0;
 
-                UUID avid = UUID.Zero;
+                var avid = UUID.Zero;
 
-                foreach (GroupMemberData entry in SortedMembers)
+                foreach (var entry in SortedMembers)
                 {
                     if (ctr == sel)
                     {
@@ -1245,12 +1243,12 @@ namespace MEGAbolt
             if (lstMembers2.SelectedIndices.Count > 0)   // && lstMembers2.Columns[0].ToString != "none")
             {
                 //string li = lstMembers2.SelectedIndices[0];
-                int sel = lstMembers2.SelectedIndices[0];
-                int ctr = 0;
+                var sel = lstMembers2.SelectedIndices[0];
+                var ctr = 0;
 
-                UUID avid = UUID.Zero;
+                var avid = UUID.Zero;
 
-                foreach (GroupMemberData entry in SortedMembers)
+                foreach (var entry in SortedMembers)
                 {
                     if (ctr == sel)
                     {
@@ -1265,7 +1263,7 @@ namespace MEGAbolt
 
                 checkignore = true;
 
-                ListViewItem everyone = new ListViewItem
+                var everyone = new ListViewItem
                 {
                     Text = "Everyone",
                     Checked = true
@@ -1273,21 +1271,21 @@ namespace MEGAbolt
                 //everyone.Tag = null;
                 lvAssignedRoles.Items.Add(everyone);
 
-                GroupPowers power = GroupPowers.None;
+                var power = GroupPowers.None;
 
-                foreach (GroupRole role in grouproles.Values)
+                foreach (var role in grouproles.Values)
                 {
                     if (role.Name.ToLower(CultureInfo.CurrentCulture) != "everyone")
                     {
-                        UUID roleid = role.ID;
+                        var roleid = role.ID;
 
-                        ListViewItem nme = new ListViewItem
+                        var nme = new ListViewItem
                         {
                             Text = role.Name,
                             Tag = role
                         };
 
-                        bool ismember = false;
+                        var ismember = false;
 
                         foreach (var el in grouprolesavs)
                         {
@@ -1324,11 +1322,11 @@ namespace MEGAbolt
 
         private void lstRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string li = UUID.Zero.ToString();
+            var li = UUID.Zero.ToString();
 
             if (lstRoles.SelectedItems.Count > 0)
             {
-                for (int i = lstRoles.SelectedItems.Count - 1; i >= 0; i--)
+                for (var i = lstRoles.SelectedItems.Count - 1; i >= 0; i--)
                 {
                     li = lstRoles.SelectedItems[i].SubItems[1].Text;
                     textBox3.Text = li;
@@ -1343,9 +1341,9 @@ namespace MEGAbolt
                 {
                     //lvRoleMembers
 
-                    foreach (GroupMemberData data in MemberData.Values)
+                    foreach (var data in MemberData.Values)
                     {
-                        ListViewItem lvi = new ListViewItem
+                        var lvi = new ListViewItem
                         {
                             Text = data.Name,
                             Tag = data.ID
@@ -1356,15 +1354,15 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    foreach (KeyValuePair<UUID, UUID> name in grouprolesavs)
+                    foreach (var name in grouprolesavs)
                     {
                         if (name.Key == (UUID)li)
                         {
-                            if (instance.avnames.ContainsKey(name.Value))
+                            if (instance.avnames.TryGetValue(name.Value, out var avname))
                             {
-                                ListViewItem lvi = new ListViewItem
+                                var lvi = new ListViewItem
                                 {
-                                    Text = instance.avnames[name.Value],
+                                    Text = avname,
                                     Tag = name.Value
                                 };
 
@@ -1395,7 +1393,7 @@ namespace MEGAbolt
         {
             if (lstRoles.SelectedItems.Count > 0)
             {
-                UUID li = (UUID)textBox3.Text;
+                var li = (UUID)textBox3.Text;
                 (new frmGive(instance, grpid, li)).Show(this);
             }
             else
@@ -1451,17 +1449,17 @@ namespace MEGAbolt
                     {
                         if ((tstream = saveFileDialog1.OpenFile()) != null)
                         {
-                            StreamWriter SW = new StreamWriter(tstream);
+                            var SW = new StreamWriter(tstream);
 
                             SW.WriteLine("Group: " + Group.Name + ",UUID: " + grpid + ",Ttl members: " + lstMembers2.Items.Count.ToString(CultureInfo.CurrentCulture) + ",");
                             SW.WriteLine(",,,");
                             SW.WriteLine("Name,UUID,Title,Last online");
 
-                            foreach (GroupMemberData entry in MemberData.Values)
+                            foreach (var entry in MemberData.Values)
                             {
                                 try
                                 {
-                                    string line = entry.Name + "," + entry.ID + "," + entry.Title + "," + entry.LastOnline.ToString(CultureInfo.CurrentCulture);
+                                    var line = entry.Name + "," + entry.ID + "," + entry.Title + "," + entry.LastOnline.ToString(CultureInfo.CurrentCulture);
                                     SW.WriteLine(line);
                                 }
                                 catch (Exception ex)
@@ -1495,7 +1493,7 @@ namespace MEGAbolt
             }
 
             // Send the notice
-            GroupNotice sgnotice = new GroupNotice
+            var sgnotice = new GroupNotice
             {
                 Subject = textBox1.Text,
                 Message = textBox4.Text
@@ -1551,7 +1549,7 @@ namespace MEGAbolt
             {
                 textBox5.Text = string.Empty;
 
-                GroupNoticesListEntry gnotice = (GroupNoticesListEntry)lstNotices.SelectedItems[0].Tag;
+                var gnotice = (GroupNoticesListEntry)lstNotices.SelectedItems[0].Tag;
                 Client.Groups.RequestGroupNotice(gnotice.NoticeID);
             }
         }
@@ -1562,11 +1560,11 @@ namespace MEGAbolt
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                InventoryBase io = (InventoryBase)node.Tag;
+                var io = (InventoryBase)node.Tag;
 
                 if (node.Tag is InventoryItem)
                 {
-                    InventoryItem item = (InventoryItem)io;
+                    var item = (InventoryItem)io;
 
                     if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                     {
@@ -1746,7 +1744,7 @@ namespace MEGAbolt
             if (lstRoles.SelectedItems.Count > 0)
             {
                 //instance.State.Groups[grpid]
-                UUID li = (UUID)textBox3.Text;
+                var li = (UUID)textBox3.Text;
                 Client.Groups.DeleteRole(grpid, li);
             }
             else
@@ -1759,7 +1757,7 @@ namespace MEGAbolt
         {
             if (numFee.Value > 0)
             {
-                DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group for L$" + numFee.Value.ToString(CultureInfo.CurrentCulture) + "?", "MEGAbolt", MessageBoxButtons.YesNo);
+                var res = MessageBox.Show("Are you sure you want to JOIN this Group for L$" + numFee.Value.ToString(CultureInfo.CurrentCulture) + "?", "MEGAbolt", MessageBoxButtons.YesNo);
 
                 if (res == DialogResult.No)
                 {
@@ -1800,7 +1798,7 @@ namespace MEGAbolt
 
         private void button7_Click(object sender, EventArgs e)
         {
-            GroupRole role = new GroupRole
+            var role = new GroupRole
             {
                 Name = textBox7.Text,
                 Title = textBox8.Text,
@@ -1837,11 +1835,11 @@ namespace MEGAbolt
                     //    }
                     //}
 
-                    foreach (GroupRole role in grouproles.Values)
+                    foreach (var role in grouproles.Values)
                     {
                         if (role.Name.ToLower(CultureInfo.CurrentCulture) == "everyone")
                         {
-                            GroupPowers power = role.Powers;
+                            var power = role.Powers;
 
                             foreach (GroupPowers p in Enum.GetValues(typeof(GroupPowers)))
                             {
@@ -1855,8 +1853,8 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    GroupPowers power = GroupPowers.None;
-                    GroupRole role = (GroupRole)lvAssignedRoles.SelectedItems[0].Tag;
+                    var power = GroupPowers.None;
+                    var role = (GroupRole)lvAssignedRoles.SelectedItems[0].Tag;
 
                     power = role.Powers;
 
@@ -1877,7 +1875,7 @@ namespace MEGAbolt
 
             if (checkignore) return;
 
-            ListViewItem item = e.Item as ListViewItem;
+            var item = e.Item as ListViewItem;
 
             if (!HasGroupPower(GroupPowers.AssignMember))
             {
@@ -1907,12 +1905,12 @@ namespace MEGAbolt
             }
 
 
-            string li = lstMembers2.SelectedItems[0].Text;
-            UUID avid = UUID.Zero;
+            var li = lstMembers2.SelectedItems[0].Text;
+            var avid = UUID.Zero;
 
             try
             {
-                foreach (GroupMemberData entry in MemberData.Values)
+                foreach (var entry in MemberData.Values)
                 {
                     if (li == entry.Name)
                     {
@@ -1923,30 +1921,23 @@ namespace MEGAbolt
 
                 if (item.Checked)
                 {
-                    foreach (var el in grouprolesavs)
+                    foreach (var el in grouprolesavs.Where(el => el.Value == avid && el.Key == role.ID).ToList())
                     {
-                        if (el.Value == avid && el.Key == role.ID)
-                        {
-                            grouprolesavs.Add(new KeyValuePair<UUID, UUID>(role.ID, avid));
-                        }
+                        grouprolesavs.Add(new KeyValuePair<UUID, UUID>(role.ID, avid));
                     }
                 }
                 else
                 {
-                    foreach (var el in grouprolesavs)
+                    foreach (var el in grouprolesavs.Where(el => el.Value == avid && el.Key == role.ID).ToList())
                     {
-                        if (el.Value == avid && el.Key == role.ID)
-                        {
-                            grouprolesavs.Remove(new KeyValuePair<UUID, UUID>(role.ID, avid));
-                        }
+                        grouprolesavs.Remove(new KeyValuePair<UUID, UUID>(role.ID, avid));
                     }
                 }
             }
             catch {; }
 
-            // The section below has been borrowed from Radegast (c) 2009-2011 Radegast Development Team
-            List<GroupRoleChangesPacket.RoleChangeBlock> changes = new List<GroupRoleChangesPacket.RoleChangeBlock>();
-            GroupRoleChangesPacket.RoleChangeBlock rc = new GroupRoleChangesPacket.RoleChangeBlock
+            var changes = new List<GroupRoleChangesPacket.RoleChangeBlock>();
+            var rc = new GroupRoleChangesPacket.RoleChangeBlock
             {
                 MemberID = avid,
                 RoleID = role.ID,
@@ -1955,7 +1946,7 @@ namespace MEGAbolt
 
             changes.Add(rc);
 
-            GroupRoleChangesPacket packet = new GroupRoleChangesPacket
+            var packet = new GroupRoleChangesPacket
             {
                 AgentData =
                 {
@@ -2019,13 +2010,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var sim = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
                 }
@@ -2037,13 +2028,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string sim = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var sim = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, true)).Show();
                 }
@@ -2054,18 +2045,18 @@ namespace MEGAbolt
             {
                 try
                 {
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0];
-                    string[] avnamesplit = aavname.Split(new Char[] { '#' });
+                    var aavname = split[0];
+                    var avnamesplit = aavname.Split(new Char[] { '#' });
                     aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
-                    string elink = split[2];
+                    var elink = split[2];
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0];
+                    var avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -2074,14 +2065,14 @@ namespace MEGAbolt
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
                 // Open up the Group Info form here
-                string encoded = HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                UUID uuid = (UUID)split[7];
+                var uuid = (UUID)split[7];
 
                 if (uuid != UUID.Zero && split[6].ToLower(CultureInfo.CurrentCulture) == "group")
                 {
-                    frmGroupInfo frm = new frmGroupInfo(uuid, instance);
+                    var frm = new frmGroupInfo(uuid, instance);
                     frm.Show();
                 }
             }
@@ -2122,12 +2113,12 @@ namespace MEGAbolt
                 return;
             }
 
-            ListViewItem lvi = new ListViewItem
+            var lvi = new ListViewItem
             {
                 Text = fmem.Name
             };
 
-            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+            var lvsi = new ListViewItem.ListViewSubItem
             {
                 Text = fmem.Title
             };
@@ -2173,12 +2164,12 @@ namespace MEGAbolt
                 return;
             }
 
-            ListViewItem lvi = new ListViewItem
+            var lvi = new ListViewItem
             {
                 Text = fmem.Name
             };
 
-            ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem
+            var lvsi = new ListViewItem.ListViewSubItem
             {
                 Text = fmem.Contribution.ToString(CultureInfo.CurrentCulture)
             };
@@ -2197,11 +2188,11 @@ namespace MEGAbolt
 
         private void lstMembers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ListViewItem grpitem = lstMembers.GetItemAt(e.X, e.Y);
+            var grpitem = lstMembers.GetItemAt(e.X, e.Y);
 
             if (grpitem != null)
             {
-                foreach (GroupMemberData entry in MemberData.Values)
+                foreach (var entry in MemberData.Values)
                 {
                     if (grpitem.Text == entry.Name)
                     {
@@ -2213,11 +2204,11 @@ namespace MEGAbolt
 
         private void lstMembers2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ListViewItem grpitem = lstMembers2.GetItemAt(e.X, e.Y);
+            var grpitem = lstMembers2.GetItemAt(e.X, e.Y);
 
             if (grpitem != null)
             {
-                foreach (GroupMemberData entry in MemberData.Values)
+                foreach (var entry in MemberData.Values)
                 {
                     if (grpitem.Text == entry.Name)
                     {
@@ -2229,9 +2220,7 @@ namespace MEGAbolt
 
         private void lstMembers_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
         {
-            double x = 0;
-
-            if (Double.TryParse(e.Text, out x))
+            if (Double.TryParse(e.Text, out var x))
             {
                 x = Math.Sqrt(x);
                 x = Math.Round(x);
@@ -2241,9 +2230,7 @@ namespace MEGAbolt
 
         private void lstMembers2_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
         {
-            double x = 0;
-
-            if (Double.TryParse(e.Text, out x))
+            if (Double.TryParse(e.Text, out var x))
             {
                 x = Math.Sqrt(x);
                 x = Math.Round(x);
@@ -2257,20 +2244,20 @@ namespace MEGAbolt
             {
                 lvwAbilities.Items.Clear();
 
-                string selectedrole = lstRoles.SelectedItems[0].Text;
-                UUID selectedmember = (UUID)lvRoleMembers.SelectedItems[0].Tag;
+                var selectedrole = lstRoles.SelectedItems[0].Text;
+                var selectedmember = (UUID)lvRoleMembers.SelectedItems[0].Tag;
 
-                foreach (GroupRole role in grouproles.Values)
+                foreach (var role in grouproles.Values)
                 {
                     if (role.Name.ToLower(CultureInfo.CurrentCulture) == selectedrole.ToLower(CultureInfo.CurrentCulture))
                     {
-                        UUID roleid = role.ID;
+                        var roleid = role.ID;
 
                         foreach (var el in grouprolesavs)
                         {
                             if (el.Value == selectedmember && el.Key == roleid)
                             {
-                                GroupPowers power = role.Powers;
+                                var power = role.Powers;
 
                                 foreach (GroupPowers p in Enum.GetValues(typeof(GroupPowers)))
                                 {
@@ -2323,8 +2310,8 @@ namespace MEGAbolt
                         }
 
                     case SortByColumn.LastOnline:
-                        string a = member1.LastOnline;
-                        string b = member2.LastOnline;
+                        var a = member1.LastOnline;
+                        var b = member2.LastOnline;
                         string[] d1;
                         string[] d2;
                         int compareResult;

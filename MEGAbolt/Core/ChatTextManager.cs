@@ -38,9 +38,9 @@ namespace MEGAbolt
 {
     public class ChatTextManager
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         //private frmMain mainForm;
 
         //private List<ChatBufferItem> textBuffer;
@@ -49,21 +49,21 @@ namespace MEGAbolt
 
         //added by GM on 3-JUL-2009 for chair group IM calling
         private string gmu = string.Empty;
-        private string imu = string.Empty;
+        private readonly string imu = string.Empty;
         private UUID cau = UUID.Zero;
         private int chairAnnouncerInterval;
         private int chairAnnouncerActives;
-        private UUID[] chairAnnouncerGroups;
-        private string[] chairAnnouncerGroupNames;
+        private readonly UUID[] chairAnnouncerGroups;
+        private readonly string[] chairAnnouncerGroupNames;
         private int indexGroup;
         private DateTime nextCallTime;
         private int targetIndex;
-        private ManualResetEvent waitGroupIMSession = new ManualResetEvent(false);
-        private ManualResetEvent waitGroupIMLeaveSession = new ManualResetEvent(false);
+        private readonly ManualResetEvent waitGroupIMSession = new ManualResetEvent(false);
+        private readonly ManualResetEvent waitGroupIMLeaveSession = new ManualResetEvent(false);
         private bool chairAnnEnabled = false;
         private bool chairAnnChat = true;
         //added by GM on 1-APR-2010
-        private string chairAnnAdvert;
+        private readonly string chairAnnAdvert;
 
         private UUID GroupRequestID;
         //private ManualResetEvent GroupsEvent = new ManualResetEvent(false);
@@ -76,7 +76,7 @@ namespace MEGAbolt
         //private GroupManager.GroupMembersCallback callback;
         private bool ChatLogin = true;
 
-        private string commandin = string.Empty;
+        private readonly string commandin = string.Empty;
         //private bool TEnabled = false;
         //private string tName = string.Empty;
         //private string tPwd = string.Empty;
@@ -88,8 +88,8 @@ namespace MEGAbolt
         private int invitecounter = 0;
         private bool classiclayout = false;
         private bool reprinting = false;
-        private RingBufferProtection scriptbuffer = new RingBufferProtection();
-        private RingBufferProtection urlbuffer = new RingBufferProtection();
+        private readonly RingBufferProtection scriptbuffer = new RingBufferProtection();
+        private readonly RingBufferProtection urlbuffer = new RingBufferProtection();
 
         internal class ThreadExceptionHandler
         {
@@ -97,7 +97,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -164,7 +164,7 @@ namespace MEGAbolt
         private void CountActives()
         {
             chairAnnouncerActives = 0;
-            foreach (UUID cag in chairAnnouncerGroups)
+            foreach (var cag in chairAnnouncerGroups)
             {
                 if (cag != UUID.Zero) chairAnnouncerActives++;
             }
@@ -248,17 +248,17 @@ namespace MEGAbolt
         {
             if (e.Status == LoginStatus.Success)
             {
-                ChatBufferItem loggedIn = new ChatBufferItem(
+                var loggedIn = new ChatBufferItem(
                     DateTime.Now,
                     " Logged into Second Life as " + netcom.LoginOptions.FullName + ".",
                     ChatBufferTextStyle.StatusBlue);
 
-                ChatBufferItem loginReply = new ChatBufferItem(
+                var loginReply = new ChatBufferItem(
                     DateTime.Now, Environment.NewLine + e.Message, ChatBufferTextStyle.LoginReply);
 
-                string avid = client.Self.AgentID.ToString();
+                var avid = client.Self.AgentID.ToString();
 
-                ChatBufferItem avuuid = new ChatBufferItem(
+                var avuuid = new ChatBufferItem(
                     DateTime.Now, " " + netcom.LoginOptions.FullName + "'s UUID is " + avid + " " + Environment.NewLine, ChatBufferTextStyle.StatusBlue);
 
                 //ChatBufferItem avuuid1 = new ChatBufferItem(
@@ -271,7 +271,7 @@ namespace MEGAbolt
             }
             else if (e.Status == LoginStatus.Failed)
             {
-                ChatBufferItem loginError = new ChatBufferItem(
+                var loginError = new ChatBufferItem(
                     DateTime.Now, " Login error: " + e.Message, ChatBufferTextStyle.Error);
 
                 ProcessBufferItem(loginError, true);
@@ -280,7 +280,7 @@ namespace MEGAbolt
 
         private void netcom_ClientLoggedOut(object sender, EventArgs e)
         {
-            ChatBufferItem item = new ChatBufferItem(
+            var item = new ChatBufferItem(
                 DateTime.Now, " Logged out of Second Life.\n", ChatBufferTextStyle.StatusBlue);
 
             ProcessBufferItem(item, true);
@@ -292,16 +292,16 @@ namespace MEGAbolt
         {
             if (e.Message.ToLower(CultureInfo.CurrentCulture).Contains("autopilot canceled")) return; //workaround the stupid autopilot alerts
 
-            string emsg = e.Message.Trim();
+            var emsg = e.Message.Trim();
 
             if (emsg.Contains("RESTART_X_MINUTES"))
             {
-                string[] mins = emsg.Split(new Char[] { ' ' });
+                var mins = emsg.Split(new Char[] { ' ' });
                 emsg = "Region is restarting in " + mins[1].Trim() + " minutes. If you remain in this region you will be logged out.";
                 netcom.ChatOut(emsg, ChatType.Normal, 123456);
             }
 
-            ChatBufferItem item = new ChatBufferItem(
+            var item = new ChatBufferItem(
                 DateTime.Now, " Alert message: " + emsg, ChatBufferTextStyle.Alert);
 
             ProcessBufferItem(item, true);
@@ -311,7 +311,7 @@ namespace MEGAbolt
         {
             if (e.Reason == NetworkManager.DisconnectType.ClientInitiated) return;
 
-            ChatBufferItem item = new ChatBufferItem(
+            var item = new ChatBufferItem(
                 DateTime.Now, " Client disconnected. Message: " + e.Message, ChatBufferTextStyle.Error);
 
             ProcessBufferItem(item, true);
@@ -345,10 +345,10 @@ namespace MEGAbolt
 
                 if (instance.DialogCount == 8)
                 {
-                    UUID objID = e.ObjectID;
-                    string objname = e.ObjectName;
+                    var objID = e.ObjectID;
+                    var objname = e.ObjectName;
 
-                    string objinfo = "\nObject UUID: " + objID;
+                    var objinfo = "\nObject UUID: " + objID;
                     objinfo += "\nObject Name: " + objname;
 
                     PrintDialogWarning(e.FirstName + " " + e.LastName, objinfo);
@@ -358,10 +358,10 @@ namespace MEGAbolt
 
         public void PrintDialogWarning(string avname, string oinfo)
         {
-            ChatBufferItem dalert = new ChatBufferItem(
+            var dalert = new ChatBufferItem(
                 DateTime.Now, " There is a total of 8 dialogs open. All new dialogs are now being blocked for your security. Close currently open dialogs to resume normal conditions.", ChatBufferTextStyle.Alert);
 
-            ChatBufferItem warn1 = new ChatBufferItem(
+            var warn1 = new ChatBufferItem(
                 DateTime.Now, " Last dialog was from " + avname + ". Object details below..." + oinfo, ChatBufferTextStyle.Alert);
 
             ProcessBufferItem(dalert, false);
@@ -375,7 +375,7 @@ namespace MEGAbolt
 
             if (scriptbuffer.RingBuffer(instance))
             {
-                ChatBufferItem dalert = new ChatBufferItem(
+                var dalert = new ChatBufferItem(
                 DateTime.Now, "Too many script dialogues are coming in too quickly. Flood Protection is in operation for your security...", ChatBufferTextStyle.Alert);
 
                 ProcessBufferItem(dalert, true);
@@ -387,8 +387,8 @@ namespace MEGAbolt
             //e.ObjectOwner.ToString();
             //e.Questions.ToString();
 
-            ScriptPermission scriptPerm = ScriptPermission.None;
-            string scriptMsg = string.Empty;
+            var scriptPerm = ScriptPermission.None;
+            var scriptMsg = string.Empty;
 
             switch (e.Questions)
             {
@@ -418,7 +418,7 @@ namespace MEGAbolt
                     break;
             }
 
-            DialogResult sret = MessageBoxEx.Show(
+            var sret = MessageBoxEx.Show(
                 $"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}\nowned by {e.ObjectOwnerName}:\n\n{scriptMsg}",
                 "Script permission...", MessageBoxButtons.OKCancel, 15000);
 
@@ -438,7 +438,7 @@ namespace MEGAbolt
 
             if (urlbuffer.RingBuffer(instance))
             {
-                ChatBufferItem dalert = new ChatBufferItem(
+                var dalert = new ChatBufferItem(
                 DateTime.Now, "Too many URL offers are coming in too quickly. Flood Protection is in operation for your security...", ChatBufferTextStyle.Alert);
 
                 ProcessBufferItem(dalert, true);
@@ -446,7 +446,7 @@ namespace MEGAbolt
                 return;
             }
 
-            DialogResult sret = MessageBoxEx.Show(
+            var sret = MessageBoxEx.Show(
                 $"{e.ObjectName.ToString(CultureInfo.CurrentCulture)}\nowned by {e.OwnerID} is offering you a URL.\n\nClick 'OK' to visit.", "URL offer...", MessageBoxButtons.OKCancel, 15000);
 
             if (sret == DialogResult.OK)
@@ -458,12 +458,12 @@ namespace MEGAbolt
 
         public void PrintStartupMessage()
         {
-            ChatBufferItem title = new ChatBufferItem(
+            var title = new ChatBufferItem(
                 DateTime.Now, $"{Assembly.GetExecutingAssembly().GetName().Name} " +
                               $"v{Assembly.GetExecutingAssembly().GetName().Version}" + Environment.NewLine,
                 ChatBufferTextStyle.StartupTitle);
 
-            ChatBufferItem ready = new ChatBufferItem(
+            var ready = new ChatBufferItem(
                 DateTime.Now, " Ready to login...\n", ChatBufferTextStyle.StatusBlue);
 
             ProcessBufferItem(title, true);
@@ -472,7 +472,7 @@ namespace MEGAbolt
 
         public void PrintAlertMessage(string msg)
         {
-            ChatBufferItem ready = new ChatBufferItem(
+            var ready = new ChatBufferItem(
                 DateTime.Now, msg, ChatBufferTextStyle.Alert);
 
             ProcessBufferItem(ready, true);
@@ -480,9 +480,9 @@ namespace MEGAbolt
 
         public void PrintUUID()
         {
-            string avid = client.Self.AgentID.ToString();
+            var avid = client.Self.AgentID.ToString();
 
-            ChatBufferItem avuuid = new ChatBufferItem(
+            var avuuid = new ChatBufferItem(
                 DateTime.Now, $" My UUID is {avid}", ChatBufferTextStyle.Alert);
 
             ProcessBufferItem(avuuid, true);
@@ -493,7 +493,7 @@ namespace MEGAbolt
             //textPrinter.SetSelectionForeColor(Color.Brown);
             //textPrinter.PrintText(Msg);
 
-            ChatBufferItem ready = new ChatBufferItem(
+            var ready = new ChatBufferItem(
                DateTime.Now, Msg, ChatBufferTextStyle.StatusBrown);
 
             ProcessBufferItem(ready, true);
@@ -540,8 +540,8 @@ namespace MEGAbolt
                 ;
             }
 
-            string smsg = item.Text;
-            string prefix = string.Empty;
+            var smsg = item.Text;
+            var prefix = string.Empty;
 
             //if (addToBuffer)
             //{
@@ -557,7 +557,7 @@ namespace MEGAbolt
             //    //}
             //}
 
-            DateTime dte = item.Timestamp;
+            var dte = item.Timestamp;
 
             if (classiclayout)
             {
@@ -661,8 +661,8 @@ namespace MEGAbolt
             {
                 roles = new List<UUID>();
 
-                char[] deli = ",".ToCharArray();
-                string[] sGrp = smsg.Split(deli);
+                var deli = ",".ToCharArray();
+                var sGrp = smsg.Split(deli);
 
                 try //trap the cast to UUID bug if passed string is malformed
                 {
@@ -675,7 +675,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                int ielems = sGrp.Length;
+                var ielems = sGrp.Length;
 
                 // This is a hack for backward GroupMan Pro compatibility
                 if (ielems > 6)
@@ -689,7 +689,7 @@ namespace MEGAbolt
                     gmanlocation = string.Empty;
                 }
 
-                string pwd = string.Empty;
+                var pwd = string.Empty;
 
                 try
                 {
@@ -701,13 +701,13 @@ namespace MEGAbolt
                 }
 
                 // the MD5 stuff (as of V 0.9.3)
-                string str = instance.Config.CurrentConfig.GroupManPro;
-                MEGAMD5 md5 = new MEGAMD5();
-                string metapwd = md5.MD5(str);
+                var str = instance.Config.CurrentConfig.GroupManPro;
+                var md5 = new MEGAMD5();
+                var metapwd = md5.MD5(str);
 
                 if (pwd != metapwd)
                 {
-                    string gmsg = string.Empty;
+                    var gmsg = string.Empty;
 
                     if (pwd == "invalid")
                     {
@@ -771,17 +771,17 @@ namespace MEGAbolt
 
                     // the MD5 stuff (as of V 0.9.3)
                     //chop out the Password if there is one
-                    string[] chops = smsg.Split(new char[] { '|' }, StringSplitOptions.None);
+                    var chops = smsg.Split(new char[] { '|' }, StringSplitOptions.None);
                     string pwd;
                     pwd = chops.Length == 3 ? chops[1] : "invalid";
 
-                    string str = instance.Config.CurrentConfig.GroupManPro; //GM: actually it is the MEGAbolt password
-                    MEGAMD5 md5 = new MEGAMD5();
-                    string metapwd = md5.MD5(str);
+                    var str = instance.Config.CurrentConfig.GroupManPro; //GM: actually it is the MEGAbolt password
+                    var md5 = new MEGAMD5();
+                    var metapwd = md5.MD5(str);
 
                     if (pwd != metapwd)
                     {
-                        string gmsg = string.Empty;
+                        var gmsg = string.Empty;
 
                         if (pwd == "invalid")
                         {
@@ -802,12 +802,12 @@ namespace MEGAbolt
 
                     //fixup the text
                     //chop off before the ChairPrefix
-                    string cp = Properties.Resources.ChairPrefix;
-                    int pos = smsg.IndexOf(cp, 2, StringComparison.CurrentCultureIgnoreCase);
+                    var cp = Properties.Resources.ChairPrefix;
+                    var pos = smsg.IndexOf(cp, 2, StringComparison.CurrentCultureIgnoreCase);
                     pos = pos < 0 ? 0 : pos;
-                    StringBuilder sb = new StringBuilder(smsg.Substring(pos));
+                    var sb = new StringBuilder(smsg[pos..]);
 
-                    string ca = chairAnnAdvert;
+                    var ca = chairAnnAdvert;
                     sb.Append(" \n");
                     sb.Append(ca);
 
@@ -819,10 +819,10 @@ namespace MEGAbolt
                     client.Self.GroupChatJoined += Self_OnGroupChatJoin;
 
                     //calculate the interval
-                    int perGroupInterval = (int)Math.Round(((decimal)(chairAnnouncerInterval / chairAnnouncerActives)));
+                    var perGroupInterval = (int)Math.Round(((decimal)(chairAnnouncerInterval / chairAnnouncerActives)));
                     perGroupInterval = perGroupInterval < 1 ? 1 : perGroupInterval;
                     //find if already in the group
-                    UUID grp = chairAnnouncerGroups[indexGroup];
+                    var grp = chairAnnouncerGroups[indexGroup];
                     if (client.Self.GroupChatSessions.ContainsKey(grp))
                     {
                         client.Self.InstantMessageGroup(grp, sb.ToString());
@@ -874,7 +874,7 @@ namespace MEGAbolt
                 //textPrinter.SetOffset(0);
             }
 
-            bool islhdr = false;
+            var islhdr = false;
 
             switch (item.Style)
             {
@@ -996,7 +996,7 @@ namespace MEGAbolt
 
             if (!classiclayout)
             {
-                string txt = item.FromName + ": " + item.Text;
+                var txt = item.FromName + ": " + item.Text;
                 LogMessage(dte, item.FromUUID.ToString(), item.FromName, txt);
             }
             else
@@ -1063,15 +1063,15 @@ namespace MEGAbolt
                             //    dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                             //}
 
-                            string prefix = instance.SetTime();    //dte.ToString("[HH:mm] ");
-                            string gname = instance.State.GroupStore[igroup];
+                            var prefix = instance.SetTime();    //dte.ToString("[HH:mm] ");
+                            var gname = instance.State.GroupStore[igroup];
 
                             //textPrinter.SetSelectionForeColor(Color.Gray);
                             // textPrinter.PrintTextLine(prefix + "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson.ToString() + ") is already a member.");
 
-                            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson + ") is already a member.";
+                            var Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   Invite request for group " + gname.ToUpper(CultureInfo.CurrentCulture) + " has been ignored. " + gavname + " (" + iperson + ") is already a member.";
 
-                            ChatBufferItem ready = new ChatBufferItem(DateTime.Now, Msg, ChatBufferTextStyle.StatusGray);
+                            var ready = new ChatBufferItem(DateTime.Now, Msg, ChatBufferTextStyle.StatusGray);
 
                             ProcessBufferItem(ready, true);
 
@@ -1117,7 +1117,7 @@ namespace MEGAbolt
             //}
 
             //textPrinter.ForeColor = Color.Gray;
-            string prefix = instance.SetTime();    //dte.ToString("[HH:mm] ");
+            var prefix = instance.SetTime();    //dte.ToString("[HH:mm] ");
 
             try
             {
@@ -1140,19 +1140,19 @@ namespace MEGAbolt
                 return;
             }
 
-            string gname = string.Empty;
+            var gname = string.Empty;
 
-            if (instance.State.GroupStore.ContainsKey(igroup))
+            if (instance.State.GroupStore.TryGetValue(igroup, out var value))
             {
-                gname = "for group " + instance.State.GroupStore[igroup];
+                gname = "for group " + value;
             }
 
             //textPrinter.SetFontStyle(FontStyle.Bold);
             //textPrinter.PrintTextLine(prefix + "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson.ToString() + ")" + gname);
 
-            string Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson + ")" + gname;
+            var Msg = "\n\n[ GroupMan Pro ] @ " + gmanlocation + "\n   An invite has been sent to: " + gavname + " (" + iperson + ")" + gname;
 
-            ChatBufferItem ready = new ChatBufferItem(
+            var ready = new ChatBufferItem(
                DateTime.Now, Msg, ChatBufferTextStyle.StatusBold);
 
             ProcessBufferItem(ready, true);
@@ -1172,23 +1172,23 @@ namespace MEGAbolt
         {
             if (!instance.Config.CurrentConfig.GivePresent) return;
 
-            InventoryFolder presies = client.Inventory.Store.RootFolder;
-            List<InventoryBase> foundfolders = client.Inventory.Store.GetContents(presies);
+            var presies = client.Inventory.Store.RootFolder;
+            var foundfolders = client.Inventory.Store.GetContents(presies);
 
-            foreach (InventoryBase o in foundfolders)
+            foreach (var o in foundfolders)
             {
                 // for this to work the user needs to have a folder called "GroupMan Items"
                 if (o.Name.ToLower(CultureInfo.CurrentCulture) == "groupman items")
                 {
                     if (o is InventoryFolder)
                     {
-                        List<InventoryBase> founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID,
+                        var founditems = client.Inventory.FolderContents(o.UUID, client.Self.AgentID,
                             false, true, InventorySortOrder.ByName, TimeSpan.FromSeconds(3));
-                        int icount = founditems.Count;
-                        Random random = new Random();
-                        int num = random.Next(icount);
+                        var icount = founditems.Count;
+                        var random = new Random();
+                        var num = random.Next(icount);
 
-                        InventoryItem item = (InventoryItem)founditems[num];
+                        var item = (InventoryItem)founditems[num];
 
                         if ((item.Permissions.OwnerMask & PermissionMask.Transfer) == PermissionMask.Transfer)
                         {
@@ -1204,7 +1204,7 @@ namespace MEGAbolt
                             //    dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                             //}
 
-                            string prefix = instance.SetTime();   // dte.ToString("[HH:mm] ");
+                            var prefix = instance.SetTime();   // dte.ToString("[HH:mm] ");
 
                             //Give the item
                             client.Self.InstantMessage(iperson, "I am giving you a present for joining our group. Thank you.");
@@ -1233,7 +1233,7 @@ namespace MEGAbolt
             //}
 
             TextPrinter.SetSelectionForeColor(Color.Gray);
-            DateTime dte = item.Timestamp;
+            var dte = item.Timestamp;
 
             if (classiclayout)
             {
@@ -1315,7 +1315,7 @@ namespace MEGAbolt
                     //    dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
                     //}
 
-                    string header = string.Empty;
+                    var header = string.Empty;
 
                     header = "[HH:mm] ";
                     //textPrinter.SetSelectionForeColor(Color.Gray);
@@ -1393,7 +1393,7 @@ namespace MEGAbolt
 
             if (!classiclayout)
             {
-                string txt = item.FromName + ": " + item.Text;
+                var txt = item.FromName + ": " + item.Text;
                 LogMessage(dte, item.FromUUID.ToString(), item.FromName, txt);
             }
             else
@@ -1405,7 +1405,7 @@ namespace MEGAbolt
         //Used only for non-public chat
         private void ProcessOutgoingChat(ChatSentEventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append("(channel ");
             sb.Append(e.Channel);
@@ -1432,7 +1432,7 @@ namespace MEGAbolt
 
             sb.Append(e.Message);
 
-            ChatBufferItem item = new ChatBufferItem(
+            var item = new ChatBufferItem(
                 DateTime.Now, sb.ToString(), ChatBufferTextStyle.StatusDarkBlue, client.Self.Name);
 
             ProcessBufferItem(item, true);
@@ -1452,12 +1452,12 @@ namespace MEGAbolt
             if (e.Message.Contains(imu)) return; // Ignore the message for plugin use or whatever
             if (e.Message.Contains(commandin)) return; // LSL API command
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             if (e.Message.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase))
             {
                 sb.Append(e.FromName);
-                sb.Append(e.Message.Substring(3));
+                sb.Append(e.Message[3..]);
             }
             else if (e.FromName.ToLower(CultureInfo.CurrentCulture) == client.Self.Name.ToLower(CultureInfo.CurrentCulture) && e.SourceType == ChatSourceType.Agent)
             {
@@ -1487,7 +1487,7 @@ namespace MEGAbolt
             {
                 if (instance.chatbuffer.RingBuffer(instance))
                 {
-                    ChatBufferItem dalert = new ChatBufferItem(
+                    var dalert = new ChatBufferItem(
                     DateTime.Now, "Too many chat messages are coming in too quickly. Flood Protection is in operation for your security...", ChatBufferTextStyle.Alert);
 
                     ProcessBufferItem(dalert, true);
@@ -1516,7 +1516,7 @@ namespace MEGAbolt
                 sb.Append(e.Message);
             }
 
-            ChatBufferItem item = new ChatBufferItem
+            var item = new ChatBufferItem
             {
                 Timestamp = DateTime.Now,
                 Text = sb.ToString(),
@@ -1580,7 +1580,7 @@ namespace MEGAbolt
             //if (string.IsNullOrEmpty(fromName))
             //    return;
 
-            string newsess = string.Empty;
+            var newsess = string.Empty;
 
             if (ChatLogin)
             {
@@ -1588,7 +1588,7 @@ namespace MEGAbolt
                 ChatLogin = false;
             }
 
-            string folder = instance.Config.CurrentConfig.LogDir;
+            var folder = instance.Config.CurrentConfig.LogDir;
 
             if (!folder.EndsWith("\\", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -1596,16 +1596,16 @@ namespace MEGAbolt
             }
 
             // Log the message
-            string filename = "CHAT-" + timestamp.Date.ToString(CultureInfo.CurrentCulture) + "-" + client.Self.Name + ".txt";
+            var filename = "CHAT-" + timestamp.Date.ToString(CultureInfo.CurrentCulture) + "-" + client.Self.Name + ".txt";
 
             filename = instance.CleanReplace("/", "-", filename);    //filename.Replace("/", "-");
             //filename = filename.Replace(" ", "_");
             filename = instance.CleanReplace(":", "-", filename);    //filename.Replace(":", "-");
 
-            string path = folder + filename;
-            string line = newsess + "[" + timestamp.ToShortTimeString() + "] " + msg;
+            var path = folder + filename;
+            var line = newsess + "[" + timestamp.ToShortTimeString() + "] " + msg;
 
-            bool exists = false;
+            var exists = false;
 
             // Check if the file exists
             try
@@ -1620,7 +1620,7 @@ namespace MEGAbolt
             if (exists)
             {
                 //StreamWriter swFromFileStreamUTF8Buffer = new StreamWriter(fs, System.Text.Encoding.UTF8, 512);
-                StreamWriter SW = File.AppendText(@path);
+                var SW = File.AppendText(@path);
 
                 //long theTrueFileSize = SW.BaseStream.Length;
 
@@ -1636,7 +1636,7 @@ namespace MEGAbolt
             }
             else
             {
-                StreamWriter SW = File.CreateText(@path);
+                var SW = File.CreateText(@path);
 
                 try
                 {

@@ -55,7 +55,7 @@ namespace MEGAbolt.Controls
             {
                 if (_suspendMenuMode == null)
                 {
-                    Type modalMenuFilter = ComboBox.modalMenuFilter;
+                    var modalMenuFilter = ComboBox.modalMenuFilter;
                     if (modalMenuFilter != null)
                         _suspendMenuMode = modalMenuFilter.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 }
@@ -71,7 +71,7 @@ namespace MEGAbolt.Controls
             {
                 if (_resumeMenuMode == null)
                 {
-                    Type modalMenuFilter = ComboBox.modalMenuFilter;
+                    var modalMenuFilter = ComboBox.modalMenuFilter;
                     if (modalMenuFilter != null)
                         _resumeMenuMode = modalMenuFilter.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 }

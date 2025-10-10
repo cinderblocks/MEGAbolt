@@ -28,10 +28,10 @@ namespace MEGAbolt
 {
     public partial class InventoryItemConsole : UserControl
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private SLNetCom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
         //private bool thisTP = false;
         //private Primitive rootPrim;
         private bool fLoading = true;
@@ -92,7 +92,7 @@ namespace MEGAbolt
             if (InvokeRequired) BeginInvoke((MethodInvoker)delegate { CreatorOwnerReceived(names); });
             else
             {
-                foreach (KeyValuePair<UUID, string> kvp in names)
+                foreach (var kvp in names)
                 {
                     if (kvp.Key == item.CreatorID)
                         txtItemCreator.Text = kvp.Value;
@@ -126,7 +126,7 @@ namespace MEGAbolt
             txtItemCreator.Text = txtItemOwner.Text = "Retreiving name...";
             txtItemDescription.Text = item.Description;
 
-            List<UUID> avIDs = new List<UUID>
+            var avIDs = new List<UUID>
             {
                 item.CreatorID,
                 item.OwnerID
@@ -179,7 +179,7 @@ namespace MEGAbolt
             switch (item.InventoryType)
             {
                 case InventoryType.Object:
-                    InventoryObjectConsole objectConsole = new InventoryObjectConsole(instance, item);
+                    var objectConsole = new InventoryObjectConsole(instance, item);
                     btnDetach.Text = "Detach";
                     objectConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(objectConsole);
@@ -188,7 +188,7 @@ namespace MEGAbolt
                     break;
 
                 case InventoryType.Notecard:
-                    InventoryNotecardConsole notecardConsole = new InventoryNotecardConsole(instance, item);
+                    var notecardConsole = new InventoryNotecardConsole(instance, item);
                     notecardConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(notecardConsole);
                     label11.Visible = false;
@@ -197,7 +197,7 @@ namespace MEGAbolt
                     break;
 
                 case InventoryType.LSL:
-                    InventoryScriptConsole scriptConsole = new InventoryScriptConsole(instance, item);
+                    var scriptConsole = new InventoryScriptConsole(instance, item);
                     scriptConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(scriptConsole);
                     label11.Visible = false;
@@ -205,7 +205,7 @@ namespace MEGAbolt
                     //scriptConsole.Dispose(); 
                     break;
                 case InventoryType.Snapshot:
-                    InventoryImageConsole imageConsole = new InventoryImageConsole(instance, item);
+                    var imageConsole = new InventoryImageConsole(instance, item);
                     imageConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(imageConsole);
                     label11.Visible = false;
@@ -220,7 +220,7 @@ namespace MEGAbolt
                     label11.Visible = false;
                     break;
                 case InventoryType.Animation:
-                    InventoryAnimationConsole animationConsole = new InventoryAnimationConsole(instance, item);
+                    var animationConsole = new InventoryAnimationConsole(instance, item);
                     animationConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(animationConsole);
                     label11.Visible = false;
@@ -232,7 +232,7 @@ namespace MEGAbolt
                     label11.Visible = false;
                     break;
                 case InventoryType.Gesture:
-                    InventoryGestureConsol gestureConsole = new InventoryGestureConsol(instance, item);
+                    var gestureConsole = new InventoryGestureConsol(instance, item);
                     gestureConsole.Dock = DockStyle.Fill;
                     pnlItemTypeProp.Controls.Add(gestureConsole);
                     label11.Visible = false;
@@ -241,11 +241,11 @@ namespace MEGAbolt
 
             if (item.InventoryType == InventoryType.Wearable)
             {
-                InventoryWearable werbl = item as InventoryWearable;
+                var werbl = item as InventoryWearable;
 
                 if (item.ParentUUID == instance.CoF.UUID)
                 {
-                    InventoryItem wItem = AInventoryItem(item);
+                    var wItem = AInventoryItem(item);
 
                     werbl = wItem as InventoryWearable;
                     label9.Text = "Wearable type: " + werbl.WearableType;
@@ -318,14 +318,13 @@ namespace MEGAbolt
                 instance.State.SetStanding();
             }
 
-            UUID landmark = new UUID();
             label7.Visible = true;
 
             //thisTP = true; 
 
             //item.InventoryType 
 
-            if (!UUID.TryParse(txtUUID.Text, out landmark))
+            if (!UUID.TryParse(txtUUID.Text, out var landmark))
             {
                 label7.Text = "Invalid TP LLUID";
             }
@@ -445,7 +444,7 @@ namespace MEGAbolt
         {
             if (fLoading) return;
 
-            PermissionMask Perms = PermissionMask.None;
+            var Perms = PermissionMask.None;
 
             if (checkBox1.Checked)
             {

@@ -47,25 +47,25 @@ namespace MEGAbolt
             currentDirectory = @label2.Text;
             currentDirectory += "\\";
 
-            DirectoryInfo dir = new DirectoryInfo(currentDirectory);
+            var dir = new DirectoryInfo(currentDirectory);
 
-            FileInfo[] rgFiles = dir.GetFiles("*.cmd");
+            var rgFiles = dir.GetFiles("*.cmd");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox1.Items.Add(fi.Name);
             }
 
             rgFiles = dir.GetFiles("*.bat");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox1.Items.Add(fi.Name);
             }
 
             rgFiles = dir.GetFiles("*.ini");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox1.Items.Add(fi.Name);
             }
@@ -75,7 +75,7 @@ namespace MEGAbolt
         {
             label5.Text = string.Empty;
 
-            DialogResult result = folderBrowser.ShowDialog();
+            var result = folderBrowser.ShowDialog();
             if (result == DialogResult.OK)
             {
                 textBox1.Text = folderBrowser.SelectedPath;
@@ -97,8 +97,8 @@ namespace MEGAbolt
                 return;
             }
 
-            string filename = string.Empty;
-            string destFile = string.Empty;
+            var filename = string.Empty;
+            var destFile = string.Empty;
 
             foreach (var item in listBox1.Items)
             {
@@ -111,7 +111,7 @@ namespace MEGAbolt
                 }
                 catch (Exception ex)
                 {
-                    string nexp = ex.InnerException.ToString();
+                    var nexp = ex.InnerException.ToString();
                     label5.Text = nexp;
                     return;
                 }
@@ -124,20 +124,20 @@ namespace MEGAbolt
 
         private void CreateBatFile()
         {
-            string cuser = "MEGAbolt";
-            string textfile = cuser + ".bat";
-            string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
-            string scfile = "MEGAbolt BAT.lnk";
-            string sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
+            var cuser = "MEGAbolt";
+            var textfile = cuser + ".bat";
+            var path = Path.Combine(DataFolder.GetDataFolder(), textfile);
+            var scfile = "MEGAbolt BAT.lnk";
+            var sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
             }
 
-            using (StreamWriter sr = System.IO.File.CreateText(path))
+            using (var sr = System.IO.File.CreateText(path))
             {
-                string line = "@ECHO OFF";
+                var line = "@ECHO OFF";
                 sr.Write(line);
                 sr.WriteLine("");
                 sr.WriteLine("");
@@ -151,9 +151,6 @@ namespace MEGAbolt
                 //        sr.WriteLine("");
                 //    }
                 //}
-
-                //sr.Close();
-                sr.Dispose();
             }
 
             //// now create desktop shortcut
@@ -173,11 +170,11 @@ namespace MEGAbolt
             //string textfile = cuser + ".bat";
             //string path = Path.Combine(Environment.CurrentDirectory, textfile);
             //string scfile = "MEGAbolt- " + cuser + " BAT.lnk";
-            string sc = scp;   // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
+            var sc = scp;   // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
             // now create desktop shortcut
-            WshShell shell = new WshShell();
-            IWshShortcut link = (IWshShortcut)shell.CreateShortcut(sc);
+            var shell = new WshShell();
+            var link = (IWshShortcut)shell.CreateShortcut(sc);
             link.TargetPath = path;
             link.WorkingDirectory = DataFolder.GetDataFolder();    //Application.StartupPath.ToString();
             link.Description = "MEGAbolt BAT shortcut";
@@ -191,11 +188,11 @@ namespace MEGAbolt
             //string textfile = cuser + ".bat";
             //string path = Path.Combine(Environment.CurrentDirectory, textfile);
             //string scfile = "MEGAbolt- " + cuser + " BAT.lnk";
-            string sc = scp;   // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
+            var sc = scp;   // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
             // now create desktop shortcut
-            WshShell shell = new WshShell();
-            IWshShortcut link = (IWshShortcut)shell.CreateShortcut(sc);
+            var shell = new WshShell();
+            var link = (IWshShortcut)shell.CreateShortcut(sc);
             link.TargetPath = path;
             link.WorkingDirectory = DataFolder.GetDataFolder();    //Application.StartupPath.ToString(); 
             link.Description = "MEGAbolt_" + fname + " BAT shortcut";
@@ -217,7 +214,7 @@ namespace MEGAbolt
         {
             label5.Text = string.Empty;
 
-            DialogResult result = folderBrowser.ShowDialog();
+            var result = folderBrowser.ShowDialog();
             if (result == DialogResult.OK)
             {
                 textBox2.Text = folderBrowser.SelectedPath;
@@ -242,11 +239,11 @@ namespace MEGAbolt
                 return;
             }
 
-            string filename = string.Empty;
-            string destFile = string.Empty;
-            string[] cmdfiles = new string[listBox2.Items.Count];
+            var filename = string.Empty;
+            var destFile = string.Empty;
+            var cmdfiles = new string[listBox2.Items.Count];
 
-            for (int a = 0; a < listBox2.Items.Count; a++)
+            for (var a = 0; a < listBox2.Items.Count; a++)
             {
                 filename = @textBox2.Text + listBox2.Items[a];
                 destFile = currentDirectory + listBox2.Items[a];
@@ -261,16 +258,16 @@ namespace MEGAbolt
 
                         if (checkBox1.Checked)
                         {
-                            string fname = listBox2.Items[a].ToString();
-                            char[] deli = ".".ToCharArray();
+                            var fname = listBox2.Items[a].ToString();
+                            var deli = ".".ToCharArray();
 
-                            string[] names = fname.Split(deli);
+                            var names = fname.Split(deli);
 
-                            string cuser = names[0];
-                            string textfile = cuser + ".bat";
-                            string path = Path.Combine(DataFolder.GetDataFolder(), textfile);
-                            string scfile = "MEGAbolt_" + cuser + " BAT.lnk";
-                            string sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
+                            var cuser = names[0];
+                            var textfile = cuser + ".bat";
+                            var path = Path.Combine(DataFolder.GetDataFolder(), textfile);
+                            var scfile = "MEGAbolt_" + cuser + " BAT.lnk";
+                            var sc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), scfile);
 
                             CreateBatFileShortcut(path, sc, cuser);
                         }
@@ -278,7 +275,7 @@ namespace MEGAbolt
                 }
                 catch (Exception ex)
                 {
-                    string nexp = ex.Message;
+                    var nexp = ex.Message;
                     label5.Text = nexp;
                     return;
                 }
@@ -303,25 +300,25 @@ namespace MEGAbolt
                 currentDirectory = @label2.Text;
                 currentDirectory += "\\";
 
-                DirectoryInfo dir = new DirectoryInfo(currentDirectory);
+                var dir = new DirectoryInfo(currentDirectory);
 
-                FileInfo[] rgFiles = dir.GetFiles("*.cmd");
+                var rgFiles = dir.GetFiles("*.cmd");
 
-                foreach (FileInfo fi in rgFiles)
+                foreach (var fi in rgFiles)
                 {
                     listBox1.Items.Add(fi.Name);
                 }
 
                 rgFiles = dir.GetFiles("*.bat");
 
-                foreach (FileInfo fi in rgFiles)
+                foreach (var fi in rgFiles)
                 {
                     listBox1.Items.Add(fi.Name);
                 }
 
                 rgFiles = dir.GetFiles("*.ini");
 
-                foreach (FileInfo fi in rgFiles)
+                foreach (var fi in rgFiles)
                 {
                     listBox1.Items.Add(fi.Name);
                 }
@@ -347,27 +344,27 @@ namespace MEGAbolt
         {
             listBox2.Items.Clear();
 
-            string restoreDirectory = @textBox2.Text;
+            var restoreDirectory = @textBox2.Text;
 
-            DirectoryInfo dir = new DirectoryInfo(restoreDirectory);
+            var dir = new DirectoryInfo(restoreDirectory);
 
-            FileInfo[] rgFiles = dir.GetFiles("*.cmd");
+            var rgFiles = dir.GetFiles("*.cmd");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox2.Items.Add(fi.Name);
             }
 
             rgFiles = dir.GetFiles("*.bat");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox2.Items.Add(fi.Name);
             }
 
             rgFiles = dir.GetFiles("*.ini");
 
-            foreach (FileInfo fi in rgFiles)
+            foreach (var fi in rgFiles)
             {
                 listBox2.Items.Add(fi.Name);
             }

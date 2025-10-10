@@ -32,10 +32,10 @@ namespace MEGAbolt
 {
     public partial class WornAttachments : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private Avatar av = null;
-        private Dictionary<uint, AttachmentsListItem> listItems = new Dictionary<uint, AttachmentsListItem>();
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly Avatar av = null;
+        private readonly Dictionary<uint, AttachmentsListItem> listItems = new Dictionary<uint, AttachmentsListItem>();
         //private Dictionary<uint, AttachmentsListItem> groupItems = new Dictionary<uint, AttachmentsListItem>();
 
         public WornAttachments(MEGAboltInstance instance, Avatar av)
@@ -108,7 +108,7 @@ namespace MEGAbolt
         {
             try
             {
-                Avatar sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
+                var sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
                     fa => fa.Value.ID == av.ID).Value;
                 if (sav != null)
                 {
@@ -120,11 +120,11 @@ namespace MEGAbolt
                         lbxPrims.BeginUpdate();
                         lbxPrims.Items.Clear();
 
-                        foreach (Primitive prim in prims)
+                        foreach (var prim in prims)
                         {
                             try
                             {
-                                AttachmentsListItem item = new AttachmentsListItem(prim, client, lbxPrims);
+                                var item = new AttachmentsListItem(prim, client, lbxPrims);
 
                                 if (listItems.TryAdd(prim.LocalID, item))
                                 {
@@ -231,11 +231,11 @@ namespace MEGAbolt
             lbxPrims.BeginUpdate();
             lbxPrims.Items.Clear();
 
-            foreach (Primitive prim in prims)
+            foreach (var prim in prims)
             {
                 try
                 {
-                    AttachmentsListItem item = new AttachmentsListItem(prim, client, lbxPrims);
+                    var item = new AttachmentsListItem(prim, client, lbxPrims);
 
                     if (listItems.TryAdd(prim.LocalID, item))
                     {
@@ -259,20 +259,20 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            AttachmentsListItem itemToDraw = (AttachmentsListItem)lbxPrims.Items[e.Index];
+            var itemToDraw = (AttachmentsListItem)lbxPrims.Items[e.Index];
 
             Brush textBrush = null;
             //float fsize = 12.0f;
-            Font boldFont = new Font(e.Font, FontStyle.Bold);
-            Font regularFont = new Font(e.Font, FontStyle.Regular);
+            var boldFont = new Font(e.Font, FontStyle.Bold);
+            var regularFont = new Font(e.Font, FontStyle.Regular);
 
             textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
                 ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
-            string name = string.Empty;
-            string wornat = string.Empty;
-            string stas = string.Empty;
+            var name = string.Empty;
+            var wornat = string.Empty;
+            var stas = string.Empty;
 
             try
             {
@@ -297,14 +297,14 @@ namespace MEGAbolt
                 Logger.Log(ex.Message, Helpers.LogLevel.Debug, ex);
             }
 
-            SizeF nameSize = e.Graphics.MeasureString(name, boldFont);
+            var nameSize = e.Graphics.MeasureString(name, boldFont);
             float nameX = e.Bounds.Left + 4;
             float nameY = e.Bounds.Top + 2;
 
             e.Graphics.DrawString(name, boldFont, textBrush, nameX, nameY);
             e.Graphics.DrawString(wornat, regularFont, textBrush, nameX + nameSize.Width + 8, nameY);
 
-            SizeF nameSize1 = e.Graphics.MeasureString(wornat, regularFont);
+            var nameSize1 = e.Graphics.MeasureString(wornat, regularFont);
 
             e.Graphics.DrawString(stas, boldFont, textBrush, nameX + nameSize.Width + nameSize1.Width + 4, nameY);
 
@@ -322,7 +322,7 @@ namespace MEGAbolt
         {
             BeginInvoke(new MethodInvoker(() =>
             {
-                AttachmentsListItem item = (AttachmentsListItem)sender;
+                var item = (AttachmentsListItem)sender;
 
                 if (listItems.ContainsKey(item.Prim.LocalID))
                 {
@@ -345,15 +345,15 @@ namespace MEGAbolt
         {
             try
             {
-                int iGx = lbxPrimGroup.SelectedIndex;
+                var iGx = lbxPrimGroup.SelectedIndex;
 
                 if (iGx == -1)
                 {
-                    int iDx = lbxPrims.SelectedIndex;
+                    var iDx = lbxPrims.SelectedIndex;
 
                     if (iDx != -1)
                     {
-                        AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
+                        var item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
                         if (item == null) return;
 
@@ -367,7 +367,7 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    AttachmentsListItem gitem = (AttachmentsListItem)lbxPrimGroup.Items[iGx];
+                    var gitem = (AttachmentsListItem)lbxPrimGroup.Items[iGx];
                     client.Self.Touch(gitem.Prim.LocalID);
                     label4.Text = "Touched " + gitem.Prim.Properties.Name;
                 }
@@ -384,19 +384,19 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            AttachmentsListItem itemToDraw = (AttachmentsListItem)lbxPrimGroup.Items[e.Index];
+            var itemToDraw = (AttachmentsListItem)lbxPrimGroup.Items[e.Index];
 
             Brush textBrush = null;
             //float fsize = 12.0f;
-            Font boldFont = new Font(e.Font, FontStyle.Bold);
-            Font regularFont = new Font(e.Font, FontStyle.Regular);
+            var boldFont = new Font(e.Font, FontStyle.Bold);
+            var regularFont = new Font(e.Font, FontStyle.Regular);
 
             textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
                 ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
-            string name = string.Empty;
-            string wornat = string.Empty;
+            var name = string.Empty;
+            var wornat = string.Empty;
 
             try
             {
@@ -419,7 +419,7 @@ namespace MEGAbolt
                 //Logger.Log(ex.Message, Helpers.LogLevel.Debug, ex);
             }
 
-            SizeF nameSize = e.Graphics.MeasureString(name, boldFont);
+            var nameSize = e.Graphics.MeasureString(name, boldFont);
             float nameX = e.Bounds.Left + 4;
             float nameY = e.Bounds.Top + 2;
 
@@ -445,7 +445,7 @@ namespace MEGAbolt
 
             lbxPrimGroup.BeginUpdate();
 
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
             lbxPrimGroup.Items.Clear();
             label2.Text = string.Empty;
 
@@ -463,7 +463,7 @@ namespace MEGAbolt
                 if (av.ID == client.Self.AgentID) button1.Enabled = true;
             }
 
-            AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
+            var item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
             btnTouch.Enabled = (item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
@@ -476,11 +476,11 @@ namespace MEGAbolt
 
             label5.Text = item.Prim.Text;
 
-            foreach (Primitive gprim in group)
+            foreach (var gprim in group)
             {
                 try
                 {
-                    AttachmentsListItem gitem = new AttachmentsListItem(gprim, client, lbxPrimGroup);
+                    var gitem = new AttachmentsListItem(gprim, client, lbxPrimGroup);
 
                     gitem.PropertiesReceived += gitem_PropertiesReceived;
                     gitem.RequestProperties();
@@ -498,7 +498,7 @@ namespace MEGAbolt
         {
             BeginInvoke(new MethodInvoker(() =>
             {
-                AttachmentsListItem item = (AttachmentsListItem)sender;
+                var item = (AttachmentsListItem)sender;
 
                 lbxPrimGroup.Items.Add(item);
 
@@ -510,7 +510,7 @@ namespace MEGAbolt
         {
             label4.Text = string.Empty;
 
-            int iDx = lbxPrimGroup.SelectedIndex;
+            var iDx = lbxPrimGroup.SelectedIndex;
 
             if (iDx < 0)
             {
@@ -523,7 +523,7 @@ namespace MEGAbolt
                 button2.Enabled = true;
             }
 
-            AttachmentsListItem item = (AttachmentsListItem)lbxPrimGroup.Items[iDx];
+            var item = (AttachmentsListItem)lbxPrimGroup.Items[iDx];
 
             btnTouch.Enabled = (item.Prim.Flags & PrimFlags.Touch) == PrimFlags.Touch;
 
@@ -537,8 +537,8 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
             if (item == null) return;
             (new MEGA3D(instance, item.Prim.LocalID, item.Prim)).Show();
@@ -574,19 +574,19 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx != -1)
             {
-                AttachmentsListItem item = (AttachmentsListItem)lbxPrims.Items[iDx];
+                var item = (AttachmentsListItem)lbxPrims.Items[iDx];
 
-                UUID itmid = GetItemID(item.Prim);
+                var itmid = GetItemID(item.Prim);
 
                 if (itmid == UUID.Zero) return;
 
                 if (!client.Inventory.Store.TryGetValue(itmid, out InventoryItem attid)) { return; }
 
-                List<InventoryBase> contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
+                var contents = client.Inventory.Store.GetContents(instance.CoF.UUID);
 
                 foreach (var ritem in contents.Cast<InventoryItem>().Where(ritem => ritem.AssetUUID == attid.UUID))
                 {
@@ -619,7 +619,7 @@ namespace MEGAbolt
         {
             if (att.NameValues == null) return UUID.Zero;
 
-            for (int i = 0; i < att.NameValues.Length; i++)
+            for (var i = 0; i < att.NameValues.Length; i++)
             {
                 if (att.NameValues[i].Name == "AttachItemID")
                 {

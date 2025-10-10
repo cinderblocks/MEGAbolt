@@ -55,7 +55,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -198,7 +198,7 @@ namespace MEGAbolt
             {
                 //this.instance.State.Groups = e.Groups;
 
-                foreach (KeyValuePair<UUID, Group> g in e.Groups)
+                foreach (var g in e.Groups)
                 {
                     lock (instance.State.Groups)
                     {
@@ -227,7 +227,7 @@ namespace MEGAbolt
                 return;
             }
 
-            TransactionInfo ti = e.TransactionInfo;
+            var ti = e.TransactionInfo;
 
             if (ti.DestID != UUID.Zero && ti.SourceID != UUID.Zero)
             {
@@ -239,10 +239,10 @@ namespace MEGAbolt
 
             //tabs["chat"].Highlight();
 
-            int bal = e.Balance - tmoneybalance;
+            var bal = e.Balance - tmoneybalance;
 
-            string ttl = "MEGAbolt Alert";
-            string body = string.Empty;
+            var ttl = "MEGAbolt Alert";
+            var body = string.Empty;
 
             if (bal > 0)
             {
@@ -256,7 +256,7 @@ namespace MEGAbolt
                     {
                         if (!string.IsNullOrEmpty(e.Description))
                         {
-                            string pfrm = string.Empty;
+                            var pfrm = string.Empty;
 
                             if (ti.TransactionType == 5008)
                             {
@@ -327,8 +327,8 @@ namespace MEGAbolt
                         instance.MediaManager.PlayUISound(Properties.Resources.Friend_Off);
                     }
 
-                    string ttl = "MEGAbolt Alert";
-                    string body = $"{e.Friend.Name} is offline";
+                    var ttl = "MEGAbolt Alert";
+                    var body = $"{e.Friend.Name} is offline";
                     TrayNotifiy(ttl, body, false);
                 }
             }
@@ -352,8 +352,8 @@ namespace MEGAbolt
                         instance.MediaManager.PlayUISound(Properties.Resources.Friend_On);
                     }
 
-                    string ttl = "MEGAbolt Alert";
-                    string body = $"{e.Friend.Name} is online";
+                    var ttl = "MEGAbolt Alert";
+                    var body = $"{e.Friend.Name} is online";
                     TrayNotifiy(ttl, body, false);
                 }
             }
@@ -363,7 +363,7 @@ namespace MEGAbolt
         {
             //this.instance.State.GroupStore.Clear();
 
-            foreach (Group group in instance.State.Groups.Values)
+            foreach (var group in instance.State.Groups.Values)
             {
                 lock (instance.State.GroupStore)
                 {
@@ -440,8 +440,8 @@ namespace MEGAbolt
         {
             tabs["chat"].Highlight();
 
-            string ttl = "MEGAbolt Alert";
-            string body = e.Message;
+            var ttl = "MEGAbolt Alert";
+            var body = e.Message;
             TrayNotifiy(ttl, body);
         }
 
@@ -481,7 +481,7 @@ namespace MEGAbolt
 
             BeginInvoke(new MethodInvoker(() =>
             {
-                ChatBufferItem ready = new ChatBufferItem(DateTime.Now,
+                var ready = new ChatBufferItem(DateTime.Now,
                            e.IM.FromAgentName + " (" + e.IM.FromAgentID + "): " + e.IM.Message,
                            ChatBufferTextStyle.ObjectChat,
                            null,
@@ -505,7 +505,7 @@ namespace MEGAbolt
 
             BeginInvoke(new MethodInvoker(() =>
             {
-                ChatBufferItem ready = new ChatBufferItem(DateTime.Now,
+                var ready = new ChatBufferItem(DateTime.Now,
                            msg,
                            ChatBufferTextStyle.Alert,
                            null,
@@ -540,7 +540,7 @@ namespace MEGAbolt
                         if (e.IM.RegionID != UUID.Zero)
                         {
                             // Region message
-                            String msg = "Region message from " + e.IM.FromAgentName + Environment.NewLine + Environment.NewLine;
+                            var msg = "Region message from " + e.IM.FromAgentName + Environment.NewLine + Environment.NewLine;
                             msg += @e.IM.Message;
 
                             //MessageBox.Show(msg, "MEGAbolt");
@@ -718,7 +718,7 @@ namespace MEGAbolt
         {
             if (instance.Config.CurrentConfig.ChatTimestamps)
             {
-                DateTime dte = DateTime.Now;
+                var dte = DateTime.Now;
                 dte = instance.State.GetTimeStamp(dte);
 
                 return dte.ToString("[HH:mm] ", CultureInfo.CurrentCulture);
@@ -729,7 +729,7 @@ namespace MEGAbolt
 
         private string UpdateIconTitle()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append("MEGAbolt - ");
 
             if (netcom.IsLoggedIn)
@@ -741,7 +741,7 @@ namespace MEGAbolt
                 sb.Append(avname + " [Logged out]");
             }
 
-            string title = sb.ToString();
+            var title = sb.ToString();
             sb = null;
 
             return title;
@@ -751,10 +751,10 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgent = e.IM.FromAgentName;
 
-            string ttl = "Friendship offered";
-            string body = fromAgent + " has accepted your friendship offer";
+            var ttl = "Friendship offered";
+            var body = fromAgent + " has accepted your friendship offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -762,10 +762,10 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgent = e.IM.FromAgentName;
 
-            string ttl = "Friendship offered";
-            string body = fromAgent + " has declined your friendship offer";
+            var ttl = "Friendship offered";
+            var body = fromAgent + " has declined your friendship offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -798,10 +798,10 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgent = e.IM.FromAgentName;
 
-            string ttl = "Group invitation";
-            string body = fromAgent + " has accepted your group invitation";
+            var ttl = "Group invitation";
+            var body = fromAgent + " has accepted your group invitation";
             TrayNotifiy(ttl, body);
         }
 
@@ -809,10 +809,10 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgent = e.IM.FromAgentName;
 
-            string ttl = "Group invitation";
-            string body = fromAgent + " has declined your group invitation";
+            var ttl = "Group invitation";
+            var body = fromAgent + " has declined your group invitation";
             TrayNotifiy(ttl, body);
         }
 
@@ -823,7 +823,7 @@ namespace MEGAbolt
             if (instance.State.IsBusy) return;
 
             //string ttl = "MEGAbolt";
-            string body = @e.IM.Message;
+            var body = @e.IM.Message;
             //TrayNotifiy(ttl, body);
 
             (new frmMBmsg(instance, body)).ShowDialog(this);
@@ -856,7 +856,7 @@ namespace MEGAbolt
 
                         if (TabExists(instance.State.GroupStore[e.IM.IMSessionID]))
                         {
-                            MEGAboltTab tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
+                            var tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
                             if (!tab.Selected)
                             {
                                 tab.Highlight();
@@ -867,7 +867,7 @@ namespace MEGAbolt
                         }
                         else
                         {
-                            IMTabWindowGroup imTab = AddIMTabGroup(e);
+                            var imTab = AddIMTabGroup(e);
                             tabs[imTab.TargetName.ToLower()].Highlight();
                             tabs["imbox"].IMboxHighlight();
                             if (tabs[imTab.TargetName.ToLower(CultureInfo.CurrentCulture)].Selected) tabs[imTab.TargetName.ToLower(CultureInfo.CurrentCulture)].Highlight();
@@ -896,7 +896,7 @@ namespace MEGAbolt
             {
                 if (!stopnotify)
                 {
-                    string ttl = string.Empty;
+                    var ttl = string.Empty;
 
                     avname = netcom.LoginOptions.FullName;
 
@@ -909,16 +909,16 @@ namespace MEGAbolt
                         ttl = "IM notification [" + avname + "]";
                     }
 
-                    string imsg = e.IM.Message;
+                    var imsg = e.IM.Message;
 
                     if (imsg.Length > 125)
                     {
-                        imsg = imsg.Substring(0, 125) + "...";
+                        imsg = imsg[..125] + "...";
                     }
 
-                    string body = e.IM.FromAgentName + ": " + imsg;
+                    var body = e.IM.FromAgentName + ": " + imsg;
 
-                    Notification notifForm = new Notification();
+                    var notifForm = new Notification();
                     notifForm.Message = body;
                     notifForm.Title = ttl;
                     notifForm.Show();
@@ -933,21 +933,21 @@ namespace MEGAbolt
                     // Check to see if group IMs are disabled
                     if (instance.Config.CurrentConfig.DisableGroupIMs)
                     {
-                        Group grp = instance.State.Groups[e.IM.IMSessionID];
+                        var grp = instance.State.Groups[e.IM.IMSessionID];
                         client.Self.RequestLeaveGroupChat(grp.ID);
                         return;
                     }
 
                     if (instance.State.IsBusy)
                     {
-                        Group grp = instance.State.Groups[e.IM.IMSessionID];
+                        var grp = instance.State.Groups[e.IM.IMSessionID];
                         client.Self.RequestLeaveGroupChat(grp.ID);
                         return;
                     }
 
                     if (TabExists(instance.State.GroupStore[e.IM.IMSessionID]))
                     {
-                        MEGAboltTab tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
+                        var tab = tabs[instance.State.GroupStore[e.IM.IMSessionID].ToLower(CultureInfo.CurrentCulture)];
                         if (!tab.Selected) tab.PartialHighlight();
                         //Logger.Log("Stored|ExistingGroupTab:: " + e.IM.Message, Helpers.LogLevel.Debug);
                         return;
@@ -955,7 +955,7 @@ namespace MEGAbolt
                     else
                     {
                         //create a new tab
-                        IMTabWindowGroup imTab = AddIMTabGroup(e);
+                        var imTab = AddIMTabGroup(e);
                         tabs[imTab.TargetName.ToLower(CultureInfo.CurrentCulture)].Highlight();
 
                         if (instance.Config.CurrentConfig.PlayGroupIMreceived)
@@ -971,13 +971,13 @@ namespace MEGAbolt
                 {
                     if (TabExists(e.IM.FromAgentName))
                     {
-                        MEGAboltTab tab = tabs[e.IM.FromAgentName.ToLower(CultureInfo.CurrentCulture)];
+                        var tab = tabs[e.IM.FromAgentName.ToLower(CultureInfo.CurrentCulture)];
                         if (!tab.Selected) tab.PartialHighlight();
                         return;
                     }
                     else
                     {
-                        IMTabWindow imTab = AddIMTab(e);
+                        var imTab = AddIMTab(e);
                         tabs[imTab.TargetName.ToLower(CultureInfo.CurrentCulture)].Highlight();
 
                         if (instance.Config.CurrentConfig.InitialIMReply.Length > 0)
@@ -1015,24 +1015,24 @@ namespace MEGAbolt
 
             if (instance.State.IsBusy)
             {
-                string responsemsg = instance.Config.CurrentConfig.BusyReply;
+                var responsemsg = instance.Config.CurrentConfig.BusyReply;
                 client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg,
                     e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline,
                     instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 return;
             }
 
-            string fromAgentID = e.IM.FromAgentID.ToString();
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgentID = e.IM.FromAgentID.ToString();
+            var fromAgent = e.IM.FromAgentName;
 
             if (TabExists(fromAgentID))
                 tabs[fromAgentID].Close();
 
-            TPTabWindow tpTab = AddTPTab(e);
+            var tpTab = AddTPTab(e);
             tabs[tpTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "MEGAbolt";
-            string body = $"You have received a Teleport request from {fromAgent}";
+            var ttl = "MEGAbolt";
+            var body = $"You have received a Teleport request from {fromAgent}";
             TrayNotifiy(ttl, body);
         }
 
@@ -1042,15 +1042,15 @@ namespace MEGAbolt
 
             if (instance.State.IsBusy)
             {
-                string responsemsg = instance.Config.CurrentConfig.BusyReply;
+                var responsemsg = instance.Config.CurrentConfig.BusyReply;
                 client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg,
                     e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline,
                     instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 return;
             }
 
-            string fromAgentID = e.IM.FromAgentID.ToString();
-            string fromAgent = e.IM.FromAgentName;
+            var fromAgentID = e.IM.FromAgentID.ToString();
+            var fromAgent = e.IM.FromAgentName;
 
             if (TabExists(fromAgentID))
                 tabs[fromAgentID].Close();
@@ -1061,11 +1061,11 @@ namespace MEGAbolt
                 return;
             }
 
-            FRTabWindow frTab = AddFRTab(e);
+            var frTab = AddFRTab(e);
             tabs[frTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "MEGAbolt";
-            string body = "You have received a Friendship offer " + fromAgent;
+            var ttl = "MEGAbolt";
+            var body = "You have received a Friendship offer " + fromAgent;
             TrayNotifiy(ttl, body);
         }
 
@@ -1094,18 +1094,18 @@ namespace MEGAbolt
 
             if (instance.IsObjectMuted(e.IM.FromAgentID, e.IM.FromAgentName)) return;
 
-            AssetType type = (AssetType)e.IM.BinaryBucket[0];
+            var type = (AssetType)e.IM.BinaryBucket[0];
 
             if (type == AssetType.Unknown) return;
 
-            UUID oID = UUID.Zero;
+            var oID = UUID.Zero;
 
             if (e.IM.BinaryBucket.Length == 17)
             {
                 oID = new UUID(e.IM.BinaryBucket, 1);
             }
 
-            UUID invfolder = UUID.Zero;
+            var invfolder = UUID.Zero;
 
             invfolder = type == AssetType.Folder ? client.Inventory.Store.RootFolder.UUID : client.Inventory.FindFolderForType(type);
 
@@ -1128,8 +1128,8 @@ namespace MEGAbolt
 
                             client.Inventory.RequestFetchInventory(oID, client.Self.AgentID);
 
-                            string ttl = "MEGAbolt Alert";
-                            string body = $"{e.IM.FromAgentName} has given you a {type} named {e.IM.Message}";
+                            var ttl = "MEGAbolt Alert";
+                            var body = $"{e.IM.FromAgentName} has given you a {type} named {e.IM.Message}";
 
                             TrayNotifiy(ttl, body, false);
 
@@ -1156,7 +1156,7 @@ namespace MEGAbolt
 
                         if (client.Inventory.Store.TryGetValue(oID, out var item))
                         {
-                            UUID trashId = client.Inventory.FindFolderForType(FolderType.Trash);
+                            var trashId = client.Inventory.FindFolderForType(FolderType.Trash);
                             if (client.Inventory.Store.TryGetValue(trashId, out InventoryFolder trash))
                             {
                                 if (type != AssetType.Folder)
@@ -1182,8 +1182,8 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string ttl = "MEGAbolt";
-            string body = $"{e.IM.FromAgentName} has accepted your inventory offer";
+            var ttl = "MEGAbolt";
+            var body = $"{e.IM.FromAgentName} has accepted your inventory offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -1191,8 +1191,8 @@ namespace MEGAbolt
         {
             if (instance.State.IsBusy) return;
 
-            string ttl = "MEGAbolt";
-            string body = $"{e.IM.FromAgentName} has declined your inventory offer";
+            var ttl = "MEGAbolt";
+            var body = $"{e.IM.FromAgentName} has declined your inventory offer";
             TrayNotifiy(ttl, body);
         }
 
@@ -1205,16 +1205,16 @@ namespace MEGAbolt
 
             if (instance.State.IsBusy) return;
 
-            string fromAgentID = e.IM.FromAgentID.ToString();
+            var fromAgentID = e.IM.FromAgentID.ToString();
 
             if (TabExists(fromAgentID))
                 tabs[fromAgentID].Close();
 
-            GRTabWindow grTab = AddGRTab(e);
+            var grTab = AddGRTab(e);
             tabs[grTab.TargetUUID.ToString()].Highlight();
 
-            string ttl = "MEGAbolt";
-            string body = "You have received a group invite";
+            var ttl = "MEGAbolt";
+            var body = "You have received a group invite";
             TrayNotifiy(ttl, body);
         }
 
@@ -1227,13 +1227,13 @@ namespace MEGAbolt
                 return;
             }
 
-            MainConsole mainConsole = new MainConsole(instance);
+            var mainConsole = new MainConsole(instance);
             mainConsole.Dock = DockStyle.Fill;
             mainConsole.Visible = false;
 
             toolStripContainer1.ContentPanel.Controls.Add(mainConsole);
 
-            MEGAboltTab tab = AddTab("main", "Main", mainConsole);
+            var tab = AddTab("main", "Main", mainConsole);
             tab.AllowClose = false;
             tab.AllowDetach = false;
             tab.AllowMerge = false;
@@ -1260,7 +1260,7 @@ namespace MEGAbolt
 
             toolStripContainer1.ContentPanel.Controls.Add(chatConsole);
 
-            MEGAboltTab tab = AddTab("chat", "Chat", chatConsole);
+            var tab = AddTab("chat", "Chat", chatConsole);
             tab.AllowClose = false;
             tab.AllowDetach = false;
 
@@ -1278,13 +1278,13 @@ namespace MEGAbolt
                 return;
             }
 
-            FriendsConsole friendsConsole = new FriendsConsole(instance);
+            var friendsConsole = new FriendsConsole(instance);
             friendsConsole.Dock = DockStyle.Fill;
             friendsConsole.Visible = false;
 
             toolStripContainer1.ContentPanel.Controls.Add(friendsConsole);
 
-            MEGAboltTab tab = AddTab("friends", "Friends", friendsConsole);
+            var tab = AddTab("friends", "Friends", friendsConsole);
             tab.AllowClose = false;
             tab.AllowDetach = true;
 
@@ -1302,13 +1302,13 @@ namespace MEGAbolt
                 return;
             }
 
-            IMbox imboxConsole = new IMbox(instance);
+            var imboxConsole = new IMbox(instance);
             imboxConsole.Dock = DockStyle.Fill;
             imboxConsole.Visible = false;
 
             toolStripContainer1.ContentPanel.Controls.Add(imboxConsole);
 
-            MEGAboltTab tab = AddTab("imbox", "IMbox", imboxConsole);
+            var tab = AddTab("imbox", "IMbox", imboxConsole);
             tab.AllowClose = false;
             tab.AllowDetach = true;
 
@@ -1331,7 +1331,7 @@ namespace MEGAbolt
 
             try
             {
-                GroupsConsole groupsConsole = new GroupsConsole(instance)
+                var groupsConsole = new GroupsConsole(instance)
                 {
                     Dock = DockStyle.Fill,
                     Visible = false
@@ -1339,7 +1339,7 @@ namespace MEGAbolt
 
                 toolStripContainer1.ContentPanel.Controls.Add(groupsConsole);
 
-                MEGAboltTab tab = AddTab("groups", "Groups", groupsConsole);
+                var tab = AddTab("groups", "Groups", groupsConsole);
                 tab.AllowClose = false;
                 tab.AllowDetach = true;
             }
@@ -1363,13 +1363,13 @@ namespace MEGAbolt
                 return;
             }
 
-            SearchConsole searchConsole = new SearchConsole(instance);
+            var searchConsole = new SearchConsole(instance);
             searchConsole.Dock = DockStyle.Fill;
             searchConsole.Visible = false;
 
             toolStripContainer1.ContentPanel.Controls.Add(searchConsole);
 
-            MEGAboltTab tab = AddTab("search", "Search", searchConsole);
+            var tab = AddTab("search", "Search", searchConsole);
             tab.AllowClose = false;
             tab.AllowDetach = false;
 
@@ -1387,7 +1387,7 @@ namespace MEGAbolt
                 return;
             }
 
-            InventoryConsole invConsole = new InventoryConsole(instance)
+            var invConsole = new InventoryConsole(instance)
             {
                 Dock = DockStyle.Fill,
                 Visible = false
@@ -1395,7 +1395,7 @@ namespace MEGAbolt
 
             toolStripContainer1.ContentPanel.Controls.Add(invConsole);
 
-            MEGAboltTab tab = AddTab("inventory", "Inventory", invConsole);
+            var tab = AddTab("inventory", "Inventory", invConsole);
             tab.AllowClose = false;
             tab.AllowDetach = true;
 
@@ -1438,7 +1438,7 @@ namespace MEGAbolt
         {
             if (!TabExists(name)) return;
 
-            MEGAboltTab tab = tabs[name];
+            var tab = tabs[name];
             if (tab.Merged) SplitTab(tab);
 
             tab.AllowClose = true;
@@ -1448,7 +1448,7 @@ namespace MEGAbolt
 
         public void AddTab(MEGAboltTab tab)
         {
-            ToolStripButton button = (ToolStripButton)tstTabs.Items.Add(tab.Label);
+            var button = (ToolStripButton)tstTabs.Items.Add(tab.Label);
             button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             button.Image = null;
             button.AutoToolTip = false;
@@ -1457,22 +1457,19 @@ namespace MEGAbolt
 
             tab.Button = button;
 
-            if (!tabs.ContainsKey(tab.Name))
-            {
-                tabs.Add(tab.Name, tab);
-            }
+            tabs.TryAdd(tab.Name, tab);
         }
 
         public MEGAboltTab AddTab(string name, string label, Control control)
         {
-            ToolStripButton button = (ToolStripButton)tstTabs.Items.Add("&" + label);
+            var button = (ToolStripButton)tstTabs.Items.Add("&" + label);
             button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             button.Image = null;
             button.AutoToolTip = false;
             button.Tag = name.ToLower(CultureInfo.CurrentCulture);
             button.Click += TabButtonClick;
 
-            MEGAboltTab tab = new MEGAboltTab(button, control, name.ToLower(CultureInfo.CurrentCulture), label);
+            var tab = new MEGAboltTab(button, control, name.ToLower(CultureInfo.CurrentCulture), label);
             tab.TabAttached += tab_TabAttached;
             tab.TabDetached += tab_TabDetached;
             tab.TabSelected += tab_TabSelected;
@@ -1492,14 +1489,14 @@ namespace MEGAbolt
 
         private void tab_TabAttached(object sender, EventArgs e)
         {
-            MEGAboltTab tab = (MEGAboltTab)sender;
+            var tab = (MEGAboltTab)sender;
             tab.Select();
         }
 
         private void tab_TabDetached(object sender, EventArgs e)
         {
-            MEGAboltTab tab = (MEGAboltTab)sender;
-            frmDetachedTab form = (frmDetachedTab)tab.Owner;
+            var tab = (MEGAboltTab)sender;
+            var form = (frmDetachedTab)tab.Owner;
 
             form.ReattachStrip = tstTabs;
             form.ReattachContainer = toolStripContainer1.ContentPanel;
@@ -1507,7 +1504,7 @@ namespace MEGAbolt
 
         private void tab_TabSelected(object sender, EventArgs e)
         {
-            MEGAboltTab tab = (MEGAboltTab)sender;
+            var tab = (MEGAboltTab)sender;
 
             if (selectedTab != null &&
                 selectedTab != tab)
@@ -1521,28 +1518,25 @@ namespace MEGAbolt
 
         private void tab_TabClosed(object sender, EventArgs e)
         {
-            MEGAboltTab tab = (MEGAboltTab)sender;
+            var tab = (MEGAboltTab)sender;
 
-            if (tabs.ContainsKey(tab.Name))
-            {
-                tabs.Remove(tab.Name);
-            }
+            tabs.Remove(tab.Name);
 
             tab = null;
         }
 
         private void TabButtonClick(object sender, EventArgs e)
         {
-            ToolStripButton button = (ToolStripButton)sender;
+            var button = (ToolStripButton)sender;
 
-            MEGAboltTab tab = tabs[button.Tag.ToString()];
+            var tab = tabs[button.Tag.ToString()];
             tab.Select();
 
             //METAboltTab stab = tab.GetTab("IMbox");
 
             if (button.Tag.ToString() != "main" && button.Tag.ToString() != "chat" && button.Tag.ToString() != "friends" && button.Tag.ToString() != "groups" && button.Tag.ToString() != "inventory" && button.Tag.ToString() != "search" && button.Tag.ToString() != "imbox")
             {
-                string tabname = button.Tag.ToString();
+                var tabname = button.Tag.ToString();
 
                 //if (button.Tag.ToString().StartsWith("IM"))
                 //{
@@ -1555,7 +1549,7 @@ namespace MEGAbolt
 
                 if (!instance.ReadIMs)
                 {
-                    IMbox imtab = instance.imBox;
+                    var imtab = instance.imBox;
                     imtab.IMRead(tabname);
                 }
             }
@@ -1563,20 +1557,14 @@ namespace MEGAbolt
 
         public void RemoveTabEntry(string tabname)
         {
-            if (tabs.ContainsKey(tabname))
-            {
-                tabs.Remove(tabname);
-            }
+            tabs.Remove(tabname);
         }
 
         public void RemoveTabEntry(MEGAboltTab tab)
         {
             tab.Button.Dispose();
 
-            if (tabs.ContainsKey(tab.Name))
-            {
-                tabs.Remove(tab.Name);
-            }
+            tabs.Remove(tab.Name);
         }
 
         //Used for outside classes that have a reference to TabsConsole
@@ -1639,7 +1627,7 @@ namespace MEGAbolt
         public IMTabWindow AddIMTab(InstantMessageEventArgs e)
         {
             TabAgentName = e.IM.FromAgentName;
-            IMTabWindow imTab = AddIMTab(e.IM.FromAgentID, e.IM.IMSessionID, TabAgentName);
+            var imTab = AddIMTab(e.IM.FromAgentID, e.IM.IMSessionID, TabAgentName);
 
             DisplayOnIM(imTab, e);
 
@@ -1648,15 +1636,15 @@ namespace MEGAbolt
 
         public IMTabWindow AddIMTab(UUID target, UUID session, string targetName)
         {
-            IMTabWindow imTab = new IMTabWindow(instance, target, session, targetName);
+            var imTab = new IMTabWindow(instance, target, session, targetName);
             imTab.Dock = DockStyle.Fill;
             toolStripContainer1.ContentPanel.Controls.Add(imTab);
 
-            string tname = targetName;
+            var tname = targetName;
 
             if (tname.Length > 9)
             {
-                tname = tname.Substring(0, 7) + "...";
+                tname = tname[..7] + "...";
             }
 
             AddTab(targetName, "IM: " + tname, imTab);
@@ -1668,11 +1656,11 @@ namespace MEGAbolt
         public IMTabWindowGroup AddIMTabGroup(InstantMessageEventArgs e)
         {
             TabAgentName = instance.State.GroupStore[e.IM.IMSessionID];
-            Group grp = instance.State.Groups[e.IM.IMSessionID];
+            var grp = instance.State.Groups[e.IM.IMSessionID];
 
             //UUID gsession = new UUID(e.IM.BinaryBucket, 2);
 
-            IMTabWindowGroup imTab = AddIMTabGroup(e.IM.FromAgentID, e.IM.IMSessionID, TabAgentName, grp);
+            var imTab = AddIMTabGroup(e.IM.FromAgentID, e.IM.IMSessionID, TabAgentName, grp);
 
             DisplayOnIMGroup(imTab, e);
             //imTab.TextManager.ProcessIM(e);
@@ -1682,15 +1670,15 @@ namespace MEGAbolt
 
         public IMTabWindowGroup AddIMTabGroup(UUID target, UUID session, string targetName, Group grp)
         {
-            IMTabWindowGroup imTab = new IMTabWindowGroup(instance, session, target, targetName, grp);
+            var imTab = new IMTabWindowGroup(instance, session, target, targetName, grp);
             imTab.Dock = DockStyle.Fill;
             toolStripContainer1.ContentPanel.Controls.Add(imTab);
 
-            string tname = targetName;
+            var tname = targetName;
 
             if (tname.Length > 9)
             {
-                tname = tname.Substring(0, 7) + "...";
+                tname = tname[..7] + "...";
             }
 
             AddTab(targetName, $"GIM: {targetName}", imTab);
@@ -1701,7 +1689,7 @@ namespace MEGAbolt
 
         public TPTabWindow AddTPTab(InstantMessageEventArgs e)
         {
-            TPTabWindow tpTab = new TPTabWindow(instance, e);
+            var tpTab = new TPTabWindow(instance, e);
             tpTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(tpTab);
@@ -1712,7 +1700,7 @@ namespace MEGAbolt
 
         public FRTabWindow AddFRTab(InstantMessageEventArgs e)
         {
-            FRTabWindow frTab = new FRTabWindow(instance, e);
+            var frTab = new FRTabWindow(instance, e);
             frTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(frTab);
@@ -1734,7 +1722,7 @@ namespace MEGAbolt
 
         public GRTabWindow AddGRTab(InstantMessageEventArgs e)
         {
-            GRTabWindow grTab = new GRTabWindow(instance, e);
+            var grTab = new GRTabWindow(instance, e);
             grTab.Dock = DockStyle.Fill;
 
             toolStripContainer1.ContentPanel.Controls.Add(grTab);
@@ -1755,14 +1743,14 @@ namespace MEGAbolt
             {
                 tmnuMergeWith.Text = "Merge With";
 
-                List<MEGAboltTab> otherTabs = GetOtherTabs();
+                var otherTabs = GetOtherTabs();
 
                 tmnuMergeWith.Enabled = (otherTabs.Count > 0);
                 if (!tmnuMergeWith.Enabled) return;
 
-                foreach (MEGAboltTab tab in otherTabs)
+                foreach (var tab in otherTabs)
                 {
-                    ToolStripItem item = tmnuMergeWith.DropDown.Items.Add(tab.Label);
+                    var item = tmnuMergeWith.DropDown.Items.Add(tab.Label);
                     item.Tag = tab.Name;
                     item.Click += MergeItemClick;
                 }
@@ -1776,21 +1764,18 @@ namespace MEGAbolt
 
         private void MergeItemClick(object sender, EventArgs e)
         {
-            ToolStripItem item = (ToolStripItem)sender;
-            MEGAboltTab tab = tabs[item.Tag.ToString()];
+            var item = (ToolStripItem)sender;
+            var tab = tabs[item.Tag.ToString()];
 
             selectedTab.MergeWith(tab);
 
-            SplitContainer container = (SplitContainer)selectedTab.Control;
+            var container = (SplitContainer)selectedTab.Control;
             toolStripContainer1.ContentPanel.Controls.Add(container);
 
             selectedTab.Select();
             RemoveTabEntry(tab);
 
-            if (!tabs.ContainsKey(tab.Name))
-            {
-                tabs.Add(tab.Name, selectedTab);
-            }
+            tabs.TryAdd(tab.Name, selectedTab);
         }
 
         private void SplitClick(object sender, EventArgs e)
@@ -1801,7 +1786,7 @@ namespace MEGAbolt
 
         public void SplitTab(MEGAboltTab tab)
         {
-            MEGAboltTab otherTab = tab.Split();
+            var otherTab = tab.Split();
             if (otherTab == null) return;
 
             toolStripContainer1.ContentPanel.Controls.Add(tab.Control);
@@ -1827,7 +1812,7 @@ namespace MEGAbolt
 
         private void tbtnCloseTab_Click(object sender, EventArgs e)
         {
-            MEGAboltTab tab = selectedTab;
+            var tab = selectedTab;
 
             tabs["chat"].Select();
             tab.Close();

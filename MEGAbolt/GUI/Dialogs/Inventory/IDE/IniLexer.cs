@@ -53,11 +53,11 @@ namespace MEGAbolt
 
         #region Fields
 
-        private Scintilla scintilla;
-        private int startPos;
+        private readonly Scintilla scintilla;
+        private readonly int startPos;
 
         private int index;
-        private string text;
+        private readonly string text;
 
         #endregion Fields
 
@@ -174,7 +174,7 @@ namespace MEGAbolt
         private void StyleUntilMatch(int style, char[] chars)
         {
             // Advance until we match a char in the array
-            int startIndex = index;
+            var startIndex = index;
             while (index < text.Length && Array.IndexOf<char>(chars, text[index]) < 0)
                 index++;
 
@@ -185,7 +185,7 @@ namespace MEGAbolt
         private void StyleWhitespace()
         {
             // Advance the index until non-whitespace character
-            int startIndex = index;
+            var startIndex = index;
             while (index < text.Length && Char.IsWhiteSpace(text[index]))
                 index++;
 

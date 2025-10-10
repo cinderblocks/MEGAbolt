@@ -78,22 +78,22 @@ namespace MEGAbolt.Rendering
             Debug.Assert(textureIDs.Length == 4);
             Debug.Assert(startHeights.Length == 4);
             Debug.Assert(heightRanges.Length == 4);
-            int outputSize = 2048;
+            var outputSize = 2048;
 
-            Bitmap[] detailTexture = new Bitmap[4];
+            var detailTexture = new Bitmap[4];
 
             // Swap empty terrain textureIDs with default IDs
-            for (int i = 0; i < textureIDs.Length; i++)
+            for (var i = 0; i < textureIDs.Length; i++)
             {
                 if (textureIDs[i] == UUID.Zero)
                     textureIDs[i] = DEFAULT_TERRAIN_DETAIL[i];
             }
 
             #region Texture Fetching
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                AutoResetEvent textureDone = new AutoResetEvent(false);
-                UUID textureID = textureIDs[i];
+                var textureDone = new AutoResetEvent(false);
+                var textureID = textureIDs[i];
 
                 instance.Client.Assets.RequestImage(textureID, TextureDownloadCallback(detailTexture, i, textureDone));
 
@@ -103,14 +103,14 @@ namespace MEGAbolt.Rendering
             #endregion Texture Fetching
 
             // Fill in any missing textures with a solid color
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 if (detailTexture[i] == null)
                 {
                     // Create a solid color texture for this layer
                     detailTexture[i] = new Bitmap(outputSize, outputSize, PixelFormat.Format24bppRgb);
-                    using Graphics gfx = Graphics.FromImage(detailTexture[i]);
-                    using SolidBrush brush = new SolidBrush(DEFAULT_TERRAIN_COLOR[i]);
+                    using var gfx = Graphics.FromImage(detailTexture[i]);
+                    using var brush = new SolidBrush(DEFAULT_TERRAIN_COLOR[i]);
                     gfx.FillRectangle(brush, 0, 0, outputSize, outputSize);
                 }
                 else if (detailTexture[i].Width != outputSize || detailTexture[i].Height != outputSize)
@@ -121,23 +121,23 @@ namespace MEGAbolt.Rendering
 
             #region Layer Map
 
-            int diff = heightmap.GetLength(0) / RegionSize;
-            float[] layermap = new float[RegionSize * RegionSize];
+            var diff = heightmap.GetLength(0) / RegionSize;
+            var layermap = new float[RegionSize * RegionSize];
 
-            for (int y = 0; y < heightmap.GetLength(0); y += diff)
+            for (var y = 0; y < heightmap.GetLength(0); y += diff)
             {
-                for (int x = 0; x < heightmap.GetLength(1); x += diff)
+                for (var x = 0; x < heightmap.GetLength(1); x += diff)
                 {
-                    int newX = x / diff;
-                    int newY = y / diff;
-                    float height = heightmap[newX, newY];
+                    var newX = x / diff;
+                    var newY = y / diff;
+                    var height = heightmap[newX, newY];
 
-                    float pctX = newX / 255f;
-                    float pctY = newY / 255f;
+                    var pctX = newX / 255f;
+                    var pctY = newY / 255f;
 
                     // Use bilinear interpolation between the four corners of start height and
                     // height range to select the current values at this position
-                    float startHeight = ImageUtils.Bilinear(
+                    var startHeight = ImageUtils.Bilinear(
                         startHeights[0],
                         startHeights[2],
                         startHeights[1],
@@ -145,7 +145,7 @@ namespace MEGAbolt.Rendering
                         pctX, pctY);
                     startHeight = Utils.Clamp(startHeight, 0f, 255f);
 
-                    float heightRange = ImageUtils.Bilinear(
+                    var heightRange = ImageUtils.Bilinear(
                         heightRanges[0],
                         heightRanges[2],
                         heightRanges[1],
@@ -155,19 +155,19 @@ namespace MEGAbolt.Rendering
 
                     // Generate two frequencies of perlin noise based on our global position
                     // The magic values were taken from http://opensimulator.org/wiki/Terrain_Splatting
-                    Vector3 vec = new Vector3
+                    var vec = new Vector3
                     (
                         newX * 0.20319f,
                         newY * 0.20319f,
                         height * 0.25f
                     );
 
-                    float lowFreq = Perlin.noise2(vec.X * 0.222222f, vec.Y * 0.222222f) * 6.5f;
-                    float highFreq = Perlin.turbulence2(vec.X, vec.Y, 2f) * 2.25f;
-                    float noise = (lowFreq + highFreq) * 2f;
+                    var lowFreq = Perlin.noise2(vec.X * 0.222222f, vec.Y * 0.222222f) * 6.5f;
+                    var highFreq = Perlin.turbulence2(vec.X, vec.Y, 2f) * 2.25f;
+                    var noise = (lowFreq + highFreq) * 2f;
 
                     // Combine the current height, generated noise, start height, and height range parameters, then scale all of it
-                    float layer = ((height + noise - startHeight) / heightRange) * 4f;
+                    var layer = ((height + noise - startHeight) / heightRange) * 4f;
                     if (Single.IsNaN(layer))
                         layer = 0f;
                     layermap[newY * RegionSize + newX] = Utils.Clamp(layer, 0f, 3f);
@@ -177,13 +177,13 @@ namespace MEGAbolt.Rendering
             #endregion Layer Map
 
             #region Texture Compositing
-            Bitmap output = new Bitmap(outputSize, outputSize, PixelFormat.Format24bppRgb);
-            BitmapData outputData = output.LockBits(new Rectangle(0, 0, outputSize, outputSize), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+            var output = new Bitmap(outputSize, outputSize, PixelFormat.Format24bppRgb);
+            var outputData = output.LockBits(new Rectangle(0, 0, outputSize, outputSize), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
 
             unsafe
             {
                 // Get handles to all of the texture data arrays
-                BitmapData[] datas = new BitmapData[]
+                var datas = new BitmapData[]
                 {
                     detailTexture[0].LockBits(new Rectangle(0, 0, 256, 256), ImageLockMode.ReadOnly, detailTexture[0].PixelFormat),
                     detailTexture[1].LockBits(new Rectangle(0, 0, 256, 256), ImageLockMode.ReadOnly, detailTexture[1].PixelFormat),
@@ -191,7 +191,7 @@ namespace MEGAbolt.Rendering
                     detailTexture[3].LockBits(new Rectangle(0, 0, 256, 256), ImageLockMode.ReadOnly, detailTexture[3].PixelFormat)
                 };
 
-                int[] comps = new int[]
+                var comps = new int[]
                 {
                     (datas[0].PixelFormat == PixelFormat.Format32bppArgb) ? 4 : 3,
                     (datas[1].PixelFormat == PixelFormat.Format32bppArgb) ? 4 : 3,
@@ -199,7 +199,7 @@ namespace MEGAbolt.Rendering
                     (datas[3].PixelFormat == PixelFormat.Format32bppArgb) ? 4 : 3
                 };
 
-                int[] strides = new int[]
+                var strides = new int[]
                 {
                     datas[0].Stride,
                     datas[1].Stride,
@@ -207,7 +207,7 @@ namespace MEGAbolt.Rendering
                     datas[3].Stride
                 };
 
-                IntPtr[] scans = new IntPtr[]
+                var scans = new IntPtr[]
                 {
                     datas[0].Scan0,
                     datas[1].Scan0,
@@ -215,48 +215,48 @@ namespace MEGAbolt.Rendering
                     datas[3].Scan0
                 };
 
-                int ratio = outputSize / RegionSize;
+                var ratio = outputSize / RegionSize;
 
-                for (int y = 0; y < outputSize; y++)
+                for (var y = 0; y < outputSize; y++)
                 {
-                    for (int x = 0; x < outputSize; x++)
+                    for (var x = 0; x < outputSize; x++)
                     {
-                        float layer = layermap[(y / ratio) * RegionSize + x / ratio];
-                        float layerx = layermap[(y / ratio) * RegionSize + Math.Min(outputSize - 1, (x + 1)) / ratio];
-                        float layerxx = layermap[(y / ratio) * RegionSize + Math.Max(0, (x - 1)) / ratio];
-                        float layery = layermap[Math.Min(outputSize - 1, (y + 1)) / ratio * RegionSize + x / ratio];
-                        float layeryy = layermap[(Math.Max(0, (y - 1)) / ratio) * RegionSize + x / ratio];
+                        var layer = layermap[(y / ratio) * RegionSize + x / ratio];
+                        var layerx = layermap[(y / ratio) * RegionSize + Math.Min(outputSize - 1, (x + 1)) / ratio];
+                        var layerxx = layermap[(y / ratio) * RegionSize + Math.Max(0, (x - 1)) / ratio];
+                        var layery = layermap[Math.Min(outputSize - 1, (y + 1)) / ratio * RegionSize + x / ratio];
+                        var layeryy = layermap[(Math.Max(0, (y - 1)) / ratio) * RegionSize + x / ratio];
 
                         // Select two textures
-                        int l0 = (int)Math.Floor(layer);
-                        int l1 = Math.Min(l0 + 1, 3);
+                        var l0 = (int)Math.Floor(layer);
+                        var l1 = Math.Min(l0 + 1, 3);
 
-                        byte* ptrA = (byte*)scans[l0] + (y % 256) * strides[l0] + (x % 256) * comps[l0];
-                        byte* ptrB = (byte*)scans[l1] + (y % 256) * strides[l1] + (x % 256) * comps[l1];
-                        byte* ptrO = (byte*)outputData.Scan0 + y * outputData.Stride + x * 3;
+                        var ptrA = (byte*)scans[l0] + (y % 256) * strides[l0] + (x % 256) * comps[l0];
+                        var ptrB = (byte*)scans[l1] + (y % 256) * strides[l1] + (x % 256) * comps[l1];
+                        var ptrO = (byte*)outputData.Scan0 + y * outputData.Stride + x * 3;
 
                         float aB = *(ptrA + 0);
                         float aG = *(ptrA + 1);
                         float aR = *(ptrA + 2);
 
-                        int lX = (int)Math.Floor(layerx);
-                        byte* ptrX = (byte*)scans[lX] + (y % 256) * strides[lX] + (x % 256) * comps[lX];
-                        int lXX = (int)Math.Floor(layerxx);
-                        byte* ptrXX = (byte*)scans[lXX] + (y % 256) * strides[lXX] + (x % 256) * comps[lXX];
-                        int lY = (int)Math.Floor(layery);
-                        byte* ptrY = (byte*)scans[lY] + (y % 256) * strides[lY] + (x % 256) * comps[lY];
-                        int lYY = (int)Math.Floor(layeryy);
-                        byte* ptrYY = (byte*)scans[lYY] + (y % 256) * strides[lYY] + (x % 256) * comps[lYY];
+                        var lX = (int)Math.Floor(layerx);
+                        var ptrX = (byte*)scans[lX] + (y % 256) * strides[lX] + (x % 256) * comps[lX];
+                        var lXX = (int)Math.Floor(layerxx);
+                        var ptrXX = (byte*)scans[lXX] + (y % 256) * strides[lXX] + (x % 256) * comps[lXX];
+                        var lY = (int)Math.Floor(layery);
+                        var ptrY = (byte*)scans[lY] + (y % 256) * strides[lY] + (x % 256) * comps[lY];
+                        var lYY = (int)Math.Floor(layeryy);
+                        var ptrYY = (byte*)scans[lYY] + (y % 256) * strides[lYY] + (x % 256) * comps[lYY];
 
                         float bB = *(ptrB + 0);
                         float bG = *(ptrB + 1);
                         float bR = *(ptrB + 2);
 
-                        float layerDiff = layer - l0;
-                        float xlayerDiff = layerx - layer;
-                        float xxlayerDiff = layerxx - layer;
-                        float ylayerDiff = layery - layer;
-                        float yylayerDiff = layeryy - layer;
+                        var layerDiff = layer - l0;
+                        var xlayerDiff = layerx - layer;
+                        var xxlayerDiff = layerxx - layer;
+                        var ylayerDiff = layery - layer;
+                        var yylayerDiff = layeryy - layer;
                         // Interpolate between the two selected textures
                         *(ptrO + 0) = (byte)Math.Floor(aB + layerDiff * (bB - aB) +
                             xlayerDiff * (*ptrX - aB) +
@@ -276,7 +276,7 @@ namespace MEGAbolt.Rendering
                     }
                 }
 
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
                     detailTexture[i].UnlockBits(datas[i]);
                     detailTexture[i].Dispose();
@@ -308,8 +308,8 @@ namespace MEGAbolt.Rendering
 
         public static Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
         {
-            Bitmap result = new Bitmap(nWidth, nHeight);
-            using (Graphics g = Graphics.FromImage(result))
+            var result = new Bitmap(nWidth, nHeight);
+            using (var g = Graphics.FromImage(result))
             {
                 g.DrawImage(b, 0, 0, nWidth, nHeight);
             }
@@ -319,12 +319,12 @@ namespace MEGAbolt.Rendering
 
         public static Bitmap TileBitmap(Bitmap b, int tiles)
         {
-            Bitmap result = new Bitmap(b.Width * tiles, b.Width * tiles);
-            using (Graphics g = Graphics.FromImage(result))
+            var result = new Bitmap(b.Width * tiles, b.Width * tiles);
+            using (var g = Graphics.FromImage(result))
             {
-                for (int x = 0; x < tiles; x++)
+                for (var x = 0; x < tiles; x++)
                 {
-                    for (int y = 0; y < tiles; y++)
+                    for (var y = 0; y < tiles; y++)
                     {
                         g.DrawImage(b, x * 256, y * 256, x * 256 + 256, y * 256 + 256);
                     }
@@ -340,21 +340,21 @@ namespace MEGAbolt.Rendering
             const float BASE_HSV_S = 44f / 100f;
             const float BASE_HSV_V = 34f / 100f;
 
-            Bitmap img = new Bitmap(256, 256);
-            BitmapData bitmapData = img.LockBits(new Rectangle(0, 0, 256, 256), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+            var img = new Bitmap(256, 256);
+            var bitmapData = img.LockBits(new Rectangle(0, 0, 256, 256), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
 
             unsafe
             {
-                for (int y = 255; y >= 0; y--)
+                for (var y = 255; y >= 0; y--)
                 {
-                    for (int x = 0; x < 256; x++)
+                    for (var x = 0; x < 256; x++)
                     {
-                        float normHeight = heightmap[x, y] / 255f;
+                        var normHeight = heightmap[x, y] / 255f;
                         normHeight = Utils.Clamp(normHeight, BASE_HSV_V, 1.0f);
 
-                        Color4 color = Color4.FromHSV(BASE_HSV_H, BASE_HSV_S, normHeight);
+                        var color = Color4.FromHSV(BASE_HSV_H, BASE_HSV_S, normHeight);
 
-                        byte* ptr = (byte*)bitmapData.Scan0 + y * bitmapData.Stride + x * 3;
+                        var ptr = (byte*)bitmapData.Scan0 + y * bitmapData.Stride + x * 3;
                         *(ptr + 0) = (byte)(color.B * 255f);
                         *(ptr + 1) = (byte)(color.G * 255f);
                         *(ptr + 2) = (byte)(color.R * 255f);

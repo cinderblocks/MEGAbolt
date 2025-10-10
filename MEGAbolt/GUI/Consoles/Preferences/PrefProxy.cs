@@ -26,8 +26,8 @@ namespace MEGAbolt
 {
     public partial class PrefProxy : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
 
         public PrefProxy(MEGAboltInstance instance)
         {

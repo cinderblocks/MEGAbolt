@@ -47,7 +47,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -95,7 +95,7 @@ namespace MEGAbolt
                 lbxFriends.BeginUpdate();
                 lbxFriends.Items.Clear();
 
-                foreach (FriendInfo friend in instance.State.AvatarFriends)
+                foreach (var friend in instance.State.AvatarFriends)
                 {
                     lbxFriends.Items.Add(new FriendsListItem(friend));
                 }
@@ -171,16 +171,14 @@ namespace MEGAbolt
         {
             fgrps = fconfig.FriendGroups;
 
-            foreach (KeyValuePair<string, Dictionary<string, string>> fr in fgrps)
+            foreach (var fr in fgrps)
             {
-                string header = fr.Key;
+                var header = fr.Key;
                 //Dictionary<string, string> rec = fr.Value;
 
-                Dictionary<string, string> grps;
+                fgrps.TryGetValue(header, out var grps);
 
-                fgrps.TryGetValue(header, out grps);
-
-                foreach (KeyValuePair<string, string> s in grps)
+                foreach (var s in grps)
                 {
                     if (s.Key == uuid)
                     {
@@ -299,7 +297,7 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            FriendsListItem itemToDraw = (FriendsListItem)lbxFriends.Items[e.Index];
+            var itemToDraw = (FriendsListItem)lbxFriends.Items[e.Index];
 
             Brush textBrush = null;
             Font textFont = null;
@@ -315,9 +313,9 @@ namespace MEGAbolt
                 textFont = new Font(e.Font, FontStyle.Regular);
             }
 
-            SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Friend.Name, textFont);
+            var stringSize = e.Graphics.MeasureString(itemToDraw.Friend.Name, textFont);
             float stringX = e.Bounds.Left + 4 + Properties.Resources.green_orb.Width;
-            float stringY = e.Bounds.Top + 2 + ((Properties.Resources.green_orb.Height / 2) - (stringSize.Height / 2));
+            var stringY = e.Bounds.Top + 2 + ((Properties.Resources.green_orb.Height / 2) - (stringSize.Height / 2));
 
             e.Graphics.DrawImage(
                 itemToDraw.Friend.IsOnline ? Properties.Resources.green_orb : Properties.Resources.green_orb_off,
@@ -337,13 +335,13 @@ namespace MEGAbolt
         {
             if (lbxFriends.SelectedItem == null) return;
 
-            FriendsListItem item = (FriendsListItem)lbxFriends.SelectedItem;
+            var item = (FriendsListItem)lbxFriends.SelectedItem;
             SetFriend(item.Friend);
         }
 
         private void btnIM_Click(object sender, EventArgs e)
         {
-            string agentname = selectedFriend.Name;
+            var agentname = selectedFriend.Name;
 
             if (instance.TabConsole.TabExists(agentname))
             {
@@ -383,7 +381,7 @@ namespace MEGAbolt
 
         private void SetRights()
         {
-            FriendRights rgts = FriendRights.None;
+            var rgts = FriendRights.None;
 
             if (chkSeeMeOnline.Checked)
             {
@@ -421,7 +419,7 @@ namespace MEGAbolt
             cbofgroups.Items.Add("...All friends");
             cbofgroups.SelectedIndex = 0;
 
-            string fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID + "_fr_groups.ini";
+            var fconffile = DataFolder.GetDataFolder() + "\\" + client.Self.AgentID + "_fr_groups.ini";
             // maybe use "Path.Combine(MEGAbolt.DataFolder.GetDataFolder(),client.Self.AgentID.ToString() + "_fr_groups.ini");" ?
 
             if (!System.IO.File.Exists(fconffile))
@@ -443,7 +441,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show($"Are you sure you want to terminate\nyour friendship with {selectedFriend.Name}?",
+            var res = MessageBox.Show($"Are you sure you want to terminate\nyour friendship with {selectedFriend.Name}?",
                 "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.No)
@@ -492,9 +490,9 @@ namespace MEGAbolt
 
             cbofgroups.Items.Add("...All friends");
 
-            foreach (KeyValuePair<string, Dictionary<string, string>> fr in fgrps)
+            foreach (var fr in fgrps)
             {
-                string header = fr.Key;
+                var header = fr.Key;
                 //Dictionary<string, string> rec = fr.Value;
 
                 cbofgroups.Items.Add(header);
@@ -530,20 +528,18 @@ namespace MEGAbolt
 
             fgrps = fconfig.FriendGroups;
 
-            Dictionary<string, string> grps;
-
-            fgrps.TryGetValue(group, out grps);
+            fgrps.TryGetValue(group, out var grps);
 
             lbxFriends.BeginUpdate();
             lbxFriends.Items.Clear();
 
-            foreach (KeyValuePair<string, string> s in grps)
+            foreach (var s in grps)
             {
-                List<FriendInfo> flist = instance.State.AvatarFriends;
+                var flist = instance.State.AvatarFriends;
 
                 if (flist.Count > 0)
                 {
-                    foreach (FriendInfo friend in flist)
+                    foreach (var friend in flist)
                     {
                         if (friend.Name.ToLower(CultureInfo.CurrentCulture) == s.Value.ToLower(CultureInfo.CurrentCulture))
                         {
@@ -560,13 +556,13 @@ namespace MEGAbolt
         {
             lbxFriends_SelectedIndexChanged(null, null);
 
-            Point pt = new Point(e.X, e.Y);
-            int index = lbxFriends.IndexFromPoint(pt);
+            var pt = new Point(e.X, e.Y);
+            var index = lbxFriends.IndexFromPoint(pt);
 
             // Starts a drag-and-drop operation.
             if (index >= 0 && index < lbxFriends.Items.Count)
             {
-                FriendsListItem dltm = (FriendsListItem)lbxFriends.Items[index];
+                var dltm = (FriendsListItem)lbxFriends.Items[index];
 
                 lbxFriends.DoDragDrop(dltm, DragDropEffects.Copy);
             }
@@ -586,7 +582,7 @@ namespace MEGAbolt
                 return;
             }
 
-            FriendsListItem node = e.Data.GetData(typeof(FriendsListItem)) as FriendsListItem;
+            var node = e.Data.GetData(typeof(FriendsListItem)) as FriendsListItem;
 
             if (node == null) return;
 

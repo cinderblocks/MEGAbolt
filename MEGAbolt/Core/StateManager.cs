@@ -28,9 +28,9 @@ namespace MEGAbolt
 {
     public class StateManager
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly MEGAboltNetcom netcom;
 
         //private bool alwaysrun = false;
         //private bool club = false;
@@ -60,14 +60,14 @@ namespace MEGAbolt
         private Timer pointtimer;
 
         private Vector3d offset = new Vector3d(Vector3d.Zero);
-        private Vector3d beamoffset1 = new Vector3d(0, 0, 0.1);
-        private Vector3d beamoffset2 = new Vector3d(0, 0.1, 0);
+        private readonly Vector3d beamoffset1 = new Vector3d(0, 0, 0.1);
+        private readonly Vector3d beamoffset2 = new Vector3d(0, 0.1, 0);
         private Primitive prim = new Primitive();
-        private Color4 mncolour = new Color4(255, 0, 0, 0);   //new Color4(0, 255, 12, 0); // Green
-        private Color4 spcolour = new Color4(0, 0, 255, 0);
-        private Color4 tdcolour = new Color4(0, 255, 12, 0);
-        private Color4 bkcolour = new Color4(255, 255, 255, 255);
-        private Color4 ccolur = new Color4(0, 0, 255, 255);
+        private readonly Color4 mncolour = new Color4(255, 0, 0, 0);   //new Color4(0, 255, 12, 0); // Green
+        private readonly Color4 spcolour = new Color4(0, 0, 255, 0);
+        private readonly Color4 tdcolour = new Color4(0, 255, 12, 0);
+        private readonly Color4 bkcolour = new Color4(255, 255, 255, 255);
+        private readonly Color4 ccolur = new Color4(0, 0, 255, 255);
         //private UUID lookattarget = UUID.Zero; 
 
         public StateManager(MEGAboltInstance instance)
@@ -168,7 +168,7 @@ namespace MEGAbolt
 
         public void SetAgentFOV()
         {
-            OpenMetaverse.Packets.AgentFOVPacket msg = new OpenMetaverse.Packets.AgentFOVPacket
+            var msg = new OpenMetaverse.Packets.AgentFOVPacket
             {
                 AgentData =
                 {
@@ -189,11 +189,11 @@ namespace MEGAbolt
 
         private void SetLookat()
         {
-            Random rnd = new Random();
+            var rnd = new Random();
 
             client.Self.Movement.UpdateFromHeading(Utils.TWO_PI * rnd.NextDouble(), true);
 
-            Vector3d lkpos = new Vector3d(new Vector3(3, 0, 0) * Quaternion.Identity);
+            var lkpos = new Vector3d(new Vector3(3, 0, 0) * Quaternion.Identity);
             client.Self.LookAtEffect(client.Self.AgentID, client.Self.AgentID, lkpos, LookAtType.Idle, UUID.Random());
         }
 
@@ -212,8 +212,8 @@ namespace MEGAbolt
             //if (!following && !goingto) return;
             if (!IsFollowing) return;
 
-            Avatar av = new Avatar();
-            client.Network.CurrentSim.ObjectsAvatars.TryGetValue(e.Update.LocalID, out av);
+            new Avatar();
+            client.Network.CurrentSim.ObjectsAvatars.TryGetValue(e.Update.LocalID, out var av);
 
             if (av == null)
             {
@@ -224,13 +224,13 @@ namespace MEGAbolt
 
             if (av.Name != FollowName) return;
 
-            Vector3 pos = new Vector3(Vector3.Zero); ;
+            var pos = new Vector3(Vector3.Zero); ;
 
             pos = av.Position;
 
             if (av.ParentID != 0)
             {
-                uint oID = av.ParentID;
+                var oID = av.ParentID;
 
                 if (prim == null)
                 {
@@ -253,7 +253,7 @@ namespace MEGAbolt
 
             client.Self.Movement.TurnToward(pos);
 
-            float dist = Vector3.Distance(instance.SIMsittingPos(), pos);
+            var dist = Vector3.Distance(instance.SIMsittingPos(), pos);
 
             //if (av.Name == goName)
             //{
@@ -291,11 +291,11 @@ namespace MEGAbolt
             if (dist > FollowDistance)
             {
                 client.Self.AutoPilotCancel();
-                ulong followRegionX = e.Simulator.Handle >> 32;
-                ulong followRegionY = e.Simulator.Handle & 0xFFFFFFFF;
-                ulong xTarget = (ulong)pos.X + followRegionX;
-                ulong yTarget = (ulong)pos.Y + followRegionY;
-                float zTarget = pos.Z - 1f;
+                var followRegionX = e.Simulator.Handle >> 32;
+                var followRegionY = e.Simulator.Handle & 0xFFFFFFFF;
+                var xTarget = (ulong)pos.X + followRegionX;
+                var yTarget = (ulong)pos.Y + followRegionY;
+                var zTarget = pos.Z - 1f;
 
                 client.Self.AutoPilot(xTarget, yTarget, zTarget);
             }
@@ -352,7 +352,7 @@ namespace MEGAbolt
 
         public void SetTyping(bool ttyping)
         {
-            Dictionary<UUID, bool> typingAnim = new Dictionary<UUID, bool> { { TypingAnimationID, ttyping } };
+            var typingAnim = new Dictionary<UUID, bool> { { TypingAnimationID, ttyping } };
 
             if (!instance.Config.CurrentConfig.DisableTyping)
             {
@@ -366,7 +366,7 @@ namespace MEGAbolt
 
         public void SetAway(bool aaway)
         {
-            Dictionary<UUID, bool> awayAnim = new Dictionary<UUID, bool> { { AwayAnimationID, aaway } };
+            var awayAnim = new Dictionary<UUID, bool> { { AwayAnimationID, aaway } };
 
             client.Self.Animate(awayAnim, true);
             IsAway = aaway;
@@ -374,7 +374,7 @@ namespace MEGAbolt
 
         public void SetBusy(bool bbusy)
         {
-            Dictionary<UUID, bool> busyAnim = new Dictionary<UUID, bool> { { BusyAnimationID, bbusy } };
+            var busyAnim = new Dictionary<UUID, bool> { { BusyAnimationID, bbusy } };
 
             client.Self.Animate(busyAnim, true);
             IsBusy = bbusy;
@@ -382,7 +382,7 @@ namespace MEGAbolt
 
         public void BellyDance(bool bbelly)
         {
-            Dictionary<UUID, bool> bdanceAnim = new Dictionary<UUID, bool> { { BellydanceAnimationID, bbelly } };
+            var bdanceAnim = new Dictionary<UUID, bool> { { BellydanceAnimationID, bbelly } };
 
             client.Self.Animate(bdanceAnim, true);
             IsBelly = bbelly;
@@ -390,7 +390,7 @@ namespace MEGAbolt
 
         public void ClubDance(bool cclub)
         {
-            Dictionary<UUID, bool> cdanceAnim = new Dictionary<UUID, bool> { { ClubdanceAnimationID, cclub } };
+            var cdanceAnim = new Dictionary<UUID, bool> { { ClubdanceAnimationID, cclub } };
 
             client.Self.Animate(cdanceAnim, true);
             //this.club = cclub;
@@ -398,7 +398,7 @@ namespace MEGAbolt
 
         public void SalsaDance(bool ssalsa)
         {
-            Dictionary<UUID, bool> sdanceAnim = new Dictionary<UUID, bool> { { SalsaAnimationID, ssalsa } };
+            var sdanceAnim = new Dictionary<UUID, bool> { { SalsaAnimationID, ssalsa } };
 
             client.Self.Animate(sdanceAnim, true);
             //this.salsa = ssalsa;
@@ -406,7 +406,7 @@ namespace MEGAbolt
 
         public void FallOnFace(bool ffall)
         {
-            Dictionary<UUID, bool> ffallAnim = new Dictionary<UUID, bool> { { FallAnimationID, ffall } };
+            var ffallAnim = new Dictionary<UUID, bool> { { FallAnimationID, ffall } };
 
             client.Self.Animate(ffallAnim, true);
             //this.fall = ffall;
@@ -414,7 +414,7 @@ namespace MEGAbolt
 
         public void Crouch(bool ccrouch)
         {
-            Dictionary<UUID, bool> crouchAnim = new Dictionary<UUID, bool> { { CrouchAnimationID, ccrouch } };
+            var crouchAnim = new Dictionary<UUID, bool> { { CrouchAnimationID, ccrouch } };
 
             client.Self.Animate(crouchAnim, true);
             //this.crouch = ccrouch;
@@ -666,7 +666,7 @@ namespace MEGAbolt
             {
                 //if (lookID == UUID.Zero) return;
 
-                Vector3d lkpos = new Vector3d(new Vector3(3, 0, 0) * Quaternion.Identity);
+                var lkpos = new Vector3d(new Vector3(3, 0, 0) * Quaternion.Identity);
                 client.Self.LookAtEffect(client.Self.AgentID, client.Self.AgentID, lkpos, LookAtType.Idle, lookID);
                 //lookID = UUID.Zero;
             }
@@ -693,7 +693,7 @@ namespace MEGAbolt
             {
                 //if (lookID == UUID.Zero) return;
 
-                Vector3d lkpos = new Vector3d(new Vector3(2, 0, 0) * Quaternion.Identity);
+                var lkpos = new Vector3d(new Vector3(2, 0, 0) * Quaternion.Identity);
                 client.Self.LookAtEffect(client.Self.AgentID, client.Self.AgentID, lkpos, LookAtType.Idle, lookID);
                 //lookID = UUID.Zero;
             }
@@ -713,9 +713,9 @@ namespace MEGAbolt
 
             if (instance.Config.CurrentConfig.UseSLT)
             {
-                string _timeZoneId = "Pacific Standard Time";
-                DateTime startTime = DateTime.UtcNow;
-                TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
+                var _timeZoneId = "Pacific Standard Time";
+                var startTime = DateTime.UtcNow;
+                var tst = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
                 dte = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
             }
 

@@ -28,13 +28,13 @@ namespace MEGAbolt
 {
     public class MEGAbrain
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
         public global::MEGAbrain.MEGAbrain answer;
 
         //private ArrayList textBuffer;
         //private bool showTimestamps;
-        private AIMLbot.Bot myBot = null;
+        private readonly AIMLbot.Bot myBot = null;
         private AIMLbot.User myUser = null;
         private Timer metaTimer;
         private InstantMessageEventArgs emt;
@@ -105,11 +105,11 @@ namespace MEGAbolt
             metaTimer.Enabled = false;
             metaTimer.Dispose();
 
-            string sanswer = answer.ProcessInput(emt.IM.Message.ToLower(CultureInfo.CurrentCulture), "");
+            var sanswer = answer.ProcessInput(emt.IM.Message.ToLower(CultureInfo.CurrentCulture), "");
 
             if (string.IsNullOrEmpty(sanswer))
             {
-                string imsg = emt.IM.Message;
+                var imsg = emt.IM.Message;
                 imsg = answer.ProcessSmileys(imsg);
 
                 ProcessAI(imsg, emt.IM.FromAgentName, emt.IM.FromAgentID, emt.IM.IMSessionID);
@@ -137,7 +137,7 @@ namespace MEGAbolt
             //    //}
             //}
 
-            string reply = GetResp(msg, user);
+            var reply = GetResp(msg, user);
 
             if (string.IsNullOrEmpty(reply))
             {
@@ -174,19 +174,17 @@ namespace MEGAbolt
 
                 myUser = new AIMLbot.User(user, myBot);
 
-                AIMLbot.Request myRequest = new AIMLbot.Request(msg, myUser, myBot);
-                AIMLbot.Result myResult = myBot.Chat(myRequest);
+                var myRequest = new AIMLbot.Request(msg, myUser, myBot);
+                var myResult = myBot.Chat(myRequest);
 
-                string reply = myResult.Output;
+                var reply = myResult.Output;
 
                 if (reply.Length > 5)
                 {
-                    if (reply.Substring(0, 5).ToLower(CultureInfo.CurrentCulture) == "error")
+                    if (reply[..5].ToLower(CultureInfo.CurrentCulture) == "error")
                     {
                         return string.Empty;
                     }
-
-                    return reply;
                 }
 
                 return reply;

@@ -28,7 +28,7 @@ namespace MEGAbolt
 {
     public class InventoryTreeSorter : IComparer
     {
-        private SafeDictionary<string, ITreeSortMethod> sortMethods = new SafeDictionary<string, ITreeSortMethod>();
+        private readonly SafeDictionary<string, ITreeSortMethod> sortMethods = new SafeDictionary<string, ITreeSortMethod>();
         private string currentMethodName;
         private ITreeSortMethod currentMethod;
 
@@ -37,7 +37,7 @@ namespace MEGAbolt
             RegisterSortMethods();
 
             //because the Values property is gay and doesn't have an indexer
-            foreach (ITreeSortMethod method in sortMethods.Values)
+            foreach (var method in sortMethods.Values)
             {
                 currentMethodName = method.Name;
                 break;
@@ -52,19 +52,16 @@ namespace MEGAbolt
 
         private void AddSortMethod(ITreeSortMethod sort)
         {
-            if (!sortMethods.ContainsKey(sort.Name))
-            {
-                sortMethods.Add(sort.Name, sort);
-            }
+            sortMethods.TryAdd(sort.Name, sort);
         }
 
         public List<ITreeSortMethod> GetSortMethods()
         {
             if (sortMethods.Values.Count == 0) return null;
 
-            List<ITreeSortMethod> methods = new List<ITreeSortMethod>();
+            var methods = new List<ITreeSortMethod>();
 
-            foreach (ITreeSortMethod method in sortMethods.Values)
+            foreach (var method in sortMethods.Values)
                 methods.Add(method);
 
             return methods;
@@ -87,13 +84,13 @@ namespace MEGAbolt
 
         public int Compare(object x, object y)
         {
-            TreeNode nodeX = (TreeNode)x;
-            TreeNode nodeY = (TreeNode)y;
+            var nodeX = (TreeNode)x;
+            var nodeY = (TreeNode)y;
 
             try
             {
-                InventoryBase ibX = (InventoryBase)nodeX.Tag;
-                InventoryBase ibY = (InventoryBase)nodeY.Tag;
+                var ibX = (InventoryBase)nodeX.Tag;
+                var ibY = (InventoryBase)nodeY.Tag;
 
                 currentMethod ??= sortMethods[currentMethodName];
 

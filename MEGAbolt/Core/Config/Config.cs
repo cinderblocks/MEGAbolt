@@ -61,7 +61,7 @@ namespace MEGAbolt
         //private int bgcolour = Color.White.ToArgb();   
 
         //private bool broadcastid = true;
-        private bool disablehttpinv = true;
+        private readonly bool disablehttpinv = true;
 
         public Config()
         {
@@ -70,7 +70,7 @@ namespace MEGAbolt
 
         public static Config LoadFrom(string filename)
         {
-            Config config = new Config();
+            var config = new Config();
 
             try
             {
@@ -85,7 +85,7 @@ namespace MEGAbolt
                 config.FirstName = conf.Configs["Login"].GetString("FirstName", string.Empty);
                 config.LastName = conf.Configs["Login"].GetString("LastName", string.Empty);
 
-                string epwd = conf.Configs["Login"].GetString("Password", string.Empty);
+                var epwd = conf.Configs["Login"].GetString("Password", string.Empty);
 
                 config.LoginGrid = conf.Configs["Login"].GetInt("Grid", 0);
                 config.LoginUri = conf.Configs["Login"].GetString("Uri", string.Empty);
@@ -110,7 +110,7 @@ namespace MEGAbolt
 
                 try
                 {
-                    int clr = conf.Configs["General"].GetInt("HeaderBackColour", Color.Lavender.ToArgb());
+                    var clr = conf.Configs["General"].GetInt("HeaderBackColour", Color.Lavender.ToArgb());
                     config.HeaderBackColour = Color.FromArgb(clr);
                 }
                 catch
@@ -212,8 +212,8 @@ namespace MEGAbolt
                 {
                     if (!string.IsNullOrEmpty(epwd))
                     {
-                        Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                        string cpwd = cryp.Decrypt(epwd);
+                        var cryp = new Crypto(Crypto.SymmProvEnum.AES);
+                        var cpwd = cryp.Decrypt(epwd);
 
                         config.PasswordMD5 = cpwd;
                     }
@@ -272,10 +272,10 @@ namespace MEGAbolt
 
         public void Save(string filename)
         {
-            IniConfigSource source = new IniConfigSource();
+            var source = new IniConfigSource();
 
             // General
-            IConfig config = source.AddConfig("General");
+            var config = source.AddConfig("General");
             config.Set("Version", Version.ToString(CultureInfo.CurrentCulture));
             //config.Set("iRadar", iradar.ToString());
             config.Set("Connect4", Connect4.ToString(CultureInfo.CurrentCulture));
@@ -366,12 +366,12 @@ namespace MEGAbolt
 
             if (iRemPWD)
             {
-                string epwd = PasswordMD5;
+                var epwd = PasswordMD5;
 
                 if (!string.IsNullOrEmpty(epwd))
                 {
-                    Crypto cryp = new Crypto(Crypto.SymmProvEnum.AES);
-                    string cpwd = cryp.Encrypt(epwd);
+                    var cryp = new Crypto(Crypto.SymmProvEnum.AES);
+                    var cpwd = cryp.Encrypt(epwd);
 
                     config.Set("Password", cpwd);
                 }
@@ -463,7 +463,7 @@ namespace MEGAbolt
             config.Set("EnableSpelling", EnableSpelling.ToString(CultureInfo.CurrentCulture));
             config.Set("SpellLanguage", SpellLanguage);
 
-            FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), filename));
+            var newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), filename));
 
             if (newFileInfo.Exists)
             {

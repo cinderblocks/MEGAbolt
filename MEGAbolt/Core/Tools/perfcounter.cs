@@ -28,8 +28,8 @@ namespace MEGAbolt
 {
     public class NetworkTraffic
     {
-        private PerformanceCounter bytesSentPerformanceCounter;
-        private PerformanceCounter bytesReceivedPerformanceCounter;
+        private readonly PerformanceCounter bytesSentPerformanceCounter;
+        private readonly PerformanceCounter bytesReceivedPerformanceCounter;
 
         public NetworkTraffic()
         {
@@ -68,13 +68,13 @@ namespace MEGAbolt
         private static string GetInstanceName()
         {
             // Used Reflector to find the correct formatting:
-            string assemblyName = GetAssemblyName();
+            var assemblyName = GetAssemblyName();
             if ((assemblyName == null) || (assemblyName.Length == 0))
             {
                 assemblyName = AppDomain.CurrentDomain.FriendlyName;
             }
-            StringBuilder builder = new StringBuilder(assemblyName);
-            for (int i = 0; i < builder.Length; i++)
+            var builder = new StringBuilder(assemblyName);
+            for (var i = 0; i < builder.Length; i++)
             {
                 switch (builder[i])
                 {
@@ -102,10 +102,10 @@ namespace MEGAbolt
         private static string GetAssemblyName()
         {
             string str = null;
-            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            var entryAssembly = Assembly.GetEntryAssembly();
             if (entryAssembly != null)
             {
-                AssemblyName name = entryAssembly.GetName();
+                var name = entryAssembly.GetName();
                 if (name != null)
                 {
                     str = name.Name;

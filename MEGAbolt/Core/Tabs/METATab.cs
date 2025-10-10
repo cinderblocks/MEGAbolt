@@ -186,7 +186,7 @@ namespace MEGAbolt
             if (!AllowMerge) return;
             if (Merged) return;
 
-            SplitContainer container = new SplitContainer();
+            var container = new SplitContainer();
             container.Dock = DockStyle.Fill;
             container.BorderStyle = BorderStyle.Fixed3D;
             container.SplitterDistance = container.Width / 2;
@@ -216,11 +216,11 @@ namespace MEGAbolt
             if (!AllowMerge) return null;
             if (!Merged) return null;
 
-            MEGAboltTab returnTab = MergedTab;
+            var returnTab = MergedTab;
             MergedTab = null;
             returnTab.MergedTab = null;
 
-            SplitContainer container = (SplitContainer)Control;
+            var container = (SplitContainer)Control;
             Control = container.Panel1.Controls[0];
             returnTab.Control = container.Panel2.Controls[0];
             Merged = returnTab.Merged = false;

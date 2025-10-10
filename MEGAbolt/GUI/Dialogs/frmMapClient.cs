@@ -40,9 +40,9 @@ namespace MEGAbolt
 {
     public partial class frmMapClient : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client; // = new GridClient();
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client; // = new GridClient();
+        private readonly MEGAboltNetcom netcom;
         private UUID _MapImageID;
         private Image _MapLayer;
         private Image _LandLayer;
@@ -50,12 +50,12 @@ namespace MEGAbolt
         private int py = 128;
         private Simulator sim;
 
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
         private bool showing = false;
         private UUID avuuid = UUID.Zero;
         private string avname = string.Empty;
-        private ManualResetEvent TPEvent = new ManualResetEvent(false);
+        private readonly ManualResetEvent TPEvent = new ManualResetEvent(false);
         private int clickedx = 0;
         private int clickedy = 0;
         private GridRegion selregion;
@@ -69,7 +69,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -99,7 +99,7 @@ namespace MEGAbolt
             netcom.Teleporting += netcom_Teleporting;
             netcom.TeleportStatusChanged += netcom_TeleportStatusChanged;
 
-            string msg1 = "Yellow dot with red border = your avatar \nGreen dots = avs at your altitude\nRed squares = avs 20m+ below you\nBlue squares = avs 20m+ above you\n\n Click on map area to get TP position.";
+            var msg1 = "Yellow dot with red border = your avatar \nGreen dots = avs at your altitude\nRed squares = avs 20m+ below you\nBlue squares = avs 20m+ above you\n\n Click on map area to get TP position.";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -196,9 +196,9 @@ namespace MEGAbolt
 
                 //Bitmap nbmp = new Bitmap(256, 256);
 
-                Bitmap bmp = _MapLayer == null ? new Bitmap(256, 256) : (Bitmap)_MapLayer.Clone();
+                var bmp = _MapLayer == null ? new Bitmap(256, 256) : (Bitmap)_MapLayer.Clone();
 
-                Graphics g = Graphics.FromImage(bmp);
+                var g = Graphics.FromImage(bmp);
 
                 //nbmp.Dispose(); 
 
@@ -238,7 +238,7 @@ namespace MEGAbolt
                 }
 
                 // Draw compass points
-                StringFormat strFormat = new StringFormat();
+                var strFormat = new StringFormat();
                 strFormat.Alignment = StringAlignment.Center;
 
                 g.DrawString("N", new Font("Arial", 12), Brushes.Black, new RectangleF(0, 0, bmp.Width, bmp.Height), strFormat);
@@ -263,7 +263,7 @@ namespace MEGAbolt
                 g.DrawString("S", new Font("Arial", 9, FontStyle.Bold), Brushes.White, new RectangleF(0, 0, bmp.Width, bmp.Height), strFormat);
 
                 // V0.9.8.0 changes for OpenSIM compatibility
-                Vector3 myPos = new Vector3();
+                var myPos = new Vector3();
 
                 // Rollback change from 9.2.1
                 //if (!sim.AvatarPositions.ContainsKey(client.Self.AgentID))
@@ -278,14 +278,14 @@ namespace MEGAbolt
                 myPos = instance.SIMsittingPos();
 
                 // Draw self position
-                int rg = instance.Config.CurrentConfig.RadarRange;
+                var rg = instance.Config.CurrentConfig.RadarRange;
 
                 if (chkRange.Checked)
                 {
                     rg *= 2;
 
-                    Rectangle myrect = new Rectangle(((int)Math.Round(myPos.X, 0)) - (rg / 2), (255 - ((int)Math.Round(myPos.Y, 0))) - (rg / 2 - 4), rg + 2, rg + 2);
-                    SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
+                    var myrect = new Rectangle(((int)Math.Round(myPos.X, 0)) - (rg / 2), (255 - ((int)Math.Round(myPos.Y, 0))) - (rg / 2 - 4), rg + 2, rg + 2);
+                    var semiTransBrush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
                     g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.GammaCorrected;
                     g.FillEllipse(semiTransBrush, myrect);
 
@@ -299,14 +299,14 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    Rectangle myrect = new Rectangle((int)Math.Round(myPos.X, 0) - 2, 255 - ((int)Math.Round(myPos.Y, 0) - 2), 7, 7);
+                    var myrect = new Rectangle((int)Math.Round(myPos.X, 0) - 2, 255 - ((int)Math.Round(myPos.Y, 0) - 2), 7, 7);
                     g.FillEllipse(new SolidBrush(Color.Yellow), myrect);
                     g.DrawEllipse(new Pen(Brushes.Red, 3), myrect);
                 }
 
                 if (clickedx != 0 && clickedy != 0)
                 {
-                    Point mouse = new Point(clickedx, clickedy);
+                    var mouse = new Point(clickedx, clickedy);
 
                     MEGAboltInstance.AvLocation CurrentLoc = null;
 
@@ -318,15 +318,15 @@ namespace MEGAbolt
 
                     if (CurrentLoc == null)
                     {
-                        Rectangle selectedrect = new Rectangle(clickedx - 2, clickedy - 2, 10, 10);
+                        var selectedrect = new Rectangle(clickedx - 2, clickedy - 2, 10, 10);
                         g.DrawEllipse(new Pen(Brushes.Red, 2), selectedrect);
                     }
                 }
 
                 if (chkResident.Checked)
                 {
-                    int i = 0;
-                    Rectangle rect = new Rectangle();
+                    var i = 0;
+                    var rect = new Rectangle();
 
 
                     if (myPos.Z < 0.1f)
@@ -336,12 +336,12 @@ namespace MEGAbolt
 
                     foreach (var pos in client.Network.CurrentSim.AvatarPositions)
                     {
-                        int x = (int)pos.Value.X - 2;
-                        int y = 255 - (int)pos.Value.Y - 2;
+                        var x = (int)pos.Value.X - 2;
+                        var y = 255 - (int)pos.Value.Y - 2;
 
                         rect = new Rectangle(x, y, 7, 7);
 
-                        Vector3 oavPos = new Vector3(0, 0, 0)
+                        var oavPos = new Vector3(0, 0, 0)
                         {
                             X = pos.Value.X,
                             Y = pos.Value.Y,
@@ -383,7 +383,7 @@ namespace MEGAbolt
                 strFormat.Dispose();
                 g.Dispose();
 
-                string strInfo = string.Format(CultureInfo.CurrentCulture, "Total Avatars: {0}", client.Network.CurrentSim.AvatarPositions.Count);
+                var strInfo = string.Format(CultureInfo.CurrentCulture, "Total Avatars: {0}", client.Network.CurrentSim.AvatarPositions.Count);
                 lblSimData.Text = strInfo;
 
                 strInfo = string.Format(CultureInfo.CurrentCulture, "{0}/{1}/{2}/{3}", client.Network.CurrentSim.Name,
@@ -415,9 +415,9 @@ namespace MEGAbolt
 
             GetMap();
 
-            Vector3 apos = new Vector3();
+            var apos = new Vector3();
             apos = instance.SIMsittingPos();
-            float aZ = apos.Z;
+            var aZ = apos.Z;
 
             //printMap();
             nuX.Value = 128;
@@ -470,7 +470,7 @@ namespace MEGAbolt
 
             //PlotSelected(e.X, e.Y);
 
-            Point mouse = new Point(clickedx, clickedy);
+            var mouse = new Point(clickedx, clickedy);
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
@@ -495,9 +495,9 @@ namespace MEGAbolt
         private int NormaliseSize(int number)
         {
             //decimal ssize = (decimal)256 / (decimal)tabPage1.Width;
-            decimal ssize = 256 / (decimal)world.Width;
+            var ssize = 256 / (decimal)world.Width;
 
-            int pos = Convert.ToInt32(Math.Round(number * ssize));
+            var pos = Convert.ToInt32(Math.Round(number * ssize));
 
             return pos;
         }
@@ -511,10 +511,10 @@ namespace MEGAbolt
                 //UpdateMiniMap(sim);
                 BeginInvoke(new OnUpdateMiniMap(UpdateMiniMap), new object[] { sim });
 
-                Bitmap map = (Bitmap)world.Image;
-                Graphics g = Graphics.FromImage(map);
+                var map = (Bitmap)world.Image;
+                var g = Graphics.FromImage(map);
 
-                Rectangle selectedrect = new Rectangle(x - 2, y - 2, 10, 10);
+                var selectedrect = new Rectangle(x - 2, y - 2, 10, 10);
                 g.DrawEllipse(new Pen(Brushes.Red, 2), selectedrect);
                 world.Image = map;
 
@@ -574,10 +574,10 @@ namespace MEGAbolt
 
         private void world_MouseMove(object sender, MouseEventArgs e)
         {
-            int posX = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
-            int posY = NormaliseSize(e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
+            var posX = NormaliseSize(e.X);   // Convert.ToInt32(Math.Round(e.X * ssize));
+            var posY = NormaliseSize(e.Y);   // Convert.ToInt32(Math.Round(e.Y * ssize));
 
-            Point mouse = new Point(posX, posY);
+            var mouse = new Point(posX, posY);
 
             MEGAboltInstance.AvLocation CurrentLoc = null;
 
@@ -591,21 +591,21 @@ namespace MEGAbolt
             {
                 if (!showing)
                 {
-                    UUID akey = (UUID)CurrentLoc.LocationName;
-                    string apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture) + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture) + "/" + Math.Round(CurrentLoc.Position.Z).ToString(CultureInfo.CurrentCulture);
+                    var akey = (UUID)CurrentLoc.LocationName;
+                    var apstn = "\nCoords.: " + Math.Round(CurrentLoc.Position.X).ToString(CultureInfo.CurrentCulture) + "/" + Math.Round(CurrentLoc.Position.Y).ToString(CultureInfo.CurrentCulture) + "/" + Math.Round(CurrentLoc.Position.Z).ToString(CultureInfo.CurrentCulture);
 
                     world.Cursor = Cursors.Hand;
-                    string anme = string.Empty;
+                    var anme = string.Empty;
 
                     lock (instance.avnames)
                     {
-                        if (instance.avnames.ContainsKey(akey))
+                        if (instance.avnames.TryGetValue(akey, out var instanceAvname))
                         {
-                            avname = instance.avnames[akey];
+                            avname = instanceAvname;
 
-                            if (instance.avtags.ContainsKey(akey))
+                            if (instance.avtags.TryGetValue(akey, out var avtag))
                             {
-                                anme = "\nTag: " + instance.avtags[akey];
+                                anme = "\nTag: " + avtag;
                             }
 
                             toolTip1.SetToolTip(world, avname + anme + apstn);
@@ -727,8 +727,8 @@ namespace MEGAbolt
 
             if (TabCont.SelectedIndex == 0) return;
 
-            RegionSearchResultItem item = new RegionSearchResultItem(instance, region, lbxRegionSearch);
-            int index = lbxRegionSearch.Items.Add(item);
+            var item = new RegionSearchResultItem(instance, region, lbxRegionSearch);
+            var index = lbxRegionSearch.Items.Add(item);
             item.ListIndex = index;
             selregion = item.Region;
         }
@@ -881,19 +881,19 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
+            var itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
             textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
                 ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
-            Font newFont = new Font(e.Font, FontStyle.Bold);
-            SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
+            var newFont = new Font(e.Font, FontStyle.Bold);
+            var stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
 
             float iconSize = 64;   // trkIconSize.Value;
-            float leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
-            float topTextMargin = e.Bounds.Top + 4.0f;
+            var leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
+            var topTextMargin = e.Bounds.Top + 4.0f;
 
             if (itemToDraw.IsImageDownloaded)
             {
@@ -915,14 +915,14 @@ namespace MEGAbolt
 
             if (itemToDraw.GotAgentCount)
             {
-                string peeps = " person";
+                var peeps = " person";
 
                 if (itemToDraw.Region.Agents != 1)
                 {
                     peeps = " people";
                 }
 
-                string s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
+                var s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
 
                 e.Graphics.DrawString(s + peeps, e.Font, textBrush, new PointF(leftTextMargin + stringSize.Width + 6.0f, topTextMargin));
             }
@@ -985,7 +985,7 @@ namespace MEGAbolt
                     return;
                 }
 
-                RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
+                var item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
 
                 button4.Enabled = true;
 
@@ -999,17 +999,17 @@ namespace MEGAbolt
                 selectedmap = item.MapImage;
                 //pictureBox2.Image = selectedmap;
 
-                Bitmap bmp = new Bitmap(selectedmap, 256, 256);
+                var bmp = new Bitmap(selectedmap, 256, 256);
 
-                Graphics g = Graphics.FromImage(bmp);
+                var g = Graphics.FromImage(bmp);
 
-                Rectangle rect = new Rectangle();
+                var rect = new Rectangle();
 
-                foreach (MapItem itm in item.AgentLocations)
+                foreach (var itm in item.AgentLocations)
                 {
                     // Draw avatar location icons
-                    int x = (int)itm.LocalX + 7;
-                    int y = 255 - (int)itm.LocalY - 16;
+                    var x = (int)itm.LocalX + 7;
+                    var y = 255 - (int)itm.LocalY - 16;
 
                     rect = new Rectangle(x, y, 7, 7);
 
@@ -1037,10 +1037,10 @@ namespace MEGAbolt
             //Bitmap map = (Bitmap)selectedmap;   // pictureBox2.Image;
             //Graphics g = Graphics.FromImage(map);
 
-            Bitmap map = new Bitmap(selectedmap, 256, 256);
-            Graphics g = Graphics.FromImage(map);
+            var map = new Bitmap(selectedmap, 256, 256);
+            var g = Graphics.FromImage(map);
 
-            Rectangle selectedrect = new Rectangle(e.X - 2, e.Y - 2, 10, 10);
+            var selectedrect = new Rectangle(e.X - 2, e.Y - 2, 10, 10);
             g.DrawEllipse(new Pen(Brushes.Red, 2), selectedrect);
             pictureBox2.Image = map;
 
@@ -1101,8 +1101,8 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(txtSearchFor.Text))
             {
-                RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
-                string surl = "http://slurl.com/secondlife/" + item.Region.Name.Trim() + "/" + nudX1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ1.Value.ToString(CultureInfo.CurrentCulture);
+                var item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
+                var surl = "http://slurl.com/secondlife/" + item.Region.Name.Trim() + "/" + nudX1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY1.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ1.Value.ToString(CultureInfo.CurrentCulture);
                 Utilities.OpenBrowser(@surl);
             }
         }

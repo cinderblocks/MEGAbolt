@@ -26,8 +26,8 @@ namespace MEGAbolt
 {
     public class ObjectsListItem
     {
-        private GridClient client;
-        private ListBox listBox;
+        private readonly GridClient client;
+        private readonly ListBox listBox;
 
         public ObjectsListItem(Primitive prim, GridClient client, ListBox listBox)
         {

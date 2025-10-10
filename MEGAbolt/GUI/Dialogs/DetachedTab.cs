@@ -26,8 +26,8 @@ namespace MEGAbolt
 {
     public partial class frmDetachedTab : Form
     {
-        private MEGAboltInstance instance;
-        private MEGAboltTab tab;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltTab tab;
 
         //For reattachment
 

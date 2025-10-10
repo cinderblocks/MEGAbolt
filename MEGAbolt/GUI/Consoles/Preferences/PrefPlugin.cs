@@ -27,8 +27,8 @@ namespace MEGAbolt
 {
     public partial class PrefPlugin : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
         private bool pluginschanged = false;
         private string plugins = string.Empty;
 
@@ -41,7 +41,7 @@ namespace MEGAbolt
 
             if (this.instance.EList != null)
             {
-                foreach (IExtension extOn in this.instance.EList)
+                foreach (var extOn in this.instance.EList)
                 {
                     listBox1.Items.Add(extOn.Title);
                 }
@@ -51,9 +51,9 @@ namespace MEGAbolt
 
             if (!string.IsNullOrEmpty(plugins))
             {
-                string[] lplugs = plugins.Split('|');
+                var lplugs = plugins.Split('|');
 
-                foreach (string plug in lplugs)
+                foreach (var plug in lplugs)
                 {
                     if (!string.IsNullOrEmpty(plug))
                     {
@@ -87,7 +87,7 @@ namespace MEGAbolt
             {
                 if (plugins.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    plugins = plugins.Substring(0, plugins.Length - 1);
+                    plugins = plugins[..^1];
                 }
 
                 config.CurrentConfig.PluginsToLoad = plugins;

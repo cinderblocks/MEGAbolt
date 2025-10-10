@@ -8,11 +8,11 @@ namespace MEGAbolt
 {
     public partial class frmPluginManager : Form
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
         private bool pluginschanged = false;
         private string plugins = string.Empty;
-        private bool ismbapiloaded = false;
+        private readonly bool ismbapiloaded = false;
 
         public frmPluginManager(MEGAboltInstance instance)
         {
@@ -23,7 +23,7 @@ namespace MEGAbolt
 
             if (this.instance.EList != null)
             {
-                foreach (IExtension extOn in this.instance.EList)
+                foreach (var extOn in this.instance.EList)
                 {
                     listBox1.Items.Add(extOn.Title);
                 }
@@ -33,9 +33,9 @@ namespace MEGAbolt
 
             if (!string.IsNullOrEmpty(plugins))
             {
-                string[] lplugs = plugins.Split('|');
+                var lplugs = plugins.Split('|');
 
-                foreach (string plug in lplugs)
+                foreach (var plug in lplugs)
                 {
                     if (!string.IsNullOrEmpty(plug))
                     {
@@ -44,7 +44,7 @@ namespace MEGAbolt
                 }
             }
 
-            IExtension result = this.instance.EList.Find(
+            var result = this.instance.EList.Find(
             fn => fn.Title == "MB_LSLAPI");
 
             ismbapiloaded = result != null;
@@ -98,7 +98,7 @@ namespace MEGAbolt
             {
                 if (plugins.EndsWith("|", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    plugins = plugins.Substring(0, plugins.Length - 1);
+                    plugins = plugins[..^1];
                 }
 
                 config.CurrentConfig.PluginsToLoad = plugins;
@@ -129,11 +129,11 @@ namespace MEGAbolt
                 return;
             }
 
-            string itm = listBox1.SelectedItem.ToString();
+            var itm = listBox1.SelectedItem.ToString();
 
             if (instance.EList != null)
             {
-                foreach (IExtension extOn in instance.EList)
+                foreach (var extOn in instance.EList)
                 {
                     if (extOn.Title == itm)
                     {

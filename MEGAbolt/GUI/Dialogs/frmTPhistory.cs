@@ -30,11 +30,11 @@ namespace MEGAbolt
     public partial class frmTPhistory : Form
     {
         //string XmlFile = "TP_History.xml";
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
 
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
 
         public frmTPhistory(MEGAboltInstance instance)
@@ -47,7 +47,7 @@ namespace MEGAbolt
             dataGridView1.DataSource = instance.TP;
             dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
 
-            string msg1 = "To delete a history record, select the whole row by clicking the arrow on the left of the row and hit the DEL button on your keyboard";
+            var msg1 = "To delete a history record, select the whole row by clicking the arrow on the left of the row and hit the DEL button on your keyboard";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -58,11 +58,11 @@ namespace MEGAbolt
         {
             try
             {
-                int cnt = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+                var cnt = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
 
                 if (cnt > 0)
                 {
-                    int ind = dataGridView1.SelectedRows[0].Index;
+                    var ind = dataGridView1.SelectedRows[0].Index;
 
                     button2.Enabled = true;
                     button4.Enabled = true;
@@ -98,11 +98,11 @@ namespace MEGAbolt
             if (!string.IsNullOrEmpty(textBox2.Text))
             {
                 // Open up the TP form here
-                string[] split = textBox2.Text.Split(new Char[] { '/' });
-                string sim = split[4];
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var split = textBox2.Text.Split(new Char[] { '/' });
+                var sim = split[4];
+                var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                 //(new frmTeleport(instance, sim, (float)x, (float)y, (float)z)).ShowDialog();
 
@@ -112,16 +112,16 @@ namespace MEGAbolt
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string file = textBox1.Text;
+            var file = textBox1.Text;
 
             if (file.Length > 32)
             {
-                file = file.Substring(0, 32);
+                file = file[..32];
             }
 
-            string pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
+            var pos = instance.SIMsittingPos().X.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Y.ToString(CultureInfo.CurrentCulture) + ", " + instance.SIMsittingPos().Z.ToString(CultureInfo.CurrentCulture);
 
-            string desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
+            var desc = file + ", " + client.Network.CurrentSim.Name + " (" + pos + ")";
 
             client.Inventory.RequestCreateItem(client.Inventory.FindFolderForType(AssetType.Landmark),
                     file, desc, AssetType.Landmark, UUID.Random(), InventoryType.Landmark, PermissionMask.All,

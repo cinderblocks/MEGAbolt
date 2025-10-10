@@ -22,8 +22,8 @@ namespace SystemMonitor
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private Container components = null;
-        private ArrayList _arrayList;
+        private readonly Container components = null;
+        private readonly ArrayList _arrayList;
 
         #region Constructor/Dispose
         public DataChart()
@@ -58,8 +58,8 @@ namespace SystemMonitor
 
         public void UpdateChart(double d)
         {
-            Rectangle rt = ClientRectangle;
-            int dataCount = rt.Width / 2;
+            var rt = ClientRectangle;
+            var dataCount = rt.Width / 2;
 
             if (_arrayList.Count >= dataCount)
                 _arrayList.RemoveAt(0);
@@ -108,21 +108,21 @@ namespace SystemMonitor
         #region Drawing
         protected override void OnPaint(PaintEventArgs e)
         {
-            int count = _arrayList.Count;
+            var count = _arrayList.Count;
             if (count == 0) return;
 
             double y = 0, yMax = InitialHeight;
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 y = Convert.ToDouble(_arrayList[i], CultureInfo.CurrentCulture);
                 if (y > yMax) yMax = y;
             }
 
-            Rectangle rt = ClientRectangle;
+            var rt = ClientRectangle;
             y = yMax == 0 ? 1 : rt.Height / yMax;       // y ratio
 
-            int xStart = rt.Width;
-            int yStart = rt.Height;
+            var xStart = rt.Width;
+            var yStart = rt.Height;
             int nX, nY;
 
             Pen pen = null;
@@ -134,10 +134,10 @@ namespace SystemMonitor
                 nX = rt.Width / GridPixels;
                 nY = rt.Height / GridPixels;
 
-                for (int i = 1; i <= nX; i++)
+                for (var i = 1; i <= nX; i++)
                     e.Graphics.DrawLine(pen, i * GridPixels, 0, i * GridPixels, yStart);
 
-                for (int i = 1; i < nY; i++)
+                for (var i = 1; i < nY; i++)
                     e.Graphics.DrawLine(pen, 0, i * GridPixels, xStart, i * GridPixels);
             }
 
@@ -148,7 +148,7 @@ namespace SystemMonitor
             {
                 pen = new Pen(LineColor, 2);
 
-                for (int i = count - 1; i >= 0; i--)
+                for (var i = count - 1; i >= 0; i--)
                 {
                     nX = xStart - 2 * (count - i);
                     if (nX <= 0) break;
@@ -162,9 +162,9 @@ namespace SystemMonitor
             {
                 pen = new Pen(LineColor, 1);
 
-                int nX0 = xStart - 2;
-                int nY0 = (int)(yStart - y * Convert.ToDouble(_arrayList[count - 1], CultureInfo.CurrentCulture));
-                for (int i = count - 2; i >= 0; i--)
+                var nX0 = xStart - 2;
+                var nY0 = (int)(yStart - y * Convert.ToDouble(_arrayList[count - 1], CultureInfo.CurrentCulture));
+                for (var i = count - 2; i >= 0; i--)
                 {
                     nX = xStart - 2 * (count - i);
                     if (nX <= 0) break;

@@ -29,7 +29,7 @@ namespace MEGAbolt
     #region AutoCompleteListSorter
     public class AutoCompleteStringListSorter : IComparer<string>
     {
-        private CaseInsensitiveComparer ItemComparer;
+        private readonly CaseInsensitiveComparer ItemComparer;
 
         public AutoCompleteStringListSorter()
         {
@@ -41,7 +41,7 @@ namespace MEGAbolt
 
         public int Compare(string x, string y)
         {
-            int compareResult = 0;
+            var compareResult = 0;
 
             String ItemX, ItemY;
 

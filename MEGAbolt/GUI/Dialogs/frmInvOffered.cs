@@ -44,7 +44,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -84,7 +84,7 @@ namespace MEGAbolt
             timer1.Enabled = true;
             timer1.Start();
 
-            DateTime dte = DateTime.Now.AddMinutes(15.0d);
+            var dte = DateTime.Now.AddMinutes(15.0d);
 
             label1.Text = $"This item will be auto accepted at {dte.ToShortTimeString()}";
 
@@ -136,7 +136,7 @@ namespace MEGAbolt
         {
             try
             {
-                UUID invfolder = UUID.Zero;
+                var invfolder = UUID.Zero;
 
                 if (invtype == AssetType.Folder)
                 {
@@ -186,7 +186,7 @@ namespace MEGAbolt
         {
             try
             {
-                UUID invfolder = UUID.Zero;
+                var invfolder = UUID.Zero;
 
                 if (invtype == AssetType.Folder)
                 {
@@ -208,7 +208,7 @@ namespace MEGAbolt
 
                     if (client.Inventory.Store.TryGetValue(objectID, out var item))
                     {
-                        UUID trashId = client.Inventory.FindFolderForType(FolderType.Trash);
+                        var trashId = client.Inventory.FindFolderForType(FolderType.Trash);
                         if (client.Inventory.Store.TryGetValue(trashId, out InventoryFolder trash))
                         {
                             if (invtype != AssetType.Folder)

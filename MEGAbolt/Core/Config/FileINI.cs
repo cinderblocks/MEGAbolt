@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace MEGAbolt.FileINI
 {
@@ -36,7 +37,7 @@ namespace MEGAbolt.FileINI
         #region "Declarations"
 
         // *** Lock for thread-safe access to file and local cache ***
-        private object m_Lock = new object();
+        private readonly Lock m_Lock = new Lock();
 
         // *** File name ***
         internal string FileName { get; private set; } = null;
@@ -105,7 +106,7 @@ namespace MEGAbolt.FileINI
                         {
                             if (s.Length > 2)
                             {
-                                string SectionName = s.Substring(1, s.Length - 2);
+                                var SectionName = s.Substring(1, s.Length - 2);
 
                                 // *** Only first occurrence of a section is loaded ***
                                 if (m_Sections.ContainsKey(SectionName))
@@ -125,14 +126,14 @@ namespace MEGAbolt.FileINI
                             int i;
                             if ((i = s.IndexOf('=')) > 0)
                             {
-                                int j = s.Length - i - 1;
-                                string Key = s.Substring(0, i).Trim();
+                                var j = s.Length - i - 1;
+                                var Key = s[..i].Trim();
                                 if (Key.Length > 0)
                                 {
                                     // *** Only first occurrence of a key is loaded ***
                                     if (!CurrentSection.ContainsKey(Key))
                                     {
-                                        string Value = (j > 0) ? (s.Substring(i + 1, j).Trim()) : ("");
+                                        var Value = (j > 0) ? (s.Substring(i + 1, j).Trim()) : ("");
                                         CurrentSection.Add(Key, Value);
                                     }
                                 }
@@ -159,15 +160,15 @@ namespace MEGAbolt.FileINI
                 m_CacheModified = false;
 
                 // *** Open the file ***
-                StreamWriter sw = new StreamWriter(FileName);
+                using var sw = new StreamWriter(FileName);
 
                 try
                 {
                     // *** Cycle on all sections ***
-                    bool First = false;
-                    foreach (KeyValuePair<string, Dictionary<string, string>> SectionPair in m_Sections)
+                    var First = false;
+                    foreach (var SectionPair in m_Sections)
                     {
-                        Dictionary<string, string> Section = SectionPair.Value;
+                        var Section = SectionPair.Value;
                         if (First) sw.WriteLine();
                         First = true;
 
@@ -177,7 +178,7 @@ namespace MEGAbolt.FileINI
                         sw.WriteLine(']');
 
                         // *** Cycle on all key+value pairs in the section ***
-                        foreach (KeyValuePair<string, string> ValuePair in Section)
+                        foreach (var ValuePair in Section)
                         {
                             // *** Write the key+value pair ***
                             sw.Write(ValuePair.Key);
@@ -194,7 +195,6 @@ namespace MEGAbolt.FileINI
                 {
                     // *** Cleanup: close file ***
                     sw?.Close();
-                    sw = null;
                 }
             }
         }
@@ -211,16 +211,10 @@ namespace MEGAbolt.FileINI
 
             lock (m_Lock)
             {
-                // *** Check if the section exists ***
-                Dictionary<string, string> Section;
-                if (!m_Sections.TryGetValue(SectionName, out Section)) return DefaultValue;
-
-                // *** Check if the key exists ***
-                string Value;
-                if (!Section.TryGetValue(Key, out Value)) return DefaultValue;
+                return !m_Sections.TryGetValue(SectionName, out var Section) ? DefaultValue
+                    : Section.GetValueOrDefault(Key, DefaultValue);
 
                 // *** Return the found value ***
-                return Value;
             }
         }
 
@@ -248,28 +242,25 @@ namespace MEGAbolt.FileINI
                 //    m_Sections.Add(SectionName, Section);
                 //}
 
-                Dictionary<string, string> Section = CreateSection(SectionName);
+                var Section = CreateSection(SectionName);
 
                 // *** Modify the value ***
-                if (Section.ContainsKey(Key)) Section.Remove(Key);
+                Section.Remove(Key);
                 Section.Add(Key, Value);
             }
         }
 
         internal void RemoveValue(string SectionName, string Key)
         {
-            Dictionary<string, string> Section;
-
-            if (!m_Sections.TryGetValue(SectionName, out Section))
+            if (!m_Sections.TryGetValue(SectionName, out var Section))
             {
-                if (Section.ContainsKey(Key)) Section.Remove(Key);
+                Section.Remove(Key);
             }
         }
 
         internal Dictionary<string, string> CreateSection(string SectionName)
         {
-            Dictionary<string, string> Section;
-            if (!m_Sections.TryGetValue(SectionName, out Section))
+            if (!m_Sections.TryGetValue(SectionName, out var Section))
             {
                 // *** If it doesn't, add it ***
                 Section = new Dictionary<string, string>();
@@ -284,11 +275,11 @@ namespace MEGAbolt.FileINI
         {
             if (Value == null) return null;
 
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in Value)
+            var sb = new StringBuilder();
+            foreach (var b in Value)
             {
-                string hex = Convert.ToString(b, 16);
-                int l = hex.Length;
+                var hex = Convert.ToString(b, 16);
+                var l = hex.Length;
                 if (l > 2)
                 {
                     sb.Append(hex.Substring(l - 2, 2));
@@ -307,43 +298,40 @@ namespace MEGAbolt.FileINI
         {
             if (Value == null) return null;
 
-            int l = Value.Length;
+            var l = Value.Length;
             if (l < 2) return new byte[] { };
 
             l /= 2;
-            byte[] Result = new byte[l];
-            for (int i = 0; i < l; i++) Result[i] = Convert.ToByte(Value.Substring(i * 2, 2), 16);
+            var Result = new byte[l];
+            for (var i = 0; i < l; i++) Result[i] = Convert.ToByte(Value.Substring(i * 2, 2), 16);
             return Result;
         }
 
         // *** Getters for various types ***
         internal bool GetValue(string SectionName, string Key, bool DefaultValue)
         {
-            string StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
-            int Value;
-            if (int.TryParse(StringValue, out Value)) return (Value != 0);
+            var StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
+            if (int.TryParse(StringValue, out var Value)) return (Value != 0);
             return DefaultValue;
         }
 
         internal int GetValue(string SectionName, string Key, int DefaultValue)
         {
-            string StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
-            int Value;
-            if (int.TryParse(StringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out Value)) return Value;
+            var StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
+            if (int.TryParse(StringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var Value)) return Value;
             return DefaultValue;
         }
 
         internal double GetValue(string SectionName, string Key, double DefaultValue)
         {
-            string StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
-            double Value;
-            if (double.TryParse(StringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out Value)) return Value;
+            var StringValue = GetValue(SectionName, Key, DefaultValue.ToString(CultureInfo.InvariantCulture));
+            if (double.TryParse(StringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var Value)) return Value;
             return DefaultValue;
         }
 
         internal byte[] GetValue(string SectionName, string Key, byte[] DefaultValue)
         {
-            string StringValue = GetValue(SectionName, Key, EncodeByteArray(DefaultValue));
+            var StringValue = GetValue(SectionName, Key, EncodeByteArray(DefaultValue));
             try
             {
                 return DecodeByteArray(StringValue);

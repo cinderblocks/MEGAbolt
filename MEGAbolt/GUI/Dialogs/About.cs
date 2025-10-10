@@ -56,7 +56,7 @@ namespace MEGAbolt
         {
             CenterToParent();
 
-            Thread thread = new Thread(ScrollRTB);
+            var thread = new Thread(ScrollRTB);
             thread.Start();
         }
 
@@ -105,7 +105,7 @@ namespace MEGAbolt
             {
                 if (stopscroll) return;
 
-                string line = richTextBox1.Lines[row - 1];
+                var line = richTextBox1.Lines[row - 1];
 
                 charCount += line.Length + 1;
 

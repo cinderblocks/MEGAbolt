@@ -33,16 +33,16 @@ namespace MEGAbolt
 {
     public partial class frmTeleport : Form
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
         //private const int GRID_Y_OFFSET = 1279;
         //Base URL for web map api sim images
         //private const String MAP_IMG_URL = "http://secondlife.com/apps/mapapi/grid/map_image/";
         private GridRegion selregion;
         //private int agencnt = 0;
         //private SafeDictionary<string, int> acnt = new SafeDictionary<string,int>();
-        private bool ismaps = false;
+        private readonly bool ismaps = false;
 
         internal class ThreadExceptionHandler
         {
@@ -50,7 +50,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -82,9 +82,9 @@ namespace MEGAbolt
             }
             else
             {
-                decimal x = (decimal)sX;
-                decimal y = (decimal)sY;
-                decimal z = (decimal)sZ;
+                var x = (decimal)sX;
+                var y = (decimal)sY;
+                var z = (decimal)sZ;
 
                 txtSearchFor.Text = txtRegion.Text = sSIM;
                 nudX.Value = x;
@@ -139,18 +139,18 @@ namespace MEGAbolt
                 return;
             }
 
-            RegionSearchResultItem item = new RegionSearchResultItem(instance, region, lbxRegionSearch);
-            int index = lbxRegionSearch.Items.Add(item);
+            var item = new RegionSearchResultItem(instance, region, lbxRegionSearch);
+            var index = lbxRegionSearch.Items.Add(item);
             item.ListIndex = index;
             selregion = item.Region;
         }
 
         private void SetDefaultValues()
         {
-            string region = client.Network.CurrentSim.Name;
-            decimal x = (decimal)instance.SIMsittingPos().X;
-            decimal y = (decimal)instance.SIMsittingPos().Y;
-            decimal z = (decimal)instance.SIMsittingPos().Z;
+            var region = client.Network.CurrentSim.Name;
+            var x = (decimal)instance.SIMsittingPos().X;
+            var y = (decimal)instance.SIMsittingPos().Y;
+            var z = (decimal)instance.SIMsittingPos().Z;
 
             if (x < 0) x = 0;
             if (x > 256) x = 256;
@@ -305,7 +305,7 @@ namespace MEGAbolt
         private void lbxRegionSearch_DoubleClick(object sender, EventArgs e)
         {
             if (lbxRegionSearch.SelectedItem == null) return;
-            RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
+            var item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
 
             selregion = item.Region;
             txtRegion.Text = item.Region.Name;
@@ -341,19 +341,19 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            RegionSearchResultItem itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
+            var itemToDraw = (RegionSearchResultItem)lbxRegionSearch.Items[e.Index];
             Brush textBrush = null;
 
             textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
                 ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
                 : new SolidBrush(Color.FromKnownColor(KnownColor.ControlText));
 
-            Font newFont = new Font(e.Font, FontStyle.Bold);
-            SizeF stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
+            var newFont = new Font(e.Font, FontStyle.Bold);
+            var stringSize = e.Graphics.MeasureString(itemToDraw.Region.Name, newFont);
 
             float iconSize = trkIconSize.Value;
-            float leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
-            float topTextMargin = e.Bounds.Top + 4.0f;
+            var leftTextMargin = e.Bounds.Left + iconSize + 6.0f;
+            var topTextMargin = e.Bounds.Top + 4.0f;
 
             if (itemToDraw.IsImageDownloaded)
             {
@@ -375,14 +375,14 @@ namespace MEGAbolt
 
             if (itemToDraw.GotAgentCount)
             {
-                string peeps = " person";
+                var peeps = " person";
 
                 if (itemToDraw.Region.Agents != 1)
                 {
                     peeps = " people";
                 }
 
-                string s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
+                var s = Convert.ToString(itemToDraw.Region.Agents, CultureInfo.CurrentCulture);
 
                 e.Graphics.DrawString(s + peeps, e.Font, textBrush, new PointF(leftTextMargin + stringSize.Width + 6.0f, topTextMargin));
             }
@@ -449,13 +449,13 @@ namespace MEGAbolt
         {
             if (!string.IsNullOrEmpty(txtRegion.Text))
             {
-                string mapurl = "http://slurl.com/secondlife/";
+                var mapurl = "http://slurl.com/secondlife/";
 
                 if (ismaps)
                 {
                     mapurl = "http://maps.secondlife.com/secondlife/";
                 }
-                string surl = mapurl + txtRegion.Text.Trim() + "/" + nudX.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ.Value.ToString(CultureInfo.CurrentCulture);
+                var surl = mapurl + txtRegion.Text.Trim() + "/" + nudX.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudY.Value.ToString(CultureInfo.CurrentCulture) + "/" + nudZ.Value.ToString(CultureInfo.CurrentCulture);
                 Utilities.OpenBrowser(@surl);
             }
         }
@@ -463,7 +463,7 @@ namespace MEGAbolt
         private void lbxRegionSearch_Click(object sender, EventArgs e)
         {
             if (lbxRegionSearch.SelectedItem == null) return;
-            RegionSearchResultItem item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
+            var item = (RegionSearchResultItem)lbxRegionSearch.SelectedItem;
 
             selregion = item.Region;
             txtRegion.Text = item.Region.Name;

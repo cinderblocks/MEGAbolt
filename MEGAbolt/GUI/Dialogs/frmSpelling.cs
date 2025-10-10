@@ -13,25 +13,25 @@ namespace MEGAbolt
 {
     public partial class frmSpelling : Form
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
         private string dir = DataFolder.GetDataFolder() + "\\Spelling\\";
         //private string words = string.Empty;
         private int start = 0;
         private int indexOfSearchText = 0;
-        private string[] swords;
+        private readonly string[] swords;
         //private int swordind = -1;
         private string currentword = string.Empty;
-        private List<string> mistakes = new List<string>();
-        private ChatType ctype;
+        private readonly List<string> mistakes = new List<string>();
+        private readonly ChatType ctype;
 
-        private string spellLang;
-        private WordList spellChecker = null;
-        private bool ischat = true;
+        private readonly string spellLang;
+        private readonly WordList spellChecker = null;
+        private readonly bool ischat = true;
         //private string tabname = string.Empty;
-        private UUID target = UUID.Zero;
-        private UUID session = UUID.Zero;
-        private bool isgroup = false;
+        private readonly UUID target = UUID.Zero;
+        private readonly UUID session = UUID.Zero;
+        private readonly bool isgroup = false;
 
         public frmSpelling(MEGAboltInstance instance, string sentence, string[] swords, ChatType type)
         {
@@ -54,8 +54,7 @@ namespace MEGAbolt
 
                 if (!File.Exists(csvFile))
                 {
-                    using StreamWriter sw = File.CreateText(csvFile);
-                    sw.Dispose();
+                    using var sw = File.CreateText(csvFile);
                 }
 
                 spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
@@ -91,8 +90,7 @@ namespace MEGAbolt
 
                 if (!File.Exists(csvFile))
                 {
-                    using StreamWriter sw = File.CreateText(csvFile);
-                    sw.Dispose();
+                    using var sw = File.CreateText(csvFile);
                 }
 
                 spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
@@ -125,11 +123,11 @@ namespace MEGAbolt
             mistakes.Clear();
             listBox1.Items.Clear();
 
-            foreach (string word in swords)
+            foreach (var word in swords)
             {
-                string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
+                var cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
 
-                bool correct = spellChecker.Check(cword);
+                var correct = spellChecker.Check(cword);
 
                 if (!correct)
                 {
@@ -194,7 +192,7 @@ namespace MEGAbolt
 
         private void HighligtWord(string word)
         {
-            int startindex = 0;
+            var startindex = 0;
 
             startindex = FindText(word.Trim(), start, richTextBox1.Text.Length);
 
@@ -204,7 +202,7 @@ namespace MEGAbolt
                 richTextBox1.SelectionColor = Color.Red;
                 richTextBox1.SelectionBackColor = Color.Yellow;
                 // Find the end index. End Index = number of characters in textbox
-                int endindex = word.Length;
+                var endindex = word.Length;
                 // Highlight the search string
                 richTextBox1.Select(startindex, endindex);
                 // mark the start position after the position of
@@ -217,7 +215,7 @@ namespace MEGAbolt
         {
             if (start >= 0)
             {
-                int endindex = currentword.Length;
+                var endindex = currentword.Length;
 
                 richTextBox1.SelectionColor = Color.Black;
                 richTextBox1.SelectionBackColor = Color.White;
@@ -238,7 +236,7 @@ namespace MEGAbolt
 
         private void InHighligtWord(string word)
         {
-            int startindex = 0;
+            var startindex = 0;
 
             startindex = FindText(word.Trim(), start, richTextBox1.Text.Length);
 
@@ -248,7 +246,7 @@ namespace MEGAbolt
                 richTextBox1.SelectionColor = Color.Red;
                 //richTextBox1.SelectionBackColor = Color.Yellow;
                 // Find the end index. End Index = number of characters in textbox
-                int endindex = word.Length;
+                var endindex = word.Length;
                 // Highlight the search string
                 richTextBox1.Select(startindex, endindex);
                 // mark the start position after the position of
@@ -268,7 +266,7 @@ namespace MEGAbolt
             }
 
             // Set the return value to -1 by default.
-            int retVal = -1;
+            var retVal = -1;
 
             // A valid starting index should be specified.
             // if indexOfSearchText = -1, the end of search
@@ -331,9 +329,9 @@ namespace MEGAbolt
 
         private void frmSpelling_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string message = richTextBox1.Text;
-            string message1 = string.Empty;
-            string message2 = string.Empty;
+            var message = richTextBox1.Text;
+            var message1 = string.Empty;
+            var message2 = string.Empty;
 
             if (message.Length == 0) return;
 
@@ -348,7 +346,7 @@ namespace MEGAbolt
                     //netcom.SendInstantMessage(richTextBox1.Text, target, session);
                     if (message.Length > 1023)
                     {
-                        message1 = message.Substring(0, 1022);
+                        message1 = message[..1022];
                         netcom.SendInstantMessage(message1, target, session);
 
                         if (message.Length > 2046)
@@ -366,7 +364,7 @@ namespace MEGAbolt
                 {
                     if (message.Length > 1023)
                     {
-                        message1 = message.Substring(0, 1022);
+                        message1 = message[..1022];
                         netcom.SendInstantMessageGroup(message1, target, session);
 
                         if (message.Length > 2046)
@@ -387,7 +385,7 @@ namespace MEGAbolt
         {
             var csvFile = $"{DataFolder.GetDataFolder()}\\{spellLang}.csv";
 
-            using (StreamWriter file = new System.IO.StreamWriter(csvFile, true))
+            using (var file = new System.IO.StreamWriter(csvFile, true))
             {
                 file.WriteLine(aword + ",");
             }

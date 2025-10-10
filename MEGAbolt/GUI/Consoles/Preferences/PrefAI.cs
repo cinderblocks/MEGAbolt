@@ -28,18 +28,18 @@ namespace MEGAbolt
 {
     public partial class PrefAI : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
-        private ConfigManager config;
-        private Popup toolTip3;
+        private readonly MEGAboltInstance instance;
+        private readonly ConfigManager config;
+        private readonly Popup toolTip3;
         private CustomToolTip customToolTip;
         //private GridClient client;
-        private bool isloading = true;
+        private readonly bool isloading = true;
 
         public PrefAI(MEGAboltInstance instance)
         {
             InitializeComponent();
 
-            string msg4 = "Enable this option for your avatar to enter intelligent conversations (automated) with anyone that IMs it. Note that this feature only works via IM and not chat";
+            var msg4 = "Enable this option for your avatar to enter intelligent conversations (automated) with anyone that IMs it. Note that this feature only works via IM and not chat";
             toolTip3 = new Popup(customToolTip = new CustomToolTip(instance, msg4));
             toolTip3.AutoClose = false;
             toolTip3.FocusOnOpen = false;
@@ -114,7 +114,7 @@ namespace MEGAbolt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath + "\\config\\Settings.xml";
+            var dir = Application.StartupPath + "\\config\\Settings.xml";
 
             if (System.IO.File.Exists(dir))
             {
@@ -128,14 +128,14 @@ namespace MEGAbolt
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath + "\\config";
+            var dir = Application.StartupPath + "\\config";
 
             Process.Start("explorer.exe", dir);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string dir = Application.StartupPath + "\\aiml"; ;
+            var dir = Application.StartupPath + "\\aiml"; ;
 
             if (System.IO.Directory.Exists(dir))
             {

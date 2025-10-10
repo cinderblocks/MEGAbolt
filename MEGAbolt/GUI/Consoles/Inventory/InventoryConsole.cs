@@ -45,11 +45,11 @@ namespace MEGAbolt
         private readonly InventoryClipboard clip;
         private readonly InventoryTreeSorter treeSorter = new();
         private bool ShowAuto = false;
-        private string SortBy = "By Name";
+        private readonly string SortBy = "By Name";
 
         // auto changer vars
-        private string textfile; // = "Outfit.txt";
-        private string path; // = Path.Combine(Environment.CurrentDirectory, "Outfit.txt");
+        private readonly string textfile; // = "Outfit.txt";
+        private readonly string path; // = Path.Combine(Environment.CurrentDirectory, "Outfit.txt");
         private int x = 0;
         public bool managerBusy = false;
         private bool searching = false;
@@ -66,7 +66,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -1366,9 +1366,6 @@ namespace MEGAbolt
                 // write a line of text to the file
                 sr.WriteLine(o.ToString());
             }
-
-            //sr.Close();
-            sr.Dispose();
         }
 
         private void ReadTextFile()
@@ -1388,9 +1385,6 @@ namespace MEGAbolt
                 {
                     listBox1.Items.Add(s);
                 }
-
-                //sr.Close();
-                sr.Dispose();
             }
             catch (Exception ex)
             {
@@ -1637,9 +1631,7 @@ namespace MEGAbolt
                 if (item.InventoryType != InventoryType.Landmark)
                     return;
 
-                var landmark = new UUID();
-
-                if (!UUID.TryParse(item.AssetUUID.ToString(), out landmark))
+                if (!UUID.TryParse(item.AssetUUID.ToString(), out var landmark))
                 {
                     MessageBox.Show("Invalid TP LLUID", "Teleport", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -2014,7 +2006,7 @@ namespace MEGAbolt
         private void ProcessWearItem(InventoryItem item)
         {
             var cofcontents = client.Inventory.Store.GetContents(instance.CoF.UUID);
-            bool worn = false;
+            var worn = false;
             if (item is InventoryWearable)
             {
                 foreach (var link in from InventoryItem link in cofcontents

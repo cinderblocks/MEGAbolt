@@ -26,9 +26,9 @@ namespace MEGAbolt
 {
     public partial class InventoryGestureConsol : UserControl
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
 
         public InventoryGestureConsol(MEGAboltInstance instance, InventoryItem item)
         {

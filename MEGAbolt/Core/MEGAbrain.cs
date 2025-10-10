@@ -36,12 +36,12 @@ namespace MEGAbrain
     {
         public string ProcessInput(string input, string user)
         {
-            string empty = string.Empty;
+            var empty = string.Empty;
             input = input.Replace("what's", "what is");
             input = input.Replace("what s", "what is");
             input = input.Replace("whats", "what is");
             input = " " + input;
-            string str = CheckMaths(input);
+            var str = CheckMaths(input);
             if (str == string.Empty)
                 str = CheckDate(input);
             return str;
@@ -60,7 +60,7 @@ namespace MEGAbrain
 
         private string CheckDate(string input)
         {
-            string str = string.Empty;
+            var str = string.Empty;
             DateTime dateTime;
             if (input.IndexOf("what is the date today", StringComparison.Ordinal) > 0)
             {
@@ -161,12 +161,12 @@ namespace MEGAbrain
 
         private string CheckMaths(string input)
         {
-            string str1 = string.Empty;
-            int num = 0;
-            string empty1 = string.Empty;
-            string empty2 = string.Empty;
-            bool flag = false;
-            string str2 = input.Replace('?', ' ').Replace('.', ' ').Replace("times", "*").Replace("multipliedby", "*").Replace("multiplied by", "*").Replace("multiplied", "*").Replace("plus", "+").Replace("add to", "+").Replace("added to", "+").Replace("add", "+").Replace("minus", "-");
+            var str1 = string.Empty;
+            var num = 0;
+            var empty1 = string.Empty;
+            var empty2 = string.Empty;
+            var flag = false;
+            var str2 = input.Replace('?', ' ').Replace('.', ' ').Replace("times", "*").Replace("multipliedby", "*").Replace("multiplied by", "*").Replace("multiplied", "*").Replace("plus", "+").Replace("add to", "+").Replace("added to", "+").Replace("add", "+").Replace("minus", "-");
             if (str2.IndexOf("subtracted from", StringComparison.Ordinal) > 0)
             {
                 str2 = str2.Replace("subtracted from", "-");
@@ -182,22 +182,22 @@ namespace MEGAbrain
                 str2 = str2.Replace("minused from", "-");
                 flag = true;
             }
-            string str3 = str2.Replace("subtract", "-").Replace("divided by", "/").Replace("dividedby", "/").Replace("divided", "/");
+            var str3 = str2.Replace("subtract", "-").Replace("divided by", "/").Replace("dividedby", "/").Replace("divided", "/");
             if (str3.Contains("x"))
             {
-                int length = str3.IndexOf("x", StringComparison.Ordinal);
+                var length = str3.IndexOf("x", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
-                string str4 = str3.Substring(0, length);
-                string str5 = str3.Substring(length + 1);
+                var str4 = str3[..length];
+                var str5 = str3[(length + 1)..];
                 if (str4 != string.Empty && str5 != string.Empty)
                 {
-                    char ch = ' ';
-                    string[] strArray1 = str4.Split(ch);
-                    string[] strArray2 = str5.Split(ch);
-                    string strNumber1 = strArray1[^1];
+                    var ch = ' ';
+                    var strArray1 = str4.Split(ch);
+                    var strArray2 = str5.Split(ch);
+                    var strNumber1 = strArray1[^1];
                     if (strNumber1 == string.Empty)
                         strNumber1 = strArray1[^2];
-                    string strNumber2 = strArray2[0];
+                    var strNumber2 = strArray2[0];
                     if (strNumber2 == string.Empty)
                         strNumber2 = strArray2[1];
                     if (IsNumber(strNumber1) && IsNumber(strNumber2))
@@ -206,19 +206,19 @@ namespace MEGAbrain
             }
             if (str3.Contains("*"))
             {
-                int length = str3.IndexOf("*", StringComparison.Ordinal);
+                var length = str3.IndexOf("*", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
-                string str6 = str3.Substring(0, length);
-                string str7 = str3.Substring(length + 1);
+                var str6 = str3[..length];
+                var str7 = str3[(length + 1)..];
                 if (str6 != string.Empty && str7 != string.Empty)
                 {
-                    char ch = ' ';
-                    string[] strArray3 = str6.Split(ch);
-                    string[] strArray4 = str7.Split(ch);
-                    string strNumber3 = strArray3[^1];
+                    var ch = ' ';
+                    var strArray3 = str6.Split(ch);
+                    var strArray4 = str7.Split(ch);
+                    var strNumber3 = strArray3[^1];
                     if (strNumber3 == string.Empty)
                         strNumber3 = strArray3[^2];
-                    string strNumber4 = strArray4[0];
+                    var strNumber4 = strArray4[0];
                     if (strNumber4 == string.Empty)
                         strNumber4 = strArray4[1];
                     if (IsNumber(strNumber3) && IsNumber(strNumber4))
@@ -227,19 +227,19 @@ namespace MEGAbrain
             }
             if (str3.Contains("/"))
             {
-                int length = str3.IndexOf("/", StringComparison.Ordinal);
+                var length = str3.IndexOf("/", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
-                string str8 = str3.Substring(0, length);
-                string str9 = str3.Substring(length + 1);
+                var str8 = str3[..length];
+                var str9 = str3[(length + 1)..];
                 if (str8 != string.Empty && str9 != string.Empty)
                 {
-                    char ch = ' ';
-                    string[] strArray5 = str8.Split(ch);
-                    string[] strArray6 = str9.Split(ch);
-                    string strNumber5 = strArray5[^1];
+                    var ch = ' ';
+                    var strArray5 = str8.Split(ch);
+                    var strArray6 = str9.Split(ch);
+                    var strNumber5 = strArray5[^1];
                     if (strNumber5 == string.Empty)
                         strNumber5 = strArray5[^2];
-                    string strNumber6 = strArray6[0];
+                    var strNumber6 = strArray6[0];
                     if (strNumber6 == string.Empty)
                         strNumber6 = strArray6[1];
                     if (IsNumber(strNumber5) && IsNumber(strNumber6))
@@ -249,19 +249,19 @@ namespace MEGAbrain
             if (str3.Contains("+"))
             {
                 str3 = str3.Replace('?', ' ').Replace('.', ' ');
-                int length = str3.IndexOf("+", StringComparison.Ordinal);
+                var length = str3.IndexOf("+", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
-                string str10 = str3.Substring(0, length);
-                string str11 = str3.Substring(length + 1);
+                var str10 = str3[..length];
+                var str11 = str3[(length + 1)..];
                 if (str10 != string.Empty && str11 != string.Empty)
                 {
-                    char ch = ' ';
-                    string[] strArray7 = str10.Split(ch);
-                    string[] strArray8 = str11.Split(ch);
-                    string strNumber7 = strArray7[^1];
+                    var ch = ' ';
+                    var strArray7 = str10.Split(ch);
+                    var strArray8 = str11.Split(ch);
+                    var strNumber7 = strArray7[^1];
                     if (strNumber7 == string.Empty)
                         strNumber7 = strArray7[^2];
-                    string strNumber8 = strArray8[0];
+                    var strNumber8 = strArray8[0];
                     if (strNumber8 == string.Empty)
                         strNumber8 = strArray8[1];
                     if (IsNumber(strNumber7) && IsNumber(strNumber8))
@@ -270,19 +270,19 @@ namespace MEGAbrain
             }
             if (str3.Contains("-"))
             {
-                int length = str3.IndexOf("-", StringComparison.Ordinal);
+                var length = str3.IndexOf("-", StringComparison.Ordinal);
                 num = str3.Length - (length + 1);
-                string str12 = str3.Substring(0, length);
-                string str13 = str3.Substring(length + 1);
+                var str12 = str3[..length];
+                var str13 = str3[(length + 1)..];
                 if (str12 != string.Empty && str13 != string.Empty)
                 {
-                    char ch = ' ';
-                    string[] strArray9 = str12.Split(ch);
-                    string[] strArray10 = str13.Split(ch);
-                    string strNumber9 = strArray9[^1];
+                    var ch = ' ';
+                    var strArray9 = str12.Split(ch);
+                    var strArray10 = str13.Split(ch);
+                    var strNumber9 = strArray9[^1];
                     if (strNumber9 == string.Empty)
                         strNumber9 = strArray9[^2];
-                    string strNumber10 = strArray10[0];
+                    var strNumber10 = strArray10[0];
                     if (strNumber10 == string.Empty)
                         strNumber10 = strArray10[1];
                     if (IsNumber(strNumber9) && IsNumber(strNumber10))
@@ -293,31 +293,31 @@ namespace MEGAbrain
                     }
                 }
             }
-            string[] strArray11 = new string[3]
+            var strArray11 = new string[3]
             {
         "It's ",
         "It should be ",
         ""
             };
-            Random random1 = new Random();
-            string str14 = strArray11[random1.Next(0, strArray11.Length)];
-            string[] strArray12 = new string[3]
+            var random1 = new Random();
+            var str14 = strArray11[random1.Next(0, strArray11.Length)];
+            var strArray12 = new string[3]
             {
         " I think!",
         " I believe :S",
         ""
             };
-            Random random2 = new Random();
-            string str15 = strArray12[random2.Next(0, strArray12.Length)];
+            var random2 = new Random();
+            var str15 = strArray12[random2.Next(0, strArray12.Length)];
             return str1 != string.Empty ? str14 + str1 + str15 : string.Empty;
         }
 
         private bool IsNumber(string strNumber)
         {
-            Regex regex1 = new Regex("[^0-9.-]");
-            Regex regex2 = new Regex("[0-9]*[.][0-9]*[.][0-9]*");
-            Regex regex3 = new Regex("[0-9]*[-][0-9]*[-][0-9]*");
-            Regex regex4 = new Regex("(" + "^([-]|[.]|[-.]|[0-9])[0-9]*[.]*[0-9]+$" + ")|(" + "^([-]|[0-9])[0-9]*$" + ")");
+            var regex1 = new Regex("[^0-9.-]");
+            var regex2 = new Regex("[0-9]*[.][0-9]*[.][0-9]*");
+            var regex3 = new Regex("[0-9]*[-][0-9]*[-][0-9]*");
+            var regex4 = new Regex("(" + "^([-]|[.]|[-.]|[0-9])[0-9]*[.]*[0-9]+$" + ")|(" + "^([-]|[0-9])[0-9]*$" + ")");
             return !regex1.IsMatch(strNumber) && !regex2.IsMatch(strNumber) && !regex3.IsMatch(strNumber) && regex4.IsMatch(strNumber);
         }
     }

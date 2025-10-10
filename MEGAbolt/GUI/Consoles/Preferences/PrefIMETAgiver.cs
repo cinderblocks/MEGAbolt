@@ -29,9 +29,9 @@ namespace MEGAbolt
 {
     public partial class PrefMEGAgiver : UserControl, IPreferencePane
     {
-        private MEGAboltInstance instance;
+        private readonly MEGAboltInstance instance;
         //private ConfigManager config;
-        private Popup toolTip;
+        private readonly Popup toolTip;
         private CustomToolTip customToolTip;
         //private GridClient client;
         //private bool isloading = true;
@@ -40,7 +40,7 @@ namespace MEGAbolt
         {
             InitializeComponent();
 
-            string msg = "To delete an entry, select the whole row by clicking the arrow on the left of the row and hit the DEL button on your keyboard";
+            var msg = "To delete an entry, select the whole row by clicking the arrow on the left of the row and hit the DEL button on your keyboard";
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -90,13 +90,13 @@ namespace MEGAbolt
 
         private void textBox2_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
+            var node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
 
             if (node == null) return;
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                InventoryBase io = (InventoryBase)node.Tag;
+                var io = (InventoryBase)node.Tag;
 
                 if (node.Tag is InventoryFolder)
                 {
@@ -105,11 +105,11 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    InventoryItem item = (InventoryItem)io;
+                    var item = (InventoryItem)io;
 
                     if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                     {
-                        DialogResult res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
+                        var res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
 
                         if (res == DialogResult.Cancel) return;
                     }
@@ -126,9 +126,9 @@ namespace MEGAbolt
                         return;
                     }
 
-                    InventoryItem iitem = (InventoryItem)io;
+                    var iitem = (InventoryItem)io;
 
-                    DataRow dr = instance.GiverItems.NewRow();
+                    var dr = instance.GiverItems.NewRow();
                     dr["Command"] = textBox1.Text.Trim();
                     dr["UUID"] = iitem.UUID;
                     dr["Name"] = iitem.Name;

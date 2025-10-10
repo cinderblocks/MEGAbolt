@@ -38,9 +38,9 @@ namespace MEGAbolt
 {
     public partial class frmObjects : Form
     {
-        private MEGAboltInstance instance;
-        private GridClient client;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly GridClient client;
+        private readonly MEGAboltNetcom netcom;
 
         public AgentFlags Flags = AgentFlags.None;
         public AgentState State = AgentState.None;
@@ -49,14 +49,14 @@ namespace MEGAbolt
         private float range = 20;
         private float newrange = 20;
 
-        private SafeDictionary<uint, ObjectsListItem> listItems = new SafeDictionary<uint, ObjectsListItem>();
-        private SafeDictionary<uint, ObjectsListItem> ItemsProps = new SafeDictionary<uint, ObjectsListItem>();
-        private SafeDictionary<uint, ObjectsListItem> childItems = new SafeDictionary<uint, ObjectsListItem>();
-        private List<uint> objs = new List<uint>();
+        private readonly SafeDictionary<uint, ObjectsListItem> listItems = new SafeDictionary<uint, ObjectsListItem>();
+        private readonly SafeDictionary<uint, ObjectsListItem> ItemsProps = new SafeDictionary<uint, ObjectsListItem>();
+        private readonly SafeDictionary<uint, ObjectsListItem> childItems = new SafeDictionary<uint, ObjectsListItem>();
+        private readonly List<uint> objs = new List<uint>();
         //private SafeDictionary<UUID, string> avatars = new SafeDictionary<UUID, string>();
 
         private Popup toolTip;
-        private Popup toolTip1;
+        private readonly Popup toolTip1;
         private CustomToolTip customToolTip;
         private bool eventsremoved = false;
         //private System.Timers.Timer sittimer;
@@ -70,7 +70,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -98,7 +98,7 @@ namespace MEGAbolt
             //numericUpDown1.Maximum = instance.Config.CurrentConfig.RadarRange;
             numericUpDown1.Value = Convert.ToDecimal(range);
 
-            string msg1 = "Click for online help on how to use the Object Manager";
+            var msg1 = "Click for online help on how to use the Object Manager";
             toolTip1 = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip1.AutoClose = false;
             toolTip1.FocusOnOpen = false;
@@ -125,15 +125,15 @@ namespace MEGAbolt
         //runs on the GUI thread
         private void OwnerReceived(object sender, UUIDNameReplyEventArgs names)
         {
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx == -1) return;
 
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-            Primitive sPr = new Primitive();
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var sPr = new Primitive();
             sPr = item.Prim;
 
-            foreach (KeyValuePair<UUID, string> av in names.Names)
+            foreach (var av in names.Names)
             {
                 if (av.Key == sPr.Properties.OwnerID)
                 {
@@ -268,13 +268,13 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            ObjectsListItem itemToDraw = (ObjectsListItem)lbxPrims.Items[e.Index];
+            var itemToDraw = (ObjectsListItem)lbxPrims.Items[e.Index];
 
             Brush textBrush = null;
             Brush dBrush = null;
-            Font boldFont = new Font(e.Font, FontStyle.Bold);
-            Font regularFont = new Font(e.Font, FontStyle.Regular);
-            Font italicFont = new Font("Arial", 7, FontStyle.Italic);
+            var boldFont = new Font(e.Font, FontStyle.Bold);
+            var regularFont = new Font(e.Font, FontStyle.Regular);
+            var italicFont = new Font("Arial", 7, FontStyle.Italic);
 
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
@@ -297,9 +297,9 @@ namespace MEGAbolt
                 dBrush = new SolidBrush(Color.RoyalBlue);
             }
 
-            string name = string.Empty;
-            string description = string.Empty;
-            string distance = string.Empty;
+            var name = string.Empty;
+            var description = string.Empty;
+            var distance = string.Empty;
 
             try
             {
@@ -311,11 +311,11 @@ namespace MEGAbolt
                 }
                 else
                 {
-                    Vector3 location = new Vector3(Vector3.Zero);
+                    var location = new Vector3(Vector3.Zero);
                     location = instance.SIMsittingPos();
-                    Vector3 pos = new Vector3(Vector3.Zero);
+                    var pos = new Vector3(Vector3.Zero);
                     pos = itemToDraw.Prim.Position;
-                    double dist = Math.Round(Vector3.Distance(location, pos), MidpointRounding.ToEven);
+                    var dist = Math.Round(Vector3.Distance(location, pos), MidpointRounding.ToEven);
 
                     distance = " [" + dist.ToString(CultureInfo.CurrentCulture) + "m]";
 
@@ -330,11 +330,11 @@ namespace MEGAbolt
                 Logger.Log(ex.Message, Helpers.LogLevel.Debug, ex);
             }
 
-            SizeF nameSize = e.Graphics.MeasureString(name, boldFont);
+            var nameSize = e.Graphics.MeasureString(name, boldFont);
             float nameX = e.Bounds.Left + 4;
             float nameY = e.Bounds.Top + 2;
 
-            SizeF distanceSize = e.Graphics.MeasureString(distance, boldFont);
+            var distanceSize = e.Graphics.MeasureString(distance, boldFont);
 
             e.Graphics.DrawString(name, boldFont, textBrush, nameX, nameY);
             //e.Graphics.DrawString(description, regularFont, textBrush, nameX + nameSize.Width + 5, nameY);
@@ -370,7 +370,7 @@ namespace MEGAbolt
                 {
                     lock (childItems)
                     {
-                        ObjectsListItem citem = new ObjectsListItem(e.Prim, client, lbxChildren);
+                        var citem = new ObjectsListItem(e.Prim, client, lbxChildren);
 
                         if (!childItems.ContainsKey(e.Prim.LocalID))
                         {
@@ -391,23 +391,21 @@ namespace MEGAbolt
                     {
                         lock (listItems)
                         {
-                            ObjectsListItem item = new ObjectsListItem(e.Prim, client, lbxPrims);
+                            var item = new ObjectsListItem(e.Prim, client, lbxPrims);
 
-                            Vector3 location = new Vector3(Vector3.Zero);
+                            var location = new Vector3(Vector3.Zero);
                             location = instance.SIMsittingPos();
-                            Vector3 pos = new Vector3(Vector3.Zero);
+                            var pos = new Vector3(Vector3.Zero);
                             pos = item.Prim.Position;
 
-                            float dist = Vector3.Distance(location, pos);
+                            var dist = Vector3.Distance(location, pos);
 
                             if (dist < range)
                             {
                                 try
                                 {
-                                    if (!listItems.ContainsKey(e.Prim.LocalID))
+                                    if (listItems.TryAdd(e.Prim.LocalID, item))
                                     {
-                                        listItems.Add(e.Prim.LocalID, item);
-
                                         item.PropertiesReceived += iitem_PropertiesReceived;
                                         item.RequestProperties();
                                     }
@@ -461,13 +459,13 @@ namespace MEGAbolt
 
             ObjectsListItem item;
 
-            uint objectID = e.ObjectLocalID;
+            var objectID = e.ObjectLocalID;
 
             try
             {
-                if (listItems.ContainsKey(objectID))
+                if (listItems.TryGetValue(objectID, out var listItem))
                 {
-                    item = listItems[objectID];
+                    item = listItem;
                 }
                 else
                 {
@@ -575,13 +573,13 @@ namespace MEGAbolt
                 return;
             }
 
-            ObjectsListItem item = (ObjectsListItem)sender;
+            var item = (ObjectsListItem)sender;
 
             BeginInvoke(new MethodInvoker(() =>
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
 
                 if (Vector3.Distance(location, pos) < range)
@@ -638,13 +636,13 @@ namespace MEGAbolt
                 return;
             }
 
-            ObjectsListItem item = (ObjectsListItem)sender;
+            var item = (ObjectsListItem)sender;
 
             BeginInvoke(new MethodInvoker(() =>
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
 
                 if (Vector3.Distance(location, pos) < range)
@@ -728,17 +726,17 @@ namespace MEGAbolt
             {
                 lock (listItems)
                 {
-                    Vector3 location = new Vector3(Vector3.Zero);
+                    var location = new Vector3(Vector3.Zero);
                     location = instance.SIMsittingPos();
 
                     foreach (var prim in client.Network.CurrentSim.ObjectsPrimitives.Values)
                     {
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var pos = new Vector3(Vector3.Zero);
                         pos = prim.Position;
 
 
 
-                        float dist = Vector3.Distance(location, pos);
+                        var dist = Vector3.Distance(location, pos);
 
                         //// Work around for the Magnum problem
                         //if (ocnt < 4)
@@ -756,7 +754,7 @@ namespace MEGAbolt
 
                         if (((int)dist < (int)range) && (prim.Position != Vector3.Zero))
                         {
-                            ObjectsListItem item = new ObjectsListItem(prim, client, lbxPrims);
+                            var item = new ObjectsListItem(prim, client, lbxPrims);
 
                             if (prim.ParentID == 0) //root prims only
                             {
@@ -792,7 +790,7 @@ namespace MEGAbolt
                             }
                             else
                             {
-                                ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
+                                var citem = new ObjectsListItem(prim, client, lbxChildren);
 
                                 if (!childItems.ContainsKey(prim.LocalID))
                                 {
@@ -915,7 +913,7 @@ namespace MEGAbolt
             lbxPrims.Items.Clear();
             pB1.Visible = true;
 
-            string query = text.ToLower(CultureInfo.CurrentCulture);
+            var query = text.ToLower(CultureInfo.CurrentCulture);
             //bool inmem = false;
 
             var results =
@@ -943,11 +941,11 @@ namespace MEGAbolt
 
             lock (listItems)
             {
-                foreach (Primitive prim in results)
+                foreach (var prim in results)
                 {
                     try
                     {
-                        ObjectsListItem item = new ObjectsListItem(prim, client, lbxPrims);
+                        var item = new ObjectsListItem(prim, client, lbxPrims);
 
                         if (listItems.TryAdd(prim.LocalID, item))
                         {
@@ -992,7 +990,7 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pB1.Value = 0;
@@ -1002,10 +1000,10 @@ namespace MEGAbolt
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && (item.Prim.Properties.SaleType != 0) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1053,17 +1051,17 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && ((item.Prim.Flags & PrimFlags.Scripted) == PrimFlags.Scripted) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1110,17 +1108,17 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && item.Prim.Properties.OwnerID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(client.Self.AgentID.ToString()) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1162,17 +1160,17 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && !item.Prim.Properties.OwnerID.ToString().ToLower(CultureInfo.CurrentCulture).Contains(client.Self.AgentID.ToString()) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1214,17 +1212,17 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && ((item.Prim.Flags & PrimFlags.InventoryEmpty) == PrimFlags.InventoryEmpty) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1265,17 +1263,17 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && item.Prim.Properties.CreatorID.ToString().Contains(client.Self.AgentID.ToString()) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
@@ -1316,26 +1314,26 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
                         {
                             if (item.Prim.ParentID == 0) //root prims only
                             {
-                                PermissionMask sPerm = item.Prim.Properties.Permissions.NextOwnerMask;
+                                var sPerm = item.Prim.Properties.Permissions.NextOwnerMask;
                                 //PermissionMask sOPerm = item.Prim.Properties.Permissions.OwnerMask;
-                                string sEp = sPerm.ToString();
+                                var sEp = sPerm.ToString();
                                 //string sOEp = sOPerm.ToString();
 
                                 if (sEp.ToLower(CultureInfo.CurrentCulture).Contains("modify") && sEp.ToLower(CultureInfo.CurrentCulture).Contains("copy") & sEp.ToLower(CultureInfo.CurrentCulture).Contains("transfer"))
@@ -1375,26 +1373,26 @@ namespace MEGAbolt
 
             try
             {
-                Vector3 location = new Vector3(Vector3.Zero);
+                var location = new Vector3(Vector3.Zero);
                 location = instance.SIMsittingPos();
                 pB1.Maximum = ItemsProps.Count;
                 pBar3.Visible = true;
 
                 lock (ItemsProps)
                 {
-                    foreach (KeyValuePair<uint, ObjectsListItem> entry in ItemsProps)
+                    foreach (var entry in ItemsProps)
                     {
-                        ObjectsListItem item = entry.Value;
-                        Vector3 pos = new Vector3(Vector3.Zero);
+                        var item = entry.Value;
+                        var pos = new Vector3(Vector3.Zero);
                         pos = item.Prim.Position;
 
                         if ((item.Prim.ParentID == 0) && (pos != Vector3.Zero) && (Vector3.Distance(location, pos) < range))
                         {
                             if (item.Prim.ParentID == 0) //root prims only
                             {
-                                PermissionMask sPerm = item.Prim.Properties.Permissions.OwnerMask;
+                                var sPerm = item.Prim.Properties.Permissions.OwnerMask;
                                 //PermissionMask sOPerm = item.Prim.Properties.Permissions.OwnerMask;
-                                string sEp = sPerm.ToString();
+                                var sEp = sPerm.ToString();
                                 //string sOEp = sOPerm.ToString();
 
                                 if (sEp.ToLower(CultureInfo.CurrentCulture).Contains("modify") && sEp.ToLower(CultureInfo.CurrentCulture).Contains("copy") & sEp.ToLower(CultureInfo.CurrentCulture).Contains("transfer"))
@@ -1477,7 +1475,7 @@ namespace MEGAbolt
 
                 button6.Enabled = groupBox1.Enabled = gbxInworld.Enabled = (lbxPrims.SelectedItem != null);
 
-                int iDx = lbxPrims.SelectedIndex;
+                var iDx = lbxPrims.SelectedIndex;
 
                 if (iDx < 0)
                 {
@@ -1485,9 +1483,9 @@ namespace MEGAbolt
                     return;
                 }
 
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                Primitive sPr = new Primitive();
+                var sPr = new Primitive();
                 sPr = item.Prim;
 
                 if (sPr.Properties == null)
@@ -1513,15 +1511,15 @@ namespace MEGAbolt
                 }
 
                 // Get the owner name
-                UUID lookup = sPr.Properties.OwnerID;
-                if (!instance.avnames.ContainsKey(lookup))
+                var lookup = sPr.Properties.OwnerID;
+                if (!instance.avnames.TryGetValue(lookup, out var avname))
                 {
                     client.Avatars.RequestAvatarName(lookup);
                     pictureBox1.Cursor = Cursors.Default;
                 }
                 else
                 {
-                    labelOwnerName.Text = instance.avnames[lookup];
+                    labelOwnerName.Text = avname;
                     pictureBox1.Enabled = true;
                     pictureBox1.Cursor = Cursors.Hand;
                 }
@@ -1532,14 +1530,14 @@ namespace MEGAbolt
 
                 if (lookup != UUID.Zero)
                 {
-                    if (!instance.avnames.ContainsKey(lookup))
+                    if (!instance.avnames.TryGetValue(lookup, out var instanceAvname))
                     {
                         client.Avatars.RequestAvatarName(lookup);
                         pictureBox2.Cursor = Cursors.Default;
                     }
                     else
                     {
-                        txtCreator.Text = instance.avnames[lookup];
+                        txtCreator.Text = instanceAvname;
                         pictureBox2.Enabled = true;
                         pictureBox2.Cursor = Cursors.Hand;
                     }
@@ -1555,11 +1553,11 @@ namespace MEGAbolt
 
                 btnReturn.Enabled = btnTake.Enabled = true;
 
-                PermissionMask sPerm = sPr.Properties.Permissions.NextOwnerMask;
-                PermissionMask sOPerm = sPr.Properties.Permissions.OwnerMask;
+                var sPerm = sPr.Properties.Permissions.NextOwnerMask;
+                var sOPerm = sPr.Properties.Permissions.OwnerMask;
 
-                string sEp = sPerm.ToString();
-                string sOEp = sOPerm.ToString();
+                var sEp = sPerm.ToString();
+                var sOEp = sOPerm.ToString();
 
                 if (sPr.Properties.SaleType != 0)
                 {
@@ -1574,7 +1572,7 @@ namespace MEGAbolt
                 txtHover.Text = sPr.Properties.Name;
                 labelDesc.Text = sPr.Properties.Description;
 
-                Vector3 primpos = new Vector3(Vector3.Zero);
+                var primpos = new Vector3(Vector3.Zero);
                 primpos = sPr.Position;
                 //// Calculate the distance here in metres
                 //int pX = (int)primpos.X;
@@ -1585,7 +1583,7 @@ namespace MEGAbolt
                 //int sY = (int)client.Self.SimPosition.Y;
                 //int sZ = (int)client.Self.SimPosition.Z;
 
-                int vZ = (int)primpos.Z - (int)instance.SIMsittingPos().Z;
+                var vZ = (int)primpos.Z - (int)instance.SIMsittingPos().Z;
 
                 //int vX = sX - pX;
                 //int vY = sY - pY;
@@ -1597,7 +1595,7 @@ namespace MEGAbolt
                 //int hyp1 = (int)Math.Sqrt(h2);
                 //int hyp = instance.Distance3D(sX, sY, sZ, pX, pY, pZ);
 
-                double dist = Math.Round(Vector3.Distance(instance.SIMsittingPos(), primpos), MidpointRounding.ToEven);
+                var dist = Math.Round(Vector3.Distance(instance.SIMsittingPos(), primpos), MidpointRounding.ToEven);
 
                 labelDistance.Text = " " + dist.ToString(CultureInfo.CurrentCulture) + "m - [ Elev.:" + vZ.ToString(CultureInfo.CurrentCulture) + "m]";
 
@@ -1640,12 +1638,12 @@ namespace MEGAbolt
 
                 foreach (var prim in results)
                 {
-                    ObjectsListItem citem = new ObjectsListItem(prim, client, lbxChildren);
+                    var citem = new ObjectsListItem(prim, client, lbxChildren);
 
                     childItems.TryAdd(prim.LocalID, citem);
                 }
 
-                foreach (KeyValuePair<uint, ObjectsListItem> kvp in childItems)
+                foreach (var kvp in childItems)
                 {
                     if (sPr.LocalID == kvp.Value.Prim.ParentID)
                     {
@@ -1680,7 +1678,7 @@ namespace MEGAbolt
                 Logger.Log(ex.Message, Helpers.LogLevel.Error);
             }
 
-            string msg1 = label11.Text;
+            var msg1 = label11.Text;
             toolTip = new Popup(customToolTip = new CustomToolTip(instance, msg1));
             toolTip.AutoClose = false;
             toolTip.FocusOnOpen = false;
@@ -1741,13 +1739,13 @@ namespace MEGAbolt
 
         private void SetPerms(Primitive oPrm)
         {
-            Dictionary<UUID, Primitive> Objects = new Dictionary<UUID, Primitive>();
-            PermissionMask Perms = PermissionMask.None;
+            var Objects = new Dictionary<UUID, Primitive>();
+            var Perms = PermissionMask.None;
             List<Primitive> childPrims;
-            List<uint> localIDs = new List<uint>();
-            UUID rootID = oPrm.ID;
+            var localIDs = new List<uint>();
+            var rootID = oPrm.ID;
 
-            Primitive rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Values.FirstOrDefault(prim => prim.ID == oPrm.ID);
+            var rootPrim = client.Network.CurrentSim.ObjectsPrimitives.Values.FirstOrDefault(prim => prim.ID == oPrm.ID);
 
             if (chkNextOwnerModify.Checked)
             {
@@ -1836,8 +1834,8 @@ namespace MEGAbolt
 
         private void btnSitOn_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             if (btnSitOn.Text == "&Sit")
             {
@@ -1885,16 +1883,15 @@ namespace MEGAbolt
 
         private void btnTouch_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             if ((item.Prim.Flags & PrimFlags.Touch) != 0)
             {
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
 
-                uint regionX, regionY;
-                Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
+                Utils.LongToUInts(client.Network.CurrentSim.Handle, out var regionX, out var regionY);
                 Vector3d objpos;
 
                 objpos.X = pos.X + (double)regionX;
@@ -1931,29 +1928,29 @@ namespace MEGAbolt
 
         private void btnLocation_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             //"http://slurl.com/GridClient/" + 
-            string sPos = client.Network.CurrentSim.Name + "/" + item.Prim.Position.X + "/" + item.Prim.Position.Y + "/" + item.Prim.Position.Z;
+            var sPos = client.Network.CurrentSim.Name + "/" + item.Prim.Position.X + "/" + item.Prim.Position.Y + "/" + item.Prim.Position.Z;
             lkLocation.Text = sPos;
             //btnTP.Enabled = true;
         }
 
         private void btnTP_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             (new frmTeleport(instance, client.Network.CurrentSim.Name, item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();
         }
 
         private void btnTurnTo_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Vector3 target = new Vector3(Vector3.Zero);
+            var target = new Vector3(Vector3.Zero);
             target = item.Prim.Position; // the object to look at
 
             client.Self.Movement.TurnToward(target);
@@ -1991,14 +1988,14 @@ namespace MEGAbolt
 
         private void btnPay_Click_1(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
-            SaleType styp = sPr.Properties.SaleType;
+            var styp = sPr.Properties.SaleType;
 
-            int sprice = sPr.Properties.SalePrice;
+            var sprice = sPr.Properties.SalePrice;
 
 
             //if (sprice != 0)
@@ -2016,12 +2013,11 @@ namespace MEGAbolt
         {
             try
             {
-                int iDx = lbxPrims.SelectedIndex;
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var iDx = lbxPrims.SelectedIndex;
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                uint regionX, regionY;
-                Utils.LongToUInts(client.Network.CurrentSim.Handle, out regionX, out regionY);
-                Vector3 pos = new Vector3(Vector3.Zero);
+                Utils.LongToUInts(client.Network.CurrentSim.Handle, out var regionX, out var regionY);
+                var pos = new Vector3(Vector3.Zero);
                 pos = item.Prim.Position;
 
                 Vector3d objpos;
@@ -2061,11 +2057,11 @@ namespace MEGAbolt
 
             if (e.Index < 0) return;
 
-            ObjectsListItem itemToDraw = (ObjectsListItem)lbxChildren.Items[e.Index];
+            var itemToDraw = (ObjectsListItem)lbxChildren.Items[e.Index];
 
             Brush textBrush = null;
-            Font boldFont = new Font(e.Font, FontStyle.Bold);
-            Font regularFont = new Font(e.Font, FontStyle.Regular);
+            var boldFont = new Font(e.Font, FontStyle.Bold);
+            var regularFont = new Font(e.Font, FontStyle.Regular);
 
             textBrush = (e.State & DrawItemState.Selected) == DrawItemState.Selected
                 ? new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
@@ -2099,7 +2095,7 @@ namespace MEGAbolt
                 description = itemToDraw.Prim.Properties.Description;
             }
 
-            SizeF nameSize = e.Graphics.MeasureString(name, boldFont);
+            var nameSize = e.Graphics.MeasureString(name, boldFont);
             float nameX = e.Bounds.Left + 4;
             float nameY = e.Bounds.Top + 2;
 
@@ -2123,8 +2119,8 @@ namespace MEGAbolt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            int iDx = lbxChildren.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxChildren.Items[iDx];
+            var iDx = lbxChildren.SelectedIndex;
+            var item = (ObjectsListItem)lbxChildren.Items[iDx];
 
             client.Self.Touch(item.Prim.LocalID);
         }
@@ -2133,19 +2129,19 @@ namespace MEGAbolt
         {
             if (btnWalkTo.Text == "Walk to")
             {
-                int iDx = lbxPrims.SelectedIndex;
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var iDx = lbxPrims.SelectedIndex;
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                Primitive prim = new Primitive();
+                var prim = new Primitive();
                 prim = item.Prim;
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = prim.Position;
-                ulong regionHandle = client.Network.CurrentSim.Handle;
+                var regionHandle = client.Network.CurrentSim.Handle;
 
-                int followRegionX = (int)(regionHandle >> 32);
-                int followRegionY = (int)(regionHandle & 0xFFFFFFFF);
-                ulong x = (ulong)(pos.X + followRegionX);
-                ulong y = (ulong)(pos.Y + followRegionY);
+                var followRegionX = (int)(regionHandle >> 32);
+                var followRegionY = (int)(regionHandle & 0xFFFFFFFF);
+                var x = (ulong)(pos.X + followRegionX);
+                var y = (ulong)(pos.Y + followRegionY);
 
                 //string sPos = client.Network.CurrentSim.Name + "/" + item.Prim.Position.X + "/" + item.Prim.Position.Y + "/" + item.Prim.Position.Z;
 
@@ -2162,19 +2158,19 @@ namespace MEGAbolt
 
         private void btnTake_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             if (sPr.Properties.OwnerID == client.Self.AgentID)
             {
-                Vector3 pos = new Vector3(Vector3.Zero);
+                var pos = new Vector3(Vector3.Zero);
                 pos = sPr.Position;
 
-                UUID pointID = UUID.Random();
-                UUID beamID = UUID.Random();
+                var pointID = UUID.Random();
+                var beamID = UUID.Random();
 
                 client.Self.PointAtEffect(client.Self.AgentID, item.Prim.ID, Vector3d.Zero, PointAtType.Select, pointID);
                 client.Self.BeamEffect(client.Self.AgentID, item.Prim.ID, Vector3d.Zero, new Color4(0, 0, 255, 0), 250.0f, beamID);
@@ -2193,14 +2189,14 @@ namespace MEGAbolt
         {
             if (sloading) return;
 
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0)
                 return;
 
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             SetPerms(sPr);
@@ -2210,14 +2206,14 @@ namespace MEGAbolt
         {
             if (sloading) return;
 
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0)
                 return;
 
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             SetPerms(sPr);
@@ -2227,14 +2223,14 @@ namespace MEGAbolt
         {
             if (sloading) return;
 
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0)
                 return;
 
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             SetPerms(sPr);
@@ -2248,7 +2244,7 @@ namespace MEGAbolt
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            string query = txtSearch.Text.Trim();
+            var query = txtSearch.Text.Trim();
 
             lbxChildren.Items.Clear();
             lbxTask.Items.Clear();
@@ -2270,7 +2266,7 @@ namespace MEGAbolt
 
             button3.Visible = button7.Visible = false;
 
-            string query = txtSearch.Text.Trim();
+            var query = txtSearch.Text.Trim();
 
             SearchFor(query);
         }
@@ -2423,7 +2419,7 @@ namespace MEGAbolt
         {
             lbxTask.Items.Clear();
 
-            List<InventoryBase> items = client.Inventory.GetTaskInventory(objID, localID, TimeSpan.FromSeconds(30));
+            var items = client.Inventory.GetTaskInventory(objID, localID, TimeSpan.FromSeconds(30));
 
             if (items != null)
             {
@@ -2436,8 +2432,8 @@ namespace MEGAbolt
                     }
                     else
                     {
-                        InventoryItem sitem = (InventoryItem)i;
-                        string perms = string.Empty;
+                        var sitem = (InventoryItem)i;
+                        var perms = string.Empty;
 
                         if (sitem.OwnerID == client.Self.AgentID)
                         {
@@ -2474,7 +2470,7 @@ namespace MEGAbolt
                             }
                         }
 
-                        ListViewItem litem = lbxTask.Items.Add(sitem.Name, $"   - [{sitem.AssetType}] {sitem.Name} {perms}", string.Empty);
+                        var litem = lbxTask.Items.Add(sitem.Name, $"   - [{sitem.AssetType}] {sitem.Name} {perms}", string.Empty);
                         litem.Tag = sitem;
                     }
                 }
@@ -2518,7 +2514,7 @@ namespace MEGAbolt
 
         private void button6_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0)
                 return;
@@ -2526,8 +2522,8 @@ namespace MEGAbolt
             pBar2.Visible = true;
             pBar2.Refresh();
 
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-            Primitive sPr = new Primitive();
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             GetTaskInventory(sPr.ID, sPr.LocalID);
@@ -2535,7 +2531,7 @@ namespace MEGAbolt
 
         private void btnTask_Click(object sender, EventArgs e)
         {
-            int iDx = lbxChildren.SelectedIndex;
+            var iDx = lbxChildren.SelectedIndex;
 
             if (iDx < 0)
                 return;
@@ -2543,8 +2539,8 @@ namespace MEGAbolt
             pBar2.Visible = true;
             pBar2.Refresh();
 
-            ObjectsListItem item = (ObjectsListItem)lbxChildren.Items[iDx];
-            Primitive sPr = new Primitive();
+            var item = (ObjectsListItem)lbxChildren.Items[iDx];
+            var sPr = new Primitive();
             sPr = item.Prim;
 
             GetTaskInventory(sPr.ID, sPr.LocalID);
@@ -2552,8 +2548,8 @@ namespace MEGAbolt
 
         private void btnMute_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             if (instance.IsObjectMuted(item.Prim.ID, item.Prim.Properties.Name))
             {
@@ -2573,8 +2569,8 @@ namespace MEGAbolt
 
         private void button7_Click(object sender, EventArgs e)
         {
-            int iDx = lbxChildren.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxChildren.Items[iDx];
+            var iDx = lbxChildren.SelectedIndex;
+            var item = (ObjectsListItem)lbxChildren.Items[iDx];
 
             switch (button7.Text)
             {
@@ -2612,14 +2608,14 @@ namespace MEGAbolt
 
             if (txtDescChanged)
             {
-                int iDx = lbxPrims.SelectedIndex;
+                var iDx = lbxPrims.SelectedIndex;
 
                 if (iDx < 0)
                     return;
 
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                Primitive sPr = new Primitive();
+                var sPr = new Primitive();
                 sPr = item.Prim;
 
                 txtDescChanged = false;
@@ -2639,12 +2635,12 @@ namespace MEGAbolt
         {
             if (lbxTask.SelectedItems.Count == 1)
             {
-                int iDx = lbxPrims.SelectedIndex;
+                var iDx = lbxPrims.SelectedIndex;
 
                 if (iDx < 0) return;
 
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
-                Primitive sPr = new Primitive();
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var sPr = new Primitive();
                 sPr = item.Prim;
 
                 if (sPr.Properties.OwnerID != client.Self.AgentID)
@@ -2652,8 +2648,8 @@ namespace MEGAbolt
                     return;
                 }
 
-                InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
-                ListViewItem selitem = lbxTask.SelectedItems[0];
+                var llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
+                var selitem = lbxTask.SelectedItems[0];
 
                 if (llitem.InventoryType == InventoryType.LSL)
                 {
@@ -2663,7 +2659,7 @@ namespace MEGAbolt
                         return;
                     }
 
-                    InventoryLSL sobj = (InventoryLSL)selitem.Tag;
+                    var sobj = (InventoryLSL)selitem.Tag;
 
                     if (sobj == null) return;
 
@@ -2682,7 +2678,7 @@ namespace MEGAbolt
                         return;
                     }
 
-                    InventoryNotecard nobj = (InventoryNotecard)selitem.Tag;
+                    var nobj = (InventoryNotecard)selitem.Tag;
                     if (nobj == null) return;
 
                     if (nobj is InventoryNotecard)
@@ -2695,11 +2691,11 @@ namespace MEGAbolt
 
         private void textBox1_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
+            var node = e.Data.GetData(typeof(TreeNode)) as TreeNode;
 
             if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                int iDx = lbxPrims.SelectedIndex;
+                var iDx = lbxPrims.SelectedIndex;
 
                 if (iDx < 0)
                 {
@@ -2709,7 +2705,7 @@ namespace MEGAbolt
 
                 ObjectsListItem tiobject;
 
-                int iDx2 = lbxChildren.SelectedIndex;
+                var iDx2 = lbxChildren.SelectedIndex;
 
                 if (iDx2 < 0)
                 {
@@ -2721,14 +2717,14 @@ namespace MEGAbolt
                     tiobject = (ObjectsListItem)lbxChildren.Items[iDx2];
                 }
 
-                Primitive sPr = new Primitive();
+                var sPr = new Primitive();
                 sPr = tiobject.Prim;
 
-                InventoryItem item = node.Tag as InventoryItem;
+                var item = node.Tag as InventoryItem;
 
                 if ((item.Permissions.OwnerMask & PermissionMask.Copy) != PermissionMask.Copy)
                 {
-                    DialogResult res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
+                    var res = MessageBox.Show("This is a 'no copy' item and you will lose ownership if you continue.", "Warning", MessageBoxButtons.OKCancel);
 
                     if (res == DialogResult.Cancel) return;
                 }
@@ -2775,13 +2771,13 @@ namespace MEGAbolt
 
         private void DeleteTaskItem()
         {
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0) return;
 
             ObjectsListItem item;
 
-            int iDx2 = lbxChildren.SelectedIndex;
+            var iDx2 = lbxChildren.SelectedIndex;
 
             if (iDx2 < 0)
             {
@@ -2792,10 +2788,10 @@ namespace MEGAbolt
                 item = (ObjectsListItem)lbxChildren.Items[iDx2];
             }
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
-            InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
+            var llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
             //ListViewItem selitem = lbxTask.SelectedItems[0];
 
             client.Inventory.RemoveTaskInventory(sPr.LocalID, llitem.UUID, client.Network.CurrentSim);
@@ -2806,13 +2802,13 @@ namespace MEGAbolt
 
         private void CopyTaskItem()
         {
-            int iDx = lbxPrims.SelectedIndex;
+            var iDx = lbxPrims.SelectedIndex;
 
             if (iDx < 0) return;
 
             ObjectsListItem item;
 
-            int iDx2 = lbxChildren.SelectedIndex;
+            var iDx2 = lbxChildren.SelectedIndex;
 
             if (iDx2 < 0)
             {
@@ -2823,20 +2819,20 @@ namespace MEGAbolt
                 item = (ObjectsListItem)lbxChildren.Items[iDx2];
             }
 
-            Primitive sPr = new Primitive();
+            var sPr = new Primitive();
             sPr = item.Prim;
 
-            InventoryItem llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
-            InventoryItem llitemname = ((ListViewItem)lbxPrims.SelectedItems[0]).Tag as InventoryItem;
+            var llitem = lbxTask.SelectedItems[0].Tag as InventoryItem;
+            var llitemname = ((ListViewItem)lbxPrims.SelectedItems[0]).Tag as InventoryItem;
 
             //ListViewItem selitem = lbxTask.SelectedItems[0];
 
 
-            InventoryFolder ifolders = client.Inventory.Store.RootFolder;
-            List<InventoryBase> foundfolders = client.Inventory.Store.GetContents(ifolders);
+            var ifolders = client.Inventory.Store.RootFolder;
+            var foundfolders = client.Inventory.Store.GetContents(ifolders);
 
-            bool folderfound = false;
-            UUID newfolder = UUID.Zero;
+            var folderfound = false;
+            var newfolder = UUID.Zero;
 
             foreach (var o in foundfolders.Where(
                          o => o.Name.ToLower(CultureInfo.CurrentCulture)
@@ -2901,21 +2897,21 @@ namespace MEGAbolt
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            UUID aID = (UUID)labelOwnerId.Text;
+            var aID = (UUID)labelOwnerId.Text;
 
             (new frmProfile(instance, labelOwnerName.Text, aID)).Show();
         }
 
         private void btnReturn_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure you want to return the selected object?", "MEGAbolt", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Are you sure you want to return the selected object?", "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.Yes)
             {
-                int iDx = lbxPrims.SelectedIndex;
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var iDx = lbxPrims.SelectedIndex;
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                Primitive sPr = new Primitive();
+                var sPr = new Primitive();
                 sPr = item.Prim;
 
                 //if (sPr.Properties.OwnerID != client.Self.AgentID) return;
@@ -2927,8 +2923,8 @@ namespace MEGAbolt
 
         private void btnView3D_Click(object sender, EventArgs e)
         {
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             (new MEGA3D(instance, item)).Show();
         }
@@ -2955,7 +2951,7 @@ namespace MEGAbolt
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            UUID aID = (UUID)label21.Text;
+            var aID = (UUID)label21.Text;
 
             (new frmProfile(instance, txtCreator.Text, aID)).Show();
         }
@@ -3008,14 +3004,14 @@ namespace MEGAbolt
 
             if (txtNameChanged)
             {
-                int iDx = lbxPrims.SelectedIndex;
+                var iDx = lbxPrims.SelectedIndex;
 
                 if (iDx < 0)
                     return;
 
-                ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+                var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
-                Primitive sPr = new Primitive();
+                var sPr = new Primitive();
                 sPr = item.Prim;
 
                 txtNameChanged = false;
@@ -3028,7 +3024,7 @@ namespace MEGAbolt
 
         private void button8_Click(object sender, EventArgs e)
         {
-            Avatar sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
+            var sav = client.Network.CurrentSim.ObjectsAvatars.FirstOrDefault(
                 av => av.Value.ID == client.Self.AgentID).Value;
 
             (new WornAttachments(instance, sav)).Show(this);
@@ -3038,8 +3034,8 @@ namespace MEGAbolt
         {
             //LinkLabel.Link lk = e.Link;
 
-            int iDx = lbxPrims.SelectedIndex;
-            ObjectsListItem item = (ObjectsListItem)lbxPrims.Items[iDx];
+            var iDx = lbxPrims.SelectedIndex;
+            var item = (ObjectsListItem)lbxPrims.Items[iDx];
 
             (new frmTeleport(instance, client.Network.CurrentSim.Name,
                 item.Prim.Position.X, item.Prim.Position.Y, item.Prim.Position.Z, false)).Show();

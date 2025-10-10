@@ -37,10 +37,10 @@ namespace MEGAbolt
         //named constructor
         public ConfigManager(string name)
         {
-            string fileName = name + "_MEGAbolt.ini";
+            var fileName = name + "_MEGAbolt.ini";
 
             // Check if the file exists first
-            FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
+            var newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
 
             configPath = Path.Combine(DataFolder.GetDataFolder(), newFileInfo.Exists ? fileName : "MEGAbolt.ini");
         }
@@ -49,10 +49,10 @@ namespace MEGAbolt
         {
             //SaveCurrentConfig();
 
-            string fileName = name + "_MEGAbolt.ini";
+            var fileName = name + "_MEGAbolt.ini";
 
             // Check if the file exists first
-            FileInfo newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
+            var newFileInfo = new FileInfo(Path.Combine(DataFolder.GetDataFolder(), name + "_MEGAbolt.ini"));
 
             try
             {
@@ -81,7 +81,7 @@ namespace MEGAbolt
 
         public void SetAvConfig(string name)
         {
-            string fileName = name + "_MEGAbolt.ini";
+            var fileName = name + "_MEGAbolt.ini";
 
             configPath = Path.Combine(DataFolder.GetDataFolder(), fileName);
         }
@@ -116,7 +116,7 @@ namespace MEGAbolt
 
         public void Reset()
         {
-            Config config = new Config();
+            var config = new Config();
             config.Save(configPath);
 
             Apply(config);
@@ -125,7 +125,7 @@ namespace MEGAbolt
         public void SaveCurrentConfig()
         {
             //Check if the file has somehow became read-only
-            FileInfo newFileInfo = new FileInfo(configPath);
+            var newFileInfo = new FileInfo(configPath);
 
             if (newFileInfo.Exists)
             {
@@ -137,7 +137,7 @@ namespace MEGAbolt
             else
             {
                 //Reset();
-                Config config = new Config();
+                var config = new Config();
                 config.Save(configPath);
             }
 

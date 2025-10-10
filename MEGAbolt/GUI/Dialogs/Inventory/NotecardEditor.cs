@@ -30,10 +30,10 @@ namespace MEGAbolt
 {
     public partial class frmNotecardEditor : Form
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
-        private GridClient client;
-        private InventoryItem item;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
+        private readonly GridClient client;
+        private readonly InventoryItem item;
         //private UUID uploadID;
         //private UUID transferID;
         private AssetNotecard receivedAsset;
@@ -43,15 +43,15 @@ namespace MEGAbolt
         private bool changed = false;
         //private UUID aid = UUID.Zero;
         private string lheader = string.Empty;
-        private UUID assetUUID = UUID.Zero;
+        private readonly UUID assetUUID = UUID.Zero;
         private string notecardContent = string.Empty;
 
         int start = 0;
         int indexOfSearchText = 0;
         string prevsearchtxt = string.Empty;
-        private UUID objectid = UUID.Zero;
-        private bool istaskobj = false;
-        private bool nreadonly = false;
+        private readonly UUID objectid = UUID.Zero;
+        private readonly bool istaskobj = false;
+        private readonly bool nreadonly = false;
 
         public frmNotecardEditor(MEGAboltInstance instance, InventoryItem item)
         {
@@ -221,18 +221,18 @@ namespace MEGAbolt
 
         private string GetBody(string body)
         {
-            string text = string.Empty;
+            var text = string.Empty;
 
             try
             {
                 text = body.Trim();
 
-                int pos = text.IndexOf("Text length", 0, StringComparison.CurrentCultureIgnoreCase);
+                var pos = text.IndexOf("Text length", 0, StringComparison.CurrentCultureIgnoreCase);
                 pos += 11;
 
-                lheader = text.Substring(0, pos).ToString(CultureInfo.CurrentCulture);
+                lheader = text[..pos].ToString(CultureInfo.CurrentCulture);
 
-                text = text.Substring(pos).Trim();
+                text = text[pos..].Trim();
 
                 // get the first lf
                 pos = text.IndexOf("\n", 0, StringComparison.CurrentCultureIgnoreCase);
@@ -240,11 +240,11 @@ namespace MEGAbolt
                 if (pos > -1)
                 {
                     // Get the text
-                    text = text.Substring(pos).Trim();
+                    text = text[pos..].Trim();
                 }
 
                 // Get rid of the }
-                text = text.Substring(0, text.Length - 1).Trim();
+                text = text[..^1].Trim();
             }
             catch { return text; }
 
@@ -331,15 +331,15 @@ namespace MEGAbolt
             //lindenText += body;
             //lindenText += "}\n";
 
-            string lindenText = lheader;
+            var lindenText = lheader;
             lindenText += " " + body.Length + "\n";
             lindenText += body;
             lindenText += "}\n";
 
 
             // Assume this is a string, add 1 for the null terminator
-            byte[] stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
-            byte[] assetData = new byte[stringBytes.Length]; //+ 1];
+            var stringBytes = System.Text.Encoding.UTF8.GetBytes(lindenText);
+            var assetData = new byte[stringBytes.Length]; //+ 1];
             Array.Copy(stringBytes, 0, assetData, 0, stringBytes.Length);
 
             return assetData;
@@ -360,7 +360,7 @@ namespace MEGAbolt
             //lindenText += body;
             //lindenText += "}\n";
 
-            string lindenText = lheader;
+            var lindenText = lheader;
             lindenText += " " + body.Length + "\n";
             lindenText += body;
             lindenText += "}\n";
@@ -409,7 +409,7 @@ namespace MEGAbolt
                 e.Cancel = true;
             else if (changed)
             {
-                DialogResult result = AskForSave();
+                var result = AskForSave();
 
                 switch (result)
                 {
@@ -438,9 +438,9 @@ namespace MEGAbolt
         private void SaveToDisk()
         {
             // Create a SaveFileDialog to request a path and file name to save to.
-            SaveFileDialog saveFile1 = new SaveFileDialog();
+            var saveFile1 = new SaveFileDialog();
 
-            string logdir = DataFolder.GetDataFolder();
+            var logdir = DataFolder.GetDataFolder();
 
             saveFile1.InitialDirectory = logdir;
 
@@ -455,7 +455,7 @@ namespace MEGAbolt
             {
                 // Save the contents of the RichTextBox into the file.
                 rtbNotecard.SaveFile(saveFile1.FileName,
-                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                    saveFile1.FileName[^3..] == "rtf"
                         ? RichTextBoxStreamType.RichText
                         : RichTextBoxStreamType.PlainText);
             }
@@ -552,7 +552,7 @@ namespace MEGAbolt
         {
             // All this could go into the extended rtb component in the future
 
-            int startindex = 0;
+            var startindex = 0;
 
             if (!string.IsNullOrEmpty(prevsearchtxt))
             {
@@ -578,7 +578,7 @@ namespace MEGAbolt
                 // Set the highlight color as red
                 rtbNotecard.SelectionColor = Color.LightBlue;
                 // Find the end index. End Index = number of characters in textbox
-                int endindex = tsFindText.Text.Length;
+                var endindex = tsFindText.Text.Length;
                 // Highlight the search string
                 rtbNotecard.Select(startindex, endindex);
                 // mark the start position after the position of 
@@ -609,7 +609,7 @@ namespace MEGAbolt
             }
 
             // Set the return value to -1 by default.
-            int retVal = -1;
+            var retVal = -1;
 
             // A valid starting index should be specified.
             // if indexOfSearchText = -1, the end of search
@@ -619,7 +619,7 @@ namespace MEGAbolt
                 if (searchEnd > searchStart || searchEnd == -1)
                 {
                     // Determine if it's a match case or what
-                    RichTextBoxFinds mcase = RichTextBoxFinds.None;
+                    var mcase = RichTextBoxFinds.None;
 
                     if (tsChkCase.Checked)
                     {
@@ -648,13 +648,13 @@ namespace MEGAbolt
 
         private void GetCurrentLine()
         {
-            int linenumber = rtbNotecard.GetLineFromCharIndex(rtbNotecard.SelectionStart) + 1;
+            var linenumber = rtbNotecard.GetLineFromCharIndex(rtbNotecard.SelectionStart) + 1;
             tsLn.Text = "Ln " + linenumber.ToString(CultureInfo.CurrentCulture);
         }
 
         private void GetCurrentCol()
         {
-            int colnumber = rtbNotecard.SelectionStart - rtbNotecard.GetFirstCharIndexOfCurrentLine() + 1;
+            var colnumber = rtbNotecard.SelectionStart - rtbNotecard.GetFirstCharIndexOfCurrentLine() + 1;
             tsCol.Text = "Ln " + colnumber.ToString(CultureInfo.CurrentCulture);
         }
 

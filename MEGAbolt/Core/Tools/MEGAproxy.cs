@@ -43,7 +43,7 @@ namespace MEGAbolt
 
             if (UseProxy)
             {
-                string purl = proxy_url.Trim();
+                var purl = proxy_url.Trim();
 
                 if (!purl.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -57,7 +57,7 @@ namespace MEGAbolt
                         purl = purl + ":" + port.Trim() + @"/";
                     }
 
-                    WebProxy proxy = new WebProxy(purl, true)
+                    var proxy = new WebProxy(purl, true)
                     {
                         Credentials = new NetworkCredential(username.Trim(), password.Trim())
                     };

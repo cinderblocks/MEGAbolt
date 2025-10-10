@@ -133,7 +133,7 @@ namespace MEGAbolt
 
         private void eventsconsole_SelectedIndexChanged(object sender, EventArgs e)
         {
-            uint eid = eventsconsole.SelectedEventUUID;
+            var eid = eventsconsole.SelectedEventUUID;
             client.Directory.EventInfoRequest(eid);
         }
 
@@ -143,7 +143,7 @@ namespace MEGAbolt
 
             if (placesconsole.SelectedName.ID != UUID.Zero)
             {
-                UUID pid = placesconsole.SelectedName.ID;
+                var pid = placesconsole.SelectedName.ID;
                 client.Parcels.RequestParcelInfo(pid);
             }
         }
@@ -160,7 +160,7 @@ namespace MEGAbolt
 
             if (landconsole.SelectedName.ID != UUID.Zero)
             {
-                UUID pid = landconsole.SelectedName.ID;
+                var pid = landconsole.SelectedName.ID;
                 client.Parcels.RequestParcelInfo(pid);
             }
         }
@@ -676,7 +676,7 @@ namespace MEGAbolt
         {
             if (console.SelectedName == client.Self.Name) { return; }
 
-            DialogResult res = MessageBox.Show("Are you sure you want to ban this avatar?", "MEGAbolt", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Are you sure you want to ban this avatar?", "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.No)
             {
@@ -690,7 +690,7 @@ namespace MEGAbolt
         {
             if (groupsconsole.SelectedName == null) return;
 
-            DialogResult res = MessageBox.Show("Are you sure you want to JOIN this Group\nwithout knowing if it's free?", "MEGAbolt", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Are you sure you want to JOIN this Group\nwithout knowing if it's free?", "MEGAbolt", MessageBoxButtons.YesNo);
 
             if (res == DialogResult.No)
             {
@@ -719,7 +719,7 @@ namespace MEGAbolt
             {
                 client.Groups.GroupProfile -= GroupProfileHandler;
 
-                frmGroupInfo frm = new frmGroupInfo(e.Group, instance);
+                var frm = new frmGroupInfo(e.Group, instance);
                 frm.Show();
             }));
         }
@@ -769,9 +769,9 @@ namespace MEGAbolt
             {
                 landconsole.ClearResults();
 
-                DirectoryManager.SearchTypeFlags sflag = (DirectoryManager.SearchTypeFlags)cboCategory.SelectedItem;
+                var sflag = (DirectoryManager.SearchTypeFlags)cboCategory.SelectedItem;
 
-                DirectoryManager.DirFindFlags dflag = DirectoryManager.DirFindFlags.SortAsc | DirectoryManager.DirFindFlags.ForSale | DirectoryManager.DirFindFlags.PerMeterSort;
+                var dflag = DirectoryManager.DirFindFlags.SortAsc | DirectoryManager.DirFindFlags.ForSale | DirectoryManager.DirFindFlags.PerMeterSort;
 
                 if (checkBox1.Checked)
                 {
@@ -789,8 +789,8 @@ namespace MEGAbolt
                 }
 
 
-                int area = 0;
-                int price = 0;
+                var area = 0;
+                var price = 0;
 
                 switch (cboArea.SelectedIndex)
                 {

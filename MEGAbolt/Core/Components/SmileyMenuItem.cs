@@ -34,7 +34,9 @@ namespace MEGAbolt
         private const int ICON_WIDTH = 19;
         private const int ICON_HEIGHT = 19;
         private const int ICON_MARGIN = 4;
-        private Color backgroundColor, selectionColor, selectionBorderColor;
+        private readonly Color backgroundColor;
+        private readonly Color selectionColor;
+        private readonly Color selectionBorderColor;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image Image { get; set; }
@@ -60,8 +62,8 @@ namespace MEGAbolt
 
         protected void OnDrawItem(DrawItemEventArgs e)
         {
-            Graphics _graphics = e.Graphics;
-            Rectangle _bounds = e.Bounds;
+            var _graphics = e.Graphics;
+            var _bounds = e.Bounds;
 
             DrawBackground(_graphics, _bounds, ((e.State & DrawItemState.Selected) != 0));
             _graphics.DrawImage(Image, _bounds.X + ((_bounds.Width - ICON_WIDTH) / 2), _bounds.Y + ((_bounds.Height - ICON_HEIGHT) / 2));

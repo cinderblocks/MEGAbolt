@@ -80,14 +80,14 @@ namespace MEGAbolt
 
             lvwFindGroups.BeginUpdate();
 
-            foreach (DirectoryManager.GroupSearchData group in matchedGroups)
+            foreach (var group in matchedGroups)
             {
                 if (!LLUUIDs.ContainsKey(group.GroupName))
                 {
                     LLUUIDs.Add(group.GroupName, group.GroupID);
                 }
 
-                ListViewItem item = lvwFindGroups.Items.Add(group.GroupName);
+                var item = lvwFindGroups.Items.Add(group.GroupName);
                 item.Tag = group.GroupID;
                 item.SubItems.Add("Total " + group.Members.ToString(CultureInfo.CurrentCulture) + " members");
             }

@@ -56,7 +56,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -268,7 +268,7 @@ namespace MEGAbolt
         private void cmenu_Emoticons_Click(object _sender, EventArgs _args)
         {
             // Write the code here
-            EmoticonMenuItem _item = (EmoticonMenuItem)_sender;
+            var _item = (EmoticonMenuItem)_sender;
 
             cbxInput.Text += _item.Tag.ToString();
             cbxInput.Select(cbxInput.Text.Length, 0);
@@ -284,8 +284,8 @@ namespace MEGAbolt
 
             tsbTyping.Visible = e.IM.Dialog == InstantMessageDialog.StartTyping;
 
-            string avsim = e.Simulator.Name;
-            Vector3 avloccords = e.IM.Position;
+            var avsim = e.Simulator.Name;
+            var avloccords = e.IM.Position;
 
             if (avloccords != Vector3.Zero)
             {
@@ -325,8 +325,7 @@ namespace MEGAbolt
 
                     if (!File.Exists(csvFile))
                     {
-                        using StreamWriter sw = File.CreateText(csvFile);
-                        sw.Dispose();
+                        using var sw = File.CreateText(csvFile);
                     }
 
                     spellChecker = WordList.CreateFromStreams(dictResourceStream, affResourceStream);
@@ -458,13 +457,13 @@ namespace MEGAbolt
                 // put preference check here
                 //string cword = Regex.Replace(cbxInput.Text, @"[^a-zA-Z0-9]", "");
                 //string[] swords = cword.Split(' ');
-                string[] swords = message.Split(' ');
-                bool hasmistake = false;
-                bool correct = true;
+                var swords = message.Split(' ');
+                var hasmistake = false;
+                var correct = true;
 
-                foreach (string word in swords)
+                foreach (var word in swords)
                 {
-                    string cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
+                    var cword = Regex.Replace(word, @"[^a-zA-Z0-9]", "");
 
                     try
                     {
@@ -500,12 +499,12 @@ namespace MEGAbolt
                 }
             }
 
-            string message1 = string.Empty;
-            string message2 = string.Empty;
+            var message1 = string.Empty;
+            var message2 = string.Empty;
 
             if (message.Length > 1023)
             {
-                message1 = message.Substring(0, 1022);
+                message1 = message[..1022];
                 netcom.SendInstantMessage(message1, TargetId, SessionId);
 
                 if (message.Length > 2046)
@@ -567,10 +566,10 @@ namespace MEGAbolt
                 //cbxInput.Text += ptxt;
                 //return true;
 
-                ClipboardAsync Clipboard2 = new ClipboardAsync();
+                var Clipboard2 = new ClipboardAsync();
 
-                string insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
-                int selectionIndex = cbxInput.SelectionStart;
+                var insertText = Clipboard2.GetText(TextDataFormat.UnicodeText).Replace(Environment.NewLine, "\r\n");
+                var selectionIndex = cbxInput.SelectionStart;
                 cbxInput.Text = cbxInput.Text.Insert(selectionIndex, insertText);
                 cbxInput.SelectionStart = selectionIndex + insertText.Length;
 
@@ -611,13 +610,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var simr = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, false)).Show();
                 }
@@ -629,13 +628,13 @@ namespace MEGAbolt
                 try
                 {
                     // Open up the TP form here
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '/' });
-                    string simr = split[4];
-                    double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                    double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var simr = split[4];
+                    var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                     (new frmTeleport(instance, simr, (float)x, (float)y, (float)z, true)).Show();
                 }
@@ -646,18 +645,18 @@ namespace MEGAbolt
             {
                 try
                 {
-                    string encoded = HttpUtility.UrlDecode(e.LinkText);
-                    string[] split = encoded.Split(new Char[] { '/' });
+                    var encoded = HttpUtility.UrlDecode(e.LinkText);
+                    var split = encoded.Split(new Char[] { '/' });
                     //string[] split = e.LinkText.Split(new Char[] { '#' });
-                    string aavname = split[0];
-                    string[] avnamesplit = aavname.Split(new Char[] { '#' });
+                    var aavname = split[0];
+                    var avnamesplit = aavname.Split(new Char[] { '#' });
                     aavname = avnamesplit[0];
 
                     split = e.LinkText.Split(new Char[] { ':' });
-                    string elink = split[2].ToString(CultureInfo.CurrentCulture);
+                    var elink = split[2].ToString(CultureInfo.CurrentCulture);
                     split = elink.Split(new Char[] { '&' });
 
-                    UUID avid = (UUID)split[0];
+                    var avid = (UUID)split[0];
 
                     (new frmProfile(instance, aavname, avid)).Show();
                 }
@@ -666,9 +665,9 @@ namespace MEGAbolt
             else if (e.LinkText.Contains("http://secondlife:///"))
             {
                 // Open up the Group Info form here
-                string encoded = HttpUtility.UrlDecode(e.LinkText);
-                string[] split = encoded.Split(new Char[] { '/' });
-                UUID uuid = UUID.Zero;
+                var encoded = HttpUtility.UrlDecode(e.LinkText);
+                var split = encoded.Split(new Char[] { '/' });
+                var uuid = UUID.Zero;
 
                 try
                 {
@@ -681,7 +680,7 @@ namespace MEGAbolt
 
                 if (uuid != UUID.Zero && split[6].ToString(CultureInfo.CurrentCulture).ToLower(CultureInfo.CurrentCulture) == "group")
                 {
-                    frmGroupInfo frm = new frmGroupInfo(uuid, instance);
+                    var frm = new frmGroupInfo(uuid, instance);
                     frm.Show();
                 }
                 else if (uuid != UUID.Zero && split[6].ToString(CultureInfo.CurrentCulture).ToLower(CultureInfo.CurrentCulture) == "agent")
@@ -702,9 +701,9 @@ namespace MEGAbolt
         private void tsbSave_Click(object sender, EventArgs e)
         {
             // Create a SaveFileDialog to request a path and file name to save to.
-            SaveFileDialog saveFile1 = new SaveFileDialog();
+            var saveFile1 = new SaveFileDialog();
 
-            string logdir = DataFolder.GetDataFolder();
+            var logdir = DataFolder.GetDataFolder();
             logdir += "\\Logs\\";
 
             saveFile1.InitialDirectory = logdir;
@@ -720,7 +719,7 @@ namespace MEGAbolt
             {
                 // Save the contents of the RichTextBox into the file.
                 rtbIMText.SaveFile(saveFile1.FileName,
-                    saveFile1.FileName.Substring(saveFile1.FileName.Length - 3) == "rtf"
+                    saveFile1.FileName[^3..] == "rtf"
                         ? RichTextBoxStreamType.RichText
                         : RichTextBoxStreamType.PlainText);
             }
@@ -777,7 +776,7 @@ namespace MEGAbolt
                 if (e.SuppressKeyPress)
                 {
                     tab.tabs["chat"].Select();
-                    MEGAboltTab stab = tab.GetTab(TargetName);
+                    var stab = tab.GetTab(TargetName);
                     stab.Close();
                 }
 
@@ -801,7 +800,7 @@ namespace MEGAbolt
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            frmHistory frm = new frmHistory(instance, TargetName, false);
+            var frm = new frmHistory(instance, TargetName, false);
             frm.Show();
         }
 
@@ -810,13 +809,13 @@ namespace MEGAbolt
             try
             {
                 // Open up the TP form here
-                string encoded = HttpUtility.UrlDecode(avloc);
-                string[] split = encoded.Split(new Char[] { '/' });
+                var encoded = HttpUtility.UrlDecode(avloc);
+                var split = encoded.Split(new Char[] { '/' });
                 //string[] split = e.LinkText.Split(new Char[] { '/' });
-                string sim = split[4];
-                double x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
-                double z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var sim = split[4];
+                var x = Convert.ToDouble(split[5].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var y = Convert.ToDouble(split[6].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                var z = Convert.ToDouble(split[7].ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
 
                 (new frmTeleport(instance, sim, (float)x, (float)y, (float)z, false)).Show();
             }

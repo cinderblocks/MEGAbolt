@@ -25,7 +25,7 @@ namespace MEGAbolt
 {
     public class ImageCache
     {
-        private SafeDictionary<UUID, System.Drawing.Image> cache = new SafeDictionary<UUID, System.Drawing.Image>();
+        private readonly SafeDictionary<UUID, System.Drawing.Image> cache = new SafeDictionary<UUID, System.Drawing.Image>();
 
         public ImageCache()
         {

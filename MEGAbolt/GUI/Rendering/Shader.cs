@@ -37,7 +37,7 @@ namespace MEGAbolt.Rendering
             {
                 ShaderType type;
 
-                string code = File.ReadAllText(fileName);
+                var code = File.ReadAllText(fileName);
                 if (fileName.EndsWith(".vert"))
                 {
                     type = ShaderType.VertexShader;
@@ -52,9 +52,8 @@ namespace MEGAbolt.Rendering
                 ID = GL.CreateShader(type);
                 GL.ShaderSource(ID, code);
                 GL.CompileShader(ID);
-                string info = GL.GetShaderInfoLog(ID);
-                int res;
-                GL.GetShader(ID, ShaderParameter.CompileStatus, out res);
+                var info = GL.GetShaderInfoLog(ID);
+                GL.GetShader(ID, ShaderParameter.CompileStatus, out var res);
                 if (res != 1)
                 {
                     Logger.DebugLog("Compilation failed: " + info);
@@ -90,9 +89,9 @@ namespace MEGAbolt.Rendering
             if (!RenderSettings.HasShaders) return false;
 
             shaders = new Shader[shaderNames.Length];
-            for (int i = 0; i < shaderNames.Length; i++)
+            for (var i = 0; i < shaderNames.Length; i++)
             {
-                Shader s = new Shader();
+                var s = new Shader();
                 if (!s.Load(Path.Combine("shader_data", shaderNames[i])))
                     return false;
                 shaders[i] = s;
@@ -104,8 +103,7 @@ namespace MEGAbolt.Rendering
                 GL.AttachShader(ID, shader.ID);
             }
             GL.LinkProgram(ID);
-            int res;
-            GL.GetProgram(ID, GetProgramParameterName.LinkStatus, out res);
+            GL.GetProgram(ID, GetProgramParameterName.LinkStatus, out var res);
             if (res != 1)
             {
                 Logger.DebugLog("Linking shader program failed!");
@@ -147,7 +145,7 @@ namespace MEGAbolt.Rendering
         public void SetUniform1(string var, int value)
         {
             if (!RenderSettings.HasShaders || ID < 1) return;
-            int varID = Uni(var);
+            var varID = Uni(var);
             if (varID == -1)
             {
                 return;
@@ -158,7 +156,7 @@ namespace MEGAbolt.Rendering
         public void SetUniform1(string var, float value)
         {
             if (!RenderSettings.HasShaders || ID < 1) return;
-            int varID = Uni(var);
+            var varID = Uni(var);
             if (varID == -1)
             {
                 return;

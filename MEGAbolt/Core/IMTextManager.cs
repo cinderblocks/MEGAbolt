@@ -35,12 +35,12 @@ namespace MEGAbolt
 {
     public class IMTextManager
     {
-        private MEGAboltInstance instance;
-        private MEGAboltNetcom netcom;
+        private readonly MEGAboltInstance instance;
+        private readonly MEGAboltNetcom netcom;
 
-        private string sessionAVname = string.Empty;
+        private readonly string sessionAVname = string.Empty;
         //private string sessionGroupName = string.Empty;  
-        private GridClient client;
+        private readonly GridClient client;
         //private string tName = string.Empty;
         //private string tPwd = string.Empty;
         //private bool TEnabled = false;
@@ -49,7 +49,7 @@ namespace MEGAbolt
         public global::MEGAbrain.MEGAbrain answer;
 
         //private ArrayList textBuffer;
-        private AIMLbot.Bot myBot;
+        private readonly AIMLbot.Bot myBot;
         private string lastspeaker = string.Empty;
         private bool classiclayout = false;
         private MEGAbrain brain;
@@ -60,7 +60,7 @@ namespace MEGAbolt
             {
                 if (!String.IsNullOrEmpty(Generated.BugsplatDatabase))
                 {
-                    BugSplat crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
+                    var crashReporter = new BugSplat(Generated.BugsplatDatabase, "MEGAbolt",
                         Assembly.GetExecutingAssembly().GetName().Version?.ToString())
                     {
                         User = Generated.BugsplatUser,
@@ -183,7 +183,7 @@ namespace MEGAbolt
             if (e.IM.Dialog is InstantMessageDialog.StartTyping or InstantMessageDialog.StopTyping or InstantMessageDialog.MessageFromObject)
                 return;
 
-            string cp = Properties.Resources.ChairPrefix;
+            var cp = Properties.Resources.ChairPrefix;
 
             if (e.IM.FromAgentID != client.Self.AgentID)
             {
@@ -244,7 +244,7 @@ namespace MEGAbolt
             if (e.IM.Message.Contains(instance.Config.CurrentConfig.CommandInID)) return;
             if (e.IM.Message.Contains(instance.Config.CurrentConfig.IgnoreUID)) return;
 
-            bool isgroup = instance.State.GroupStore.ContainsKey(e.IM.IMSessionID);
+            var isgroup = instance.State.GroupStore.ContainsKey(e.IM.IMSessionID);
 
             if (isgroup)
             {
@@ -261,7 +261,7 @@ namespace MEGAbolt
             {
                 if (instance.State.IsBusy)
                 {
-                    string responsemsg = instance.Config.CurrentConfig.BusyReply;
+                    var responsemsg = instance.Config.CurrentConfig.BusyReply;
                     client.Self.InstantMessage(client.Self.Name, e.IM.FromAgentID, responsemsg, e.IM.IMSessionID, InstantMessageDialog.BusyAutoResponse, InstantMessageOnline.Offline, instance.SIMsittingPos(), UUID.Zero, Array.Empty<byte>());
                 }
                 else
@@ -287,7 +287,7 @@ namespace MEGAbolt
             if (!instance.Config.CurrentConfig.SaveIMs)
                 return;
 
-            string folder = instance.Config.CurrentConfig.LogDir;
+            var folder = instance.Config.CurrentConfig.LogDir;
 
             if (!folder.EndsWith("\\", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -295,11 +295,11 @@ namespace MEGAbolt
             }
 
             // Log the message
-            string filename = string.Empty;
+            var filename = string.Empty;
 
             if (group)
             {
-                string cleangrpname = instance.RemoveReservedCharacters(groupname);
+                var cleangrpname = instance.RemoveReservedCharacters(groupname);
 
                 filename = "IM-" + timestamp.Date + "-" + client.Self.Name + "-GROUP-" + cleangrpname + ".txt";
             }
@@ -316,10 +316,10 @@ namespace MEGAbolt
             //filename = filename.Replace(" ", "_");
             filename = instance.CleanReplace(":", "-", filename);    //filename.Replace(":", "-");
 
-            string path = folder + filename;
-            string line = "[" + timestamp.ToShortTimeString() + "] " + fromName + ": " + msg;
+            var path = folder + filename;
+            var line = "[" + timestamp.ToShortTimeString() + "] " + fromName + ": " + msg;
 
-            bool exists = false;
+            var exists = false;
 
             // Check if the file exists
             try
@@ -333,7 +333,7 @@ namespace MEGAbolt
 
             if (exists)
             {
-                StreamWriter SW = File.AppendText(@path);
+                var SW = File.AppendText(@path);
 
                 try
                 {
@@ -347,7 +347,7 @@ namespace MEGAbolt
             }
             else
             {
-                StreamWriter SW = File.CreateText(@path);
+                var SW = File.CreateText(@path);
 
                 try
                 {
@@ -364,7 +364,7 @@ namespace MEGAbolt
 
         private void PrintIM(DateTime timestamp, string uuid, string fromName, string message, UUID ssessionID)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             if (classiclayout)
             {
@@ -404,14 +404,14 @@ namespace MEGAbolt
                 if (message.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     sb.Append(fromName);
-                    sb.Append(message.Substring(3));
+                    sb.Append(message[3..]);
                 }
                 else
                 {
                     sb.Append(message);
 
 
-                    string avid = "http://mbprofile:" + uuid;
+                    var avid = "http://mbprofile:" + uuid;
 
                     if (fromName.ToLower(CultureInfo.CurrentCulture) != client.Self.Name.ToLower(CultureInfo.CurrentCulture))
                     {
@@ -431,14 +431,14 @@ namespace MEGAbolt
             else
             {
                 sb.Append(message.StartsWith("/me ", StringComparison.CurrentCultureIgnoreCase)
-                    ? message.Substring(3)
+                    ? message[3..]
                     : message);
 
                 TextPrinter.SetSelectionForeColor(Color.Black);
 
                 try
                 {
-                    string avid = "http://mbprofile:" + uuid;
+                    var avid = "http://mbprofile:" + uuid;
 
                     if (lastspeaker != fromName)
                     {
@@ -489,8 +489,7 @@ namespace MEGAbolt
 
             TextPrinter.PrintTextLine(sb.ToString());
 
-            string groupname = string.Empty;
-            bool groupfound = instance.State.GroupStore.TryGetValue(ssessionID, out groupname);
+            var groupfound = instance.State.GroupStore.TryGetValue(ssessionID, out var groupname);
 
             LogMessage(timestamp, uuid, fromName, sb.ToString(), groupfound, groupname);
 
