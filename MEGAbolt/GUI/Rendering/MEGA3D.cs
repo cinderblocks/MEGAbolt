@@ -26,7 +26,6 @@ using MEGAbolt.Rendering;
 using OpenMetaverse;
 using OpenMetaverse.Rendering;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
 using OpenTK.WinForms;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
@@ -369,8 +368,6 @@ namespace MEGAbolt
                 GLMode = GLControlSettings.Default;
                 GLMode.AutoLoadBindings = true;
                 GLMode.IsEventDriven = false;
-                GLMode.API = ContextAPI.OpenGL;
-                GLMode.Profile = ContextProfile.Compatability;
                 GLMode.NumberOfSamples = UseMultiSampling ? 4 : 0;
             }
             catch
@@ -475,7 +472,7 @@ namespace MEGAbolt
                 // and will also invalidate the GL control
                 glControl_Resize(null, null);
 
-                glControl.Context.MakeCurrent();
+                glControl.MakeCurrent();
 
                 TextureTask = Task.Factory.StartNew(ProcessTextures,
                     cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
